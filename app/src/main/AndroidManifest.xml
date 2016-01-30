@@ -11,9 +11,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -51,11 +48,7 @@
             android:name=".Music"
             android:label="@string/title_activity_music"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Videos"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
+           <activity
             android:name=".Books"
             android:label="@string/title_activity_music"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -136,10 +129,6 @@
             android:name=".FunFacts"
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".bbbbbbbbbb"
-            android:label="@string/title_activity_bbbbbbbbbb"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
+       </application>
 
 </manifest>
