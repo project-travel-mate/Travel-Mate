@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_shuffle"
+        android:icon="@drawable/android_music_player_rand"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="Shuffle"/>
+
+    <item
+        android:id="@+id/action_end"
+        android:icon="@drawable/android_music_player_end"
+        android:orderInCategory="2"
+        app:showAsAction="always"
+        android:title="End"/>
+
+
+    <item
+        android:id="@+id/action_pause"
+        android:icon="@drawable/android_music_player_play"
+        android:orderInCategory="2"
+        app:showAsAction="always"
+        android:title="End"/>
+
+</menu>

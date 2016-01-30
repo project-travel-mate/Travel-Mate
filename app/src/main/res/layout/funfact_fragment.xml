@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.moopoint.vidzert.MainActivity"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/imag"
+        android:layout_height="match_parent"
+        android:src="@drawable/delhi"
+        android:scaleType="centerCrop"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_share_white_24dp" />
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/head"
+        android:fontFamily="sans-serif-bold"
+        android:text="Delhi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:padding="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tv"
+        android:fontFamily="sans-serif-light"
+        android:text="Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:padding="10dp"
+        android:layout_weight="1.0"/>
+
+</LinearLayout>

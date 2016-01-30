@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_gravity="center"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_dialog">
+
+
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:hint="Post your status here..."
+        android:id="@+id/tweet_text"
+        android:gravity="bottom"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="10dp"
+        android:textColor="#9faab1" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/post_tweet"
+        android:text="Tap me to post!!"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimaryDark"
+        android:layout_gravity="center" />
+
+
+</LinearLayout>

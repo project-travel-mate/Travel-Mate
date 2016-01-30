@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimarylight"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/prof_name"
+        android:layout_width="wrap_content"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp" />
+
+    <ImageView
+        android:id="@+id/prof_image"
+        android:layout_width="170sp"
+        android:layout_height="170sp"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/tweet"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10px"
+        android:background="@drawable/twitter"
+        android:layout_gravity="center"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tap &apos;Me&apos; to tweet "
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#806f6f6f"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_marginTop="60dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center"
+        android:src="@drawable/google_travel_logo" />
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tie.hackathon.travelguide">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/google_travel_logo"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme2" />
+
+        <service android:name=".MusicService" />
+        <service android:name=".LocationService" />
+
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".Emergency"
+            android:label="@string/title_activity_music"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".TweetMainActivity"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Music"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Videos"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Books"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Books_new"
+            android:label="@string/title_activity_music" />
+        <activity
+            android:name=".News"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SelectCity"
+            android:label="@string/title_activity_select_city"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CheckList"
+            android:label="@string/title_activity_select_city"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Select_ModeOfTransport"
+            android:label="@string/title_activity_select__mode_of_transport"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CarDirections"
+            android:label="@string/title_activity_car_directions"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDay6Qbk3MQD4Z80MH_HnR36TJGTrd2Ddc" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Bus_list"
+            android:label="@string/title_activity_bus_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CityInfo"
+            android:label="@string/title_activity_city_info"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Shopping_currentcity"
+            android:label="@string/title_activity_shopping_currentcity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrainList"
+            android:label="@string/title_activity_train_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Hotels"
+            android:label="@string/title_activity_hotels"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Shopping"
+            android:label="@string/title_activity_shopping"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Jokes"
+            android:label="@string/title_activity_jokes"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Splash"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FunFacts"
+            android:label="@string/title_activity_fun_facts"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".bbbbbbbbbb"
+            android:label="@string/title_activity_bbbbbbbbbb"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

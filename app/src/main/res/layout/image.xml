@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shadow_1"
+    android:backgroundTint="#ff000000"
+    android:gravity="center_horizontal">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="fill_parent">
+            <ImageView
+                android:id="@+id/VideoThumbnail"
+                android:layout_width="fill_parent"
+                android:padding="10dp"
+                android:layout_weight="6"
+                android:src="@drawable/ic_settings_white_24dp"
+                android:alpha="30"
+                android:layout_height="0dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.6"
+                android:text="YOLO"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textSize="25sp"
+                android:textColor="#ffffff"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </FrameLayout>
+</LinearLayout>

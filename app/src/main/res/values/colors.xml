@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#FF5722</color>
+    <color name="green">#5cb85c</color>
+    <color name="red">#d9534f</color>
+
+    <color name="colorPrimarylight">#6bbfe6</color>
+
+    <color name="versad">#6b0000</color>
+    <color name="sad">#db0000</color>
+    <color name="normal">#ffffff</color>
+    <color name="happy">#75db10</color>
+    <color name="verhappy">#00bb27</color>
+
+
+
+
+    <color name="enter">#ff8000</color>
+    <color name="social">#00aced</color>
+    <color name="food">#cb2027</color>
+    <color name="roam">#aad45a</color>
+    <color name="rich">#125688</color>
+    <color name="utili">#4dc247</color>
+
+
+
+
+    <color name="saffron">#F4B63E</color>
+    <color name="sienna">#EB6460</color>
+    <color name="purple">#7c57e4</color>
+    <color name="pink">#ff4284</color>
+    <color name="orange">#ff8c6a</color>
+
+
+</resources>
