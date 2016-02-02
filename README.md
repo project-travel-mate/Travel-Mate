@@ -48,15 +48,32 @@ Now, its time for some shopping and searching for an accomodation. Get the detai
 
 ##2.Travel Phase
 This phase includes the phase during you are travelling to your destination
-<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/sstart_journey.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/start_journey.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/books.png" width="200px" height="400px" />
 
 We try to find the current state of mind or the mood of our traveller on the basis of his activity and selections on the app and hence recommend him books and songs accordingly.
 
+
+Mood Detection
+
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/music.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/music_sad.png" width="200px" height="400px" />
 
 
 
 ##3.Trip Phase
 
+
+
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/hotel_real.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/medical.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/monu.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/nearby_places.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/rest.png" width="200px" height="400px" />
+
+
+
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/notification.png" width="200px" height="400px" />
 
 
 A very interesting feature that we plan to include in the product is - Push notification in between the journey. Often it happens that while travelling alone, a person tends to doze off. In order to save the traveller from missing out the destination station, we use the real time GPS location of the traveller to let him know about the city he is currently in or about to reach. We also plan to include an alarm notification which would go off when the traveller is around half an hour (calculated using the speed is travelling with) away from his destination so as to ensure the traveller doesn’t miss his destination. If interested, the traveller can take a little detour and explore this city as well. Just so that the traveller doesn’t get bored during his journey and to provide the maximum comfort possible, we provide the user with the best Music, Videos and stuff to read so that even if the person is travelling alone, he’s not practically alone. The Music, Videos and Reading material provided would depend on the tastes and the mood of the user which would be done using Mood Analysis with Machine Learning. For instance, if the user is feeling low, we can recommend him jokes or humorous videos. The UI of the app would also change according to user’s mood to make him comfortable.
