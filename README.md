@@ -48,7 +48,7 @@ Now, its time for some shopping and searching for an accomodation. Get the detai
 
 ##2.Travel Phase
 This phase includes the phase during you are travelling to your destination
-<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/start_journey.png" width="200px" height="400px" />
+<img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/start_joruney.png" width="200px" height="400px" />
 <img src="https://github.com/Swati4star/IndiaHacks---Travel-and-Transportation/blob/master/screenshots/books.png" width="200px" height="400px" />
 
 We try to find the current state of mind or the mood of our traveller on the basis of his activity and selections on the app and hence recommend him books and songs accordingly.
