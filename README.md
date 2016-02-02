@@ -1,6 +1,6 @@
 # IndiaHacks - Travel Mate
 
-A must have app for all the travellers out there. The app provides user with everything  <b> From Planning to Journey </b> and also from <b> From Journey to Destination </b>.
+A must have app for all the travellers out there. The app provides user with everything  <b> From Planning to Journey </b> and also from <b> From Journey to Destination </b>. The system basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid))
 
 
 
