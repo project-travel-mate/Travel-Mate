@@ -30,6 +30,8 @@ Before you finalize your trip, we give you options across the country. You can â
 <img src="/screenshots/plan_journey.png" width="200px">
 <img src="/screenshots/change_source_dest.png" width="200px">
 <img src="/screenshots/city_info.png" width="200px">
+<img src="/screenshots/city_info1.png" width="200px">
+<img src="/screenshots/city_info2.png" width="200px">
 <img src="/screenshots/fun_fact.png" width="200px">
 <img src="/screenshots/share_fun_fact.png" width="200px">
 
