@@ -25,7 +25,7 @@ The product includes a wide variety of options- from Selection of Mode of Transp
 
 ##Phases
 ###1.Planning Phase
-Before you finalize your trip, we give you options across the country. You can “virtually” explore the city through our app. Choose your destination city and get to know about many important things in the city. Be it anything : Fun Facts, Climate, Culture, Restaurants, Hangout Places, Monuments (if any), Shopping Complexes. The UI is kept fun and colorful to keep the user engaged in the app. Obviously, People like to travel with their F.R.I.E.N.D.S., so we have a share option, by which user can share the facts with the friend and invite him to join
+Before you finalize your trip, we give you options across the country. You can “virtually” explore the city through our app. Choose your destination city and get to know about many important things in the city. Be it anything : Fun Facts, Climate, Culture, Restaurants, Hangout Places, Monuments (if any), Shopping Complexes. The UI is kept fun and colorful to keep the user engaged in the app. Obviously, People like to travel with their F.R.I.E.N.D.S., so we have a share option, by which user can share the facts with the friend and invite him to join.
 
 <img src="/screenshots/plan_journey.png" width="200px">
 <img src="/screenshots/change_source_dest.png" width="200px">
@@ -48,14 +48,15 @@ Now, its time for some shopping and searching for an accomodation. Get the detai
 <img src="/screenshots/checklist.png" width="200px">
 
 ###2.Travel Phase
-This phase includes the phase during you are travelling to your destination
+This phase includes the phase during you are travelling to your destination.
+
 <img src="/screenshots/start_joruney.png" width="200px">
 <img src="/screenshots/books.png" width="200px">
 
+----
+
+####Mood Detection
 We try to find the current state of mind or the mood of our traveller on the basis of his activity and selections on the app and hence recommend him books and songs accordingly.
-
-
-**Mood Detection**
 
 <img src="/screenshots/music.png" width="200px">
 <img src="/screenshots/music_sad.png" width="200px">
