@@ -73,7 +73,7 @@ public class MapActivity extends AppCompatActivity {
         deslat = s.getString(Constants.DESTINATION_CITY_LAT,Constants.MUMBAI_LAT);
         deslon  = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
         surce = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest  = s.getString(Constants.DESTINATION_CITY, "MUmbai");
+        dest  = s.getString(Constants.DESTINATION_CITY, "Mumbai");
         mode = i.getStringExtra(Constants.MODE);
         sc = (ScrollView) findViewById(R.id.data);
 
@@ -235,6 +235,10 @@ public class MapActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+
+            if(result ==null)
+                return;
+
             try {
                 //Tranform the string into a json object
 

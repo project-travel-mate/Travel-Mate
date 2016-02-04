@@ -27,7 +27,6 @@ public class plan_journey_fragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
 
         View v = inflater.inflate(R.layout.content_plan_journey, container, false);
@@ -46,7 +45,6 @@ public class plan_journey_fragment extends Fragment implements View.OnClickListe
         city.setOnClickListener(this);
 
 
-        Log.e("vds","vdsvsd");
 
         return v;
     }
@@ -64,7 +62,6 @@ public class plan_journey_fragment extends Fragment implements View.OnClickListe
         Intent i;
 
 
-        Log.e("click","fv");
         switch (view.getId()) {
 
 

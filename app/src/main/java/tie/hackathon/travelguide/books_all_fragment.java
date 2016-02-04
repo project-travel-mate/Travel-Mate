@@ -35,10 +35,6 @@ import java.util.List;
 import Util.Constants;
 import Util.Utils;
 import adapters.Books_adapter;
-import adapters.CheckList_adapter;
-import adapters.mood_adapter;
-import database.DBhelp_new;
-import database.TableEntry_new;
 
 
 public class books_all_fragment extends Fragment {
@@ -111,7 +107,6 @@ public class books_all_fragment extends Fragment {
     }
 
     public class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
-        private Exception exception;
 
         protected String doInBackground(String... urls) {
             try {
@@ -122,7 +117,6 @@ public class books_all_fragment extends Fragment {
 
                 return readStream;
             } catch (Exception e) {
-                this.exception = e;
                 e.printStackTrace();
                 return null;
             }

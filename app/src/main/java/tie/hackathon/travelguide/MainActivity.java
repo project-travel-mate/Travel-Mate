@@ -69,22 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
@@ -109,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_changecity) {
-
-
             Intent i = new Intent(MainActivity.this,SelectCity.class);
             startActivity(i);
 

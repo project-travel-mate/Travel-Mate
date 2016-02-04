@@ -1,38 +1,14 @@
 package tie.hackathon.travelguide;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.lucasr.twowayview.TwoWayView;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import Util.Constants;
-import Util.Utils;
-import adapters.Books_adapter;
-import adapters.Books_mainadapter;
-import adapters.mood_adapter;
 
 public class Books_new extends AppCompatActivity {
 
@@ -92,5 +68,49 @@ public class Books_new extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public class Books_mainadapter extends FragmentStatePagerAdapter {
+
+        final int PAGE_COUNT = 2;
+
+        public Books_mainadapter(FragmentManager fm)
+        {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+            if (arg0==0)
+            {
+                books_all_fragment umf = new books_all_fragment();
+
+                return umf;
+            }
+            else
+            {
+                books_all2_fragment umf = new books_all2_fragment();
+                return umf;
+            }
+
+        }
+
+
+
+
+        /** Returns the number of pages */
+        @Override
+        public int getCount() {
+            return PAGE_COUNT;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position==1)
+                return "All";
+            else
+                return "Suggested";
+
+        }
+
+    }
 
 }
