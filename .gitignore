@@ -35,3 +35,5 @@ build/
 #NDK
 obj/
 
+#database connection file
+connection.inc.php
