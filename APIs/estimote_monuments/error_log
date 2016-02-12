@@ -1,5 +1,0 @@
-[12-Feb-2016 15:35:49 Etc/GMT] PHP Warning:  json_encode(): Invalid UTF-8 sequence in argument in /home/csinseew/public_html/prabhakar/tie/estimote_monuments/get_info.php on line 17
-[12-Feb-2016 15:37:02 Etc/GMT] PHP Warning:  json_encode(): Invalid UTF-8 sequence in argument in /home/csinseew/public_html/prabhakar/tie/estimote_monuments/get_info.php on line 18
-[12-Feb-2016 15:38:05 Etc/GMT] PHP Warning:  json_encode(): Invalid UTF-8 sequence in argument in /home/csinseew/public_html/prabhakar/tie/estimote_monuments/get_info.php on line 18
-[12-Feb-2016 15:38:37 Etc/GMT] PHP Warning:  json_encode(): Invalid UTF-8 sequence in argument in /home/csinseew/public_html/prabhakar/tie/estimote_monuments/get_info.php on line 19
-[12-Feb-2016 15:38:45 Etc/GMT] PHP Warning:  json_encode(): Invalid UTF-8 sequence in argument in /home/csinseew/public_html/prabhakar/tie/estimote_monuments/get_info.php on line 19
