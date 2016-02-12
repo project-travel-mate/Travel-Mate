@@ -32,3 +32,22 @@
 		$response = json_decode(curl_URL_call($here_api_url), true);
 		return $response['results']['items'];
 	}
+	
+	function getMonumentID($connection, $beacon_id){
+		$monument_id = 0;
+		
+		$query = "SELECT `id` FROM `monuments_estimote` WHERE `major`='$beacon_id' LIMIT 1";
+		$query_row = mysqli_fetch_assoc(mysqli_query($connection, $query));
+		$monument_id = (int)$query_row['id'];
+		
+		return $monument_id;
+	}
+	
+	function encryptText($text){
+		return strip_tags(addslashes($text));
+	}
+	
+	function decryptText($text){
+		return stripcslashes($text);
+	}
+	
