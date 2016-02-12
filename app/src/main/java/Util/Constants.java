@@ -46,4 +46,22 @@ public class Constants {
 
     public static String MODE = "mode";
 
+
+    public static String IS_BEACON = "is_beacon";
+    public static String CUR_UID = "cur_uid";
+    public static String CUR_MAJOR = "cur_major";
+    public static String CUR_MINOR = "cur_minor";
+
+
+
+
+    public static String UID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+    public static int major = 22537 , minor = 18225; //purple
+    public static int major2 = 17417 , minor2 = 22087; //lime
+
+
+
+    public static String userid="USERID";
+    public static String servicetype="servicetype";
+
 }

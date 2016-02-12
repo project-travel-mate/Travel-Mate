@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
@@ -19,12 +20,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.estimote.sdk.Beacon;
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
+
+import java.util.List;
+import java.util.UUID;
+
 import Util.Constants;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private BeaconManager beaconManager;
+    private Region region;
     SharedPreferences s ;
+    Boolean discovered = false;
     SharedPreferences.Editor e;
+    String beaconmajor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +56,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         name = (TextView) findViewById(R.id.name);
         email = (TextView) findViewById(R.id.email);
 
-        name.setText(s.getString(Constants.USER_NAME,"Swati Garg"));
-        email.setText(s.getString(Constants.USER_EMAIL,"swati4star@gmail.com"));
+//        name.setText(s.getString(Constants.USER_NAME,"Swati Garg"));
+  //x      email.setText(s.getString(Constants.USER_EMAIL,"swati4star@gmail.com"));
+
+
+
+
+        Intent i = getIntent();
+        Boolean b = i.getBooleanExtra(Constants.IS_BEACON,false);
+
+        Log.e("fdbvfdbfd",b+"   ");
+
+        if(b){
+
+
+            Intent i2 = new Intent(MainActivity.this,DetectedBeacon.class);
+            i2.putExtra(Constants.CUR_UID,i.getStringExtra(Constants.CUR_UID));
+            i2.putExtra(Constants.CUR_MAJOR,i.getStringExtra(Constants.CUR_MAJOR));
+            i2.putExtra(Constants.CUR_MINOR,i.getStringExtra(Constants.CUR_MINOR));
+           i2.putExtra(Constants.IS_BEACON,true);
+
+            startActivity(i2);
+
+        }
+
+
+
+
+
+        beaconManager = new BeaconManager(this);
+        region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
+
+
+
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(region);
+            }
+        });
+
+
+        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
+            @Override
+            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                if (discovered == false && list.size()>0) {
+                    Beacon nearestBeacon = list.get(0);
+                    beaconmajor = Integer.toString(nearestBeacon.getMajor());
+                    Log.e("Discovered", "Nearest places: " + nearestBeacon.getMajor());
+                    discovered = true;
+                    Intent i2 = new Intent(MainActivity.this,DetectedBeacon.class);
+                    i2.putExtra(Constants.CUR_UID," ");
+                    i2.putExtra(Constants.CUR_MAJOR,beaconmajor);
+                    i2.putExtra(Constants.CUR_MINOR," ");
+                    i2.putExtra(Constants.IS_BEACON,true);
+
+                    startActivity(i2);
+
+
+                }
+            }
+
+
+        });
+
 
 
 

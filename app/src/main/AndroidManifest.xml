@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tie.hackathon.travelguide">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,6 +17,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/google_travel_logo"
         android:label="@string/app_name"
@@ -41,24 +45,12 @@
             android:label="@string/title_activity_music"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".TweetMainActivity"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Music"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar" />
-           <activity
-            android:name=".Books"
             android:label="@string/title_activity_music"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Books_new"
             android:label="@string/title_activity_music" />
-        <activity
-            android:name=".News"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SelectCity"
             android:label="@string/title_activity_select_city"
@@ -112,10 +104,6 @@
             android:label="@string/title_activity_shopping"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Jokes"
-            android:label="@string/title_activity_jokes"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Splash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -129,6 +117,7 @@
             android:name=".FunFacts"
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
-       </application>
+        <activity android:name=".DetectedBeacon"></activity>
+    </application>
 
 </manifest>
