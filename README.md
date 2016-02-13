@@ -8,6 +8,11 @@ A must-have app for all the travellers who are visiting a city for the first tim
   + [Planning Phase](#1planning-phase)
   + [Travel Phase](#2travel-phase)
   + [Trip Phase](#3trip-phase)
++ **[Exclusive Feature : Estimote Beacons](#exclusive-feature)**
+  + [Notify the user as soon as he enters proximity](#1notify-the-user-as-soon-as-he-enters-proximity)
+  + [Display details of Monument](#2display-details-of-monument)
++ **[Technical Requirements](#technical-requirements)**
++ **[How does Estitmote Beacon work](#how-does-estitmote-beacon-work)**
 + **[Contact Us](#contact-us)**
 + **[Video URL](https://www.youtube.com/watch?v=D7fZXdUryeM)**
 + **[Presentation](https://docs.google.com/presentation/d/1gdx3OZjdIcqVqsgAj2jz-REFT7xI716d6iNE_1XBg4A/edit?usp=sharing)**
@@ -79,6 +84,42 @@ While travelling in the destination city, user usually doesn't know much about t
 <img src="/screenshots/nearby_places.png" width="200px">
 <img src="/screenshots/rest.png" width="200px">
 <img src="/screenshots/emergency.png" width="200px">
+
+
+## Exclusive Feature
+
+###Estimote Beacons
+Estimote Beacons are small wireless sensors that we can attach to any location or object. They broadcast tiny radio signals which our smartphone can receive and interpret, unlocking micro-location and contextual awareness.
+
+<img src="http://www.mjdinteractive.com/wp-content/uploads/2013/12/estimote-beacons1.jpg" width="400px" height="200px" />
+
+
+
+One Estimote beacon is placed in each monument and with that travellers can get numerous facilities. The data related to that monument, along with the Estimote beacon ID, are uploaded on the cloud MySQL database.
+
+##Features
+
+###1.Notify the user as soon as he enters proximity
+As soon as the user with Travel Mate app installed comes in proximity (~70m) of some monument (detected by estimote beacon), he receives a push notification welcoming him to the store. This will help the travellers to get to know about the nearby monuments.
+
+
+<img src="/screenshots/welcome.png" width="200px">
+<img src="/screenshots/bye.png" width="200px">
+
+###2.Display details of Monument
+As soon as the estimote beacon finds a Travle Mate app it triggers and phone fetches all the the information about the monument from the cloud and are presented to the traveller. The key benefit of adding this is that user does not need to make extra efforts to know about the monument, he/she gets everything at one go.
+
+<img src="/screenshots/after_estimote.png" width="200px">
+
+
+## Technical Requirements
+
+Technically, all Bluetooth Smart-enabled android devices could pick up Bluetooth Low Energy signals. The Bluetooth Special Interest Group maintains a [list of devices](https://www.bluetooth.com/what-is-bluetooth-technology/bluetooth-devices) that support Bluetooth Low Energy. These include Android devices like: Samsung Galaxy S devices, Google Nexus, Google Glass and many more.
+
+## How does Estitmote Beacon work
+
+![](https://raw.githubusercontent.com/Swati4star/Hackathon-airtel/master/screenies/Screenshot%20from%202016-01-17%2001%3A58%3A26.png)
+
 
 
 
