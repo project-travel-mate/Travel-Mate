@@ -8,8 +8,8 @@ A must-have app for all the travellers who are visiting a city for the first tim
   + [Planning Phase](#1planning-phase)
   + [Travel Phase](#2travel-phase)
   + [Trip Phase](#3trip-phase)
-+ **[Exclusive Feature : Estimote Beacons](#exclusive-feature)**
-+ **[Features](#exclusive-feature)**
++ **[Exclusive Feature : Estimote Beacons](#exclusive-feature--estimote-beacons)**
++ **[Features](#features)**
   + [Notify the user as soon as he enters proximity](#1notify-the-user-as-soon-as-he-enters-proximity)
   + [Display details of Monument](#2display-details-of-monument)
 + **[Technical Requirements](#technical-requirements)**
