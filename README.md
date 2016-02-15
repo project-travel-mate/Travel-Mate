@@ -9,6 +9,7 @@ A must-have app for all the travellers who are visiting a city for the first tim
   + [Travel Phase](#2travel-phase)
   + [Trip Phase](#3trip-phase)
 + **[Exclusive Feature : Estimote Beacons](#exclusive-feature)**
++ **[Features](#exclusive-feature)**
   + [Notify the user as soon as he enters proximity](#1notify-the-user-as-soon-as-he-enters-proximity)
   + [Display details of Monument](#2display-details-of-monument)
 + **[Technical Requirements](#technical-requirements)**
@@ -86,9 +87,7 @@ While travelling in the destination city, user usually doesn't know much about t
 <img src="/screenshots/emergency.png" width="200px">
 
 
-## Exclusive Feature
-
-###Estimote Beacons
+## Exclusive Feature : Estimote Beacons
 Estimote Beacons are small wireless sensors that we can attach to any location or object. They broadcast tiny radio signals which our smartphone can receive and interpret, unlocking micro-location and contextual awareness.
 
 <img src="http://www.mjdinteractive.com/wp-content/uploads/2013/12/estimote-beacons1.jpg" width="400px" height="200px" />
