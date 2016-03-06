@@ -144,14 +144,8 @@ public class city_fragment extends Fragment {
 
                     double color = Math.random();
                     int c = (int)(color*100)%8;
-                    int d = (int)(color*100)%2;
 
 
-                    int draw;
-                    if(d==1)
-                        draw = R.drawable.delhi;
-                    else
-                    draw = R.drawable.goa;
 
                     int colo;
                     switch (c){
@@ -235,14 +229,13 @@ public class city_fragment extends Fragment {
             }
 
             switch (position) {
-                // Merged page with 2 friends
                 case 1:
                     Picasso.with(getActivity()).load(friend1.getAvatar()).placeholder(R.drawable.delhi).into(holder.leftAvatar);
 
                     if (friend2 != null) {
 
 
-                        Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.goa).into(holder.rightAvatar);
+                        Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.delhi).into(holder.rightAvatar);
                     }
                     break;
                 default:
@@ -350,75 +343,5 @@ public class city_fragment extends Fragment {
         }
     }
 
-    public class Cities_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
-        private LayoutInflater inflater = null;
-
-        public Cities_adapter(Context context, JSONArray FeedItems) {
-            this.context = context;
-            this.FeedItems = FeedItems;
-
-            inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return FeedItems.length();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            try {
-                return FeedItems.getJSONObject(position);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View vi = convertView;
-            if (vi == null)
-                vi = inflater.inflate(R.layout.jokes_listitem, null);
-
-            TextView Title = (TextView) vi.findViewById(R.id.joke);
-
-            try {
-
-                Title.setText(FeedItems.getJSONObject(position).getString("name"));
-                vi.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(context, CityInfo.class);
-                        try {
-                            i.putExtra("id_", FeedItems.getJSONObject(position).getString("id"));
-                            i.putExtra("name_", FeedItems.getJSONObject(position).getString("name"));
-                            context.startActivity(i);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("eroro",e.getMessage()+" ");
-            }
-
-
-
-            return vi;
-        }
-    }
 }

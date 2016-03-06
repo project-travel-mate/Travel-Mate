@@ -26,7 +26,7 @@
     <ImageView
         android:id="@+id/second"
         android:layout_width="0dp"
-        android:src="@drawable/goa"
+        android:src="@drawable/delhi"
         android:layout_weight="1"
         android:contentDescription="right image"
         android:layout_height="wrap_content"
