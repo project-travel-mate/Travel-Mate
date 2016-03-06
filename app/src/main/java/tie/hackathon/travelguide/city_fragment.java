@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,7 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import Util.Utils;
-import adapters.Cities_adapter;
 import objects.Friend;
 import views.FontTextView;
 
@@ -46,22 +46,16 @@ public class city_fragment extends Fragment {
 
 
     List<String> id = new ArrayList<>();
-    List<String> names = new ArrayList<>();
     static Activity activity;
     ProgressBar pb;
 
     public city_fragment() {
-        // Required empty public constructor
     }
     ListView lv;
-    LinearLayout vehicle, acc, shop, city, check;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
         View v = inflater.inflate(R.layout.content_citylist, container, false);
 
         lv = (ListView) v.findViewById(R.id.music_list);
@@ -356,5 +350,75 @@ public class city_fragment extends Fragment {
         }
     }
 
+    public class Cities_adapter extends BaseAdapter {
 
+        Context context;
+        JSONArray FeedItems;
+        private LayoutInflater inflater = null;
+
+        public Cities_adapter(Context context, JSONArray FeedItems) {
+            this.context = context;
+            this.FeedItems = FeedItems;
+
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return FeedItems.length();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            try {
+                return FeedItems.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View vi = convertView;
+            if (vi == null)
+                vi = inflater.inflate(R.layout.jokes_listitem, null);
+
+            TextView Title = (TextView) vi.findViewById(R.id.joke);
+
+            try {
+
+                Title.setText(FeedItems.getJSONObject(position).getString("name"));
+                vi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, CityInfo.class);
+                        try {
+                            i.putExtra("id_", FeedItems.getJSONObject(position).getString("id"));
+                            i.putExtra("name_", FeedItems.getJSONObject(position).getString("name"));
+                            context.startActivity(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("eroro",e.getMessage()+" ");
+            }
+
+
+
+            return vi;
+        }
+    }
 }
