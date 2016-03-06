@@ -1,22 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="tie.hackathon.travelguide.Select_ModeOfTransport">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_select__mode_of_transport" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="tie.hackathon.travelguide.Select_ModeOfTransport"
+        tools:showIn="@layout/activity_select__mode_of_transport">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/car"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="#ff000000"
+                    android:gravity="center_horizontal">
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/food"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="fill_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="6"
+                                android:alpha="30"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_directions_car_white_48dp" />
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.6"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="CAR"
+                                android:textColor="#ffffff"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/bus"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="#ff000000"
+                    android:gravity="center_horizontal">
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/food"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="fill_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="6"
+                                android:alpha="30"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_directions_bus_white_48dp" />
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.6"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="BUS"
+                                android:textColor="#ffffff"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/train"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/food"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="6"
+                            android:alpha="30"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_directions_subway_white_48dp" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.6"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="TRAIN"
+                            android:textColor="#ffffff"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

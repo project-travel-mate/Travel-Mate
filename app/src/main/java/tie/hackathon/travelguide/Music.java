@@ -1,35 +1,43 @@
 package tie.hackathon.travelguide;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.lucasr.twowayview.TwoWayView;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,9 +46,6 @@ import java.util.Comparator;
 
 import Util.Constants;
 import Util.Utils;
-import adapters.Books_adapter;
-import adapters.SongAdapter;
-import adapters.SugMusic_adapter;
 import objects.MusicController;
 import objects.Song;
 
@@ -117,9 +122,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
-            //get service
             musicSrv = binder.getService();
-            //pass list
             musicSrv.setList(songList);
             musicBound = true;
         }
@@ -460,4 +463,177 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         return 0;
     }
 
+
+    public class SongAdapter extends BaseAdapter {
+
+        private ArrayList<Song> songs;
+        private LayoutInflater songInf;
+        Context context;
+
+        public SongAdapter(Context c, ArrayList<Song> theSongs){
+            songs=theSongs;
+            context = c;
+            songInf=LayoutInflater.from(c);
+        }
+
+        @Override
+        public int getCount() {
+            return songs.size();
+        }
+
+
+        TextView songView,artistView;
+        ImageView iv;
+        LinearLayout l;
+
+
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            //map to song layout
+
+            LinearLayout songLay = (LinearLayout)songInf.inflate
+                    (R.layout.song, parent, false);
+            //get title and artist views
+            songView = (TextView)songLay.findViewById(R.id.song_title);
+            artistView = (TextView)songLay.findViewById(R.id.song_artist);
+            l = (LinearLayout) songLay.findViewById(R.id.ll);
+            iv = (ImageView) songLay.findViewById(R.id.image);
+            //get song using position
+            final Song currSong = songs.get(position);
+            //get title and artist strings
+            songView.setText(currSong.getTitle());
+            artistView.setText(currSong.getArtist());
+            Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+            Uri uri = ContentUris.withAppendedId(sArtworkUri, Long.parseLong(songs.get(position).getAlbum_id()));
+            ContentResolver res = context.getContentResolver();
+            InputStream in = null;
+            iv.setImageResource(R.drawable.images);
+            try {
+                in = res.openInputStream(uri);
+                Bitmap artwork = BitmapFactory.decodeStream(in);
+                if (null != artwork) {
+                    iv.setImageBitmap(artwork);
+                }
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+       /* l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });*/
+            //set position as tag
+            songLay.setTag(position);
+            return songLay;
+
+
+
+
+            // if rawArt is null then no cover art is embedded in the file or is not
+// recognized as such.
+
+        }
+
+
+
+
+        @Override
+        public Object getItem(int arg0) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public long getItemId(int arg0) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+
+    }
+
+    public class SugMusic_adapter extends BaseAdapter {
+
+        Context context;
+        JSONArray FeedItems;
+        private LayoutInflater inflater = null;
+
+        public SugMusic_adapter(Context context, JSONArray FeedItems) {
+            this.context = context;
+            this.FeedItems = FeedItems;
+
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return FeedItems.length();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            try {
+                return FeedItems.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View vi = convertView;
+            if (vi == null)
+                vi = inflater.inflate(R.layout.sugsong_listitem, null);
+
+            TextView Title = (TextView) vi.findViewById(R.id.VideoTitle);
+            TextView Description = (TextView) vi.findViewById(R.id.VideoDescription);
+            ImageView VideoThumbnail = (ImageView) vi.findViewById(R.id.PlayButton);
+
+
+            try {
+                Title.setText(FeedItems.getJSONObject(position).getString("title"));
+                Description.setText(FeedItems.getJSONObject(position).getString("artist"));
+
+
+                // imageLoader.DisplayImage(FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail"), VideoThumbnail, null);
+
+//            Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(VideoThumbnail);
+                //     Log.e("FeedItem", FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail") + " ");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("eroro",e.getMessage()+" ");
+            }
+
+            VideoThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent browserIntent = null;
+                    try {
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    context.startActivity(browserIntent);
+                }
+            });
+
+            return vi;
+        }
+
+    }
 }

@@ -15,13 +15,10 @@ public class Books_new extends AppCompatActivity {
     public static ViewPager pager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books_new);
-
-
 
 
         pager = (ViewPager) findViewById(R.id.pager);
@@ -42,11 +39,8 @@ public class Books_new extends AppCompatActivity {
         PagerTabStrip titleStrip = (PagerTabStrip) findViewById(R.id.pager_tab_strip);
         titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 
-        /** Getting fragment manager */
         FragmentManager fm = getSupportFragmentManager();
-        /** Instantiating FragmentPagerAdapter */
         Books_mainadapter pageAdapter = new Books_mainadapter(fm);
-        /** Setting the pagerAdapter to the pager object */
         pager.setAdapter(pageAdapter);
 
         setTitle("Books");
@@ -55,14 +49,13 @@ public class Books_new extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
@@ -72,21 +65,17 @@ public class Books_new extends AppCompatActivity {
 
         final int PAGE_COUNT = 2;
 
-        public Books_mainadapter(FragmentManager fm)
-        {
+        public Books_mainadapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int arg0) {
-            if (arg0==0)
-            {
+            if (arg0 == 0) {
                 books_all_fragment umf = new books_all_fragment();
 
                 return umf;
-            }
-            else
-            {
+            } else {
                 books_all2_fragment umf = new books_all2_fragment();
                 return umf;
             }
@@ -94,9 +83,9 @@ public class Books_new extends AppCompatActivity {
         }
 
 
-
-
-        /** Returns the number of pages */
+        /**
+         * Returns the number of pages
+         */
         @Override
         public int getCount() {
             return PAGE_COUNT;
@@ -104,7 +93,7 @@ public class Books_new extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position==1)
+            if (position == 1)
                 return "All";
             else
                 return "Suggested";
