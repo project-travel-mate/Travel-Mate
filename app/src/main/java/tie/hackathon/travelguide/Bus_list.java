@@ -1,52 +1,54 @@
 package tie.hackathon.travelguide;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
+
 import Util.Constants;
 import Util.Utils;
-import adapters.Books_adapter;
-import adapters.Bus_adapter;
 
-public class Bus_list extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class Bus_list extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     ProgressBar pb;
     ListView lv;
-    SharedPreferences s ;
+    SharedPreferences s;
     SharedPreferences.Editor e;
     TextView selectdate;
     TextView city;
-    String source,dest;
+    String source, dest;
     String dates = "17-October-2015";
     public static final String DATEPICKER_TAG = "datepicker";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +64,14 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
         pb = (ProgressBar) findViewById(R.id.pb);
         selectdate = (TextView) findViewById(R.id.seldate);
 
-        city = (TextView)findViewById(R.id.city);
+        city = (TextView) findViewById(R.id.city);
 
         selectdate.setText(dates);
-        city.setText(source +" to " + dest);
+        city.setText(source + " to " + dest);
         city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Bus_list.this,SelectCity.class);
+                Intent i = new Intent(Bus_list.this, SelectCity.class);
                 startActivity(i);
             }
         });
@@ -127,27 +129,53 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
 
-        dates = day+"-";
+        dates = day + "-";
 
         String monthString;
-        switch (month+1) {
-            case 1:  monthString = "January";       break;
-            case 2:  monthString = "February";      break;
-            case 3:  monthString = "March";         break;
-            case 4:  monthString = "April";         break;
-            case 5:  monthString = "May";           break;
-            case 6:  monthString = "June";          break;
-            case 7:  monthString = "July";          break;
-            case 8:  monthString = "August";        break;
-            case 9:  monthString = "September";     break;
-            case 10: monthString = "October";       break;
-            case 11: monthString = "November";      break;
-            case 12: monthString = "December";      break;
-            default: monthString = "Invalid month"; break;
+        switch (month + 1) {
+            case 1:
+                monthString = "January";
+                break;
+            case 2:
+                monthString = "February";
+                break;
+            case 3:
+                monthString = "March";
+                break;
+            case 4:
+                monthString = "April";
+                break;
+            case 5:
+                monthString = "May";
+                break;
+            case 6:
+                monthString = "June";
+                break;
+            case 7:
+                monthString = "July";
+                break;
+            case 8:
+                monthString = "August";
+                break;
+            case 9:
+                monthString = "September";
+                break;
+            case 10:
+                monthString = "October";
+                break;
+            case 11:
+                monthString = "November";
+                break;
+            case 12:
+                monthString = "December";
+                break;
+            default:
+                monthString = "Invalid month";
+                break;
         }
 
         dates = dates + monthString;
-        dates = dates+"-"+year;
+        dates = dates + "-" + year;
 
         selectdate.setText(dates);
         try {
@@ -170,12 +198,11 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
@@ -201,7 +228,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
 
-                Log.e("here",uri + readStream+" ");
+                Log.e("here", uri + readStream + " ");
                 return readStream;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -235,7 +262,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
         super.onResume();
         source = s.getString(Constants.SOURCE_CITY, "delhi");
         dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
-        city.setText(source +" to " + dest);
+        city.setText(source + " to " + dest);
 
         try {
             new Book_RetrieveFeed().execute();
@@ -254,5 +281,101 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
             alertDialog.show();
             Log.e("YouTube:", "Cannot fetch " + e.toString());
         }
+    }
+
+    public class Bus_adapter extends BaseAdapter {
+
+        Context context;
+        JSONArray FeedItems;
+        private LayoutInflater inflater = null;
+
+        public Bus_adapter(Context context, JSONArray FeedItems) {
+            this.context = context;
+            this.FeedItems = FeedItems;
+
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return FeedItems.length();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            try {
+                return FeedItems.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View vi = convertView;
+            if (vi == null)
+                vi = inflater.inflate(R.layout.bus_listitem, null);
+
+            TextView Title = (TextView) vi.findViewById(R.id.bus_name);
+            TextView Description = (TextView) vi.findViewById(R.id.bustype);
+            TextView add = (TextView) vi.findViewById(R.id.add);
+            Button contact = (Button) vi.findViewById(R.id.call);
+            Button url = (Button) vi.findViewById(R.id.book);
+            TextView fair = (TextView) vi.findViewById(R.id.fair);
+
+
+            try {
+                Title.setText(FeedItems.getJSONObject(position).getString("name"));
+                Description.setText(FeedItems.getJSONObject(position).getString("type"));
+                add.setText(FeedItems.getJSONObject(position).getString("dep_add"));
+
+                contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        try {
+                            intent.setData(Uri.parse("tel:" + FeedItems.getJSONObject(position).getString("contact")));
+                            context.startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                url.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent = null;
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://redbus.in"));
+
+                        context.startActivity(browserIntent);
+                    }
+                });
+
+                fair.setText(FeedItems.getJSONObject(position).getString("fair") + " Rs");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("eroro", e.getMessage() + " ");
+            }
+
+            vi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+            return vi;
+        }
+
     }
 }

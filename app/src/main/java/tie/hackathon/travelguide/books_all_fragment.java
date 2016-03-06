@@ -3,6 +3,7 @@ package tie.hackathon.travelguide;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -54,7 +55,6 @@ public class books_all_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
 
         View v = inflater.inflate(R.layout.content_books_fragment_all, container, false);
@@ -137,9 +137,9 @@ public class books_all_fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
+    public void onAttach(Context c) {
+        super.onAttach(c);
+        this.activity = (Activity)c;
     }
 
 

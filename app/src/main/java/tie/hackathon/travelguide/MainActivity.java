@@ -33,10 +33,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private BeaconManager beaconManager;
     private Region region;
-    SharedPreferences s ;
+    SharedPreferences s;
     Boolean discovered = false;
     SharedPreferences.Editor e;
     String beaconmajor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,45 +49,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         e = s.edit();
 
         Fragment fragment;
-        FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new plan_journey_fragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        TextView name,email;
-        name = (TextView) findViewById(R.id.name);
-        email = (TextView) findViewById(R.id.email);
-
-//        name.setText(s.getString(Constants.USER_NAME,"Swati Garg"));
-  //x      email.setText(s.getString(Constants.USER_EMAIL,"swati4star@gmail.com"));
-
-
-
 
         Intent i = getIntent();
-        Boolean b = i.getBooleanExtra(Constants.IS_BEACON,false);
-
-        Log.e("fdbvfdbfd",b+"   ");
-
-        if(b){
+        Boolean b = i.getBooleanExtra(Constants.IS_BEACON, false);
 
 
-            Intent i2 = new Intent(MainActivity.this,DetectedBeacon.class);
-            i2.putExtra(Constants.CUR_UID,i.getStringExtra(Constants.CUR_UID));
-            i2.putExtra(Constants.CUR_MAJOR,i.getStringExtra(Constants.CUR_MAJOR));
-            i2.putExtra(Constants.CUR_MINOR,i.getStringExtra(Constants.CUR_MINOR));
-           i2.putExtra(Constants.IS_BEACON,true);
+        if (b) {
+
+
+            Intent i2 = new Intent(MainActivity.this, DetectedBeacon.class);
+            i2.putExtra(Constants.CUR_UID, i.getStringExtra(Constants.CUR_UID));
+            i2.putExtra(Constants.CUR_MAJOR, i.getStringExtra(Constants.CUR_MAJOR));
+            i2.putExtra(Constants.CUR_MINOR, i.getStringExtra(Constants.CUR_MINOR));
+            i2.putExtra(Constants.IS_BEACON, true);
 
             startActivity(i2);
 
         }
 
 
-
-
-
         beaconManager = new BeaconManager(this);
         region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
-
 
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -100,16 +87,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-                if (discovered == false && list.size()>0) {
+                if (discovered == false && list.size() > 0) {
                     Beacon nearestBeacon = list.get(0);
                     beaconmajor = Integer.toString(nearestBeacon.getMajor());
                     Log.e("Discovered", "Nearest places: " + nearestBeacon.getMajor());
                     discovered = true;
-                    Intent i2 = new Intent(MainActivity.this,DetectedBeacon.class);
-                    i2.putExtra(Constants.CUR_UID," ");
-                    i2.putExtra(Constants.CUR_MAJOR,beaconmajor);
-                    i2.putExtra(Constants.CUR_MINOR," ");
-                    i2.putExtra(Constants.IS_BEACON,true);
+                    Intent i2 = new Intent(MainActivity.this, DetectedBeacon.class);
+                    i2.putExtra(Constants.CUR_UID, " ");
+                    i2.putExtra(Constants.CUR_MAJOR, beaconmajor);
+                    i2.putExtra(Constants.CUR_MINOR, " ");
+                    i2.putExtra(Constants.IS_BEACON, true);
 
                     startActivity(i2);
 
@@ -119,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         });
-
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -149,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;
-        FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_start) {
 
@@ -171,19 +156,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_changecity) {
-            Intent i = new Intent(MainActivity.this,SelectCity.class);
+            Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
-        }else if (id == R.id.nav_signout) {
+        } else if (id == R.id.nav_signout) {
 
             e.putBoolean(Constants.FIRST_TIME, true);
             e.commit();
-            Intent i = new Intent(MainActivity.this,LoginActivity.class);
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
 
 
-        }else if (id == R.id.nav_emergency ) {
+        } else if (id == R.id.nav_emergency) {
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
