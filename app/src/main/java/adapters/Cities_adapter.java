@@ -19,10 +19,6 @@ import tie.hackathon.travelguide.R;
  * Created by swati on 9/10/15.
  */
 
-
-/**
- * Created by Sidharth Patro on 22-Jun-15.
- */
 public class Cities_adapter extends BaseAdapter {
 
     Context context;

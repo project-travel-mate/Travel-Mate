@@ -34,8 +34,9 @@ import objects.Friend;
 
 public class FunFacts extends AppCompatActivity {
 
-    String id,name;
+    String id, name;
     ViewPager vp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +54,10 @@ public class FunFacts extends AppCompatActivity {
         new getcityfacts().execute();
 
 
-
-
         getSupportActionBar().hide();
 
 
     }
-
 
 
     public class getcityfacts extends AsyncTask<Void, Void, String> {
@@ -73,11 +71,11 @@ public class FunFacts extends AppCompatActivity {
 
 
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/city_facts.php?id="+id;
+                String uri = "http://csinsit.org/prabhakar/tie/city_facts.php?id=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here",uri+" "+ readStream + " ");
+                Log.e("here", uri + " " + readStream + " ");
                 return readStream;
 
 //                return readStream;
@@ -87,8 +85,6 @@ public class FunFacts extends AppCompatActivity {
             }
 
 
-
-
         }
 
         @Override
@@ -96,54 +92,50 @@ public class FunFacts extends AppCompatActivity {
 
             List<Fragment> fList = new ArrayList<Fragment>();
 
-            if(result == null){
+            if (result == null) {
                 Toast.makeText(FunFacts.this, "No result", Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
-                JSONObject ob  = new JSONObject(result);
+                JSONObject ob = new JSONObject(result);
                 JSONArray ar = ob.getJSONArray("facts");
-
 
 
                 //        lv.setAdapter(new Cities_adapter(activity,ar));
 
-                for(int i=0;i<ar.length();i++){
+                for (int i = 0; i < ar.length(); i++) {
 
 
                     fList.add(Funfact_fragment.newInstance(ar.getJSONObject(i).getString("image"),
-                            ar.getJSONObject(i).getString("fact"),name));
+                            ar.getJSONObject(i).getString("fact"), name));
                 }
 
 
-
-                vp.setAdapter(new MyPageAdapter(getSupportFragmentManager(),fList));
+                vp.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
                 vp.setPageTransformer(true, new AccordionTransformer());
 
             } catch (JSONException e1) {
                 e1.printStackTrace();
-                Log.e("heer",e1.getMessage()+" ");
+                Log.e("heer", e1.getMessage() + " ");
             }
         }
 
     }
 
 
-
-
-
-
-
     class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
+
         public MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
             this.fragments = fragments;
         }
+
         @Override
         public Fragment getItem(int position) {
             return this.fragments.get(position);
         }
+
         @Override
         public int getCount() {
             return this.fragments.size();
