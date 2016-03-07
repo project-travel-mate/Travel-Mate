@@ -118,7 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        new getloginid().execute();
+        String isid = s.getString(Constants.UID, null);
+        if (isid != null)
+            new getloginid().execute();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,6 +174,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
+        } else if (id == R.id.nav_sharecontact) {
+      /*      Intent i = new Intent(MainActivity.this, ShareContact.class);
+            startActivity(i);
+*/
         } else if (id == R.id.nav_emergency) {
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();

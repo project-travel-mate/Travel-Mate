@@ -6,10 +6,13 @@ package Util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.BufferedReader;
@@ -22,8 +25,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import objects.Friend;
-import tie.hackathon.travelguide.R;
 
 public class Utils {
 
@@ -96,6 +97,21 @@ startActivity(browserIntent);
        String text = new String(data, "UTF-8");
        return text;
    }
+
+
+
+//    WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+//    Display display = manager.getDefaultDisplay();
+//    int width = display.getWidth();
+//    int height = display.getHeight();
+//    int smallerDimension = (width < height ? width : height)* 7 / 8;
+//
+//    QRCodeEncoder qrCodeEncoder = new QRCodeEncoder("Hello",
+//            null,
+//            Contents.Type.TEXT,
+//            BarcodeFormat.QR_CODE.toString(),
+//            smallerDimension);
+//    Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
 
 
 
