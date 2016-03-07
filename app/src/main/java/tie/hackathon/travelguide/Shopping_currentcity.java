@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -40,6 +42,7 @@ import Util.Utils;
 public class Shopping_currentcity extends AppCompatActivity {
 
     SharedPreferences s ;
+    MaterialSearchView searchView;
     SharedPreferences.Editor e;
     ProgressBar pb;
     ListView lv;
@@ -50,6 +53,8 @@ public class Shopping_currentcity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_currentcity);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,8 +69,6 @@ public class Shopping_currentcity extends AppCompatActivity {
         ok = (Button) findViewById(R.id.go);
 
         new Book_RetrieveFeed().execute();
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +99,79 @@ public class Shopping_currentcity extends AppCompatActivity {
             }
         });
 
+
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                Log.e("VDSvsd",query+" ");
+                pb.setVisibility(View.VISIBLE);
+                try {
+                    item = query;
+
+                    Log.e("click", "going" + item);
+                    new Book_RetrieveFeed().execute();
+
+
+                } catch (Exception e) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(Shopping_currentcity.this).create();
+                    alertDialog.setTitle("Can't connect.");
+                    alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
