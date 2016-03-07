@@ -11,12 +11,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="tie.hackathon.travelguide.CheckList">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:alpha=".20"/>
-
-    <ScrollView
+     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
@@ -38,115 +33,124 @@
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
 
+
+            <ScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
                 <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/music"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
 
-                    <FrameLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@color/enter"
-                        android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/music"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/shadow_1"
+                        android:backgroundTint="#ff000000"
+                        android:gravity="center_horizontal">
 
-
-                        <LinearLayout
+                        <FrameLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:orientation="vertical">
+                            android:background="@color/black"
+                            android:orientation="horizontal">
+
+
 
                             <ImageView
                                 android:layout_width="fill_parent"
-                                android:layout_height="0dp"
+                                android:layout_height="fill_parent"
                                 android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_queue_music_white_48dp" />
+                                android:background="@drawable/music2"
+                                android:scaleType="centerCrop"
+                                android:alpha="0.6"
+                                android:padding="10dp" />
+
+
 
                             <TextView
                                 android:layout_width="fill_parent"
-                                android:layout_height="0dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1.6"
                                 android:gravity="center"
                                 android:padding="2dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginBottom="10dp"
+                                android:textColor="#ffffff"
                                 android:text="MUSIC"
-                                android:textColor="#ffffff"
-                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                        </LinearLayout>
 
 
-                    </FrameLayout>
-                </LinearLayout>
-
+                        </FrameLayout>
+                    </LinearLayout>
 
 
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/book"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                    <LinearLayout
+                        android:id="@+id/book"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/shadow_1"
+                        android:backgroundTint="#ff000000"
+                        android:gravity="center_horizontal">
 
-                    <FrameLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@color/enter"
-                        android:orientation="horizontal">
-
-
-                        <LinearLayout
+                        <FrameLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:orientation="vertical">
+                            android:background="@color/black"
+                            android:orientation="horizontal">
+
+
 
                             <ImageView
                                 android:layout_width="fill_parent"
-                                android:layout_height="0dp"
+                                android:layout_height="fill_parent"
                                 android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_book_white_48dp" />
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/books"
+                                android:alpha="0.6"
+                                android:padding="10dp" />
+
+
+
 
                             <TextView
                                 android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
+                                android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:padding="2dp"
-                                android:text="BOOKS"
                                 android:textColor="#ffffff"
-                                android:textSize="15sp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginBottom="10dp"
+                                android:text="BOOKS"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                        </LinearLayout>
 
 
-                    </FrameLayout>
+                        </FrameLayout>
+                    </LinearLayout>
+
+
+
+
+
                 </LinearLayout>
+            </ScrollView>
 
 
-
-
-            </LinearLayout>
 
 
 
