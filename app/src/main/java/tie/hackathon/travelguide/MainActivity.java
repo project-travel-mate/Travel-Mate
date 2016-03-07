@@ -1,12 +1,15 @@
 package tie.hackathon.travelguide;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
@@ -24,10 +27,17 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
 import Util.Constants;
+import Util.Utils;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -108,6 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+        new getloginid().execute();
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -159,15 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_signout) {
-
-            e.putBoolean(Constants.FIRST_TIME, true);
-            e.commit();
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
-
-
         } else if (id == R.id.nav_emergency) {
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
@@ -178,5 +182,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public class getloginid extends AsyncTask<Void, Void, String> {
+
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                String id = telephonyManager.getDeviceId();
+                String uri = "http://csinsit.org/prabhakar/tie/login.php?device_id=" + id;
+                URL url = new URL(uri);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                String readStream = Utils.readStream(con.getInputStream());
+                Log.e("here", url + readStream + " ");
+                return readStream;
+            } catch (Exception e) {
+                Log.e("here", e.getMessage() + " ");
+                e.printStackTrace();
+                return null;
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result == null)
+                return;
+
+            try {
+                final JSONObject json = new JSONObject(result);
+                String uid = json.getString("user_id");
+                e.putString(Constants.UID, uid);
+                e.commit();
+            } catch (JSONException e) {
+                Log.e("here11", e.getMessage() + " ");
+
+            }
+        }
+
+    }
 
 }

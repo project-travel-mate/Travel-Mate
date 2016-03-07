@@ -24,9 +24,7 @@
                 android:title="Change Source/Destination" />
             <item android:id="@+id/nav_emergency" android:icon="@drawable/ic_announcement_black_24dp"
                 android:title="Emergency Contacts" />
-            <item android:id="@+id/nav_signout" android:icon="@drawable/ic_account_circle_black_24dp"
-                android:title="Sign Out" />
-        </menu>
+          </menu>
     </item>
 
 </menu>

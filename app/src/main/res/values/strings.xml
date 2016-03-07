@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Travel Guide</string>
+    <string name="app_name">Travel Mate</string>
 
     <string name="navigation_drawer_open">Travel Guide</string>
     <string name="navigation_drawer_close">Travel Guide</string>

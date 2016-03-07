@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tie.hackathon.travelguide">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -28,22 +29,10 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme2" />
 
         <service android:name=".MusicService" />
         <service android:name=".LocationService" />
 
-        <activity
-            android:name=".SignupActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme2" />
-        <activity
-            android:name=".Emergency"
-            android:label="@string/title_activity_music"
-            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".Music"
             android:label="@string/title_activity_music"
@@ -98,10 +87,6 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Shopping"
-            android:label="@string/title_activity_shopping"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Splash"
