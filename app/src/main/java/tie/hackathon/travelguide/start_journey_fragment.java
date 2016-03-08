@@ -22,7 +22,7 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
     public start_journey_fragment() {
     }
 
-    LinearLayout music, books,  food, hangout, monuments, busstop, shopping, petrol, atm, hospital;
+    LinearLayout music, books,  food, hangout, monuments, busstop, shopping, petrol, atm, hospital,realtime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +41,9 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
         petrol = (LinearLayout) v.findViewById(R.id.petrol);
         atm = (LinearLayout) v.findViewById(R.id.atm);
         hospital = (LinearLayout) v.findViewById(R.id.hospital);
+        realtime = (LinearLayout) v.findViewById(R.id.realtime);
 
+        realtime.setOnClickListener(this);
         music.setOnClickListener(this);
         books.setOnClickListener(this);
         food.setOnClickListener(this);
@@ -68,6 +70,13 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         Intent i;
         switch (view.getId()) {
+
+
+            case R.id.realtime :
+                i = new Intent(activity, MapRealTimeActivity.class);
+                startActivity(i);
+
+                break;
 
 
             case R.id.music:

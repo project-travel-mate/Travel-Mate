@@ -89,6 +89,10 @@
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".MapRealTimeActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Splash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -102,6 +106,8 @@
             android:name=".FunFacts"
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
         <activity android:name=".DetectedBeacon" />
 
 
