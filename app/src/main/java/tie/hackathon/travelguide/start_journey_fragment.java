@@ -22,7 +22,7 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
     public start_journey_fragment() {
     }
 
-    LinearLayout music, books,  food, hangout, monuments, busstop, shopping, petrol, atm, hospital,realtime;
+    LinearLayout music, books, realtime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,27 +33,11 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
 
         music = (LinearLayout) v.findViewById(R.id.music);
         books = (LinearLayout) v.findViewById(R.id.book);
-        food = (LinearLayout) v.findViewById(R.id.food);
-        hangout = (LinearLayout) v.findViewById(R.id.hangoutplaces);
-        monuments = (LinearLayout) v.findViewById(R.id.monuments);
-        busstop = (LinearLayout) v.findViewById(R.id.buisstop);
-        shopping = (LinearLayout) v.findViewById(R.id.shopping);
-        petrol = (LinearLayout) v.findViewById(R.id.petrol);
-        atm = (LinearLayout) v.findViewById(R.id.atm);
-        hospital = (LinearLayout) v.findViewById(R.id.hospital);
         realtime = (LinearLayout) v.findViewById(R.id.realtime);
 
         realtime.setOnClickListener(this);
         music.setOnClickListener(this);
         books.setOnClickListener(this);
-        food.setOnClickListener(this);
-        hangout.setOnClickListener(this);
-        monuments.setOnClickListener(this);
-        busstop.setOnClickListener(this);
-        shopping.setOnClickListener(this);
-        petrol.setOnClickListener(this);
-        atm.setOnClickListener(this);
-        hospital.setOnClickListener(this);
 
         return v;
     }
@@ -62,7 +46,7 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
     @Override
     public void onAttach(Context c) {
         super.onAttach(c);
-        this.activity = (Activity)c;
+        this.activity = (Activity) c;
     }
 
 
@@ -72,7 +56,7 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
         switch (view.getId()) {
 
 
-            case R.id.realtime :
+            case R.id.realtime:
                 i = new Intent(activity, MapRealTimeActivity.class);
                 startActivity(i);
 
@@ -87,56 +71,6 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
 
             case R.id.book:
                 i = new Intent(activity, Books_new.class);
-                startActivity(i);
-                break;
-
-
-            case R.id.food:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "0");
-                startActivity(i);
-                break;
-
-
-            case R.id.hangoutplaces:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "1");
-                startActivity(i);
-                break;
-
-
-            case R.id.monuments:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "2");
-                startActivity(i);
-                break;
-            case R.id.buisstop:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "3");
-                startActivity(i);
-                break;
-
-
-            case R.id.shopping:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "4");
-                startActivity(i);
-                break;
-            case R.id.petrol:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "5");
-                startActivity(i);
-                break;
-
-
-            case R.id.atm:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "6");
-                startActivity(i);
-                break;
-            case R.id.hospital:
-                i = new Intent(activity, MapActivity.class);
-                i.putExtra(Constants.MODE, "7");
                 startActivity(i);
                 break;
 

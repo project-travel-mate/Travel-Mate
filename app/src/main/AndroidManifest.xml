@@ -85,10 +85,6 @@
             android:label="@string/title_activity_hotels"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".MapRealTimeActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar" />
