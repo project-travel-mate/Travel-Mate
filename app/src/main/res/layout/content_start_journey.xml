@@ -24,7 +24,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Entertainment"
+                android:text="Fun Time!"
                 android:background="#000000"
                 android:textColor="#ffffff"
                 android:textSize="15sp"
@@ -154,7 +154,7 @@
                 android:padding="10dp"
                 android:background="#000000"
                 android:textColor="#ffffff"
-                android:text="Food"
+                android:text="Whats's Nearby?"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -208,6 +208,16 @@
                 </FrameLayout>
             </LinearLayout>
 
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="#000000"
+                android:textColor="#ffffff"
+                android:text="Food"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
 

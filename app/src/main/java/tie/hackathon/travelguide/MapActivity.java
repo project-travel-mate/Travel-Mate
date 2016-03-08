@@ -274,12 +274,7 @@ public class MapActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.map_menu, menu);
 
-        return true;
-    }
 
 
 }

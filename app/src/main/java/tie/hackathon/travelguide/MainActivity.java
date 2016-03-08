@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         String isid = s.getString(Constants.UID, null);
-        if (isid != null)
+        if (isid == null)
             new getloginid().execute();
 
 
@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
 
         } else if (id == R.id.nav_sharecontact) {
-      /*      Intent i = new Intent(MainActivity.this, ShareContact.class);
+            Intent i = new Intent(MainActivity.this, shareContact.class);
             startActivity(i);
-*/
+
         } else if (id == R.id.nav_emergency) {
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
@@ -214,14 +214,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(String result) {
 
+            Log.e("result is", result + " ");
+
             if (result == null)
                 return;
 
             try {
-                final JSONObject json = new JSONObject(result);
+                JSONObject json = new JSONObject(result);
                 String uid = json.getString("user_id");
                 e.putString(Constants.UID, uid);
                 e.commit();
+                Log.e("here", "commitin" + s.getString(Constants.UID, null));
             } catch (JSONException e) {
                 Log.e("here11", e.getMessage() + " ");
 
