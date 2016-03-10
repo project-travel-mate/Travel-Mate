@@ -103,7 +103,8 @@
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
-        <activity android:name=".shareContact"></activity>
+        <activity android:name=".shareContact" />
+        <activity android:name=".CaptureImage"></activity>
     </application>
 
 </manifest>

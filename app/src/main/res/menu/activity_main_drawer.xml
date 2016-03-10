@@ -2,19 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_plan" android:icon="@drawable/ic_directions_car_black_24dp"
+        <item
+            android:id="@+id/nav_plan"
+            android:icon="@drawable/ic_directions_car_black_24dp"
             android:title="Plan a journey" />
-        <item android:id="@+id/nav_city" android:icon="@drawable/ic_location_city_black_24dp"
+        <item
+            android:id="@+id/nav_city"
+            android:icon="@drawable/ic_location_city_black_24dp"
             android:title="Choose a city to visit" />
-        <item android:id="@+id/nav_start" android:icon="@drawable/ic_card_travel_black_24dp"
+        <item
+            android:id="@+id/nav_start"
+            android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="Start a journey" />
-        <item android:id="@+id/nav_checklist" android:icon="@drawable/ic_check_box_black_24dp"
+        <item
+            android:id="@+id/nav_checklist"
+            android:icon="@drawable/ic_check_box_black_24dp"
             android:title="Check List" />
 
-        <item android:id="@+id/nav_sharecontact" android:icon="@drawable/ic_settings_black_24dp"
+        <item
+            android:id="@+id/nav_sharecontact"
+            android:icon="@drawable/ic_share_black_24dp"
             android:title="Share Contact" />
 
-
+        <item
+            android:id="@+id/nav_memories"
+            android:icon="@drawable/ic_card_travel_black_24dp"
+            android:title="Memories" />
 
 
     </group>
@@ -22,11 +35,15 @@
     <item android:title="Extras">
         <menu>
 
-            <item android:id="@+id/nav_changecity" android:icon="@drawable/ic_settings_black_24dp"
+            <item
+                android:id="@+id/nav_changecity"
+                android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Change Source/Destination" />
-            <item android:id="@+id/nav_emergency" android:icon="@drawable/ic_announcement_black_24dp"
+            <item
+                android:id="@+id/nav_emergency"
+                android:icon="@drawable/ic_announcement_black_24dp"
                 android:title="Emergency Contacts" />
-          </menu>
+        </menu>
     </item>
 
 </menu>

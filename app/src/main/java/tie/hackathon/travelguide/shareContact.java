@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +41,11 @@ public class shareContact extends AppCompatActivity {
                 TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 String mPhoneNumber = tMgr.getLine1Number();
                 //Set text to encode
+                if(mPhoneNumber == null)
+                    mPhoneNumber="9971604989";
                 qrDroid.putExtra(Services.CODE, "Hey, My contact number is :" + mPhoneNumber);
+
+                Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
 
                 //Check whether an URL or an imge is required
                 //First item selected ("Get Bitmap")

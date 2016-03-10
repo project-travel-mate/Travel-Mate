@@ -1,167 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:padding="10dp"
+            android:text="Fun Time!"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Fun Time!"
-                android:background="#000000"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-
-
-
-         <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:id="@+id/music"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/shadow_1"
-                        android:backgroundTint="#ff000000"
-                        android:gravity="center_horizontal">
-
-                        <FrameLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@color/black"
-                            android:orientation="horizontal">
-
-
-
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight="4"
-                                android:background="@drawable/music2"
-                                android:scaleType="centerCrop"
-                                android:alpha="0.6"
-                                android:padding="10dp" />
-
-
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="10dp"
-                                android:textColor="#ffffff"
-                                android:text="MUSIC"
-                                android:fontFamily="sans-serif-condensed"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-
-
-                        </FrameLayout>
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:id="@+id/book"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/shadow_1"
-                        android:backgroundTint="#ff000000"
-                        android:gravity="center_horizontal">
-
-                        <FrameLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@color/black"
-                            android:orientation="horizontal">
-
-
-
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight="4"
-                                android:scaleType="centerCrop"
-                                android:background="@drawable/books"
-                                android:alpha="0.6"
-                                android:padding="10dp" />
-
-
-
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:textColor="#ffffff"
-                                android:layout_gravity="bottom"
-                                android:layout_marginBottom="10dp"
-                                android:text="BOOKS"
-                                android:fontFamily="sans-serif-condensed"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-
-
-                        </FrameLayout>
-                    </LinearLayout>
-
-
-
-
-
-                </LinearLayout>
-
-
-
-
-
-
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="#000000"
-                android:textColor="#ffffff"
-                android:text="Whats's Nearby?"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-
-
             <LinearLayout
-                android:id="@+id/realtime"
+                android:id="@+id/music"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
@@ -177,41 +45,140 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:background="@drawable/location"
-                        android:scaleType="centerCrop"
                         android:alpha="0.6"
-                        android:padding="10dp" />
-
+                        android:background="@drawable/music2"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:gravity="center"
-                        android:padding="2dp"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:textColor="#ffffff"
-                        android:text="REAL TIME LOCATIONS"
+                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="MUSIC"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
-
 
 
                 </FrameLayout>
             </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/book"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="4"
+                        android:alpha="0.6"
+                        android:background="@drawable/books"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
+
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="BOOKS"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                </FrameLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
 
-    </ScrollView>
-</FrameLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:padding="10dp"
+            android:text="Whats's Nearby?"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:id="@+id/realtime"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:background="@drawable/shadow_1"
+            android:backgroundTint="#ff000000"
+            android:gravity="center_horizontal">
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/black"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="4"
+                    android:alpha="0.6"
+                    android:background="@drawable/location"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop" />
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1.6"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="REAL TIME LOCATIONS"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </FrameLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
