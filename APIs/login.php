@@ -1,39 +1,26 @@
 <?php
 	
-	$error_messages = array(
-		'Incorrect Credentials',
-		'Success',
-		'Could Not Register, Try Again Later'
-	);
-	
 	require 'inc/connection.inc.php';
 	
-	if(!isset($_GET['email']) || !isset($_GET['pass'])){
-		echo 'Incorrect Parameters';
+	$response_array = array();
+	
+	$device_id = trim(strtolower($_GET['device_id']));
+	$user_id = 0;
+	
+	$query = "SELECT `id` FROM `users` WHERE `device_id`='$device_id' LIMIT 1";
+	$query_row = mysqli_fetch_assoc(mysqli_query($connection, $query));
+	
+	if(isset($query_row)){
+		$user_id = (int)$query_row['id'];
 	} else {
-		$password = md5(trim($_GET['pass']));
-		$email = trim(strtolower($_GET['email']));
+		$query = "INSERT INTO `users` (`device_id`) VALUES ('$device_id')";
+		mysqli_query($connection, $query);
 		
-		$response_array = array();
-		
-		$query = "SELECT `id`,`name` FROM `users` WHERE `email`='$email' AND `password`='$password'";
-		if($query_run = mysqli_query($connection, $query)){
-			if(mysqli_num_rows($query_run) == 1){
-				while($query_row = mysqli_fetch_assoc($query_run)){
-					$error = 1;
-					$response_array = array(
-						'id'		=> (int)$query_row['id'],
-						'name'		=> $query_row['name']
-					);
-				}
-			} else {
-				$error = 0;
-			}
-		} else {
-			$error = 2;
-		}
-		
-		$response_array['success'] = ($error == 1) ? true : false;
-			
-		echo json_encode($response_array);
+		$user_id = (int)mysqli_insert_id($connection);
 	}
+	
+	$response_array = array(
+		'user_id'	=> $user_id,
+	);
+		
+	echo json_encode($response_array);
