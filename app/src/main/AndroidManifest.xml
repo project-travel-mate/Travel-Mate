@@ -104,7 +104,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
         <activity android:name=".shareContact" />
-        <activity android:name=".CaptureImage"></activity>
+        <activity android:name=".CaptureImage" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

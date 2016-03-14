@@ -70,5 +70,6 @@
     <string name="qrDroid">Get QR Droid</string>
     <string name="source">Get demo docs</string>
     <string name="close">Close</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>
