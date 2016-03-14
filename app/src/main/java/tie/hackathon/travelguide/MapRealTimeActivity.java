@@ -1,24 +1,22 @@
 package tie.hackathon.travelguide;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,8 +24,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,58 +38,44 @@ import Util.Constants;
 import Util.GPSTracker;
 import Util.Utils;
 
-public class MapActivity extends AppCompatActivity {
+public class MapRealTimeActivity extends AppCompatActivity {
 
     com.google.android.gms.maps.MapFragment mapFragment;
     GoogleMap map;
-    SharedPreferences s ;
-    SharedPreferences.Editor e;
-    String sorcelat,deslat,sorcelon,deslon,surce,dest,distancetext,mode,curlat,curlon;
-    Intent i;
-    List<String > name,call,web,addr;
+    SharedPreferences s;
+    String sorcelat, deslat, sorcelon, deslon, surce, dest,  curlat, curlon;
+    List<String> name, call, web, addr;
     ScrollView sc;
     int index = 0;
-    int icon = R.drawable.ic_attach_money_black_24dp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map_realtime);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         map = mapFragment.getMap();
 
-        i = getIntent();
         s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
+
+
         sorcelat = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon  = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat = s.getString(Constants.DESTINATION_CITY_LAT,Constants.MUMBAI_LAT);
-        deslon  = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        sorcelon = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
+        deslat = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
+        deslon = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
         surce = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest  = s.getString(Constants.DESTINATION_CITY, "Mumbai");
-        mode = i.getStringExtra(Constants.MODE);
+        dest = s.getString(Constants.DESTINATION_CITY, "Mumbai");
         sc = (ScrollView) findViewById(R.id.data);
 
-        Integer mo = Integer.parseInt(mode);
-        switch(mo){
 
-            case 0 : icon = R.drawable.ic_local_pizza_black_24dp;break;
-            case 1 : icon = R.drawable.ic_local_bar_black_24dp;break;
-            case 2 : icon = R.drawable.ic_camera_alt_black_24dp;break;
-            case 3 : icon = R.drawable.ic_directions_bus_black_24dp;break;
-            case 4 : icon = R.drawable.ic_local_mall_black_24dp;break;
-            case 5 : icon = R.drawable.ic_local_gas_station_black_24dp;break;
-            case 6 : icon = R.drawable.ic_local_atm_black_24dp;break;
-            case 7 : icon = R.drawable.ic_local_hospital_black_24dp;break;
 
-            default : icon = R.drawable.ic_attach_money_black_24dp;break;
-        }
 
 
         sc.setVisibility(View.GONE);
+
+
         name = new ArrayList<String>();
         call = new ArrayList<String>();
         web = new ArrayList<String>();
@@ -110,18 +92,18 @@ public class MapActivity extends AppCompatActivity {
         } else {
             curlat = Double.toString(tracker.getLatitude());
             curlon = Double.toString(tracker.getLongitude());
-            Log.e("cdsknvdsl",tracker.getLatitude() + " " + curlat+"dsbjvdks"+curlon);
-            if(curlat.equals("0.0")){
+            Log.e("cdsknvdsl", tracker.getLatitude() + " " + curlat + "dsbjvdks" + curlon);
+            if (curlat.equals("0.0")) {
                 curlat = "28.5952242";
-                 curlon = "77.1656782";
+                curlon = "77.1656782";
             }
 
-            new getcitytask().execute();
+            new getcitytask(0, R.drawable.ic_local_pizza_black_24dp).execute();
         }
 
 
         LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
 
 
@@ -171,24 +153,91 @@ public class MapActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+    }
 
- }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
+
+        if (item.getItemId() == R.id.action_sort) {
+
+            new MaterialDialog.Builder(this)
+                    .title(R.string.title)
+                    .items(R.array.items)
+                    .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                        @Override
+                        public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                            /**
+                             * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
+                             * returning false here won't allow the newly selected check box to actually be selected.
+                             * See the limited multi choice dialog example in the sample project for details.
+                             **/
+
+
+                            map.clear();
+                            name.clear();
+                            call.clear();
+                            web.clear();
+                            addr.clear();
+
+                            for (int i = 0; i < which.length; i++) {
+                                Log.e("selected", which[i] + " " + text[i]);
+                                Integer icon;
+                                switch (which[0]) {
+
+                                    case 0:
+                                        icon = R.drawable.ic_local_pizza_black_24dp;
+                                        break;
+                                    case 1:
+                                        icon = R.drawable.ic_local_bar_black_24dp;
+                                        break;
+                                    case 2:
+                                        icon = R.drawable.ic_camera_alt_black_24dp;
+                                        break;
+                                    case 3:
+                                        icon = R.drawable.ic_directions_bus_black_24dp;
+                                        break;
+                                    case 4:
+                                        icon = R.drawable.ic_local_mall_black_24dp;
+                                        break;
+                                    case 5:
+                                        icon = R.drawable.ic_local_gas_station_black_24dp;
+                                        break;
+                                    case 6:
+                                        icon = R.drawable.ic_local_atm_black_24dp;
+                                        break;
+                                    case 7:
+                                        icon = R.drawable.ic_local_hospital_black_24dp;
+                                        break;
+                                    default:
+                                        icon = R.drawable.ic_attach_money_black_24dp;
+                                        break;
+                                }
+                                new getcitytask(which[0],icon).execute();
+
+
+                            }
+
+                            return true;
+                        }
+                    })
+                    .positiveText(R.string.choose)
+                    .show();
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon){
+    public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
-        if(map!=null) {
+        if (map != null) {
             map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 5));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
 
             MarkerOptions abc = new MarkerOptions();
             MarkerOptions x = abc
@@ -203,18 +252,19 @@ public class MapActivity extends AppCompatActivity {
 
     public class getcitytask extends AsyncTask<Void, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
+        int ic, mo;
 
+        public getcitytask(int mo, int ic) {
+            this.ic = ic;
+            this.mo = mo;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             try {
+                Log.e("started","strted");
                 String uri = "http://csinsit.org/prabhakar/tie/get-real-time-data.php?mode=" +
-                        mode +
+                        mo +
                         "&lat=" +
                         curlat +
                         "&lng=" +
@@ -236,7 +286,7 @@ public class MapActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if(result ==null)
+            if (result == null)
                 return;
 
             try {
@@ -245,7 +295,7 @@ public class MapActivity extends AppCompatActivity {
                 final JSONObject json = new JSONObject(result);
                 JSONArray routeArray = json.getJSONArray("results");
 
-                for(int i=0;i<routeArray.length();i++){
+                for (int i = 0; i < routeArray.length(); i++) {
                     name.add(routeArray.getJSONObject(i).getString("name"));
                     web.add(routeArray.getJSONObject(i).getString("website"));
                     call.add(routeArray.getJSONObject(i).getString("phone"));
@@ -253,11 +303,10 @@ public class MapActivity extends AppCompatActivity {
                     ShowMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
                             Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
                             routeArray.getJSONObject(i).getString("name"),
-                            icon);
+                            ic);
 
 
                 }
-
 
 
             } catch (JSONException e) {
@@ -266,6 +315,14 @@ public class MapActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.map_menu, menu);
+
+        return true;
     }
 
 

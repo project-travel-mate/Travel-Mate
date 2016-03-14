@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="TRAVEL GUIDE"
+            android:text="TRAVEL MATE"
             android:gravity="center"
             android:layout_marginTop="25dp"
             android:textSize="35sp"

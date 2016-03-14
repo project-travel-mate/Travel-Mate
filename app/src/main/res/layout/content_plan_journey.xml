@@ -11,289 +11,265 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="tie.hackathon.travelguide.CheckList">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:alpha=".20"/>
 
     <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/vehicle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
 
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/vehicle"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
 
-                    <FrameLayout
+                    <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:background="@color/food"
-                        android:orientation="horizontal">
+                        android:layout_weight="4"
+                        android:background="@drawable/transport"
+                        android:scaleType="centerCrop"
+                        android:alpha="0.6"
+                        android:padding="10dp" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_directions_bus_white_48dp" />
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:text="TRANSPORT"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/accomo"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
-
-                    <FrameLayout
+                    <TextView
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@color/food"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.6"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="#ffffff"
+                        android:text="TRANSPORT"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_hotel_white_48dp" />
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:text="HOTEL"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-
-                    </FrameLayout>
-                </LinearLayout>
-
-
+                </FrameLayout>
             </LinearLayout>
 
 
+
             <LinearLayout
+                android:id="@+id/accomo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/shopping"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
 
-                    <FrameLayout
+
+
+                    <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:background="@color/food"
-                        android:orientation="horizontal">
+                        android:layout_weight="4"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/hotel"
+                        android:alpha="0.6"
+                        android:padding="10dp" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_shopping_cart_white_48dp" />
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:text="SHOPPING"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
 
 
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/city"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
-
-                    <FrameLayout
+                    <TextView
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@color/food"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:textColor="#ffffff"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:text="HOTELS"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_explore_white_48dp" />
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:text="EXPLORE CITY"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-
-                    </FrameLayout>
-                </LinearLayout>
-
-
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/shopping"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/checklist"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
 
-                    <FrameLayout
+
+
+                    <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:background="@color/rich"
-                        android:orientation="horizontal">
+                        android:layout_weight="4"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/shop"
+                        android:alpha="0.6"
+                        android:padding="10dp" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="4"
-                                android:alpha="30"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_check_circle_white_48dp" />
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1.6"
-                                android:gravity="center"
-                                android:padding="2dp"
-                                android:text="CHECKLIST"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
 
 
-                    </FrameLayout>
-                </LinearLayout>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:textColor="#ffffff"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:text="SHOPPING"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
+
+                </FrameLayout>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
+
+
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="4"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/city"
+                        android:alpha="0.6"
+                        android:padding="10dp" />
+
+
+
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:textColor="#ffffff"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:text="EXPLORE CITY"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checklist"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#ff000000"
+                android:gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
+
+
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="4"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/checklist"
+                        android:alpha="0.6"
+                        android:padding="10dp" />
+
+
+
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:textColor="#ffffff"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:text="CHECKLIST"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+
+                </FrameLayout>
+            </LinearLayout>
+
 
 
         </LinearLayout>
-
     </ScrollView>
+
+
+
+
+
+
 </FrameLayout>

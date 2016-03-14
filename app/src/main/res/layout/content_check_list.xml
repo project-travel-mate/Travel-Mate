@@ -10,11 +10,6 @@
     tools:context="tie.hackathon.travelguide.CheckList"
     tools:showIn="@layout/activity_check_list">
 
-<ImageView
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:scaleType="centerCrop"
-    android:alpha=".20"/>
 
 
     <LinearLayout
@@ -36,7 +31,7 @@
             <Button
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/ic_add_circle_black_24dp"/>
+                android:background="@drawable/add_list_item"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_marginLeft="10dp"

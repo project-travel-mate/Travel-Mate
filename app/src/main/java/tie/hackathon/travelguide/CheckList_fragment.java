@@ -3,7 +3,9 @@ package tie.hackathon.travelguide;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
@@ -14,15 +16,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.rey.material.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
-import adapters.CheckList_adapter;
 import database.DBhelp_new;
 import database.TableEntry_new;
 
@@ -41,15 +46,11 @@ public class CheckList_fragment extends Fragment {
     List<String> base_task = new ArrayList<>();
 
     public CheckList_fragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
         View v = inflater.inflate(R.layout.content_check_list, container, false);
 
         dbhelp = new DBhelp_new(getContext());
@@ -58,8 +59,8 @@ public class CheckList_fragment extends Fragment {
 
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor e = s.edit();
-        String x = s.getString(Constants.ID_ADDED_INDB,"null");
-        if(x.equals("null")){
+        String x = s.getString(Constants.ID_ADDED_INDB, "null");
+        if (x.equals("null")) {
             base_task.add("Bags");
             base_task.add("Keys");
             base_task.add("Charger");
@@ -67,7 +68,7 @@ public class CheckList_fragment extends Fragment {
             base_task.add("Clothes");
             base_task.add("Food");
             base_task.add("Tickets");
-            for (int i = 0 ; i<base_task.size();i++) {
+            for (int i = 0; i < base_task.size(); i++) {
 
                 ContentValues insertValues = new ContentValues();
                 insertValues.put(TableEntry_new.COLUMN_NAME, base_task.get(i));
@@ -75,12 +76,9 @@ public class CheckList_fragment extends Fragment {
                 db.insert(TableEntry_new.TABLE_NAME, null, insertValues);
             }
 
-            e.putString(Constants.ID_ADDED_INDB,"yes");
+            e.putString(Constants.ID_ADDED_INDB, "yes");
             e.commit();
         }
-
-
-
 
 
         ListView lv = (ListView) v.findViewById(R.id.lv);
@@ -105,7 +103,7 @@ public class CheckList_fragment extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 EditText e = (EditText) dialogv.findViewById(R.id.task);
-                                Log.e("added", "a"+e.getText() + "a");
+                                Log.e("added", "a" + e.getText() + "a");
 
                                 if (!e.getText().toString().equals("")) {
                                     ContentValues insertValues = new ContentValues();
@@ -129,6 +127,7 @@ public class CheckList_fragment extends Fragment {
         id.clear();
         task.clear();
         isdone.clear();
+        ad.notifyDataSetChanged();
 
 
         Cursor c = db.rawQuery("SELECT * FROM " + TableEntry_new.TABLE_NAME + " ORDER BY " +
@@ -150,9 +149,93 @@ public class CheckList_fragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = (Activity) context;
+    }
+
+
+    public class CheckList_adapter extends ArrayAdapter<String> {
+
+
+        private final Activity context;
+        private final List<String> task, id, isdone;
+        DBhelp_new dbhelp;
+        SQLiteDatabase db;
+
+
+        public CheckList_adapter(Activity context, List<String> i, List<String> t, List<String> d) {
+            super(context, R.layout.checklist_item, t);
+            this.context = context;
+            task = t;
+            id = i;
+            isdone = d;
+        }
+
+
+
+         class ViewHolder{
+            CheckBox c;
+        }
+
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            LayoutInflater inflater = context.getLayoutInflater();
+
+            View vi = view;             //trying to reuse a recycled view
+            ViewHolder holder = null;
+            if (vi == null) {
+
+                vi = inflater.inflate(R.layout.checklist_item, parent, false);
+                holder = new ViewHolder();
+                holder.c = (CheckBox) vi.findViewById(R.id.cb1);
+                vi.setTag(holder);
+
+            }
+            else{
+                holder = (ViewHolder) vi.getTag();
+            }
+
+            dbhelp = new DBhelp_new(context);
+            db = dbhelp.getWritableDatabase();
+
+            if (isdone.get(position).equals("1")) {
+                holder.c.setPaintFlags(holder.c.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.c.setChecked(true);
+            } else {
+                holder.c.setPaintFlags(holder.c.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.c.setChecked(false);
+            }
+            holder.c.setText(task.get(position));
+
+            holder.c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
+
+
+                        String x = "UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 1 WHERE " +
+                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position);
+
+                        db.execSQL(x);
+                        isdone.set(position, "1");
+                        Log.e("execited", x + " ");
+                    } else {
+
+
+                        db.execSQL("UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position));
+                        isdone.set(position, "0");
+
+                    }
+                    refresh();
+                }
+            });
+
+            return vi;
+        }
+
     }
 
 

@@ -34,4 +34,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.4@aar') {
+        transitive = true
+    }
+
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
+
 }
