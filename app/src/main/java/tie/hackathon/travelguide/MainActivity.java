@@ -7,11 +7,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,15 +16,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new plan_journey_fragment();
+        fragment = new travel_fragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
 
@@ -76,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             i2.putExtra(Constants.CUR_MAJOR, i.getStringExtra(Constants.CUR_MAJOR));
             i2.putExtra(Constants.CUR_MINOR, i.getStringExtra(Constants.CUR_MINOR));
             i2.putExtra(Constants.IS_BEACON, true);
-
             startActivity(i2);
 
         }
@@ -151,14 +144,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (id == R.id.nav_start) {
 
-            fragment = new start_journey_fragment();
+        if (id == R.id.nav_travel) {
+
+            fragment = new travel_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        } else if (id == R.id.nav_plan) {
+        } else if (id == R.id.nav_enter) {
 
-            fragment = new plan_journey_fragment();
+            fragment = new entertainment_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_city) {
@@ -166,27 +160,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new city_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        } else if (id == R.id.nav_checklist) {
-            fragment = new CheckList_fragment();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        } else if (id == R.id.nav_utility) {
 
+            fragment = new utilities_fragment();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
         } else if (id == R.id.nav_changecity) {
             Intent i = new Intent(MainActivity.this, SelectCity.class);
-            startActivity(i);
-
-        } else if (id == R.id.nav_sharecontact) {
-            Intent i = new Intent(MainActivity.this, shareContact.class);
             startActivity(i);
 
         } else if (id == R.id.nav_emergency) {
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        } else if (id == R.id.nav_memories) {
-            fragment = new Memories();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -3,31 +3,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_plan"
+            android:id="@+id/nav_travel"
             android:icon="@drawable/ic_directions_car_black_24dp"
-            android:title="Plan a journey" />
+            android:title="Travel" />
         <item
             android:id="@+id/nav_city"
             android:icon="@drawable/ic_location_city_black_24dp"
-            android:title="Choose a city to visit" />
+            android:title="Destinations" />
         <item
-            android:id="@+id/nav_start"
+            android:id="@+id/nav_enter"
             android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="Start a journey" />
+            android:title="Entertainment" />
         <item
-            android:id="@+id/nav_checklist"
-            android:icon="@drawable/ic_check_box_black_24dp"
-            android:title="Check List" />
-
-        <item
-            android:id="@+id/nav_sharecontact"
+            android:id="@+id/nav_utility"
             android:icon="@drawable/ic_share_black_24dp"
-            android:title="Share Contact" />
-
-        <item
-            android:id="@+id/nav_memories"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="Memories" />
+            android:title="Utilities" />
 
 
     </group>

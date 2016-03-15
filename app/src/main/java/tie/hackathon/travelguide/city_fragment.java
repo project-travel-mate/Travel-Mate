@@ -51,6 +51,7 @@ public class city_fragment extends Fragment {
 
     public city_fragment() {
     }
+
     ListView lv;
 
     @Override
@@ -79,8 +80,6 @@ public class city_fragment extends Fragment {
         }
 
 
-
-
         return v;
     }
 
@@ -90,6 +89,7 @@ public class city_fragment extends Fragment {
         super.onAttach(activity);
         this.activity = activity;
     }
+
     public class getcitytask extends AsyncTask<Void, Void, String> {
 
 
@@ -101,12 +101,12 @@ public class city_fragment extends Fragment {
 
 
             try {
-                Log.e("fvdbd","yoloooo");
+                Log.e("fvdbd", "yoloooo");
                 String uri = "http://csinsit.org/prabhakar/tie/all-cities.php";
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here",readStream+" ");
+                Log.e("here", readStream + " ");
                 return readStream;
 
 //                return readStream;
@@ -116,48 +116,62 @@ public class city_fragment extends Fragment {
             }
 
 
-
-
         }
 
         @Override
         protected void onPostExecute(String result) {
 
 
-            if(result == null){
+            if (result == null) {
                 Toast.makeText(activity, "No result", Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
-                JSONObject ob  = new JSONObject(result);
+                JSONObject ob = new JSONObject(result);
                 JSONArray ar = ob.getJSONArray("cities");
                 pb.setVisibility(View.GONE);
                 FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
 
 
-
-        //        lv.setAdapter(new Cities_adapter(activity,ar));
+                //        lv.setAdapter(new Cities_adapter(activity,ar));
 
                 List<Friend> friends = new ArrayList<>();
-                for(int i=0;i<ar.length();i++){
+                for (int i = 0; i < ar.length(); i++) {
 
 
                     double color = Math.random();
-                    int c = (int)(color*100)%8;
-
+                    int c = (int) (color * 100) % 8;
 
 
                     int colo;
-                    switch (c){
-                        case 0 : colo = R.color.sienna;break;
-                        case 1 : colo = R.color.saffron;break;
-                        case 2 : colo = R.color.green;break;
-                        case 3 : colo = R.color.pink;break;
-                        case 4 : colo = R.color.orange;break;
-                        case 5 : colo = R.color.saffron;break;
-                        case 6 : colo = R.color.purple;break;
-                        case 7 : colo = R.color.blue;break;
-                        default:  colo = R.color.blue;break;
+                    switch (c) {
+                        case 0:
+                            colo = R.color.sienna;
+                            break;
+                        case 1:
+                            colo = R.color.saffron;
+                            break;
+                        case 2:
+                            colo = R.color.green;
+                            break;
+                        case 3:
+                            colo = R.color.pink;
+                            break;
+                        case 4:
+                            colo = R.color.orange;
+                            break;
+                        case 5:
+                            colo = R.color.saffron;
+                            break;
+                        case 6:
+                            colo = R.color.purple;
+                            break;
+                        case 7:
+                            colo = R.color.blue;
+                            break;
+                        default:
+                            colo = R.color.blue;
+                            break;
                     }
 
                     String dr = ar.getJSONObject(i).optString("image", "yolo");
@@ -188,7 +202,7 @@ public class city_fragment extends Fragment {
 
             } catch (JSONException e1) {
                 e1.printStackTrace();
-                Log.e("heer",e1.getMessage()+" ");
+                Log.e("heer", e1.getMessage() + " ");
             }
         }
 
@@ -245,13 +259,8 @@ public class city_fragment extends Fragment {
             }
 
 
-
-
-
             return convertView;
         }
-
-
 
 
         @Override
@@ -289,7 +298,6 @@ public class city_fragment extends Fragment {
             });
 
 
-
             holder.fv3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -300,7 +308,6 @@ public class city_fragment extends Fragment {
 
                 }
             });
-
 
 
             holder.fv2.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +324,6 @@ public class city_fragment extends Fragment {
             });
 
 
-
             holder.fv4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -328,15 +334,13 @@ public class city_fragment extends Fragment {
             });
 
 
-
-
         }
 
         class FriendsHolder {
             ImageView leftAvatar;
             ImageView rightAvatar;
             View infoPage;
-            TextView fv1,fv2,fv3,fv4;
+            TextView fv1, fv2, fv3, fv4;
 
             List<TextView> interests = new ArrayList<>();
             TextView nickName;

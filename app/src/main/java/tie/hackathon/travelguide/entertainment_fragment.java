@@ -8,34 +8,29 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import Util.Constants;
 
-
-public class start_journey_fragment extends Fragment implements View.OnClickListener {
+public class entertainment_fragment extends Fragment implements View.OnClickListener {
 
 
     static Activity activity;
 
-    public start_journey_fragment() {
+    public entertainment_fragment() {
     }
 
-    LinearLayout music, books, realtime;
+    LinearLayout music, books;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.content_start_journey, container, false);
+        View v = inflater.inflate(R.layout.content_entertainment, container, false);
 
         music = (LinearLayout) v.findViewById(R.id.music);
         books = (LinearLayout) v.findViewById(R.id.book);
-        realtime = (LinearLayout) v.findViewById(R.id.realtime);
 
-        realtime.setOnClickListener(this);
         music.setOnClickListener(this);
         books.setOnClickListener(this);
 
@@ -55,12 +50,6 @@ public class start_journey_fragment extends Fragment implements View.OnClickList
         Intent i;
         switch (view.getId()) {
 
-
-            case R.id.realtime:
-                i = new Intent(activity, MapRealTimeActivity.class);
-                startActivity(i);
-
-                break;
 
 
             case R.id.music:

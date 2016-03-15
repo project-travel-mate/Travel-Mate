@@ -166,8 +166,11 @@
 
                 </FrameLayout>
             </LinearLayout>
+
+
+
             <LinearLayout
-                android:id="@+id/city"
+                android:id="@+id/mytrips"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
@@ -183,39 +186,38 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:scaleType="centerCrop"
+                        android:alpha="0.6"
                         android:background="@drawable/city"
-                        android:alpha="0.6"
-                        android:padding="10dp" />
-
-
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="EXPLORE CITY"
+                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="MY TRIPS"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
-
 
 
                 </FrameLayout>
             </LinearLayout>
 
+
+
             <LinearLayout
-                android:id="@+id/checklist"
+                android:id="@+id/realtime"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
@@ -231,37 +233,33 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/checklist"
                         android:alpha="0.6"
-                        android:padding="10dp" />
-
-
+                        android:background="@drawable/location"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="CHECKLIST"
+                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="REAL TIME LOCATIONS"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
 
-
                 </FrameLayout>
             </LinearLayout>
-
 
 
         </LinearLayout>
