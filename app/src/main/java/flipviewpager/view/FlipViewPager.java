@@ -8,11 +8,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EdgeEffect;
@@ -24,6 +24,9 @@ import android.widget.Scroller;
 import java.util.HashMap;
 
 /**
+ * onInterceptTouchEvent() modified by Tom-Philipp Seifert to allow delegation of click events
+ * to buttons etc.
+ *
  * @author Yalantis
  */
 public class FlipViewPager extends FrameLayout {
@@ -87,12 +90,6 @@ public class FlipViewPager extends FrameLayout {
             pageView = pages.get(i).pageView;
             addView(pageView);
         }
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        measureChildren(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
     }
 
     private void setFlipDistance(float flipDistance) {
@@ -198,14 +195,98 @@ public class FlipViewPager extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (flipped) {
+        // Custom code starts here
+        View view = mCurrent.pageView;
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                final View childView = viewGroup.getChildAt(i);
+                checkIfChildWasClicked(ev, childView);
+            }
+        }
+
+        // Custom code ends here
+        int action = ev.getAction() & MotionEvent.ACTION_MASK;
+        if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            toggleFlip(false);
+            mActivePointerId = INVALID_POINTER;
+            recycleVelocity();
             return false;
-        } else {
-            return true;
+        }
+
+        if (action != MotionEvent.ACTION_DOWN && !flipping) return false;
+
+        switch (action) {
+            case MotionEvent.ACTION_MOVE:
+                int activePointerId = this.mActivePointerId;
+                if (activePointerId == INVALID_POINTER) break;
+
+                int pointerIndex = ev.findPointerIndex(activePointerId);
+                if (pointerIndex == -1) {
+                    this.mActivePointerId = INVALID_POINTER;
+                    break;
+                }
+
+                float x = ev.getX(pointerIndex);
+                float dx = x - mLastMotionX;
+                float xDiff = Math.abs(dx);
+                float y = ev.getY(pointerIndex);
+                float dy = y - mLastMotionY;
+                float yDiff = Math.abs(dy);
+
+                if (xDiff > mTouchSlop && xDiff > yDiff) {
+                    toggleFlip(true);
+                    mLastMotionX = x;
+                    mLastMotionY = y;
+                }
+                break;
+
+            case MotionEvent.ACTION_DOWN:
+                this.mActivePointerId = ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK;
+                mLastMotionX = ev.getX(this.mActivePointerId);
+                mLastMotionY = ev.getY(this.mActivePointerId);
+                toggleFlip(!mScroller.isFinished());
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                onSecondaryPointerUp(ev);
+                break;
+        }
+
+        if (!flipping)
+            trackVelocity(ev);
+        return !flipping;
+    }
+
+    private void checkIfChildWasClicked(MotionEvent ev, final View childView) {
+        if (childView.isClickable() && isPointInsideView(ev.getRawX(), ev.getRawY(), childView)) {
+            childView.performClick();
+        } else if (childView instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) childView;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View childChildView = viewGroup.getChildAt(i);
+                checkIfChildWasClicked(ev, childChildView);
+            }
         }
     }
 
+    /**
+     * Determines if given points are inside view.
+     *
+     * @param x    - x coordinate of point
+     * @param y    - y coordinate of point
+     * @param view - view object to compare
+     * @return true if the points are within view bounds, false otherwise
+     */
+    private boolean isPointInsideView(float x, float y, View view) {
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+        int viewX = location[0];
+        int viewY = location[1];
 
+        //point is inside view bounds
+        return (x > viewX && x < (viewX + view.getWidth())) &&
+                (y > viewY && y < (viewY + view.getHeight()));
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
@@ -436,24 +517,10 @@ public class FlipViewPager extends FrameLayout {
         mScroller.startScroll(0, (int) mFlipDistance, 0, (int) (activePage * FLIP_DISTANCE - mFlipDistance), getFlipDuration(0));
     }
 
-    private boolean flipped = false;
-
     public void flipToPage(int page) {
         int delta = page * FLIP_DISTANCE - (int) mFlipDistance;
         endFlip();
         mScroller.startScroll(0, (int) mFlipDistance, 0, delta, getFlipDuration(delta));
         invalidate();
-        Log.d("FlipDistance", "delta " + delta + " mFlipDistance " + mFlipDistance);
-        if (delta <= 0 && delta > -90) {
-            flipped = false;
-            Log.d("FlipDistance", "Flipped Cancel");
-            return;
-        }
-        if (delta >= 0 && delta < 90) {
-            flipped = false;
-            Log.d("FlipDistance", "Flipped Cancel");
-            return;
-        }
-        flipped = !flipped;
     }
 }

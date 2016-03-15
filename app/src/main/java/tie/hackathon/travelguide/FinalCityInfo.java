@@ -78,14 +78,47 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent i;
         switch (v.getId()) {
 
             case R.id.funfact:
-                Intent i = new Intent(FinalCityInfo.this, FunFacts.class);
+                i = new Intent(FinalCityInfo.this, FunFacts.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 startActivity(i);
                 break;
+
+
+            case R.id.restau:
+                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("id_", id);
+                i.putExtra("name_", tit);
+                i.putExtra("type_", "restaurant");
+                startActivity(i);
+                break;
+            case R.id.hang:
+                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("id_", id);
+                i.putExtra("name_", tit);
+                i.putExtra("type_", "hangout");
+                startActivity(i);
+                break;
+            case R.id.monu:
+                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("id_", id);
+                i.putExtra("name_", tit);
+                i.putExtra("type_", "monument");
+                startActivity(i);
+                break;
+            case R.id.shoppp:
+
+                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("id_", id);
+                i.putExtra("name_", tit);
+                i.putExtra("type_", "shopping");
+                startActivity(i);
+                break;
+
 
         }
 
