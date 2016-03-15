@@ -66,17 +66,7 @@ public class city_fragment extends Fragment {
             new getcitytask().execute();
 
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            Log.e("YouTube:", "Cannot fetch " + e.toString());
+            Toast.makeText(activity, "No internet connection", Toast.LENGTH_LONG).show();
         }
 
 
@@ -85,9 +75,9 @@ public class city_fragment extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (Activity) activity;
     }
 
     public class getcitytask extends AsyncTask<Void, Void, String> {
@@ -95,13 +85,9 @@ public class city_fragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            //this is where you should write your authentication code
-            // or call external service
-            // following try-catch just simulates network access
 
 
             try {
-                Log.e("fvdbd", "yoloooo");
                 String uri = "http://csinsit.org/prabhakar/tie/all-cities.php";
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -109,7 +95,6 @@ public class city_fragment extends Fragment {
                 Log.e("here", readStream + " ");
                 return readStream;
 
-//                return readStream;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -131,10 +116,6 @@ public class city_fragment extends Fragment {
                 JSONArray ar = ob.getJSONArray("cities");
                 pb.setVisibility(View.GONE);
                 FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
-
-
-                //        lv.setAdapter(new Cities_adapter(activity,ar));
-
                 List<Friend> friends = new ArrayList<>();
                 for (int i = 0; i < ar.length(); i++) {
 
@@ -186,6 +167,9 @@ public class city_fragment extends Fragment {
 
                             "Know More", "View on Map", "Fun Facts", "View Website"));
 
+
+
+
                 }
 
 
@@ -194,8 +178,16 @@ public class city_fragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Friend f = (Friend) lv.getAdapter().getItem(position);
-
                         Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
+
+
+                        Intent i = new Intent(activity,FinalCityInfo.class);
+                        i.putExtra("id_", f.getId());
+                        i.putExtra("name_", f.getNickname());
+                        i.putExtra("image_",f.getAvatar());
+                        startActivity(i);
+
+
                     }
                 });
 
@@ -227,6 +219,8 @@ public class city_fragment extends Fragment {
                 convertView = activity.getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
                 holder.leftAvatar = (ImageView) convertView.findViewById(R.id.first);
                 holder.rightAvatar = (ImageView) convertView.findViewById(R.id.second);
+                holder.left = (TextView) convertView.findViewById(R.id.name1);
+                holder.right = (TextView) convertView.findViewById(R.id.name2);
                 holder.infoPage = activity.getLayoutInflater().inflate(R.layout.friends_info, parent, false);
                 holder.nickName = (TextView) holder.infoPage.findViewById(R.id.nickname);
                 holder.fv1 = (FontTextView) holder.infoPage.findViewById(R.id.interest_1);
@@ -245,10 +239,11 @@ public class city_fragment extends Fragment {
             switch (position) {
                 case 1:
                     Picasso.with(getActivity()).load(friend1.getAvatar()).placeholder(R.drawable.delhi).into(holder.leftAvatar);
+                    holder.left.setText(friend1.getNickname());
 
                     if (friend2 != null) {
 
-
+                        holder.right.setText(friend2.getNickname());
                         Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.delhi).into(holder.rightAvatar);
                     }
                     break;
@@ -341,6 +336,7 @@ public class city_fragment extends Fragment {
             ImageView rightAvatar;
             View infoPage;
             TextView fv1, fv2, fv3, fv4;
+            TextView left,right;
 
             List<TextView> interests = new ArrayList<>();
             TextView nickName;

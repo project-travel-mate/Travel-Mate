@@ -28,6 +28,15 @@
         android:layout_height="wrap_content">
 
 
+        <views.FontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Most Popular Cities"
+            android:background="@color/black"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:textSize="20sp"/>
+
 
         <ListView
             android:id="@+id/music_list"

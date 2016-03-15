@@ -36,13 +36,14 @@ import Util.Utils;
 
 public class CityInfo extends AppCompatActivity {
 
-    SharedPreferences s ;
+    SharedPreferences s;
     SharedPreferences.Editor e;
     private ProgressDialog progressDialog;
-    TwoWayView lvRest,lvShop, lvTour,lvhang;
-    ProgressBar pb1,pb2,pb3,pb4;
-    TextView city_info,min,max,pre;
+    TwoWayView lvRest, lvShop, lvTour, lvhang;
+    ProgressBar pb1, pb2, pb3, pb4;
+    TextView city_info, min, max, pre;
     Intent i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ public class CityInfo extends AppCompatActivity {
         pb3 = (ProgressBar) findViewById(R.id.pb3);
         pb4 = (ProgressBar) findViewById(R.id.pb4);
         min = (TextView) findViewById(R.id.min);
-        max= (TextView) findViewById(R.id.max);
+        max = (TextView) findViewById(R.id.max);
         city_info = (TextView) findViewById(R.id.city_info);
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
@@ -87,9 +88,8 @@ public class CityInfo extends AppCompatActivity {
         }
 
 
-
         String tit = i.getStringExtra("name_");
-        if(tit==null)
+        if (tit == null)
             tit = s.getString(Constants.DESTINATION_CITY, "Delhi");
         setTitle(tit);
 
@@ -103,7 +103,7 @@ public class CityInfo extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
@@ -117,22 +117,23 @@ public class CityInfo extends AppCompatActivity {
             progressDialog = new ProgressDialog(CityInfo.this);
             progressDialog.setMessage("Fetching data, Please wait...");
             progressDialog.setIndeterminate(true);
-            progressDialog.show();     Log.e("vdslmvdspo","started");
+            progressDialog.show();
+            Log.e("vdslmvdspo", "started");
         }
 
         protected String doInBackground(String... urls) {
             try {
                 String id = i.getStringExtra("id_");
-                Log.e("cbvsbk",id+" " );
-                if(id==null){
-                 id = s.getString(Constants.DESTINATION_CITY_ID,"1");
+                Log.e("cbvsbk", id + " ");
+                if (id == null) {
+                    id = s.getString(Constants.DESTINATION_CITY_ID, "1");
                 }
-                String uri = "http://csinsit.org/prabhakar/tie/get-city-info.php?id="+id;
+                String uri = "http://csinsit.org/prabhakar/tie/get-city-info.php?id=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
 
-                Log.e("here",uri +" ");
+                Log.e("here", uri + " ");
                 return readStream;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -148,14 +149,14 @@ public class CityInfo extends AppCompatActivity {
                 city_info.setText(YTFeed.getString("description"));
 
 
-                min.setText("MIN : " +YTFeed.getJSONObject("weather").getString("min")+ " C");
-                max.setText("MAX : " +YTFeed.getJSONObject("weather").getString("max") + " C");
+                min.setText("MIN : " + YTFeed.getJSONObject("weather").getString("min") + " C");
+                max.setText("MAX : " + YTFeed.getJSONObject("weather").getString("max") + " C");
 
-                if(Double.parseDouble(YTFeed.getJSONObject("weather").getString("min"))<20){
+                if (Double.parseDouble(YTFeed.getJSONObject("weather").getString("min")) < 20) {
 
                     pre.setText("Do not forget to take extra sweaters.");
 
-                }else {
+                } else {
                     if (Double.parseDouble(YTFeed.getJSONObject("weather").getString("max")) > 35) {
 
                         pre.setText("It seems pretty hot there.");
@@ -190,17 +191,18 @@ public class CityInfo extends AppCompatActivity {
                 progressDialog.hide();
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("vsdfkvaes",e.getMessage()+" dsv");
+                Log.e("vsdfkvaes", e.getMessage() + " dsv");
             }
         }
     }
+
     public class City_info_adapter extends BaseAdapter {
 
         Context context;
         JSONArray FeedItems;
         int rd;
         LinearLayout b2;
-        private  LayoutInflater inflater = null;
+        private LayoutInflater inflater = null;
 
         public City_info_adapter(Context context, JSONArray FeedItems, int r) {
             this.context = context;
@@ -257,6 +259,9 @@ public class CityInfo extends AppCompatActivity {
             ImageView iv = (ImageView) vi.findViewById(R.id.image);
             iv.setImageResource(rd);
 
+
+
+
             onmap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -299,7 +304,6 @@ public class CityInfo extends AppCompatActivity {
         }
 
     }
-
 
 
 }

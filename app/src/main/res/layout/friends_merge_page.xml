@@ -1,36 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:weightSum="2"
     android:background="@android:color/black"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/first"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="0dp"
-        android:src="@drawable/delhi"
-        android:layout_weight="1"
-        android:contentDescription="left image"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+    android:weightSum="2">
 
     <LinearLayout
         android:layout_width="1dp"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/first"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="left image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delhi" />
+
+
+        <TextView
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_weight="0"
+            android:id="@+id/name1"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First City"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
         android:layout_weight="0"
-        android:background="#000000"
-        android:layout_height="fill_parent"/>
-    
+        android:background="#000000" />
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
     <ImageView
         android:id="@+id/second"
-        android:layout_width="0dp"
-        android:src="@drawable/delhi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:contentDescription="right image"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/delhi" />
+        <TextView
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/name2"
+            android:layout_weight="0"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Second City"/>
+        </LinearLayout>
 
 </LinearLayout>
     

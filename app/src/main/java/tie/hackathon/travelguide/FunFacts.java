@@ -70,8 +70,11 @@ public class FunFacts extends AppCompatActivity {
             // following try-catch just simulates network access
 
 
+
             try {
                 String uri = "http://csinsit.org/prabhakar/tie/city_facts.php?id=" + id;
+                Log.e("egesg","gegrgrgrwgh" + uri);
+
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

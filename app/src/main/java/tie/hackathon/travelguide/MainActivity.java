@@ -160,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new city_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
+
+           /* Intent i = new Intent(MainActivity.this, FinalCityInfo.class);
+            startActivity(i); */
+
+
         } else if (id == R.id.nav_utility) {
 
             fragment = new utilities_fragment();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,35 +13,50 @@
         tools:context="tie.hackathon.travelguide.FinalCityInfo">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/image"
             android:scaleType="centerCrop"
-            android:src="@drawable/delhi"/>
+            android:src="@drawable/delhi" />
 
 
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/head"
-            android:fontFamily="sans-serif-bold"
-            android:text="Delhi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-bold"
+            android:padding="10dp"
+            android:text="Delhi"
             android:textColor="#000000"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:padding="10dp"/>
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv"
-            android:fontFamily="sans-serif-light"
-            android:text="Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi"
+        <com.ms.square.android.expandabletextview.ExpandableTextView
+            android:id="@+id/expand_text_view"
+            android:text="@string/sample_string"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:padding="10dp"
-            android:layout_weight="1.0"/>
+            android:layout_height="wrap_content"
+            expandableTextView:animDuration="200"
+            expandableTextView:maxCollapsedLines="4">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:background="@android:color/transparent"
+                android:padding="16dp" />
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
 
 
         <LinearLayout
@@ -56,9 +72,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -98,18 +114,201 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/pre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#000000"
-                    android:padding="5dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+
             </LinearLayout>
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/funfact"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/funfact" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Fun Facts"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/restau"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/restaurant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Restaurants"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+
+                android:id="@+id/hangout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/hangout" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Hangouts"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+            <LinearLayout
+
+                android:id="@+id/monu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/monuments" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Monuments"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/shoppp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/shopping" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Shopping"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/trends"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="#000000"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/twitter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="Trends"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

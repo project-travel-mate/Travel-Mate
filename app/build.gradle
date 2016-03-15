@@ -42,5 +42,6 @@ dependencies {
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 
+    compile 'com.ms-square:expandableTextView:0.1.4'
 
 }
