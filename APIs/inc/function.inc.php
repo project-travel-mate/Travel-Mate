@@ -1,18 +1,26 @@
 <?php
 
-$app_code = "AJKnXv84fjrb0KIHawS0Tg";
-$app_id = "DemoAppId01082013GAL";
-
 $echonest_api_key = '0BOM42L07CR77AZZJ';
 
 $websites = ['http://www.saharastar.com/','http://www.mumbai.grand.hyatt.com','http://www.tridenthotels.com/mumbai_bandra_kurla/index.asp','http://international.bawahotels.com'];
 $phones = ['+912240851800','+912261427328','+912266761234','+912266727777'];
 
 
+/**
+ * function to convert the passed timestamp to a human readable format
+ * @param  integer 	$time 	timestamp
+ * @return string 		 	desired time string
+ */
 function getTimeStamp($time){
 	return date('Y-m-d h:i:s', $time);
 }
 
+
+/**
+ * function to make cURL calls
+ * @param  string 	$url 	URL at which cURL call is to be made
+ * @return string      		output string
+ */
 function curl_URL_call($url){
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -23,12 +31,27 @@ function curl_URL_call($url){
 	return $output;
 }
 
+
+/**
+ * Here Places API called and response is returned
+ * @param  array 	$params    
+ * @param  float 	$latitude  
+ * @param  float 	$longitude 
+ * @param  integer 	$limit     
+ * @return array
+ */
 function call_here_api($params, $latitude, $longitude, $limit = 0){
-	$here_api_url = 'https://places.demo.api.here.com/places/v1/discover/explore?at=' . $latitude . '%2C' . $longitude . '&cat=' . $params . '&app_id=' .$GLOBALS['app_id'] . '&app_code=' . $GLOBALS['app_code'];
+	$here_api_url = "https://places.demo.api.here.com/places/v1/discover/explore";
+
+	$here_api_url = $here_api_url
+		. '?at=' . $latitude . '%2C' . $longitude
+		. '&cat=' . $params
+		. '&app_id=' . HERE_APP_ID
+		. '&app_code=' . HERE_APP_CODE;
 	
 	if($limit != 0)
 		$here_api_url .= '&size=' . $limit;
-	
+
 	$response = json_decode(curl_URL_call($here_api_url), true);
 	return $response['results']['items'];
 }
