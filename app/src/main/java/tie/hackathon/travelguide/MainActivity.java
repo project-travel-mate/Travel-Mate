@@ -177,6 +177,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new Emergency_fragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
+        }else if (id == R.id.nav_signout) {
+
+            e.putString(Constants.USER_ID,null);
+            e.commit();
+
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+
+
+
+
+
+
         }
 
 

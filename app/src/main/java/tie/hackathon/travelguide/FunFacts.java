@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.ToxicBakery.viewpager.transforms.TabletTransformer;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,8 @@ public class FunFacts extends AppCompatActivity {
 
     String id, name;
     ViewPager vp;
+    MaterialDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,15 @@ public class FunFacts extends AppCompatActivity {
 
     public class getcityfacts extends AsyncTask<Void, Void, String> {
 
+        @Override
+        protected void onPreExecute() {
+            dialog = new MaterialDialog.Builder(FunFacts.this)
+                    .title("Travel Mate")
+                    .content("Please wait...")
+                    .progress(true, 0)
+                    .show();
+
+        }
 
         @Override
         protected String doInBackground(Void... params) {
@@ -121,6 +133,7 @@ public class FunFacts extends AppCompatActivity {
                 e1.printStackTrace();
                 Log.e("heer", e1.getMessage() + " ");
             }
+            dialog.dismiss();
         }
 
     }

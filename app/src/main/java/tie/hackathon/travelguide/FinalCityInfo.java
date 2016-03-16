@@ -1,27 +1,38 @@
 package tie.hackathon.travelguide;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import Util.Constants;
+import Util.Utils;
 
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
 
     Intent i;
-    String id, tit, image;
-    ImageView iv;
+    String id, tit, image,description,icon;
+    ImageView iv,ico;
     TextView title;
     ExpandableTextView des;
-
+    TextView temp,humidity,weatherinfo;
+    MaterialDialog dialog;
     LinearLayout funfact, restau, hangout, monum, shopp, trend;
 
     @Override
@@ -34,6 +45,10 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         des.setText(getString(R.string.sample_string));
         iv = (ImageView) findViewById(R.id.image);
         title = (TextView) findViewById(R.id.head);
+        ico = (ImageView) findViewById(R.id.icon);
+        temp = (TextView) findViewById(R.id.temp);
+        humidity = (TextView) findViewById(R.id.humidit);
+        weatherinfo = (TextView) findViewById(R.id.weatherinfo);
 
         i = getIntent();
         tit = i.getStringExtra("name_");
@@ -58,6 +73,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         shopp.setOnClickListener(this);
         trend.setOnClickListener(this);
 
+        new cityinfo().execute();
 
         Picasso.with(this).load(image).into(iv);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -123,4 +139,70 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+
+    public class cityinfo extends AsyncTask<Void, Void, String> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new MaterialDialog.Builder(FinalCityInfo.this)
+                    .title("Travel Mate")
+                    .content("Please wait...")
+                    .progress(true, 0)
+                    .show();
+        }
+
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                Log.e("started", "strted");
+                String uri = "http://csinsit.org/prabhakar/tie/city/info.php?id=" + id;
+                URL url = new URL(uri);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                String readStream = Utils.readStream(con.getInputStream());
+                Log.e("here", url + readStream + " ");
+                return readStream;
+            } catch (Exception e) {
+                Log.e("here", e.getMessage() + " ");
+                e.printStackTrace();
+                return null;
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result == null)
+                return;
+
+            try {
+                //Tranform the string into a json object
+                JSONObject ob = new JSONObject(result);
+
+                description = ob.getString("description");
+                des.setText(description);
+
+                Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
+                temp.setText(ob.getJSONObject("weather").getString("temprature")+" C ");
+                humidity.setText(ob.getJSONObject("weather").getString("humidity"));
+                weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
+
+
+
+
+
+            } catch (JSONException e) {
+                Log.e("here11", e.getMessage() + " ");
+
+            }
+            dialog.dismiss();
+        }
+
+    }
+
 }

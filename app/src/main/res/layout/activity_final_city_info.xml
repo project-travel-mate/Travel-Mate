@@ -81,6 +81,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
+                        android:id="@+id/icon"
                         android:src="@drawable/ic_cloud_black_48dp" />
 
 
@@ -92,7 +93,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/max"
+                            android:id="@+id/temp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
@@ -102,7 +103,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/min"
+                            android:id="@+id/humidit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
@@ -110,6 +111,18 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp"
                             android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/weatherinfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="min"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
 
                     </LinearLayout>
                 </LinearLayout>
