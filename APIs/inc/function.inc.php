@@ -52,7 +52,7 @@ function decryptText($text){
 }
 
 /**
- * function to get city weather
+ * function to get city weather details
  * from city name using openweathermap API
  * @param  string	$city_name
  * @return array
@@ -62,8 +62,10 @@ function getCityWeather($city_name){
 	$api_response = json_decode(curl_URL_call($url), true);
 
 	$return_array = array(
-		'min'	=> (float)$api_response['temp_min'],
-		'max'	=> (float)$api_response['temp_max'],
+		'icon'			=> "http://openweathermap.org/img/w/" . trim($api_response['weather'][0]['icon']),
+		'humidity'		=> (float)$api_response['main']['humidity'],
+		'temprature'	=> (float)$api_response['main']['temp'] - 273.15,
+		'description'	=> trim($api_response['weather'][0]['description']),
 	);
 
 	return $return_array;

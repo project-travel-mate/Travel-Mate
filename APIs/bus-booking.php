@@ -3,13 +3,20 @@
 	require 'inc/connection.inc.php';
 	require 'inc/function.inc.php';
 	
-	$redbus_url = "https://www.redbus.in/Booking/SearchResultsJSON.aspx";
+	$redbus_url = "https://mobapi.redbus.in/wdsvc/v1_1/bussearch";
+	// ?fromCityId=1443&toCityId=733&doj=25-Mar-2016
 	$final_response = array();
 	
 	if(isset($_GET['src']) && isset($_GET['dest']) && isset($_GET['date'])){
+		// source city name string
 		$source_city_name = trim($_GET['src']);
+
+		// destination city name string
 		$destination_city_name = trim($_GET['dest']);
-		$date_string = trim($_GET['date']);
+
+		// timestamp to be searched in seconds
+		$timestamp_to_be_searched = (int)$_GET['date'];
+		$date_string = date("j-M-Y", $timestamp_to_be_searched);
 		
 		$cities_json = json_decode(file_get_contents('res/redbus-cities.json'), true);
 		
@@ -38,7 +45,7 @@
 		$temp_array = array(
 			'name'		=> 'Suryansh Bus travels and NON-AC',
 			'type'		=> 'Non A/C Seater/Sleeper (2+1)',
-			'is_AC'		=> (bool)true,
+			'is_AC'		=> (bool)0,
 			'owner'		=> 'suryansh Travels',
 			'contact'	=> '+91 - 8860870822',
 			'dep_add'	=> 'Rajesh mandi, Pranav road',
