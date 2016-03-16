@@ -62,7 +62,7 @@ function getCityWeather($city_name){
 	$api_response = json_decode(curl_URL_call($url), true);
 
 	$return_array = array(
-		'icon'			=> "http://openweathermap.org/img/w/" . trim($api_response['weather'][0]['icon']),
+		'icon'			=> "http://openweathermap.org/img/w/" . trim($api_response['weather'][0]['icon']) . ".png",
 		'humidity'		=> (float)$api_response['main']['humidity'],
 		'temprature'	=> (float)$api_response['main']['temp'] - 273.15,
 		'description'	=> trim($api_response['weather'][0]['description']),
