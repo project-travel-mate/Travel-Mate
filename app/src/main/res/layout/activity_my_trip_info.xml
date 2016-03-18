@@ -15,7 +15,7 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/delhi" />
 
@@ -52,16 +52,18 @@
         android:textColor="#ffffff" />
 
 
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-bold"
         android:padding="10dp"
         android:text="Friends in this trip "
         android:textColor="#000000"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
+
 
     <objects.NestedListView
         android:id="@+id/friendlist"

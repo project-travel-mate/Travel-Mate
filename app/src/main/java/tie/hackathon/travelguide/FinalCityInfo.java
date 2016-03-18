@@ -189,7 +189,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
                 Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
                 temp.setText(ob.getJSONObject("weather").getString("temprature")+" C ");
-                humidity.setText(ob.getJSONObject("weather").getString("humidity"));
+                humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
                 weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
 
 

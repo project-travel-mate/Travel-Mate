@@ -1,6 +1,12 @@
 package tie.hackathon.travelguide;
 
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ContentResolver;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -22,14 +28,17 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
+import com.gun0912.tedpicker.ImagePickerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,8 +59,10 @@ public class MyTripInfo extends AppCompatActivity {
     List<String> fname;
     NestedListView lv;
     AutoCompleteTextView frendname;
-    String mCurrentPhotoPath;
-    static final int REQUEST_TAKE_PHOTO = 1;
+    List<String> imagesuri;
+
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+
 
     String nameyet;
 
@@ -68,13 +79,17 @@ public class MyTripInfo extends AppCompatActivity {
         lv = (NestedListView) findViewById(R.id.friendlist);
         add = (FlatButton) findViewById(R.id.newfrriend);
         frendname = (AutoCompleteTextView) findViewById(R.id.fname);
+        imagesuri = new ArrayList<>();
         fname = new ArrayList<>();
 
 
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
+                Intent intent = new Intent(MyTripInfo.this, ImagePickerActivity.class);
+                startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
+
 
 
             }
@@ -194,6 +209,22 @@ public class MyTripInfo extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
+
+            ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+            for (int i = 0; i < image_uris.size(); i++) {
+                imagesuri.add(image_uris.get(i).getPath());
+            }
+            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+
 
 
     @Override
