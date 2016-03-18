@@ -93,3 +93,20 @@ function getCityWeather($city_name){
 
 	return $return_array;
 }
+
+
+function change_cityName($string){
+	return ucwords(strtolower(trim($string)));
+}
+
+
+function increase_trip_count($connection, $city_id){
+	$query = "UPDATE `cities` SET `number_of_trips`=`number_of_trips`+1 WHERE `id`='$city_id'";
+	return (bool)mysqli_query($connection, $query);
+}
+
+
+function getCityName($connection, $city_id){
+	$query = "SELECT `city_name` FROM `cities` WHERE `id`='$city_id' LIMIT 1";
+	return mysqli_fetch_assoc(mysqli_query($connection, $query));
+}

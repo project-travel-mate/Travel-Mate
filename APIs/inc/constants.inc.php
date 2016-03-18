@@ -3,7 +3,7 @@
  * @Author: prabhakar
  * @Date:   2016-03-14 21:07:46
  * @Last Modified by:   Prabhakar Gupta
- * @Last Modified time: 2016-03-17 03:07:48
+ * @Last Modified time: 2016-03-18 23:42:53
  */
 
 // open weather map API key used to get the 
@@ -28,3 +28,11 @@ $HERE_API_MODES = array(
 	'atm-bank-exchange',				// 6
 	'hospital-health-care-facility',	// 7
 );
+
+
+define("YAHOO_WOEID_KEY", "dj0yJmk9allSUXVBYnhaWDBlJmQ9WVdrOU5rVlJkV1ZuTkdjbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1kMg--");
+
+define("TWITTER_CONSUMER_KEY", "TaVod5RIebbk6h9hPap2lFHmV");
+define("TWITTER_CONSUMER_SECRET", "ACvGIZ70B6sVf7aETkVIyuaL0Mp3OKGJfRn11lhRZs8U2F4YJp");
+define("TWITTER_OAUTH_TOKEN", "1954715881-GU33bpEp6LIYOKlapTibxmNQSORgVh8Rq9Xn0ig");
+define("TWITTER_OAUTH_TOKEN_SECRET", "JvhwnYqBcJ2RC8T11ev8y2LTX1UwPQsbSKKprdHRcX1f3");

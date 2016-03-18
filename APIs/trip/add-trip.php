@@ -3,10 +3,11 @@
  * @Author: prabhakar
  * @Date:   2016-03-16 23:16:11
  * @Last Modified by:   Prabhakar Gupta
- * @Last Modified time: 2016-03-17 00:39:30
+ * @Last Modified time: 2016-03-18 22:20:17
  */
 
 require_once '../inc/connection.inc.php';
+require_once '../inc/function.inc.php';
 
 $response = array();
 
@@ -28,6 +29,7 @@ if(mysqli_query($connection, $query)){
 	$query_ins = "INSERT INTO `trip_users` (`trip_id`,`user_id`) VALUES ('$trip_id', '$user_id')";
 	if(mysqli_query($connection, $query_ins)){
 		$success = 1;
+		increase_trip_count($connection, $trip_city);
 	} else {
 		$success = 0;
 	}

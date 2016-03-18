@@ -3,7 +3,7 @@
 	require 'inc/connection.inc.php';
 	$response_array = array();
 	
-	$query = "SELECT `id`,`city_name`,`lat`,`lng`,`image` FROM `cities` WHERE 1 ORDER BY `city_name` ASC";
+	$query = "SELECT `id`,`city_name`,`lat`,`lng`,`image` FROM `cities` ORDER BY `number_of_trips` DESC LIMIT 6";
 	$query_run = mysqli_query($connection, $query);
 	
 	while($query_row = mysqli_fetch_assoc($query_run)){

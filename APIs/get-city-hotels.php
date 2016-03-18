@@ -1,7 +1,8 @@
 <?php
 
-	require 'inc/connection.inc.php';
-	require 'inc/function.inc.php';
+	require_once 'inc/connection.inc.php';
+	require_once 'inc/function.inc.php';
+	require_once 'inc/constants.inc.php';
 	
 	if(isset($_GET['id'])){
 		
@@ -11,12 +12,16 @@
 		$query_run = mysqli_query($connection, $query);
 		
 		while($query_row = mysqli_fetch_assoc($query_run)){
-			$latitude = (float)$query_row['lat'];
-			$longitude = (float)$query_row['lng'];
+			$latitude 	= (float)$query_row['lat'];
+			$longitude 	= (float)$query_row['lng'];
 		}
 		
 		$response['hotels'] = array();
 		$here_response = call_here_api('accommodation', $latitude, $longitude);
+		
+		//echo $here_response;
+		//die;
+		
 		foreach($here_response as $item){
 			$temp_array = array(
 				'name'		=> strip_tags($item['title']),
