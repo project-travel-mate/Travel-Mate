@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -16,8 +17,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,10 +32,12 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.gun0912.tedpicker.ImagePickerActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.lucasr.twowayview.TwoWayView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,12 +59,15 @@ public class MyTripInfo extends AppCompatActivity {
     Intent i;
     MaterialDialog dialog;
     ImageView iv;
+    String img;
     TextView tite, date;
     FlatButton click, add;
+    TwoWayView twoway;
     List<String> fname;
-    NestedListView lv;
+    TwoWayView lv;
     AutoCompleteTextView frendname;
-    List<String> imagesuri;
+    List<File> imagesuri,mediaimages;
+    String mainfolder = "/storage/emulated/0/Pictures/";
 
     private static final int INTENT_REQUEST_GET_IMAGES = 13;
 
@@ -72,16 +80,31 @@ public class MyTripInfo extends AppCompatActivity {
         setContentView(R.layout.activity_my_trip_info);
         i = getIntent();
         id = i.getStringExtra("_id");
+        img = i.getStringExtra("_image");
+        mediaimages = new ArrayList<>();
+        twoway = (TwoWayView) findViewById(R.id.lv);
         iv = (ImageView) findViewById(R.id.image);
         tite = (TextView) findViewById(R.id.head);
         date = (TextView) findViewById(R.id.time);
         click = (FlatButton) findViewById(R.id.click);
-        lv = (NestedListView) findViewById(R.id.friendlist);
+        lv = (TwoWayView) findViewById(R.id.friendlist);
         add = (FlatButton) findViewById(R.id.newfrriend);
         frendname = (AutoCompleteTextView) findViewById(R.id.fname);
         imagesuri = new ArrayList<>();
         fname = new ArrayList<>();
+        Picasso.with(this).load(img).into(iv);
 
+
+        File sdDir = new File(mainfolder);
+        File[] sdDirFiles = sdDir.listFiles();
+        for(File singleFile : sdDirFiles)
+        {
+            if(!singleFile.isDirectory())
+            mediaimages.add(singleFile);
+        }
+
+        Imagesadapter ad = new Imagesadapter(this,mediaimages);
+        twoway.setAdapter(ad);
 
         click.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +157,62 @@ public class MyTripInfo extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+    public class Imagesadapter extends ArrayAdapter<File> {
+        private final Activity context;
+        private final List<File> name;
+
+
+        public Imagesadapter(Activity context, List<File> name) {
+            super(context, R.layout.trip_listitem, name);
+            this.context = context;
+            this.name = name;
+
+
+        }
+
+        private class ViewHolder {
+
+            ImageView iv;
+
+
+        }
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            ViewHolder holder;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            if (view == null) {
+                view = mInflater.inflate(R.layout.image_listitem, null);
+                holder = new ViewHolder();
+                holder.iv = (ImageView) view.findViewById(R.id.iv);
+
+                view.setTag(holder);
+            } else
+                holder = (ViewHolder) view.getTag();
+
+
+            holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
+
+
+
+
+            return view;
+        }
+
+
+    }
+
+
 
     class mytrip extends AsyncTask<String, Void, String> {
         String text;
@@ -194,8 +273,7 @@ public class MyTripInfo extends AppCompatActivity {
                     Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
                 }
 
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                        (getApplicationContext(), R.layout.spinner_layout, fname);
+                Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this,fname);
                 lv.setAdapter(dataAdapter);
 
 
@@ -217,13 +295,58 @@ public class MyTripInfo extends AppCompatActivity {
 
             ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
             for (int i = 0; i < image_uris.size(); i++) {
-                imagesuri.add(image_uris.get(i).getPath());
+                //imagesuri.add(image_uris.get(i).getPath());
+                Log.e("cdscsd",image_uris.get(i).getPath());
             }
             Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
 
         }
     }
 
+    public class Friendnameadapter extends ArrayAdapter<String> {
+        private final Activity context;
+        private final List<String> name;
+
+
+        public Friendnameadapter(Activity context, List<String> name) {
+            super(context, R.layout.friend_listitem, name);
+            this.context = context;
+            this.name = name;
+
+
+        }
+
+        private class ViewHolder {
+
+            TextView iv;
+
+
+        }
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            ViewHolder holder;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            if (view == null) {
+                view = mInflater.inflate(R.layout.friend_listitem, null);
+                holder = new ViewHolder();
+                holder.iv = (TextView) view.findViewById(R.id.name);
+
+                view.setTag(holder);
+            } else
+                holder = (ViewHolder) view.getTag();
+
+
+            holder.iv.setText(name.get(position));
+
+
+
+
+            return view;
+        }
+
+
+    }
 
 
 

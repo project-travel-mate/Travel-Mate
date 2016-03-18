@@ -42,6 +42,13 @@
         android:textColor="#000000"
         android:textSize="15sp" />
 
+    <org.lucasr.twowayview.TwoWayView
+        android:id="@+id/lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="false"
+        android:orientation="horizontal" />
+
     <com.dd.processbutton.FlatButton
         android:id="@+id/click"
         android:layout_width="match_parent"
@@ -65,7 +72,7 @@
         android:textStyle="bold" />
 
 
-    <objects.NestedListView
+    <org.lucasr.twowayview.TwoWayView
         android:id="@+id/friendlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

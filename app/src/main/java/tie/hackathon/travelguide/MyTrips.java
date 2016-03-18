@@ -238,6 +238,7 @@ public class MyTrips extends AppCompatActivity {
                         public void onClick(View v) {
                             Intent i = new Intent(MyTrips.this, MyTripInfo.class);
                             i.putExtra("_id", id.get(position));
+                            i.putExtra("_image", image.get(position));
                             startActivity(i);
 
                         }

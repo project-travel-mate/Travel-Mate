@@ -87,9 +87,8 @@ public class PlacesOnMap extends AppCompatActivity {
         }
 
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        deslat = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        deslat = i.getStringExtra("lat_");
+        deslon = i.getStringExtra("lng_");
 
 
         new getplaces().execute();
@@ -111,7 +110,7 @@ public class PlacesOnMap extends AppCompatActivity {
                 curlon = "77.1656782";
             }
             LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 12);
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
             map.animateCamera(yourLocation);
 
         }
@@ -143,7 +142,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
         if (map != null) {
             map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 12));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 14));
 
             MarkerOptions abc = new MarkerOptions();
             MarkerOptions x = abc

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new travel_fragment();
+        fragment = new city_fragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
 
