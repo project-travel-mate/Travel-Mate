@@ -284,10 +284,11 @@ public class city_fragment extends Fragment {
             holder.fv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity, CityInfo.class);
+                    Intent i = new Intent(activity,FinalCityInfo.class);
                     i.putExtra("id_", friend.getId());
                     i.putExtra("name_", friend.getNickname());
-                    activity.startActivity(i);
+                    i.putExtra("image_",friend.getAvatar());
+                    startActivity(i);
 
                 }
             });

@@ -178,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                     String name = o.getString("name");
                     e.putString(Constants.USER_ID, id);
                     e.putString(Constants.USER_NAME, name);
+                    e.putString(Constants.USER_NUMBER,num);
                     e.commit();
 
                     Log.e("vrsb", "id id" + id + name);
@@ -259,6 +260,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 e.putString(Constants.USER_ID, id);
                 e.putString(Constants.USER_NAME, name);
+                e.putString(Constants.USER_NUMBER,num);
                 e.commit();
 
                 Log.e("vrsb", "id id" + id + name);

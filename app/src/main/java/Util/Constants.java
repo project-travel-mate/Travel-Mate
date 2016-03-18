@@ -8,6 +8,7 @@ public class Constants {
     public static String FIRST_TIME = "is_first";
     public static String USER_NAME = "user_name";
     public static String USER_EMAIL = "user_email";
+    public static String USER_NUMBER = "user_number";
     public static String USER_ID = "user_id";
 
 
