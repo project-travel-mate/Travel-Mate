@@ -2,8 +2,8 @@
 /**
  * @Author: prabhakar
  * @Date:   2016-03-16 17:39:42
- * @Last Modified by:   Prabhakar Gupta
- * @Last Modified time: 2016-03-18 19:37:44
+ * @Last Modified by:   prabhakar
+ * @Last Modified time: 2016-03-19 02:43:03
  */
 
 require_once '../inc/connection.inc.php';
@@ -13,7 +13,7 @@ $user_id = (int)$_GET['user'];
 $response = array();
 
 if($user_id > 0){
-	$query = "SELECT TU.trip_id, T.title, T.start_time, T.end_time, C.city_name, C.image FROM `trips` T INNER JOIN `trip_users` TU ON T.trip_id = TU.trip_id INNER JOIN `cities` C ON T.city_id = C.id WHERE TU.user_id='$user_id'";
+	$query = "SELECT TU.trip_id, T.title, T.start_time, T.end_time, C.city_name, C.image FROM `trips` T INNER JOIN `trip_users` TU ON T.trip_id = TU.trip_id INNER JOIN `cities` C ON T.city_id = C.id WHERE TU.user_id='$user_id' ORDER BY T.start_time DESC";
 	$query_run = mysqli_query($connection, $query);
 
 	while($query_row = mysqli_fetch_assoc($query_run)){

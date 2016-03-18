@@ -6,6 +6,9 @@
 	$city_id = (int)$_GET['id'];
 	
 	if($city_id > 0){
+		if($city_id > 9)
+			$city_id = 1;
+
 		$images = array();
 		$query = "SELECT `image_url` FROM `city_images` WHERE `city_id`='$city_id' ORDER BY `image_url` ASC";
 		$query_run = mysqli_query($connection, $query);

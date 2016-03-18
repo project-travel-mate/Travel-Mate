@@ -87,7 +87,7 @@ function getCityWeather($city_name){
 	$return_array = array(
 		'icon'			=> "http://openweathermap.org/img/w/" . trim($api_response['weather'][0]['icon']) . ".png",
 		'humidity'		=> (float)$api_response['main']['humidity'],
-		'temprature'	=> (float)$api_response['main']['temp'] - 273.15,
+		'temprature'	=> ((float)$api_response['main']['temp'] - 273.15) . ' &#176;',
 		'description'	=> trim($api_response['weather'][0]['description']),
 	);
 
