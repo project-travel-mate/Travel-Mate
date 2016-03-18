@@ -10,41 +10,21 @@
         android:layout_height="wrap_content"
         android:background="#ffffffff"
         android:orientation="vertical"
-
         android:padding="10dp">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@drawable/delhi"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
 
 
         <TextView
-            android:id="@+id/tv"
+            android:id="@+id/tagmain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center"
             android:text="Delhi"
             android:textColor="#000000"
             android:textSize="25sp" />
 
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="10 Mar - 11 Mar "
-            android:textColor="#000000"
-            android:textSize="15sp" />
 
 
     </LinearLayout>

@@ -3,12 +3,15 @@ package tie.hackathon.travelguide;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,6 +44,11 @@ public class PlacesOnMap extends AppCompatActivity {
     String id, name;
     Intent i;
     private ProgressDialog progressDialog;
+    String  deslon, deslat;
+    SharedPreferences s;
+    int mode,icon;
+
+
     String curlat, curlon,type;
 
 
@@ -60,6 +68,29 @@ public class PlacesOnMap extends AppCompatActivity {
         id = i.getStringExtra("id_");
         type = i.getStringExtra("type_");
 
+
+        switch (type){
+
+            case "restaurant" : mode = 0;
+                icon = R.drawable.restaurant;
+
+                break;
+            case "hangout" : mode = 1;
+                icon = R.drawable.hangout;
+                break;
+            case "monument" : mode = 2 ;
+                icon = R.drawable.monuments;
+                break;
+            default : mode = 4;
+                icon = R.drawable.shopping;
+                break;
+        }
+
+
+        deslat = i.getStringExtra("lat_");
+        deslon = i.getStringExtra("lng_");
+
+
         new getplaces().execute();
 
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
@@ -78,16 +109,31 @@ public class PlacesOnMap extends AppCompatActivity {
                 curlat = "28.5952242";
                 curlon = "77.1656782";
             }
+            LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            map.animateCamera(yourLocation);
 
         }
 
 
-        LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
-        map.animateCamera(yourLocation);
 
 
 
+        setTitle("Places");
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -96,7 +142,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
         if (map != null) {
             map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 14));
 
             MarkerOptions abc = new MarkerOptions();
             MarkerOptions x = abc
@@ -125,7 +171,12 @@ public class PlacesOnMap extends AppCompatActivity {
             try {
                 Log.e("cbvsbk", id + " ");
 
-                String uri = "http://csinsit.org/prabhakar/tie/get-city-info.php?id=" + id;
+                String uri = "http://csinsit.org/prabhakar/tie/places-api.php?lat=" +
+                        deslat +
+                        "&lng=" +
+                        deslon +
+                        "&mode=" +
+                        mode;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
@@ -146,9 +197,14 @@ public class PlacesOnMap extends AppCompatActivity {
 
 
 
-                JSONArray YTFeedItems = YTFeed.getJSONArray("food");
+                JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                 Log.e("response", YTFeedItems + " ");
-                lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, R.drawable.restaurant));
+
+
+
+
+
+                lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
 
             } catch (Exception e) {
                 e.printStackTrace();

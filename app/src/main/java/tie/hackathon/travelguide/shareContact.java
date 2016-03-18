@@ -1,9 +1,14 @@
 package tie.hackathon.travelguide;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -16,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Util.Constants;
 import Util.Services;
 
 public class shareContact extends AppCompatActivity {
@@ -23,6 +29,8 @@ public class shareContact extends AppCompatActivity {
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
     private boolean image = false;
     Button create, scan;
+    SharedPreferences s;
+    SharedPreferences.Editor e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,8 @@ public class shareContact extends AppCompatActivity {
 
         create = (Button) findViewById(R.id.create);
         scan = (Button) findViewById(R.id.scan);
+        s = PreferenceManager.getDefaultSharedPreferences(this);
+        e = s.edit();
 
 
         create.setOnClickListener(new View.OnClickListener() {
@@ -39,11 +49,16 @@ public class shareContact extends AppCompatActivity {
                 //Create a new Intent to send to QR Droid
                 Intent qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
                 TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                String mPhoneNumber = tMgr.getLine1Number();
+
+
+                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "9971604989");
+                String name = s.getString(Constants.USER_NAME, "Swati Garg");
                 //Set text to encode
-                if(mPhoneNumber == null)
-                    mPhoneNumber="9971604989";
-                qrDroid.putExtra(Services.CODE, "Hey, My contact number is :" + mPhoneNumber);
+                if (mPhoneNumber == null)
+                    mPhoneNumber = "9971604989";
+
+
+                qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
                 Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
 
@@ -100,8 +115,15 @@ public class shareContact extends AppCompatActivity {
             //Read result from QR Droid (it's stored in la.droid.qr.result)
             String result = data.getExtras().getString(Services.RESULT);
             //Just set result to EditText to be able to view it
+
+            String x[] = result.split("---");
+            String r = "My name is " + x[1] + ". My phone number : " + x[0];
+
+            addContact(x[1], x[0]);
+
+
             TextView resultTxt = (TextView) findViewById(R.id.result);
-            resultTxt.setText(result);
+            resultTxt.setText(r);
             resultTxt.setVisibility(View.VISIBLE);
         }
         if (ACTIVITY_CREATE == requestCode && null != data && data.getExtras() != null) {
@@ -131,9 +153,24 @@ public class shareContact extends AppCompatActivity {
     }
 
 
+    private void addContact(String name, String phone) {
+        ContentValues values = new ContentValues();
+        values.put(Contacts.People.NUMBER, phone);
+        values.put(Contacts.People.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM);
+        values.put(Contacts.People.LABEL, name);
+        values.put(Contacts.People.NAME, name);
+        Uri dataUri = getContentResolver().insert(Contacts.People.CONTENT_URI, values);
+        Uri updateUri = Uri.withAppendedPath(dataUri, Contacts.People.Phones.CONTENT_DIRECTORY);
+        values.clear();
+        values.put(Contacts.People.Phones.TYPE, Contacts.People.TYPE_MOBILE);
+        values.put(Contacts.People.NUMBER, phone);
+        updateUri = getContentResolver().insert(updateUri, values);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
     }

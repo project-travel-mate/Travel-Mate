@@ -1,6 +1,7 @@
 package tie.hackathon.travelguide;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ public class utilities_fragment extends Fragment implements View.OnClickListener
 
 
     static Activity activity;
-    FlatButton sharecontact,checklist,clock,currency;
+    LinearLayout sharecontact,checklist;
 
     public utilities_fragment() {
         // Required empty public constructor
@@ -30,16 +31,12 @@ public class utilities_fragment extends Fragment implements View.OnClickListener
 
 
         View v = inflater.inflate(R.layout.fragment_utility, container, false);
-        sharecontact = (FlatButton) v.findViewById(R.id.sharecontact);
-        checklist = (FlatButton) v.findViewById(R.id.checklist);
-        clock = (FlatButton) v.findViewById(R.id.cworldclock);
-        currency = (FlatButton) v.findViewById(R.id.currency);
+        sharecontact = (LinearLayout) v.findViewById(R.id.sharecontact);
+        checklist = (LinearLayout) v.findViewById(R.id.checklist);
 
 
         sharecontact.setOnClickListener(this);
         checklist.setOnClickListener(this);
-        clock.setOnClickListener(this);
-        currency.setOnClickListener(this);
 
 
 
@@ -48,9 +45,9 @@ public class utilities_fragment extends Fragment implements View.OnClickListener
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (Activity)activity;
     }
 
 
@@ -70,13 +67,6 @@ public class utilities_fragment extends Fragment implements View.OnClickListener
                 i =new Intent(activity, CheckList.class);
                 startActivity(i);
                 break;
-
-            case R.id.cworldclock :
-                 break;
-
-            case R.id.currency :
-                  break;
-
 
 
 

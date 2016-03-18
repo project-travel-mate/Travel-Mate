@@ -3,14 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_travel"
-            android:icon="@drawable/ic_directions_car_black_24dp"
-            android:title="Travel" />
-        <item
             android:id="@+id/nav_city"
             android:icon="@drawable/ic_location_city_black_24dp"
             android:title="Destinations" />
         <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:title="Travel" />
+         <item
             android:id="@+id/nav_enter"
             android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="Entertainment" />
@@ -36,7 +36,7 @@
 
             <item
                 android:id="@+id/nav_signout"
-                android:icon="@drawable/ic_announcement_black_24dp"
+                android:icon="@drawable/ic_group_black_24dp"
                 android:title="Sign Out" />
 
         </menu>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="tie.hackathon.travelguide.FinalCityInfo">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="tie.hackathon.travelguide.FinalCityInfo">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/delhi" />
+
+
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-bold"
+        android:padding="10dp"
+        android:text="Delhi"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-bold"
+        android:padding="5dp"
+        android:text="10 Mar"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <org.lucasr.twowayview.TwoWayView
+        android:id="@+id/lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="false"
+        android:orientation="horizontal" />
+
+    <com.dd.processbutton.FlatButton
+        android:id="@+id/click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@color/colorPrimary"
+        android:text="Add Photos"
+        android:textColor="#ffffff" />
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-bold"
+        android:padding="10dp"
+        android:text="Friends in this trip "
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
+    <org.lucasr.twowayview.TwoWayView
+        android:id="@+id/friendlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true" />
+
+    <AutoCompleteTextView
+        android:id="@+id/fname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#000000"
+        android:ems="10"
+        android:hint="Enter friend Name"
+        android:padding="10dp"
+        android:popupBackground="#ffffff"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#000000" />
+
+
+    <com.dd.processbutton.FlatButton
+        android:id="@+id/newfrriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimary"
+        android:text="Add New friend"
+        android:textColor="#ffffff" />
+
+
+</LinearLayout>
+    </ScrollView>

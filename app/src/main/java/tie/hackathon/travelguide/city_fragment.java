@@ -5,16 +5,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,9 +51,14 @@ import flipviewpager.utils.FlipSettings;
 public class city_fragment extends Fragment {
 
 
+    AutoCompleteTextView cityname;
+    String nameyet;
     List<String> id = new ArrayList<>();
+    List<String> list2 = new ArrayList<>();
     static Activity activity;
     ProgressBar pb;
+    String cityid;
+    Typeface tex;
 
     public city_fragment() {
     }
@@ -59,8 +70,40 @@ public class city_fragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_citylist, container, false);
 
+
+        InputMethodManager imm = (InputMethodManager)
+                activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+
+
+
+        cityname = (AutoCompleteTextView) v.findViewById(R.id.cityname);
         lv = (ListView) v.findViewById(R.id.music_list);
         pb = (ProgressBar) v.findViewById(R.id.pb);
+        tex = Typeface.createFromAsset(activity.getAssets(), "fonts/texgyreadventor-bold.otf");
+        cityname.setThreshold(1);
+        cityname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                nameyet = cityname.getText().toString();
+                if (!nameyet.contains(" ")) {
+                    Log.e("name",nameyet+" ");
+                    new tripautocomplete().execute();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         try {
             new getcitytask().execute();
@@ -72,6 +115,89 @@ public class city_fragment extends Fragment {
 
         return v;
     }
+
+
+
+
+
+    //collegename autocomplete
+    class tripautocomplete extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+
+            String readStream = null;
+            try {
+                String uri = "http://csinsit.org/prabhakar/tie/city/autocomplete.php?search=" + nameyet.trim();
+                Log.e("executing",uri+" ");
+                URL url = new URL(uri);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                readStream = Utils.readStream(con.getInputStream());
+                Log.e("executing",readStream);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return readStream;
+
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e("YO", "Done");
+            JSONArray arr;
+            final ArrayList list, list1;
+            try {
+                arr = new JSONArray(result);
+                Log.e("erro",result+" ");
+
+                list = new ArrayList<String>();
+                list1 = new ArrayList<String>();
+                list2 = new ArrayList<String>();
+                for (int i = 0; i < arr.length(); i++) {
+                    try {
+                        list.add(arr.getJSONObject(i).getString("name"));
+                        list1.add(arr.getJSONObject(i).getString("id"));
+                        list2.add(arr.getJSONObject(i).optString("image","http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
+                        Log.e("adding","aff");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("error ", " " + e.getMessage());
+                    }
+                }
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                        (activity.getApplicationContext(), R.layout.spinner_layout, list);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                cityname.setThreshold(1);
+                cityname.setAdapter(dataAdapter);
+                cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        // TODO Auto-generated method stub
+                        Log.e("jkjb", "uihgiug" + arg2);
+
+                        cityid = list1.get(arg2).toString();
+                        Intent i = new Intent(activity,FinalCityInfo.class);
+                        i.putExtra("id_", cityid);
+                        i.putExtra("name_", list.get(arg2).toString());
+                        i.putExtra("image_",list2.get(arg2).toString());
+                        startActivity(i);
+
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("erro",e.getMessage()+" ");
+            }
+
+        }
+    }
+
+
 
 
     @Override
@@ -239,11 +365,14 @@ public class city_fragment extends Fragment {
             switch (position) {
                 case 1:
                     Picasso.with(getActivity()).load(friend1.getAvatar()).placeholder(R.drawable.delhi).into(holder.leftAvatar);
+                    holder.left.setTypeface(tex);
                     holder.left.setText(friend1.getNickname());
+
 
                     if (friend2 != null) {
 
                         holder.right.setText(friend2.getNickname());
+                        holder.right.setTypeface(tex);
                         Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.delhi).into(holder.rightAvatar);
                     }
                     break;
@@ -284,10 +413,11 @@ public class city_fragment extends Fragment {
             holder.fv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity, CityInfo.class);
+                    Intent i = new Intent(activity,FinalCityInfo.class);
                     i.putExtra("id_", friend.getId());
                     i.putExtra("name_", friend.getNickname());
-                    activity.startActivity(i);
+                    i.putExtra("image_",friend.getAvatar());
+                    startActivity(i);
 
                 }
             });

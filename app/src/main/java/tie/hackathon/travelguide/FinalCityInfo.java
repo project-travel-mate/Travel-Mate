@@ -1,6 +1,7 @@
 package tie.hackathon.travelguide;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,10 +28,14 @@ import Util.Utils;
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
 
     Intent i;
-    String id, tit, image,description,icon;
+    String id, tit, image,description;
     ImageView iv,ico;
     TextView title;
+    String lat,lon;
     ExpandableTextView des;
+    Typeface code,tex,codeb;
+
+    TextView fftext;
     TextView temp,humidity,weatherinfo;
     MaterialDialog dialog;
     LinearLayout funfact, restau, hangout, monum, shopp, trend;
@@ -41,7 +46,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_final_city_info);
 
 
+        code = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
+        codeb = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
+        tex = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
         des = (ExpandableTextView) findViewById(R.id.expand_text_view);
+
         des.setText(getString(R.string.sample_string));
         iv = (ImageView) findViewById(R.id.image);
         title = (TextView) findViewById(R.id.head);
@@ -56,6 +65,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         id = i.getStringExtra("id_");
         image = i.getStringExtra("image_");
 
+        title.setTypeface(codeb);
         title.setText(tit);
 
         funfact = (LinearLayout) findViewById(R.id.funfact);
@@ -64,6 +74,22 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         monum = (LinearLayout) findViewById(R.id.monu);
         shopp = (LinearLayout) findViewById(R.id.shoppp);
         trend = (LinearLayout) findViewById(R.id.trends);
+
+
+        fftext = (TextView) findViewById(R.id.fftext);
+        fftext.setTypeface(code);
+        fftext = (TextView) findViewById(R.id.hgtext);
+        fftext.setTypeface(code);
+        fftext = (TextView) findViewById(R.id.shtext);
+        fftext.setTypeface(code);
+        fftext = (TextView) findViewById(R.id.mntext);
+        fftext.setTypeface(code);
+        fftext = (TextView) findViewById(R.id.rstext);
+        fftext.setTypeface(code);
+        fftext = (TextView) findViewById(R.id.cttext);
+        fftext.setTypeface(code);
+
+
 
 
         funfact.setOnClickListener(this);
@@ -108,12 +134,16 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             case R.id.restau:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
                 i.putExtra("id_", id);
+                i.putExtra("lat_",lat);
+                i.putExtra("lng_",lon);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "restaurant");
                 startActivity(i);
                 break;
             case R.id.hang:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("lat_",lat);
+                i.putExtra("lng_",lon);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "hangout");
@@ -121,6 +151,8 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.monu:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
+                i.putExtra("lat_",lat);
+                i.putExtra("lng_",lon);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "monument");
@@ -131,7 +163,17 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
+                i.putExtra("lat_",lat);
+                i.putExtra("lng_",lon);
                 i.putExtra("type_", "shopping");
+                startActivity(i);
+                break;
+
+
+            case R.id.trends :
+                i = new Intent(FinalCityInfo.this, Tweets.class);
+                i.putExtra("id_", id);
+                i.putExtra("name_", tit);
                 startActivity(i);
                 break;
 
@@ -188,9 +230,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 des.setText(description);
 
                 Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
-                temp.setText(ob.getJSONObject("weather").getString("temprature")+" C ");
-                humidity.setText(ob.getJSONObject("weather").getString("humidity"));
+                temp.setText(ob.getJSONObject("weather").getString("temprature")+  (char) 0x00B0 + " C ");
+                humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
                 weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
+                lat = ob.getString("lat");
+                lon = ob.getString("lng");
 
 
 

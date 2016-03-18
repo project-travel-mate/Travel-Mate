@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "tie.hackathon.travelguide"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 2
         versionName "2.0"
@@ -19,10 +19,17 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://repo.commonsware.com.s3.amazonaws.com" }
+    maven { url "https://jitpack.io" }
+
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.ParkSangGwon:TedPicker:v1.0.7'
 
     compile 'com.estimote:sdk:0.9.4@aar'
     compile 'com.eftimoff:android-pathview:1.0.6@aar'
