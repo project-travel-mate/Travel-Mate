@@ -4,18 +4,24 @@ A must-have app for all the people who want to travel to new a city. The app pro
 
 
 + **[How Travel Mate Works](#how-travel-mate-works)**
-+ **[Travel Phases](#phases)**
-  + [Planning Phase](#1planning-phase)
-  + [Travel Phase](#2travel-phase)
-  + [Trip Phase](#3trip-phase)
-+ **[Exclusive Feature : Estimote Beacons](#exclusive-feature--estimote-beacons)**
++ **[Select Destination](#select-destination)**
++ **[Travel](#travel)**
+  + [My trips](#my-trips)
+  + [Transport](#transport)
+  + [Hotel Booking](#hotel-booking)
+  + [Online Shopping](#online-shopping)
+  + [Real Time Locator](#real-time-locator)
++ **[Utilities](#utilities)**
+  + [Share contact](#share-contact)
+  + [Checklist](#checklist)
++ **[Push notification](#push-notification)**
++ **[Estimote Beacons](#estimote-beacons)**
 + **[Features](#features)**
   + [Notify the user as soon as he enters proximity](#1notify-the-user-as-soon-as-he-enters-proximity)
   + [Display details of Monument](#2display-details-of-monument)
 + **[Technical Requirements](#technical-requirements)**
 + **[How does Estitmote Beacon work](#how-does-estitmote-beacon-work)**
 + **[Contact Us](#contact-us)**
-+ **[Video URL](https://www.youtube.com/watch?v=D7fZXdUryeM)**
 + **[Presentation](https://docs.google.com/presentation/d/1gdx3OZjdIcqVqsgAj2jz-REFT7xI716d6iNE_1XBg4A/edit?usp=sharing)**
 
 
@@ -32,13 +38,10 @@ A comprehensive list of all the information one would need to know about a city,
 Based on this information and the recommendation from the app, user can opt for the best destination location for him.
 
 <img src="/screenshots/all_cities.png" width="200px">
-<img src="/screenshots/city_here.png" width="200px">
-<img src="/screenshots/fact.png" width="200px">
 <img src="/screenshots/one_city.png" width="200px">
+<img src="/screenshots/fact.png" width="200px">
+<img src="/screenshots/city_here.png" width="200px">
 <img src="/screenshots/trend.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-05-00-23_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-05-00-38_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-05-01-10_tie.hackathon.travelguide.png" width="200px">
 
 
 ##Travel
@@ -52,15 +55,11 @@ History of all the past trips of the user at one place so that he can categorica
 ###Transport
 Book and search for bus and railway tickets from this app itself. For car, we let the user know about the total toll taxes and the total cost of fuel he has to bear.
 
-<img src="/screenshots/trains.png" width="200px">
 <img src="/screenshots/transport.png" width="200px">
+<img src="/screenshots/trains.png" width="200px">
 
 
 ###Hotel Booking
-
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-
 
 ###Online Shopping
 
@@ -72,7 +71,7 @@ Book and search for bus and railway tickets from this app itself. For car, we le
 While travelling in the destination city, user usually doesn't know much about the nearby location. We provide the users with real time details about the nearby places, monuments, restaurants, hotels (so that, he can also take a detour) and medical centres.
 
 <img src="/screenshots/here.png" width="200px">
-]<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/share_fun_fact.png" width="200px">
 
 ##Utilities
 
