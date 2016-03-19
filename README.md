@@ -71,7 +71,7 @@ Book and search for bus and railway tickets from this app itself. For car, we le
 While travelling in the destination city, user usually doesn't know much about the nearby location. We provide the users with real time details about the nearby places, monuments, restaurants, hotels (so that, he can also take a detour) and medical centres.
 
 <img src="/screenshots/here.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/here_filter.png" width="200px">
 
 ##Utilities
 
