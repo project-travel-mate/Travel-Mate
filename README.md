@@ -31,11 +31,11 @@ The platform includes a wide variety of options - from selection of Mode of Tran
 A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can be also seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
 Based on this information and the recommendation from the app, user can opt for the best destination location for him.
 
-<img src="/screenshots/Screenshot_2016-03-19-04-22-20_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-04-22-27_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-04-22-32_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-04-22-53_tie.hackathon.travelguide.png" width="200px">
-<img src="/screenshots/Screenshot_2016-03-19-05-00-16_tie.hackathon.travelguide.png" width="200px">
+<img src="/screenshots/all_cities.png" width="200px">
+<img src="/screenshots/city_here.png" width="200px">
+<img src="/screenshots/fact.png" width="200px">
+<img src="/screenshots/one_city.png" width="200px">
+<img src="/screenshots/trend.png" width="200px">
 <img src="/screenshots/Screenshot_2016-03-19-05-00-23_tie.hackathon.travelguide.png" width="200px">
 <img src="/screenshots/Screenshot_2016-03-19-05-00-38_tie.hackathon.travelguide.png" width="200px">
 <img src="/screenshots/Screenshot_2016-03-19-05-01-10_tie.hackathon.travelguide.png" width="200px">
@@ -45,60 +45,34 @@ Based on this information and the recommendation from the app, user can opt for 
 ###My trips
 History of all the past trips of the user at one place so that he can categorically view all the photos from his trips and also see how much each person (who was on that trip along with the user) spent on different things for future reference.
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/travel.png" width="200px">
+<img src="/screenshots/trips.png" width="200px">
 
 
 ###Transport
 Book and search for bus and railway tickets from this app itself. For car, we let the user know about the total toll taxes and the total cost of fuel he has to bear.
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/trains.png" width="200px">
+<img src="/screenshots/transport.png" width="200px">
 
 
 ###Hotel Booking
 
 <img src="/screenshots/plan_journey.png" width="200px">
 <img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
 
 
 ###Online Shopping
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/shopping.png" width="200px">
 
 
 
 ###Real Time Locator
 While travelling in the destination city, user usually doesn't know much about the nearby location. We provide the users with real time details about the nearby places, monuments, restaurants, hotels (so that, he can also take a detour) and medical centres.
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/here.png" width="200px">
+]<img src="/screenshots/share_fun_fact.png" width="200px">
 
 ##Utilities
 
@@ -108,29 +82,12 @@ While travelling in the destination city, user usually doesn't know much about t
 ###Share contact
 To save the job of typing and then saving the contact details of a fellow passenger, simply share the contacts using a unique QR code.
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
-
-
-
-
 
 
 ###Checklist
 We need a checklist because remembering everything required for your perfect trip is quite cumbersome.
 
-<img src="/screenshots/plan_journey.png" width="200px">
-<img src="/screenshots/change_source_dest.png" width="200px">
-<img src="/screenshots/city_info.png" width="200px">
-<img src="/screenshots/city_info1.png" width="200px">
-<img src="/screenshots/city_info2.png" width="200px">
-<img src="/screenshots/fun_fact.png" width="200px">
-<img src="/screenshots/share_fun_fact.png" width="200px">
+<img src="/screenshots/checklist.png" width="200px">
 
 
 ##Push notification
