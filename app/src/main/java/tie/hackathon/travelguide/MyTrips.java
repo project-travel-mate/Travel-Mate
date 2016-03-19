@@ -175,34 +175,26 @@ public class MyTrips extends AppCompatActivity {
 
         }
 
-        private class ViewHolder {
 
             ImageView city;
             TextView cityname, date;
 
 
-        }
+
 
         @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            ViewHolder holder;
+        public View getView(final int position, View view2, ViewGroup parent) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = mInflater.inflate(R.layout.trip_listitem, null);
-                holder = new ViewHolder();
-                holder.city = (ImageView) view.findViewById(R.id.profile_image);
-                holder.cityname = (TextView) view.findViewById(R.id.tv);
-                holder.date = (TextView) view.findViewById(R.id.date);
-
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
+            View    view = mInflater.inflate(R.layout.trip_listitem, null);
+                city = (ImageView) view.findViewById(R.id.profile_image);
+                cityname = (TextView) view.findViewById(R.id.tv);
+                date = (TextView) view.findViewById(R.id.date);
 
 
             if (position == 0) {
-                holder.city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-                holder.cityname.setText("Add New Trip");
-                holder.date.setText("");
+                city.setImageResource(R.drawable.ic_add_circle_black_24dp);
+                cityname.setText("Add New Trip");
+                date.setText("");
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -215,24 +207,22 @@ public class MyTrips extends AppCompatActivity {
                 });
 
             } else {
-               // holder.city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-
-                if(position < image.size()) {
-
-                    Picasso.with(MyTrips.this).load(image.get(position)).placeholder(R.drawable.delhi)
-                            .into(holder.city);
-                    holder.cityname.setText(name.get(position));
-                    holder.date.setText(start.get(position));
+               //city.setImageResource(R.drawable.ic_add_circle_black_24dp);
 
 
-                    Log.e("time", start.get(position) + " ");
+                    Picasso.with(MyTrips.this).load(image.get(position)).placeholder(R.drawable.add_list_item)
+                            .into(city);
+                    cityname.setText(name.get(position));
+                    date.setText(start.get(position));
+
+
+                    Log.e("time", start.get(position) + " " + image.get(position));
                     final Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(Long.parseLong(start.get(position)) * 1000);
                     final String timeString =
                             new SimpleDateFormat("dd-MMM").format(cal.getTime());
-                    holder.date.setText(timeString);
+                    date.setText(timeString);
 
-                    holder.city.setImageResource(R.drawable.delhi);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -243,7 +233,7 @@ public class MyTrips extends AppCompatActivity {
 
                         }
                     });
-                }
+
 
             }
 

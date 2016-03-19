@@ -11,6 +11,9 @@ public class Constants {
     public static String USER_NUMBER = "user_number";
     public static String USER_ID = "user_id";
 
+    public static String EVENT_IMG = "event_name";
+    public static String EVENT_NAME = "event_img";
+    public static String IMAGE_NO = "number";
 
 
     public static String SOURCE_CITY = "source_city";

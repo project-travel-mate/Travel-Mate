@@ -51,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import Util.Constants;
 import Util.Utils;
 import objects.NestedListView;
 
@@ -61,12 +62,12 @@ public class MyTripInfo extends AppCompatActivity {
     ImageView iv;
     String img;
     TextView tite, date;
-    FlatButton click, add;
+    FlatButton add;
     TwoWayView twoway;
     List<String> fname;
-    TwoWayView lv;
+    NestedListView lv;
     AutoCompleteTextView frendname;
-    List<File> imagesuri,mediaimages;
+    List<File> imagesuri, mediaimages;
     String mainfolder = "/storage/emulated/0/Pictures/";
 
     private static final int INTENT_REQUEST_GET_IMAGES = 13;
@@ -86,8 +87,7 @@ public class MyTripInfo extends AppCompatActivity {
         iv = (ImageView) findViewById(R.id.image);
         tite = (TextView) findViewById(R.id.head);
         date = (TextView) findViewById(R.id.time);
-        click = (FlatButton) findViewById(R.id.click);
-        lv = (TwoWayView) findViewById(R.id.friendlist);
+        lv = (NestedListView) findViewById(R.id.friendlist);
         add = (FlatButton) findViewById(R.id.newfrriend);
         frendname = (AutoCompleteTextView) findViewById(R.id.fname);
         imagesuri = new ArrayList<>();
@@ -97,26 +97,14 @@ public class MyTripInfo extends AppCompatActivity {
 
         File sdDir = new File(mainfolder);
         File[] sdDirFiles = sdDir.listFiles();
-        for(File singleFile : sdDirFiles)
-        {
-            if(!singleFile.isDirectory())
-            mediaimages.add(singleFile);
+        for (File singleFile : sdDirFiles) {
+            if (!singleFile.isDirectory())
+                mediaimages.add(singleFile);
         }
+        mediaimages.add(null);
 
-        Imagesadapter ad = new Imagesadapter(this,mediaimages);
+        Imagesadapter ad = new Imagesadapter(this, mediaimages);
         twoway.setAdapter(ad);
-
-        click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MyTripInfo.this, ImagePickerActivity.class);
-                startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
-
-
-
-            }
-        });
 
 
         frendname.setThreshold(1);
@@ -159,14 +147,6 @@ public class MyTripInfo extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
     public class Imagesadapter extends ArrayAdapter<File> {
         private final Activity context;
         private final List<File> name;
@@ -199,11 +179,31 @@ public class MyTripInfo extends AppCompatActivity {
                 view.setTag(holder);
             } else
                 holder = (ViewHolder) view.getTag();
+            if (position == name.size()-1) {
+                holder.iv.setImageResource(R.drawable.add_image);
+                holder.iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MyTripInfo.this, ImagePickerActivity.class);
+                        startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
 
+                    }
+                });
+            } else {
+                holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
+                holder.iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MyTripInfo.this, Event_Image.class);
+                        ArrayList<String> a = new ArrayList<String>();
+                        a.add(name.get(position).getAbsolutePath());
 
-            holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
-
-
+                        i.putExtra(Constants.EVENT_IMG, a);
+                        i.putExtra(Constants.EVENT_NAME, "Image");
+                        startActivity(i);
+                    }
+                });
+            }
 
 
             return view;
@@ -211,7 +211,6 @@ public class MyTripInfo extends AppCompatActivity {
 
 
     }
-
 
 
     class mytrip extends AsyncTask<String, Void, String> {
@@ -258,13 +257,14 @@ public class MyTripInfo extends AppCompatActivity {
                 end = ob.getString("end_time");
                 city = ob.getString("city");
 
-                tite.setText(title + " - " + city);
+                tite.setText(city);
+                tite = (TextView) findViewById(R.id.tname);
+                tite.setText(title);
                 final Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                final int minutes = cal.get(Calendar.MINUTE);
                 final String timeString =
                         new SimpleDateFormat("dd-MMM").format(cal.getTime());
-                date.setText(timeString);
+                date.setText("Started on : " + timeString);
 
                 JSONArray arrr = ob.getJSONArray("users");
                 for (int i = 0; i < arrr.length(); i++) {
@@ -273,7 +273,9 @@ public class MyTripInfo extends AppCompatActivity {
                     Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
                 }
 
-                Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this,fname);
+                Log.e("vdsv",fname.size()+" ");
+
+                Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
                 lv.setAdapter(dataAdapter);
 
 
@@ -296,7 +298,7 @@ public class MyTripInfo extends AppCompatActivity {
             ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
             for (int i = 0; i < image_uris.size(); i++) {
                 //imagesuri.add(image_uris.get(i).getPath());
-                Log.e("cdscsd",image_uris.get(i).getPath());
+                Log.e("cdscsd", image_uris.get(i).getPath());
             }
             Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
 
@@ -337,9 +339,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder = (ViewHolder) view.getTag();
 
 
-            holder.iv.setText(name.get(position));
-
-
+                holder.iv.setText(name.get(position)+" ");
 
 
             return view;
@@ -347,7 +347,6 @@ public class MyTripInfo extends AppCompatActivity {
 
 
     }
-
 
 
     @Override

@@ -30,17 +30,39 @@
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold" />
-
+    <TextView
+        android:id="@+id/tname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-bold"
+        android:padding="10dp"
+        android:text="Yolo Trip"
+        android:textColor="#000000"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-bold"
-        android:padding="5dp"
-        android:text="10 Mar"
+        android:padding="10dp"
+        android:text="Started on : 10 Mar"
         android:textColor="#000000"
         android:textSize="15sp" />
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-bold"
+        android:padding="10dp"
+        android:text="Photos of this trip : "
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
 
     <org.lucasr.twowayview.TwoWayView
         android:id="@+id/lv"
@@ -49,19 +71,13 @@
         android:drawSelectorOnTop="false"
         android:orientation="horizontal" />
 
-    <com.dd.processbutton.FlatButton
-        android:id="@+id/click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:background="@color/colorPrimary"
-        android:text="Add Photos"
-        android:textColor="#ffffff" />
+
 
 
 
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-bold"
@@ -72,7 +88,7 @@
         android:textStyle="bold" />
 
 
-    <org.lucasr.twowayview.TwoWayView
+    <objects.NestedListView
         android:id="@+id/friendlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -154,7 +154,7 @@
                         android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="HOTELS"
+                        android:text="HOTEL BOOKING"
                         android:fontFamily="sans-serif-condensed"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -202,7 +202,7 @@
                         android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="SHOPPING"
+                        android:text="ONLINE SHOPPING"
                         android:fontFamily="sans-serif-condensed"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -249,7 +249,7 @@
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
-                        android:text="REAL TIME LOCATIONS"
+                        android:text="REAL TIME LOCATOR"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
