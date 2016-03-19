@@ -1,0 +1,38 @@
+<?php
+/**
+ * @Author: prabhakar
+ * @Date:   2016-03-14 21:07:46
+ * @Last Modified by:   Prabhakar Gupta
+ * @Last Modified time: 2016-03-18 23:42:53
+ */
+
+// open weather map API key used to get the 
+// weather of city from city name
+define("OPENWEATHERMAP_API_KEY", "XXXX");
+
+
+// here api codes
+define("HERE_APP_CODE", "XXXX");
+define("HERE_APP_ID", "XXXX");
+
+
+// different modes for different functionalities
+// used in here API
+$HERE_API_MODES = array(
+	'eat-drink',						// 0
+	'going-out,leisure-outdoor',		// 1
+	'sights-museums',					// 2
+	'transport',						// 3
+	'shopping',							// 4
+	'petrol-station',					// 5
+	'atm-bank-exchange',				// 6
+	'hospital-health-care-facility',	// 7
+);
+
+
+define("YAHOO_WOEID_KEY", "XXXX");
+
+define("TWITTER_CONSUMER_KEY", "XXXX");
+define("TWITTER_CONSUMER_SECRET", "XXXX");
+define("TWITTER_OAUTH_TOKEN", "XXXX");
+define("TWITTER_OAUTH_TOKEN_SECRET", "XXXX");

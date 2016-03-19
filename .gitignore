@@ -38,5 +38,8 @@ obj/
 #database connection file
 connection.inc.php
 
+#3rd party API keys and tokens
+constants.inc.php
+
 #php error log files
 error_log
