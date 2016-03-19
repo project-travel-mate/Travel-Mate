@@ -1,6 +1,6 @@
 #Travel Mate
 
-A must-have app for all the travellers who are visiting a city for the first time. The app provides them with everything **from Planning to their Journey** and also from **from Journey to the destination**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). We have tried to include solutions for every possible problem the traveller might face during the course of his entire journey.
+A must-have app for all the people who want to travel to new a city. The app provides them with everything from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). We have tried to include solutions for every possible problem the traveller might face during the course of his entire journey.
 
 
 + **[How Travel Mate Works](#how-travel-mate-works)**
