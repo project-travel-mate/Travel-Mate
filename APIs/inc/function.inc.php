@@ -1,7 +1,5 @@
 <?php
 
-$echonest_api_key = '0BOM42L07CR77AZZJ';
-
 $websites = ['http://www.saharastar.com/','http://www.mumbai.grand.hyatt.com','http://www.tridenthotels.com/mumbai_bandra_kurla/index.asp','http://international.bawahotels.com'];
 $phones = ['+912240851800','+912261427328','+912266761234','+912266727777'];
 

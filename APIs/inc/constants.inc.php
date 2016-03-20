@@ -3,7 +3,7 @@
  * @Author: prabhakar
  * @Date:   2016-03-14 21:07:46
  * @Last Modified by:   Prabhakar Gupta
- * @Last Modified time: 2016-03-18 23:42:53
+ * @Last Modified time: 2016-03-24 15:45:10
  */
 
 // open weather map API key used to get the 
@@ -36,3 +36,6 @@ define("TWITTER_CONSUMER_KEY", "TaVod5RIebbk6h9hPap2lFHmV");
 define("TWITTER_CONSUMER_SECRET", "ACvGIZ70B6sVf7aETkVIyuaL0Mp3OKGJfRn11lhRZs8U2F4YJp");
 define("TWITTER_OAUTH_TOKEN", "1954715881-GU33bpEp6LIYOKlapTibxmNQSORgVh8Rq9Xn0ig");
 define("TWITTER_OAUTH_TOKEN_SECRET", "JvhwnYqBcJ2RC8T11ev8y2LTX1UwPQsbSKKprdHRcX1f3");
+
+
+define ("ECHONEST_API_KEY", "0BOM42L07CR77AZZJ");

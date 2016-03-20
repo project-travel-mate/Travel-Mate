@@ -2,6 +2,7 @@
 
 	require 'inc/connection.inc.php';
 	require 'inc/function.inc.php';
+	require_once 'inc/constants.inc.php';
 	
 	$echonest_mood_strings = array(
 		'mood=fun&mood=joyous&mood=lively',
@@ -31,7 +32,7 @@
 		} else {
 			$mood_mode = 4;
 		}
-  		$url = 'http://developer.echonest.com/api/v4/song/search?api_key=' . $echonest_api_key . '&format=json&results=15&' . $echonest_mood_strings[$mood_mode] . '&bucket=song_type';
+  		$url = 'http://developer.echonest.com/api/v4/song/search?api_key=' . ECHONEST_API_KEY . '&format=json&results=15&' . $echonest_mood_strings[$mood_mode] . '&bucket=song_type';
   		
   		$response = json_decode(curl_URL_call($url), true);
   		foreach($response['response']['songs'] as $song){

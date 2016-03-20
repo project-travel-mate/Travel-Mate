@@ -1,10 +1,10 @@
 <?php
 
-
 	require 'inc/connection.inc.php';
 	require 'inc/function.inc.php';
+	require_once 'inc/constants.inc.php';
 
-	$url = 'http://developer.echonest.com/api/v4/song/search?api_key=' . $echonest_api_key . '&format=json&results=1&bucket=audio_summary&';
+	$url = 'http://developer.echonest.com/api/v4/song/search?api_key=' . ECHONEST_API_KEY . '&format=json&results=1&bucket=audio_summary&';
 
 	if(isset($_GET['artist']) && isset($_GET['song']) && isset($_GET['userid'])){
 		$user_id 	= (int)$_GET['userid'];
