@@ -56,6 +56,12 @@ function call_here_api($params, $latitude, $longitude, $limit = 0){
 	return $response['results']['items'];
 }
 
+/**
+ * get monument ID from estimote beacon ID
+ * @param  connection_object	$connection 
+ * @param  string 				$beacon_id  
+ * @return integer
+ */
 function getMonumentID($connection, $beacon_id){
 	$monument_id = 0;
 	
@@ -66,13 +72,25 @@ function getMonumentID($connection, $beacon_id){
 	return $monument_id;
 }
 
+/**
+ * returns string which is safe for database
+ * @param  string 	$text 
+ * @return string 			encrypted string
+ */
 function encryptText($text){
 	return strip_tags(addslashes($text));
 }
 
+
+/**
+ * returns string which is safe for output
+ * @param  string 	$text 
+ * @return string 			decrypted string
+ */
 function decryptText($text){
 	return stripcslashes($text);
 }
+
 
 /**
  * function to get city weather details
@@ -95,17 +113,34 @@ function getCityWeather($city_name){
 }
 
 
+/**
+ * capitalize first letter for each city name
+ * @param  string	$string 	city name 
+ * @return string 				capatilized city name
+ */
 function change_cityName($string){
 	return ucwords(strtolower(trim($string)));
 }
 
 
+/**
+ * function to increase trip count for a city
+ * @param  connection_object	$connection
+ * @param  integer 				$city_id
+ * @return boolean
+ */
 function increase_trip_count($connection, $city_id){
 	$query = "UPDATE `cities` SET `number_of_trips`=`number_of_trips`+1 WHERE `id`='$city_id'";
 	return (bool)mysqli_query($connection, $query);
 }
 
 
+/**
+ * get name of city from city ID
+ * @param  connection_object	$connection
+ * @param  integer				$city_id    
+ * @return string 								city name
+ */
 function getCityName($connection, $city_id){
 	$query = "SELECT `city_name` FROM `cities` WHERE `id`='$city_id' LIMIT 1";
 	return mysqli_fetch_assoc(mysqli_query($connection, $query));
