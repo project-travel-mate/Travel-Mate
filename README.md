@@ -50,6 +50,7 @@ History of all the past trips of the user at one place so that he can categorica
 
 <img src="/screenshots/travel.png" width="200px">
 <img src="/screenshots/trips.png" width="200px">
+<img src="/screenshots/mytrip_info.png" width="200px">
 
 
 ###Transport
