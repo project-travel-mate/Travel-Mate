@@ -8,7 +8,7 @@
 + Rename **constants.inc.sample** to **constants.inc.php**
 + Add API Keys and Tokens
 
-##List of APIs used and there API key pages
+##List of APIs used and their respective keys page
 + [Open Weather Map API](http://openweathermap.org/appid)
 + [Here Places API](https://developer.here.com/api-explorer/rest/places-search)
 + [Yahoo! GeoPlanet](https://developer.yahoo.com/geo/geoplanet/)
