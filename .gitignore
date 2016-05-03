@@ -44,4 +44,4 @@ constants.inc.php
 #php error log files
 error_log
 
-app/src/main/java/Util/Constants
+app/src/main/java/Util/Constants.java
