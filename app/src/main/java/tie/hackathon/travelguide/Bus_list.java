@@ -217,7 +217,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
 
         protected String doInBackground(String... urls) {
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/bus-booking.php?src=" +
+                String uri = Constants.apilink+ "bus-booking.php?src=" +
                         source +
                         "&dest=" +
                         dest +

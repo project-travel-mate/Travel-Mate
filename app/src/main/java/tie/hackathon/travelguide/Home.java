@@ -60,9 +60,9 @@ public class Home extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity=activity;
+        this.activity=(Activity)activity;
 
     }
 

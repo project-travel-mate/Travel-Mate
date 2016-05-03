@@ -106,7 +106,8 @@ public class SelectCity extends AppCompatActivity {
 
 
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/all-cities.php";
+                String uri = Constants.apilink +
+                        "all-cities.php";
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

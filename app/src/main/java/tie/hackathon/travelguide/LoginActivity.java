@@ -143,7 +143,8 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 Log.e("started", "strted");
-                String uri = "http://csinsit.org/prabhakar/tie/users/login.php?contact=" +
+                String uri = Constants.apilink +
+                        "users/login.php?contact=" +
                         num +
                         "&password=" + pass;
                 URL url = new URL(uri);
@@ -227,7 +228,8 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 Log.e("started", "strted");
-                String uri = "http://csinsit.org/prabhakar/tie/users/signup.php?name=" +
+                String uri = Constants.apilink +
+                        "users/signup.php?name=" +
                         name +
                         "&contact=" +
                         num +

@@ -263,7 +263,8 @@ public class MapRealTimeActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 Log.e("started","strted");
-                String uri = "http://csinsit.org/prabhakar/tie/places-api.php?mode=" +
+                String uri = Constants.apilink +
+                        "places-api.php?mode=" +
                         mo +
                         "&lat=" +
                         curlat +

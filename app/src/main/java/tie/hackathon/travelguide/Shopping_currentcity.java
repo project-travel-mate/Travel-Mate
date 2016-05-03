@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import Util.Constants;
 import Util.Utils;
 
 public class Shopping_currentcity extends AppCompatActivity {
@@ -192,7 +193,8 @@ public class Shopping_currentcity extends AppCompatActivity {
 
         protected String doInBackground(String... urls) {
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/online-shopping.php?string="+item;
+                String uri = Constants.apilink +
+                        "online-shopping.php?string="+item;
                 uri = uri.replace(" ","+");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

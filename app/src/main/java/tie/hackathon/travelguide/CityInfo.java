@@ -128,7 +128,8 @@ public class CityInfo extends AppCompatActivity {
                 if (id == null) {
                     id = s.getString(Constants.DESTINATION_CITY_ID, "1");
                 }
-                String uri = "http://csinsit.org/prabhakar/tie/get-city-info.php?id=" + id;
+                String uri = Constants.apilink +
+                        "get-city-info.php?id=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

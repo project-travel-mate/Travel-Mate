@@ -185,7 +185,8 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
         protected String doInBackground(String... urls) {
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/get-city-hotels.php?id=" +
+                String uri = Constants.apilink +
+                        "get-city-hotels.php?id=" +
                         dest+
                 "&date=" +
                         dates;

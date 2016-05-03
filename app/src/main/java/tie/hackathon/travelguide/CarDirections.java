@@ -149,7 +149,9 @@ public class CarDirections extends AppCompatActivity {
             try {
                 String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
                         sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
-                        "&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y&mode=driving\n";
+                        "&key=" +
+                        Constants.apilink +
+                        "&mode=driving\n";
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

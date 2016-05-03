@@ -201,7 +201,8 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         protected String doInBackground(Void... params) {
             try {
                 Log.e("started", "strted");
-                String uri = "http://csinsit.org/prabhakar/tie/city/info.php?id=" + id;
+                String uri = Constants.apilink +
+                        "city/info.php?id=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

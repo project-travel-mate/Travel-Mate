@@ -232,7 +232,8 @@ public class MyTripInfo extends AppCompatActivity {
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/trip/get-one.php?trip=" + id;
+                String uri = Constants.apilink +
+                        "trip/get-one.php?trip=" + id;
                 Log.e("YO", uri);
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -369,7 +370,8 @@ public class MyTripInfo extends AppCompatActivity {
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/users/find.php?search=" + nameyet.trim();
+                String uri = Constants.apilink +
+                        "users/find.php?search=" + nameyet.trim();
                 Log.e("executing", uri + " ");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -448,7 +450,8 @@ public class MyTripInfo extends AppCompatActivity {
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/trip/add-user.php?user=" +
+                String uri = Constants.apilink +
+                        "trip/add-user.php?user=" +
                         friendid +
                         "&trip=" +
                         id;

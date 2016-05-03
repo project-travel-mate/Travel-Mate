@@ -337,7 +337,8 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             try {
                 String id;
                 id = s.getString(Constants.USER_ID,"1");
-                String uri = "http://csinsit.org/prabhakar/tie/music-genre.php?artist=" +
+                String uri = Constants.apilink +
+                        "music-genre.php?artist=" +
                         art +
                         "&song=" +
                         sing +
@@ -382,7 +383,8 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         protected String doInBackground(String... urls) {
             try {
                 String uri =
-                        "http://csinsit.org/prabhakar/tie/suggested-music.php?userid="+s.getString(Constants.USER_ID,"1");
+                        Constants.apilink +
+                                "suggested-music.php?userid="+s.getString(Constants.USER_ID,"1");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

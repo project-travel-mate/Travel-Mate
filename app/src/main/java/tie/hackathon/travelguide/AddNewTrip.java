@@ -36,6 +36,7 @@ import java.util.GregorianCalendar;
 import Util.Constants;
 import Util.Utils;
 
+
 public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     AutoCompleteTextView cityname;
@@ -171,7 +172,8 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/city/autocomplete.php?search=" + nameyet.trim();
+
+                String uri = Constants.apilink + "city/autocomplete.php?search=" + nameyet.trim();
                 Log.e("executing",uri+" ");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -255,7 +257,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/trip/add-trip.php?user=" +
+                String uri = Constants.apilink +"trip/add-trip.php?user=" +
                         userid +
                         "&title=" +
                         tripname +

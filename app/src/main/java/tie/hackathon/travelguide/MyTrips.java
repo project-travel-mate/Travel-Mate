@@ -96,7 +96,8 @@ public class MyTrips extends AppCompatActivity {
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/trip/get-all.php?user=" + userid;
+                String uri = Constants.apilink +
+                        "trip/get-all.php?user=" + userid;
                 Log.e("YO", uri);
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

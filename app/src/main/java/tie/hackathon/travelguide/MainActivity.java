@@ -207,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 String id = telephonyManager.getDeviceId();
-                String uri = "http://csinsit.org/prabhakar/tie/login.php?device_id=" + id;
+                String uri = Constants.apilink +
+                        "login.php?device_id=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import Util.Constants;
 import Util.Utils;
 import flipviewpager.utils.FlipSettings;
 import objects.Friend;
@@ -84,7 +85,8 @@ public class FunFacts extends AppCompatActivity {
 
 
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/city_facts.php?id=" + id;
+                String uri = Constants.apilink +
+                        "city_facts.php?id=" + id;
                 Log.e("egesg","gegrgrgrwgh" + uri);
 
                 URL url = new URL(uri);

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import Util.Constants;
 import Util.Utils;
 import objects.Friend;
 import views.FontTextView;
@@ -129,7 +130,8 @@ public class city_fragment extends Fragment {
 
             String readStream = null;
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/city/autocomplete.php?search=" + nameyet.trim();
+                String uri = Constants.apilink +
+                        "city/autocomplete.php?search=" + nameyet.trim();
                 Log.e("executing",uri+" ");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -214,7 +216,8 @@ public class city_fragment extends Fragment {
 
 
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/all-cities.php";
+                String uri = Constants.apilink +
+                        "all-cities.php";
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

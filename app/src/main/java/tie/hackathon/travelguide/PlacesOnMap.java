@@ -171,7 +171,8 @@ public class PlacesOnMap extends AppCompatActivity {
             try {
                 Log.e("cbvsbk", id + " ");
 
-                String uri = "http://csinsit.org/prabhakar/tie/places-api.php?lat=" +
+                String uri = Constants.apilink +
+                        "places-api.php?lat=" +
                         deslat +
                         "&lng=" +
                         deslon +

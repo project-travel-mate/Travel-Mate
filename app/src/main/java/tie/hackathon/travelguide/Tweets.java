@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Util.Constants;
 import Util.Utils;
 
 public class Tweets extends AppCompatActivity {
@@ -89,7 +90,8 @@ public class Tweets extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 Log.e("started", "strted");
-                String uri = "http://csinsit.org/prabhakar/tie/city/trends/twitter.php?city=" + id;
+                String uri = Constants.apilink +
+                        "city/trends/twitter.php?city=" + id;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());

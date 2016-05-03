@@ -80,7 +80,7 @@ public class Books_adapter extends BaseAdapter {
             Title.setText(FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getString("title"));
             if(FeedItems.getJSONObject(position).getJSONObject("volumeInfo").has("description")) {
                 String DescriptionText = FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getString("description");
-                if (DescriptionText == "") {
+                if (DescriptionText.equals("")) {
                     Description.setText("No description for this book.");
                 } else {
                     Description.setText(DescriptionText);

@@ -59,7 +59,8 @@ public class DetectedBeacon extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/estimote_monuments/get_info.php?id=" +
+                String uri = Constants.apilink +
+                        "estimote_monuments/get_info.php?id=" +
                       major;
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

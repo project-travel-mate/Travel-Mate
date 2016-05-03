@@ -170,7 +170,8 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
         protected String doInBackground(String... urls) {
             try {
-                String uri = "http://csinsit.org/prabhakar/tie/get-trains.php?src_city=" +
+                String uri = Constants.apilink +
+                        "get-trains.php?src_city=" +
                         source +
                         "&dest_city=" +
                         dest +
