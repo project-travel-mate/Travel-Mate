@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="android-pathview-1.0.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.eftimoff/android-pathview/1.0.8/jars/libs/androidsvg-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.eftimoff/android-pathview/1.0.8/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.eftimoff/android-pathview/1.0.8/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

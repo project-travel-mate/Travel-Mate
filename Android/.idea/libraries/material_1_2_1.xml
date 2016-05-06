@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="material-1.2.1">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.2.1/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.2.1/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.2.1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.rey5137/material/1.2.1/ed20c5e5d23f5b429bf082f227ede1e7d3e86e54/material-1.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

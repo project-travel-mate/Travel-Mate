@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-0.0.2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.flavienlaurent.datetimepicker/library/0.0.2/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.flavienlaurent.datetimepicker/library/0.0.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.flavienlaurent.datetimepicker/library/0.0.2/f8b456ad73005c274b1509b5065e1fe6700dffda/library-0.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

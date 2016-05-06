@@ -273,6 +273,7 @@ public class LoginActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 Log.e("here11", e.getMessage() + " ");
+                Toast.makeText(LoginActivity.this,"Some error occured : " + e.getMessage(),Toast.LENGTH_LONG).show();
 
             }
             dialog.dismiss();

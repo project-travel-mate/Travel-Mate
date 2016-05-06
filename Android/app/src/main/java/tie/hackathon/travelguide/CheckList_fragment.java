@@ -41,9 +41,11 @@ public class CheckList_fragment extends Fragment {
     List<String> task = new ArrayList<>();
     List<String> isdone = new ArrayList<>();
     DBhelp_new dbhelp;
+    SharedPreferences s;
+    SharedPreferences.Editor e;
     SQLiteDatabase db;
-
     List<String> base_task = new ArrayList<>();
+    ListView lv;
 
     public CheckList_fragment() {
     }
@@ -57,8 +59,11 @@ public class CheckList_fragment extends Fragment {
         db = dbhelp.getWritableDatabase();
 
 
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(activity);
-        SharedPreferences.Editor e = s.edit();
+        s = PreferenceManager.getDefaultSharedPreferences(activity);
+        e = s.edit();
+
+
+        //First time uers
         String x = s.getString(Constants.ID_ADDED_INDB, "null");
         if (x.equals("null")) {
             base_task.add("Bags");
@@ -77,13 +82,14 @@ public class CheckList_fragment extends Fragment {
             }
 
             e.putString(Constants.ID_ADDED_INDB, "yes");
-            e.commit();
+            e.apply();
         }
 
 
-        ListView lv = (ListView) v.findViewById(R.id.lv);
+        lv = (ListView) v.findViewById(R.id.lv);
         ad = new CheckList_adapter(activity, id, task, isdone);
         lv.setAdapter(ad);
+
 
         refresh();
 
@@ -139,6 +145,7 @@ public class CheckList_fragment extends Fragment {
                 id.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ID)));
                 task.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME)));
                 isdone.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ISDONE)));
+                Log.e("adding","vfd" + c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME))+ c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ISDONE)));
 
             } while (c.moveToNext());
         }
@@ -151,7 +158,7 @@ public class CheckList_fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (Activity) context;
+        activity = (Activity) context;
     }
 
 
@@ -209,28 +216,29 @@ public class CheckList_fragment extends Fragment {
             }
             holder.c.setText(task.get(position));
 
-            holder.c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
 
+
+            holder.c.setOnClickListener(new CheckBox.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    CheckBox c2 = (CheckBox)view;
+                    if(c2.isChecked()){
 
                         String x = "UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 1 WHERE " +
                                 TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position);
 
                         db.execSQL(x);
-                        isdone.set(position, "1");
                         Log.e("execited", x + " ");
-                    } else {
-
-
-                        db.execSQL("UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position));
-                        isdone.set(position, "0");
-
+                    }else{
+                        String x = "UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position);
+                        db.execSQL(x);
+                        Log.e("execited", x + " ");
                     }
                     refresh();
                 }
+
             });
 
             return vi;

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="twowayview-0.1.4">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/org.lucasr.twowayview/twowayview/0.1.4/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/org.lucasr.twowayview/twowayview/0.1.4/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lucasr.twowayview/twowayview/0.1.4/48a0cb79a55b789ab922fd3941d40a086abda600/twowayview-0.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

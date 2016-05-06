@@ -33,7 +33,6 @@
             android:id="@+id/pathView"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            app:pathWidth="4"
             app:svg="@raw/google_travel_logo" />
 
         <TextView
@@ -42,7 +41,7 @@
             android:layout_marginTop="25dp"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:text="TRAVEL MATE"
+            android:text="@string/app_name"
             android:textColor="@color/colorPrimary"
             android:textSize="35sp"
             android:textStyle="bold" />
