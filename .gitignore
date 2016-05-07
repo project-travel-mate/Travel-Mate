@@ -1,19 +1,19 @@
 #built application files
-*.apk
-*.ap_
+Android/*.apk
+Android/*.ap_
 
 # files for the dex VM
-*.dex
+Android/*.dex
 
 # Java class files
-*.class
+Android/*.class
 
 # generated files
-bin/
-gen/
+Android/bin/
+Android/gen/
 
 # Local configuration file (sdk path, etc)
-local.properties
+Android/local.properties
 
 # Windows thumbnail db
 Thumbs.db
@@ -22,18 +22,18 @@ Thumbs.db
 .DS_Store
 
 # Eclipse project files
-.classpath
-.project
+Android/.classpath
+Android/.project
 
 # Android Studio
-*.iml
-.idea
+Android/*.iml
+Android/.idea
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
-.gradle
-build/
+Android/.gradle
+Android/build/
 
 #NDK
-obj/
+Android/obj/
 
 #database connection file
 connection.inc.php
