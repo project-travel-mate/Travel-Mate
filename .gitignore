@@ -28,7 +28,7 @@ Android/.project
 # Android Studio
 Android/*.iml
 Android/.idea
-#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+Android/.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 Android/.gradle
 Android/build/
 
