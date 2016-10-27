@@ -11,7 +11,7 @@
     tools:context="tie.hackathon.travelguide.AddNewTrip">
 
 
-    <EditText
+    <TextInputEditText
         android:layout_marginTop="12dp"
         android:id="@+id/tripname"
         android:layout_width="match_parent"
