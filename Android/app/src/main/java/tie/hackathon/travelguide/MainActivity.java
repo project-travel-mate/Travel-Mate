@@ -1,20 +1,21 @@
 package tie.hackathon.travelguide;
 
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -22,25 +23,21 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
 import Util.Constants;
-import Util.Utils;
 
+/**
+ * Launcher Activity; Handles fragment changes;
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences sharedPreferences;
+    Boolean discovered = false;
+    String beaconmajor;
     private BeaconManager beaconManager;
     private Region region;
-    SharedPreferences s;
-    Boolean discovered = false;
-    SharedPreferences.Editor e;
-    String beaconmajor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,35 +46,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        //Initially city fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new CityFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-
-        Intent i = getIntent();
-        Boolean b = i.getBooleanExtra(Constants.IS_BEACON, false);
-
-
-        if (b) {
-
-
-            Intent i2 = new Intent(MainActivity.this, DetectedBeacon.class);
-            i2.putExtra(Constants.CUR_UID, i.getStringExtra(Constants.CUR_UID));
-            i2.putExtra(Constants.CUR_MAJOR, i.getStringExtra(Constants.CUR_MAJOR));
-            i2.putExtra(Constants.CUR_MINOR, i.getStringExtra(Constants.CUR_MINOR));
-            i2.putExtra(Constants.IS_BEACON, true);
-            startActivity(i2);
-
+        // If beacon detected, open activity
+        final Intent intent = getIntent();
+        if (intent.getBooleanExtra(Constants.IS_BEACON, false)) {
+            Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
+            intent1.putExtra(Constants.CUR_UID, intent.getStringExtra(Constants.CUR_UID));
+            intent1.putExtra(Constants.CUR_MAJOR, intent.getStringExtra(Constants.CUR_MAJOR));
+            intent1.putExtra(Constants.CUR_MINOR, intent.getStringExtra(Constants.CUR_MINOR));
+            intent1.putExtra(Constants.IS_BEACON, true);
+            startActivity(intent1);
         }
 
 
+        // Start beacon ranging
         beaconManager = new BeaconManager(this);
         region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
-
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -86,39 +77,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-                if (discovered == false && list.size() > 0) {
+                if (!discovered && list.size() > 0) {
                     Beacon nearestBeacon = list.get(0);
                     beaconmajor = Integer.toString(nearestBeacon.getMajor());
                     Log.e("Discovered", "Nearest places: " + nearestBeacon.getMajor());
                     discovered = true;
-                    Intent i2 = new Intent(MainActivity.this, DetectedBeacon.class);
-                    i2.putExtra(Constants.CUR_UID, " ");
-                    i2.putExtra(Constants.CUR_MAJOR, beaconmajor);
-                    i2.putExtra(Constants.CUR_MINOR, " ");
-                    i2.putExtra(Constants.IS_BEACON, true);
-
-                    startActivity(i2);
-
-
+                    Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
+                    intent1.putExtra(Constants.CUR_UID, " ");
+                    intent1.putExtra(Constants.CUR_MAJOR, beaconmajor);
+                    intent1.putExtra(Constants.CUR_MINOR, " ");
+                    intent1.putExtra(Constants.IS_BEACON, true);
+                    startActivity(intent1);
                 }
             }
 
 
         });
 
+        // Get runtime permissions for Android M
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.BLUETOOTH,
+                        Manifest.permission.BLUETOOTH_ADMIN,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WAKE_LOCK,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.VIBRATE,
 
-        String isid = s.getString(Constants.UID, null);
-        if (isid == null)
-            new getloginid().execute();
-
+                }, 0);
+            }
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawer,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    // Change fragment on selecting naviagtion drawer item
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -144,26 +153,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-
         if (id == R.id.nav_travel) {
 
             fragment = new TravelFragment();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
-        } else if (id == R.id.nav_enter) {
-
-            fragment = new EntertainmentFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_city) {
 
             fragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
-
-           /* Intent i = new Intent(MainActivity.this, FinalCityInfo.class);
-            startActivity(i); */
-
 
         } else if (id == R.id.nav_utility) {
 
@@ -177,72 +175,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new EmergencyFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        }else if (id == R.id.nav_signout) {
-
-            e.putString(Constants.USER_ID,null);
-            e.commit();
-
+        } else if (id == R.id.nav_signout) {
+            sharedPreferences
+                    .edit()
+                    .putString(Constants.USER_ID, null)
+                    .apply();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
-
-
-
-
-
-
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public class getloginid extends AsyncTask<Void, Void, String> {
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                String id = telephonyManager.getDeviceId();
-                String uri = Constants.apilink +
-                        "login.php?device_id=" + id;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
-            }
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            Log.e("result is", result + " ");
-
-            if (result == null)
-                return;
-
-            try {
-                JSONObject json = new JSONObject(result);
-                String uid = json.getString("user_id");
-                e.putString(Constants.UID, uid);
-                e.commit();
-                Log.e("here", "commitin" + s.getString(Constants.UID, null));
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
-
-            }
-        }
-
     }
 
 }

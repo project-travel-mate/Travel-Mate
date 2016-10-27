@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,17 +32,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import Util.Constants;
-import Util.Utils;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
 import objects.City;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import views.FontTextView;
 
 public class CityFragment extends Fragment {
@@ -51,28 +54,27 @@ public class CityFragment extends Fragment {
     String nameyet;
     List<String> id = new ArrayList<>();
     List<String> list2 = new ArrayList<>();
-    static Activity activity;
+    Activity activity;
     ProgressBar pb;
     String cityid;
     Typeface tex;
+    ListView lv;
+    private Handler mHandler;
 
     public CityFragment() {
     }
 
-    ListView lv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_citylist, container, false);
 
-
-        InputMethodManager imm = (InputMethodManager)
-                activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        // Hide keyboard
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
 
-
-
+        mHandler = new Handler(Looper.getMainLooper());
         cityname = (AutoCompleteTextView) v.findViewById(R.id.cityname);
         lv = (ListView) v.findViewById(R.id.music_list);
         pb = (ProgressBar) v.findViewById(R.id.pb);
@@ -81,120 +83,231 @@ public class CityFragment extends Fragment {
         cityname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 nameyet = cityname.getText().toString();
                 if (!nameyet.contains(" ")) {
-                    Log.e("name",nameyet+" ");
-                    new tripautocomplete().execute();
+                    Log.e("name", nameyet + " ");
+                    tripAutoComplete();
                 }
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
 
 
-        try {
-            new getcitytask().execute();
-
-        } catch (Exception e) {
-            Toast.makeText(activity, "No internet connection", Toast.LENGTH_LONG).show();
-        }
-
+        getCity();
 
         return v;
     }
 
 
+    public void tripAutoComplete() {
+
+        // to fetch city names
+        String uri = Constants.apilink +
+                "city/autocomplete.php?search=" + nameyet.trim();
+        Log.e("executing", uri + " ");
 
 
-
-    //collegename autocomplete
-    class tripautocomplete extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            String readStream = null;
-            try {
-                String uri = Constants.apilink +
-                        "city/autocomplete.php?search=" + nameyet.trim();
-                Log.e("executing",uri+" ");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-                Log.e("executing",readStream);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-            return readStream;
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done");
-            JSONArray arr;
-            final ArrayList list, list1;
-            try {
-                arr = new JSONArray(result);
-                Log.e("erro",result+" ");
-
-                list = new ArrayList<String>();
-                list1 = new ArrayList<String>();
-                list2 = new ArrayList<String>();
-                for (int i = 0; i < arr.length(); i++) {
-                    try {
-                        list.add(arr.getJSONObject(i).getString("name"));
-                        list1.add(arr.getJSONObject(i).getString("id"));
-                        list2.add(arr.getJSONObject(i).optString("image","http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
-                        Log.e("adding","aff");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("error ", " " + e.getMessage());
-                    }
-                }
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                        (activity.getApplicationContext(), R.layout.spinner_layout, list);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                cityname.setThreshold(1);
-                cityname.setAdapter(dataAdapter);
-                cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+                mHandler.post(new Runnable() {
                     @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                        // TODO Auto-generated method stub
-                        Log.e("jkjb", "uihgiug" + arg2);
+                    public void run() {
+                        JSONArray arr;
+                        final ArrayList list, list1;
+                        try {
+                            arr = new JSONArray(response.body().string());
+                            Log.e("erro", arr + " ");
 
-                        cityid = list1.get(arg2).toString();
-                        Intent i = new Intent(activity,FinalCityInfo.class);
-                        i.putExtra("id_", cityid);
-                        i.putExtra("name_", list.get(arg2).toString());
-                        i.putExtra("image_",list2.get(arg2).toString());
-                        startActivity(i);
+                            list = new ArrayList<String>();
+                            list1 = new ArrayList<String>();
+                            list2 = new ArrayList<String>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    list.add(arr.getJSONObject(i).getString("name"));
+                                    list1.add(arr.getJSONObject(i).getString("id"));
+                                    list2.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
+                                    Log.e("adding", "aff");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
+                            }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (activity.getApplicationContext(), R.layout.spinner_layout, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            cityname.setThreshold(1);
+                            cityname.setAdapter(dataAdapter);
+                            cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    // TODO Auto-generated method stub
+                                    Log.e("jkjb", "uihgiug" + arg2);
+
+                                    cityid = list1.get(arg2).toString();
+                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    i.putExtra("id_", cityid);
+                                    i.putExtra("name_", list.get(arg2).toString());
+                                    i.putExtra("image_", list2.get(arg2));
+                                    startActivity(i);
+
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 });
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("erro",e.getMessage()+" ");
-            }
 
-        }
+            }
+        });
     }
 
 
+    public void getCity() {
+
+        // to fetch city names
+        String uri = Constants.apilink +
+                "all-cities.php";
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONArray ar = ob.getJSONArray("cities");
+                            pb.setVisibility(View.GONE);
+                            FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
+                            List<City> friends = new ArrayList<>();
+                            for (int i = 0; i < ar.length(); i++) {
+
+
+                                double color = Math.random();
+                                int c = (int) (color * 100) % 8;
+
+
+                                int colo;
+                                switch (c) {
+                                    case 0:
+                                        colo = R.color.sienna;
+                                        break;
+                                    case 1:
+                                        colo = R.color.saffron;
+                                        break;
+                                    case 2:
+                                        colo = R.color.green;
+                                        break;
+                                    case 3:
+                                        colo = R.color.pink;
+                                        break;
+                                    case 4:
+                                        colo = R.color.orange;
+                                        break;
+                                    case 5:
+                                        colo = R.color.saffron;
+                                        break;
+                                    case 6:
+                                        colo = R.color.purple;
+                                        break;
+                                    case 7:
+                                        colo = R.color.blue;
+                                        break;
+                                    default:
+                                        colo = R.color.blue;
+                                        break;
+                                }
+
+                                friends.add(new City(
+
+                                        ar.getJSONObject(i).getString("id"),
+                                        ar.getJSONObject(i).optString("image", "yolo"),
+                                        ar.getJSONObject(i).getString("name"),
+                                        colo,
+                                        ar.getJSONObject(i).getString("lat"),
+                                        ar.getJSONObject(i).getString("lng"),
+
+                                        "Know More", "View on Map", "Fun Facts", "View Website"));
+
+
+                            }
+
+
+                            lv.setAdapter(new CityAdapter(activity, friends, settings));
+                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    City f = (City) lv.getAdapter().getItem(position);
+                                    Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
+
+
+                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    i.putExtra("id_", f.getId());
+                                    i.putExtra("name_", f.getNickname());
+                                    i.putExtra("image_", f.getAvatar());
+                                    startActivity(i);
+
+
+                                }
+                            });
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.e("heer", e1.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+            }
+        });
+    }
 
 
     @Override
@@ -203,143 +316,22 @@ public class CityFragment extends Fragment {
         this.activity = (Activity) activity;
     }
 
-    public class getcitytask extends AsyncTask<Void, Void, String> {
 
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-
-            try {
-                String uri = Constants.apilink +
-                        "all-cities.php";
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", readStream + " ");
-                return readStream;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-
-            if (result == null) {
-                Toast.makeText(activity, "No result", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONObject ob = new JSONObject(result);
-                JSONArray ar = ob.getJSONArray("cities");
-                pb.setVisibility(View.GONE);
-                FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
-                List<City> friends = new ArrayList<>();
-                for (int i = 0; i < ar.length(); i++) {
-
-
-                    double color = Math.random();
-                    int c = (int) (color * 100) % 8;
-
-
-                    int colo;
-                    switch (c) {
-                        case 0:
-                            colo = R.color.sienna;
-                            break;
-                        case 1:
-                            colo = R.color.saffron;
-                            break;
-                        case 2:
-                            colo = R.color.green;
-                            break;
-                        case 3:
-                            colo = R.color.pink;
-                            break;
-                        case 4:
-                            colo = R.color.orange;
-                            break;
-                        case 5:
-                            colo = R.color.saffron;
-                            break;
-                        case 6:
-                            colo = R.color.purple;
-                            break;
-                        case 7:
-                            colo = R.color.blue;
-                            break;
-                        default:
-                            colo = R.color.blue;
-                            break;
-                    }
-
-                    String dr = ar.getJSONObject(i).optString("image", "yolo");
-
-                    friends.add(new City(
-
-                            ar.getJSONObject(i).getString("id"),
-                            dr,
-                            ar.getJSONObject(i).getString("name"), colo,
-                            ar.getJSONObject(i).getString("lat"),
-                            ar.getJSONObject(i).getString("lng"),
-
-                            "Know More", "View on Map", "Fun Facts", "View Website"));
-
-
-
-
-                }
-
-
-                lv.setAdapter(new FriendsAdapter(activity, friends, settings));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        City f = (City) lv.getAdapter().getItem(position);
-                        Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
-
-
-                        Intent i = new Intent(activity,FinalCityInfo.class);
-                        i.putExtra("id_", f.getId());
-                        i.putExtra("name_", f.getNickname());
-                        i.putExtra("image_",f.getAvatar());
-                        startActivity(i);
-
-
-                    }
-                });
-
-
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-                Log.e("heer", e1.getMessage() + " ");
-            }
-        }
-
-    }
-
-
-    class FriendsAdapter extends BaseFlipAdapter<City> {
+    class CityAdapter extends BaseFlipAdapter<City> {
 
         private final int PAGES = 3;
         private int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
-        public FriendsAdapter(Context context, List<City> items, FlipSettings settings) {
+        public CityAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
         }
 
         @Override
         public View getPage(int position, View convertView, ViewGroup parent, final City friend1, final City friend2) {
-            final FriendsHolder holder;
+            final CitiesHolder holder;
 
             if (convertView == null) {
-                holder = new FriendsHolder();
+                holder = new CitiesHolder();
                 convertView = activity.getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
                 holder.leftAvatar = (ImageView) convertView.findViewById(R.id.first);
                 holder.rightAvatar = (ImageView) convertView.findViewById(R.id.second);
@@ -357,7 +349,7 @@ public class CityFragment extends Fragment {
 
                 convertView.setTag(holder);
             } else {
-                holder = (FriendsHolder) convertView.getTag();
+                holder = (CitiesHolder) convertView.getTag();
             }
 
             switch (position) {
@@ -390,7 +382,7 @@ public class CityFragment extends Fragment {
             return PAGES;
         }
 
-        private void fillHolder(FriendsHolder holder, final City friend) {
+        private void fillHolder(CitiesHolder holder, final City friend) {
             if (friend == null)
                 return;
             Iterator<TextView> iViews = holder.interests.iterator();
@@ -411,10 +403,10 @@ public class CityFragment extends Fragment {
             holder.fv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity,FinalCityInfo.class);
+                    Intent i = new Intent(activity, FinalCityInfo.class);
                     i.putExtra("id_", friend.getId());
                     i.putExtra("name_", friend.getNickname());
-                    i.putExtra("image_",friend.getAvatar());
+                    i.putExtra("image_", friend.getAvatar());
                     startActivity(i);
 
                 }
@@ -459,13 +451,12 @@ public class CityFragment extends Fragment {
 
         }
 
-        class FriendsHolder {
+        class CitiesHolder {
             ImageView leftAvatar;
             ImageView rightAvatar;
             View infoPage;
             TextView fv1, fv2, fv3, fv4;
-            TextView left,right;
-
+            TextView left, right;
             List<TextView> interests = new ArrayList<>();
             TextView nickName;
         }

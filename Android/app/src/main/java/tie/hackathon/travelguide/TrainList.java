@@ -1,14 +1,13 @@
 package tie.hackathon.travelguide;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,14 +29,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Calendar;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TrainList extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    public static final String DATEPICKER_TAG = "datepicker";
     ProgressBar pb;
     ListView lv;
     DatePickerDialog.OnDateSetListener date;
@@ -47,7 +50,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     TextView selectdate;
     String dates = "17-10";
     String source, dest;
-    public static final String DATEPICKER_TAG = "datepicker";
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         setSupportActionBar(toolbar);
 
 
+        mHandler = new Handler(Looper.getMainLooper());
         s = PreferenceManager.getDefaultSharedPreferences(this);
         e = s.edit();
         source = s.getString(Constants.SOURCE_CITY, "delhi");
@@ -76,22 +80,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         });
         selectdate.setText(dates);
 
-        try {
-            new Book_RetrieveFeed().execute();
-
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
-
+        getTrainlist();
 
         final Calendar calendar = Calendar.getInstance();
         final com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog = com.fourmob.datetimepicker.date.DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
@@ -142,23 +131,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
 
         selectdate.setText(dates);
-        try {
-            new Book_RetrieveFeed().execute();
-
-
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(TrainList.this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            Log.e("YouTube:", "Cannot fetch " + e.toString());
-        }
+        getTrainlist();
     }
 
     @Override
@@ -166,49 +139,58 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
     }
 
-    public class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
 
-        protected String doInBackground(String... urls) {
-            try {
-                String uri = Constants.apilink +
-                        "get-trains.php?src_city=" +
-                        source +
-                        "&dest_city=" +
-                        dest +
-                        "&date=" +
-                        dates;
+    /**
+     * Calls API to get train list
+     */
+    public void getTrainlist() {
 
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
+        pb.setVisibility(View.VISIBLE);
+        String uri = Constants.apilink +
+                "get-trains.php?src_city=" +
+                source +
+                "&dest_city=" +
+                dest +
+                "&date=" +
+                dates;
 
-                Log.e("here", uri + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        Log.e("CALLING : ", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pb.setVisibility(View.VISIBLE);
-        }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("trains");
 
-        @Override
-        protected void onPostExecute(String Result) {
-            try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                JSONArray YTFeedItems = YTFeed.getJSONArray("trains");
+                            Log.e("response", YTFeedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
-                Log.e("response", YTFeedItems + " ");
-                pb.setVisibility(View.GONE);
-                lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
-            } catch (Exception e) {
-                e.printStackTrace();
+                    }
+                });
             }
-        }
+        });
     }
 
     @Override
@@ -218,32 +200,16 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
         city.setText(source + " to " + dest);
 
-        try {
-            new Book_RetrieveFeed().execute();
-
-
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(TrainList.this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            Log.e("YouTube:", "Cannot fetch " + e.toString());
-        }
+        getTrainlist();
     }
 
     public class Train_adapter extends BaseAdapter {
 
         Context context;
         JSONArray FeedItems;
-        private  LayoutInflater inflater = null;
+        private LayoutInflater inflater = null;
 
-        public Train_adapter(Context context, JSONArray FeedItems) {
+        Train_adapter(Context context, JSONArray FeedItems) {
             this.context = context;
             this.FeedItems = FeedItems;
 
@@ -371,10 +337,8 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("eroro", e.getMessage() + " ");
+                Log.e("ERROR : ", e.getMessage() + " ");
             }
-
-
             return vi;
         }
 

@@ -11,9 +11,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -37,32 +38,50 @@ import org.json.JSONObject;
 import org.lucasr.twowayview.TwoWayView;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import Util.Constants;
-import Util.Utils;
 import objects.MusicController;
 import objects.Song;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class Music extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
-    private ArrayList<Song> songList;
-    private ListView songView;
     TwoWayView sugsongView;
-    private MusicController controller;
-    private MusicService musicSrv;
-    SharedPreferences s ;
+    SharedPreferences s;
     SharedPreferences.Editor e;
     ImageView iv;
+    private ArrayList<Song> songList;
+    private ListView songView;
+    private Handler mHandler;
+    private MusicController controller;
+    private MusicService musicSrv;
     private Intent playIntent;
-    private boolean musicBound=false;
-    private boolean paused=false, playbackPaused=false;
+    private boolean musicBound = false;
+    private boolean paused = false, playbackPaused = false;
+    private ServiceConnection musicConnection = new ServiceConnection() {
 
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicSrv = binder.getService();
+            musicSrv.setList(songList);
+            musicBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +90,8 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        songView = (ListView)findViewById(R.id.music_list);
+        mHandler = new Handler(Looper.getMainLooper());
+        songView = (ListView) findViewById(R.id.music_list);
         songList = new ArrayList<Song>();
         iv = (ImageView) findViewById(R.id.iv);
 
@@ -96,7 +116,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         }
 
 
-
         Collections.sort(songList, new Comparator<Song>() {
             public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
@@ -109,45 +128,27 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
         sugsongView = (TwoWayView) findViewById(R.id.suggested_music_list);
 
-
-        new Book_RetrieveFeed2().execute();
+        getSuggestedMusic();
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-    private ServiceConnection musicConnection = new ServiceConnection(){
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
-            musicSrv = binder.getService();
-            musicSrv.setList(songList);
-            musicBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            musicBound = false;
-        }
-    };
-
     public void getSongList() {
         //retrieve song info
         ContentResolver musicResolver = getContentResolver();
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         //Uri musicUri2 = android.provider.MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, android.provider.MediaStore.Audio.Media._ID+" ASC");
-       // Cursor musicCursor2 = musicResolver.query(musicUri2, null, null, null, android.provider.MediaStore.Audio.Media._ID+" ASC");
-        if(musicCursor!=null && musicCursor.moveToFirst()){
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, MediaStore.Audio.Media._ID + " ASC");
+        // Cursor musicCursor2 = musicResolver.query(musicUri2, null, null, null, android.provider.MediaStore.Audio.Media._ID+" ASC");
+        if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
             int titleColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.TITLE);
+                    (MediaStore.Audio.Media.TITLE);
             int idColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
+                    (MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.ARTIST);
+                    (MediaStore.Audio.Media.ARTIST);
             int musicColumn = musicCursor.getColumnIndex
                     (MediaStore.Audio.Media.ALBUM_ID);
             int musicType = musicCursor.getColumnIndex
@@ -156,12 +157,12 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
             //add songs to list
             do {
-               // Log.e("music type", musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE))+" ");
+                // Log.e("music type", musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE))+" ");
                 long thisId = musicCursor.getLong(idColumn);
 
 
                 Integer thisTitle2 = musicCursor.getInt(musicType);
-                if(thisTitle2==0)
+                if (thisTitle2 == 0)
                     continue;
 
                 String thisTitle = musicCursor.getString(titleColumn);
@@ -169,13 +170,13 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 String album = musicCursor.getString(musicColumn);
 //                String genre = musicCursor.getString(genre_id);
 
-  //              Log.e("here!!",genre + "!! " + thisTitle);
+                //              Log.e("here!!",genre + "!! " + thisTitle);
                 songList.add(new Song(thisId, thisTitle, thisArtist, album));
             }
             while (musicCursor.moveToNext());
+            musicCursor.close();
         }
     }
-
 
 
     @Override
@@ -184,7 +185,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         finish();
     }
 
-    private void setController(){
+    private void setController() {
         controller = new MusicController(Music.this);
         controller.setPrevNextListeners(new View.OnClickListener() {
             @Override
@@ -205,14 +206,14 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     @Override
     protected void onStart() {
         super.onStart();
-        if(playIntent==null){
+        if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
     }
 
-    public void songPicked(View view){
+    public void songPicked(View view) {
         try {
             musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
             musicSrv.playSong();
@@ -221,17 +222,12 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 playbackPaused = false;
             }
 
-            try {
-                new Book_RetrieveFeed(songList.get(Integer.parseInt(view.getTag().toString())).getTitle(),
-                        songList.get(Integer.parseInt(view.getTag().toString())).getArtist()).execute();
-
-            } catch (Exception e) {
-
-            }
+            updateMood(songList.get(Integer.parseInt(view.getTag().toString())).getTitle(),
+                    songList.get(Integer.parseInt(view.getTag().toString())).getArtist());
 
             controller.show(0);
-        }catch(Exception e){
-            Log.e("eroro",e.getMessage()+" ");
+        } catch (Exception e) {
+            Log.e("ERROR : ", e.getMessage() + " ");
         }
     }
 
@@ -240,15 +236,15 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         //menu item selected
         switch (item.getItemId()) {
 
-            case android.R.id.home :
+            case android.R.id.home:
                 stopService(playIntent);
-                musicSrv=null;
+                musicSrv = null;
                 System.exit(0);
                 break;
 
             case R.id.action_end:
                 stopService(playIntent);
-                musicSrv=null;
+                musicSrv = null;
                 System.exit(0);
                 break;
             case R.id.action_shuffle:
@@ -272,24 +268,24 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     @Override
     protected void onDestroy() {
         stopService(playIntent);
-        musicSrv=null;
+        musicSrv = null;
         super.onDestroy();
     }
 
-    private void playNext(){
+    private void playNext() {
         musicSrv.playNext();
-        if(playbackPaused){
+        if (playbackPaused) {
             setController();
-            playbackPaused=false;
+            playbackPaused = false;
         }
         controller.show(0);
     }
 
-    private void playPrev(){
+    private void playPrev() {
         musicSrv.playPrev();
-        if(playbackPaused){
+        if (playbackPaused) {
             setController();
-            playbackPaused=false;
+            playbackPaused = false;
         }
         controller.show(0);
     }
@@ -299,6 +295,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     public boolean canPause() {
         return true;
     }
+
     @Override
     public boolean canSeekBackward() {
         return true;
@@ -311,109 +308,123 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
     @Override
     public int getCurrentPosition() {
-        if(musicSrv!=null && musicBound && musicSrv.isPng())
+        if (musicSrv != null && musicBound && musicSrv.isPng())
             return musicSrv.getPosn();
         else return 0;
     }
+
     @Override
     public int getDuration() {
-        if(musicSrv!=null && musicBound && musicSrv.isPng())
-        return musicSrv.getDur();
+        if (musicSrv != null && musicBound && musicSrv.isPng())
+            return musicSrv.getDur();
         else return 0;
     }
 
-    public class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
 
-        String sing,art;
+    /**
+     * Update user's mood
+     */
+    public void updateMood(String sing, String art) {
 
-        public Book_RetrieveFeed(String name,String play){
-            sing=name;
-            art=play;
-            if(art.equals("<unknown>"))
-                art="";
+        if (art.equals("<unknown>"))
+            art = "";
 
-        }
-        protected String doInBackground(String... urls) {
-            try {
-                String id;
-                id = s.getString(Constants.USER_ID,"1");
-                String uri = Constants.apilink +
-                        "music-genre.php?artist=" +
-                        art +
-                        "&song=" +
-                        sing +
-                        "&userid=" +
-                        id;
+        // to fetch song names
+        String id;
+        id = s.getString(Constants.USER_ID, "1");
+        String uri = Constants.apilink +
+                "music-genre.php?artist=" +
+                art +
+                "&song=" +
+                sing +
+                "&userid=" +
+                id;
+        Log.e("executing", uri + " ");
 
-                uri = uri.replace(" ","+");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-
-                Log.e("here", url+ readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-        @Override
-        protected void onPostExecute(String Result) {
-            Log.e("vfdfav d",Result+"  ");
-            try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                e.putString(Constants.CURRENT_SCORE,YTFeed.getString("mood"));
-                e.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("fbdabd",e.getMessage()+" ");
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject YTFeed = new JSONObject(res);
+                            e.putString(Constants.CURRENT_SCORE, YTFeed.getString("mood"));
+                            e.commit();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
+                    }
+                });
+
             }
-        }
+        });
     }
 
-    public class Book_RetrieveFeed2 extends AsyncTask<String, Void, String> {
-        private Exception exception;
 
-        protected String doInBackground(String... urls) {
-            try {
-                String uri =
-                        Constants.apilink +
-                                "suggested-music.php?userid="+s.getString(Constants.USER_ID,"1");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
+    /**
+     * Get suggestedMusic
+     */
+    public void getSuggestedMusic() {
 
-                return readStream;
-            } catch (Exception e) {
-                this.exception = e;
-                e.printStackTrace();
-                return null;
+        String uri = Constants.apilink + "suggested-music.php?userid=" + s.getString(Constants.USER_ID, "1");
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-        }
 
-        @Override
-        protected void onPostExecute(String Result) {
-            try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
-                Log.e("response", YTFeedItems + " ");
-                sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
-               } catch (Exception e) {
-                e.printStackTrace();
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
+                            Log.e("response", YTFeedItems + " ");
+                            sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
+                    }
+                });
+
             }
-        }
+        });
     }
-
 
     @Override
     public void pause() {
-        playbackPaused=true;
+        playbackPaused = true;
         musicSrv.pausePlayer();
     }
 
@@ -439,17 +450,17 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        paused=true;
+        paused = true;
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        if(paused){
+        if (paused) {
             setController();
-            paused=false;
+            paused = false;
         }
     }
 
@@ -468,14 +479,16 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
     public class SongAdapter extends BaseAdapter {
 
+        Context context;
+        TextView songView, artistView;
+        ImageView iv;
+        LinearLayout l;
         private ArrayList<Song> songs;
         private LayoutInflater songInf;
-        Context context;
-
-        public SongAdapter(Context c, ArrayList<Song> theSongs){
-            songs=theSongs;
+        public SongAdapter(Context c, ArrayList<Song> theSongs) {
+            songs = theSongs;
             context = c;
-            songInf=LayoutInflater.from(c);
+            songInf = LayoutInflater.from(c);
         }
 
         @Override
@@ -483,22 +496,15 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             return songs.size();
         }
 
-
-        TextView songView,artistView;
-        ImageView iv;
-        LinearLayout l;
-
-
-
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             //map to song layout
 
-            LinearLayout songLay = (LinearLayout)songInf.inflate
+            LinearLayout songLay = (LinearLayout) songInf.inflate
                     (R.layout.song, parent, false);
             //get title and artist views
-            songView = (TextView)songLay.findViewById(R.id.song_title);
-            artistView = (TextView)songLay.findViewById(R.id.song_artist);
+            songView = (TextView) songLay.findViewById(R.id.song_title);
+            artistView = (TextView) songLay.findViewById(R.id.song_artist);
             l = (LinearLayout) songLay.findViewById(R.id.ll);
             iv = (ImageView) songLay.findViewById(R.id.image);
             //get song using position
@@ -533,14 +539,10 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             return songLay;
 
 
-
-
             // if rawArt is null then no cover art is embedded in the file or is not
 // recognized as such.
 
         }
-
-
 
 
         @Override
@@ -617,7 +619,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 //     Log.e("FeedItem", FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail") + " ");
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("eroro",e.getMessage()+" ");
+                Log.e("eroro", e.getMessage() + " ");
             }
 
             VideoThumbnail.setOnClickListener(new View.OnClickListener() {

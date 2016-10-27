@@ -27,11 +27,8 @@ public class EntertainmentFragment extends Fragment implements View.OnClickListe
 
 
         View v = inflater.inflate(R.layout.content_entertainment, container, false);
-
         music = (LinearLayout) v.findViewById(R.id.music);
-
         music.setOnClickListener(this);
-
         return v;
     }
 
@@ -47,7 +44,6 @@ public class EntertainmentFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         Intent i;
         switch (view.getId()) {
-
             case R.id.music:
                 i = new Intent(activity, Music.class);
                 startActivity(i);

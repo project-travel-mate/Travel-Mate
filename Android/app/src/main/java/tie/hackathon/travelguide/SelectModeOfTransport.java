@@ -10,7 +10,8 @@ import android.widget.LinearLayout;
 
 public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout car,train,bus;
+    LinearLayout car, train, bus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
@@ -47,19 +48,21 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        Intent i ;
-        switch(view.getId()){
+        Intent i;
+        switch (view.getId()) {
 
-            case R.id.car : i = new Intent(SelectModeOfTransport.this,CarDirections.class);
+            case R.id.car:
+                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
                 startActivity(i);
                 break;
 
-            case R.id.bus : i = new Intent(SelectModeOfTransport.this,BusList.class);
+            case R.id.bus:
+                i = new Intent(SelectModeOfTransport.this, BusList.class);
                 startActivity(i);
                 break;
 
-
-            case R.id.train : i = new Intent(SelectModeOfTransport.this,TrainList.class);
+            case R.id.train:
+                i = new Intent(SelectModeOfTransport.this, TrainList.class);
                 startActivity(i);
                 break;
         }

@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,45 +34,48 @@ import org.lucasr.twowayview.TwoWayView;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import Util.Constants;
-import Util.Utils;
 import adapters.NestedListView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MyTripInfo extends AppCompatActivity {
-    String id, title, start, end, city, friendid;
-    Intent i;
+
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    String id, title, start, end, city, friendid, img,
+            mainfolder = "/storage/emulated/0/Pictures/", nameyet;
+    Intent intent;
     MaterialDialog dialog;
     ImageView iv;
-    String img;
     TextView tite, date;
     FlatButton add;
     TwoWayView twoway;
-    List<String> fname;
     NestedListView lv;
     AutoCompleteTextView frendname;
+    List<String> fname;
     List<File> imagesuri, mediaimages;
-    String mainfolder = "/storage/emulated/0/Pictures/";
-
-    private static final int INTENT_REQUEST_GET_IMAGES = 13;
-
-
-    String nameyet;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trip_info);
-        i = getIntent();
-        id = i.getStringExtra("_id");
-        img = i.getStringExtra("_image");
+        intent = getIntent();
+        id = intent.getStringExtra("_id");
+        img = intent.getStringExtra("_image");
+
         mediaimages = new ArrayList<>();
+        imagesuri = new ArrayList<>();
+        fname = new ArrayList<>();
+
         twoway = (TwoWayView) findViewById(R.id.lv);
         iv = (ImageView) findViewById(R.id.image);
         tite = (TextView) findViewById(R.id.head);
@@ -79,10 +83,10 @@ public class MyTripInfo extends AppCompatActivity {
         lv = (NestedListView) findViewById(R.id.friendlist);
         add = (FlatButton) findViewById(R.id.newfrriend);
         frendname = (AutoCompleteTextView) findViewById(R.id.fname);
-        imagesuri = new ArrayList<>();
-        fname = new ArrayList<>();
+
         Picasso.with(this).load(img).into(iv);
 
+        mHandler = new Handler(Looper.getMainLooper());
 
         File sdDir = new File(mainfolder);
         File[] sdDirFiles = sdDir.listFiles();
@@ -95,65 +99,260 @@ public class MyTripInfo extends AppCompatActivity {
         Imagesadapter ad = new Imagesadapter(this, mediaimages);
         twoway.setAdapter(ad);
 
-
         frendname.setThreshold(1);
         frendname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 nameyet = frendname.getText().toString();
                 if (!nameyet.contains(" ")) {
                     Log.e("name", nameyet + " ");
-                    new friendautocomplete().execute();
+                    friendautocomplete();
                 }
 
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
             }
         });
-
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new addfriend().execute();
+                addfriend();
             }
         });
 
+        mytrip();
 
-        new mytrip().execute();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
+    public void mytrip() {
+
+        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+                .title(R.string.app_name)
+                .content("Fetching trips...")
+                .progress(true, 0)
+                .show();
+
+        // to fetch city names
+        String uri = Constants.apilink + "trip/get-one.php?trip=" + id;
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject ob;
+                        try {
+                            ob = new JSONObject(res);
+                            title = ob.getString("title");
+                            start = ob.getString("start_time");
+                            end = ob.getString("end_time");
+                            city = ob.getString("city");
+
+                            tite.setText(city);
+                            tite = (TextView) findViewById(R.id.tname);
+                            tite.setText(title);
+                            final Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                            final String timeString =
+                                    new SimpleDateFormat("dd-MMM").format(cal.getTime());
+                            date.setText("Started on : " + timeString);
+
+                            JSONArray arrr = ob.getJSONArray("users");
+                            for (int i = 0; i < arrr.length(); i++) {
+                                fname.add(arrr.getJSONObject(i).getString("name"));
+
+                                Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
+                            }
+
+                            Log.e("vdsv", fname.size() + " ");
+
+                            Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
+                            lv.setAdapter(dataAdapter);
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
+
+            ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+            for (int i = 0; i < image_uris.size(); i++) {
+                Log.e("cdscsd", image_uris.get(i).getPath());
+            }
+            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void friendautocomplete() {
+
+        String uri = Constants.apilink + "users/find.php?search=" + nameyet.trim();
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("YO", "Done");
+                        JSONArray arr;
+                        final ArrayList list, list1;
+                        try {
+                            arr = new JSONArray(response.body().string());
+
+                            list = new ArrayList<String>();
+                            list1 = new ArrayList<String>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    list.add(arr.getJSONObject(i).getString("name"));
+                                    list1.add(arr.getJSONObject(i).getString("id"));
+                                    Log.e("adding", "aff");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
+                            }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (getApplicationContext(), R.layout.spinner_layout, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            frendname.setThreshold(1);
+                            frendname.setAdapter(dataAdapter);
+                            frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    // TODO Auto-generated method stub
+                                    Log.e("jkjb", "uihgiug" + arg2);
+
+                                    friendid = list1.get(arg2).toString();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void addfriend() {
+
+        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+                .title(R.string.app_name)
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
+
+        String uri = Constants.apilink + "trip/add-user.php?user=" + friendid + "&trip=" + id;
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
+                        finish();
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+        });
+    }
 
     public class Imagesadapter extends ArrayAdapter<File> {
         private final Activity context;
         private final List<File> name;
 
 
-        public Imagesadapter(Activity context, List<File> name) {
+        Imagesadapter(Activity context, List<File> name) {
             super(context, R.layout.trip_listitem, name);
             this.context = context;
             this.name = name;
-
-
-        }
-
-        private class ViewHolder {
-
-            ImageView iv;
-
-
         }
 
         @Override
@@ -168,7 +367,7 @@ public class MyTripInfo extends AppCompatActivity {
                 view.setTag(holder);
             } else
                 holder = (ViewHolder) view.getTag();
-            if (position == name.size()-1) {
+            if (position == name.size() - 1) {
                 holder.iv.setImageResource(R.drawable.add_image);
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -193,105 +392,11 @@ public class MyTripInfo extends AppCompatActivity {
                     }
                 });
             }
-
-
             return view;
         }
 
-
-    }
-
-
-    class mytrip extends AsyncTask<String, Void, String> {
-        String text;
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(MyTripInfo.this)
-                    .title("Travel Mate")
-                    .content("Fetching trips...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            String readStream = null;
-            try {
-                String uri = Constants.apilink +
-                        "trip/get-one.php?trip=" + id;
-                Log.e("YO", uri);
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            return readStream;
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done");
-            JSONObject ob;
-
-            try {
-                ob = new JSONObject(result);
-                title = ob.getString("title");
-                start = ob.getString("start_time");
-                end = ob.getString("end_time");
-                city = ob.getString("city");
-
-                tite.setText(city);
-                tite = (TextView) findViewById(R.id.tname);
-                tite.setText(title);
-                final Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                final String timeString =
-                        new SimpleDateFormat("dd-MMM").format(cal.getTime());
-                date.setText("Started on : " + timeString);
-
-                JSONArray arrr = ob.getJSONArray("users");
-                for (int i = 0; i < arrr.length(); i++) {
-                    fname.add(arrr.getJSONObject(i).getString("name"));
-
-                    Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
-                }
-
-                Log.e("vdsv",fname.size()+" ");
-
-                Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
-                lv.setAdapter(dataAdapter);
-
-
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-
-
-            dialog.dismiss();
-
-
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
-
-            ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            for (int i = 0; i < image_uris.size(); i++) {
-                //imagesuri.add(image_uris.get(i).getPath());
-                Log.e("cdscsd", image_uris.get(i).getPath());
-            }
-            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
-
+        private class ViewHolder {
+            ImageView iv;
         }
     }
 
@@ -299,20 +404,10 @@ public class MyTripInfo extends AppCompatActivity {
         private final Activity context;
         private final List<String> name;
 
-
         public Friendnameadapter(Activity context, List<String> name) {
             super(context, R.layout.friend_listitem, name);
             this.context = context;
             this.name = name;
-
-
-        }
-
-        private class ViewHolder {
-
-            TextView iv;
-
-
         }
 
         @Override
@@ -323,150 +418,16 @@ public class MyTripInfo extends AppCompatActivity {
                 view = mInflater.inflate(R.layout.friend_listitem, null);
                 holder = new ViewHolder();
                 holder.iv = (TextView) view.findViewById(R.id.name);
-
                 view.setTag(holder);
             } else
                 holder = (ViewHolder) view.getTag();
-
-
-                holder.iv.setText(name.get(position)+" ");
-
-
+            holder.iv.setText(name.get(position) + " ");
             return view;
         }
 
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        if (item.getItemId() == android.R.id.home)
-            finish();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    //collegename autocomplete
-    class friendautocomplete extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            String readStream = null;
-            try {
-                String uri = Constants.apilink +
-                        "users/find.php?search=" + nameyet.trim();
-                Log.e("executing", uri + " ");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-                Log.e("executing", readStream);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            return readStream;
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done");
-            JSONArray arr;
-            final ArrayList list, list1;
-            try {
-                arr = new JSONArray(result);
-                Log.e("erro", result + " ");
-
-                list = new ArrayList<String>();
-                list1 = new ArrayList<String>();
-                for (int i = 0; i < arr.length(); i++) {
-                    try {
-                        list.add(arr.getJSONObject(i).getString("name"));
-                        list1.add(arr.getJSONObject(i).getString("id"));
-                        Log.e("adding", "aff");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("error ", " " + e.getMessage());
-                    }
-                }
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                        (getApplicationContext(), R.layout.spinner_layout, list);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                frendname.setThreshold(1);
-                frendname.setAdapter(dataAdapter);
-                frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                        // TODO Auto-generated method stub
-                        Log.e("jkjb", "uihgiug" + arg2);
-
-                        friendid = list1.get(arg2).toString();
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("erro", e.getMessage() + " ");
-            }
-
+        private class ViewHolder {
+            TextView iv;
         }
     }
-
-
-    class addfriend extends AsyncTask<String, Void, String> {
-        String text;
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(MyTripInfo.this)
-                    .title("Travel Mate")
-                    .content("Please wait...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            String readStream = null;
-            try {
-                String uri = Constants.apilink +
-                        "trip/add-user.php?user=" +
-                        friendid +
-                        "&trip=" +
-                        id;
-
-                Log.e("Bfbsd", uri + " ");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            return readStream;
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done" + result);
-            Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
-            finish();
-            dialog.dismiss();
-
-
-        }
-    }
-
 
 }

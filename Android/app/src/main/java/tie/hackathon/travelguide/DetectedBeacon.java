@@ -1,8 +1,9 @@
 package tie.hackathon.travelguide;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,114 +15,100 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * If estimote beacon is detected, this activity is opened up
+ */
 public class DetectedBeacon extends AppCompatActivity {
 
-    String major;
-    String name,des,image,cname,cid;
+    String major, name, des, image, cname, cid;
+    private Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detected_beacon);
 
-        Intent i = getIntent();
+        Intent intent = getIntent();
+        major = intent.getStringExtra(Constants.CUR_MAJOR);
+        Log.e("Detected Beacon : ", major + " ");
 
-        major = i.getStringExtra(Constants.CUR_MAJOR);
-        Log.e("goit the beacon",major+" ");
+        mHandler = new Handler(Looper.getMainLooper());
+        // Get city name from latitude longitude
+        getCity();
 
-
-            new getcitytask().execute();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
 
+    public void getCity() {
+        // to fetch city name
+        String uri = Constants.apilink + "estimote_monuments/get_info.php?id=" + major;
+        Log.e("executing", uri + " ");
 
-
-    public class getcitytask extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            Log.e("doing","dbgsbghd");
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                String uri = Constants.apilink +
-                        "estimote_monuments/get_info.php?id=" +
-                      major;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-        }
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final JSONObject json = new JSONObject(res);
+                            name = json.getString("monument_name");
+                            des = json.getString("monument_description");
+                            image = json.getString("monument_image");
+                            cname = json.getString("city_name");
+                            cid = json.getString("city_id");
 
-        @Override
-        protected void onPostExecute(String result) {
+                            TextView tv = (TextView) findViewById(R.id.tv);
+                            tv.setText(des);
+                            tv = (TextView) findViewById(R.id.head);
+                            tv.setText(name);
 
-            if(result ==null)
-                return;
+                            ImageView iv = (ImageView) findViewById(R.id.imag);
+                            Picasso.with(DetectedBeacon.this)
+                                    .load(image)
+                                    .error(R.drawable.delhi)
+                                    .placeholder(R.drawable.delhi)
+                                    .into(iv);
 
-            try {
-                //Tranform the string into a json object
-
-                final JSONObject json = new JSONObject(result);
-
-
-                name = json.getString("monument_name");
-                des = json.getString("monument_description");
-                image = json.getString("monument_image");
-                cname = json.getString("city_name");
-                cid = json.getString("city_id");
-
-
-
-                TextView tv = (TextView) findViewById(R.id.tv);
-                tv.setText(des);
-
-                tv = (TextView) findViewById(R.id.head);
-                tv.setText(name);
-
-                ImageView iv = (ImageView) findViewById(R.id.imag);
-                Picasso.with(DetectedBeacon.this).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
-
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
+                    }
+                });
             }
-        }
-
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

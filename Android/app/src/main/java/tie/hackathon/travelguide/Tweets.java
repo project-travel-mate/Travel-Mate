@@ -3,8 +3,9 @@ package tie.hackathon.travelguide;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,30 +21,33 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class Tweets extends AppCompatActivity {
 
     Intent i;
-    String id, tit, image,description,icon;
+    String id, tit, image;
     ListView lv;
     MaterialDialog dialog;
-    List<String> nam,cou,lin;
+    List<String> nam, cou, lin;
     Tweetsadapter adapter;
+    private Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweets);
-        lv  = (ListView) findViewById(R.id.list);
-
-
-        new cityinfo().execute();
+        lv = (ListView) findViewById(R.id.list);
+        mHandler = new Handler(Looper.getMainLooper());
 
         i = getIntent();
         tit = i.getStringExtra("name_");
@@ -55,9 +59,7 @@ public class Tweets extends AppCompatActivity {
         cou = new ArrayList<>();
         lin = new ArrayList<>();
 
-
-
-
+        getTweets();
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,90 +67,80 @@ public class Tweets extends AppCompatActivity {
     }
 
 
+    public void getTweets() {
+
+        dialog = new MaterialDialog.Builder(Tweets.this)
+                .title(R.string.app_name)
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
+
+        // to fetch city names
+        String uri = Constants.apilink + "city/trends/twitter.php?city=" + id;
+        Log.e("executing", uri + " ");
 
 
-    public class cityinfo extends AsyncTask<Void, Void, String> {
-
-
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(Tweets.this)
-                    .title("Travel Mate")
-                    .content("Please wait...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                Log.e("started", "strted");
-                String uri = Constants.apilink +
-                        "city/trends/twitter.php?city=" + id;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-        }
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //Tranform the string into a json object
+                            JSONArray ob = new JSONArray(res);
+                            for (int i = 0; i < ob.length(); i++) {
+                                nam.add(ob.getJSONObject(i).getString("name"));
+                                lin.add(ob.getJSONObject(i).getString("url"));
+                                cou.add(ob.getJSONObject(i).getString("tweet_volume"));
+                            }
 
-        @Override
-        protected void onPostExecute(String result) {
-
-            if (result == null)
-                return;
-
-            try {
-                //Tranform the string into a json object
-                JSONArray ob = new JSONArray(result);
-                for(int i=0;i<ob.length();i++){
-                    nam.add(ob.getJSONObject(i).getString("name"));
-                    lin.add(ob.getJSONObject(i).getString("url"));
-                    cou.add(ob.getJSONObject(i).getString("tweet_volume"));
-                }
-
-                adapter = new Tweetsadapter(Tweets.this,nam,cou,lin);
-                lv.setAdapter(adapter);
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
+                            adapter = new Tweetsadapter(Tweets.this, nam, cou, lin);
+                            lv.setAdapter(adapter);
+                            dialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        }
+                    }
+                });
 
             }
-            dialog.dismiss();
-        }
-
+        });
     }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
 
     public class Tweetsadapter extends ArrayAdapter<String> {
         private final Activity context;
-        private final List<String> name,count,link;
+        private final List<String> name, count, link;
 
 
-        public Tweetsadapter(Activity context, List<String> name,List<String> count,List<String> link) {
+        Tweetsadapter(Activity context, List<String> name, List<String> count, List<String> link) {
             super(context, R.layout.trip_listitem, name);
             this.context = context;
             this.name = name;
             this.count = count;
             this.link = link;
-
-        }
-
-        private class ViewHolder {
-
-            TextView name,count;
-
 
         }
 
@@ -159,7 +151,6 @@ public class Tweets extends AppCompatActivity {
             if (view == null) {
                 view = mInflater.inflate(R.layout.tweet_listitem, null);
                 holder = new ViewHolder();
-
                 holder.name = (TextView) view.findViewById(R.id.tagmain);
                 view.setTag(holder);
             } else
@@ -167,31 +158,19 @@ public class Tweets extends AppCompatActivity {
 
             holder.name.setText(name.get(position));
 
-           view.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-
-                   Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.get(position)));
-                   startActivity(browserIntent);  }
-           });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.get(position)));
+                    startActivity(browserIntent);
+                }
+            });
             return view;
         }
 
-
-    }
-
-
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        if (item.getItemId() == android.R.id.home)
-            finish();
-
-        return super.onOptionsItemSelected(item);
+        private class ViewHolder {
+            TextView name;
+        }
     }
 
 }

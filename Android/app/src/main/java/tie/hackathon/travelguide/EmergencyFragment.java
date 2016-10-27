@@ -1,6 +1,7 @@
 package tie.hackathon.travelguide;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,24 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
+/**
+ * Displays emergency contact numbers
+ */
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
 
-
     Button police, fire, ambulance, blood_bank, bomb, railways;
-
     Activity activity;
 
     public EmergencyFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
         View v = inflater.inflate(R.layout.fragment_emergency, container, false);
 
         police = (Button) v.findViewById(R.id.police);
@@ -44,17 +41,15 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
         bomb.setOnClickListener(this);
         railways.setOnClickListener(this);
 
-
         return v;
     }
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (Activity) activity;
     }
-
 
     @Override
     public void onClick(View v) {

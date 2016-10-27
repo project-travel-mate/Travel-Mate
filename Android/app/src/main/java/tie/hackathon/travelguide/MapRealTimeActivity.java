@@ -1,11 +1,15 @@
 package tie.hackathon.travelguide;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,24 +33,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
 import Util.GPSTracker;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Show markers on map around user's current location
+ */
 public class MapRealTimeActivity extends AppCompatActivity {
 
     com.google.android.gms.maps.MapFragment mapFragment;
     GoogleMap map;
-    SharedPreferences s;
-    String sorcelat, deslat, sorcelon, deslon, surce, dest,  curlat, curlon;
-    List<String> name, call, web, addr;
+    SharedPreferences sharedPreferences;
+    String sorcelat, deslat, sorcelon, deslon, surce, dest, curlat, curlon;
+    List<String> name, nums, web, addr;
     ScrollView sc;
     int index = 0;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,36 +68,34 @@ public class MapRealTimeActivity extends AppCompatActivity {
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         map = mapFragment.getMap();
+        mHandler = new Handler(Looper.getMainLooper());
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        sorcelat = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
-        surce = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "Mumbai");
+        sorcelat = sharedPreferences.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
+        sorcelon = sharedPreferences.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
+        deslat = sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
+        deslon = sharedPreferences.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        surce = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
+        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+
         sc = (ScrollView) findViewById(R.id.data);
-
-
-
-
-
         sc.setVisibility(View.GONE);
 
-
-        name = new ArrayList<String>();
-        call = new ArrayList<String>();
-        web = new ArrayList<String>();
-        addr = new ArrayList<String>();
+        name = new ArrayList<>();
+        nums = new ArrayList<>();
+        web = new ArrayList<>();
+        addr = new ArrayList<>();
 
         curlat = deslat;
         curlon = deslon;
 
         setTitle("Places");
+
+        // Get user's current location
         GPSTracker tracker = new GPSTracker(this);
-        if (tracker.canGetLocation() == false) {
+        if (!tracker.canGetLocation()) {
             tracker.showSettingsAlert();
             Log.e("cdsknvdsl ", curlat + "dsbjvdks" + curlon);
         } else {
@@ -97,32 +106,28 @@ public class MapRealTimeActivity extends AppCompatActivity {
                 curlat = "28.5952242";
                 curlon = "77.1656782";
             }
-
-            new getcitytask(0, R.drawable.ic_local_pizza_black_24dp).execute();
+            getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
         }
 
-
+        // Zoom to current location
         LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
-
 
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 sc.setVisibility(View.VISIBLE);
-                int i;
-                for (i = 0; i < name.size(); i++) {
+                for (int i = 0; i < name.size(); i++) {
                     if (name.get(i).equals(marker.getTitle())) {
                         index = i;
                         break;
                     }
                 }
 
-
                 TextView Title = (TextView) findViewById(R.id.VideoTitle);
                 TextView Description = (TextView) findViewById(R.id.VideoDescription);
-                final Button calls, map, book;
+                final Button calls, book;
                 calls = (Button) findViewById(R.id.call);
                 book = (Button) findViewById(R.id.book);
 
@@ -132,7 +137,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + call.get(index)));
+                        intent.setData(Uri.parse("tel:" + nums.get(index)));
                         startActivity(intent);
 
                     }
@@ -140,7 +145,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
                 book.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent browserIntent = null;
+                        Intent browserIntent;
                         browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
                         startActivity(browserIntent);
                     }
@@ -149,19 +154,71 @@ public class MapRealTimeActivity extends AppCompatActivity {
             }
 
         });
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    /**
+     * Calls API to get nearby places
+     *
+     * @param mo mode; type of places;
+     * @param ic marker icon
+     */
+    public void getMarkers(int mo, final int ic) {
 
+        String uri = Constants.apilink + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
+        Log.e("executing", uri + " ");
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(final Call call, final Response response) throws IOException {
+
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("YO", "Done");
+                        try {
+                            final JSONObject json = new JSONObject(res);
+                            JSONArray routeArray = json.getJSONArray("results");
+
+                            for (int i = 0; i < routeArray.length(); i++) {
+                                name.add(routeArray.getJSONObject(i).getString("name"));
+                                web.add(routeArray.getJSONObject(i).getString("website"));
+                                nums.add(routeArray.getJSONObject(i).getString("phone"));
+                                addr.add(routeArray.getJSONObject(i).getString("address"));
+                                ShowMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
+                                        Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
+                                        routeArray.getJSONObject(i).getString("name"),
+                                        ic);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         if (item.getItemId() == R.id.action_sort) {
 
             new MaterialDialog.Builder(this)
@@ -170,16 +227,10 @@ public class MapRealTimeActivity extends AppCompatActivity {
                     .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                         @Override
                         public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                            /**
-                             * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
-                             * returning false here won't allow the newly selected check box to actually be selected.
-                             * See the limited multi choice dialog example in the sample project for details.
-                             **/
-
 
                             map.clear();
                             name.clear();
-                            call.clear();
+                            nums.clear();
                             web.clear();
                             addr.clear();
 
@@ -216,8 +267,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
                                         icon = R.drawable.ic_attach_money_black_24dp;
                                         break;
                                 }
-                                new getcitytask(which[0],icon).execute();
-
+                                getMarkers(which[0], icon);
 
                             }
 
@@ -232,97 +282,38 @@ public class MapRealTimeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Sets marker at given location on map
+     *
+     * @param LocationLat  latitude
+     * @param LocationLong longitude
+     * @param LocationName name of location
+     * @param LocationIcon icon
+     */
     public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
-        if (map != null) {
-            map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
+        if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
 
-            MarkerOptions abc = new MarkerOptions();
-            MarkerOptions x = abc
-                    .title(LocationName)
-                    .position(Coord)
-                    .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
-            map.addMarker(x);
-
-        }
-    }
-
-
-    public class getcitytask extends AsyncTask<Void, Void, String> {
-
-        int ic, mo;
-
-        public getcitytask(int mo, int ic) {
-            this.ic = ic;
-            this.mo = mo;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                Log.e("started","strted");
-                String uri = Constants.apilink +
-                        "places-api.php?mode=" +
-                        mo +
-                        "&lat=" +
-                        curlat +
-                        "&lng=" +
-                        curlon;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
-            }
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            if (result == null)
-                return;
-
-            try {
-                //Tranform the string into a json object
-
-                final JSONObject json = new JSONObject(result);
-                JSONArray routeArray = json.getJSONArray("results");
-
-                for (int i = 0; i < routeArray.length(); i++) {
-                    name.add(routeArray.getJSONObject(i).getString("name"));
-                    web.add(routeArray.getJSONObject(i).getString("website"));
-                    call.add(routeArray.getJSONObject(i).getString("phone"));
-                    addr.add(routeArray.getJSONObject(i).getString("address"));
-                    ShowMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
-                            Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
-                            routeArray.getJSONObject(i).getString("name"),
-                            ic);
-
-
-                }
-
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
+                MarkerOptions abc = new MarkerOptions();
+                MarkerOptions x = abc
+                        .title(LocationName)
+                        .position(Coord)
+                        .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
+                map.addMarker(x);
 
             }
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.map_menu, menu);
-
         return true;
     }
 

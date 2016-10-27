@@ -1,13 +1,12 @@
 package tie.hackathon.travelguide;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,23 +30,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Calendar;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Displays a list of available buses
+ */
 public class BusList extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    public static final String DATEPICKER_TAG = "datepicker";
     ProgressBar pb;
     ListView lv;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
-    TextView selectdate;
-    TextView city;
-    String source, dest;
-    String dates = "17-October-2015";
-    public static final String DATEPICKER_TAG = "datepicker";
+    SharedPreferences sharedPreferences;
+    TextView selectdate, city;
+    String source, dest, dates = "17-October-2015";
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +58,19 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
         setContentView(R.layout.activity_bus_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mHandler = new Handler(Looper.getMainLooper());
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
-        source = s.getString(Constants.SOURCE_CITY, "delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
+        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
         lv = (ListView) findViewById(R.id.music_list);
         pb = (ProgressBar) findViewById(R.id.pb);
         selectdate = (TextView) findViewById(R.id.seldate);
-
         city = (TextView) findViewById(R.id.city);
 
         selectdate.setText(dates);
         city.setText(source + " to " + dest);
+
         city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,31 +79,20 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
             }
         });
 
-        try {
-            new Book_RetrieveFeed().execute();
 
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
-
-
+        getBuslist();
         final Calendar calendar = Calendar.getInstance();
-        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
+        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                isVibrate());
 
 
+        // Select travel date
         selectdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 datePickerDialog.setVibrate(isVibrate());
                 datePickerDialog.setYearRange(1985, 2028);
                 datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
@@ -112,8 +104,6 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
 
@@ -125,10 +115,10 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
         return false;
     }
 
-
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
 
+        // Set date in format 17-October-2016
         dates = day + "-";
 
         String monthString;
@@ -178,118 +168,90 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
         dates = dates + "-" + year;
 
         selectdate.setText(dates);
-        try {
-            new Book_RetrieveFeed().execute();
-
-
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(BusList.this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            Log.e("YouTube:", "Cannot fetch " + e.toString());
-        }
+        //Update bus list
+        getBuslist();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-
     }
 
-    public class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
+    /**
+     * Calls API to get bus list
+     */
+    public void getBuslist() {
 
-        protected String doInBackground(String... urls) {
-            try {
-                String uri = Constants.apilink+ "bus-booking.php?src=" +
-                        source +
-                        "&dest=" +
-                        dest +
-                        "&date=" +
-                        dates;
+        pb.setVisibility(View.VISIBLE);
+        String uri = Constants.apilink + "bus-booking.php?src=" +
+                source +
+                "&dest=" +
+                dest +
+                "&date=" +
+                dates;
 
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
+        Log.e("CALLING : ", uri);
 
-                Log.e("here", uri + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(String Result) {
-            try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                Log.e("response", YTFeedItems + " ");
-                pb.setVisibility(View.GONE);
-                lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
-            } catch (Exception e) {
-                e.printStackTrace();
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
+                            Log.e("response", YTFeedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
             }
-        }
+        });
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        source = s.getString(Constants.SOURCE_CITY, "delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
+        source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
+        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
         city.setText(source + " to " + dest);
-
-        try {
-            new Book_RetrieveFeed().execute();
-
-
-        } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(BusList.this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            Log.e("YouTube:", "Cannot fetch " + e.toString());
-        }
+        // Update Bus list
+        getBuslist();
     }
 
+    // Sets adapter for bus list
     public class Bus_adapter extends BaseAdapter {
 
         Context context;
         JSONArray FeedItems;
         private LayoutInflater inflater = null;
 
-        public Bus_adapter(Context context, JSONArray FeedItems) {
+        Bus_adapter(Context context, JSONArray FeedItems) {
             this.context = context;
             this.FeedItems = FeedItems;
 
@@ -364,18 +326,9 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
                 fair.setText(FeedItems.getJSONObject(position).getString("fair") + " Rs");
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("eroro", e.getMessage() + " ");
+                Log.e("ERROR : ", e.getMessage() + " ");
             }
-
-            vi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-
             return vi;
         }
-
     }
 }

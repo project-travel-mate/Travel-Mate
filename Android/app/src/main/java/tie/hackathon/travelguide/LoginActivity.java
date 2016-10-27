@@ -2,8 +2,9 @@ package tie.hackathon.travelguide;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,12 +21,18 @@ import com.dd.processbutton.FlatButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Initiates login
+ */
 public class LoginActivity extends AppCompatActivity {
 
     TextView signup, login;
@@ -33,9 +40,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText num_login, pass_login, num_signup, pass_signup, name;
     String Num, Pass, Name;
     FlatButton ok_login, ok_signup;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
+    SharedPreferences sharedPreferences;
     MaterialDialog dialog;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // Initialization
         signup = (TextView) findViewById(R.id.signup);
         login = (TextView) findViewById(R.id.login);
         sig = (LinearLayout) findViewById(R.id.signup_layout);
@@ -56,223 +63,185 @@ public class LoginActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.input_name_signup);
         ok_login = (FlatButton) findViewById(R.id.ok_login);
         ok_signup = (FlatButton) findViewById(R.id.ok_signup);
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
+        mHandler = new Handler(Looper.getMainLooper());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (s.getString(Constants.USER_ID, null) != null) {
-
+        // If user is already logged in, open MainActivity
+        if (sharedPreferences.getString(Constants.USER_ID, null) != null) {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
-
         }
 
-
+        // Open signup
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 log.setVisibility(View.GONE);
                 sig.setVisibility(View.VISIBLE);
             }
         });
 
+        // Open login
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 log.setVisibility(View.VISIBLE);
                 sig.setVisibility(View.GONE);
-
             }
         });
 
-
+        // Call login
         ok_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Num = num_login.getText().toString();
                 Pass = pass_login.getText().toString();
-                new logintask(Num, Pass).execute();
-
-
+                login(Num, Pass);
             }
         });
 
+        // Call signup
         ok_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Num = num_signup.getText().toString();
                 Pass = pass_signup.getText().toString();
                 Name = name.getText().toString();
-                new signuptask(Name, Num, Pass).execute();
+                signup(Name, Num, Pass);
+            }
+        });
+    }
 
+    /**
+     * Calls Login API and checks for validity of credentials
+     * If yes, transfer to MainActivity
+     *
+     * @param num  user's phone number
+     * @param pass password user entered
+     */
+    public void login(final String num, String pass) {
+
+        dialog = new MaterialDialog.Builder(LoginActivity.this)
+                .title(R.string.app_name)
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
+
+        String uri = Constants.apilink + "users/login.php?contact=" + num + "&password=" + pass;
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(res);
+                            Boolean success = ob.getBoolean("success");
+                            if (success) {
+                                JSONObject o = ob.getJSONObject("user_id");
+                                String id = o.getString("id");
+                                String name = o.getString("name");
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(Constants.USER_ID, id);
+                                editor.putString(Constants.USER_NAME, name);
+                                editor.putString(Constants.USER_NUMBER, num);
+                                editor.apply();
+
+                                Log.e("LOGIN : ", "id id" + id + name);
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Invalid Password or number", Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                            dialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
+                        }
+                    }
+                });
 
             }
         });
-
-
     }
 
+    /**
+     * Calls Signup API
+     *
+     * @param name user's name
+     * @param num  user's phone number
+     * @param pass password user entered
+     */
+    public void signup(final String name, final String num, String pass) {
 
-    public class logintask extends AsyncTask<Void, Void, String> {
+        dialog = new MaterialDialog.Builder(LoginActivity.this)
+                .title(R.string.app_name)
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
 
-        String num, pass;
+        String uri = Constants.apilink + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+        Log.e("executing", uri + " ");
 
-        public logintask(String num, String pass) {
-            this.num = num;
-            this.pass = pass;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(LoginActivity.this)
-                    .title("Travel Mate")
-                    .content("Please wait...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                Log.e("started", "strted");
-                String uri = Constants.apilink +
-                        "users/login.php?contact=" +
-                        num +
-                        "&password=" + pass;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-        }
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(res);
+                            String id = ob.getString("user_id");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(Constants.USER_ID, id);
+                            editor.putString(Constants.USER_NAME, name);
+                            editor.putString(Constants.USER_NUMBER, num);
+                            editor.apply();
 
-        @Override
-        protected void onPostExecute(String result) {
-
-            if (result == null)
-                return;
-
-            try {
-                //Tranform the string into a json object
-                JSONObject ob = new JSONObject(result);
-
-                Boolean success = ob.getBoolean("success");
-                if (success) {
-
-                    JSONObject o = ob.getJSONObject("user_id");
-                    String id = o.getString("id");
-                    String name = o.getString("name");
-                    e.putString(Constants.USER_ID, id);
-                    e.putString(Constants.USER_NAME, name);
-                    e.putString(Constants.USER_NUMBER,num);
-                    e.commit();
-
-                    Log.e("vrsb", "id id" + id + name);
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-
-
-                } else {
-
-                    Toast.makeText(LoginActivity.this, "Invalid Password or number", Toast.LENGTH_LONG).show();
-                }
-
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
-
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+                            dialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
+                        }
+                    }
+                });
             }
-            dialog.dismiss();
-        }
-
+        });
     }
-
-    public class signuptask extends AsyncTask<Void, Void, String> {
-
-        String num, pass, name;
-
-        public signuptask(String name, String num, String pass) {
-            this.num = num;
-            this.pass = pass;
-            this.name = name;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(LoginActivity.this)
-                    .title("Travel Mate")
-                    .content("Please wait...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                Log.e("started", "strted");
-                String uri = Constants.apilink +
-                        "users/signup.php?name=" +
-                        name +
-                        "&contact=" +
-                        num +
-                        "&password=" +
-                        pass;
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", url + readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
-            }
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            if (result == null)
-                return;
-
-            try {
-                //Tranform the string into a json object
-                JSONObject ob = new JSONObject(result);
-                String id = ob.getString("user_id");
-
-                e.putString(Constants.USER_ID, id);
-                e.putString(Constants.USER_NAME, name);
-                e.putString(Constants.USER_NUMBER,num);
-                e.commit();
-
-                Log.e("vrsb", "id id" + id + name);
-
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
-                Toast.makeText(LoginActivity.this,"Some error occured : " + e.getMessage(),Toast.LENGTH_LONG).show();
-
-            }
-            dialog.dismiss();
-        }
-
-    }
-
 }

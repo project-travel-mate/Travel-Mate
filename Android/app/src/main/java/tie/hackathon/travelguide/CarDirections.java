@@ -1,13 +1,17 @@
 package tie.hackathon.travelguide;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,25 +32,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Show car directions between 2 cities
+ */
 public class CarDirections extends AppCompatActivity {
     com.google.android.gms.maps.MapFragment mapFragment;
     GoogleMap map;
-    private ProgressDialog progressDialog;
     String sorcelat, deslat, sorcelon, deslon, surce, dest, distancetext;
     Double distance;
     SharedPreferences s;
-    SharedPreferences.Editor e;
     TextView coste1, coste2, coste3, toll1, toll2, toll3, total1, total2, total3;
-    Double cost1, cost2, cost3;
-    Double fuelprice = 60.00, mileage_hatchback = 30.0, mileage_sedan = 18.0, mileage_suv = 16.0;
+    Double cost1, cost2, cost3, fuelprice = 60.00, mileage_hatchback = 30.0, mileage_sedan = 18.0, mileage_suv = 16.0;
+    private ProgressDialog progressDialog;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +65,8 @@ public class CarDirections extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
+
+        mHandler = new Handler(Looper.getMainLooper());
 
         sorcelat = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
         sorcelon = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
@@ -83,10 +93,10 @@ public class CarDirections extends AppCompatActivity {
                 String shareBody = "Lets plan a journey from " + surce + " to " + dest + ". The distace between the two cities is "
                         + distancetext;
 
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Travel Guide");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Travel Guide");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Choose"));
             }
         });
@@ -101,17 +111,14 @@ public class CarDirections extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("Car Directions");
-        new getcitytask().execute();
+        getDirections();
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,8 +127,12 @@ public class CarDirections extends AppCompatActivity {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
         if (map != null) {
-            map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 5));
+            if (ContextCompat.checkSelfPermission(CarDirections.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                map.setMyLocationEnabled(true);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 5));
+            }
 
             MarkerOptions abc = new MarkerOptions();
             MarkerOptions x = abc
@@ -133,127 +144,97 @@ public class CarDirections extends AppCompatActivity {
         }
     }
 
-    public class getcitytask extends AsyncTask<Void, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(CarDirections.this);
-            progressDialog.setMessage("Fetching route, Please wait...");
-            progressDialog.setIndeterminate(true);
-            progressDialog.show();
-        }
+    /**
+     * Calls API to get directions
+     */
+    public void getDirections() {
 
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-                        sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
-                        "&key=" +
-                        Constants.apilink +
-                        "&mode=driving\n";
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here", readStream + " ");
-                return readStream;
-            } catch (Exception e) {
-                Log.e("here", e.getMessage() + " ");
-                e.printStackTrace();
-                return null;
+        // Show a dialog box
+        progressDialog = new ProgressDialog(CarDirections.this);
+        progressDialog.setMessage("Fetching route, Please wait...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
+                sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
+                "&key=" +
+                Constants.apilink +
+                "&mode=driving\n";
+
+        Log.e("CALLING : ", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            final JSONObject json = new JSONObject(res);
+                            JSONArray routeArray = json.getJSONArray("routes");
+                            JSONObject routes = routeArray.getJSONObject(0);
+                            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+                            String encodedString = overviewPolylines.getString("points");
+                            List<LatLng> list = decodePoly(encodedString);
+                            Polyline line = map.addPolyline(new PolylineOptions()
+                                    .addAll(list)
+                                    .width(12)
+                                    .color(Color.parseColor("#05b1fb"))//Google maps blue color
+                                    .geodesic(true)
+                            );
+                            distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
+                            distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
 
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                //Tranform the string into a json object
+                            cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
+                            cost2 = (distance / mileage_sedan) * fuelprice / 1000;
+                            cost3 = (distance / mileage_suv) * fuelprice / 1000;
 
-                final JSONObject json = new JSONObject(result);
-                JSONArray routeArray = json.getJSONArray("routes");
-                JSONObject routes = routeArray.getJSONObject(0);
-                JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
-                String encodedString = overviewPolylines.getString("points");
-                List<LatLng> list = decodePoly(encodedString);
-                Polyline line = map.addPolyline(new PolylineOptions()
-                                .addAll(list)
-                                .width(12)
-                                .color(Color.parseColor("#05b1fb"))//Google maps blue color
-                                .geodesic(true)
-                );
-                distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
-                distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
+                            coste1.setText(cost1.intValue() + "");
+                            coste2.setText(cost2.intValue() + "");
+                            coste3.setText(cost3.intValue() + "");
+                            for (int z = 0; z < list.size() - 1; z++) {
+                                LatLng src = list.get(z);
+                                LatLng dest = list.get(z + 1);
+                                Polyline line2 = map.addPolyline(new PolylineOptions()
+                                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude, dest.longitude))
+                                        .width(2)
+                                        .color(Color.BLUE).geodesic(true));
+                            }
+                            progressDialog.hide();
+                            LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
+                            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
+                            map.animateCamera(yourLocation);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
-
-                cost1 = (distance / mileage_hatchback) * fuelprice/1000;
-                cost2 = (distance / mileage_sedan) * fuelprice/1000;
-                cost3 = (distance / mileage_suv) * fuelprice/1000;
-
-                coste1.setText(cost1.intValue() + "");
-                coste2.setText(cost2.intValue() + "");
-                coste3.setText(cost3.intValue() + "");
-                for (int z = 0; z < list.size() - 1; z++) {
-                    LatLng src = list.get(z);
-                    LatLng dest = list.get(z + 1);
-                    Polyline line2 = map.addPolyline(new PolylineOptions()
-                            .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude, dest.longitude))
-                            .width(2)
-                            .color(Color.BLUE).geodesic(true));
-                }
-                progressDialog.hide();
-                LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
-                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                map.animateCamera(yourLocation);
-
-            } catch (JSONException e) {
-                Log.e("here11", e.getMessage() + " ");
-
+                    }
+                });
             }
-        }
-
+        });
     }
 
-
-
-    public class tax_feed extends AsyncTask<String, Void, String> {
-
-        protected String doInBackground(String... urls) {
-            try {
-                String source,dest;
-                source = s.getString(Constants.SOURCE_CITY,"delhi");
-                dest = s.getString(Constants.DESTINATION_CITY,"mumbai");
-                String uri = "";
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-
-                Log.e("here",uri + readStream+" ");
-                return readStream;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-
-        @Override
-        protected void onPostExecute(String Result) {
-            try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                Log.e("response", YTFeedItems + " ");
-
-
-               } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
+    /**
+     * Displays path on path
+     * @param encoded   Encoded string that contains path
+     * @return          Points on map
+     */
     private List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<LatLng>();

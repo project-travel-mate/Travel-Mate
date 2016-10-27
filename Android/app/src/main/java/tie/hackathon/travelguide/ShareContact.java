@@ -2,7 +2,6 @@ package tie.hackathon.travelguide;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,6 @@ import Util.Services;
 public class ShareContact extends AppCompatActivity {
 
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
-    private boolean image = false;
     Button create, scan;
     SharedPreferences s;
     SharedPreferences.Editor e;
@@ -47,15 +44,9 @@ public class ShareContact extends AppCompatActivity {
             public void onClick(View v) {
                 //Create a new Intent to send to QR Droid
                 Intent qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
-                TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-
-                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "9971604989");
+                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
                 String name = s.getString(Constants.USER_NAME, "Swati Garg");
-                //Set text to encode
-                if (mPhoneNumber == null)
-                    mPhoneNumber = "9971604989";
-
 
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
@@ -64,7 +55,6 @@ public class ShareContact extends AppCompatActivity {
                 //Check whether an URL or an imge is required
                 //First item selected ("Get Bitmap")
                 //Notify we want complete results (default is FALSE)
-                image = true;
                 qrDroid.putExtra(Services.IMAGE, true);
                 //Optionally, set requested image size. 0 means "Fit Screen"
                 qrDroid.putExtra(Services.SIZE, 0);
@@ -120,7 +110,6 @@ public class ShareContact extends AppCompatActivity {
 
             addContact(x[1], x[0]);
 
-
             TextView resultTxt = (TextView) findViewById(R.id.result);
             resultTxt.setText(r);
             resultTxt.setVisibility(View.VISIBLE);
@@ -145,9 +134,6 @@ public class ShareContact extends AppCompatActivity {
             imgResult.setImageURI(Uri.parse(qrCode));
 
             imgResult.setVisibility(View.VISIBLE);
-
-            //TODO: After using this QR code, you should move it to a permanent location, or delete it
-
         }
     }
 

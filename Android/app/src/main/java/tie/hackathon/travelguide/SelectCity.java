@@ -2,8 +2,9 @@ package tie.hackathon.travelguide;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,26 +20,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SelectCity extends AppCompatActivity {
 
-    Spinner source,dest;
+    Spinner source, dest;
     ProgressBar pb;
     Button ok;
-    SharedPreferences s ;
+    SharedPreferences s;
     String[] cities;
     SharedPreferences.Editor e;
     List<String> id = new ArrayList<>();
     List<String> names = new ArrayList<>();
     List<String> lat = new ArrayList<>();
     List<String> lon = new ArrayList<>();
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,6 @@ public class SelectCity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       
-
 
         pb = (ProgressBar) findViewById(R.id.pb);
         source = (Spinner) findViewById(R.id.source);
@@ -56,6 +59,7 @@ public class SelectCity extends AppCompatActivity {
         ok = (Button) findViewById(R.id.ok);
         s = PreferenceManager.getDefaultSharedPreferences(this);
         e = s.edit();
+        mHandler = new Handler(Looper.getMainLooper());
 
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -64,11 +68,11 @@ public class SelectCity extends AppCompatActivity {
                 int sposition = source.getSelectedItemPosition();
                 int dposition = dest.getSelectedItemPosition();
 
-                if(sposition == dposition){
+                if (sposition == dposition) {
                     Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
-                }else {
+                } else {
                     e.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
                     e.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
                     e.putString(Constants.DESTINATION_CITY, names.get(dposition));
@@ -79,13 +83,13 @@ public class SelectCity extends AppCompatActivity {
                     e.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
                     startService(new Intent(SelectCity.this, LocationService.class));
 
-                    e.commit();
+                    e.apply();
                     finish();
                 }
             }
         });
 
-        new getcitytask().execute();
+        getcitytask();
 
 
         getSupportActionBar().setTitle(" ");
@@ -93,62 +97,58 @@ public class SelectCity extends AppCompatActivity {
     }
 
 
+    public void getcitytask() {
 
-    public class getcitytask extends AsyncTask<Void, Void, String> {
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            //this is where you should write your authentication code
-            // or call external service
-            // following try-catch just simulates network access
+        // to fetch city names
+        String uri = Constants.apilink + "all-cities.php";
+        Log.e("executing", uri + " ");
 
 
-            try {
-                String uri = Constants.apilink +
-                        "all-cities.php";
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                String readStream = Utils.readStream(con.getInputStream());
-                Log.e("here",readStream+" ");
-                return readStream;
-
-//                return readStream;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONArray ar = ob.getJSONArray("cities");
+                            for (int i = 0; i < ar.length(); i++) {
+                                id.add(ar.getJSONObject(i).getString("id"));
+                                names.add(ar.getJSONObject(i).getString("name"));
+                                lat.add(ar.getJSONObject(i).getString("lat"));
+                                lon.add(ar.getJSONObject(i).getString("lng"));
 
-        }
+                            }
+                            cities = new String[id.size()];
+                            cities = names.toArray(cities);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item, cities);
+                            source.setAdapter(adapter);
+                            dest.setAdapter(adapter);
+                            pb.setVisibility(View.GONE);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
 
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject ob  = new JSONObject(result);
-                JSONArray ar = ob.getJSONArray("cities");
-                for(int i = 0 ; i<ar.length();i++){
-                    id.add(ar.getJSONObject(i).getString("id"));
-                    names.add(ar.getJSONObject(i).getString("name"));
-                    lat.add(ar.getJSONObject(i).getString("lat"));
-                    lon.add(ar.getJSONObject(i).getString("lng"));
-
-                }
-                cities = new String[id.size()];
-                cities = names.toArray(cities);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item,cities);
-                source.setAdapter(adapter);
-                dest.setAdapter(adapter);
-                pb.setVisibility(View.GONE);
-
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-                Log.e("heer",e1.getMessage()+" ");
             }
-        }
-
+        });
     }
-
-
 }

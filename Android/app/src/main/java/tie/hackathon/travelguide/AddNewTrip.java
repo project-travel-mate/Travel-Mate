@@ -1,9 +1,11 @@
 package tie.hackathon.travelguide;
 
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -26,31 +27,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 import Util.Constants;
-import Util.Utils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Activity to add new trip
+ */
+public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-
+    public static final String DATEPICKER_TAG1 = "datepicker1", DATEPICKER_TAG2 = "datepicker2";
     AutoCompleteTextView cityname;
-    String nameyet,cityid="2";
-    FlatButton sdate,edate,ok;
-    EditText tname;
-    public static final String DATEPICKER_TAG1 = "datepicker1";
-    public static final String DATEPICKER_TAG2 = "datepicker2";
-    String startdate,enddate,tripname,userid;
+    ;
+    String nameyet, cityid = "2", startdate, enddate, tripname, userid;
+    FlatButton sdate, edate, ok;
+    TextInputEditText tname;
     MaterialDialog dialog;
-
-    SharedPreferences s;
-    SharedPreferences.Editor e;
-    String[] array = { "Paries,France", "PA,United States","Parana,Brazil", "Padua,Italy", "Pasadena,CA,United States"};
-
+    SharedPreferences sharedPreferences;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,57 +62,51 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         sdate = (FlatButton) findViewById(R.id.sdate);
         edate = (FlatButton) findViewById(R.id.edate);
         ok = (FlatButton) findViewById(R.id.ok);
-        tname = (EditText) findViewById(R.id.tripname);
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
-        userid = s.getString(Constants.USER_ID,"1");
+        tname = (TextInputEditText) findViewById(R.id.tripname);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userid = sharedPreferences.getString(Constants.USER_ID, "1");
+        mHandler = new Handler(Looper.getMainLooper());
 
         cityname.setThreshold(1);
         cityname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 nameyet = cityname.getText().toString();
                 if (!nameyet.contains(" ")) {
-                    Log.e("name",nameyet+" ");
-                    new tripautocomplete().execute();
+                    Log.e("name", nameyet + " ");
+                    tripAutoComplete();     // Class API to autocomplete cityname
                 }
-
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void afterTextChanged(Editable s) {
             }
         });
 
-
-
-
-
-
         final Calendar calendar = Calendar.getInstance();
-        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
+        final DatePickerDialog datePickerDialog =
+                DatePickerDialog.newInstance(this,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        isVibrate());
 
-
+        // Set Start date
         sdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 datePickerDialog.setVibrate(isVibrate());
                 datePickerDialog.setYearRange(1985, 2028);
                 datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
                 datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG1);
-
-
-
             }
         });
 
+        // Set end date
         edate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,180 +114,152 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                 datePickerDialog.setYearRange(1985, 2028);
                 datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
                 datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG2);
-
-
             }
         });
 
+        // Add a new trip
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 tripname = tname.getText().toString();
-
-                new addtrip().execute();
+                addTrip();
             }
         });
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-
-        if(datePickerDialog.getTag() == DATEPICKER_TAG1){
-
+        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
-            startdate = Long.toString(calendar.getTimeInMillis()/1000);
+            startdate = Long.toString(calendar.getTimeInMillis() / 1000);
         }
-        if(datePickerDialog.getTag() == DATEPICKER_TAG2){
-
+        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG2)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
-            enddate = Long.toString(calendar.getTimeInMillis()/1000);
+            enddate = Long.toString(calendar.getTimeInMillis() / 1000);
         }
-
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-
     }
 
+    /**
+     * Calls city name autocomplete API
+     */
+    public void tripAutoComplete() {
 
-    //collegename autocomplete
-    class tripautocomplete extends AsyncTask<String, Void, String> {
+        // to fetch city names
+        String uri = Constants.apilink + "city/autocomplete.php?search=" + nameyet.trim();
+        Log.e("executing", uri + " ");
 
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            String readStream = null;
-            try {
-
-                String uri = Constants.apilink + "city/autocomplete.php?search=" + nameyet.trim();
-                Log.e("executing",uri+" ");
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-                Log.e("executing",readStream);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-            return readStream;
 
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done");
-            JSONArray arr;
-            final ArrayList list, list1;
-            try {
-                arr = new JSONArray(result);
-                Log.e("erro",result+" ");
-
-                list = new ArrayList<String>();
-                list1 = new ArrayList<String>();
-                for (int i = 0; i < arr.length(); i++) {
-                    try {
-                        list.add(arr.getJSONObject(i).getString("name"));
-                        list1.add(arr.getJSONObject(i).getString("id"));
-                        Log.e("adding","aff");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("error ", " " + e.getMessage());
-                    }
-                }
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                        (getApplicationContext(), R.layout.spinner_layout, list);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                cityname.setThreshold(1);
-                cityname.setAdapter(dataAdapter);
-                cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
                     @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                        // TODO Auto-generated method stub
-                        Log.e("jkjb", "uihgiug" + arg2);
+                    public void run() {
+                        JSONArray arr;
+                        final ArrayList names, ids;
+                        try {
+                            arr = new JSONArray(res);
+                            Log.e("RESPONSE : ", arr + " ");
 
-                        cityid = list1.get(arg2).toString();
+                            names = new ArrayList<>();
+                            ids = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    names.add(arr.getJSONObject(i).getString("name"));
+                                    ids.add(arr.getJSONObject(i).getString("id"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
+                            }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (getApplicationContext(), R.layout.spinner_layout, names);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            cityname.setThreshold(1);
+                            cityname.setAdapter(dataAdapter);
+                            cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    cityid = ids.get(arg2).toString();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
                     }
                 });
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("erro",e.getMessage()+" ");
-            }
 
-        }
+            }
+        });
     }
 
+    /**
+     * Calls API to add  new trip
+     */
+    public void addTrip() {
 
+        // Show a dialog box
+        dialog = new MaterialDialog.Builder(AddNewTrip.this)
+                .title(R.string.app_name)
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
 
+        String uri = Constants.apilink + "trip/add-trip.php?user=" + userid +
+                "&title=" + tripname +
+                "&start_time=" + startdate +
+                "&city=" + cityid;
 
-    class addtrip extends AsyncTask<String, Void, String> {
-        String text;
+        Log.e("CALLING : ", uri);
 
-        @Override
-        protected void onPreExecute() {
-            dialog = new MaterialDialog.Builder(AddNewTrip.this)
-                    .title("Travel Mate")
-                    .content("Please wait...")
-                    .progress(true, 0)
-                    .show();
-        }
-
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-
-
-            String readStream = null;
-            try {
-                String uri = Constants.apilink +"trip/add-trip.php?user=" +
-                        userid +
-                        "&title=" +
-                        tripname +
-                        "&" +
-                        "start_time=" +
-                        startdate +
-                        "&city=" +
-                        cityid;
-
-                Log.e("addinhg",uri+" ");
-
-                URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                readStream = Utils.readStream(con.getInputStream());
-            } catch (IOException e1) {
-                e1.printStackTrace();
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
-            return readStream;
 
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("YO", "Done");
-            Toast.makeText(AddNewTrip.this,"Trip added",Toast.LENGTH_LONG).show();
-            finish();
-            dialog.dismiss();
-
-
-        }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        Toast.makeText(AddNewTrip.this, "Trip added", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
-
-
 
     private boolean isVibrate() {
         return false;
@@ -303,11 +271,8 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
 
