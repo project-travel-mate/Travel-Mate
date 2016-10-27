@@ -1,9 +1,7 @@
 package tie.hackathon.travelguide;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -20,9 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,11 +39,10 @@ import java.util.List;
 
 import Util.Constants;
 import Util.Utils;
-import objects.Friend;
-import views.FontTextView;
-
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
+import objects.Friend;
+import views.FontTextView;
 
 public class city_fragment extends Fragment {
 

@@ -1,20 +1,21 @@
 package tie.hackathon.travelguide;
 
-import android.app.Service;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.os.IBinder;
-import java.util.ArrayList;
-import android.content.ContentUris;
-import android.media.AudioManager;
-import android.net.Uri;
-import android.os.Binder;
-import android.os.PowerManager;
-import android.util.Log;
-import java.util.Random;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
+import android.content.ContentUris;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.PowerManager;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import objects.Song;
 

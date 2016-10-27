@@ -1,19 +1,5 @@
 package Util;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.TabActivity;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Bundle;
-import android.widget.TabHost;
-
-import tie.hackathon.travelguide.R;
-
 /**
  * Shows three Tabs with options to Scan, Decode and Encode QR codes using
  * services provided by "QR Droid"

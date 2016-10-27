@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 public class entertainment_fragment extends Fragment implements View.OnClickListener {
 
 
-    static Activity activity;
+    Activity activity;
 
     public entertainment_fragment() {
     }
@@ -50,20 +50,15 @@ public class entertainment_fragment extends Fragment implements View.OnClickList
         Intent i;
         switch (view.getId()) {
 
-
-
             case R.id.music:
                 i = new Intent(activity, Music.class);
                 startActivity(i);
                 break;
 
-
             case R.id.book:
                 i = new Intent(activity, Books_new.class);
                 startActivity(i);
                 break;
-
-
         }
 
     }

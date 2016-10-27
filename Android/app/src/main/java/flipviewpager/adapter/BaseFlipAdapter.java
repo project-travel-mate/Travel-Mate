@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.List;
+
 import flipviewpager.utils.FlipSettings;
 import flipviewpager.view.FlipViewPager;
 import tie.hackathon.travelguide.R;
-
-import java.util.List;
 
 /**
  * @author Yalantis
