@@ -11,14 +11,14 @@ import Util.Constants;
 import adapters.ImageAdapter;
 
 
-public class Event_Image extends AppCompatActivity {
+public class EventImage extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_event__image);
+        setContentView(R.layout.activity_event_image);
 
         Intent i = getIntent();
         String name = i.getStringExtra(Constants.EVENT_NAME);

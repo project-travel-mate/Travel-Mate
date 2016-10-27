@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class CheckList extends AppCompatActivity {
+public class Checklist extends AppCompatActivity {
 
 
     @Override
@@ -20,7 +20,7 @@ public class CheckList extends AppCompatActivity {
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new CheckList_fragment();
+        fragment = new ChecklistFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         setTitle("Check List");

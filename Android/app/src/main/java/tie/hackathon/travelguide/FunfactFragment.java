@@ -21,14 +21,14 @@ import java.io.FileOutputStream;
 /**
  * Created by swati on 25/1/16.
  */
-public class Funfact_fragment extends Fragment {
+public class FunfactFragment extends Fragment {
     File file;
     public static final String EXTRA_MESSAGE_IMAGE = "_image";
     public static final String EXTRA_MESSAGE_TEXT = "_text";
     public static final String EXTRA_MESSAGE_TITLE = "_title";
-        public static final Funfact_fragment newInstance(String image,String text,String title)
+        public static final FunfactFragment newInstance(String image, String text, String title)
         {
-            Funfact_fragment f = new Funfact_fragment();
+            FunfactFragment f = new FunfactFragment();
             Bundle bdl = new Bundle(1);
             bdl.putString(EXTRA_MESSAGE_IMAGE, image);
             bdl.putString(EXTRA_MESSAGE_TEXT, text);

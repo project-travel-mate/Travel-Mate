@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
-import database.DBhelp_new;
-import database.TableEntry_new;
+import Util.DBhelp;
+import Util.TableEntry;
 
 
-public class CheckList_fragment extends Fragment {
+public class ChecklistFragment extends Fragment {
 
 
     CheckList_adapter ad;
@@ -39,14 +39,14 @@ public class CheckList_fragment extends Fragment {
     List<String> id = new ArrayList<>();
     List<String> task = new ArrayList<>();
     List<String> isdone = new ArrayList<>();
-    DBhelp_new dbhelp;
+    DBhelp dbhelp;
     SharedPreferences s;
     SharedPreferences.Editor e;
     SQLiteDatabase db;
     List<String> base_task = new ArrayList<>();
     ListView lv;
 
-    public CheckList_fragment() {
+    public ChecklistFragment() {
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CheckList_fragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_check_list, container, false);
 
-        dbhelp = new DBhelp_new(getContext());
+        dbhelp = new DBhelp(getContext());
         db = dbhelp.getWritableDatabase();
 
 
@@ -75,9 +75,9 @@ public class CheckList_fragment extends Fragment {
             for (int i = 0; i < base_task.size(); i++) {
 
                 ContentValues insertValues = new ContentValues();
-                insertValues.put(TableEntry_new.COLUMN_NAME, base_task.get(i));
-                insertValues.put(TableEntry_new.COLUMN_NAME_ISDONE, "0");
-                db.insert(TableEntry_new.TABLE_NAME, null, insertValues);
+                insertValues.put(TableEntry.COLUMN_NAME, base_task.get(i));
+                insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
+                db.insert(TableEntry.TABLE_NAME, null, insertValues);
             }
 
             e.putString(Constants.ID_ADDED_INDB, "yes");
@@ -112,9 +112,9 @@ public class CheckList_fragment extends Fragment {
 
                                 if (!e.getText().toString().equals("")) {
                                     ContentValues insertValues = new ContentValues();
-                                    insertValues.put(TableEntry_new.COLUMN_NAME, e.getText().toString());
-                                    insertValues.put(TableEntry_new.COLUMN_NAME_ISDONE, "0");
-                                    db.insert(TableEntry_new.TABLE_NAME, null, insertValues);
+                                    insertValues.put(TableEntry.COLUMN_NAME, e.getText().toString());
+                                    insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
+                                    db.insert(TableEntry.TABLE_NAME, null, insertValues);
                                     refresh();
                                 }
                             }
@@ -135,20 +135,16 @@ public class CheckList_fragment extends Fragment {
         ad.notifyDataSetChanged();
 
 
-        Cursor c = db.rawQuery("SELECT * FROM " + TableEntry_new.TABLE_NAME + " ORDER BY " +
-                TableEntry_new.COLUMN_NAME_ISDONE, null);
+        Cursor c = db.rawQuery("SELECT * FROM " + TableEntry.TABLE_NAME + " ORDER BY " +
+                TableEntry.COLUMN_NAME_ISDONE, null);
         if (c.moveToFirst()) {
-
             do {
-
-                id.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ID)));
-                task.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME)));
-                isdone.add(c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ISDONE)));
-                Log.e("adding","vfd" + c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME))+ c.getString(c.getColumnIndex(TableEntry_new.COLUMN_NAME_ISDONE)));
-
+                id.add(c.getString(c.getColumnIndex(TableEntry.COLUMN_NAME_ID)));
+                task.add(c.getString(c.getColumnIndex(TableEntry.COLUMN_NAME)));
+                isdone.add(c.getString(c.getColumnIndex(TableEntry.COLUMN_NAME_ISDONE)));
             } while (c.moveToNext());
         }
-
+        c.close();
         ad.notifyDataSetChanged();
 
 
@@ -166,7 +162,7 @@ public class CheckList_fragment extends Fragment {
 
         private final Activity context;
         private final List<String> task, id, isdone;
-        DBhelp_new dbhelp;
+        DBhelp dbhelp;
         SQLiteDatabase db;
 
 
@@ -179,8 +175,7 @@ public class CheckList_fragment extends Fragment {
         }
 
 
-
-         class ViewHolder{
+        class ViewHolder {
             CheckBox c;
         }
 
@@ -198,12 +193,11 @@ public class CheckList_fragment extends Fragment {
                 holder.c = (CheckBox) vi.findViewById(R.id.cb1);
                 vi.setTag(holder);
 
-            }
-            else{
+            } else {
                 holder = (ViewHolder) vi.getTag();
             }
 
-            dbhelp = new DBhelp_new(context);
+            dbhelp = new DBhelp(context);
             db = dbhelp.getWritableDatabase();
 
             if (isdone.get(position).equals("1")) {
@@ -216,22 +210,21 @@ public class CheckList_fragment extends Fragment {
             holder.c.setText(task.get(position));
 
 
-
-            holder.c.setOnClickListener(new CheckBox.OnClickListener(){
+            holder.c.setOnClickListener(new CheckBox.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    CheckBox c2 = (CheckBox)view;
-                    if(c2.isChecked()){
+                    CheckBox c2 = (CheckBox) view;
+                    if (c2.isChecked()) {
 
-                        String x = "UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position);
+                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
+                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
 
                         db.execSQL(x);
                         Log.e("execited", x + " ");
-                    }else{
-                        String x = "UPDATE " + TableEntry_new.TABLE_NAME + " SET " + TableEntry_new.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                                TableEntry_new.COLUMN_NAME_ID + " IS " + id.get(position);
+                    } else {
+                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
                         db.execSQL(x);
                         Log.e("execited", x + " ");
                     }

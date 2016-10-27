@@ -41,10 +41,10 @@ import Util.Constants;
 import Util.Utils;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
-import objects.Friend;
+import objects.City;
 import views.FontTextView;
 
-public class city_fragment extends Fragment {
+public class CityFragment extends Fragment {
 
 
     AutoCompleteTextView cityname;
@@ -56,7 +56,7 @@ public class city_fragment extends Fragment {
     String cityid;
     Typeface tex;
 
-    public city_fragment() {
+    public CityFragment() {
     }
 
     ListView lv;
@@ -240,7 +240,7 @@ public class city_fragment extends Fragment {
                 JSONArray ar = ob.getJSONArray("cities");
                 pb.setVisibility(View.GONE);
                 FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
-                List<Friend> friends = new ArrayList<>();
+                List<City> friends = new ArrayList<>();
                 for (int i = 0; i < ar.length(); i++) {
 
 
@@ -281,7 +281,7 @@ public class city_fragment extends Fragment {
 
                     String dr = ar.getJSONObject(i).optString("image", "yolo");
 
-                    friends.add(new Friend(
+                    friends.add(new City(
 
                             ar.getJSONObject(i).getString("id"),
                             dr,
@@ -301,7 +301,7 @@ public class city_fragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Friend f = (Friend) lv.getAdapter().getItem(position);
+                        City f = (City) lv.getAdapter().getItem(position);
                         Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
 
 
@@ -325,17 +325,17 @@ public class city_fragment extends Fragment {
     }
 
 
-    class FriendsAdapter extends BaseFlipAdapter<Friend> {
+    class FriendsAdapter extends BaseFlipAdapter<City> {
 
         private final int PAGES = 3;
         private int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
-        public FriendsAdapter(Context context, List<Friend> items, FlipSettings settings) {
+        public FriendsAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
         }
 
         @Override
-        public View getPage(int position, View convertView, ViewGroup parent, final Friend friend1, final Friend friend2) {
+        public View getPage(int position, View convertView, ViewGroup parent, final City friend1, final City friend2) {
             final FriendsHolder holder;
 
             if (convertView == null) {
@@ -390,7 +390,7 @@ public class city_fragment extends Fragment {
             return PAGES;
         }
 
-        private void fillHolder(FriendsHolder holder, final Friend friend) {
+        private void fillHolder(FriendsHolder holder, final City friend) {
             if (friend == null)
                 return;
             Iterator<TextView> iViews = holder.interests.iterator();

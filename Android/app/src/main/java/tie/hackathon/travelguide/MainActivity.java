@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new city_fragment();
+        fragment = new CityFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
 
@@ -147,17 +147,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_travel) {
 
-            fragment = new travel_fragment();
+            fragment = new TravelFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_enter) {
 
-            fragment = new entertainment_fragment();
+            fragment = new EntertainmentFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_city) {
 
-            fragment = new city_fragment();
+            fragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
 
@@ -167,14 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_utility) {
 
-            fragment = new utilities_fragment();
+            fragment = new UtilitiesFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
         } else if (id == R.id.nav_changecity) {
             Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_emergency) {
-            fragment = new Emergency_fragment();
+            fragment = new EmergencyFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         }else if (id == R.id.nav_signout) {

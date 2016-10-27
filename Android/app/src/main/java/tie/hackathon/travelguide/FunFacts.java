@@ -116,7 +116,7 @@ public class FunFacts extends AppCompatActivity {
                 for (int i = 0; i < ar.length(); i++) {
 
 
-                    fList.add(Funfact_fragment.newInstance(ar.getJSONObject(i).getString("image"),
+                    fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
                             ar.getJSONObject(i).getString("fact"), name));
                 }
 

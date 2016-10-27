@@ -23,7 +23,7 @@ import android.widget.Toast;
 import Util.Constants;
 import Util.Services;
 
-public class shareContact extends AppCompatActivity {
+public class ShareContact extends AppCompatActivity {
 
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
     private boolean image = false;
@@ -74,7 +74,7 @@ public class shareContact extends AppCompatActivity {
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_CREATE);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(shareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,7 +93,7 @@ public class shareContact extends AppCompatActivity {
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(shareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -134,12 +134,12 @@ public class shareContact extends AppCompatActivity {
 
             //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
             if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(shareContact.this, R.string.not_saved, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShareContact.this, R.string.not_saved, Toast.LENGTH_LONG).show();
                 return;
             }
 
             //Show success message
-            Toast.makeText(shareContact.this, getString(R.string.saved) + " " + qrCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(ShareContact.this, getString(R.string.saved) + " " + qrCode, Toast.LENGTH_LONG).show();
 
             //Load QR code image from given path
             imgResult.setImageURI(Uri.parse(qrCode));

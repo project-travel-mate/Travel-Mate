@@ -1,7 +1,7 @@
 package Util;
 
 /**
- * Created by kamlesh kumar garg on 04-06-2015.
+ * Created by Swati garg on 04-06-2015.
  */
 
 import android.app.Activity;
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-// validating email id
+    // validating email id
     public static boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -44,7 +44,7 @@ public class Utils {
     /*
     open in browser
     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-startActivity(browserIntent);
+    startActivity(browserIntent);
      */
 
 
@@ -62,8 +62,7 @@ startActivity(browserIntent);
         return sb.toString();
     }
 
-
-	//is network available?
+    //is network available?
    public static boolean isNetworkAvailable(Activity a) {
        ConnectivityManager connectivityManager
                = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
@@ -72,7 +71,7 @@ startActivity(browserIntent);
    }
 
 
-//hide soft keyboard
+    //hide soft keyboard
     public static void hideKeyboard(Activity th) {
         View view = th.getCurrentFocus();
         if (view != null) {
@@ -92,36 +91,5 @@ startActivity(browserIntent);
        String text = new String(data, "UTF-8");
        return text;
    }
-
-
-
-//    WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-//    Display display = manager.getDefaultDisplay();
-//    int width = display.getWidth();
-//    int height = display.getHeight();
-//    int smallerDimension = (width < height ? width : height)* 7 / 8;
-//
-//    QRCodeEncoder qrCodeEncoder = new QRCodeEncoder("Hello",
-//            null,
-//            Contents.Type.TEXT,
-//            BarcodeFormat.QR_CODE.toString(),
-//            smallerDimension);
-//    Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
-
-
-
-   /* public static final List<Friend> friends = new ArrayList<>();
-
-    static {
-        friends.add(new Friend(R.drawable.delhi, "ANASTASIA", R.color.sienna, "Sport", "Literature", "Music", "Art", "Technology"));
-        friends.add(new Friend(R.drawable.delhi, "IRENE", R.color.saffron, "Travelling", "Flights", "Books", "Painting", "Design"));
-        friends.add(new Friend(R.drawable.delhi, "KATE", R.color.green, "Sales", "Pets", "Skiing", "Hairstyles", "Сoffee"));
-        friends.add(new Friend(R.drawable.delhi, "PAUL", R.color.pink, "Android", "Development", "Design", "Wearables", "Pets"));
-        friends.add(new Friend(R.drawable.delhi, "DARIA", R.color.orange, "Design", "Fitness", "Healthcare", "UI/UX", "Chatting"));
-        friends.add(new Friend(R.drawable.delhi, "KIRILL", R.color.saffron, "Development", "Android", "Healthcare", "Sport", "Rock Music"));
-        friends.add(new Friend(R.drawable.delhi, "JULIA", R.color.green, "Cinema", "Music", "Tatoo", "Animals", "Management"));
-        friends.add(new Friend(R.drawable.delhi, "YALANTIS", R.color.purple, "Android", "IOS", "Application", "Development", "Company"));
-    }
-*/
 
 }

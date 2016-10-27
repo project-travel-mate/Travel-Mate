@@ -1,4 +1,4 @@
-package adapters;
+package Util;
 
 /**
  * Created by Swati garg on 17-06-2015.

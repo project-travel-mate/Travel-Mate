@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="#ffffff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tie.hackathon.travelguide.CheckList">
+    tools:context="tie.hackathon.travelguide.Checklist">
 
 
 

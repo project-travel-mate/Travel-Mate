@@ -1,5 +1,4 @@
-
-package objects;
+package adapters;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,11 +9,20 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+/**
+ * Defines a list view inside a list view
+ */
 public class NestedListView extends ListView implements View.OnTouchListener, AbsListView.OnScrollListener {
 
-    private int listViewTouchAction;
     private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 99;
+    private int listViewTouchAction;
 
+    /**
+     * Initites nestedlistview object
+     *
+     * @param context The context referring this class
+     * @param attrs   Set of attributes for nested listview
+     */
     public NestedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         listViewTouchAction = -1;
@@ -46,14 +54,13 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
         if (heightMode != MeasureSpec.EXACTLY) {
             ListAdapter listAdapter = getAdapter();
             if (listAdapter != null && !listAdapter.isEmpty()) {
-                int listPosition = 0;
+                int listPosition;
                 for (listPosition = 0; listPosition < listAdapter.getCount()
                         && listPosition < MAXIMUM_LIST_ITEMS_VIEWABLE; listPosition++) {
                     View listItem = listAdapter.getView(listPosition, null, this);
                     //now it will not throw a NPE if listItem is a ViewGroup instance
                     if (listItem instanceof ViewGroup) {
-                        listItem.setLayoutParams(new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     }
                     listItem.measure(widthMeasureSpec, heightMeasureSpec);
                     newHeight += listItem.getMeasuredHeight();

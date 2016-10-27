@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
-public class travel_fragment extends Fragment implements View.OnClickListener {
+public class TravelFragment extends Fragment implements View.OnClickListener {
 
 
     static Activity activity;
 
-    public travel_fragment() {
+    public TravelFragment() {
         // Required empty public constructor
     }
 
@@ -62,13 +62,13 @@ public class travel_fragment extends Fragment implements View.OnClickListener {
 
 
             case R.id.vehicle:
-                i = new Intent(activity, Select_ModeOfTransport.class);
+                i = new Intent(activity, SelectModeOfTransport.class);
                 startActivity(i);
                 break;
 
 
             case R.id.shopping:
-                i = new Intent(activity, Shopping_currentcity.class);
+                i = new Intent(activity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
 

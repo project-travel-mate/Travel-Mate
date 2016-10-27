@@ -38,7 +38,7 @@ import java.util.Calendar;
 import Util.Constants;
 import Util.Utils;
 
-public class Bus_list extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class BusList extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     ProgressBar pb;
     ListView lv;
     SharedPreferences s;
@@ -71,7 +71,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
         city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Bus_list.this, SelectCity.class);
+                Intent i = new Intent(BusList.this, SelectCity.class);
                 startActivity(i);
             }
         });
@@ -183,7 +183,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
 
 
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(Bus_list.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(BusList.this).create();
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -249,7 +249,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
                 JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                 Log.e("response", YTFeedItems + " ");
                 pb.setVisibility(View.GONE);
-                lv.setAdapter(new Bus_adapter(Bus_list.this, YTFeedItems));
+                lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -269,7 +269,7 @@ public class Bus_list extends AppCompatActivity implements OnDateSetListener, Ti
 
 
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(Bus_list.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(BusList.this).create();
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later. Exception e: " + e.toString());
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

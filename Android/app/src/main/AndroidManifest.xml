@@ -35,7 +35,7 @@
 
 
         <activity
-            android:name=".Event_Image"
+            android:name=".EventImage"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"/>
 
@@ -64,11 +64,11 @@
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CheckList"
+            android:name=".Checklist"
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Select_ModeOfTransport"
+            android:name=".SelectModeOfTransport"
             android:label="@string/title_activity_select__mode_of_transport"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -84,7 +84,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Bus_list"
+            android:name=".BusList"
             android:label="@string/title_activity_bus_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -92,7 +92,7 @@
             android:label="@string/title_activity_city_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Shopping_currentcity"
+            android:name=".ShoppingCurrentCity"
             android:label="@string/title_activity_shopping_currentcity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -122,7 +122,7 @@
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
-        <activity android:name=".shareContact" />
+        <activity android:name=".ShareContact" />
         <activity android:name=".CaptureImage" />
         <activity
             android:name=".LoginActivity"

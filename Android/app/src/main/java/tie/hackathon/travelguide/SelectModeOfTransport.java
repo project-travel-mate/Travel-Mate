@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class Select_ModeOfTransport extends AppCompatActivity implements View.OnClickListener {
+public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout car,train,bus;
     @Override
@@ -50,16 +50,16 @@ public class Select_ModeOfTransport extends AppCompatActivity implements View.On
         Intent i ;
         switch(view.getId()){
 
-            case R.id.car : i = new Intent(Select_ModeOfTransport.this,CarDirections.class);
+            case R.id.car : i = new Intent(SelectModeOfTransport.this,CarDirections.class);
                 startActivity(i);
                 break;
 
-            case R.id.bus : i = new Intent(Select_ModeOfTransport.this,Bus_list.class);
+            case R.id.bus : i = new Intent(SelectModeOfTransport.this,BusList.class);
                 startActivity(i);
                 break;
 
 
-            case R.id.train : i = new Intent(Select_ModeOfTransport.this,TrainList.class);
+            case R.id.train : i = new Intent(SelectModeOfTransport.this,TrainList.class);
                 startActivity(i);
                 break;
         }

@@ -42,7 +42,7 @@ import java.util.List;
 
 import Util.Constants;
 import Util.Utils;
-import objects.NestedListView;
+import adapters.NestedListView;
 
 public class MyTripInfo extends AppCompatActivity {
     String id, title, start, end, city, friendid;
@@ -183,7 +183,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, Event_Image.class);
+                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
                         ArrayList<String> a = new ArrayList<String>();
                         a.add(name.get(position).getAbsolutePath());
 
@@ -460,7 +460,7 @@ public class MyTripInfo extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Log.e("YO", "Done" + result);
-            Toast.makeText(MyTripInfo.this, "Friend added", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
             finish();
             dialog.dismiss();
 

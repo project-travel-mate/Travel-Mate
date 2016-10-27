@@ -140,7 +140,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 i.putExtra("type_", "restaurant");
                 startActivity(i);
                 break;
-            case R.id.hang:
+            case R.id.hangout:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
                 i.putExtra("lat_",lat);
                 i.putExtra("lng_",lon);

@@ -40,7 +40,7 @@ import java.net.URL;
 import Util.Constants;
 import Util.Utils;
 
-public class Shopping_currentcity extends AppCompatActivity {
+public class ShoppingCurrentCity extends AppCompatActivity {
 
     SharedPreferences s ;
     MaterialSearchView searchView;
@@ -84,7 +84,7 @@ public class Shopping_currentcity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(Shopping_currentcity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
                     alertDialog.setTitle("Can't connect.");
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -116,7 +116,7 @@ public class Shopping_currentcity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(Shopping_currentcity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
                     alertDialog.setTitle("Can't connect.");
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -217,12 +217,12 @@ public class Shopping_currentcity extends AppCompatActivity {
                 JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                 Log.e("response", YTFeedItems + " ");
                 if(YTFeedItems.length()==0){
-                    Utils.hideKeyboard(Shopping_currentcity.this);
+                    Utils.hideKeyboard(ShoppingCurrentCity.this);
                     Snackbar.make(pb, "No results found", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 }
                 pb.setVisibility(View.GONE);
-                lv.setAdapter(new Shop_adapter(Shopping_currentcity.this , YTFeedItems) );
+                lv.setAdapter(new Shop_adapter(ShoppingCurrentCity.this , YTFeedItems) );
 
             } catch (Exception e) {
                 e.printStackTrace();
