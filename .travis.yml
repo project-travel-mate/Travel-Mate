@@ -3,8 +3,8 @@ android:
   components:
     - platform-tools
     - tools
-    - build-tools-23.0.1
-    - android-23
+    - build-tools-23.0.3
+    - android-24
 # Support library
     - extra-android-support
     - extra-android-m2repository
@@ -14,8 +14,8 @@ android:
     - '.+'
 
 before_script:
-    - chmod +x gradlew
     - cd Android
+    - chmod +x gradlew
 
 script:
    - chmod +x ./gradlew
