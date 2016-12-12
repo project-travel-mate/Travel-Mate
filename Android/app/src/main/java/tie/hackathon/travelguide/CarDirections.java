@@ -159,7 +159,7 @@ public class CarDirections extends AppCompatActivity {
         String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
                 sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
                 "&key=" +
-                Constants.apilink +
+                Constants.maps_key +
                 "&mode=driving\n";
 
         Log.e("CALLING : ", uri);
@@ -183,7 +183,7 @@ public class CarDirections extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("RESPONSE : ", "Done");
+                        Log.e("RESPONSE : ", "Done" + res);
                         try {
                             final JSONObject json = new JSONObject(res);
                             JSONArray routeArray = json.getJSONArray("routes");
