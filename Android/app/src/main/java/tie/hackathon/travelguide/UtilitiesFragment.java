@@ -12,8 +12,9 @@ import android.widget.LinearLayout;
 
 public class UtilitiesFragment extends Fragment implements View.OnClickListener {
 
-    Activity activity;
-    LinearLayout sharecontact, checklist;
+    private Activity activity;
+    private LinearLayout sharecontact;
+    private LinearLayout checklist;
 
     public UtilitiesFragment() {
     }

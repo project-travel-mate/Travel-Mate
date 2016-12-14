@@ -10,12 +10,14 @@ import android.widget.LinearLayout;
 
 public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout car, train, bus;
+    private LinearLayout car;
+    private LinearLayout train;
+    private LinearLayout bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select__mode_of_transport);
+        setContentView(R.layout.activity_select_mode_of_transport);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

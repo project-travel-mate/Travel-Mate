@@ -40,7 +40,8 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:alpha=".20" />
+            android:alpha=".20"
+            android:contentDescription="@string/empty_description" />
 
 
         <LinearLayout
@@ -55,7 +56,7 @@
                 android:background="#000000"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Select date"
+                android:text="@string/prompt_start_date"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 
@@ -67,7 +68,7 @@
                 android:background="#000000"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Select date"
+                android:text="@string/prompt_start_date"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 

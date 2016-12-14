@@ -47,13 +47,27 @@ import okhttp3.Response;
  * Show car directions between 2 cities
  */
 public class CarDirections extends AppCompatActivity {
-    com.google.android.gms.maps.MapFragment mapFragment;
-    GoogleMap map;
-    String sorcelat, deslat, sorcelon, deslon, surce, dest, distancetext;
-    Double distance;
-    SharedPreferences s;
-    TextView coste1, coste2, coste3, toll1, toll2, toll3, total1, total2, total3;
-    Double cost1, cost2, cost3, fuelprice = 60.00, mileage_hatchback = 30.0, mileage_sedan = 18.0, mileage_suv = 16.0;
+    private com.google.android.gms.maps.MapFragment mapFragment;
+    private GoogleMap map;
+    private String sorcelat;
+    private String deslat;
+    private String sorcelon;
+    private String deslon;
+    private String surce;
+    private String dest;
+    private String distancetext;
+    private Double distance;
+    private SharedPreferences s;
+    private TextView coste1;
+    private TextView coste2;
+    private TextView coste3;
+    private Double cost1;
+    private Double cost2;
+    private Double cost3;
+    private final Double fuelprice = 60.00;
+    private final Double mileage_hatchback = 30.0;
+    private final Double mileage_sedan = 18.0;
+    private final Double mileage_suv = 16.0;
     private ProgressDialog progressDialog;
     private Handler mHandler;
 
@@ -79,12 +93,6 @@ public class CarDirections extends AppCompatActivity {
         coste1 = (TextView) findViewById(R.id.travelcost1);
         coste2 = (TextView) findViewById(R.id.travelcost2);
         coste3 = (TextView) findViewById(R.id.travelcost3);
-        toll1 = (TextView) findViewById(R.id.toll1);
-        toll2 = (TextView) findViewById(R.id.toll2);
-        toll3 = (TextView) findViewById(R.id.toll3);
-        total1 = (TextView) findViewById(R.id.total1);
-        total2 = (TextView) findViewById(R.id.total2);
-        total3 = (TextView) findViewById(R.id.total3);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -105,8 +113,8 @@ public class CarDirections extends AppCompatActivity {
                 .findFragmentById(R.id.map);
         map = mapFragment.getMap();
 
-        ShowMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE", R.drawable.ic_pin_drop_black_24dp);
-        ShowMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION", R.drawable.ic_pin_drop_black_24dp);
+        ShowMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
+        ShowMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -123,7 +131,7 @@ public class CarDirections extends AppCompatActivity {
     }
 
 
-    public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
+    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
         if (map != null) {
@@ -138,7 +146,7 @@ public class CarDirections extends AppCompatActivity {
             MarkerOptions x = abc
                     .title(LocationName)
                     .position(Coord)
-                    .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
             map.addMarker(x);
 
         }
@@ -148,7 +156,7 @@ public class CarDirections extends AppCompatActivity {
     /**
      * Calls API to get directions
      */
-    public void getDirections() {
+    private void getDirections() {
 
         // Show a dialog box
         progressDialog = new ProgressDialog(CarDirections.this);
@@ -237,7 +245,7 @@ public class CarDirections extends AppCompatActivity {
      */
     private List<LatLng> decodePoly(String encoded) {
 
-        List<LatLng> poly = new ArrayList<LatLng>();
+        List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
 

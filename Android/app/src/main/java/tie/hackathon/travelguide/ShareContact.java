@@ -24,9 +24,10 @@ import Util.Services;
 public class ShareContact extends AppCompatActivity {
 
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
-    Button create, scan;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
+    private Button create;
+    private Button scan;
+    private SharedPreferences s;
+    private SharedPreferences.Editor e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

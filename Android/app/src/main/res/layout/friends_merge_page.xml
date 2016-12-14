@@ -8,30 +8,30 @@
 
     <LinearLayout
         android:layout_width="1dp"
-        android:orientation="vertical"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/first"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:contentDescription="left image"
+            android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
             android:src="@drawable/delhi" />
 
 
         <TextView
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_weight="0"
             android:id="@+id/name1"
-            android:textColor="#ffffff"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="First City"/>
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/sample_state"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -43,32 +43,31 @@
 
     <LinearLayout
         android:layout_width="1dp"
-        android:orientation="vertical"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
-    <ImageView
-        android:id="@+id/second"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_weight="1"
-        android:contentDescription="right image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/delhi" />
+        android:orientation="vertical">
 
-
+        <ImageView
+            android:id="@+id/second"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/empty_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delhi" />
 
 
         <TextView
-            android:textSize="20sp"
-            android:gravity="center"
             android:id="@+id/name2"
-            android:layout_weight="0"
-            android:textColor="#ffffff"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Second City"/>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/sample_state"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </LinearLayout>
     

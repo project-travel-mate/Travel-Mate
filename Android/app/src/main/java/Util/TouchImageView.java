@@ -53,7 +53,8 @@ public class TouchImageView extends ImageView {
     //
     private Matrix matrix, prevMatrix;
 
-    private static enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM };
+    private enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM }
+
     private State state;
 
     private float minScale;
@@ -196,7 +197,7 @@ public class TouchImageView extends ImageView {
      * Returns false if image is in initial, unzoomed state. False, otherwise.
      * @return true if image is zoomed
      */
-    public boolean isZoomed() {
+    private boolean isZoomed() {
         return normalizedScale != 1;
     }
 
@@ -312,7 +313,7 @@ public class TouchImageView extends ImageView {
      * scale, not the original resource.
      * @return current zoom multiplier.
      */
-    public float getCurrentZoom() {
+    private float getCurrentZoom() {
         return normalizedScale;
     }
 
@@ -328,14 +329,14 @@ public class TouchImageView extends ImageView {
     /**
      * Reset zoom and translation to initial state.
      */
-    public void resetZoom() {
+    private void resetZoom() {
         normalizedScale = 1;
         fitImageToView();
     }
 
     /**
      * Set zoom to the specified scale. Image will be centered by default.
-     * @param scale
+     * @param scale  : scale to which zoom
      */
     public void setZoom(float scale) {
         setZoom(scale, 0.5f, 0.5f);
@@ -346,11 +347,11 @@ public class TouchImageView extends ImageView {
      * (focusX, focusY). These floats range from 0 to 1 and denote the focus point
      * as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
-     * @param scale
-     * @param focusX
-     * @param focusY
+     * @param scale     :scael to which zoom
+     * @param focusX    :focus point of x
+     * @param focusY    :focus point of y
      */
-    public void setZoom(float scale, float focusX, float focusY) {
+    private void setZoom(float scale, float focusX, float focusY) {
         setZoom(scale, focusX, focusY, mScaleType);
     }
 
@@ -359,12 +360,12 @@ public class TouchImageView extends ImageView {
      * (focusX, focusY). These floats range from 0 to 1 and denote the focus point
      * as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
-     * @param scale
-     * @param focusX
-     * @param focusY
-     * @param scaleType
+     * @param scale     :scale to zoom
+     * @param focusX    :focus point of x
+     * @param focusY    :focus point of y
+     * @param scaleType :scaling type
      */
-    public void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
+    private void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
         //
         // setZoom can be called before the image is on the screen, but at this point,
         // image and view sizes have not yet been calculated in onMeasure. Thus, we should
@@ -391,9 +392,9 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     * @param TouchImageView
+     * @param img : imageView
      */
-    public void setZoom(TouchImageView img) {
+    private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
         setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
     }
@@ -405,7 +406,7 @@ public class TouchImageView extends ImageView {
      * And the bottom right corner would be (1, 1).
      * @return PointF representing the scroll position of the zoomed image.
      */
-    public PointF getScrollPosition() {
+    private PointF getScrollPosition() {
         Drawable drawable = getDrawable();
         if (drawable == null) {
             return null;
@@ -422,8 +423,8 @@ public class TouchImageView extends ImageView {
     /**
      * Set the focus point of the zoomed image. The focus points are denoted as a fraction from the
      * left and top of the view. The focus points can range in value between 0 and 1.
-     * @param focusX
-     * @param focusY
+     * @param focusX    :focus point of x
+     * @param focusY    :focus point of y
      */
     public void setScrollPosition(float focusX, float focusY) {
         setZoom(normalizedScale, focusX, focusY);
@@ -643,10 +644,10 @@ public class TouchImageView extends ImageView {
     /**
      * Set view dimensions based on layout params
      *
-     * @param mode
-     * @param size
-     * @param drawableWidth
-     * @return
+     * @param mode          :zoom mode
+     * @param size          :final size
+     * @param drawableWidth :width
+     * @return              :int final view size
      */
     private int setViewSize(int mode, int size, int drawableWidth) {
         int viewSize;
@@ -787,15 +788,12 @@ public class TouchImageView extends ImageView {
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            if(doubleTapListener != null) {
-                return doubleTapListener.onDoubleTapEvent(e);
-            }
-            return false;
+            return doubleTapListener != null && doubleTapListener.onDoubleTapEvent(e);
         }
     }
 
     public interface OnTouchImageViewListener {
-        public void onMove();
+        void onMove();
     }
 
     /**
@@ -809,7 +807,7 @@ public class TouchImageView extends ImageView {
         //
         // Remember last point position for dragging
         //
-        private PointF last = new PointF();
+        private final PointF last = new PointF();
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -949,14 +947,16 @@ public class TouchImageView extends ImageView {
      */
     private class DoubleTapZoom implements Runnable {
 
-        private long startTime;
+        private final long startTime;
         private static final float ZOOM_TIME = 500;
-        private float startZoom, targetZoom;
-        private float bitmapX, bitmapY;
-        private boolean stretchImageToSuper;
-        private AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
-        private PointF startTouch;
-        private PointF endTouch;
+        private final float startZoom;
+        private final float targetZoom;
+        private final float bitmapX;
+        private final float bitmapY;
+        private final boolean stretchImageToSuper;
+        private final AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
+        private final PointF startTouch;
+        private final PointF endTouch;
 
         DoubleTapZoom(float targetZoom, float focusX, float focusY, boolean stretchImageToSuper) {
             setState(State.ANIMATE_ZOOM);
@@ -1010,7 +1010,7 @@ public class TouchImageView extends ImageView {
          * Interpolate between where the image should start and end in order to translate
          * the image so that the point that is touched is what ends up centered at the end
          * of the zoom.
-         * @param t
+         * @param t     :touch point of image
          */
         private void translateImageToCenterTouchPosition(float t) {
             float targetX = startTouch.x + t * (endTouch.x - startTouch.x);
@@ -1021,7 +1021,7 @@ public class TouchImageView extends ImageView {
 
         /**
          * Use interpolator to get t
-         * @return
+         * @return  interpolator point of image
          */
         private float interpolate() {
             long currTime = System.currentTimeMillis();
@@ -1033,8 +1033,8 @@ public class TouchImageView extends ImageView {
         /**
          * Interpolate the current targeted zoom and get the delta
          * from the current zoom.
-         * @param t
-         * @return
+         * @param t :delat size
+         * @return  :final scale
          */
         private double calculateDeltaScale(float t) {
             double zoom = startZoom + t * (targetZoom - startZoom);
@@ -1123,7 +1123,7 @@ public class TouchImageView extends ImageView {
                 minY = maxY = startY;
             }
 
-            scroller.fling(startX, startY, (int) velocityX, (int) velocityY, minX,
+            scroller.fling(startX, startY, velocityX, velocityY, minX,
                     maxX, minY, maxY);
             currX = startX;
             currY = startY;
@@ -1132,7 +1132,7 @@ public class TouchImageView extends ImageView {
         public void cancelFling() {
             if (scroller != null) {
                 setState(State.NONE);
-                scroller.forceFinished(true);
+                scroller.forceFinished();
             }
         }
 
@@ -1171,7 +1171,7 @@ public class TouchImageView extends ImageView {
     private class CompatScroller {
         Scroller scroller;
         OverScroller overScroller;
-        boolean isPreGingerbread;
+        final boolean isPreGingerbread;
 
         public CompatScroller(Context context) {
             if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
@@ -1192,11 +1192,11 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void forceFinished(boolean finished) {
+        public void forceFinished() {
             if (isPreGingerbread) {
-                scroller.forceFinished(finished);
+                scroller.forceFinished(true);
             } else {
-                overScroller.forceFinished(finished);
+                overScroller.forceFinished(true);
             }
         }
 
@@ -1245,10 +1245,10 @@ public class TouchImageView extends ImageView {
     }
 
     private class ZoomVariables {
-        public float scale;
-        public float focusX;
-        public float focusY;
-        public ScaleType scaleType;
+        public final float scale;
+        public final float focusX;
+        public final float focusY;
+        public final ScaleType scaleType;
 
         public ZoomVariables(float scale, float focusX, float focusY, ScaleType scaleType) {
             this.scale = scale;

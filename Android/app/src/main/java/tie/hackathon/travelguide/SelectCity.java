@@ -31,17 +31,41 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@SuppressWarnings("WeakerAccess")
 public class SelectCity extends AppCompatActivity {
 
-    Spinner source, dest;
+    @SuppressWarnings("WeakerAccess")
+    private
+    Spinner source;
+    @SuppressWarnings("WeakerAccess")
+    private
+    Spinner dest;
+    @SuppressWarnings("WeakerAccess")
+    private
     ProgressBar pb;
+    @SuppressWarnings("WeakerAccess")
+    private
     Button ok;
+    @SuppressWarnings("WeakerAccess")
+    private
     SharedPreferences s;
+    @SuppressWarnings("WeakerAccess")
+    private
     String[] cities;
+    @SuppressWarnings("WeakerAccess")
+    private
     SharedPreferences.Editor e;
+    @SuppressWarnings("WeakerAccess")
+    private final
     List<String> id = new ArrayList<>();
+    @SuppressWarnings("WeakerAccess")
+    private final
     List<String> names = new ArrayList<>();
+    @SuppressWarnings("WeakerAccess")
+    private final
     List<String> lat = new ArrayList<>();
+    @SuppressWarnings("WeakerAccess")
+    private final
     List<String> lon = new ArrayList<>();
     private Handler mHandler;
 
@@ -97,7 +121,8 @@ public class SelectCity extends AppCompatActivity {
     }
 
 
-    public void getcitytask() {
+    @SuppressWarnings("WeakerAccess")
+    private void getcitytask() {
 
         // to fetch city names
         String uri = Constants.apilink + "all-cities.php";

@@ -50,13 +50,23 @@ import okhttp3.Response;
  */
 public class MapRealTimeActivity extends AppCompatActivity {
 
-    com.google.android.gms.maps.MapFragment mapFragment;
-    GoogleMap map;
-    SharedPreferences sharedPreferences;
-    String sorcelat, deslat, sorcelon, deslon, surce, dest, curlat, curlon;
-    List<String> name, nums, web, addr;
-    ScrollView sc;
-    int index = 0;
+    private com.google.android.gms.maps.MapFragment mapFragment;
+    private GoogleMap map;
+    private SharedPreferences sharedPreferences;
+    private String sorcelat;
+    private String deslat;
+    private String sorcelon;
+    private String deslon;
+    private String surce;
+    private String dest;
+    private String curlat;
+    private String curlon;
+    private List<String> name;
+    private List<String> nums;
+    private List<String> web;
+    private List<String> addr;
+    private ScrollView sc;
+    private int index = 0;
     private Handler mHandler;
 
     @Override
@@ -165,7 +175,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
      * @param mo mode; type of places;
      * @param ic marker icon
      */
-    public void getMarkers(int mo, final int ic) {
+    private void getMarkers(int mo, final int ic) {
 
         String uri = Constants.apilink + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
         Log.e("executing", uri + " ");
@@ -290,7 +300,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
      * @param LocationName name of location
      * @param LocationIcon icon
      */
-    public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
+    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
         if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,

@@ -43,13 +43,18 @@ import okhttp3.Response;
  * Display list of hotels in destination city
  */
 public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    public static final String DATEPICKER_TAG = "datepicker";
-    ProgressBar pb;
-    ListView lv;
+    private static final String DATEPICKER_TAG = "datepicker";
+    private ProgressBar pb;
+    private ListView lv;
     DatePickerDialog.OnDateSetListener date;
-    SharedPreferences s;
-    TextView selectdate, city;
-    String source, dest, sourcet, destt, dates = "17-October-2015";;
+    private SharedPreferences s;
+    private TextView selectdate;
+    private TextView city;
+    private String source;
+    private String dest;
+    private String sourcet;
+    private String destt;
+    private String dates = "17-October-2015";
     private Handler mHandler;
 
     @Override
@@ -177,7 +182,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     /**
      * Calls API to get hotel list
      */
-    public void getHotellist() {
+    private void getHotellist() {
 
         pb.setVisibility(View.VISIBLE);
         String uri = Constants.apilink +
@@ -248,8 +253,8 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
     public class Hotels_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
+        final Context context;
+        final JSONArray FeedItems;
         private LayoutInflater inflater = null;
 
         Hotels_adapter(Context context, JSONArray FeedItems) {

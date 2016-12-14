@@ -7,9 +7,9 @@ import java.util.Map;
  * @author Yalantis
  */
 public class FlipSettings {
-    private int defaultPage;
+    private final int defaultPage;
 
-    private Map<Integer, Integer> pages = new HashMap<>();
+    private final Map<Integer, Integer> pages = new HashMap<>();
 
     private FlipSettings(int defaultPage) {
         this.defaultPage = defaultPage;
@@ -31,8 +31,8 @@ public class FlipSettings {
 
         private int defaultPage = 1;
 
-        public Builder defaultPage(int page) {
-            this.defaultPage = page;
+        public Builder defaultPage() {
+            this.defaultPage = 1;
             return this;
         }
 

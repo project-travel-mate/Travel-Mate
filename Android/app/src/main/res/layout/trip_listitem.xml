@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffffff"
         android:orientation="vertical"
-
         android:padding="10dp">
 
 
@@ -31,7 +30,7 @@
             android:layout_margin="5dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="Delhi"
+            android:text="@string/sample_state"
             android:textColor="#000000"
             android:textSize="25sp" />
 
@@ -41,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="10 Mar - 11 Mar "
+            android:text="@string/sample_state"
             android:textColor="#000000"
             android:textSize="15sp" />
 

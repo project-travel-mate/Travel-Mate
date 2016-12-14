@@ -16,9 +16,9 @@ import tie.hackathon.travelguide.R;
  * @author Yalantis
  */
 public abstract class BaseFlipAdapter<T> extends BaseAdapter {
-    private List<T> items;
-    private FlipSettings settings;
-    private LayoutInflater inflater;
+    private final List<T> items;
+    private final FlipSettings settings;
+    private final LayoutInflater inflater;
 
     public BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
         this.items = items;

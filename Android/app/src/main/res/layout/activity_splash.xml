@@ -46,8 +46,6 @@
             android:textSize="35sp"
             android:textStyle="bold" />
 
-
     </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

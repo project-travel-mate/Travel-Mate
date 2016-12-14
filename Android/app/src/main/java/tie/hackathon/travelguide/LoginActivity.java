@@ -35,13 +35,22 @@ import okhttp3.Response;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    TextView signup, login;
-    LinearLayout sig, log;
-    EditText num_login, pass_login, num_signup, pass_signup, name;
-    String Num, Pass, Name;
-    FlatButton ok_login, ok_signup;
-    SharedPreferences sharedPreferences;
-    MaterialDialog dialog;
+    private TextView signup;
+    private TextView login;
+    private LinearLayout sig;
+    private LinearLayout log;
+    private EditText num_login;
+    private EditText pass_login;
+    private EditText num_signup;
+    private EditText pass_signup;
+    private EditText name;
+    private String Num;
+    private String Pass;
+    private String Name;
+    private FlatButton ok_login;
+    private FlatButton ok_signup;
+    private SharedPreferences sharedPreferences;
+    private MaterialDialog dialog;
     private Handler mHandler;
 
     @Override
@@ -120,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param num  user's phone number
      * @param pass password user entered
      */
-    public void login(final String num, String pass) {
+    private void login(final String num, String pass) {
 
         dialog = new MaterialDialog.Builder(LoginActivity.this)
                 .title(R.string.app_name)
@@ -191,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param num  user's phone number
      * @param pass password user entered
      */
-    public void signup(final String name, final String num, String pass) {
+    private void signup(final String name, final String num, String pass) {
 
         dialog = new MaterialDialog.Builder(LoginActivity.this)
                 .title(R.string.app_name)

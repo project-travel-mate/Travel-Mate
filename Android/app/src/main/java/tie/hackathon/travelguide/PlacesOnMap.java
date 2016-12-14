@@ -45,14 +45,19 @@ import okhttp3.Response;
 
 public class PlacesOnMap extends AppCompatActivity {
 
-    TwoWayView lv;
-    String id, name;
-    Intent i;
-    String deslon, deslat;
-    int mode, icon;
-    String curlat, curlon, type;
-    com.google.android.gms.maps.MapFragment mapFragment;
-    GoogleMap map;
+    private TwoWayView lv;
+    private String id;
+    private String name;
+    private Intent i;
+    private String deslon;
+    private String deslat;
+    private int mode;
+    private int icon;
+    private String curlat;
+    private String curlon;
+    private String type;
+    private com.google.android.gms.maps.MapFragment mapFragment;
+    private GoogleMap map;
     private ProgressDialog progressDialog;
     private Handler mHandler;
 
@@ -129,7 +134,7 @@ public class PlacesOnMap extends AppCompatActivity {
     }
 
 
-    public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
+    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
         if (ContextCompat.checkSelfPermission(PlacesOnMap.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -142,7 +147,7 @@ public class PlacesOnMap extends AppCompatActivity {
                 MarkerOptions x = abc
                         .title(LocationName)
                         .position(Coord)
-                        .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
                 map.addMarker(x);
 
             }
@@ -150,7 +155,7 @@ public class PlacesOnMap extends AppCompatActivity {
     }
 
 
-    public void getPlaces() {
+    private void getPlaces() {
 
         progressDialog = new ProgressDialog(PlacesOnMap.this);
         progressDialog.setMessage("Fetching data, Please wait...");
@@ -206,9 +211,9 @@ public class PlacesOnMap extends AppCompatActivity {
 
     public class City_info_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
-        int rd;
+        final Context context;
+        final JSONArray FeedItems;
+        final int rd;
         LinearLayout b2;
         private LayoutInflater inflater = null;
 
@@ -316,8 +321,7 @@ public class PlacesOnMap extends AppCompatActivity {
                     try {
                         ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
                                 Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
-                                FeedItems.getJSONObject(position).getString("name"),
-                                R.drawable.ic_pin_drop_black_24dp
+                                FeedItems.getJSONObject(position).getString("name")
                         );
 
 

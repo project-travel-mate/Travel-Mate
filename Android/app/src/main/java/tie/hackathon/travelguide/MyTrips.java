@@ -39,11 +39,16 @@ import okhttp3.Response;
 
 public class MyTrips extends AppCompatActivity {
 
-    GridView g;
-    MaterialDialog dialog;
-    List<String> id, name, image, start, end, tname;
-    String userid;
-    SharedPreferences s;
+    private GridView g;
+    private MaterialDialog dialog;
+    private List<String> id;
+    private List<String> name;
+    private List<String> image;
+    private List<String> start;
+    private List<String> end;
+    private List<String> tname;
+    private String userid;
+    private SharedPreferences s;
     private Handler mHandler;
 
     @Override
@@ -79,7 +84,7 @@ public class MyTrips extends AppCompatActivity {
     }
 
 
-    public void mytrip() {
+    private void mytrip() {
 
         dialog = new MaterialDialog.Builder(MyTrips.this)
                 .title(R.string.app_name)

@@ -35,10 +35,7 @@ public class Utils {
 
     // validating password with retype password
     public static boolean isValidPassword(String pass) {
-        if (pass != null && pass.length() > 2) {
-            return true;
-        }
-        return false;
+        return pass != null && pass.length() > 2;
     }
 
     /*
@@ -50,7 +47,7 @@ public class Utils {
 
     public static String readStream(InputStream in) {
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 
             String nextLine = "";
             while ((nextLine = reader.readLine()) != null) {
@@ -65,7 +62,7 @@ public class Utils {
     //is network available?
    public static boolean isNetworkAvailable(Activity a) {
        ConnectivityManager connectivityManager
-               = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
+               = (ConnectivityManager) a.getSystemService(Context.CONNECTIVITY_SERVICE);
        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
    }

@@ -27,7 +27,7 @@ public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener {
     private static final int NOTIFY_ID = 1;
-    public final IBinder musicBind = new MusicBinder();
+    private final IBinder musicBind = new MusicBinder();
     SharedPreferences s;
     SharedPreferences.Editor e;
     private boolean shuffle = false;
@@ -54,8 +54,7 @@ public class MusicService extends Service implements
     }
 
     public void setShuffle() {
-        if (shuffle) shuffle = false;
-        else shuffle = true;
+        shuffle = !shuffle;
     }
 
     public void playNext() {
@@ -72,7 +71,7 @@ public class MusicService extends Service implements
         playSong();
     }
 
-    public void initMusicPlayer() {
+    private void initMusicPlayer() {
         //set player properties
         player.setWakeMode(getApplicationContext(),
                 PowerManager.PARTIAL_WAKE_LOCK);

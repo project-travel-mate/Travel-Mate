@@ -34,17 +34,17 @@ import Util.TableEntry;
 public class ChecklistFragment extends Fragment {
 
 
-    CheckList_adapter ad;
-    static Activity activity;
-    List<String> id = new ArrayList<>();
-    List<String> task = new ArrayList<>();
-    List<String> isdone = new ArrayList<>();
-    DBhelp dbhelp;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
-    SQLiteDatabase db;
-    List<String> base_task = new ArrayList<>();
-    ListView lv;
+    private CheckList_adapter ad;
+    private static Activity activity;
+    private final List<String> id = new ArrayList<>();
+    private final List<String> task = new ArrayList<>();
+    private final List<String> isdone = new ArrayList<>();
+    private DBhelp dbhelp;
+    private SharedPreferences s;
+    private SharedPreferences.Editor e;
+    private SQLiteDatabase db;
+    private final List<String> base_task = new ArrayList<>();
+    private ListView lv;
 
     public ChecklistFragment() {
     }
@@ -128,7 +128,7 @@ public class ChecklistFragment extends Fragment {
     }
 
 
-    public void refresh() {
+    private void refresh() {
         id.clear();
         task.clear();
         isdone.clear();

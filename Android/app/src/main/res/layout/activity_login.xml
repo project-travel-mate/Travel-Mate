@@ -29,11 +29,13 @@
         android:background="@color/black">
 
         <ImageView
+
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="4"
             android:alpha="0.2"
             android:background="@drawable/city"
+            android:contentDescription="@string/empty_description"
             android:padding="10dp"
             android:scaleType="centerCrop" />
 
@@ -48,16 +50,18 @@
                 android:layout_marginTop="100dp"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
-                android:text="TRAVEL MATE"
+                android:text="@string/app_name"
                 android:textColor="#ffffff"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <ImageView
+
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
+                android:contentDescription="@string/empty_description"
                 android:src="@drawable/google_travel_logo" />
 
             <LinearLayout
@@ -82,7 +86,7 @@
                         android:id="@+id/input_num_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Phone Number"
+                        android:hint="@string/phone_number"
                         android:inputType="number"
                         android:singleLine="true"
                         android:textColor="#ffffff"
@@ -99,7 +103,7 @@
                         android:id="@+id/input_pass_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:textColor="#ffffff"
@@ -114,7 +118,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/colorPrimary"
                     android:padding="10dp"
-                    android:text="Log in"
+                    android:text="@string/login"
                     android:textColor="@android:color/white"
                     custom:pb_colorNormal="@android:color/holo_blue_light"
                     custom:pb_colorPressed="@android:color/holo_blue_dark" />
@@ -142,7 +146,7 @@
                         android:id="@+id/input_name_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name"
+                        android:hint="@string/name"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textColor="#ffffff"
@@ -159,9 +163,9 @@
                         android:id="@+id/input_num_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Phone Number"
+                        android:hint="@string/phone_number"
                         android:inputType="number"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
                 </android.support.design.widget.TextInputLayout>
@@ -176,7 +180,7 @@
                         android:id="@+id/input_pass_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:textColor="#ffffff"
@@ -191,7 +195,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/colorPrimary"
                     android:padding="10dp"
-                    android:text="Signup"
+                    android:text="@string/signup"
                     android:textColor="@android:color/white"
                     custom:pb_colorNormal="@android:color/holo_blue_light"
                     custom:pb_colorPressed="@android:color/holo_blue_dark" />
@@ -219,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:gravity="left"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textColor="#ffffff" />
             </LinearLayout>
 

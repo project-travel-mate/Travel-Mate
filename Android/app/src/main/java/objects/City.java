@@ -12,9 +12,13 @@ import java.util.List;
  * Model class for city object
  */
 public class City {
-    private String avatar, nickname, id, la, lo;
-    private int background;
-    private List<String> interests = new ArrayList<>();
+    private final String avatar;
+    private final String nickname;
+    private final String id;
+    private final String la;
+    private final String lo;
+    private final int background;
+    private final List<String> interests = new ArrayList<>();
 
     /**
      * Instantiates city object

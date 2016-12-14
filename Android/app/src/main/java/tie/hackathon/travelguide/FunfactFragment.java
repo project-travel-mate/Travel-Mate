@@ -24,10 +24,10 @@ import java.io.FileOutputStream;
  * to display fun facts about a city
  */
 public class FunfactFragment extends Fragment {
-    public static final String EXTRA_MESSAGE_IMAGE = "_image";
-    public static final String EXTRA_MESSAGE_TEXT = "_text";
-    public static final String EXTRA_MESSAGE_TITLE = "_title";
-    File file;
+    private static final String EXTRA_MESSAGE_IMAGE = "_image";
+    private static final String EXTRA_MESSAGE_TEXT = "_text";
+    private static final String EXTRA_MESSAGE_TITLE = "_title";
+    private File file;
 
     /**
      * instantiate funfact fragment
@@ -53,7 +53,7 @@ public class FunfactFragment extends Fragment {
      * @param view to be taken screenshot of
      * @return bitmap of the screenshot
      */
-    public static Bitmap getScreenShot(View view) {
+    private static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
@@ -97,7 +97,7 @@ public class FunfactFragment extends Fragment {
      * @param bitmap   bitmap to be saved
      * @param fileName Name of bitmap file
      */
-    public void store(Bitmap bitmap, String fileName) {
+    private void store(Bitmap bitmap, String fileName) {
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyScreenshots";
         File dr = new File(dir);
         if (!dr.exists())

@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="tie.hackathon.travelguide.FinalCityInfo">
 
@@ -16,6 +16,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
             android:src="@drawable/delhi" />
 
@@ -27,7 +28,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:text="Delhi"
+            android:text="@string/sample_state"
             android:textColor="#000000"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -55,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/empty_description"
                 android:padding="16dp" />
         </com.ms.square.android.expandabletextview.ExpandableTextView>
 
@@ -66,78 +68,74 @@
             android:backgroundTint="#000000"
             android:orientation="horizontal">
 
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/empty_description"
+                    android:src="@drawable/ic_cloud_black_48dp" />
+
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/icon"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_cloud_black_48dp" />
+                    <TextView
+                        android:id="@+id/temp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="@string/max_text"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/temp"
-                            android:layout_width="match_parent"
+                            android:id="@+id/humidit"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:text="max"
+                            android:layout_weight="1.0"
+                            android:text="@string/min_text"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
+                        <TextView
+                            android:id="@+id/weatherinfo"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_margin="5dp"
+                            android:layout_weight="1.0"
+                            android:text="@string/min_text"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/humidit"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1.0"
-                                android:text="min"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/weatherinfo"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1.0"
-                                android:text="min"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
-
             </LinearLayout>
+
+
         </LinearLayout>
 
 
@@ -161,6 +159,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/funfact" />
 
                 <TextView
@@ -169,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Fun Facts"
+                    android:text="@string/fun_facts"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -199,14 +198,15 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/hangout" />
 
                 <TextView
+                    android:id="@+id/hgtext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:id="@+id/hgtext"
                     android:text="Hangout"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -228,14 +228,15 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/monuments" />
 
                 <TextView
+                    android:id="@+id/mntext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:id="@+id/mntext"
                     android:text="Monuments"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -265,15 +266,16 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/shopping" />
 
                 <TextView
+                    android:id="@+id/shtext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:text="Shopping"
-                    android:id="@+id/shtext"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -293,15 +295,16 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/restaurant" />
 
                 <TextView
+                    android:id="@+id/rstext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:text="Restaurants"
-                    android:id="@+id/rstext"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -329,15 +332,16 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/empty_description"
                     android:src="@drawable/twitter" />
 
                 <TextView
+                    android:id="@+id/cttext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:text="City Trends"
-                    android:id="@+id/cttext"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 

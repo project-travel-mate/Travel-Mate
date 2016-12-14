@@ -55,10 +55,10 @@ import okhttp3.Response;
 
 public class Music extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
-    TwoWayView sugsongView;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
-    ImageView iv;
+    private TwoWayView sugsongView;
+    private SharedPreferences s;
+    private SharedPreferences.Editor e;
+    private ImageView iv;
     private ArrayList<Song> songList;
     private ListView songView;
     private Handler mHandler;
@@ -67,7 +67,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     private Intent playIntent;
     private boolean musicBound = false;
     private boolean paused = false, playbackPaused = false;
-    private ServiceConnection musicConnection = new ServiceConnection() {
+    private final ServiceConnection musicConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -92,7 +92,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
         mHandler = new Handler(Looper.getMainLooper());
         songView = (ListView) findViewById(R.id.music_list);
-        songList = new ArrayList<Song>();
+        songList = new ArrayList<>();
         iv = (ImageView) findViewById(R.id.iv);
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
@@ -134,7 +134,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void getSongList() {
+    private void getSongList() {
         //retrieve song info
         ContentResolver musicResolver = getContentResolver();
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -324,7 +324,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     /**
      * Update user's mood
      */
-    public void updateMood(String sing, String art) {
+    private void updateMood(String sing, String art) {
 
         if (art.equals("<unknown>"))
             art = "";
@@ -381,7 +381,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     /**
      * Get suggestedMusic
      */
-    public void getSuggestedMusic() {
+    private void getSuggestedMusic() {
 
         String uri = Constants.apilink + "suggested-music.php?userid=" + s.getString(Constants.USER_ID, "1");
 
@@ -479,12 +479,12 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
     public class SongAdapter extends BaseAdapter {
 
-        Context context;
+        final Context context;
         TextView songView, artistView;
         ImageView iv;
         LinearLayout l;
-        private ArrayList<Song> songs;
-        private LayoutInflater songInf;
+        private final ArrayList<Song> songs;
+        private final LayoutInflater songInf;
         public SongAdapter(Context c, ArrayList<Song> theSongs) {
             songs = theSongs;
             context = c;
@@ -562,8 +562,8 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
     public class SugMusic_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
+        final Context context;
+        final JSONArray FeedItems;
         private LayoutInflater inflater = null;
 
         public SugMusic_adapter(Context context, JSONArray FeedItems) {

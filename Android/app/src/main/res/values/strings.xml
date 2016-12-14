@@ -20,6 +20,70 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
 
+    <string name="empty_description">No description available.</string>
+    <string name="text_title">Title</string>
+    <string name="text_artist">Artist</string>
+    <string name="prompt_call">Call</string>
+    <string name="prompt_book">Book</string>
+    <string name="travel_cost">Travel Cost</string>
+    <string name="unknown_value">...</string>
+    <string name="max_text">max</string>
+    <string name="min_text">min</string>
+    <string name="fun_facts">Fun Facts</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="login">Log in</string>
+    <string name="signup">Signup</string>
+    <string name="name">Name</string>
+
+    <string name="prompt_trip_name">Enter trip Name</string>
+    <string name="prompt_city_name">Enter city name</string>
+    <string name="prompt_start_date">Enter start date</string>
+    <string name="prompt_end_date">Enter end date</string>
+    <string name="add_trip">Add trip</string>
+    <string name="photos_of_trip">Photos of this trip : </string>
+    <string name="friends_of_trip">Friends in this trip </string>
+    <string name="prompt_friend_name">Enter friend name</string>
+    <string name="add_friend">Add New friend</string>
+
+
+    <string name="car_text">Car</string>
+    <string name="bus_text">Bus</string>
+    <string name="train_text">Train</string>
+
+
+    <string name="share_contact">Share My Contact</string>
+    <string name="view_contact">View someone's Contact</string>
+    <string name="go_text">Go</string>
+    <string name="locate">Locate</string>
+    <string name="more">More</string>
+
+    <string name="all">All</string>
+    <string name="suggested">Suggested</string>
+
+    <string name="share_contact_text">Share Contact</string>
+    <string name="chechlist_text">Checklist</string>
+    <string name="enter_task_name">Enter task name</string>
+    <string name="my_trips">MY TRIPS</string>
+
+    <string name="transport">TRANSPORT</string>
+    <string name="hotel">HOTEL BOOKING</string>
+    <string name="online_Shopping">ONLINE SHOPPING</string>
+    <string name="real_time_locator">REAL TIME LOCATOR</string>
+
+    <string name="music">MUSIC</string>
+    <string name="books">BOOKS</string>
+
+    <string name="search_a_city">Search a city...</string>
+    <string name="popular_cities">Most Popular Cities</string>
+
+
+
+    <string name="tag1">Harry Potter</string>
+    <string name="tag2">Dinosaurs</string>
+    <string name="tag3">Joey Tribbiani</string>
+    <string name="tag4">Fiction</string>
+
 
     <string name="title">Select items to display in map</string>
     <string name="choose">Select</string>
@@ -49,6 +113,7 @@
 
 
 
+    <string name="sample_state">Delhi</string>
     <string name="sample_string">Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>

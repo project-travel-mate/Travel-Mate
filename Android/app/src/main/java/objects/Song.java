@@ -4,10 +4,10 @@ package objects;
  * Created by swati on 10/10/15.
  */
 public class Song {
-    private long id;
-    private String title;
-    private String artist;
-    private String album_id;
+    private final long id;
+    private final String title;
+    private final String artist;
+    private final String album_id;
     public Song(long songID, String songTitle, String songArtist,String album_Id) {
         id=songID;
         title=songTitle;

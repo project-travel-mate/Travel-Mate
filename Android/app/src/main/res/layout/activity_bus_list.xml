@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="tie.hackathon.travelguide.BusList">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -20,10 +26,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="#ffffff"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="tie.hackathon.travelguide.Checklist">
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <ProgressBar
             android:id="@+id/pb"
             android:layout_width="wrap_content"
@@ -33,7 +39,8 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:alpha=".20" />
+            android:alpha=".20"
+            android:contentDescription="@string/empty_description" />
 
 
         <LinearLayout
@@ -42,29 +49,29 @@
             android:orientation="vertical">
 
 
-
             <TextView
                 android:id="@+id/city"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#000000"
-                android:textColor="#ffffff"
-                android:text="Select date"
+                android:gravity="center"
                 android:padding="10dp"
-                android:textSize="20sp"
-                android:gravity="center"/>
+                android:text="@string/prompt_start_date"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
 
             <TextView
-                android:layout_marginTop="2dp"
                 android:id="@+id/seldate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:background="#000000"
-                android:textColor="#ffffff"
-                android:text="Select date"
+                android:gravity="center"
                 android:padding="10dp"
-                android:textSize="20sp"
-                android:gravity="center"/>
+                android:text="@string/prompt_start_date"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
             <ListView
                 android:id="@+id/music_list"
                 android:layout_width="fill_parent"
@@ -72,11 +79,10 @@
                 android:cacheColorHint="@android:color/transparent"
                 android:fastScrollEnabled="true"
                 android:persistentDrawingCache="scrolling"
-                android:scrollingCache="false"/>
+                android:scrollingCache="false" />
 
         </LinearLayout>
     </FrameLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

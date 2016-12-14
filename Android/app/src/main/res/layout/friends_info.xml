@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
     <TextView
-        style="@style/TextView.Nickname"
-        android:id="@+id/nickname" />
+        android:id="@+id/nickname"
+        style="@style/TextView.Nickname" />
 
     <LinearLayout
-        android:layout_below="@+id/nickname"
         android:id="@+id/interestsPrimary"
-        style="@style/LinearLayout.Interests">
+        style="@style/LinearLayout.Interests"
+        android:layout_below="@+id/nickname">
 
         <views.FontTextView
-            style="@style/TextView.Interest"
-            android:id="@+id/interest_1" />
+            android:id="@+id/interest_1"
+            style="@style/TextView.Interest" />
 
         <views.FontTextView
-            style="@style/TextView.Interest"
-            android:id="@+id/interest_2" />
+            android:id="@+id/interest_2"
+            style="@style/TextView.Interest" />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_below="@+id/interestsPrimary"
         android:id="@+id/interestsSecondary"
-        android:layout_marginTop="5dp"
-        style="@style/LinearLayout.Interests">
+        style="@style/LinearLayout.Interests"
+        android:layout_below="@+id/interestsPrimary"
+        android:layout_marginTop="5dp">
 
         <views.FontTextView
             android:id="@+id/interest_3"

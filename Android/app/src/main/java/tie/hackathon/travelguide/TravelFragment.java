@@ -13,8 +13,12 @@ import android.widget.LinearLayout;
 
 public class TravelFragment extends Fragment implements View.OnClickListener {
 
-    Activity activity;
-    LinearLayout vehicle, acc, shop, realtime, mytrips;
+    private Activity activity;
+    private LinearLayout vehicle;
+    private LinearLayout acc;
+    private LinearLayout shop;
+    private LinearLayout realtime;
+    private LinearLayout mytrips;
 
     public TravelFragment() {
     }

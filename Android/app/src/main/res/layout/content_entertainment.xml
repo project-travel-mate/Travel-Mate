@@ -8,9 +8,9 @@
 
 
     <LinearLayout
-        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,6 +36,7 @@
                     android:layout_weight="4"
                     android:alpha="0.6"
                     android:background="@drawable/music2"
+                    android:contentDescription="@string/empty_description"
                     android:padding="10dp"
                     android:scaleType="centerCrop" />
 
@@ -49,7 +50,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="MUSIC"
+                    android:text="@string/music"
                     android:textColor="#ffffff"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -82,6 +83,7 @@
                     android:layout_weight="4"
                     android:alpha="0.6"
                     android:background="@drawable/books"
+                    android:contentDescription="@string/empty_description"
                     android:padding="10dp"
                     android:scaleType="centerCrop" />
 
@@ -94,17 +96,12 @@
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="BOOKS"
+                    android:text="@string/books"
                     android:textColor="#ffffff"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-
             </FrameLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </ScrollView>

@@ -35,9 +35,10 @@ import okhttp3.Response;
  */
 public class FunFacts extends AppCompatActivity {
 
-    String id, name;
-    ViewPager viewPager;
-    MaterialDialog dialog;
+    private String id;
+    private String name;
+    private ViewPager viewPager;
+    private MaterialDialog dialog;
     private Handler mHandler;
 
     @Override
@@ -60,7 +61,7 @@ public class FunFacts extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
-    public void getCityFacts() {
+    private void getCityFacts() {
 
         dialog = new MaterialDialog.Builder(FunFacts.this)
                 .title(R.string.app_name)
@@ -96,7 +97,7 @@ public class FunFacts extends AppCompatActivity {
                         try {
                             JSONObject ob = new JSONObject(res);
                             JSONArray ar = ob.getJSONArray("facts");
-                            List<Fragment> fList = new ArrayList<Fragment>();
+                            List<Fragment> fList = new ArrayList<>();
                             for (int i = 0; i < ar.length(); i++)
                                 fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
                                         ar.getJSONObject(i).getString("fact"), name));
@@ -119,7 +120,7 @@ public class FunFacts extends AppCompatActivity {
      * Sets adapter for funfacts
      */
     class MyPageAdapter extends FragmentPagerAdapter {
-        private List<Fragment> fragments;
+        private final List<Fragment> fragments;
 
         MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);

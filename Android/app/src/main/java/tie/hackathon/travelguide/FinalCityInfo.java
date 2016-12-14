@@ -34,14 +34,31 @@ import okhttp3.Response;
  */
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
 
-    Intent intent;
-    String id, tit, image, description, lat, lon;
-    TextView fftext, temp, humidity, weatherinfo, title;
-    ImageView iv, ico;
-    ExpandableTextView des;
-    Typeface code, tex, codeb;
-    MaterialDialog dialog;
-    LinearLayout funfact, restau, hangout, monum, shopp, trend;
+    private Intent intent;
+    private String id;
+    private String tit;
+    private String image;
+    private String description;
+    private String lat;
+    private String lon;
+    private TextView fftext;
+    private TextView temp;
+    private TextView humidity;
+    private TextView weatherinfo;
+    private TextView title;
+    private ImageView iv;
+    private ImageView ico;
+    private ExpandableTextView des;
+    private Typeface code;
+    private Typeface tex;
+    private Typeface codeb;
+    private MaterialDialog dialog;
+    private LinearLayout funfact;
+    private LinearLayout restau;
+    private LinearLayout hangout;
+    private LinearLayout monum;
+    private LinearLayout shopp;
+    private LinearLayout trend;
     private Handler mHandler;
 
     @Override
@@ -177,7 +194,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     /**
      * Fetch city informations
      */
-    public void cityInfo() {
+    private void cityInfo() {
 
         dialog = new MaterialDialog.Builder(FinalCityInfo.this)
                 .title(R.string.app_name)

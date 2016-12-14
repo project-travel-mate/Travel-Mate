@@ -24,16 +24,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-          app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/train"
@@ -52,37 +52,34 @@
                         android:orientation="horizontal">
 
 
-
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_weight="4"
-                            android:background="@drawable/train"
-                            android:scaleType="centerCrop"
                             android:alpha="0.6"
-                            android:padding="10dp" />
-
+                            android:background="@drawable/train"
+                            android:contentDescription="@string/empty_description"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop" />
 
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.6"
-                            android:gravity="center"
-                            android:padding="2dp"
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="10dp"
-                            android:textColor="#ffffff"
-                            android:text="TRAIN"
+                            android:layout_weight="1.6"
                             android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="@string/train_text"
+                            android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
 
-
                     </FrameLayout>
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -102,36 +99,34 @@
                         android:orientation="horizontal">
 
 
-
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_weight="4"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/bus"
                             android:alpha="0.6"
-                            android:padding="10dp" />
-
-
+                            android:background="@drawable/bus"
+                            android:contentDescription="@string/empty_description"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop" />
 
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="2dp"
-                            android:textColor="#ffffff"
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="10dp"
-                            android:text="BUS"
                             android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="@string/bus_text"
+                            android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
 
-
                     </FrameLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/car"
                     android:layout_width="match_parent"
@@ -149,44 +144,37 @@
                         android:orientation="horizontal">
 
 
-
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_weight="4"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/car"
                             android:alpha="0.6"
-                            android:padding="10dp" />
-
-
+                            android:background="@drawable/car"
+                            android:contentDescription="@string/empty_description"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop" />
 
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="2dp"
-                            android:textColor="#ffffff"
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="10dp"
-                            android:text="CAR"
                             android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="@string/car_text"
+                            android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-
 
 
                     </FrameLayout>
                 </LinearLayout>
 
 
-
-
-
             </LinearLayout>
         </ScrollView>
-
 
 
     </LinearLayout>

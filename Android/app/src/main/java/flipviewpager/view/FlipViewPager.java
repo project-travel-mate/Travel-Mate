@@ -31,10 +31,10 @@ import java.util.HashMap;
  */
 public class FlipViewPager extends FrameLayout {
 
-    public static final int FLIP_ANIM_DURATION = 300;
-    public static final int FLIP_DISTANCE = 180;
-    public static final int FLIP_SHADE_ALPHA = 130;
-    public static final int INVALID_POINTER = -1;
+    private static final int FLIP_ANIM_DURATION = 300;
+    private static final int FLIP_DISTANCE = 180;
+    private static final int FLIP_SHADE_ALPHA = 130;
+    private static final int INVALID_POINTER = -1;
 
     private final HashMap<Integer, PageItem> pages = new HashMap<>();
 
@@ -47,12 +47,12 @@ public class FlipViewPager extends FrameLayout {
     private EdgeEffect mLeftEdgeEffect;
     private EdgeEffect mRightEdgeEffect;
 
-    private Rect mRightRect = new Rect();
-    private Rect mLeftRect = new Rect();
-    private Camera mCamera = new Camera();
-    private Matrix mMatrix = new Matrix();
-    private Paint mShadePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint mShinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Rect mRightRect = new Rect();
+    private final Rect mLeftRect = new Rect();
+    private final Camera mCamera = new Camera();
+    private final Matrix mMatrix = new Matrix();
+    private final Paint mShadePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mShinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private int mMinimumVelocity;
     private int mMaximumVelocity;
@@ -76,7 +76,7 @@ public class FlipViewPager extends FrameLayout {
 
     // Internal interface to store page position
     public interface OnChangePageListener {
-        public void onFlipped(int page);
+        void onFlipped(int page);
     }
 
     class PageItem {
@@ -416,7 +416,7 @@ public class FlipViewPager extends FrameLayout {
         }
     }
 
-    public boolean drawEdges(Canvas canvas) {
+    private boolean drawEdges(Canvas canvas) {
         boolean shouldContinue = false;
         boolean rightNotFinished = !mRightEdgeEffect.isFinished();
         if (rightNotFinished || !mLeftEdgeEffect.isFinished()) {
@@ -430,7 +430,7 @@ public class FlipViewPager extends FrameLayout {
         return shouldContinue;
     }
 
-    public float calculate(float flipDistance, float minFlipDistance, float maxFlipDistance) {
+    private float calculate(float flipDistance, float minFlipDistance, float maxFlipDistance) {
         float deltaOverFlip = flipDistance - (flipDistance < 0 ? minFlipDistance : maxFlipDistance);
         if (deltaOverFlip > 0) {
             mLeftEdgeEffect.onPull(deltaOverFlip / (getWidth()));
@@ -517,7 +517,7 @@ public class FlipViewPager extends FrameLayout {
         mScroller.startScroll(0, (int) mFlipDistance, 0, (int) (activePage * FLIP_DISTANCE - mFlipDistance), getFlipDuration(0));
     }
 
-    public void flipToPage(int page) {
+    private void flipToPage(int page) {
         int delta = page * FLIP_DISTANCE - (int) mFlipDistance;
         endFlip();
         mScroller.startScroll(0, (int) mFlipDistance, 0, delta, getFlipDuration(delta));

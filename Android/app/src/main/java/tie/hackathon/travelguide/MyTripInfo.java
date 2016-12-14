@@ -50,18 +50,27 @@ import okhttp3.Response;
 public class MyTripInfo extends AppCompatActivity {
 
     private static final int INTENT_REQUEST_GET_IMAGES = 13;
-    String id, title, start, end, city, friendid, img,
-            mainfolder = "/storage/emulated/0/Pictures/", nameyet;
-    Intent intent;
-    MaterialDialog dialog;
-    ImageView iv;
-    TextView tite, date;
-    FlatButton add;
-    TwoWayView twoway;
-    NestedListView lv;
-    AutoCompleteTextView frendname;
-    List<String> fname;
-    List<File> imagesuri, mediaimages;
+    private String id;
+    private String title;
+    private String start;
+    private String end;
+    private String city;
+    private String friendid;
+    private String img;
+    private final String mainfolder = "/storage/emulated/0/Pictures/";
+    private String nameyet;
+    private Intent intent;
+    private MaterialDialog dialog;
+    private ImageView iv;
+    private TextView tite;
+    private TextView date;
+    private FlatButton add;
+    private TwoWayView twoway;
+    private NestedListView lv;
+    private AutoCompleteTextView frendname;
+    private List<String> fname;
+    private List<File> imagesuri;
+    private List<File> mediaimages;
     private Handler mHandler;
 
     @Override
@@ -135,7 +144,7 @@ public class MyTripInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void mytrip() {
+    private void mytrip() {
 
         dialog = new MaterialDialog.Builder(MyTripInfo.this)
                 .title(R.string.app_name)
@@ -230,7 +239,7 @@ public class MyTripInfo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void friendautocomplete() {
+    private void friendautocomplete() {
 
         String uri = Constants.apilink + "users/find.php?search=" + nameyet.trim();
         Log.e("executing", uri + " ");
@@ -261,8 +270,8 @@ public class MyTripInfo extends AppCompatActivity {
                         try {
                             arr = new JSONArray(response.body().string());
 
-                            list = new ArrayList<String>();
-                            list1 = new ArrayList<String>();
+                            list = new ArrayList<>();
+                            list1 = new ArrayList<>();
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
                                     list.add(arr.getJSONObject(i).getString("name"));
@@ -274,7 +283,7 @@ public class MyTripInfo extends AppCompatActivity {
                                     Log.e("error ", " " + e.getMessage());
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                                     (getApplicationContext(), R.layout.spinner_layout, list);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             frendname.setThreshold(1);
@@ -303,7 +312,7 @@ public class MyTripInfo extends AppCompatActivity {
         });
     }
 
-    public void addfriend() {
+    private void addfriend() {
 
         dialog = new MaterialDialog.Builder(MyTripInfo.this)
                 .title(R.string.app_name)
@@ -383,7 +392,7 @@ public class MyTripInfo extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(MyTripInfo.this, EventImage.class);
-                        ArrayList<String> a = new ArrayList<String>();
+                        ArrayList<String> a = new ArrayList<>();
                         a.add(name.get(position).getAbsolutePath());
 
                         i.putExtra(Constants.EVENT_IMG, a);

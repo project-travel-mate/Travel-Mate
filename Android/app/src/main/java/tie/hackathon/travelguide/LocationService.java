@@ -30,12 +30,12 @@ import Util.Constants;
  */
 
 public class LocationService extends Service {
-    public static final String BROADCAST_ACTION = "Hello World";
-    public LocationManager locationManager;
-    public MyLocationListener listener;
-    public Location previousBestLocation = null;
+    private static final String BROADCAST_ACTION = "Hello World";
+    private LocationManager locationManager;
+    private MyLocationListener listener;
+    private final Location previousBestLocation = null;
 
-    Intent intent;
+    private Intent intent;
 
     public static Thread performOnBackgroundThread(final Runnable runnable) {
         final Thread t = new Thread() {
@@ -58,8 +58,8 @@ public class LocationService extends Service {
      * @param lon2 Location 2 longitude
      * @return distance between 2 locations
      */
-    public static double distance(double lat1, double lat2, double lon1,
-                                  double lon2) {
+    private static double distance(double lat1, double lat2, double lon1,
+                                   double lon2) {
 
         final int R = 6371; // Radius of the earth
         Double latDistance = Math.toRadians(lat2 - lat1);
@@ -96,7 +96,7 @@ public class LocationService extends Service {
         return null;
     }
 
-    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+    private boolean isBetterLocation(Location location, Location currentBestLocation) {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
         Double m = distance(location.getLatitude(),

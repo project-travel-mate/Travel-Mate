@@ -19,6 +19,7 @@
             android:layout_width="fill_parent"
             android:layout_height="90dp"
             android:alpha="0.2"
+            android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
             android:src="@drawable/images" />
 
@@ -33,8 +34,9 @@
                 android:id="@+id/PlayButton"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/empty_description"
                 android:src="@drawable/android_music_player_play" />
 
             <LinearLayout
@@ -49,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:text="Title of video"
+                    android:text="@string/text_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -58,7 +60,7 @@
                     android:id="@+id/VideoDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No description for this Book."
+                    android:text="@string/empty_description"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="15sp" />
 

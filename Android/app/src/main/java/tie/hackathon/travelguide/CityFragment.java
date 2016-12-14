@@ -50,15 +50,15 @@ import views.FontTextView;
 public class CityFragment extends Fragment {
 
 
-    AutoCompleteTextView cityname;
-    String nameyet;
+    private AutoCompleteTextView cityname;
+    private String nameyet;
     List<String> id = new ArrayList<>();
-    List<String> list2 = new ArrayList<>();
-    Activity activity;
-    ProgressBar pb;
-    String cityid;
-    Typeface tex;
-    ListView lv;
+    private List<String> list2 = new ArrayList<>();
+    private Activity activity;
+    private ProgressBar pb;
+    private String cityid;
+    private Typeface tex;
+    private ListView lv;
     private Handler mHandler;
 
     public CityFragment() {
@@ -106,7 +106,7 @@ public class CityFragment extends Fragment {
     }
 
 
-    public void tripAutoComplete() {
+    private void tripAutoComplete() {
 
         // to fetch city names
         String uri = Constants.apilink +
@@ -139,9 +139,9 @@ public class CityFragment extends Fragment {
                             arr = new JSONArray(response.body().string());
                             Log.e("erro", arr + " ");
 
-                            list = new ArrayList<String>();
-                            list1 = new ArrayList<String>();
-                            list2 = new ArrayList<String>();
+                            list = new ArrayList<>();
+                            list1 = new ArrayList<>();
+                            list2 = new ArrayList<>();
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
                                     list.add(arr.getJSONObject(i).getString("name"));
@@ -154,7 +154,7 @@ public class CityFragment extends Fragment {
                                     Log.e("error ", " " + e.getMessage());
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                                     (activity.getApplicationContext(), R.layout.spinner_layout, list);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
@@ -190,7 +190,7 @@ public class CityFragment extends Fragment {
     }
 
 
-    public void getCity() {
+    private void getCity() {
 
         // to fetch city names
         String uri = Constants.apilink +
@@ -221,7 +221,7 @@ public class CityFragment extends Fragment {
                             JSONObject ob = new JSONObject(response.body().string());
                             JSONArray ar = ob.getJSONArray("cities");
                             pb.setVisibility(View.GONE);
-                            FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
+                            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
                             List<City> friends = new ArrayList<>();
                             for (int i = 0; i < ar.length(); i++) {
 
@@ -320,7 +320,7 @@ public class CityFragment extends Fragment {
     class CityAdapter extends BaseFlipAdapter<City> {
 
         private final int PAGES = 3;
-        private int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+        private final int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
         public CityAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
@@ -457,7 +457,7 @@ public class CityFragment extends Fragment {
             View infoPage;
             TextView fv1, fv2, fv3, fv4;
             TextView left, right;
-            List<TextView> interests = new ArrayList<>();
+            final List<TextView> interests = new ArrayList<>();
             TextView nickName;
         }
     }

@@ -40,16 +40,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TrainList extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    public static final String DATEPICKER_TAG = "datepicker";
-    ProgressBar pb;
-    ListView lv;
+    private static final String DATEPICKER_TAG = "datepicker";
+    private ProgressBar pb;
+    private ListView lv;
     DatePickerDialog.OnDateSetListener date;
-    SharedPreferences s;
-    SharedPreferences.Editor e;
-    TextView city;
-    TextView selectdate;
-    String dates = "17-10";
-    String source, dest;
+    private SharedPreferences s;
+    private SharedPreferences.Editor e;
+    private TextView city;
+    private TextView selectdate;
+    private String dates = "17-10";
+    private String source;
+    private String dest;
     private Handler mHandler;
 
     @Override
@@ -143,7 +144,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     /**
      * Calls API to get train list
      */
-    public void getTrainlist() {
+    private void getTrainlist() {
 
         pb.setVisibility(View.VISIBLE);
         String uri = Constants.apilink +
@@ -205,8 +206,8 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
     public class Train_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
+        final Context context;
+        final JSONArray FeedItems;
         private LayoutInflater inflater = null;
 
         Train_adapter(Context context, JSONArray FeedItems) {

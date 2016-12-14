@@ -57,9 +57,6 @@
             android:label="@string/title_activity_music"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Books_new"
-            android:label="@string/title_activity_music" />
-        <activity
             android:name=".SelectCity"
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -86,10 +83,6 @@
         <activity
             android:name=".BusList"
             android:label="@string/title_activity_bus_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CityInfo"
-            android:label="@string/title_activity_city_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ShoppingCurrentCity"
@@ -123,7 +116,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
         <activity android:name=".ShareContact" />
-        <activity android:name=".CaptureImage" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -133,7 +125,7 @@
         <activity android:name=".MyTrips" />
         <activity android:name=".AddNewTrip" />
         <activity android:name=".MyTripInfo" />
-        <activity android:name=".Tweets"></activity>
+        <activity android:name=".Tweets"/>
     </application>
 
 </manifest>

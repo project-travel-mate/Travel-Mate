@@ -44,14 +44,21 @@ import okhttp3.Response;
  */
 public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    public static final String DATEPICKER_TAG1 = "datepicker1", DATEPICKER_TAG2 = "datepicker2";
-    AutoCompleteTextView cityname;
-    ;
-    String nameyet, cityid = "2", startdate, enddate, tripname, userid;
-    FlatButton sdate, edate, ok;
-    TextInputEditText tname;
-    MaterialDialog dialog;
-    SharedPreferences sharedPreferences;
+    private static final String DATEPICKER_TAG1 = "datepicker1";
+    private static final String DATEPICKER_TAG2 = "datepicker2";
+    private AutoCompleteTextView cityname;
+    private String nameyet;
+    private String cityid = "2";
+    private String startdate;
+    private String enddate;
+    private String tripname;
+    private String userid;
+    private FlatButton sdate;
+    private FlatButton edate;
+    private FlatButton ok;
+    private TextInputEditText tname;
+    private MaterialDialog dialog;
+    private SharedPreferences sharedPreferences;
     private Handler mHandler;
 
     @Override
@@ -149,7 +156,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     /**
      * Calls city name autocomplete API
      */
-    public void tripAutoComplete() {
+    private void tripAutoComplete() {
 
         // to fetch city names
         String uri = Constants.apilink + "city/autocomplete.php?search=" + nameyet.trim();
@@ -192,7 +199,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                                     Log.e("error ", " " + e.getMessage());
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                                     (getApplicationContext(), R.layout.spinner_layout, names);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
@@ -218,7 +225,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     /**
      * Calls API to add  new trip
      */
-    public void addTrip() {
+    private void addTrip() {
 
         // Show a dialog box
         dialog = new MaterialDialog.Builder(AddNewTrip.this)

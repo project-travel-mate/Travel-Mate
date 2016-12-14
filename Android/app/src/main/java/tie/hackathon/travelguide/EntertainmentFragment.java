@@ -14,12 +14,13 @@ import android.widget.LinearLayout;
 public class EntertainmentFragment extends Fragment implements View.OnClickListener {
 
 
-    Activity activity;
+    private Activity activity;
 
     public EntertainmentFragment() {
     }
 
-    LinearLayout music, books;
+    private LinearLayout music;
+    LinearLayout books;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

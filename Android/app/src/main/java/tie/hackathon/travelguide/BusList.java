@@ -44,12 +44,15 @@ import okhttp3.Response;
  * Displays a list of available buses
  */
 public class BusList extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    public static final String DATEPICKER_TAG = "datepicker";
-    ProgressBar pb;
-    ListView lv;
-    SharedPreferences sharedPreferences;
-    TextView selectdate, city;
-    String source, dest, dates = "17-October-2015";
+    private static final String DATEPICKER_TAG = "datepicker";
+    private ProgressBar pb;
+    private ListView lv;
+    private SharedPreferences sharedPreferences;
+    private TextView selectdate;
+    private TextView city;
+    private String source;
+    private String dest;
+    private String dates = "17-October-2015";
     private Handler mHandler;
 
     @Override
@@ -186,7 +189,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
     /**
      * Calls API to get bus list
      */
-    public void getBuslist() {
+    private void getBuslist() {
 
         pb.setVisibility(View.VISIBLE);
         String uri = Constants.apilink + "bus-booking.php?src=" +
@@ -247,8 +250,8 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
     // Sets adapter for bus list
     public class Bus_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
+        final Context context;
+        final JSONArray FeedItems;
         private LayoutInflater inflater = null;
 
         Bus_adapter(Context context, JSONArray FeedItems) {

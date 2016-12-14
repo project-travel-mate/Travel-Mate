@@ -17,104 +17,104 @@
         android:layout_gravity="center" />
 
     <ImageView
+        android:id="@+id/bg"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:alpha=".20"
-        android:id="@+id/bg"
+        android:contentDescription="@string/empty_description"
         android:scaleType="centerCrop" />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/query"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="100" />
+
+            <Button
+                android:id="@+id/go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/go_text"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:layout_weight="100"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/query"/>
-
-                <Button
-                    android:layout_weight="100"
+                <TextView
+                    android:id="@+id/b1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Go"
-                    android:background="@color/colorPrimaryDark"
-                    android:textColor="#ffffff"
-                    android:id="@+id/go"/>
+                    android:layout_margin="5dp"
+                    android:background="@color/colorAccent"
+                    android:padding="5dp"
+                    android:text="@string/tag1"
+                    android:textColor="#ffffff" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/b2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_margin="5dp"
+                    android:background="@color/colorAccent"
+                    android:padding="5dp"
+                    android:text="@string/tag2"
+                    android:textColor="#ffffff" />
 
-                    <TextView
-                        android:padding="5dp"
-                        android:textColor="#ffffff"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
-                        android:text="Harry Potter"
-                        android:layout_margin="5dp"
-                        android:id="@+id/b1"/>
+                <TextView
+                    android:id="@+id/b3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorAccent"
+                    android:padding="5dp"
+                    android:text="@string/tag3"
+                    android:textColor="#ffffff" />
 
-                    <TextView
-                        android:padding="5dp"
-                        android:textColor="#ffffff"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
-                        android:text="Dinosaurs"
-                        android:layout_margin="5dp"
-                        android:id="@+id/b2"/>
+                <TextView
+                    android:id="@+id/b4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorAccent"
+                    android:padding="5dp"
+                    android:text="@string/tag4"
+                    android:textColor="#ffffff" />
 
-                    <TextView
-                        android:padding="5dp"
-                        android:textColor="#ffffff"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
-                        android:text="Joey Tribbiani"
-                        android:layout_margin="5dp"
-                        android:id="@+id/b3"/>
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textColor="#ffffff"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
-                        android:text="Fiction"
-                        android:layout_margin="5dp"
-                        android:id="@+id/b4"/>
-
-                </LinearLayout>
             </LinearLayout>
-
-            <ListView
-                android:id="@+id/music_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:fastScrollEnabled="true"
-                android:persistentDrawingCache="scrolling"
-                android:scrollingCache="false"></ListView>
-
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/music_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:fastScrollEnabled="true"
+            android:persistentDrawingCache="scrolling"
+            android:scrollingCache="false" />
+
+    </LinearLayout>
 </FrameLayout>

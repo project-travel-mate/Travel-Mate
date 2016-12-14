@@ -36,6 +36,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:alpha=".20"
+            android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop" />
 
 
@@ -48,7 +49,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Suggested"
+                android:text="@string/suggested"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -70,7 +71,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="All"
+                android:text="@string/all"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -87,7 +88,7 @@
                 android:cacheColorHint="@android:color/transparent"
                 android:fastScrollEnabled="true"
                 android:persistentDrawingCache="scrolling"
-                android:scrollingCache="false"></ListView>
+                android:scrollingCache="false" />
         </LinearLayout>
 
     </FrameLayout>

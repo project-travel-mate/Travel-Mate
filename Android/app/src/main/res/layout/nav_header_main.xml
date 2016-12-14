@@ -12,6 +12,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:contentDescription="@string/empty_description"
         android:id="@+id/imageView"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -22,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Travel Mate"
+        android:text="@string/app_name"
         android:id="@+id/name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

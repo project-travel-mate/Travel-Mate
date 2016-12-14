@@ -3,50 +3,49 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    tools:context="tie.hackathon.travelguide.DetectedBeacon">
+    android:layout_height="match_parent">
 
-
-    <ImageView
-        android:layout_weight="0.5"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:id="@+id/imag"
-        android:layout_height="250dp"
-        android:src="@drawable/delhi"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="tie.hackathon.travelguide.DetectedBeacon">
 
-    <TextView
-        android:layout_weight="0.5"
-        android:layout_marginTop="10dp"
-        android:id="@+id/head"
-        android:fontFamily="sans-serif-bold"
-        android:text="Delhi"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textColor="#000000"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:padding="10dp"/>
+        <ImageView
+            android:id="@+id/imag"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_weight="0.5"
+            android:contentDescription="@string/empty_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delhi" />
 
-
-    <TextView
-        android:id="@+id/tv"
-        android:fontFamily="sans-serif-light"
-        android:text="Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textColor="#000000"
-        android:textSize="25sp"
-        android:padding="10dp"
-        android:layout_weight="1.0"/>
+        <TextView
+            android:id="@+id/head"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.5"
+            android:fontFamily="sans-serif-bold"
+            android:padding="10dp"
+            android:text="@string/sample_state"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
 
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:text="@string/sample_string"
+            android:textColor="#000000"
+            android:textSize="25sp" />
 
-</LinearLayout>
+
+    </LinearLayout>
 </ScrollView>

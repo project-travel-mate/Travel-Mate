@@ -1,15 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context="tie.hackathon.travelguide.Home">
+    android:padding="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <EditText
+        android:id="@+id/task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/task"
-        android:hint="Enter task name" />
+        android:hint="@string/enter_task_name" />
 
 </FrameLayout>

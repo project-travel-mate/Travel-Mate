@@ -17,29 +17,28 @@
         android:layout_gravity="center" />
 
     <ImageView
+        android:id="@+id/bg"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:alpha=".20"
-        android:scaleType="centerCrop"
-        android:id="@+id/bg"/>
+        android:contentDescription="@string/empty_description"
+        android:scaleType="centerCrop" />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <ListView
+            android:id="@+id/music_list"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:cacheColorHint="@android:color/transparent"
+            android:fastScrollEnabled="true"
+            android:persistentDrawingCache="scrolling"
+            android:scrollingCache="false" />
 
-
-
-            <ListView
-                android:id="@+id/music_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:fastScrollEnabled="true"
-                android:persistentDrawingCache="scrolling"
-                android:scrollingCache="false"></ListView>
-
-        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

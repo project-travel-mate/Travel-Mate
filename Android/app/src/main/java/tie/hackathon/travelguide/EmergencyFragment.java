@@ -16,8 +16,13 @@ import android.widget.Button;
  */
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
 
-    Button police, fire, ambulance, blood_bank, bomb, railways;
-    Activity activity;
+    private Button police;
+    private Button fire;
+    private Button ambulance;
+    private Button blood_bank;
+    private Button bomb;
+    private Button railways;
+    private Activity activity;
 
     public EmergencyFragment() {
     }

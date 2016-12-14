@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/inc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,14 +11,14 @@
     tools:context="tie.hackathon.travelguide.Checklist">
 
 
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/mytrips"
@@ -44,6 +43,7 @@
                         android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/city"
+                        android:contentDescription="@string/empty_description"
                         android:padding="10dp"
                         android:scaleType="centerCrop" />
 
@@ -57,7 +57,7 @@
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
-                        android:text="MY TRIPS"
+                        android:text="@string/my_trips"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -83,37 +83,34 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:background="@drawable/transport"
-                        android:scaleType="centerCrop"
                         android:alpha="0.6"
-                        android:padding="10dp" />
-
+                        android:background="@drawable/transport"
+                        android:contentDescription="@string/empty_description"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:gravity="center"
-                        android:padding="2dp"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:textColor="#ffffff"
-                        android:text="TRANSPORT"
+                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/transport"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
 
-
                 </FrameLayout>
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -133,32 +130,29 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/hotel"
                         android:alpha="0.6"
-                        android:padding="10dp" />
-
-
+                        android:background="@drawable/hotel"
+                        android:contentDescription="@string/empty_description"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="HOTEL BOOKING"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/hotel"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
-
 
 
                 </FrameLayout>
@@ -181,32 +175,29 @@
                     android:orientation="horizontal">
 
 
-
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="4"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/shop"
                         android:alpha="0.6"
-                        android:padding="10dp" />
-
-
+                        android:background="@drawable/shop"
+                        android:contentDescription="@string/empty_description"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:textColor="#ffffff"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:text="ONLINE SHOPPING"
                         android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/online_Shopping"
+                        android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
-
 
 
                 </FrameLayout>
@@ -236,6 +227,7 @@
                         android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/location"
+                        android:contentDescription="@string/empty_description"
                         android:padding="10dp"
                         android:scaleType="centerCrop" />
 
@@ -249,7 +241,7 @@
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
-                        android:text="REAL TIME LOCATOR"
+                        android:text="@string/real_time_locator"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -261,10 +253,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
-
 
 
 </FrameLayout>

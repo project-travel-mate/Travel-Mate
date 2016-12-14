@@ -42,14 +42,14 @@ import Util.Utils;
 
 public class ShoppingCurrentCity extends AppCompatActivity {
 
-    SharedPreferences s ;
-    MaterialSearchView searchView;
-    SharedPreferences.Editor e;
-    ProgressBar pb;
-    ListView lv;
-    String item="bags";
-    EditText q;
-    Button ok;
+    private SharedPreferences s ;
+    private MaterialSearchView searchView;
+    private SharedPreferences.Editor e;
+    private ProgressBar pb;
+    private ListView lv;
+    private String item="bags";
+    private EditText q;
+    private Button ok;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +183,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
+    private class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -231,8 +231,8 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     }
     public class Shop_adapter extends BaseAdapter {
 
-        Context context;
-        JSONArray FeedItems;
+        final Context context;
+        final JSONArray FeedItems;
         private  LayoutInflater inflater = null;
 
         public Shop_adapter(Context context, JSONArray FeedItems) {

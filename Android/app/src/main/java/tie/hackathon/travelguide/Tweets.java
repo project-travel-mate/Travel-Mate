@@ -34,12 +34,16 @@ import okhttp3.Response;
 
 public class Tweets extends AppCompatActivity {
 
-    Intent i;
-    String id, tit, image;
-    ListView lv;
-    MaterialDialog dialog;
-    List<String> nam, cou, lin;
-    Tweetsadapter adapter;
+    private Intent i;
+    private String id;
+    private String tit;
+    private String image;
+    private ListView lv;
+    private MaterialDialog dialog;
+    private List<String> nam;
+    private List<String> cou;
+    private List<String> lin;
+    private Tweetsadapter adapter;
     private Handler mHandler;
 
     @Override
@@ -67,7 +71,7 @@ public class Tweets extends AppCompatActivity {
     }
 
 
-    public void getTweets() {
+    private void getTweets() {
 
         dialog = new MaterialDialog.Builder(Tweets.this)
                 .title(R.string.app_name)

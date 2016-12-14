@@ -4,57 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#ffffff"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="tie.hackathon.travelguide.Checklist">
 
 
-
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="0px"
-        android:layout_height="0px"/>
-
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
 
     <ProgressBar
+        android:id="@+id/pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/pb"/>
+        android:layout_gravity="center" />
 
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
         <AutoCompleteTextView
-            android:layout_marginTop="12dp"
             android:id="@+id/cityname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
+            android:layout_marginTop="12dp"
             android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="@string/search_a_city"
             android:popupBackground="#ffffff"
             android:singleLine="true"
-            android:ems="10"
-            android:hint="Search a city..." />
+            android:textColor="#000000"
+            android:textColorHint="#000000" />
 
 
         <views.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Most Popular Cities"
             android:background="@color/black"
-            android:textColor="#ffffff"
             android:padding="10dp"
-            android:textSize="20sp"/>
+            android:text="@string/popular_cities"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
 
         <ListView
@@ -64,8 +61,8 @@
             android:cacheColorHint="@android:color/transparent"
             android:fastScrollEnabled="true"
             android:persistentDrawingCache="scrolling"
-            android:scrollingCache="false">
-        </ListView>
+            android:scrollingCache="false"/>
+
     </LinearLayout>
 
 </FrameLayout>

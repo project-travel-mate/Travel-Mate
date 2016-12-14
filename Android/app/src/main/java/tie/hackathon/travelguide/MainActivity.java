@@ -33,9 +33,9 @@ import Util.Constants;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    SharedPreferences sharedPreferences;
-    Boolean discovered = false;
-    String beaconmajor;
+    private SharedPreferences sharedPreferences;
+    private Boolean discovered = false;
+    private String beaconmajor;
     private BeaconManager beaconManager;
     private Region region;
 

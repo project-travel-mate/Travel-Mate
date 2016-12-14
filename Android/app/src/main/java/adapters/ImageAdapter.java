@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import Util.TouchImageView;
 
 public class ImageAdapter extends PagerAdapter {
-    private Context mContext;
-    private ArrayList<String> GalImages;
+    private final Context mContext;
+    private final ArrayList<String> GalImages;
 
     /**
      * Initializes and adapter that adds particular image into imageView adapter

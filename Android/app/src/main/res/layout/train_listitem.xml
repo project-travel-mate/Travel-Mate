@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:padding="10dp"
-            android:text="Title of bus"
+            android:text="@string/text_title"
             android:textColor="#ff4a4a4a"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:maxLines="10"
-                android:text="BUS TYPE"
+                android:text="@string/bus_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -58,9 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:text="BUS TYPE"
+                android:text="@string/bus_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -70,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:text="BUS TYPE"
+                android:layout_marginStart="5dp"
+                android:text="@string/bus_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -83,178 +83,192 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.0">
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_weight="1.0"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
                         android:text="Mon"
-                        android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
+
                     <TextView
-                        android:layout_weight="1.0"
-                        android:layout_width="fill_parent"
-                        android:background="@color/green"
-                        android:gravity="center"
-                        android:layout_margin="2dp"
                         android:id="@+id/d0"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.0"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="Y" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.0">
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:gravity="center"
-                        android:layout_weight="1.0"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
                         android:text="Tue"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
+
                     <TextView
-                        android:layout_weight="1.0"
+                        android:id="@+id/d1"
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:layout_margin="2dp"
-                        android:id="@+id/d1"
-                        android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:text="Y" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.0">
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_weight="1.0"
                         android:layout_width="fill_parent"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
-                        android:text="Wed"
-                        android:textSize="15sp"/>
-                    <TextView
                         android:layout_weight="1.0"
-                        android:background="@color/green"
                         android:gravity="center"
-                        android:layout_margin="2dp"
+                        android:text="Wed"
+                        android:textSize="15sp" />
+
+                    <TextView
                         android:id="@+id/d2"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.0">
-
-                    <TextView
-                        android:layout_weight="1.0"
-                        android:gravity="center"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Thu"
-                        android:textSize="15sp"/>
-                    <TextView
+                        android:layout_margin="2dp"
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:layout_margin="2dp"
+                        android:text="Y" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="Thu"
+                        android:textSize="15sp" />
+
+                    <TextView
                         android:id="@+id/d3"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.0"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="Y" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.0">
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_weight="1.0"
-                        android:gravity="center"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
                         android:text="Fri"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
+
                     <TextView
+                        android:id="@+id/d4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
                         android:layout_weight="1.0"
                         android:background="@color/green"
-                        android:layout_width="fill_parent"
                         android:gravity="center"
-                        android:layout_margin="2dp"
-                        android:id="@+id/d4"
+                        android:text="Y" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="Sat"
+                        android:textSize="15sp" />
 
-                </LinearLayout> <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1.0">
+                    <TextView
+                        android:id="@+id/d5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.0"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="Y" />
 
-                <TextView
-                    android:layout_weight="1.0"
-                    android:layout_width="fill_parent"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Sat"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:background="@color/green"
-                    android:layout_weight="1.0"
-                    android:id="@+id/d5"
-                    android:layout_margin="2dp"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Y"/>
-
-            </LinearLayout> <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1.0">
-
-                <TextView
                     android:layout_weight="1.0"
-                    android:layout_width="fill_parent"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Sun"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:background="@color/green"
-                    android:layout_weight="1.0"
-                    android:gravity="center"
-                    android:id="@+id/d6"
-                    android:layout_margin="2dp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Y"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="Sun"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/d6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.0"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="Y" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-
-
-
-            </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -264,7 +278,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1.0"
                     android:background="@color/colorPrimary"
-                    android:text="View More Details"
+                    android:text="@string/more"
                     android:textColor="#ffffff" />
 
                 <Button
@@ -274,7 +288,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1.0"
                     android:background="@color/colorPrimary"
-                    android:text="Book Now"
+                    android:text="@string/prompt_book"
                     android:textColor="#ffffff" />
             </LinearLayout>
 

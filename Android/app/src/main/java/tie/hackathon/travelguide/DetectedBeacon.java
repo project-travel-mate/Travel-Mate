@@ -29,7 +29,12 @@ import okhttp3.Response;
  */
 public class DetectedBeacon extends AppCompatActivity {
 
-    String major, name, des, image, cname, cid;
+    private String major;
+    private String name;
+    private String des;
+    private String image;
+    private String cname;
+    private String cid;
     private Handler mHandler;
 
     @Override
@@ -50,7 +55,7 @@ public class DetectedBeacon extends AppCompatActivity {
     }
 
 
-    public void getCity() {
+    private void getCity() {
         // to fetch city name
         String uri = Constants.apilink + "estimote_monuments/get_info.php?id=" + major;
         Log.e("executing", uri + " ");
