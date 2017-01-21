@@ -1,8 +1,9 @@
 <?php
 
-	require 'inc/connection.inc.php';
+	require_once 'inc/connection.inc.php';
+
 	$response_array = array();
-	
+
 	$query = "SELECT `id`,`city_name`,`lat`,`lng`,`image` FROM `cities` ORDER BY `number_of_trips` DESC LIMIT 6";
 	$query_run = mysqli_query($connection, $query);
 	
@@ -16,8 +17,8 @@
 			'lng'	=> (float)$query_row['lng'],
 			'image'	=> ($image_url == '') ? null : $image_url,
 		);
-		
+
 		array_push($response_array, $temp_array);
 	}
-	
+
 	echo json_encode(array('cities' => $response_array));

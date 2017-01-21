@@ -1,10 +1,4 @@
 <?php
-/**
- * @Author: prabhakar
- * @Date:   2016-03-18 23:13:45
- * @Last Modified by:   Prabhakar Gupta
- * @Last Modified time: 2016-03-19 01:54:51
- */
 
 require_once '../../inc/connection.inc.php';
 require_once '../../inc/constants.inc.php';

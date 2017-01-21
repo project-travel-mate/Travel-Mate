@@ -1,35 +1,29 @@
 <?php
-/**
- * @Author: prabhakar
- * @Date:   2016-03-16 17:39:42
- * @Last Modified by:   prabhakar
- * @Last Modified time: 2016-03-19 02:43:03
- */
 
-require_once '../inc/connection.inc.php';
-require_once '../inc/function.inc.php';
+	require_once '../inc/connection.inc.php';
+	require_once '../inc/function.inc.php';
 
-$user_id = (int)$_GET['user'];
-$response = array();
+	$user_id = (int)$_GET['user'];
+	$response = array();
 
-if($user_id > 0){
-	$query = "SELECT TU.trip_id, T.title, T.start_time, T.end_time, C.city_name, C.image FROM `trips` T INNER JOIN `trip_users` TU ON T.trip_id = TU.trip_id INNER JOIN `cities` C ON T.city_id = C.id WHERE TU.user_id='$user_id' ORDER BY T.start_time DESC";
-	$query_run = mysqli_query($connection, $query);
+	if($user_id > 0){
+		$query = "SELECT TU.trip_id, T.title, T.start_time, T.end_time, C.city_name, C.image FROM `trips` T INNER JOIN `trip_users` TU ON T.trip_id = TU.trip_id INNER JOIN `cities` C ON T.city_id = C.id WHERE TU.user_id='$user_id' ORDER BY T.start_time DESC";
+		$query_run = mysqli_query($connection, $query);
 
-	while($query_row = mysqli_fetch_assoc($query_run)){
-		$end_time_temp = isset($query_row['end_time']) ? (int)$query_row['end_time'] : null;
-		
-		$temp_array = array(
-			'id'			=> (int)$query_row['trip_id'],
-			'title'			=> change_cityName($query_row['title']),
-			'start_time'	=> (int)$query_row['start_time'],
-			'end_time'		=> $end_time_temp,
-			'city'			=> trim($query_row['city_name']),
-			'image'			=> trim($query_row['image']),
-		);
+		while($query_row = mysqli_fetch_assoc($query_run)){
+			$end_time_temp = isset($query_row['end_time']) ? (int)$query_row['end_time'] : null;
+			
+			$temp_array = array(
+				'id'			=> (int)$query_row['trip_id'],
+				'title'			=> change_cityName($query_row['title']),
+				'start_time'	=> (int)$query_row['start_time'],
+				'end_time'		=> $end_time_temp,
+				'city'			=> trim($query_row['city_name']),
+				'image'			=> trim($query_row['image']),
+			);
 
-		array_push($response, $temp_array);
+			array_push($response, $temp_array);
+		}
 	}
-}
 
-echo json_encode($response);
+	echo json_encode($response);
