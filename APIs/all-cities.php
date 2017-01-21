@@ -1,6 +1,8 @@
 <?php
 
 	require_once 'inc/connection.inc.php';
+	require_once 'inc/responses/base.php';
+	require_once 'inc/responses/errors.php';
 
 	$response_array = array();
 
@@ -21,4 +23,8 @@
 		array_push($response_array, $temp_array);
 	}
 
-	echo json_encode(array('cities' => $response_array));
+	if(empty($response_array)){
+		noResultsError();
+	} else {
+		echo json_encode(array('cities' => $response_array));
+	}

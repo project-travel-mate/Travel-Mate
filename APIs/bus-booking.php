@@ -2,6 +2,8 @@
 
 	require_once 'inc/connection.inc.php';
 	require_once 'inc/function.inc.php';
+	require_once 'inc/responses/base.php';
+	require_once 'inc/responses/errors.php';
 	
 	$redbus_url = "https://mobapi.redbus.in/wdsvc/v1_1/bussearch";
 	// ?fromCityId=1443&toCityId=733&doj=25-Mar-2016
@@ -51,6 +53,13 @@
 			'fair'		=> 2100
 		);
 		array_push($final_response, $temp_array);
+
+		if(empty($final_response)){
+			noResultsError();
+		} else {
+			echo json_encode(array('results' => $final_response));
+		}
 	}
 
-	echo json_encode(array('results' => $final_response));
+	// incorrect parameters passed
+	invalidParametesError();
