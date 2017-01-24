@@ -3,6 +3,7 @@
 	require_once 'inc/connection.inc.php';
 	require_once 'inc/function.inc.php';
 	require_once 'inc/constants.inc.php';
+	require_once 'inc/responses/errors.php';
 	
 	if(isset($_GET['id'])){
 		$id = (int)$_GET['id'];
@@ -33,3 +34,5 @@
 
 		echo json_encode($response);
 	}
+	invalidParametesError();
+
