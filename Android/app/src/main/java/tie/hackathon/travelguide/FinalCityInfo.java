@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import Util.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -42,23 +44,23 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     private String lat;
     private String lon;
     private TextView fftext;
-    private TextView temp;
-    private TextView humidity;
-    private TextView weatherinfo;
-    private TextView title;
-    private ImageView iv;
-    private ImageView ico;
-    private ExpandableTextView des;
+    @BindView(R.id.temp) TextView temp;
+    @BindView(R.id.humidit) TextView humidity;
+    @BindView(R.id.weatherinfo) TextView weatherinfo;
+    @BindView(R.id.head) TextView title;
+    @BindView(R.id.image) ImageView iv;
+    @BindView(R.id.icon) ImageView ico;
+    @BindView(R.id.expand_text_view) ExpandableTextView des;
     private Typeface code;
     private Typeface tex;
     private Typeface codeb;
     private MaterialDialog dialog;
-    private LinearLayout funfact;
-    private LinearLayout restau;
-    private LinearLayout hangout;
-    private LinearLayout monum;
-    private LinearLayout shopp;
-    private LinearLayout trend;
+    @BindView(R.id.funfact) LinearLayout funfact;
+    @BindView(R.id.restau) LinearLayout restau;
+    @BindView(R.id.hangout) LinearLayout hangout;
+    @BindView(R.id.monu) LinearLayout monum;
+    @BindView(R.id.shoppp) LinearLayout shopp;
+    @BindView(R.id.trends) LinearLayout trend;
     private Handler mHandler;
 
     @Override
@@ -66,20 +68,15 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_city_info);
 
+        ButterKnife.bind(this);
+
         code = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
         codeb = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
         tex = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
         mHandler = new Handler(Looper.getMainLooper());
 
-        des = (ExpandableTextView) findViewById(R.id.expand_text_view);
         des.setText(getString(R.string.sample_string));
 
-        iv = (ImageView) findViewById(R.id.image);
-        title = (TextView) findViewById(R.id.head);
-        ico = (ImageView) findViewById(R.id.icon);
-        temp = (TextView) findViewById(R.id.temp);
-        humidity = (TextView) findViewById(R.id.humidit);
-        weatherinfo = (TextView) findViewById(R.id.weatherinfo);
 
         intent = getIntent();
         tit = intent.getStringExtra("name_");
@@ -89,13 +86,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         title.setTypeface(codeb);
         title.setText(tit);
-
-        funfact = (LinearLayout) findViewById(R.id.funfact);
-        restau = (LinearLayout) findViewById(R.id.restau);
-        hangout = (LinearLayout) findViewById(R.id.hangout);
-        monum = (LinearLayout) findViewById(R.id.monu);
-        shopp = (LinearLayout) findViewById(R.id.shoppp);
-        trend = (LinearLayout) findViewById(R.id.trends);
 
         fftext = (TextView) findViewById(R.id.fftext);
         fftext.setTypeface(code);
@@ -223,27 +213,24 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject ob = new JSONObject(res);
-                            description = ob.getString("description");
-                            des.setText(description);
+                mHandler.post(() -> {
+                    try {
+                        JSONObject ob = new JSONObject(res);
+                        description = ob.getString("description");
+                        des.setText(description);
 
-                            Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
-                            temp.setText(ob.getJSONObject("weather").getString("temprature") + (char) 0x00B0 + " C ");
-                            humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
-                            weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
-                            lat = ob.getString("lat");
-                            lon = ob.getString("lng");
+                        Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
+                        temp.setText(ob.getJSONObject("weather").getString("temprature") + (char) 0x00B0 + " C ");
+                        humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
+                        weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
+                        lat = ob.getString("lat");
+                        lon = ob.getString("lng");
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("EXCEPTION : ", e.getMessage() + " ");
-                        }
-                        dialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("EXCEPTION : ", e.getMessage() + " ");
                     }
+                    dialog.dismiss();
                 });
             }
         });

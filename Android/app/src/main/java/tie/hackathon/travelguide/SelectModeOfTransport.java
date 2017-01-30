@@ -8,27 +8,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout car;
-    private LinearLayout train;
-    private LinearLayout bus;
+    @BindView(R.id.car) LinearLayout car;
+    @BindView(R.id.train) LinearLayout train;
+    @BindView(R.id.bus) LinearLayout bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode_of_transport);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        car = (LinearLayout) findViewById(R.id.car);
-        train = (LinearLayout) findViewById(R.id.train);
-        bus = (LinearLayout) findViewById(R.id.bus);
+        ButterKnife.bind(this);
 
         car.setOnClickListener(this);
         train.setOnClickListener(this);
         bus.setOnClickListener(this);
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

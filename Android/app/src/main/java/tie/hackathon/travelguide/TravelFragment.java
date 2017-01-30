@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class TravelFragment extends Fragment implements View.OnClickListener {
 
     private Activity activity;
-    private LinearLayout vehicle;
-    private LinearLayout acc;
-    private LinearLayout shop;
-    private LinearLayout realtime;
-    private LinearLayout mytrips;
+    @BindView(R.id.vehicle) LinearLayout vehicle;
+    @BindView(R.id.accomo) LinearLayout acc;
+    @BindView(R.id.shopping) LinearLayout shop;
+    @BindView(R.id.realtime) LinearLayout realtime;
+    @BindView(R.id.mytrips) LinearLayout mytrips;
 
     public TravelFragment() {
     }
@@ -29,11 +32,7 @@ public class TravelFragment extends Fragment implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.content_travel, container, false);
 
-        vehicle = (LinearLayout) v.findViewById(R.id.vehicle);
-        acc = (LinearLayout) v.findViewById(R.id.accomo);
-        shop = (LinearLayout) v.findViewById(R.id.shopping);
-        mytrips = (LinearLayout) v.findViewById(R.id.mytrips);
-        realtime = (LinearLayout) v.findViewById(R.id.realtime);
+        ButterKnife.bind(this,v);
 
         realtime.setOnClickListener(this);
         mytrips.setOnClickListener(this);
@@ -64,7 +63,7 @@ public class TravelFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.shopping:
-                i = new Intent(activity, ShoppingCurrentcity.class);
+                i = new Intent(activity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
 

@@ -37,6 +37,8 @@ import java.io.IOException;
 
 import Util.Constants;
 import Util.GPSTracker;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -45,7 +47,7 @@ import okhttp3.Response;
 
 public class PlacesOnMap extends AppCompatActivity {
 
-    private TwoWayView lv;
+    @BindView(R.id.lv) TwoWayView lv;
     private String id;
     private String name;
     private Intent i;
@@ -65,7 +67,9 @@ public class PlacesOnMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places_on_map);
-        lv = (TwoWayView) findViewById(R.id.lv);
+
+        ButterKnife.bind(this);
+
         i = getIntent();
         name = i.getStringExtra("name_");
         setTitle(name);
@@ -185,23 +189,20 @@ public class PlacesOnMap extends AppCompatActivity {
 
                 final String res = response.body().string();
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject YTFeed = new JSONObject(res);
+                mHandler.post(() -> {
+                    try {
+                        JSONObject YTFeed = new JSONObject(res);
 
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                            Log.e("response", YTFeedItems + " ");
+                        JSONArray YTFeedItems = YTFeed.getJSONArray("results");
+                        Log.e("response", YTFeedItems + " ");
 
 
-                            lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
+                        lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
 
-                            progressDialog.dismiss();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage() + " ");
-                        }
+                        progressDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", e.getMessage() + " ");
                     }
                 });
 
@@ -313,23 +314,20 @@ public class PlacesOnMap extends AppCompatActivity {
             });
 
 
-            vi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            vi.setOnClickListener(v -> {
 
-                    map.clear();
-                    try {
-                        ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
-                                Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
-                                FeedItems.getJSONObject(position).getString("name")
-                        );
+                map.clear();
+                try {
+                    ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
+                            Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
+                            FeedItems.getJSONObject(position).getString("name")
+                    );
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             });
 
 

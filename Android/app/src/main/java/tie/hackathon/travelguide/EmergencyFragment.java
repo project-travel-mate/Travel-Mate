@@ -11,17 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Displays emergency contact numbers
  */
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
 
-    private Button police;
-    private Button fire;
-    private Button ambulance;
-    private Button blood_bank;
-    private Button bomb;
-    private Button railways;
+    @BindView(R.id.police) Button police;
+    @BindView(R.id.fire) Button fire;
+    @BindView(R.id.ambulance) Button ambulance;
+    @BindView(R.id.blood_bank) Button blood_bank;
+    @BindView(R.id.bomb) Button bomb;
+    @BindView(R.id.railways) Button railways;
     private Activity activity;
 
     public EmergencyFragment() {
@@ -32,12 +35,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_emergency, container, false);
 
-        police = (Button) v.findViewById(R.id.police);
-        fire = (Button) v.findViewById(R.id.fire);
-        ambulance = (Button) v.findViewById(R.id.ambulance);
-        blood_bank = (Button) v.findViewById(R.id.blood_bank);
-        bomb = (Button) v.findViewById(R.id.bomb);
-        railways = (Button) v.findViewById(R.id.railways);
+        ButterKnife.bind(this,v);
 
         police.setOnClickListener(this);
         fire.setOnClickListener(this);

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import butterknife.ButterKnife;
+
 public class Checklist extends AppCompatActivity {
 
 
@@ -17,6 +19,8 @@ public class Checklist extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();

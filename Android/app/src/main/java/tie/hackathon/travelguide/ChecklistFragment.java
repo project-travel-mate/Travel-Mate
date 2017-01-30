@@ -29,6 +29,9 @@ import java.util.List;
 import Util.Constants;
 import Util.DBhelp;
 import Util.TableEntry;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ChecklistFragment extends Fragment {
@@ -44,7 +47,7 @@ public class ChecklistFragment extends Fragment {
     private SharedPreferences.Editor e;
     private SQLiteDatabase db;
     private final List<String> base_task = new ArrayList<>();
-    private ListView lv;
+    @BindView(R.id.lv) ListView lv;
 
     public ChecklistFragment() {
     }
@@ -57,6 +60,7 @@ public class ChecklistFragment extends Fragment {
         dbhelp = new DBhelp(getContext());
         db = dbhelp.getWritableDatabase();
 
+        ButterKnife.bind(this,v);
 
         s = PreferenceManager.getDefaultSharedPreferences(activity);
         e = s.edit();
@@ -85,46 +89,37 @@ public class ChecklistFragment extends Fragment {
         }
 
 
-        lv = (ListView) v.findViewById(R.id.lv);
         ad = new CheckList_adapter(activity, id, task, isdone);
         lv.setAdapter(ad);
 
 
         refresh();
 
-
-        LinearLayout l = (LinearLayout) v.findViewById(R.id.add);
-        l.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                LayoutInflater inflater = (activity).getLayoutInflater();
-                builder.setTitle("Add new item");
-                builder.setCancelable(false);
-                final View dialogv = inflater.inflate(R.layout.dialog, null);
-                builder.setView(dialogv)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                EditText e = (EditText) dialogv.findViewById(R.id.task);
-                                Log.e("added", "a" + e.getText() + "a");
-
-                                if (!e.getText().toString().equals("")) {
-                                    ContentValues insertValues = new ContentValues();
-                                    insertValues.put(TableEntry.COLUMN_NAME, e.getText().toString());
-                                    insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
-                                    db.insert(TableEntry.TABLE_NAME, null, insertValues);
-                                    refresh();
-                                }
-                            }
-                        });
-                builder.create();
-                builder.show();
-            }
-        });
-
         return v;
+    }
+
+    @OnClick(R.id.add) void onClick(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = (activity).getLayoutInflater();
+        builder.setTitle("Add new item");
+        builder.setCancelable(false);
+        final View dialogv = inflater.inflate(R.layout.dialog, null);
+        builder.setView(dialogv)
+                .setPositiveButton("OK", (dialog, id1) -> {
+
+                    EditText e1 = (EditText) dialogv.findViewById(R.id.task);
+                    Log.e("added", "a" + e1.getText() + "a");
+
+                    if (!e1.getText().toString().equals("")) {
+                        ContentValues insertValues = new ContentValues();
+                        insertValues.put(TableEntry.COLUMN_NAME, e1.getText().toString());
+                        insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
+                        db.insert(TableEntry.TABLE_NAME, null, insertValues);
+                        refresh();
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
 
@@ -210,27 +205,22 @@ public class ChecklistFragment extends Fragment {
             holder.c.setText(task.get(position));
 
 
-            holder.c.setOnClickListener(new CheckBox.OnClickListener() {
+            holder.c.setOnClickListener(view1 -> {
+                CheckBox c2 = (CheckBox) view1;
+                if (c2.isChecked()) {
 
-                @Override
-                public void onClick(View view) {
-                    CheckBox c2 = (CheckBox) view;
-                    if (c2.isChecked()) {
+                    String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
+                            TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
 
-                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
-
-                        db.execSQL(x);
-                        Log.e("execited", x + " ");
-                    } else {
-                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
-                        db.execSQL(x);
-                        Log.e("execited", x + " ");
-                    }
-                    refresh();
+                    db.execSQL(x);
+                    Log.e("execited", x + " ");
+                } else {
+                    String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                            TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
+                    db.execSQL(x);
+                    Log.e("execited", x + " ");
                 }
-
+                refresh();
             });
 
             return vi;

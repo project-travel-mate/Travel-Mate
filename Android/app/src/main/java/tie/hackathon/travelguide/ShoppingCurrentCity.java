@@ -39,67 +39,36 @@ import java.net.URL;
 
 import Util.Constants;
 import Util.Utils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ShoppingCurrentCity extends AppCompatActivity {
 
     private SharedPreferences s ;
     private MaterialSearchView searchView;
     private SharedPreferences.Editor e;
-    private ProgressBar pb;
-    private ListView lv;
+    @BindView(R.id.pb) ProgressBar pb;
+    @BindView(R.id.music_list) ListView lv;
     private String item="bags";
-    private EditText q;
-    private Button ok;
+    @BindView(R.id.query) EditText q;
+    @BindView(R.id.go) Button ok;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_currentcity);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        ButterKnife.bind(this);
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
         e = s.edit();
-        lv = (ListView) findViewById(R.id.music_list);
-        pb = (ProgressBar) findViewById(R.id.pb);
+
         setTitle("Shopping");
-        q = (EditText) findViewById(R.id.query);
-        ok = (Button) findViewById(R.id.go);
 
         new Book_RetrieveFeed().execute();
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("vfs", "clcike");
-                pb.setVisibility(View.VISIBLE);
-                try {
-                    item = q.getText().toString();
-
-                    Log.e("click", "going" + item);
-                    new Book_RetrieveFeed().execute();
-
-
-                } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
-                    alertDialog.setTitle("Can't connect.");
-                    alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    Log.e("YouTube:", "Cannot fetch " + e.toString());
-                }
-
-            }
-        });
-
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -121,6 +90,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -136,6 +106,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 return false;
             }
         });
+
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -153,6 +124,30 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
     }
+
+    @OnClick(R.id.go) void onClick(){
+        Log.e("vfs", "clcike");
+        pb.setVisibility(View.VISIBLE);
+        try {
+            item = q.getText().toString();
+
+            Log.e("click", "going" + item);
+            new Book_RetrieveFeed().execute();
+
+
+        } catch (Exception e) {
+            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
+            alertDialog.setTitle("Can't connect.");
+            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    (dialog, which) -> {
+                        dialog.dismiss();
+                    });
+            alertDialog.show();
+            Log.e("YouTube:", "Cannot fetch " + e.toString());
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,18 +289,15 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            vi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            vi.setOnClickListener(view -> {
 
-                    Intent browserIntent = null;
-                    try {
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    context.startActivity(browserIntent);
+                Intent browserIntent = null;
+                try {
+                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
                 }
+                context.startActivity(browserIntent);
             });
 
 

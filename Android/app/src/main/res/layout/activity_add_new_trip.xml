@@ -10,20 +10,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="tie.hackathon.travelguide.AddNewTrip">
 
-
-    <TextInputEditText
-        android:id="@+id/tripname"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#000000"
-        android:ems="10"
-        android:hint="@string/prompt_trip_name"
-        android:maxLines="1"
-        android:popupBackground="#ffffff"
-        android:textColor="#000000"
-        android:textColorHint="#000000" />
-
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/tname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="@string/prompt_trip_name"
+            android:maxLines="1"
+            android:popupBackground="#ffffff"
+            android:textColor="#000000"
+            android:textColorHint="#000000" />
+    </android.support.design.widget.TextInputLayout>
 
     <AutoCompleteTextView
         android:id="@+id/cityname"

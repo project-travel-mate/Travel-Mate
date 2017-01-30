@@ -39,6 +39,8 @@ import java.util.List;
 
 import Util.Constants;
 import Util.GPSTracker;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -48,7 +50,7 @@ import okhttp3.Response;
 /**
  * Show markers on map around user's current location
  */
-public class MapRealTimeActivity extends AppCompatActivity {
+public class MapRealTimeActivity extends AppCompatActivity{
 
     private com.google.android.gms.maps.MapFragment mapFragment;
     private GoogleMap map;
@@ -65,7 +67,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
     private List<String> nums;
     private List<String> web;
     private List<String> addr;
-    private ScrollView sc;
+    @BindView(R.id.data) ScrollView sc;
     private int index = 0;
     private Handler mHandler;
 
@@ -73,8 +75,12 @@ public class MapRealTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_realtime);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
+
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         map = mapFragment.getMap();
@@ -90,7 +96,6 @@ public class MapRealTimeActivity extends AppCompatActivity {
         surce = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
         dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
 
-        sc = (ScrollView) findViewById(R.id.data);
         sc.setVisibility(View.GONE);
 
         name = new ArrayList<>();
@@ -124,45 +129,41 @@ public class MapRealTimeActivity extends AppCompatActivity {
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
 
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                sc.setVisibility(View.VISIBLE);
-                for (int i = 0; i < name.size(); i++) {
-                    if (name.get(i).equals(marker.getTitle())) {
-                        index = i;
-                        break;
-                    }
+        map.setOnMarkerClickListener(marker -> {
+            sc.setVisibility(View.VISIBLE);
+            for (int i = 0; i < name.size(); i++) {
+                if (name.get(i).equals(marker.getTitle())) {
+                    index = i;
+                    break;
                 }
-
-                TextView Title = (TextView) findViewById(R.id.VideoTitle);
-                TextView Description = (TextView) findViewById(R.id.VideoDescription);
-                final Button calls, book;
-                calls = (Button) findViewById(R.id.call);
-                book = (Button) findViewById(R.id.book);
-
-                Title.setText(name.get(index));
-                Description.setText(addr.get(index));
-                calls.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + nums.get(index)));
-                        startActivity(intent);
-
-                    }
-                });
-                book.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserIntent;
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
-                        startActivity(browserIntent);
-                    }
-                });
-                return false;
             }
 
+            TextView Title = (TextView) findViewById(R.id.VideoTitle);
+            TextView Description = (TextView) findViewById(R.id.VideoDescription);
+            final Button calls, book;
+            calls = (Button) findViewById(R.id.call);
+            book = (Button) findViewById(R.id.book);
+
+            Title.setText(name.get(index));
+            Description.setText(addr.get(index));
+            calls.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + nums.get(index)));
+                    MapRealTimeActivity.this.startActivity(intent);
+
+                }
+            });
+            book.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browserIntent;
+                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
+                    MapRealTimeActivity.this.startActivity(browserIntent);
+                }
+            });
+            return false;
         });
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -234,55 +235,52 @@ public class MapRealTimeActivity extends AppCompatActivity {
             new MaterialDialog.Builder(this)
                     .title(R.string.title)
                     .items(R.array.items)
-                    .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                        @Override
-                        public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    .itemsCallbackMultiChoice(null, (dialog, which, text) -> {
 
-                            map.clear();
-                            name.clear();
-                            nums.clear();
-                            web.clear();
-                            addr.clear();
+                        map.clear();
+                        name.clear();
+                        nums.clear();
+                        web.clear();
+                        addr.clear();
 
-                            for (int i = 0; i < which.length; i++) {
-                                Log.e("selected", which[i] + " " + text[i]);
-                                Integer icon;
-                                switch (which[0]) {
+                        for (int i = 0; i < which.length; i++) {
+                            Log.e("selected", which[i] + " " + text[i]);
+                            Integer icon;
+                            switch (which[0]) {
 
-                                    case 0:
-                                        icon = R.drawable.ic_local_pizza_black_24dp;
-                                        break;
-                                    case 1:
-                                        icon = R.drawable.ic_local_bar_black_24dp;
-                                        break;
-                                    case 2:
-                                        icon = R.drawable.ic_camera_alt_black_24dp;
-                                        break;
-                                    case 3:
-                                        icon = R.drawable.ic_directions_bus_black_24dp;
-                                        break;
-                                    case 4:
-                                        icon = R.drawable.ic_local_mall_black_24dp;
-                                        break;
-                                    case 5:
-                                        icon = R.drawable.ic_local_gas_station_black_24dp;
-                                        break;
-                                    case 6:
-                                        icon = R.drawable.ic_local_atm_black_24dp;
-                                        break;
-                                    case 7:
-                                        icon = R.drawable.ic_local_hospital_black_24dp;
-                                        break;
-                                    default:
-                                        icon = R.drawable.ic_attach_money_black_24dp;
-                                        break;
-                                }
-                                getMarkers(which[0], icon);
-
+                                case 0:
+                                    icon = R.drawable.ic_local_pizza_black_24dp;
+                                    break;
+                                case 1:
+                                    icon = R.drawable.ic_local_bar_black_24dp;
+                                    break;
+                                case 2:
+                                    icon = R.drawable.ic_camera_alt_black_24dp;
+                                    break;
+                                case 3:
+                                    icon = R.drawable.ic_directions_bus_black_24dp;
+                                    break;
+                                case 4:
+                                    icon = R.drawable.ic_local_mall_black_24dp;
+                                    break;
+                                case 5:
+                                    icon = R.drawable.ic_local_gas_station_black_24dp;
+                                    break;
+                                case 6:
+                                    icon = R.drawable.ic_local_atm_black_24dp;
+                                    break;
+                                case 7:
+                                    icon = R.drawable.ic_local_hospital_black_24dp;
+                                    break;
+                                default:
+                                    icon = R.drawable.ic_attach_money_black_24dp;
+                                    break;
                             }
+                            getMarkers(which[0], icon);
 
-                            return true;
                         }
+
+                        return true;
                     })
                     .positiveText(R.string.choose)
                     .show();
@@ -326,6 +324,4 @@ public class MapRealTimeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.map_menu, menu);
         return true;
     }
-
-
 }

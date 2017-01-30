@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import Util.Constants;
+import butterknife.BindView;
 import objects.MusicController;
 import objects.Song;
 import okhttp3.Call;
@@ -58,9 +59,9 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     private TwoWayView sugsongView;
     private SharedPreferences s;
     private SharedPreferences.Editor e;
-    private ImageView iv;
+    @BindView(R.id.iv) ImageView iv;
     private ArrayList<Song> songList;
-    private ListView songView;
+    @BindView(R.id.music_list) ListView songView;
     private Handler mHandler;
     private MusicController controller;
     private MusicService musicSrv;
@@ -91,9 +92,8 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         setSupportActionBar(toolbar);
 
         mHandler = new Handler(Looper.getMainLooper());
-        songView = (ListView) findViewById(R.id.music_list);
+
         songList = new ArrayList<>();
-        iv = (ImageView) findViewById(R.id.iv);
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
         e = s.edit();
@@ -117,6 +117,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
 
         Collections.sort(songList, new Comparator<Song>() {
+            @Override
             public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
             }
@@ -190,12 +191,12 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         controller.setPrevNextListeners(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playNext();
+                Music.this.playNext();
             }
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playPrev();
+                Music.this.playPrev();
             }
         });
         controller.setMediaPlayer(this);
@@ -358,18 +359,15 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject YTFeed = new JSONObject(res);
-                            e.putString(Constants.CURRENT_SCORE, YTFeed.getString("mood"));
-                            e.commit();
+                mHandler.post(() -> {
+                    try {
+                        JSONObject YTFeed = new JSONObject(res);
+                        e.putString(Constants.CURRENT_SCORE, YTFeed.getString("mood"));
+                        e.commit();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("EXCEPTION : ", e.getMessage() + " ");
-                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                        Log.e("EXCEPTION : ", e1.getMessage() + " ");
                     }
                 });
 
@@ -402,19 +400,16 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
-                            Log.e("response", YTFeedItems + " ");
-                            sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
+                mHandler.post(() -> {
+                    try {
+                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                        JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
+                        Log.e("response", YTFeedItems + " ");
+                        sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("EXCEPTION : ", e.getMessage() + " ");
-                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                        Log.e("EXCEPTION : ", e1.getMessage() + " ");
                     }
                 });
 

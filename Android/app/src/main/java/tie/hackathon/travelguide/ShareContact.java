@@ -20,12 +20,14 @@ import android.widget.Toast;
 
 import Util.Constants;
 import Util.Services;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ShareContact extends AppCompatActivity {
+public class ShareContact extends AppCompatActivity implements View.OnClickListener{
 
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
-    private Button create;
-    private Button scan;
+    @BindView(R.id.create) Button create;
+    @BindView(R.id.scan) Button scan;
     private SharedPreferences s;
     private SharedPreferences.Editor e;
 
@@ -34,62 +36,13 @@ public class ShareContact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_contact);
 
-        create = (Button) findViewById(R.id.create);
-        scan = (Button) findViewById(R.id.scan);
+        ButterKnife.bind(this);
+
         s = PreferenceManager.getDefaultSharedPreferences(this);
         e = s.edit();
 
-
-        create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Create a new Intent to send to QR Droid
-                Intent qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
-
-                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
-                String name = s.getString(Constants.USER_NAME, "Swati Garg");
-
-                qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
-
-                Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
-
-                //Check whether an URL or an imge is required
-                //First item selected ("Get Bitmap")
-                //Notify we want complete results (default is FALSE)
-                qrDroid.putExtra(Services.IMAGE, true);
-                //Optionally, set requested image size. 0 means "Fit Screen"
-                qrDroid.putExtra(Services.SIZE, 0);
-
-
-                //Send intent and wait result
-                try {
-                    startActivityForResult(qrDroid, ACTIVITY_CREATE);
-                } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent qrDroid = new Intent(Services.SCAN); //Set action "la.droid.qr.scan"
-
-                //Check whether a complete or displayable result is needed
-                qrDroid.putExtra(Services.COMPLETE, true);
-
-
-                //Send intent and wait result
-                try {
-                    startActivityForResult(qrDroid, ACTIVITY_SCAN);
-                } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
+        create.setOnClickListener(this);
+        scan.setOnClickListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -159,5 +112,54 @@ public class ShareContact extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        Intent qrDroid;
+
+        switch (view.getId())
+        {
+            case R.id.scan :
+                qrDroid = new Intent(Services.SCAN); //Set action "la.droid.qr.scan"
+
+                //Check whether a complete or displayable result is needed
+                qrDroid.putExtra(Services.COMPLETE, true);
+
+                //Send intent and wait result
+                try {
+                    startActivityForResult(qrDroid, ACTIVITY_SCAN);
+                } catch (ActivityNotFoundException activity) {
+                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.create :
+                //Create a new Intent to send to QR Droid
+                qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
+
+                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
+                String name = s.getString(Constants.USER_NAME, "Swati Garg");
+
+                qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
+
+                Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
+
+                //Check whether an URL or an imge is required
+                //First item selected ("Get Bitmap")
+                //Notify we want complete results (default is FALSE)
+                qrDroid.putExtra(Services.IMAGE, true);
+                //Optionally, set requested image size. 0 means "Fit Screen"
+                qrDroid.putExtra(Services.SIZE, 0);
+
+
+                //Send intent and wait result
+                try {
+                    startActivityForResult(qrDroid, ACTIVITY_CREATE);
+                } catch (ActivityNotFoundException activity) {
+                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }

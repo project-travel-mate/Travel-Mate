@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class EntertainmentFragment extends Fragment implements View.OnClickListener {
+
+public class EntertainmentFragment extends Fragment {
 
 
     private Activity activity;
@@ -19,17 +23,15 @@ public class EntertainmentFragment extends Fragment implements View.OnClickListe
     public EntertainmentFragment() {
     }
 
-    private LinearLayout music;
     LinearLayout books;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         View v = inflater.inflate(R.layout.content_entertainment, container, false);
-        music = (LinearLayout) v.findViewById(R.id.music);
-        music.setOnClickListener(this);
+
+        ButterKnife.bind(this,v);
+
         return v;
     }
 
@@ -40,16 +42,8 @@ public class EntertainmentFragment extends Fragment implements View.OnClickListe
         this.activity = (Activity) c;
     }
 
-
-    @Override
-    public void onClick(View view) {
-        Intent i;
-        switch (view.getId()) {
-            case R.id.music:
-                i = new Intent(activity, Music.class);
-                startActivity(i);
-                break;
-        }
-
+    @OnClick(R.id.music) void onClick(){
+        Intent i = new Intent(activity, Music.class);
+        startActivity(i);
     }
 }

@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import Util.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -42,68 +44,53 @@ import okhttp3.Response;
 /**
  * Display list of hotels in destination city
  */
-public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
     private static final String DATEPICKER_TAG = "datepicker";
-    private ProgressBar pb;
-    private ListView lv;
+    @BindView(R.id.pb) ProgressBar pb;
+    @BindView(R.id.music_list) ListView lv;
     DatePickerDialog.OnDateSetListener date;
     private SharedPreferences s;
-    private TextView selectdate;
-    private TextView city;
+    @BindView(R.id.seldate) TextView selectdate;
+    @BindView(R.id.city) TextView city;
     private String source;
     private String dest;
     private String sourcet;
     private String destt;
     private String dates = "17-October-2015";
     private Handler mHandler;
+    private DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotels);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         mHandler = new Handler(Looper.getMainLooper());
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
-        lv = (ListView) findViewById(R.id.music_list);
-        pb = (ProgressBar) findViewById(R.id.pb);
-        selectdate = (TextView) findViewById(R.id.seldate);
 
         source = s.getString(Constants.SOURCE_CITY_ID, "1");
         dest = s.getString(Constants.DESTINATION_CITY_ID, "1");
         sourcet = s.getString(Constants.SOURCE_CITY, "Delhi");
         destt = s.getString(Constants.DESTINATION_CITY, "Mumbai");
 
-        city = (TextView) findViewById(R.id.city);
         city.setText("Showing " + destt + " hotels");
-        city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Hotels.this, SelectCity.class);
-                startActivity(i);
-            }
-        });
-
         selectdate.setText("Check In : " + dates);
 
         final Calendar calendar = Calendar.getInstance();
-        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
+        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
 
         getHotellist();
 
-        selectdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePickerDialog.setVibrate(isVibrate());
-                datePickerDialog.setYearRange(1985, 2028);
-                datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
-                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
-            }
-        });
-
         setTitle("Hotels");
+
+        selectdate.setOnClickListener(this);
+        city.setOnClickListener(this);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -209,22 +196,19 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("RESPONSE : ", "Done");
-                        try {
-                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("hotels");
-                            Log.e("response", YTFeedItems + " ");
-                            pb.setVisibility(View.GONE);
-                            lv.setAdapter(new Hotels_adapter(Hotels.this, YTFeedItems));
-                            pb.setVisibility(View.GONE);
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-
+                mHandler.post(() -> {
+                    Log.e("RESPONSE : ", "Done");
+                    try {
+                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                        JSONArray YTFeedItems = YTFeed.getJSONArray("hotels");
+                        Log.e("response", YTFeedItems + " ");
+                        pb.setVisibility(View.GONE);
+                        lv.setAdapter(new Hotels_adapter(Hotels.this, YTFeedItems));
+                        pb.setVisibility(View.GONE);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+
                 });
             }
         });
@@ -360,4 +344,21 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
         }
 
     }
+
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.city :
+                Intent i = new Intent(Hotels.this, SelectCity.class);
+                startActivity(i);
+                break;
+            case R.id.seldate :
+                datePickerDialog.setVibrate(isVibrate());
+                datePickerDialog.setYearRange(1985, 2028);
+                datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
+                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+                break;
+        }
+    }
+
 }

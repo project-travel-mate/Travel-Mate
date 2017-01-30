@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import Util.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -33,22 +35,22 @@ import okhttp3.Response;
 /**
  * Initiates login
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView signup;
-    private TextView login;
-    private LinearLayout sig;
-    private LinearLayout log;
-    private EditText num_login;
-    private EditText pass_login;
-    private EditText num_signup;
-    private EditText pass_signup;
-    private EditText name;
+    @BindView(R.id.signup) TextView signup;
+    @BindView(R.id.login) TextView login;
+    @BindView(R.id.signup_layout) LinearLayout sig;
+    @BindView(R.id.loginlayout) LinearLayout log;
+    @BindView(R.id.input_num_login) EditText num_login;
+    @BindView(R.id.input_pass_login) EditText pass_login;
+    @BindView(R.id.input_num_signup) EditText num_signup;
+    @BindView(R.id.input_pass_signup) EditText pass_signup;
+    @BindView(R.id.input_name_signup) EditText name;
     private String Num;
     private String Pass;
     private String Name;
-    private FlatButton ok_login;
-    private FlatButton ok_signup;
+    @BindView(R.id.ok_login) FlatButton ok_login;
+    @BindView(R.id.ok_signup) FlatButton ok_signup;
     private SharedPreferences sharedPreferences;
     private MaterialDialog dialog;
     private Handler mHandler;
@@ -57,21 +59,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ButterKnife.bind(this);
+
         // Initialization
-        signup = (TextView) findViewById(R.id.signup);
-        login = (TextView) findViewById(R.id.login);
-        sig = (LinearLayout) findViewById(R.id.signup_layout);
-        log = (LinearLayout) findViewById(R.id.loginlayout);
-        num_login = (EditText) findViewById(R.id.input_num_login);
-        pass_login = (EditText) findViewById(R.id.input_pass_login);
-        num_signup = (EditText) findViewById(R.id.input_num_signup);
-        pass_signup = (EditText) findViewById(R.id.input_pass_signup);
-        name = (EditText) findViewById(R.id.input_name_signup);
-        ok_login = (FlatButton) findViewById(R.id.ok_login);
-        ok_signup = (FlatButton) findViewById(R.id.ok_signup);
         mHandler = new Handler(Looper.getMainLooper());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -82,44 +76,10 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
-        // Open signup
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                log.setVisibility(View.GONE);
-                sig.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Open login
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                log.setVisibility(View.VISIBLE);
-                sig.setVisibility(View.GONE);
-            }
-        });
-
-        // Call login
-        ok_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Num = num_login.getText().toString();
-                Pass = pass_login.getText().toString();
-                login(Num, Pass);
-            }
-        });
-
-        // Call signup
-        ok_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Num = num_signup.getText().toString();
-                Pass = pass_signup.getText().toString();
-                Name = name.getText().toString();
-                signup(Name, Num, Pass);
-            }
-        });
+        signup.setOnClickListener(this);
+        login.setOnClickListener(this);
+        ok_login.setOnClickListener(this);
+        ok_signup.setOnClickListener(this);
     }
 
     /**
@@ -252,5 +212,35 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            // Open signup
+            case R.id.signup :
+                log.setVisibility(View.GONE);
+                sig.setVisibility(View.VISIBLE);
+                break;
+            // Open login
+            case R.id.login :
+                log.setVisibility(View.VISIBLE);
+                sig.setVisibility(View.GONE);
+                break;
+            // Call login
+            case R.id.ok_login :
+                Num = num_login.getText().toString();
+                Pass = pass_login.getText().toString();
+                login(Num, Pass);
+                break;
+            // Call signup
+            case R.id.ok_signup :
+                Num = num_signup.getText().toString();
+                Pass = pass_signup.getText().toString();
+                Name = name.getText().toString();
+                signup(Name, Num, Pass);
+                break;
+        }
     }
 }

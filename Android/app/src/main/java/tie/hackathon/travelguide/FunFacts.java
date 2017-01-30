@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -37,7 +39,7 @@ public class FunFacts extends AppCompatActivity {
 
     private String id;
     private String name;
-    private ViewPager viewPager;
+    @BindView(R.id.vp) ViewPager viewPager;
     private MaterialDialog dialog;
     private Handler mHandler;
 
@@ -45,15 +47,16 @@ public class FunFacts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_facts);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         Intent i = getIntent();
         id = i.getStringExtra("id_");
         name = i.getStringExtra("name_");
         mHandler = new Handler(Looper.getMainLooper());
-
-        viewPager = (ViewPager) findViewById(R.id.vp);
 
         // Fetch fun facts about city
         getCityFacts();
@@ -90,26 +93,23 @@ public class FunFacts extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                mHandler.post(() -> {
 
-                        try {
-                            JSONObject ob = new JSONObject(res);
-                            JSONArray ar = ob.getJSONArray("facts");
-                            List<Fragment> fList = new ArrayList<>();
-                            for (int i = 0; i < ar.length(); i++)
-                                fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
-                                        ar.getJSONObject(i).getString("fact"), name));
-                            viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
-                            viewPager.setPageTransformer(true, new AccordionTransformer());
+                    try {
+                        JSONObject ob = new JSONObject(res);
+                        JSONArray ar = ob.getJSONArray("facts");
+                        List<Fragment> fList = new ArrayList<>();
+                        for (int i = 0; i < ar.length(); i++)
+                            fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
+                                    ar.getJSONObject(i).getString("fact"), name));
+                        viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
+                        viewPager.setPageTransformer(true, new AccordionTransformer());
 
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                            Log.e("ERROR : ", e1.getMessage() + " ");
-                        }
-                        dialog.dismiss();
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                        Log.e("ERROR : ", e1.getMessage() + " ");
                     }
+                    dialog.dismiss();
                 });
 
             }

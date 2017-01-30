@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class UtilitiesFragment extends Fragment implements View.OnClickListener {
 
     private Activity activity;
-    private LinearLayout sharecontact;
-    private LinearLayout checklist;
+    @BindView(R.id.sharecontact) LinearLayout sharecontact;
+    @BindView(R.id.checklist) LinearLayout checklist;
 
     public UtilitiesFragment() {
     }
@@ -24,8 +27,8 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_utility, container, false);
-        sharecontact = (LinearLayout) v.findViewById(R.id.sharecontact);
-        checklist = (LinearLayout) v.findViewById(R.id.checklist);
+
+        ButterKnife.bind(this,v);
 
         sharecontact.setOnClickListener(this);
         checklist.setOnClickListener(this);

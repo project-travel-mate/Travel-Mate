@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,16 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         beaconManager = new BeaconManager(this);
         region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
 
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                beaconManager.startRanging(region);
-            }
-        });
+        beaconManager.connect(() -> beaconManager.startRanging(region));
 
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
-            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+            public void onBeaconsDiscovered(Region region1, List<Beacon> list) {
                 if (!discovered && list.size() > 0) {
                     Beacon nearestBeacon = list.get(0);
                     beaconmajor = Integer.toString(nearestBeacon.getMajor());
@@ -90,11 +86,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     intent1.putExtra(Constants.CUR_MAJOR, beaconmajor);
                     intent1.putExtra(Constants.CUR_MINOR, " ");
                     intent1.putExtra(Constants.IS_BEACON, true);
-                    startActivity(intent1);
+                    MainActivity.this.startActivity(intent1);
                 }
             }
-
-
         });
 
         // Get runtime permissions for Android M
@@ -189,5 +183,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }

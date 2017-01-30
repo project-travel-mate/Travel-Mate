@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import butterknife.OnClick;
+
 /**
  * Created by swati on 25/1/16.
  * <p>
@@ -77,19 +79,17 @@ public class FunfactFragment extends Fragment {
         ImageView iv = (ImageView) v.findViewById(R.id.imag);
         Picasso.with(getContext()).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
 
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
-                Bitmap b = getScreenShot(rootView);
-                store(b, "myfile" + System.currentTimeMillis());
-                shareImage(file);
-            }
-        });
-
         return v;
     }
+
+    @OnClick(R.id.fab) void onClick(){
+        View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        Bitmap b = getScreenShot(rootView);
+        store(b, "myfile" + System.currentTimeMillis());
+        shareImage(file);
+    }
+
+
 
     /**
      * Store bitmap file in MyScreenshots directory

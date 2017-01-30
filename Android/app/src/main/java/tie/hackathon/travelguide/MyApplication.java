@@ -52,7 +52,6 @@ public class MyApplication extends Application {
                         UUID.fromString(Constants.UID),
                         Constants.major, Constants.minor));
             }
-
         });
     }
 

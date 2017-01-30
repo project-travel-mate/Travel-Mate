@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import Util.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -39,7 +41,7 @@ import okhttp3.Response;
 
 public class MyTrips extends AppCompatActivity {
 
-    private GridView g;
+    @BindView(R.id.gv) GridView g;
     private MaterialDialog dialog;
     private List<String> id;
     private List<String> name;
@@ -56,6 +58,8 @@ public class MyTrips extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trips);
 
+        ButterKnife.bind(this);
+
         id = new ArrayList<>();
         name = new ArrayList<>();
         tname = new ArrayList<>();
@@ -65,7 +69,7 @@ public class MyTrips extends AppCompatActivity {
 
         s = PreferenceManager.getDefaultSharedPreferences(this);
         userid = s.getString(Constants.USER_ID, "1");
-        g = (GridView) findViewById(R.id.gv);
+
         mHandler = new Handler(Looper.getMainLooper());
 
         id.add("yo");
@@ -129,12 +133,9 @@ public class MyTrips extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("erro", e.getMessage() + " ");
                 }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
-                        g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
-                    }
+                mHandler.post(() -> {
+                    dialog.dismiss();
+                    g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
                 });
 
             }

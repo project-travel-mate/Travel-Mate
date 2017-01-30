@@ -37,6 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Util.Constants;
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -58,9 +62,9 @@ public class CarDirections extends AppCompatActivity {
     private String distancetext;
     private Double distance;
     private SharedPreferences s;
-    private TextView coste1;
-    private TextView coste2;
-    private TextView coste3;
+    @BindView(R.id.travelcost1) TextView coste1;
+    @BindView(R.id.travelcost2) TextView coste2;
+    @BindView(R.id.travelcost3) TextView coste3;
     private Double cost1;
     private Double cost2;
     private Double cost3;
@@ -78,6 +82,8 @@ public class CarDirections extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ButterKnife.bind(this);
+
         s = PreferenceManager.getDefaultSharedPreferences(this);
 
         mHandler = new Handler(Looper.getMainLooper());
@@ -89,25 +95,6 @@ public class CarDirections extends AppCompatActivity {
 
         surce = s.getString(Constants.SOURCE_CITY, "Delhi");
         dest = s.getString(Constants.DESTINATION_CITY, "MUmbai");
-
-        coste1 = (TextView) findViewById(R.id.travelcost1);
-        coste2 = (TextView) findViewById(R.id.travelcost2);
-        coste3 = (TextView) findViewById(R.id.travelcost3);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String shareBody = "Lets plan a journey from " + surce + " to " + dest + ". The distace between the two cities is "
-                        + distancetext;
-
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Travel Guide");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Choose"));
-            }
-        });
 
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -121,6 +108,17 @@ public class CarDirections extends AppCompatActivity {
         setTitle("Car Directions");
         getDirections();
 
+    }
+
+    @OnClick(R.id.fab) void onClickFab(){
+        String shareBody = "Lets plan a journey from " + surce + " to " + dest + ". The distace between the two cities is "
+                + distancetext;
+
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Travel Guide");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Choose"));
     }
 
     @Override
@@ -188,51 +186,48 @@ public class CarDirections extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("RESPONSE : ", "Done" + res);
-                        try {
-                            final JSONObject json = new JSONObject(res);
-                            JSONArray routeArray = json.getJSONArray("routes");
-                            JSONObject routes = routeArray.getJSONObject(0);
-                            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
-                            String encodedString = overviewPolylines.getString("points");
-                            List<LatLng> list = decodePoly(encodedString);
-                            Polyline line = map.addPolyline(new PolylineOptions()
-                                    .addAll(list)
-                                    .width(12)
-                                    .color(Color.parseColor("#05b1fb"))//Google maps blue color
-                                    .geodesic(true)
-                            );
-                            distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
-                            distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
+                mHandler.post(() -> {
+                    Log.e("RESPONSE : ", "Done" + res);
+                    try {
+                        final JSONObject json = new JSONObject(res);
+                        JSONArray routeArray = json.getJSONArray("routes");
+                        JSONObject routes = routeArray.getJSONObject(0);
+                        JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+                        String encodedString = overviewPolylines.getString("points");
+                        List<LatLng> list = decodePoly(encodedString);
+                        Polyline line = map.addPolyline(new PolylineOptions()
+                                .addAll(list)
+                                .width(12)
+                                .color(Color.parseColor("#05b1fb"))//Google maps blue color
+                                .geodesic(true)
+                        );
+                        distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
+                        distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
 
 
-                            cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
-                            cost2 = (distance / mileage_sedan) * fuelprice / 1000;
-                            cost3 = (distance / mileage_suv) * fuelprice / 1000;
+                        cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
+                        cost2 = (distance / mileage_sedan) * fuelprice / 1000;
+                        cost3 = (distance / mileage_suv) * fuelprice / 1000;
 
-                            coste1.setText(cost1.intValue() + "");
-                            coste2.setText(cost2.intValue() + "");
-                            coste3.setText(cost3.intValue() + "");
-                            for (int z = 0; z < list.size() - 1; z++) {
-                                LatLng src = list.get(z);
-                                LatLng dest = list.get(z + 1);
-                                Polyline line2 = map.addPolyline(new PolylineOptions()
-                                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude, dest.longitude))
-                                        .width(2)
-                                        .color(Color.BLUE).geodesic(true));
-                            }
-                            progressDialog.hide();
-                            LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
-                            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                            map.animateCamera(yourLocation);
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
+                        coste1.setText(cost1.intValue() + "");
+                        coste2.setText(cost2.intValue() + "");
+                        coste3.setText(cost3.intValue() + "");
+                        for (int z = 0; z < list.size() - 1; z++) {
+                            LatLng src = list.get(z);
+                            LatLng dest1 = list.get(z + 1);
+                            Polyline line2 = map.addPolyline(new PolylineOptions()
+                                    .add(new LatLng(src.latitude, src.longitude), new LatLng(dest1.latitude, dest1.longitude))
+                                    .width(2)
+                                    .color(Color.BLUE).geodesic(true));
                         }
-
+                        progressDialog.hide();
+                        LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
+                        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
+                        map.animateCamera(yourLocation);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+
                 });
             }
         });
