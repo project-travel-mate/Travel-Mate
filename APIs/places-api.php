@@ -20,25 +20,29 @@
 
 			$here_response = call_here_api($HERE_API_MODES[$mode], $latitude, $longitude);
 
-			foreach($here_response as $item){
-				$temp_array = array(
-					'name'		=> strip_tags($item['title']),
-					'lat'		=> (float)$item['position'][0],
-					'lng'		=> (float)$item['position'][1],
-					'address'	=> strip_tags($item['vicinity']),
-					'phone'		=> null,
-					'website'	=> strip_tags($item['href']),
-					'icon'		=> strip_tags($item['icon']),
-				);
-				array_push($response['results'], $temp_array);
-			}
 			if(empty($here_response)){
 				noResultsError();
 			} else {
+				foreach($here_response as $item){
+					$temp_array = array(
+						'name'		=> strip_tags($item['title']),
+						'lat'		=> (float)$item['position'][0],
+						'lng'		=> (float)$item['position'][1],
+						'address'	=> strip_tags($item['vicinity']),
+						'phone'		=> null,
+						'website'	=> strip_tags($item['href']),
+						'icon'		=> strip_tags($item['icon']),
+					);
+					array_push($response['results'], $temp_array);
+				}
 				echo json_encode($response);
 			}
+		} else {
+			// incorrect parameters passed
+			invalidParametesError();
 		}
+	} else {
+		// incorrect parameters passed
+		invalidParametesError();
 	}
 
-	// incorrect parameters passed
-	invalidParametesError();
