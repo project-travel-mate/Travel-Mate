@@ -34,5 +34,5 @@
 
 		echo json_encode($response);
 	}
-	invalidParametesError();
+	noResultsError();
 
