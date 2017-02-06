@@ -64,7 +64,7 @@ public class TravelFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.shopping:
-                i = new Intent(activity, ShoppingCurrentcity.class);
+                i = new Intent(activity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
 
