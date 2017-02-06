@@ -116,7 +116,6 @@ public class GPSTracker extends Service implements LocationListener {
             e.printStackTrace();
         }
 
-        return location;
     }
 
     @Override
