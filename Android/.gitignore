@@ -46,3 +46,4 @@ constants.inc.php
 error_log
 
 app/src/main/java/Util/Constants.java
+*.hprof

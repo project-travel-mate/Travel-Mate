@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "tie.hackathon.travelguide"
         minSdkVersion 19
@@ -37,8 +37,8 @@ dependencies {
 
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
 
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.android.support:design:+'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
 
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.ParkSangGwon:TedPicker:v1.0.10'
