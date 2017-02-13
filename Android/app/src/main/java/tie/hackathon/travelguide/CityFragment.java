@@ -52,21 +52,20 @@ import views.FontTextView;
 
 public class CityFragment extends Fragment {
 
+    @BindView(R.id.cityname)    AutoCompleteTextView    cityname;
+    @BindView(R.id.pb)          ProgressBar             pb;
+    @BindView(R.id.music_list)  ListView                lv;
 
-    @BindView(R.id.cityname) AutoCompleteTextView cityname;
-    private String nameyet;
-    List<String> id = new ArrayList<>();
-    private List<String> list2 = new ArrayList<>();
-    private Activity activity;
-    @BindView(R.id.pb) ProgressBar pb;
-    private String cityid;
-    private Typeface tex;
-    @BindView(R.id.music_list) ListView lv;
-    private Handler mHandler;
+    List<String> id     = new ArrayList<>();
+    List<String> list2  = new ArrayList<>();
 
-    public CityFragment() {
-    }
+    private String      nameyet;
+    private String      cityid;
+    private Activity    activity;
+    private Typeface    tex;
+    private Handler     mHandler;
 
+    public CityFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,16 +151,13 @@ public class CityFragment extends Fragment {
 
                             @Override
                             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                // TODO Auto-generated method stub
                                 Log.e("jkjb", "uihgiug" + arg2);
-
                                 cityid = list1.get(arg2).toString();
                                 Intent i = new Intent(activity, FinalCityInfo.class);
                                 i.putExtra("id_", cityid);
                                 i.putExtra("name_", list.get(arg2).toString());
                                 i.putExtra("image_", list2.get(arg2));
                                 startActivity(i);
-
                             }
                         });
                     } catch (JSONException e) {
@@ -170,13 +166,11 @@ public class CityFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 });
 
             }
         });
     }
-
 
     private void getCity() {
 
@@ -184,7 +178,6 @@ public class CityFragment extends Fragment {
         String uri = Constants.apilink +
                 "all-cities.php";
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -211,86 +204,54 @@ public class CityFragment extends Fragment {
                         List<City> friends = new ArrayList<>();
                         for (int i = 0; i < ar.length(); i++) {
 
-
                             double color = Math.random();
                             int c = (int) (color * 100) % 8;
 
-
                             int colo;
                             switch (c) {
-                                case 0:
-                                    colo = R.color.sienna;
-                                    break;
-                                case 1:
-                                    colo = R.color.saffron;
-                                    break;
-                                case 2:
-                                    colo = R.color.green;
-                                    break;
-                                case 3:
-                                    colo = R.color.pink;
-                                    break;
-                                case 4:
-                                    colo = R.color.orange;
-                                    break;
-                                case 5:
-                                    colo = R.color.saffron;
-                                    break;
-                                case 6:
-                                    colo = R.color.purple;
-                                    break;
-                                case 7:
-                                    colo = R.color.blue;
-                                    break;
-                                default:
-                                    colo = R.color.blue;
-                                    break;
+                                case 0: colo = R.color.sienna;  break;
+                                case 1: colo = R.color.saffron; break;
+                                case 2: colo = R.color.green;   break;
+                                case 3: colo = R.color.pink;    break;
+                                case 4: colo = R.color.orange;  break;
+                                case 5: colo = R.color.saffron; break;
+                                case 6: colo = R.color.purple;  break;
+                                case 7: colo = R.color.blue;    break;
+                                default:colo = R.color.blue;    break;
                             }
 
                             friends.add(new City(
-
                                     ar.getJSONObject(i).getString("id"),
                                     ar.getJSONObject(i).optString("image", "yolo"),
                                     ar.getJSONObject(i).getString("name"),
                                     colo,
                                     ar.getJSONObject(i).getString("lat"),
                                     ar.getJSONObject(i).getString("lng"),
-
                                     "Know More", "View on Map", "Fun Facts", "View Website"));
-
-
                         }
-
 
                         lv.setAdapter(new CityAdapter(activity, friends, settings));
                         lv.setOnItemClickListener((parent, view, position, id1) -> {
                             City f = (City) lv.getAdapter().getItem(position);
                             Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
-
-
                             Intent i = new Intent(activity, FinalCityInfo.class);
                             i.putExtra("id_", f.getId());
                             i.putExtra("name_", f.getNickname());
                             i.putExtra("image_", f.getAvatar());
                             startActivity(i);
-
-
                         });
 
-
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.e("heer", e1.getMessage() + " ");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("error", e.getMessage() + " ");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 });
 
             }
         });
     }
-
 
     @Override
     public void onAttach(Context activity) {
@@ -298,13 +259,12 @@ public class CityFragment extends Fragment {
         this.activity = (Activity) activity;
     }
 
-
     class CityAdapter extends BaseFlipAdapter<City> {
 
         private final int PAGES = 3;
         private final int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
-        public CityAdapter(Context context, List<City> items, FlipSettings settings) {
+        CityAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
         }
 
@@ -340,9 +300,7 @@ public class CityFragment extends Fragment {
                     holder.left.setTypeface(tex);
                     holder.left.setText(friend1.getNickname());
 
-
                     if (friend2 != null) {
-
                         holder.right.setText(friend2.getNickname());
                         holder.right.setTypeface(tex);
                         Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.delhi).into(holder.rightAvatar);
@@ -353,11 +311,8 @@ public class CityFragment extends Fragment {
                     holder.infoPage.setTag(holder);
                     return holder.infoPage;
             }
-
-
             return convertView;
         }
-
 
         @Override
         public int getPagesCount() {
@@ -376,7 +331,6 @@ public class CityFragment extends Fragment {
 
             holder.nickName.setOnClickListener(v -> Log.e("fsgb", "clikc"));
 
-
             holder.fv1.setOnClickListener(v -> {
                 Intent i = new Intent(activity, FinalCityInfo.class);
                 i.putExtra("id_", friend.getId());
@@ -386,7 +340,6 @@ public class CityFragment extends Fragment {
 
             });
 
-
             holder.fv3.setOnClickListener(v -> {
                 Intent i = new Intent(activity, FunFacts.class);
                 i.putExtra("id_", friend.getId());
@@ -394,7 +347,6 @@ public class CityFragment extends Fragment {
                 activity.startActivity(i);
 
             });
-
 
             holder.fv2.setOnClickListener(v -> {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
@@ -406,14 +358,11 @@ public class CityFragment extends Fragment {
 
             });
 
-
             holder.fv4.setOnClickListener(v -> {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
                 activity.startActivity(browserIntent);
 
             });
-
-
         }
 
         class CitiesHolder {
@@ -426,6 +375,4 @@ public class CityFragment extends Fragment {
             TextView nickName;
         }
     }
-
-
 }

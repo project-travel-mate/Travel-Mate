@@ -42,6 +42,7 @@ import okhttp3.Response;
 public class MyTrips extends AppCompatActivity {
 
     @BindView(R.id.gv) GridView g;
+
     private MaterialDialog dialog;
     private List<String> id;
     private List<String> name;
@@ -60,16 +61,14 @@ public class MyTrips extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        id = new ArrayList<>();
-        name = new ArrayList<>();
-        tname = new ArrayList<>();
-        image = new ArrayList<>();
-        start = new ArrayList<>();
-        end = new ArrayList<>();
-
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        userid = s.getString(Constants.USER_ID, "1");
-
+        id      = new ArrayList<>();
+        name    = new ArrayList<>();
+        tname   = new ArrayList<>();
+        image   = new ArrayList<>();
+        start   = new ArrayList<>();
+        end     = new ArrayList<>();
+        s       = PreferenceManager.getDefaultSharedPreferences(this);
+        userid  = s.getString(Constants.USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
 
         id.add("yo");
@@ -157,12 +156,12 @@ public class MyTrips extends AppCompatActivity {
         TextView cityname, date;
         public MyTripsadapter(Activity context, List<String> id, List<String> name, List<String> image, List<String> start, List<String> end) {
             super(context, R.layout.trip_listitem, id);
-            this.context = context;
-            ids = id;
-            this.name = name;
-            this.image = image;
-            this.start = start;
-            this.end = end;
+            this.context    = context;
+            ids             = id;
+            this.name       = name;
+            this.image      = image;
+            this.start      = start;
+            this.end        = end;
         }
 
         @Override

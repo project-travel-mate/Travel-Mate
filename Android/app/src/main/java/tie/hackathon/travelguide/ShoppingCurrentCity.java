@@ -45,14 +45,16 @@ import butterknife.OnClick;
 
 public class ShoppingCurrentCity extends AppCompatActivity {
 
+    @BindView(R.id.pb)          ProgressBar     pb;
+    @BindView(R.id.music_list)  ListView        lv;
+    @BindView(R.id.query)       EditText        q;
+    @BindView(R.id.go)          Button          ok;
+
     private SharedPreferences s ;
     private MaterialSearchView searchView;
     private SharedPreferences.Editor e;
-    @BindView(R.id.pb) ProgressBar pb;
-    @BindView(R.id.music_list) ListView lv;
     private String item="bags";
-    @BindView(R.id.query) EditText q;
-    @BindView(R.id.go) Button ok;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +81,8 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 pb.setVisibility(View.VISIBLE);
                 try {
                     item = query;
-
                     Log.e("click", "going" + item);
                     new Book_RetrieveFeed().execute();
-
 
                 } catch (Exception e) {
                     AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
@@ -148,14 +148,11 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
-
         return true;
     }
 
@@ -168,16 +165,15 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
 
         if(item.getItemId() ==android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
     }
+
     private class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
 
         @Override
@@ -207,14 +203,11 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         protected void onPostExecute(String Result) {
             try {
                 JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-
-
                 JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                 Log.e("response", YTFeedItems + " ");
                 if(YTFeedItems.length()==0){
                     Utils.hideKeyboard(ShoppingCurrentCity.this);
                     Snackbar.make(pb, "No results found", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
                 }
                 pb.setVisibility(View.GONE);
                 lv.setAdapter(new Shop_adapter(ShoppingCurrentCity.this , YTFeedItems) );
@@ -224,6 +217,8 @@ public class ShoppingCurrentCity extends AppCompatActivity {
             }
         }
     }
+
+
     public class Shop_adapter extends BaseAdapter {
 
         final Context context;
@@ -299,10 +294,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 }
                 context.startActivity(browserIntent);
             });
-
-
             return vi;
         }
-
     }
 }

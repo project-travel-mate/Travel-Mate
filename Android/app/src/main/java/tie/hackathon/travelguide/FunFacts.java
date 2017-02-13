@@ -37,9 +37,10 @@ import okhttp3.Response;
  */
 public class FunFacts extends AppCompatActivity {
 
+    @BindView(R.id.vp) ViewPager viewPager;
+
     private String id;
     private String name;
-    @BindView(R.id.vp) ViewPager viewPager;
     private MaterialDialog dialog;
     private Handler mHandler;
 
@@ -53,10 +54,10 @@ public class FunFacts extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Intent i = getIntent();
-        id = i.getStringExtra("id_");
-        name = i.getStringExtra("name_");
-        mHandler = new Handler(Looper.getMainLooper());
+        Intent i    = getIntent();
+        id          = i.getStringExtra("id_");
+        name        = i.getStringExtra("name_");
+        mHandler    = new Handler(Looper.getMainLooper());
 
         // Fetch fun facts about city
         getCityFacts();

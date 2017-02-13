@@ -36,11 +36,12 @@ import okhttp3.Response;
 
 public class Tweets extends AppCompatActivity {
 
+    @BindView(R.id.list) ListView lv;
+
     private Intent i;
     private String id;
     private String tit;
     private String image;
-    @BindView(R.id.list) ListView lv;
     private MaterialDialog dialog;
     private List<String> nam;
     private List<String> cou;
@@ -57,18 +58,16 @@ public class Tweets extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        i = getIntent();
-        tit = i.getStringExtra("name_");
+        i       = getIntent();
+        tit     = i.getStringExtra("name_");
+        id      = i.getStringExtra("id_");
+        image   = i.getStringExtra("image_");
+        nam     = new ArrayList<>();
+        cou     = new ArrayList<>();
+        lin     = new ArrayList<>();
+
         setTitle(tit);
-        id = i.getStringExtra("id_");
-        image = i.getStringExtra("image_");
-
-        nam = new ArrayList<>();
-        cou = new ArrayList<>();
-        lin = new ArrayList<>();
-
         getTweets();
-
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -138,7 +137,6 @@ public class Tweets extends AppCompatActivity {
     public class Tweetsadapter extends ArrayAdapter<String> {
         private final Activity context;
         private final List<String> name, count, link;
-
 
         Tweetsadapter(Activity context, List<String> name, List<String> count, List<String> link) {
             super(context, R.layout.trip_listitem, name);

@@ -33,11 +33,11 @@ import Util.Constants;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SharedPreferences sharedPreferences;
-    private Boolean discovered = false;
-    private String beaconmajor;
-    private BeaconManager beaconManager;
-    private Region region;
+    private SharedPreferences   sharedPreferences;
+    private Boolean             discovered = false;
+    private String              beaconmajor;
+    private BeaconManager       beaconManager;
+    private Region              region;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     // Change fragment on selecting naviagtion drawer item
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -184,6 +183,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }

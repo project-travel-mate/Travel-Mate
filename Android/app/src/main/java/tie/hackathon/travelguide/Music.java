@@ -56,20 +56,21 @@ import okhttp3.Response;
 
 public class Music extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
-    private TwoWayView sugsongView;
+    @BindView(R.id.iv)          ImageView   iv;
+    @BindView(R.id.music_list)  ListView    songView;
+
     private SharedPreferences s;
     private SharedPreferences.Editor e;
-    @BindView(R.id.iv) ImageView iv;
+    private TwoWayView sugsongView;
     private ArrayList<Song> songList;
-    @BindView(R.id.music_list) ListView songView;
     private Handler mHandler;
     private MusicController controller;
     private MusicService musicSrv;
     private Intent playIntent;
     private boolean musicBound = false;
     private boolean paused = false, playbackPaused = false;
-    private final ServiceConnection musicConnection = new ServiceConnection() {
 
+    private final ServiceConnection musicConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
@@ -103,18 +104,16 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
         Integer moods = Integer.parseInt(s.getString(Constants.CURRENT_SCORE, "2"));
 
-        if (moods > 10) {
+        if (moods > 10)
             iv.setBackgroundResource(R.color.verhappy);
-        } else if (moods > 2) {
+        else if (moods > 2)
             iv.setBackgroundResource(R.color.happy);
-        } else if (moods > -2) {
+        else if (moods > -2)
             iv.setBackgroundResource(R.color.normal);
-        } else if (moods > -10) {
+        else if (moods > -10)
             iv.setBackgroundResource(R.color.sad);
-        } else {
+        else
             iv.setBackgroundResource(R.color.versad);
-        }
-
 
         Collections.sort(songList, new Comparator<Song>() {
             @Override
@@ -122,7 +121,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
-
 
         SongAdapter songAdt = new SongAdapter(this, songList);
         songView.setAdapter(songAdt);
@@ -161,15 +159,14 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 // Log.e("music type", musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE))+" ");
                 long thisId = musicCursor.getLong(idColumn);
 
-
                 Integer thisTitle2 = musicCursor.getInt(musicType);
                 if (thisTitle2 == 0)
                     continue;
 
-                String thisTitle = musicCursor.getString(titleColumn);
-                String thisArtist = musicCursor.getString(artistColumn);
-                String album = musicCursor.getString(musicColumn);
-//                String genre = musicCursor.getString(genre_id);
+                String thisTitle    = musicCursor.getString(titleColumn);
+                String thisArtist   = musicCursor.getString(artistColumn);
+                String album        = musicCursor.getString(musicColumn);
+                //                String genre = musicCursor.getString(genre_id);
 
                 //              Log.e("here!!",genre + "!! " + thisTitle);
                 songList.add(new Song(thisId, thisTitle, thisArtist, album));
@@ -178,7 +175,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             musicCursor.close();
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -242,7 +238,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
                 musicSrv = null;
                 System.exit(0);
                 break;
-
             case R.id.action_end:
                 stopService(playIntent);
                 musicSrv = null;
@@ -251,7 +246,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             case R.id.action_shuffle:
                 musicSrv.setShuffle();
                 break;
-
             case R.id.action_pause:
                 musicSrv.pausePlayer();
                 break;
@@ -263,7 +257,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_music, menu);
         return true;
-
     }
 
     @Override
@@ -290,7 +283,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         }
         controller.show(0);
     }
-
 
     @Override
     public boolean canPause() {
@@ -321,7 +313,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         else return 0;
     }
 
-
     /**
      * Update user's mood
      */
@@ -329,7 +320,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
         if (art.equals("<unknown>"))
             art = "";
-
         // to fetch song names
         String id;
         id = s.getString(Constants.USER_ID, "1");
@@ -374,7 +364,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             }
         });
     }
-
 
     /**
      * Get suggestedMusic
@@ -433,7 +422,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         musicSrv.go();
     }
 
-
     @Override
     public boolean isPlaying() {
         return false;
@@ -465,12 +453,10 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
         super.onStop();
     }
 
-
     @Override
     public int getAudioSessionId() {
         return 0;
     }
-
 
     public class SongAdapter extends BaseAdapter {
 
@@ -532,13 +518,9 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             //set position as tag
             songLay.setTag(position);
             return songLay;
-
-
             // if rawArt is null then no cover art is embedded in the file or is not
-// recognized as such.
-
+            // recognized as such.
         }
-
 
         @Override
         public Object getItem(int arg0) {
@@ -551,8 +533,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             // TODO Auto-generated method stub
             return 0;
         }
-
-
     }
 
     public class SugMusic_adapter extends BaseAdapter {
@@ -591,7 +571,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             return position;
         }
 
-
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
@@ -602,7 +581,6 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             TextView Description = (TextView) vi.findViewById(R.id.VideoDescription);
             ImageView VideoThumbnail = (ImageView) vi.findViewById(R.id.PlayButton);
 
-
             try {
                 Title.setText(FeedItems.getJSONObject(position).getString("title"));
                 Description.setText(FeedItems.getJSONObject(position).getString("artist"));
@@ -610,7 +588,7 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
                 // imageLoader.DisplayImage(FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail"), VideoThumbnail, null);
 
-//            Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(VideoThumbnail);
+                //            Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(VideoThumbnail);
                 //     Log.e("FeedItem", FeedItems.getJSONObject(position).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail") + " ");
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -633,6 +611,5 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
 
             return vi;
         }
-
     }
 }

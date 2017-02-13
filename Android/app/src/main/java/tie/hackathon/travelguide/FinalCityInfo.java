@@ -37,13 +37,20 @@ import okhttp3.Response;
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
 
     private Intent intent;
+    private TextView fftext;
+    private Typeface code;
+    private Typeface tex;
+    private Typeface codeb;
+    private MaterialDialog dialog;
+    private Handler mHandler;
+
     private String id;
     private String tit;
     private String image;
     private String description;
     private String lat;
     private String lon;
-    private TextView fftext;
+
     @BindView(R.id.temp) TextView temp;
     @BindView(R.id.humidit) TextView humidity;
     @BindView(R.id.weatherinfo) TextView weatherinfo;
@@ -51,17 +58,12 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.image) ImageView iv;
     @BindView(R.id.icon) ImageView ico;
     @BindView(R.id.expand_text_view) ExpandableTextView des;
-    private Typeface code;
-    private Typeface tex;
-    private Typeface codeb;
-    private MaterialDialog dialog;
     @BindView(R.id.funfact) LinearLayout funfact;
     @BindView(R.id.restau) LinearLayout restau;
     @BindView(R.id.hangout) LinearLayout hangout;
     @BindView(R.id.monu) LinearLayout monum;
     @BindView(R.id.shoppp) LinearLayout shopp;
     @BindView(R.id.trends) LinearLayout trend;
-    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +72,12 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
 
-        code = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
-        codeb = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
-        tex = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
-        mHandler = new Handler(Looper.getMainLooper());
+        code        = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
+        codeb       = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
+        tex         = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
+        mHandler    = new Handler(Looper.getMainLooper());
 
         des.setText(getString(R.string.sample_string));
-
 
         intent = getIntent();
         tit = intent.getStringExtra("name_");
@@ -218,7 +219,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                         JSONObject ob = new JSONObject(res);
                         description = ob.getString("description");
                         des.setText(description);
-
                         Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
                         temp.setText(ob.getJSONObject("weather").getString("temprature") + (char) 0x00B0 + " C ");
                         humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));

@@ -17,14 +17,13 @@ import butterknife.ButterKnife;
 public class TravelFragment extends Fragment implements View.OnClickListener {
 
     private Activity activity;
-    @BindView(R.id.vehicle) LinearLayout vehicle;
-    @BindView(R.id.accomo) LinearLayout acc;
-    @BindView(R.id.shopping) LinearLayout shop;
-    @BindView(R.id.realtime) LinearLayout realtime;
-    @BindView(R.id.mytrips) LinearLayout mytrips;
+    @BindView(R.id.vehicle)     LinearLayout vehicle;
+    @BindView(R.id.accomo)      LinearLayout acc;
+    @BindView(R.id.shopping)    LinearLayout shop;
+    @BindView(R.id.realtime)    LinearLayout realtime;
+    @BindView(R.id.mytrips)     LinearLayout mytrips;
 
-    public TravelFragment() {
-    }
+    public TravelFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

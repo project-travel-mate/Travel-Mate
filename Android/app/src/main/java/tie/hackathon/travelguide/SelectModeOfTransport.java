@@ -13,9 +13,9 @@ import butterknife.ButterKnife;
 
 public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.car) LinearLayout car;
-    @BindView(R.id.train) LinearLayout train;
-    @BindView(R.id.bus) LinearLayout bus;
+    @BindView(R.id.car)     LinearLayout car;
+    @BindView(R.id.train)   LinearLayout train;
+    @BindView(R.id.bus)     LinearLayout bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +35,31 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("Select Mode of Transport");
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onClick(View view) {
         Intent i;
         switch (view.getId()) {
-
             case R.id.car:
                 i = new Intent(SelectModeOfTransport.this, CarDirections.class);
                 startActivity(i);
                 break;
-
             case R.id.bus:
                 i = new Intent(SelectModeOfTransport.this, BusList.class);
                 startActivity(i);
                 break;
-
             case R.id.train:
                 i = new Intent(SelectModeOfTransport.this, TrainList.class);
                 startActivity(i);
                 break;
         }
-
     }
 }

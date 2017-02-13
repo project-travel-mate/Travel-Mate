@@ -50,21 +50,24 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     private static final String DATEPICKER_TAG2 = "datepicker2";
-    @BindView(R.id.cityname) AutoCompleteTextView cityname;
+
     private String nameyet;
     private String cityid = "2";
     private String startdate;
     private String enddate;
     private String tripname;
     private String userid;
-    @BindView(R.id.sdate) FlatButton sdate;
-    @BindView(R.id.edate) FlatButton edate;
-    @BindView(R.id.ok) FlatButton ok;
-    @BindView(R.id.tname) EditText tname;
-    private MaterialDialog dialog;
-    private SharedPreferences sharedPreferences;
-    private Handler mHandler;
-    private DatePickerDialog datePickerDialog;
+
+    private MaterialDialog      dialog;
+    private Handler             mHandler;
+    private SharedPreferences   sharedPreferences;
+    private DatePickerDialog    datePickerDialog;
+
+    @BindView(R.id.cityname)    AutoCompleteTextView    cityname;
+    @BindView(R.id.sdate)       FlatButton              sdate;
+    @BindView(R.id.edate)       FlatButton              edate;
+    @BindView(R.id.ok)          FlatButton              ok;
+    @BindView(R.id.tname)       EditText                tname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +97,12 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    /* onTextChange for CITYNAME  moved here , much cleaner */
 
     @OnTextChanged(R.id.cityname) void onTextChanged(){
         nameyet = cityname.getText().toString();
         if (!nameyet.contains(" ")) {
             Log.e("name", nameyet + " ");
-            tripAutoComplete();     // Class API to autocomplete cityname
+            tripAutoComplete();     // Calls API to autocomplete cityname
         }
     }
 
@@ -117,8 +119,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-    }
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {}
 
 
     /**

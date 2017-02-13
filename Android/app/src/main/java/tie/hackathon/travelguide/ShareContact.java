@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 
 public class ShareContact extends AppCompatActivity implements View.OnClickListener{
 
-    private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
     @BindView(R.id.create) Button create;
     @BindView(R.id.scan) Button scan;
+    private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1;
     private SharedPreferences s;
     private SharedPreferences.Editor e;
 
@@ -46,10 +46,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -91,7 +88,6 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void addContact(String name, String phone) {
         ContentValues values = new ContentValues();
         values.put(Contacts.People.NUMBER, phone);
@@ -106,7 +102,6 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
         updateUri = getContentResolver().insert(updateUri, values);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
@@ -118,7 +113,6 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         Intent qrDroid;
-
         switch (view.getId())
         {
             case R.id.scan :

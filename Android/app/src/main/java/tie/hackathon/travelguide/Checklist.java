@@ -11,7 +11,6 @@ import butterknife.ButterKnife;
 
 public class Checklist extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

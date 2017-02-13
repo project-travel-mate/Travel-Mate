@@ -47,13 +47,11 @@ public class DetectedBeacon extends AppCompatActivity {
         Log.e("Detected Beacon : ", major + " ");
 
         mHandler = new Handler(Looper.getMainLooper());
-        // Get city name from latitude longitude
-        getCity();
+        getCity(); // Get city name from latitude longitude
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
     private void getCity() {
         // to fetch city name

@@ -41,23 +41,25 @@ import okhttp3.Response;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.signup) TextView signup;
-    @BindView(R.id.login) TextView login;
-    @BindView(R.id.signup_layout) LinearLayout sig;
-    @BindView(R.id.loginlayout) LinearLayout log;
-    @BindView(R.id.input_num_login) EditText num_login;
-    @BindView(R.id.input_pass_login) EditText pass_login;
-    @BindView(R.id.input_num_signup) EditText num_signup;
-    @BindView(R.id.input_pass_signup) EditText pass_signup;
-    @BindView(R.id.input_name_signup) EditText name;
+    @BindView(R.id.signup)              TextView        signup;
+    @BindView(R.id.login)               TextView        login;
+    @BindView(R.id.signup_layout)       LinearLayout    sig;
+    @BindView(R.id.loginlayout)         LinearLayout    log;
+    @BindView(R.id.input_num_login)     EditText        num_login;
+    @BindView(R.id.input_pass_login)    EditText        pass_login;
+    @BindView(R.id.input_num_signup)    EditText        num_signup;
+    @BindView(R.id.input_pass_signup)   EditText        pass_signup;
+    @BindView(R.id.input_name_signup)   EditText        name;
+    @BindView(R.id.ok_login)            FlatButton      ok_login;
+    @BindView(R.id.ok_signup)           FlatButton      ok_signup;
+
     private String Num;
     private String Pass;
     private String Name;
-    @BindView(R.id.ok_login) FlatButton ok_login;
-    @BindView(R.id.ok_signup) FlatButton ok_signup;
-    private SharedPreferences sharedPreferences;
-    private MaterialDialog dialog;
-    private Handler mHandler;
+
+    private SharedPreferences   sharedPreferences;
+    private MaterialDialog      dialog;
+    private Handler             mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-
         // If user is already logged in, open MainActivity
         if (sharedPreferences.getString(Constants.USER_ID, null) != null) {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -128,7 +129,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String uri = Constants.apilink + "users/login.php?contact=" + num + "&password=" + pass;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();

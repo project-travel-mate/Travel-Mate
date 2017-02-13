@@ -42,19 +42,22 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TrainList extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
-    private static final String DATEPICKER_TAG = "datepicker";
-    @BindView(R.id.pb) ProgressBar pb;
-    @BindView(R.id.music_list) ListView lv;
-    DatePickerDialog.OnDateSetListener date;
-    private SharedPreferences s;
-    private SharedPreferences.Editor e;
-    @BindView(R.id.city) TextView city;
-    @BindView(R.id.seldate) TextView selectdate;
+
+    @BindView(R.id.pb)          ProgressBar     pb;
+    @BindView(R.id.music_list)  ListView        lv;
+    @BindView(R.id.city)        TextView        city;
+    @BindView(R.id.seldate)     TextView        selectdate;
+
     private String dates = "17-10";
     private String source;
     private String dest;
+
+    private static final String DATEPICKER_TAG = "datepicker";
+    private SharedPreferences s;
+    private SharedPreferences.Editor e;
     private Handler mHandler;
     private com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog;
+    DatePickerDialog.OnDateSetListener date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,11 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
         ButterKnife.bind(this);
 
-        mHandler = new Handler(Looper.getMainLooper());
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
-        source = s.getString(Constants.SOURCE_CITY, "delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
+        mHandler    = new Handler(Looper.getMainLooper());
+        s           = PreferenceManager.getDefaultSharedPreferences(this);
+        e           = s.edit();
+        source      = s.getString(Constants.SOURCE_CITY, "delhi");
+        dest        = s.getString(Constants.DESTINATION_CITY, "mumbai");
 
         city.setText(source + " to " + dest);
         selectdate.setText(dates);
@@ -80,9 +83,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         final Calendar calendar = Calendar.getInstance();
         datePickerDialog = com.fourmob.datetimepicker.date.DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
 
-
         pb.setVisibility(View.GONE);
-
 
         setTitle("Trains");
 
@@ -92,16 +93,12 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,22 +110,16 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         return false;
     }
 
-
     @Override
     public void onDateSet(com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog, int year, int month, int day) {
         month++;
         dates = day + "-" + month;
-
-
         selectdate.setText(dates);
         getTrainlist();
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-
-    }
-
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {}
 
     /**
      * Calls API to get train list
@@ -242,7 +233,6 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         public long getItemId(int position) {
             return position;
         }
-
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {

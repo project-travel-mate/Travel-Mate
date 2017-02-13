@@ -37,13 +37,14 @@ import butterknife.OnClick;
 public class ChecklistFragment extends Fragment {
 
 
-    private CheckList_adapter ad;
-    private static Activity activity;
-    private final List<String> id = new ArrayList<>();
-    private final List<String> task = new ArrayList<>();
-    private final List<String> isdone = new ArrayList<>();
-    private DBhelp dbhelp;
-    private SharedPreferences s;
+    private final List<String> id       = new ArrayList<>();
+    private final List<String> task     = new ArrayList<>();
+    private final List<String> isdone   = new ArrayList<>();
+
+    private CheckList_adapter   ad;
+    private Activity            activity;
+    private DBhelp              dbhelp;
+    private SharedPreferences   s;
     private SharedPreferences.Editor e;
     private SQLiteDatabase db;
     private final List<String> base_task = new ArrayList<>();
@@ -77,7 +78,6 @@ public class ChecklistFragment extends Fragment {
             base_task.add("Food");
             base_task.add("Tickets");
             for (int i = 0; i < base_task.size(); i++) {
-
                 ContentValues insertValues = new ContentValues();
                 insertValues.put(TableEntry.COLUMN_NAME, base_task.get(i));
                 insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
@@ -88,10 +88,8 @@ public class ChecklistFragment extends Fragment {
             e.apply();
         }
 
-
         ad = new CheckList_adapter(activity, id, task, isdone);
         lv.setAdapter(ad);
-
 
         refresh();
 
@@ -122,13 +120,11 @@ public class ChecklistFragment extends Fragment {
         builder.show();
     }
 
-
     private void refresh() {
         id.clear();
         task.clear();
         isdone.clear();
         ad.notifyDataSetChanged();
-
 
         Cursor c = db.rawQuery("SELECT * FROM " + TableEntry.TABLE_NAME + " ORDER BY " +
                 TableEntry.COLUMN_NAME_ISDONE, null);
@@ -151,17 +147,14 @@ public class ChecklistFragment extends Fragment {
         activity = (Activity) context;
     }
 
-
     public class CheckList_adapter extends ArrayAdapter<String> {
-
 
         private final Activity context;
         private final List<String> task, id, isdone;
         DBhelp dbhelp;
         SQLiteDatabase db;
 
-
-        public CheckList_adapter(Activity context, List<String> i, List<String> t, List<String> d) {
+        CheckList_adapter(Activity context, List<String> i, List<String> t, List<String> d) {
             super(context, R.layout.checklist_item, t);
             this.context = context;
             task = t;
@@ -169,11 +162,9 @@ public class ChecklistFragment extends Fragment {
             isdone = d;
         }
 
-
         class ViewHolder {
             CheckBox c;
         }
-
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
@@ -204,7 +195,6 @@ public class ChecklistFragment extends Fragment {
             }
             holder.c.setText(task.get(position));
 
-
             holder.c.setOnClickListener(view1 -> {
                 CheckBox c2 = (CheckBox) view1;
                 if (c2.isChecked()) {
@@ -222,11 +212,7 @@ public class ChecklistFragment extends Fragment {
                 }
                 refresh();
             });
-
             return vi;
         }
-
     }
-
-
 }

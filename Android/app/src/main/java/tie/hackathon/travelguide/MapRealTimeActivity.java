@@ -52,9 +52,14 @@ import okhttp3.Response;
  */
 public class MapRealTimeActivity extends AppCompatActivity{
 
+    @BindView(R.id.data) ScrollView sc;
+
     private com.google.android.gms.maps.MapFragment mapFragment;
     private GoogleMap map;
     private SharedPreferences sharedPreferences;
+    private int index = 0;
+    private Handler mHandler;
+
     private String sorcelat;
     private String deslat;
     private String sorcelon;
@@ -63,13 +68,11 @@ public class MapRealTimeActivity extends AppCompatActivity{
     private String dest;
     private String curlat;
     private String curlon;
+
     private List<String> name;
     private List<String> nums;
     private List<String> web;
     private List<String> addr;
-    @BindView(R.id.data) ScrollView sc;
-    private int index = 0;
-    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,20 +91,19 @@ public class MapRealTimeActivity extends AppCompatActivity{
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
-        sorcelat = sharedPreferences.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon = sharedPreferences.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat = sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon = sharedPreferences.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
-        surce = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
-        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+        sorcelat    = sharedPreferences.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
+        sorcelon    = sharedPreferences.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
+        deslat      = sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
+        deslon      = sharedPreferences.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        surce       = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
+        dest        = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
 
         sc.setVisibility(View.GONE);
 
-        name = new ArrayList<>();
-        nums = new ArrayList<>();
-        web = new ArrayList<>();
-        addr = new ArrayList<>();
+        name    = new ArrayList<>();
+        nums    = new ArrayList<>();
+        web     = new ArrayList<>();
+        addr    = new ArrayList<>();
 
         curlat = deslat;
         curlon = deslon;
@@ -247,39 +249,19 @@ public class MapRealTimeActivity extends AppCompatActivity{
                             Log.e("selected", which[i] + " " + text[i]);
                             Integer icon;
                             switch (which[0]) {
-
-                                case 0:
-                                    icon = R.drawable.ic_local_pizza_black_24dp;
-                                    break;
-                                case 1:
-                                    icon = R.drawable.ic_local_bar_black_24dp;
-                                    break;
-                                case 2:
-                                    icon = R.drawable.ic_camera_alt_black_24dp;
-                                    break;
-                                case 3:
-                                    icon = R.drawable.ic_directions_bus_black_24dp;
-                                    break;
-                                case 4:
-                                    icon = R.drawable.ic_local_mall_black_24dp;
-                                    break;
-                                case 5:
-                                    icon = R.drawable.ic_local_gas_station_black_24dp;
-                                    break;
-                                case 6:
-                                    icon = R.drawable.ic_local_atm_black_24dp;
-                                    break;
-                                case 7:
-                                    icon = R.drawable.ic_local_hospital_black_24dp;
-                                    break;
-                                default:
-                                    icon = R.drawable.ic_attach_money_black_24dp;
-                                    break;
+                                case 0: icon = R.drawable.ic_local_pizza_black_24dp;        break;
+                                case 1: icon = R.drawable.ic_local_bar_black_24dp;          break;
+                                case 2: icon = R.drawable.ic_camera_alt_black_24dp;         break;
+                                case 3: icon = R.drawable.ic_directions_bus_black_24dp;     break;
+                                case 4: icon = R.drawable.ic_local_mall_black_24dp;         break;
+                                case 5: icon = R.drawable.ic_local_gas_station_black_24dp;  break;
+                                case 6: icon = R.drawable.ic_local_atm_black_24dp;          break;
+                                case 7: icon = R.drawable.ic_local_hospital_black_24dp;     break;
+                                default:icon = R.drawable.ic_attach_money_black_24dp;       break;
                             }
                             getMarkers(which[0], icon);
 
                         }
-
                         return true;
                     })
                     .positiveText(R.string.choose)

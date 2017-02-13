@@ -48,19 +48,21 @@ import okhttp3.Response;
 public class PlacesOnMap extends AppCompatActivity {
 
     @BindView(R.id.lv) TwoWayView lv;
+
     private String id;
     private String name;
     private Intent i;
     private String deslon;
     private String deslat;
-    private int mode;
-    private int icon;
     private String curlat;
     private String curlon;
     private String type;
+
     private com.google.android.gms.maps.MapFragment mapFragment;
-    private GoogleMap map;
     private ProgressDialog progressDialog;
+    private int mode;
+    private int icon;
+    private GoogleMap map;
     private Handler mHandler;
 
     @Override
@@ -70,12 +72,13 @@ public class PlacesOnMap extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        i = getIntent();
-        name = i.getStringExtra("name_");
+        i           = getIntent();
+        name        = i.getStringExtra("name_");
+        id          = i.getStringExtra("id_");
+        type        = i.getStringExtra("type_");
+        mHandler    = new Handler(Looper.getMainLooper());
+
         setTitle(name);
-        id = i.getStringExtra("id_");
-        type = i.getStringExtra("type_");
-        mHandler = new Handler(Looper.getMainLooper());
         switch (type) {
             case "restaurant":
                 mode = 0;
@@ -157,7 +160,6 @@ public class PlacesOnMap extends AppCompatActivity {
             }
         }
     }
-
 
     private void getPlaces() {
 
@@ -273,11 +275,9 @@ public class PlacesOnMap extends AppCompatActivity {
             ImageView iv = (ImageView) vi.findViewById(R.id.image);
             iv.setImageResource(rd);
 
-
             onmap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
 
                     Intent browserIntent;
                     try {
@@ -293,48 +293,30 @@ public class PlacesOnMap extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
                 }
             });
-
 
             b2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     Intent browserIntent;
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"
-
-                    ));
+                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"));
                     context.startActivity(browserIntent);
-
-
                 }
             });
 
-
             vi.setOnClickListener(v -> {
-
                 map.clear();
                 try {
                     ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
                             Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
                             FeedItems.getJSONObject(position).getString("name")
                     );
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             });
-
-
             return vi;
         }
-
     }
-
-
 }

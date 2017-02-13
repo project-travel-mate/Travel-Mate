@@ -53,7 +53,14 @@ import okhttp3.Response;
 
 public class MyTripInfo extends AppCompatActivity {
 
-    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    @BindView(R.id.image)       ImageView iv;
+    @BindView(R.id.head)        TextView tite;
+    @BindView(R.id.time)        TextView date;
+    @BindView(R.id.newfrriend)  FlatButton add;
+    @BindView(R.id.lv)          TwoWayView twoway;
+    @BindView(R.id.friendlist)  NestedListView lv;
+    @BindView(R.id.fname)       AutoCompleteTextView frendname;
+
     private String id;
     private String title;
     private String start;
@@ -61,21 +68,17 @@ public class MyTripInfo extends AppCompatActivity {
     private String city;
     private String friendid;
     private String img;
-    private final String mainfolder = "/storage/emulated/0/Pictures/";
     private String nameyet;
-    private Intent intent;
-    private MaterialDialog dialog;
-    @BindView(R.id.image) ImageView iv;
-    @BindView(R.id.head) TextView tite;
-    @BindView(R.id.time) TextView date;
-    @BindView(R.id.newfrriend) FlatButton add;
-    @BindView(R.id.lv) TwoWayView twoway;
-    @BindView(R.id.friendlist) NestedListView lv;
-    @BindView(R.id.fname) AutoCompleteTextView frendname;
+
     private List<String> fname;
     private List<File> imagesuri;
     private List<File> mediaimages;
+
+    private Intent intent;
+    private MaterialDialog dialog;
     private Handler mHandler;
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    private final String mainfolder = "/storage/emulated/0/Pictures/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,19 +87,19 @@ public class MyTripInfo extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        intent = getIntent();
-        id = intent.getStringExtra("_id");
-        img = intent.getStringExtra("_image");
+        intent      = getIntent();
+        id          = intent.getStringExtra("_id");
+        img         = intent.getStringExtra("_image");
 
         mediaimages = new ArrayList<>();
-        imagesuri = new ArrayList<>();
-        fname = new ArrayList<>();
+        imagesuri   = new ArrayList<>();
+        fname       = new ArrayList<>();
 
         Picasso.with(this).load(img).into(iv);
 
-        mHandler = new Handler(Looper.getMainLooper());
+        mHandler    = new Handler(Looper.getMainLooper());
 
-        File sdDir = new File(mainfolder);
+        File sdDir  = new File(mainfolder);
         File[] sdDirFiles = sdDir.listFiles();
         for (File singleFile : sdDirFiles) {
             if (!singleFile.isDirectory())
@@ -126,7 +129,6 @@ public class MyTripInfo extends AppCompatActivity {
     @OnClick(R.id.newfrriend) void onClick(){
         addfriend();
     }
-
 
     private void mytrip() {
 
@@ -225,7 +227,6 @@ public class MyTripInfo extends AppCompatActivity {
         String uri = Constants.apilink + "users/find.php?search=" + nameyet.trim();
         Log.e("executing", uri + " ");
 
-
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
@@ -300,7 +301,6 @@ public class MyTripInfo extends AppCompatActivity {
         String uri = Constants.apilink + "trip/add-user.php?user=" + friendid + "&trip=" + id;
         Log.e("executing", uri + " ");
 
-
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
@@ -330,7 +330,6 @@ public class MyTripInfo extends AppCompatActivity {
     public class Imagesadapter extends ArrayAdapter<File> {
         private final Activity context;
         private final List<File> name;
-
 
         Imagesadapter(Activity context, List<File> name) {
             super(context, R.layout.trip_listitem, name);

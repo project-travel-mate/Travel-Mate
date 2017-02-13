@@ -149,7 +149,6 @@ public class SelectCity extends AppCompatActivity {
                             names.add(ar.getJSONObject(i).getString("name"));
                             lat.add(ar.getJSONObject(i).getString("lat"));
                             lon.add(ar.getJSONObject(i).getString("lng"));
-
                         }
                         cities = new String[id.size()];
                         cities = names.toArray(cities);

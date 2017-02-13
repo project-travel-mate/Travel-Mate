@@ -17,24 +17,16 @@ import butterknife.OnClick;
 
 public class EntertainmentFragment extends Fragment {
 
-
     private Activity activity;
-
-    public EntertainmentFragment() {
-    }
-
-    LinearLayout books;
+    public EntertainmentFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.content_entertainment, container, false);
-
-        ButterKnife.bind(this,v);
-
-        return v;
+        View view = inflater.inflate(R.layout.content_entertainment, container, false);
+        ButterKnife.bind(this,view);
+        return view;
     }
-
 
     @Override
     public void onAttach(Context c) {

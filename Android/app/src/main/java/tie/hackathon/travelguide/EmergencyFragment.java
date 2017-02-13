@@ -19,23 +19,23 @@ import butterknife.ButterKnife;
  */
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
 
-    @BindView(R.id.police) Button police;
-    @BindView(R.id.fire) Button fire;
-    @BindView(R.id.ambulance) Button ambulance;
-    @BindView(R.id.blood_bank) Button blood_bank;
-    @BindView(R.id.bomb) Button bomb;
-    @BindView(R.id.railways) Button railways;
+    @BindView(R.id.police)      Button police;
+    @BindView(R.id.fire)        Button fire;
+    @BindView(R.id.ambulance)   Button ambulance;
+    @BindView(R.id.blood_bank)  Button blood_bank;
+    @BindView(R.id.bomb)        Button bomb;
+    @BindView(R.id.railways)    Button railways;
+
     private Activity activity;
 
-    public EmergencyFragment() {
-    }
+    public EmergencyFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_emergency, container, false);
+        View view = inflater.inflate(R.layout.fragment_emergency, container, false);
 
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this,view);
 
         police.setOnClickListener(this);
         fire.setOnClickListener(this);
@@ -44,7 +44,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
         bomb.setOnClickListener(this);
         railways.setOnClickListener(this);
 
-        return v;
+        return view;
     }
 
 

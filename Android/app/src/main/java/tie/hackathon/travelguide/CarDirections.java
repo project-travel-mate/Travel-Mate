@@ -51,8 +51,7 @@ import okhttp3.Response;
  * Show car directions between 2 cities
  */
 public class CarDirections extends AppCompatActivity {
-    private com.google.android.gms.maps.MapFragment mapFragment;
-    private GoogleMap map;
+
     private String sorcelat;
     private String deslat;
     private String sorcelon;
@@ -60,20 +59,27 @@ public class CarDirections extends AppCompatActivity {
     private String surce;
     private String dest;
     private String distancetext;
-    private Double distance;
+
     private SharedPreferences s;
+
     @BindView(R.id.travelcost1) TextView coste1;
     @BindView(R.id.travelcost2) TextView coste2;
     @BindView(R.id.travelcost3) TextView coste3;
+
+    private Double distance;
     private Double cost1;
     private Double cost2;
     private Double cost3;
-    private final Double fuelprice = 60.00;
-    private final Double mileage_hatchback = 30.0;
-    private final Double mileage_sedan = 18.0;
-    private final Double mileage_suv = 16.0;
+    private final Double fuelprice          = 60.00;
+    private final Double mileage_hatchback  = 30.0;
+    private final Double mileage_sedan      = 18.0;
+    private final Double mileage_suv        = 16.0;
+
+    private com.google.android.gms.maps.MapFragment mapFragment;
+
     private ProgressDialog progressDialog;
-    private Handler mHandler;
+    private GoogleMap      map;
+    private Handler        mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +94,15 @@ public class CarDirections extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        sorcelat = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        sorcelat    = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
+        sorcelon    = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
+        deslat      = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
+        deslon      = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        surce       = s.getString(Constants.SOURCE_CITY, "Delhi");
+        dest        = s.getString(Constants.DESTINATION_CITY, "MUmbai");
 
-        surce = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "MUmbai");
-
-        this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
+        this.mapFragment    = (com.google.android.gms.maps.MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        map                 = mapFragment.getMap();
 
         ShowMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
         ShowMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");

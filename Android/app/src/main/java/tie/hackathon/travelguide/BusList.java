@@ -46,17 +46,21 @@ import okhttp3.Response;
  * Displays a list of available buses
  */
 public class BusList extends AppCompatActivity implements OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
+
     private static final String DATEPICKER_TAG = "datepicker";
-    @BindView(R.id.pb) ProgressBar pb;
-    @BindView(R.id.music_list) ListView lv;
-    private SharedPreferences sharedPreferences;
-    @BindView(R.id.seldate) TextView selectdate;
-    @BindView(R.id.city) TextView city;
+
+    @BindView(R.id.pb)          ProgressBar pb;
+    @BindView(R.id.music_list)  ListView    lv;
+    @BindView(R.id.seldate)     TextView    selectdate;
+    @BindView(R.id.city)        TextView    city;
+
     private String source;
     private String dest;
     private String dates = "17-October-2015";
-    private Handler mHandler;
-    private DatePickerDialog datePickerDialog;
+
+    private Handler             mHandler;
+    private SharedPreferences   sharedPreferences;
+    private DatePickerDialog    datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +72,9 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
 
         ButterKnife.bind(this);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
-        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        sharedPreferences   = PreferenceManager.getDefaultSharedPreferences(this);
+        source              = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
+        dest                = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
 
         selectdate.setText(dates);
         city.setText(source + " to " + dest);
@@ -104,7 +108,6 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-
         // Set date in format 17-October-2016
         dates = day + "-";
 
@@ -155,8 +158,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
         dates = dates + "-" + year;
 
         selectdate.setText(dates);
-        //Update bus list
-        getBuslist();
+        getBuslist(); //Update bus list
     }
 
     @Override
@@ -224,8 +226,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
         source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
         dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
         city.setText(source + " to " + dest);
-        // Update Bus list
-        getBuslist();
+        getBuslist(); // Update Bus list
     }
 
 
@@ -246,13 +247,11 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return FeedItems.length();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             try {
                 return FeedItems.getJSONObject(position);
             } catch (JSONException e) {

@@ -19,8 +19,7 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
     @BindView(R.id.sharecontact) LinearLayout sharecontact;
     @BindView(R.id.checklist) LinearLayout checklist;
 
-    public UtilitiesFragment() {
-    }
+    public UtilitiesFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
