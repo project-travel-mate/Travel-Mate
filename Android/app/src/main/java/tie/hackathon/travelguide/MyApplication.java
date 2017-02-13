@@ -27,32 +27,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        beaconManager = new BeaconManager(getApplicationContext());
-        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
-            @Override
-            public void onEnteredRegion(Region region, List<Beacon> list) {
-                showNotification(
-                        getResources().getString(R.string.app_name),
-                        "Hello there! Visit this great monument :D", list.get(0).getMajor(), list.get(0).getMinor(), list.get(0).getProximityUUID().toString());
-            }
-
-            @Override
-            public void onExitedRegion(Region region) {
-                showNotification(
-                        "Good Bye!", "Hope to see you again :)", region.getMajor(), region.getMinor(), region.getProximityUUID().toString());
-            }
-        });
-
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                beaconManager.startMonitoring(new Region(
-                        "monitored region",
-                        UUID.fromString(Constants.UID),
-                        Constants.major, Constants.minor));
-            }
-        });
     }
 
     /**

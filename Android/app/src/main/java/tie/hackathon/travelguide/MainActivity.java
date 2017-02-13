@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        // Start beacon ranging
+        /*// Start beacon ranging
         beaconManager = new BeaconManager(this);
         region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
 
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     MainActivity.this.startActivity(intent1);
                 }
             }
-        });
+
+        });*/
 
         // Get runtime permissions for Android M
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
