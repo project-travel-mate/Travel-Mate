@@ -117,7 +117,7 @@
         <activity android:name=".DetectedBeacon" />
         <activity android:name=".ShareContact" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FinalCityInfo" />

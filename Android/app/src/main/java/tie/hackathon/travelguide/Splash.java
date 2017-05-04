@@ -9,6 +9,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.eftimoff.androipathview.PathView;
 
+import tie.hackathon.travelguide.login.LoginActivity;
+
 public class Splash extends AppCompatActivity {
 
     @Override
