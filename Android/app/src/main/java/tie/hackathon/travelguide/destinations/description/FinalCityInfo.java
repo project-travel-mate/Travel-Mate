@@ -1,4 +1,4 @@
-package tie.hackathon.travelguide;
+package tie.hackathon.travelguide.destinations.description;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,24 +16,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import Util.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import tie.hackathon.travelguide.FunFacts;
+import tie.hackathon.travelguide.PlacesOnMap;
+import tie.hackathon.travelguide.R;
+import tie.hackathon.travelguide.Tweets;
 
 /**
  * Fetch city information for given city id
  */
-public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
+public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
     private Intent intent;
     private TextView fftext;
@@ -65,6 +57,8 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.shoppp) LinearLayout shopp;
     @BindView(R.id.trends) LinearLayout trend;
 
+    FinalCityInfoPresenter mFinalCityInfoPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,22 +66,52 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
 
+        mFinalCityInfoPresenter = new FinalCityInfoPresenter();
+
         code        = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
         codeb       = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
         tex         = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
         mHandler    = new Handler(Looper.getMainLooper());
 
-        des.setText(getString(R.string.sample_string));
-
         intent = getIntent();
         tit = intent.getStringExtra("name_");
-        setTitle(tit);
         id = intent.getStringExtra("id_");
         image = intent.getStringExtra("image_");
 
+        initUi();
+        initPresenter();
+    }
+
+    private void initPresenter() {
+        mFinalCityInfoPresenter.attachView(this);
+        mFinalCityInfoPresenter.fetchCityInfo(id);
+    }
+
+    private void initUi() {
+        des.setText(getString(R.string.sample_string));
+        setTitle(tit);
         title.setTypeface(codeb);
         title.setText(tit);
+        // Load image into ImageView
+        Picasso.with(this).load(image).into(iv);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTypeFaces();
+        setClickListeners();
+    }
+
+    private void setClickListeners() {
+        funfact.setOnClickListener(this);
+        restau.setOnClickListener(this);
+        hangout.setOnClickListener(this);
+        monum.setOnClickListener(this);
+        shopp.setOnClickListener(this);
+        trend.setOnClickListener(this);
+    }
+
+    private void setTypeFaces() {
         fftext = (TextView) findViewById(R.id.fftext);
         fftext.setTypeface(code);
         fftext = (TextView) findViewById(R.id.hgtext);
@@ -100,22 +124,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         fftext.setTypeface(code);
         fftext = (TextView) findViewById(R.id.cttext);
         fftext.setTypeface(code);
-
-        funfact.setOnClickListener(this);
-        restau.setOnClickListener(this);
-        hangout.setOnClickListener(this);
-        monum.setOnClickListener(this);
-        shopp.setOnClickListener(this);
-        trend.setOnClickListener(this);
-
-        // Fetch city info
-        cityInfo();
-
-        // Load image into ImageView
-        Picasso.with(this).load(image).into(iv);
-
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -182,57 +190,51 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /**
-     * Fetch city informations
-     */
-    private void cityInfo() {
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void showProgress() {
         dialog = new MaterialDialog.Builder(FinalCityInfo.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
                 .show();
+    }
 
-        // to fetch city names
-        String uri = Constants.apilink + "city/info.php?id=" + id;
-        Log.e("executing", uri + " ");
+    @Override
+    public void dismissProgress() {
+        dialog.dismiss();
+    }
 
-        //Set up client
-        OkHttpClient client = new OkHttpClient();
-        //Execute request
-        Request request = new Request.Builder()
-                .url(uri)
-                .build();
-        //Setup callback
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-
-                final String res = response.body().string();
-                mHandler.post(() -> {
-                    try {
-                        JSONObject ob = new JSONObject(res);
-                        description = ob.getString("description");
-                        des.setText(description);
-                        Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
-                        temp.setText(ob.getJSONObject("weather").getString("temprature") + (char) 0x00B0 + " C ");
-                        humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
-                        weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
-                        lat = ob.getString("lat");
-                        lon = ob.getString("lng");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("EXCEPTION : ", e.getMessage() + " ");
-                    }
-                    dialog.dismiss();
-                });
-            }
+    @Override
+    public void parseResult(String description, String iconUrl, String temp, String humidity, String weatherInfo,
+                            String lat, String lon) {
+        mHandler.post(() -> {
+            des.setText(description);
+            Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
+            this.temp.setText(temp + (char) 0x00B0 + " C ");
+            this.humidity.setText("Humidity : " + humidity);
+            weatherinfo.setText(weatherInfo);
+            this.lat = lat;
+            this.lon = lon;
         });
     }
 }
