@@ -39,7 +39,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     private String id;
     private String tit;
     private String image;
-    private String description;
     private String lat;
     private String lon;
 
@@ -146,40 +145,16 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 startActivity(i);
                 break;
             case R.id.restau:
-                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("id_", id);
-                i.putExtra("lat_", lat);
-                i.putExtra("lng_", lon);
-                i.putExtra("name_", tit);
-                i.putExtra("type_", "restaurant");
-                startActivity(i);
+                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "restaurant");
                 break;
             case R.id.hangout:
-                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("lat_", lat);
-                i.putExtra("lng_", lon);
-                i.putExtra("id_", id);
-                i.putExtra("name_", tit);
-                i.putExtra("type_", "hangout");
-                startActivity(i);
+                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "hangout");
                 break;
             case R.id.monu:
-                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("lat_", lat);
-                i.putExtra("lng_", lon);
-                i.putExtra("id_", id);
-                i.putExtra("name_", tit);
-                i.putExtra("type_", "monument");
-                startActivity(i);
+                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "monument");
                 break;
             case R.id.shoppp:
-                i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("id_", id);
-                i.putExtra("name_", tit);
-                i.putExtra("lat_", lat);
-                i.putExtra("lng_", lon);
-                i.putExtra("type_", "shopping");
-                startActivity(i);
+                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "shopping");
                 break;
             case R.id.trends:
                 i = new Intent(FinalCityInfo.this, Tweets.class);
@@ -236,5 +211,14 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             this.lat = lat;
             this.lon = lon;
         });
+    }
+
+    private void fireIntent(Intent intent, String type) {
+        intent.putExtra("id_", id);
+        intent.putExtra("lat_", lat);
+        intent.putExtra("lng_", lon);
+        intent.putExtra("name_", tit);
+        intent.putExtra("type_", type);
+        startActivity(intent);
     }
 }
