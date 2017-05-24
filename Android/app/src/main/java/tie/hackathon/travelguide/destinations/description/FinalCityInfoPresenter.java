@@ -46,13 +46,13 @@ public class FinalCityInfoPresenter {
                 final String res = response.body().string();
 
                 try {
-                    JSONObject ob = new JSONObject(res);
-                    mFinalCityInfoView.parseResult(ob.getString("description"),
-                            ob.getJSONObject("weather").getString("icon"),
-                            ob.getJSONObject("weather").getString("temprature"),
-                            ob.getJSONObject("weather").getString("humidity"),
-                            ob.getJSONObject("weather").getString("description"),
-                            ob.getString("lat"), ob.getString("lng"));
+                    JSONObject responseObject = new JSONObject(res);
+                    mFinalCityInfoView.parseResult(responseObject.getString("description"),
+                            responseObject.getJSONObject("weather").getString("icon"),
+                            responseObject.getJSONObject("weather").getString("temprature"),
+                            responseObject.getJSONObject("weather").getString("humidity"),
+                            responseObject.getJSONObject("weather").getString("description"),
+                            responseObject.getString("lat"), responseObject.getString("lng"));
                     mFinalCityInfoView.dismissProgress();
                 } catch (JSONException e) {
                     e.printStackTrace();

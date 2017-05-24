@@ -29,7 +29,7 @@ import tie.hackathon.travelguide.Tweets;
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
     private Intent intent;
-    private TextView fftext;
+    private TextView mFunFactsTextView;
     private Typeface code;
     private Typeface tex;
     private Typeface codeb;
@@ -37,7 +37,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     private Handler mHandler;
 
     private String id;
-    private String tit;
+    private String mTitle;
     private String image;
     private String lat;
     private String lon;
@@ -73,7 +73,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         mHandler    = new Handler(Looper.getMainLooper());
 
         intent = getIntent();
-        tit = intent.getStringExtra("name_");
+        mTitle = intent.getStringExtra("name_");
         id = intent.getStringExtra("id_");
         image = intent.getStringExtra("image_");
 
@@ -88,9 +88,9 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private void initUi() {
         des.setText(getString(R.string.sample_string));
-        setTitle(tit);
+        setTitle(mTitle);
         title.setTypeface(codeb);
-        title.setText(tit);
+        title.setText(mTitle);
         // Load image into ImageView
         Picasso.with(this).load(image).into(iv);
 
@@ -111,18 +111,18 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     }
 
     private void setTypeFaces() {
-        fftext = (TextView) findViewById(R.id.fftext);
-        fftext.setTypeface(code);
-        fftext = (TextView) findViewById(R.id.hgtext);
-        fftext.setTypeface(code);
-        fftext = (TextView) findViewById(R.id.shtext);
-        fftext.setTypeface(code);
-        fftext = (TextView) findViewById(R.id.mntext);
-        fftext.setTypeface(code);
-        fftext = (TextView) findViewById(R.id.rstext);
-        fftext.setTypeface(code);
-        fftext = (TextView) findViewById(R.id.cttext);
-        fftext.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.fftext);
+        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.hgtext);
+        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.shtext);
+        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.mntext);
+        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.rstext);
+        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView = (TextView) findViewById(R.id.cttext);
+        mFunFactsTextView.setTypeface(code);
     }
 
 
@@ -141,7 +141,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             case R.id.funfact:
                 i = new Intent(FinalCityInfo.this, FunFacts.class);
                 i.putExtra("id_", id);
-                i.putExtra("name_", tit);
+                i.putExtra("name_", mTitle);
                 startActivity(i);
                 break;
             case R.id.restau:
@@ -159,7 +159,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             case R.id.trends:
                 i = new Intent(FinalCityInfo.this, Tweets.class);
                 i.putExtra("id_", id);
-                i.putExtra("name_", tit);
+                i.putExtra("name_", mTitle);
                 startActivity(i);
                 break;
         }
@@ -199,6 +199,17 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         dialog.dismiss();
     }
 
+    /**
+     * method called by FinalCityInfoPresenter when the network request to fetch city information comes back successfully
+     * used to display the fetched information from backend on activity
+     * @param description - description of city
+     * @param iconUrl - image url
+     * @param temp - current temperature of requested city
+     * @param humidity - current humidity of requested city
+     * @param weatherInfo - weather information of requested city
+     * @param lat - latitude of requested city
+     * @param lon - longitude of requested city
+     */
     @Override
     public void parseResult(String description, String iconUrl, String temp, String humidity, String weatherInfo,
                             String lat, String lon) {
@@ -217,7 +228,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         intent.putExtra("id_", id);
         intent.putExtra("lat_", lat);
         intent.putExtra("lng_", lon);
-        intent.putExtra("name_", tit);
+        intent.putExtra("name_", mTitle);
         intent.putExtra("type_", type);
         startActivity(intent);
     }
