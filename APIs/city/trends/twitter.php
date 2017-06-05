@@ -1,45 +1,50 @@
 <?php
 
+require_once '../../inc/responses/base.php';
+require_once '../../inc/responses/errors.php';
+
 require_once '../../inc/connection.inc.php';
 require_once '../../inc/constants.inc.php';
 require_once '../../inc/function.inc.php';
 require_once 'lib/twitteroauth.php';
 
 $city_id = @(int)$_GET['city'];
-$yahoo_url = "http://where.yahooapis.com/v1/places";
+$twitter_trends_url = "https://api.twitter.com/1.1/trends/";
 
 if($city_id > 0){
-	$city_name = getCityName($connection, $city_id);
-	if(isset($city_name)){
-		$city_name = trim($city_name['city_name']);
-		$url = $yahoo_url . ".q('" . $city_name . "')?appid=" . YAHOO_WOEID_KEY;
-		$response = curl_URL_call($url);
-		$xml = simplexml_load_string($response);
+	$city_coordinates = getCityCoordinates($connection, $city_id);
 
-		$woeid_city1 = (int)$xml->place->woeid;
+	if(isset($city_coordinates)){
+		$city_lat = $city_coordinates['lat'];
+		$city_lng = $city_coordinates['lng'];
 
-		$xml = $xml->place->admin1;
+		$twitter_connection = new TwitterOAuth(
+			TWITTER_CONSUMER_KEY,
+			TWITTER_CONSUMER_SECRET,
+			TWITTER_OAUTH_TOKEN,
+			TWITTER_OAUTH_TOKEN_SECRET
+		);
 
-		foreach($xml->attributes() as $a => $b) {
-			if($a == "woeid"){
-				$woeid_city2 = (int)$b;
-				break;
-			}
-		}
-		$twitter_connection = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_TOKEN_SECRET);
-		$response = $twitter_connection->get("https://api.twitter.com/1.1/trends/place.json?id=" . $woeid_city1);
+		$woeid_url = $twitter_trends_url . "closest.json?lat=" . $city_lat . "&long=" . $city_lng;
+		$response = $twitter_connection->get($woeid_url);
 
-		if(isset($response->errors))
-			$response = $twitter_connection->get("https://api.twitter.com/1.1/trends/place.json?id=" . $woeid_city2);
+		$city_name = $response[0]->name;
+		$city_woeid = $response[0]->woeid;
+
+		$trends_url = $twitter_trends_url . "place.json?id=" . $city_woeid;
+		$response = $twitter_connection->get($trends_url);
 
 		if(isset($response->errors)){
-			$response = array(
-				'error'	=> true,
-				'message' => $response->errors[0]->message,
-			);
+			noResultsError();
 		} else {
-			$response = $response[0]->trends;
+			$trends = $response[0]->trends;
+			$final_response = $trends;
 		}
-		echo json_encode($response);
 	}
+}
+
+if(isset($final_response)){
+	echo json_encode($final_response, true);
+} else {
+	invalidParametesError();
 }

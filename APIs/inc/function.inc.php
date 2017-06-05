@@ -143,3 +143,17 @@ function getCityName($connection, $city_id){
 	$query = "SELECT `city_name` FROM `cities` WHERE `id`='$city_id' LIMIT 1";
 	return mysqli_fetch_assoc(mysqli_query($connection, $query));
 }
+
+
+/**
+ * get coordinates of city from city ID
+ * @param  connection_object	$connection
+ * @param  integer				$city_id    
+ * @return array 								lat, lng
+ */
+function getCityCoordinates($connection, $city_id){
+	$query = "SELECT `lat`,`lng` FROM `cities` WHERE `id`='$city_id' LIMIT 1";
+	return mysqli_fetch_assoc(mysqli_query($connection, $query));
+}
+
+
