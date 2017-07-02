@@ -1,4 +1,4 @@
-package tie.hackathon.travelguide;
+package tie.hackathon.travelguide.destinations.funfacts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,11 +31,12 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tie.hackathon.travelguide.R;
 
 /**
  * Funfacts activity
  */
-public class FunFacts extends AppCompatActivity {
+public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     @BindView(R.id.vp) ViewPager viewPager;
 
@@ -59,61 +60,47 @@ public class FunFacts extends AppCompatActivity {
         name        = i.getStringExtra("name_");
         mHandler    = new Handler(Looper.getMainLooper());
 
-        // Fetch fun facts about city
-        getCityFacts();
-
+        initPresenter();
         getSupportActionBar().hide();
     }
 
-    private void getCityFacts() {
+    private void initPresenter() {
+        FunFactsPresenter mPresenter = new FunFactsPresenter(this);
+        mPresenter.initPresenter(id);
+    }
 
+    @Override
+    public void showProgressDialog() {
         dialog = new MaterialDialog.Builder(FunFacts.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
                 .show();
+    }
 
-        // to fetch city names
-        String uri = Constants.apilink + "city_facts.php?id=" + id;
-        Log.e("executing", uri + " ");
+    @Override
+    public void hideProgressDialog() {
+        dialog.dismiss();
+    }
 
-        //Set up client
-        OkHttpClient client = new OkHttpClient();
-        //Execute request
-        Request request = new Request.Builder()
-                .url(uri)
-                .build();
-        //Setup callback
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-
-                final String res = response.body().string();
-                mHandler.post(() -> {
-
-                    try {
-                        JSONObject ob = new JSONObject(res);
-                        JSONArray ar = ob.getJSONArray("facts");
-                        List<Fragment> fList = new ArrayList<>();
-                        for (int i = 0; i < ar.length(); i++)
-                            fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
-                                    ar.getJSONObject(i).getString("fact"), name));
-                        viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
-                        viewPager.setPageTransformer(true, new AccordionTransformer());
-
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.e("ERROR : ", e1.getMessage() + " ");
-                    }
-                    dialog.dismiss();
-                });
-
-            }
+    /**
+     * method called by presenter after successful network request
+     * Presenter passes JSON facts array used for setting up view-pager
+     * @param factsArray -> JSON array of facts
+     */
+    @Override
+    public void setupViewPager(JSONArray factsArray) {
+        mHandler.post(() -> {
+            List<Fragment> fList = new ArrayList<>();
+            for (int i = 0; i < factsArray.length(); i++)
+                try {
+                    fList.add(FunfactFragment.newInstance(factsArray.getJSONObject(i).getString("image"),
+                            factsArray.getJSONObject(i).getString("fact"), name));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
+            viewPager.setPageTransformer(true, new AccordionTransformer());
         });
     }
 
