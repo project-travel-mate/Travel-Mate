@@ -111,7 +111,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FunFacts"
+            android:name=".destinations.funfacts.FunFacts"
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
