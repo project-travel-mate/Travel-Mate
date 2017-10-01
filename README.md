@@ -35,27 +35,22 @@ The platform includes a wide variety of options - from selection of Mode of Tran
 A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can be also seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
 Based on this information and the recommendation from the app, user can opt for the best destination location for him.
 
-<img src="/screenshots/all_cities.png" width="200px">
-<img src="/screenshots/one_city.png" width="200px">
-<img src="/screenshots/fact.png" width="200px">
-<img src="/screenshots/city_here.png" width="200px">
-<img src="/screenshots/trend.png" width="200px">
+<img src="/screenshots/all_cities.png" width="200px"> <img src="/screenshots/one_city.png" width="200px"> <img src="/screenshots/fact.png" width="200px">
+
+<img src="/screenshots/city_here.png" width="200px"> <img src="/screenshots/trend.png" width="200px">
 
 
 ## Travel
 ### My trips
 History of all the past trips of the user at one place so that he can categorically view all the photos from his trips and also see how much each person (who was on that trip along with the user) spent on different things for future reference.
 
-<img src="/screenshots/travel.png" width="200px">
-<img src="/screenshots/trips.png" width="200px">
-<img src="/screenshots/mytrip_info.png" width="200px">
+<img src="/screenshots/travel.png" width="200px"> <img src="/screenshots/trips.png" width="200px"> <img src="/screenshots/mytrip_info.png" width="200px">
 
 
 ### Transport
 Book and search for bus and railway tickets from this app itself. For car, we let the user know about the total toll taxes and the total cost of fuel he has to bear.
 
-<img src="/screenshots/transport.png" width="200px">
-<img src="/screenshots/trains.png" width="200px">
+<img src="/screenshots/transport.png" width="200px"> <img src="/screenshots/trains.png" width="200px">
 
 
 ### Hotel Booking
@@ -70,8 +65,7 @@ Book and search for bus and railway tickets from this app itself. For car, we le
 ### Real Time Locator
 While travelling in the destination city, user usually doesn't know much about the nearby location. We provide the users with real time details about the nearby places, monuments, restaurants, hotels (so that, he can also take a detour) and medical centres.
 
-<img src="/screenshots/here.png" width="200px">
-<img src="/screenshots/here_filter.png" width="200px">
+<img src="/screenshots/here.png" width="200px"> <img src="/screenshots/here_filter.png" width="200px">
 
 ## Utilities
 
@@ -112,9 +106,7 @@ One Estimote beacon is placed in each monument and with that travellers can get 
 ### 1.Notify the user as soon as he enters proximity
 As soon as the user with Travel Mate app installed comes in proximity (~70m) of some monument (detected by estimote beacon), he receives a push notification welcoming him to the store. This will help the travellers to get to know about the nearby monuments.
 
-
-<img src="/screenshots/welcome.png" width="200px">
-<img src="/screenshots/bye.png" width="200px">
+<img src="/screenshots/welcome.png" width="200px"> <img src="/screenshots/bye.png" width="200px">
 
 ### 2.Display details of Monument
 As soon as the estimote beacon finds a Travle Mate app it triggers and phone fetches all the the information about the monument from the cloud and are presented to the traveller. The key benefit of adding this is that user does not need to make extra efforts to know about the monument, he/she gets everything at one go.
