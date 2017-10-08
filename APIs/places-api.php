@@ -7,7 +7,7 @@
 	require_once 'inc/responses/errors.php';
 
 	
-	if(isset($_GET['lat']) && isset($_GET['lng'] && isset($_GET['mode']){
+	if(isset($_GET['lat']) && isset($_GET['lng']) && isset($_GET['mode'])){
 		$response 	= array();
 		$latitude 	= (float)$_GET['lat'];
 		$longitude 	= (float)$_GET['lng'];

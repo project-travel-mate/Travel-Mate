@@ -120,7 +120,7 @@
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FinalCityInfo" />
+        <activity android:name=".destinations.description.FinalCityInfo" />
         <activity android:name=".PlacesOnMap" />
         <activity android:name=".MyTrips" />
         <activity android:name=".AddNewTrip" />

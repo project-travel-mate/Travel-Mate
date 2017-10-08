@@ -45,13 +45,12 @@ public class Constants {
     public static final String CUR_MINOR = "cur_minor";
 
     public static final String UID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    public static final int major = 22537;
-    public static final int minor = 18225; //purple
+    public static int major = 22537, minor = 18225; //purple
     public static int major2 = 17417, minor2 = 22087; //lime
 
     public static String userid = "USERID";
     public static String servicetype = "servicetype";
-    public static final String apilink = "http://csinsit.org/prabhakar/tie/";
+    public static final String apilink = "http://prabhakargupta.com/travel-mate/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
 }
