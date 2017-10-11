@@ -10,11 +10,12 @@ require_once 'lib/twitteroauth.php';
 
 $city_id = @(int)$_GET['city'];
 $twitter_trends_url = "https://api.twitter.com/1.1/trends/";
+$connection = get_mysql_connection();
 
-if($city_id > 0){
-	$city_coordinates = getCityCoordinates($connection, $city_id);
+if ($city_id > 0) {
+	$city_coordinates = get_city_coordinates($connection, $city_id);
 
-	if(isset($city_coordinates)){
+	if (isset($city_coordinates)) {
 		$city_lat = $city_coordinates['lat'];
 		$city_lng = $city_coordinates['lng'];
 
@@ -27,15 +28,13 @@ if($city_id > 0){
 
 		$woeid_url = $twitter_trends_url . "closest.json?lat=" . $city_lat . "&long=" . $city_lng;
 		$response = $twitter_connection->get($woeid_url);
-
-		$city_name = $response[0]->name;
 		$city_woeid = $response[0]->woeid;
 
 		$trends_url = $twitter_trends_url . "place.json?id=" . $city_woeid;
 		$response = $twitter_connection->get($trends_url);
 
-		if(isset($response->errors)){
-			noResultsError();
+		if (isset($response->errors)) {
+			no_results_error();
 		} else {
 			$trends = $response[0]->trends;
 			$final_response = $trends;
@@ -43,8 +42,8 @@ if($city_id > 0){
 	}
 }
 
-if(isset($final_response)){
+if (isset($final_response)) {
 	echo json_encode($final_response, true);
 } else {
-	invalidParametersError();
+	invalid_parametes_error();
 }

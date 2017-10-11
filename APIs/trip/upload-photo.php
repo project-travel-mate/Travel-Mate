@@ -2,7 +2,7 @@
 
 	$dir = 'uploads/';
 
-	if(isset($_REQUEST['image'])){
+	if (isset($_REQUEST['image'])) {
 		$base = $_REQUEST['image'];
 		$current_timestamp = time();
 		$current_timestamp = (string)$current_timestamp;

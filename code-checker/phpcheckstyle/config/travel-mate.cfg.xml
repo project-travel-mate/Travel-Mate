@@ -61,7 +61,7 @@
 	<test name="functionParameterNaming" regexp="/^[a-z]+([_]?[a-z0-9]*)*$/" /> <!-- for function parameters -->
 
 	<!-- Check Function Naming -->
-	<test name="functionNaming" regexp="/^[a-z][a-zA-Z0-9]*$/" level="error" />
+	<test name="functionNaming" regexp="/^[a-z]+([_]?[a-z0-9]*)*$/" level="error" />
 
 	<!-- Check Protected Naming -->
 	<test name="protectedFunctionNaming" regexp="/^[a-z][a-zA-Z0-9]*$/"
