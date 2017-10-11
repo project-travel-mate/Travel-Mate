@@ -1,0 +1,3 @@
+BASEDIR=$(dirname "$0")
+
+php $BASEDIR/run.php

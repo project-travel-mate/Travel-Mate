@@ -1,0 +1,502 @@
+<!-- somewhat inspired by java checkstyle -->
+<!-- Tested on Zend Framework v1.11 code to minimize the number of warnings -->
+<!--  See http://framework.zend.com/manual/1.12/en/coding-standard.coding-style.html -->
+<!--  See http://framework.zend.com/wiki/display/ZFDEV2/Coding+Standards -->
+<phpcheckstyle-configuration>
+
+	<test name="phpException" level="error"/>
+
+	<!-- ********************************************************* -->
+	<!-- These functions are not tested for naming -->
+	<!-- cf http://www.php.net/manual/en/language.oop5.magic.php -->
+	<!-- ********************************************************* -->
+	<config name="specialFunctions">
+		<configItem value="__construct" />
+		<configItem value="__destruct" />
+		<configItem value="__call" />
+		<configItem value="__get" />
+		<configItem value="__set" />
+		<configItem value="__isset" />
+		<configItem value="__unset" />
+		<configItem value="__sleep" />
+		<configItem value="__wakeup" />
+		<configItem value="__toString" />
+		<configItem value="__set_state" />
+		<configItem value="__clone" />
+		<configItem value="__autoload" />
+		<configItem value="__invoke" />
+		<configItem value="__callStatic" />
+	</config>
+
+	<!-- ********************************************************* -->
+	<!-- These variables are not tested for naming -->
+	<!-- ********************************************************* -->
+	<config name="systemVariables">
+		<configItem value="$this" />
+		<configItem value="$_GET" />
+		<configItem value="$_POST" />
+		<configItem value="$_FILES" />
+		<configItem value="$_COOKIE" />
+		<configItem value="$_SESSION" />
+		<configItem value="$_ENV" />
+		<configItem value="$_SERVER" />
+		<configItem value="$_REQUEST" />
+		<configItem value="$HTTP_GET_VARS" />
+		<configItem value="$HTTP_POST_VARS" />
+		<configItem value="$HTTP_COOKIE_VARS" />
+		<configItem value="$HTTP_SERVER_VARS" />
+		<configItem value="$HTTP_ENV_VARS" />
+		<configItem value="$HTTP_SESSION_VARS" />
+	</config>
+
+	<!-- **************** -->
+	<!-- Naming -->
+	<!-- **************** -->
+
+	<!-- Check Constant Naming -->
+	<test name="constantNaming" regexp="/^[A-Z][A-Z0-9_]*$/" level="error" />
+
+	<!-- Check Variable Naming -->
+	<test name="variableNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/" /> <!-- default naming -->
+	<test name="topLevelVariableNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/" /> <!-- for top level variables -->
+	<test name="localVariableNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/" /> <!-- for local variables (inside a class) -->
+	<test name="memberVariableNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/" /> <!-- for member variables (inside a function) -->
+	<test name="functionParameterNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/" /> <!-- for function parameters -->
+
+	<!-- Check Function Naming -->
+	<test name="functionNaming" regexp="/^[a-z][a-zA-Z0-9]*$/" level="error" />
+
+	<!-- Check Protected Naming -->
+	<test name="protectedFunctionNaming" regexp="/^_[a-z][a-zA-Z0-9]*$/"
+		level="error" />
+
+	<!-- Check Private Function Naming -->
+	<test name="privateFunctionNaming" regexp="/^[a-z_][a-zA-Z0-9]*$/"
+		level="error" />
+
+	<!-- Checks the constuctor naming -->
+	<!-- old = old style (constructor = name of the class) -->
+	<!-- new = "__construct()" -->
+	<test name="constructorNaming">
+		<property name="naming" value="new" />
+	</test>
+
+	<!-- Check Class Naming -->
+	<test name="classNaming" regexp="/^[A-Z][a-zA-Z0-9_]*$/" level="error" />
+
+	<!-- Check Interface Naming -->
+	<test name="interfaceNaming" regexp="/^[A-Z][a-zA-Z0-9_]*$/"
+		level="error" />
+
+	<!-- File Naming -->
+	<test name="fileNaming" regexp="/^[a-zA-Z][a-zA-Z0-9._]*$/" level="error" />
+
+	<!-- **************** -->
+	<!-- PHP Tags -->
+	<!-- **************** -->
+
+	<!-- Test if a short php code open tag is used (<? instead of <?php ). -->
+	<test name="noShortPhpCodeTag" />
+
+	<!-- Test if a PHP closing file is present at the end of a file -->
+	<test name="noFileCloseTag" />
+
+	<!-- Test if a file finish with some inner HTML (OK for some view but could
+		provoque "header already sent" error) -->
+	<test name="noFileFinishHTML" level="error" />
+
+	<!-- PHP tags (start and stop) should be at the beginning of a line -->
+    <!--  <test name="phpTagsStartLine" /> -->
+
+	<!-- **************** -->
+	<!-- Comments -->
+	<!-- **************** -->
+
+	<!-- Check if some C style comments are used (#) -->
+	<test name="noShellComments" />
+
+	<!-- Tests that every function and class is immediately preceded by a docblock.
+		A property "excludePrivateMembers" can be set if you want to disable docblocks
+		for private member functions. -->
+	<test name="docBlocks">
+		<property name="excludePrivateMembers" value="true" />
+		<property name="testReturn" value="true" />
+		<property name="testParam" value="true" />
+		<property name="testThrow" value="true" />
+	</test>
+
+	<!-- **************** -->
+	<!-- Indentation -->
+	<!-- **************** -->
+
+	<!-- Tests to make sure that a line does not contain the tab character. -->
+	<test name="indentation">
+		<property name="type" value="space"/>
+		<property name="number" value="4"/>
+	</test>
+
+	<!-- Check the position of the open curly brace in a control structure (if) -->
+	<!-- sl = same line -->
+	<!-- nl = new line -->
+	<test name="controlStructOpenCurly">
+		<property name="position" value="sl" />
+	</test>
+
+	<!-- Check the position of the close curly brace -->
+	<test name="controlCloseCurly" level="info"/>
+
+	<!-- Check the position of the open curly brace after a function -->
+	<!-- sl = same line -->
+	<!-- nl = new line -->
+	<test name="funcDefinitionOpenCurly">
+		<property name="position" value="nl" />
+	</test>
+
+	<!-- Check the position of the else -->
+	<!-- sl = same line -->
+	<!-- nl = new line -->
+	<test name="controlStructElse">
+		<property name="position" value="sl" />
+	</test>
+
+	<!-- **************** -->
+	<!-- Spaces -->
+	<!-- **************** -->
+
+	<!--
+	Tests that the control statements ("if", "else", "while", "for", etc.)
+	are followed by a space before the opening parenthesis. PEAR standard stipulates
+	this to distinguish it from function calls.
+	-->
+	<test name="spaceAfterControlStmt" />
+
+	<!-- Check that there is no space after a function name in a function call -->
+	<test name="noSpaceAfterFunctionName" level="info"></test>
+
+	<!-- Check for the (required) presence of a white space after some tokens
+		: "," "}" "-" -->
+	<test name="checkWhiteSpaceAfter"/>
+
+	<!-- Check for the (required) presence of a white space before some tokens
+		: "{" "-" -->
+	<test name="checkWhiteSpaceBefore">
+		<exception value=":" />  <!-- Because of the switch/case -->
+	</test>
+
+	<!-- Check that there is no space before before some tokens : "," ";" ")"
+		"->" -->
+	<test name="noSpaceBeforeToken" level="info"/>
+
+	<!-- Check that there is no space after some tokens : "!" "(" "->" -->
+	<test name="noSpaceAfterToken" level="info"/>
+
+	<!-- **************** -->
+	<!-- Metrics -->
+	<!-- **************** -->
+
+	<!-- Check that the lenght of the line doesn't pass the max value -->
+	<test name="lineLength" level="info">
+		<property name="maxLineLength" value="120" />
+		<property name="checkHTMLLines" value="false" />
+	</test>
+
+	<!-- Checks that the lenght (in lines) of a function doesn't pass the max
+		value -->
+	<test name="functionLength" level="info">
+		<property name="maxLength" value="200" />
+	</test>
+
+	<!-- Checks for excessive parameters in a function declaration -->
+	<test name="functionMaxParameters">
+		<property name="maxParameters" value="4" />
+	</test>
+
+	<!-- Check Cyclomatic Complexity -->
+	<!-- see http://www.aivosto.com/project/help/pm-complexity.html -->
+	<test name="cyclomaticComplexity">
+		<!-- Level raising a warning -->
+		<property name="warningLevel" value="10" />
+		<!-- Level raising an error -->
+		<property name="errorLevel" value="20" />
+	</test>
+
+	<!-- **************** -->
+	<!-- Prohibited -->
+	<!-- **************** -->
+
+	<!-- Check for prohibited functions -->
+	<!-- @see http://www.php.net/manual/en/indexes.php -->
+	<test name="checkProhibitedFunctions">
+		<item value="echo" />
+		<item value="system" />
+		<item value="print_r" />
+		<item value="var_dump" />
+		<item value="dl" />
+		<item value="define_syslog_variables" />
+		<item value="set_magic_quotes_runtime" />
+		<item value="magic_quotes_runtime" />
+		<item value="sql_regcase " />
+		<item value="exec" />
+		<item value="passthru" />
+		<item value="delete" />
+		<item value="unlink" />
+		<item value="phpinfo" />
+		<item value="die" />
+		<!-- <item value="copy"/> -->
+		<!-- <item value="fwrite"/> -->
+	</test>
+
+	<!-- Check for prohibited tokens -->
+	<!-- @see http://www.php.net/manual/en/tokens.php -->
+	<test name="checkProhibitedTokens">
+		<item value="T_BAD_CHARACTER" />
+		<item value="T_DECLARE" />
+		<item value="T_ENDDECLARE" />
+		<item value="T_ENDFOR" />
+		<item value="T_ENDFOREACH" />
+		<item value="T_ENDIF" />
+		<item value="T_ENDSWITCH" />
+		<item value="T_ENDWHILE" />
+		<item value="T_HALT_COMPILER" />
+		<item value="T_OLD_FUNCTION" />
+		<item value="T_PRINT" />
+
+		<!-- Same thing as the noShortPhpCodeTag rule -->
+		<!-- <item value="T_OPEN_TAG_WITH_ECHO"/> -->
+
+		<!-- <item value="T_INLINE_HTML"/> -->
+		<!-- <item value="T_ECHO"/> -->
+
+	</test>
+		
+	<!-- Check Prohibited Keywords -->
+	<test name="checkProhibitedKeywords" level="error">
+		<!-- <item value="FORBIDDEN"/> -->
+		<!-- <item value="your prohibited keyword 2"/> -->
+	</test>
+
+	<!-- Check Prohibited Keywords Regex -->
+	<!-- Note: The regular expression must be correctly escaped -->
+	<test name="checkProhibitedKeywordsRegex" level="error">
+		<!-- <item value="/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/"/> IP ADDRESS -->
+	</test>
+
+	<!-- **************** -->
+	<!-- Other -->
+	<!-- **************** -->
+
+	<!-- All arguments with default values should be at the end -->
+	<test name="defaultValuesOrder" />
+
+	<!-- Check for silenced errors before function calls (@function) -->
+	<test name="checkSilencedError">
+		<exception value="rename" /> <!-- Exceptions to this rule -->
+		<exception value="mkdir" />
+		<exception value="chmod" />
+	</test>
+
+	<!-- Check for encapsed variables inside a String ("$a") -->
+	<!-- <test name="encapsedVariablesInsideString"> </test> -->
+
+	<!-- Avoid passing parameters by reference -->
+	<test name="avoidPassingReferences"/>
+
+	<test name="showTODOs"/>
+
+	<!-- Use boolean operators (&&) instead of logical operators (AND) -->
+	<test name="useBooleanOperators"/>
+
+	<!-- Check empty block like if ($a) {} -->
+	<test name="checkEmptyBlock">
+		<!-- <exception value="catch"/> -->
+	</test>
+
+	<!-- Check empty statement ( ;; ) -->
+	<test name="checkEmptyStatement"/>
+
+	<!-- Check for the presence of heredoc -->
+	<test name="checkHeredoc"/>
+
+	<!-- Check for braces around code blocs (if, else, elseif, do, while, for,
+		foreach) -->
+	<test name="needBraces"/>
+
+	<!-- Switch need a default value -->
+	<test name="switchNeedDefault"/>
+
+	<!-- Switch case should have a break -->
+	<!-- <test name="switchCaseNeedBreak"> </test> -->
+
+	<!-- Switch default value should be at the end -->
+	<test name="switchDefaultOrder"/>
+
+	<!-- Avoid using unary operators (++) inside a control statement With the
+		exception of for iterators, all variable incrementation or decrementation
+		should occur in their own toplevel statement to increase readability. -->
+	<test name="checkUnaryOperator">
+		<exception value="for" />
+	</test>
+
+	<!-- With inner assignments it is difficult to see all places where a variable
+		is set. With the exception of for iterators, all assignments should occur
+		in their own toplevel statement to increase readability. -->
+	<test name="checkInnerAssignment">
+		<exception value="for" />
+	</test>
+
+	<!-- Only one class declaration per PHP file -->
+	<test name="oneClassPerFile"/>
+	
+	<!-- Detect empty files -->
+	<test name="checkEmptyFile"/>
+	
+	<!-- Avoid using variable variables -->
+	<test name="variableVariable" />
+
+	<!-- **************** -->
+	<!-- Unused -->
+	<!-- **************** -->
+
+	<!-- Detect unused private functions (detecting unused public ones is more
+		difficult) -->
+	<test name="checkUnusedPrivateFunctions"/>
+
+	<!-- Detect unused variables -->
+	<test name="checkUnusedVariables"/>
+
+	<!-- Detect unused function parameters -->
+	<test name="checkUnusedFunctionParameters"/>
+
+	<!-- Detect unused code (after return or throw) -->
+	<test name="checkUnusedCode"/>
+
+	<!-- Detect empty files -->
+	<test name="checkEmptyFile"/>
+	
+	<!-- $this cannot be used in a static function  -->
+	<test name="thisInStatic" level="error"/>
+
+	<!-- ******************* -->
+	<!-- Optimisation -->
+	<!-- ******************* -->
+
+	<!-- Avoid using a count/sizeof function inside a loop -->
+	<test name="functionInsideLoop"/>
+
+	<!-- ******************* -->
+	<!-- Deprecation -->
+	<!-- see http://php.net/manual/en/migration53.deprecated.php -->
+	<!-- ******************* -->
+
+	<!-- Replace deprecated methods -->
+	<test name="checkDeprecation">
+		<deprecated old="call_user_method" new="call_user_func"
+			version="4.1" />
+		<deprecated old="call_user_method_array" new="call_user_func_array"
+			version="4.1" />
+		<deprecated old="define_syslog_variables" new="none"
+			version="5.4" />
+		<deprecated old="dl" new="extension_loaded" version="5.3" />
+		<deprecated old="ereg" new="preg_match('@'.$pattern.'@', $string)"
+			version="5.3" />
+		<deprecated old="eregi" new="preg_match('@'.$pattern.'@i', $string)"
+			version="5.3" />
+		<deprecated old="ereg_replace" new="preg_replace('@'.$pattern.'@', $string)"
+			version="5.3" />
+		<deprecated old="eregi_replace" new="preg_replace('@'.$pattern.'@i', $string)"
+			version="5.3" />
+		<deprecated old="import_request_variables" new="none"
+			version="5.4" />
+		<deprecated old="magic_quotes_runtime" new="none" version="5.3" />
+		<deprecated old="set_magic_quotes_runtime" new="none"
+			version="5.3" />
+		<deprecated old="mcrypt_generic_end" new="mcrypt_generic_deinit"
+			version="5.4" />
+		<deprecated old="mysql_list_dbs" new="none" version="5.4" />
+		<deprecated old="mysql_db_query" new="mysql_select_db and mysql_query"
+			version="5.3" />
+		<deprecated old="mysql_escape_string" new="mysql_real_escape_string"
+			version="5.3" />
+		<deprecated old="mysqli_bind_param" new="mysqli_stmt_bind_param"
+			version="5.4" />
+		<deprecated old="mysqli_bind_result" new="mysqli_stmt_bind_result"
+			version="5.4" />
+		<deprecated old="mysqli_client_encoding" new="mysqli_character_set_name"
+			version="5.4" />
+		<deprecated old="mysqli_fetch" new="mysqli_stmt_fetch"
+			version="5.4" />
+		<deprecated old="mysqli_param_count" new="mysqli_stmt_param_count"
+			version="5.4" />
+		<deprecated old="mysqli_get_metadata" new="mysqli_stmt_result_metadata"
+			version="5.4" />
+		<deprecated old="mysqli_send_long_data" new=" mysqli_stmt_send_long_data"
+			version="5.4" />
+		<deprecated old="session_register" new="$_SESSION" version="5.3" />
+		<deprecated old="session_unregister" new="$_SESSION"
+			version="5.3" />
+		<deprecated old="session_is_registered" new="$_SESSION"
+			version="5.3" />
+		<deprecated old="set_socket_blocking" new="stream_set_blocking"
+			version="5.3" />
+		<deprecated old="split"
+			new="explode($pattern, $string) or preg_split('@'.$pattern.'@', $string)"
+			version="5.3" />
+		<deprecated old="spliti" new="preg_split('@'.$pattern.'@i', $string)"
+			version="5.3" />
+		<deprecated old="sql_regcase" new="none" version="5.3" />
+		<deprecated old="$HTTP_GET_VARS" new="$_GET" version="5.3" />
+		<deprecated old="$HTTP_POST_VARS" new="$_POST" version="5.3" />
+		<deprecated old="$HTTP_COOKIE_VARS" new="$_COOKIE" version="5.3" />
+		<deprecated old="$HTTP_SERVER_VARS" new="$_SERVER" version="5.3" />
+		<deprecated old="$HTTP_ENV_VARS" new="$_ENV" version="5.3" />
+		<deprecated old="$HTTP_SESSION_VARS" new="$_SESSION"
+			version="5.3" />
+	</test>
+
+	<!-- ******************* -->
+	<!-- FindBugs -->
+	<!-- ******************* -->
+
+	<!-- Use only strict comparison -->
+	<!-- see : http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/ -->
+	<test name="strictCompare" />
+
+	<!-- ******************* -->
+	<!-- PHP Aliases -->
+	<!-- ******************* -->
+
+	<!-- Replace deprecated methods -->
+	<test name="checkAliases">
+		<alias old="chop" new="rtrim()" />
+		<alias old="close" new="closedir()" />
+		<alias old="die" new="exit()" />
+		<alias old="dir" new="getdir()" />
+		<alias old="doubleval" new="floatval()" />
+		<alias old="fputs" new="fwrite()" />
+		<alias old="ini_alter" new="ini_set()" />
+		<alias old="is_double" new="is_float()" />
+		<alias old="is_integer" new="is_int()" />
+		<alias old="is_long" new="is_int()" />
+		<alias old="is_real" new="is_float()" />
+		<alias old="is_writeable" new="is_writable()" />
+		<alias old="join" new="implode()" />
+		<alias old="key_exists" new="array_key_exists()" />
+		<alias old="magic_quotes_runtime" new="set_magic_quotes_runtime()" />
+		<alias old="pos" new="current()" />
+		<alias old="rewind" new="rewinddir()" />
+		<alias old="show_source" new="highlight_file()" />
+		<alias old="sizeof" new="count()" />
+		<alias old="strchr" new="strstr()" />
+	</test>
+
+	<!--  *********************************************  -->
+	<!--      Replacements for Zend Framework            -->
+	<!--  *********************************************  -->
+
+	<!-- Replace  methods -->
+	<test name="checkReplacements">
+		<replacement old="$_POST" new="$this->getRequest()->getPost()"/>
+		<replacement old="$_GET" new="$this->getRequest()->getParam()"/>
+	</test>
+
+</phpcheckstyle-configuration>

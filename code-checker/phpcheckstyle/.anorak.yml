@@ -1,0 +1,495 @@
+specialFunctions:
+  - "__construct"
+  - "__destruct"
+  - "__call"
+  - "__get"
+  - "__set"
+  - "__isset"
+  - "__unset"
+  - "__sleep"
+  - "__wakeup"
+  - "__toString"
+  - "__set_state"
+  - "__clone"
+  - "__autoload"
+  - "__invoke"
+  - "__callStatic"
+
+systemVariables:
+  - "$this"
+  - "$_GET"
+  - "$_POST"
+  - "$_FILES"
+  - "$_COOKIE"
+  - "$_SESSION"
+  - "$_ENV"
+  - "$_SERVER"
+  - "$_REQUEST"
+  - "$HTTP_GET_VARS"
+  - "$HTTP_POST_VARS"
+  - "$HTTP_COOKIE_VARS"
+  - "$HTTP_SERVER_VARS"
+  - "$HTTP_ENV_VARS"
+  - "$HTTP_SESSION_VARS"
+
+# Constant naming
+constantNaming:
+  regexp: "/^[A-Z][A-Z0-9_]*$/"
+  level: "error"
+
+# Default naming
+variableNaming:
+  regexp: "/^[a-z_][a-zA-Z0-9]*$/"
+
+# Top Level Variables
+topLevelVariableNaming:
+  regexp: "/^[a-z_][a-zA-Z0-9]*$/"
+
+# Local variables (inside a class)
+localVariableNaming:
+  regexp: "/^[a-z_][a-zA-Z0-9]*$/"
+
+# Member variables (inside a function)
+memberVariableNaming:
+  regexp: "/^[a-z_][a-zA-Z0-9]*$/"
+
+# Function naming
+functionNaming:
+  regexp: "/^[a-z_][a-zA-Z0-9]*$/"
+
+# Protected Function naming
+protectedFunctionNaming:
+  level: "error"
+  regexp: "/^_[a-z][a-zA-Z0-9]*$/"
+
+# Private Function naming
+privateFunctionNaming:
+  level: "error"
+  regexp: "/^_[a-z][a-zA-Z0-9]*$/"
+
+# Constructor naming
+constructorNaming:
+  naming: "new"
+
+# Class naming
+classNaming:
+  level: "error"
+  regexp: "/^[A-Z][a-zA-Z0-9_]*$/" 
+
+# Interface naming
+interfaceNaming:
+  level: "error"
+  regexp: "/^[A-Z][a-zA-Z0-9_]*$/"
+
+# File naming
+fileNaming:
+  level: "error"
+  regexp: "/^[a-zA-Z][a-zA-Z0-9._]*$/"
+
+# Short variable names
+localScopeVariableLength:
+  minLength: 2
+  maxLength: 30
+  exception:
+    - "i"
+    - "j"
+    - "k"
+    - "e"
+
+# Test if a short php code open tag is used (<? instead of <?php )
+noShortPhpCodeTag:
+
+# Test if a PHP closing file is present at the end of the file
+noFileCloseTag:
+
+# Test if a file finish with some inner HTML.
+noFileFinishHTML:
+  level: "error"
+
+# Prevent C Style comments from being used
+noShellComments:
+
+# Doc Blocks MUST be used
+docBlocks:
+  excludePrivateMembers: true
+  testReturn: true
+  testParam: true
+  testThrow: true
+
+# Indentation
+indentation:
+  type: "tabs"
+  number: 4
+
+# Check the position of the open curly brace in a control structure (if)
+# sl = same line
+# nl = new line
+controlStructOpenCurly:
+  position: "sl"
+
+# Check the position of the close curly brace
+controlCloseCurly:
+  level: "info"
+
+# Check the position of the open curly brace after a function
+funcDefintionOpenCurly:
+  position: "sl"
+
+# Check the position of the else
+controlStructElse:
+  position: "sl"
+
+# Tests that control statements are followed by a space BEFORE the opening paren
+spaceAfterControlStmt:
+
+# Check that there is no space after a function name in a function call
+noSpaceAfterFunctionName:
+  level: "info"
+
+# Check for the required presence of a white space after some tokens
+checkWhiteSpaceAfter:
+
+# Check for the required presence of a white space before some tokens
+checkWhiteSpaceBefore:
+  exception: 
+    - ":" # Because of the switch/case
+
+# Check that there is no space before some tokens : "!" "(" "->" -->
+noSpaceBeforeToken:
+  level: "info"
+
+# Check that there is no space after some tokens : "!" "(" "->" -->
+noSpaceAfterToken:
+  level: "info"
+
+# Check that the length of the line doesn't pass the max value
+lineLength:
+  level: "info"
+  maxLineLength: 120
+  checkHTMLLines: false
+
+# Function length
+functionLength:
+  level: "info"
+  maxLength: 200
+
+# Function Max Parameters
+functionMaxParameters:
+  maxParameters: 4
+
+# Check Cyclomatic Complexity
+cyclomaticComplexity:
+  warningLevel: 10
+  errorLevel: 20
+
+# Prohibited functions
+checkProhibitedFunctions:
+  item:
+    - "echo"
+    - "system"
+    - "print_r"
+    - "var_dump"
+    - "dl"
+    - "define_syslog_variables"
+    - "set_magic_quotes_runtime"
+    - "magic_quotes_runtime"
+    - "sql_regcase"
+    - "exec"
+    - "passthru"
+    - "delete"
+    - "unlink"
+    - "phpinfo"
+    - "die"
+    # - "copy"
+    # - "fwrite"
+
+# Prohibited tokens
+checkProhibitedTokens:
+  item:
+    - "T_BAD_CHARACTER"
+    - "T_DECLARE"
+    - "T_ENDDECLARE"
+    - "T_ENDFOR"
+    - "T_ENDFOREACH"
+    - "T_ENDIF"
+    - "T_ENDSWITCH"
+    - "T_ENDWHILE"
+    - "T_HALT_COMPILER"
+    - "T_OLD_FUNCTION"
+    - "T_PRINT"
+    # - "T_OPEN_TAG_WITH_ECHO"
+    # - "T_INLINE_HTML"
+    # - "T_ECHO"
+
+# All arguments with default values should be at the end
+defaultValuesOrder:
+
+# Check for silenced errors before function calls (@function)
+checkSilencedError:
+  exception:
+    - "rename"
+    - "mkdir"
+    - "chmod"
+
+# Avoid passing parameters by reference
+avoidPassingReferences:
+
+showTODOs:
+
+# Use boolean operators (&&) instead of logical operators (AND)
+useBooleanOperators:
+
+# Check empty block like if ($) {}
+checkEmptyBlock:
+  #exception:
+    # catch
+
+# Check empty statement (;;)
+checkEmptyStatement:
+
+# Check for the presence of heredoc
+checkHeredoc:
+
+# Check for braces around code blocks (if, else, elseif, do, while, for, foreach)
+needBraces:
+
+# Switch need a default value
+switchNeedDefault:
+
+# Switch default value should be at the end
+switchDefaultOrder:
+
+# Avoid using unary operators (++) inside a control statement
+# with the exception of for iterators.
+checkUnaryOperator:
+  exception:
+    - "for"
+
+# With inner assignments it's difficult to see all places where a variable is set_magic_quotes_runtime
+checkInnerAssignment:
+  exception:
+    - "for"
+
+# Only one class declaration per PHP file
+oneClassPerFile:
+
+# Detect unused private functions
+checkUnusedPrivateFunctions:
+
+# Detect unused code
+checkUnusedCode:
+
+# Detect empty files
+checkEmptyFile:
+
+# Avoid using count/sizeof functions inside a loop
+functionInsideLoop:
+
+# Replace deprecated methods
+checkDeprecation:
+  "call_user_method":
+    old: "call_user_method"
+    new: "call_user_func"
+    version: "4.1"
+  "call_user_method_array":
+    old: "call_user_method_array"
+    new: "call_user_func_array"
+    version: "4.1"
+  "define_syslog_variables":
+    old: "define_syslog_variables"
+    new: "none"
+    version: "5.4"
+  "dl":
+    old: "dl"
+    new: "extension_loaded"
+    version: "5.3"
+  "ereg":
+    old: "ereg"
+    new: "preg_match('@'.$pattern.'@', $string)"
+    version: "5.3"
+  "eregi":
+    old: "eregi"
+    new: "preg_match('@'.$pattern.'@i', $string)"
+    version: "5.3"
+  "ereg_replace":
+    old: "ereg_replace"
+    new: "preg_replace('@'.$pattern.'@', $string)"
+    version: "5.3"
+  "eregi_replace":
+    old: "eregi_replace"
+    new: "preg_replace('@'.$pattern.'@i', $string)"
+    version: "5.3"
+  "import_request_variables":
+    old: "import_request_variables"
+    new: "none"
+    version: "5.4"
+  "magic_quotes_runtime":
+    old: "magic_quotes_runtime"
+    new: "none"
+    version: "5.3"
+  "set_magic_quotes_runtime":
+    old: "set_magic_quotes_runtime"
+    new: "none"
+    version: "5.3"
+  "mcrypt_generic_end":
+    old: "mcrypt_generic_end"
+    new: "mcrypt_generic_deinit"
+    version: "5.4"
+  "mysql_list_dbs":
+    old: "mysql_list_dbs"
+    new: "none"
+    version: "5.4"
+  "mysql_db_query":
+    old: "mysql_db_query"
+    new: "mysql_select_db and mysql_query"
+    version: "5.3"
+  "mysql_escape_string":
+    old: "mysql_escape_string"
+    new: "mysql_real_escape_string"
+    version: "5.3"
+  "mysqli_bind_param":
+    old: "mysqli_bind_param"
+    new: "mysqli_stmt_bind_param"
+    version: "5.4"
+  "mysqli_bind_result":
+    old: "mysqli_bind_result"
+    new: "mysqli_stmt_bind_result"
+    version: "5.4"
+  "mysqli_client_encoding":
+    old: "mysqli_client_encoding"
+    new: "mysqli_character_set_name"
+    version: "5.4"
+  "mysqli_fetch":
+    old: "mysqli_fetch"
+    new: "mysqli_stmt_fetch"
+    version: "5.4"
+  "mysqli_param_count":
+    old: "mysqli_param_count"
+    new: "mysqli_stmt_param_count"
+    version: "5.4"
+  "mysqli_get_metadata":
+    old: "mysqli_get_metadata"
+    new: "mysqli_stmt_result_metadata"
+    version: "5.4"
+  "mysqli_send_long_data":
+    old: "mysqli_send_long_data"
+    new: " mysqli_stmt_send_long_data"
+    version: "5.4"
+  "session_register":
+    old: "session_register"
+    new: "$_SESSION"
+    version: "5.3"
+  "session_unregister":
+    old: "session_unregister"
+    new: "$_SESSION"
+    version: "5.3"
+  "session_is_registered":
+    old: "session_is_registered"
+    new: "$_SESSION"
+    version: "5.3"
+  "set_socket_blocking":
+    old: "set_socket_blocking"
+    new: "stream_set_blocking"
+    version: "5.3"
+  "split":
+    old: "split"
+    new: "explode($pattern, $string) or preg_split('@'.$pattern.'@', $string)"
+    version: "5.3"
+  "spliti":
+    old: "spliti"
+    new: "preg_split('@'.$pattern.'@i', $string)"
+    version: "5.3"
+  "sql_regcase":
+    old: "sql_regcase"
+    new: "none"
+    version: "5.3"
+  "$HTTP_GET_VARS":
+    old: "$HTTP_GET_VARS"
+    new: "$_GET"
+    version: "5.3"
+  "$HTTP_POST_VARS":
+    old: "$HTTP_POST_VARS"
+    new: "$_POST"
+    version: "5.3"
+  "$HTTP_COOKIE_VARS":
+    old: "$HTTP_COOKIE_VARS"
+    new: "$_COOKIE"
+    version: "5.3"
+  "$HTTP_SERVER_VARS":
+    old: "$HTTP_SERVER_VARS"
+    new: "$_SERVER"
+    version: "5.3"
+  "$HTTP_ENV_VARS":
+    old: "$HTTP_ENV_VARS"
+    new: "$_ENV"
+    version: "5.3"
+  "$HTTP_SESSION_VARS":
+    old: "$HTTP_SESSION_VARS"
+    new: "$_SESSION"
+    version: "5.3"
+
+# Use only strict comparison
+strictCompare:
+
+# Replace deprecated methods
+checkAliases:
+  "chop":
+    old: "chop"
+    new: "rtrim()"
+  "close":
+    old: "close"
+    new: "closedir()"
+  "die":
+    old: "die"
+    new: "exit()"
+  "dir":
+    old: "dir"
+    new: "getdir()"
+  "doubleval":
+    old: "doubleval"
+    new: "floatval()"
+  "fputs":
+    old: "fputs"
+    new: "fwrite()"
+  "ini_alter":
+    old: "ini_alter"
+    new: "ini_set()"
+  "is_double":
+    old: "is_double"
+    new: "is_float()"
+  "is_integer":
+    old: "is_integer"
+    new: "is_int()"
+  "is_long":
+    old: "is_long"
+    new: "is_int()"
+  "is_real":
+    old: "is_real"
+    new: "is_float()"
+  "is_writeable":
+    old: "is_writeable"
+    new: "is_writable()"
+  "join":
+    old: "join"
+    new: "implode()"
+  "key_exists":
+    old: "key_exists"
+    new: "array_key_exists()"
+  "magic_quotes_runtime":
+    old: "magic_quotes_runtime"
+    new: "set_magic_quotes_runtime()"
+  "pos":
+    old: "pos"
+    new: "current()"
+  "rewind":
+    old: "rewind"
+    new: "rewinddir()"
+  "show_source":
+    old: "show_source"
+    new: "highlight_file()"
+  "sizeof":
+    old: "sizeof"
+    new: "count()"
+  "strchr":
+    old: "strchr"
+    new: "strstr()"

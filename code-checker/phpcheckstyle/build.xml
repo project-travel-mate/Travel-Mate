@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!-- ======================================================================
+
+     Project: PHPCheckStyle
+
+     Ant Build script for PHPCheckstyle - A Static Analysis tool for PHP.
+
+
+     Available targets: (Run with Ant -f build.xml)
+     ``````````````````
+     package			: Packages PHPcheckstyle in a zip file for release.
+     phpcheckstyle		: Run PHPcheckstyle.
+
+     ====================================================================== -->
+
+<project name="PHPCheckstyle" default="phpcheckstyle" basedir=".">
+
+	<description>
+            Static Analysis tool for PHP.
+    </description>
+
+	<!-- =================================
+          target: init
+          	Initializes variables.
+         ================================= -->
+	<target name="_init">
+		<property name="build.dir" value="build" />
+		<property name="tmp.dir" value="${build.dir}/tmp" />
+		<property name="dist.dir" value="${build.dir}/dist" />
+
+		<property name="phpcheckstyle.version.major" value="0" />
+		<property name="phpcheckstyle.version.minor" value="13.1" />
+		<property name="phpcheckstyle.version" value="${phpcheckstyle.version.major}.${phpcheckstyle.version.minor}" />
+
+		<property name="phpcheckstyle.name" value="PHPCheckStyle-${phpcheckstyle.version}.zip" />
+
+	</target>
+
+	<!-- =================================
+          target: clean
+          	Deletes the output folder.
+         ================================= -->
+	<target name="_clean" depends="_init">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- =================================
+          target: prepare
+          	creates a new build folder.
+         ================================= -->
+	<target name="_prepare" depends="_clean">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
+
+	<!-- Copy the files -->
+	<target name="_copy" description="Copy the files in a temp directory" depends="_prepare">
+
+		<copy todir="${tmp.dir}">
+			<fileset dir="${basedir}">
+				<exclude name="/build/" />
+				<exclude name="/checkstyle_result/" />
+				<exclude name=".models" />
+				<exclude name=".project" />
+				<exclude name="checkstyle_resultncss.xml" />
+			</fileset>
+
+
+			<!-- Override the version number -->
+			<filterchain>
+				<tokenfilter>
+					<replaceregex pattern="@version (.*)" replace="@version ${phpcheckstyle.version}"/>
+				</tokenfilter>
+			</filterchain>
+
+		</copy>
+
+	</target>
+
+
+	<!-- =================================
+          target: package
+          Packages PHPcheckstyle in a zip file for release.
+          @author : Justin
+         ================================= -->
+	<target name="package" depends="_copy" description="Packages PHPcheckstyle in a zip file for release">
+		<zip destfile="${dist.dir}/${phpcheckstyle.name}" basedir="${tmp.dir}"/>
+	</target>
+
+	<!-- Test the environment -->
+	<target name="targetCheck">
+		<condition property="isUnix">
+			<and>
+				<os family="unix" />
+			</and>
+		</condition>
+		<condition property="isWindows">
+			<and>
+				<os family="windows" />
+			</and>
+		</condition>
+	</target>
+
+	<!-- Launch PHP CheckStyle -->
+	<target name="_phpcheckstylewindows" depends="targetCheck" if="isWindows">
+		<echo>Windows</echo>
+		<exec executable="./phpcheckstyle.cmd" dir=".">
+		</exec>
+	</target>
+
+	<!-- Launch PHP CheckStyle -->
+	<target name="_phpcheckstyleunix" depends="targetCheck" if="isUnix">
+		<echo>Unix</echo>
+		<chmod file="./phpcheckstyle.sh" perm="ugo+rx" />
+		<exec executable="./phpcheckstyle.sh" dir=".">
+		</exec>
+	</target>
+
+	<!-- Launch PHP CheckStyle-->
+	<target name="phpcheckstyle" description="Launch PHP CheckStyle" depends="_phpcheckstylewindows, _phpcheckstyleunix">
+	</target>
+
+</project>

@@ -1,0 +1,355 @@
+                         PHPCheckstyle Release Notes
+                         ===========================
+
+
+Version 0.14.7
+--------------
+* Issue #81 : Fail to detect private functions with spaces after function (thanks to Hans-Christian Halfbrodt)
+* Fix square bracket for arrays on method assignation with test case.  (thanks to GuillermoMI)
+* Add flag to force error level only on console report (thanks to Jean-Philippe Quéméner)
+* Issue #82 : Cannot define independent rules for function parameter namings and local variable namings  (thanks to dpalic)
+
+
+Version 0.14.6
+--------------
+* Added config for Symfony standards
+* Issue #70 : List the statement types in a interface
+* Issue #69 : Whitespace must not follow : exception for comments
+* Issue #66 : Indentation level inside an array
+* Issue #65 : Indentation level should increase inside a case
+* Issue #64 : Silence doc warnings when @inheritdoc is present
+
+
+Version 0.14.5
+--------------
+* Issue #62 : Corrected the indentation level count for short array syntax
+* Issue #41 : Ability to add exceptions to "unused variable" test
+* Issue #24 : Grouped cases must contain a break
+* Issue #23 : Added a --time option on the CLI to print the processing time
+* Corrected line numbering for indentation check
+* Added PHPUnit tests 
+* Added Vagrant configuration files to spawn a local VirtualBox VM
+* Added TravisCI configuration file
+* When running from CLI PHPCheckstyle return code is now <> 0 if some errors are detected 
+
+
+Version 0.14.4
+--------------
+* Moved the project from SourceForge to Github
+
+Version 0.14.3
+--------------
+* New check : thisInStatic.
+
+Version 0.14.2
+--------------
+* Added a summary output on the command line (thanks to jarrettchisholm).
+* New check : Detect forbidden keywords (thanks to jarrettchisholm).
+* New check : Detect forbidden regular expressions like IP address, etc. (thanks to jarrettchisholm).
+* New check : Detect variable variable.
+
+Version 0.14.1
+--------------
+* Improved performances A LOT !
+* Better checking of ignored files/directories
+* Added T_FINALLY token to the parser
+* Better messages for logical operators && and ||
+* Outsourced the error messages
+* Added French translation
+* New check : NPath complexity
+* New check : Prefered quotes style
+
+Version 0.14.0
+--------------
+* PSR-0 Compliance (thanks to James Brooks).
+* new Array Reporter (thanks to James Brooks).
+* Allow an array of configuration values to be passed through, rather than XML (thanks to James Brooks).
+* Better detection of package names for NCSS report (filename by default, namespace if present).
+* New check : "mandatoryHeader" to verify the presence of a header for each file.
+* New check : "localScopeVariableLength" to verify the lenght of the variable names.
+  NOTE : This may generate lots of new warnings. 
+
+Version 0.13.2
+--------------
+* Change in the default configurations : White spaces are required before and after the concatenation operator ".".
+  NOTE : This may generate lots of new warnings. 
+* Issue 77: Exclude files/directories option from the web launcher.
+
+Version 0.13.1
+--------------
+* Issue 71: False positive : close()
+* Issue 72: Allow the config file to be in any directory
+* Issue 73: False positive : delete()
+* Issue 74: Allow multiple src directories/files in the command line.
+            
+Version 0.13.0
+--------------
+* Issue 70: Simplification of the "strictCompare" rule. When active this rule will be checked everywhere. 
+            This may generate lots of warnings. 
+
+Version 0.12.5
+--------------
+* Issue 69: PHP tag should be at the beginning of the line
+
+Version 0.12.4
+--------------
+* Issue 59: Enhancement: Add allowed exceptions to docBlocks section of configuration
+* Issue 63: Catch parsing exceptions and other PHP errors
+* Issue 65: Add composer.json file
+* Issue 66: block closure '}' detected in a string
+
+
+Version 0.12.3
+--------------
+* Issue 52: Config for PHP frameworks
+* Issue 54: Detect empty files
+
+Version 0.12.2
+--------------
+* Issue 53: else/ elseif without curly braces (thanks to Maximilian Pachl)
+* Added a check of the curly braces after a "else" statement
+
+Version 0.12.1
+--------------
+* Issue 50 : --exclude flag is not honoured
+* No space expected after '=' when used in assignation by reference
+
+Version 0.12.0
+--------------
+* New reporter : xml_console (for use with Netbeans plugin : http://sourceforge.net/projects/phpmdnb/), thanks to Jens Radtke
+* Issue 47 : False docBlock error when using empty return in a method
+* Added the version number in the run.php file
+
+Version 0.11.0
+--------------
+* Issue 1 : Refactoring of the code
+* Issue 43:	False positive for "The function throws an exception"
+* Issue 41: False positive : The statement 'while' must contain its code within a {} block.
+* Issue 24: Line length checking of non-PHP code should be toggleable in a config option.
+* Added Zend Framework style configuration file
+
+Version 0.10.6
+--------------
+* Issue 40: Propose replacement for PHP aliases
+* Now generates absolute file path in the reports (allow Jenkins to display the source code)
+
+Version 0.10.5
+--------------
+* Issue 39: Error on closing tag for space-based indentation checks
+* Issue 38: False positive for : The function XXX must have a docblock comment
+
+Version 0.10.4
+--------------
+* Issue 37: Web interface (currently very limited)
+                         
+Version 0.10.3
+--------------
+* Issue 35: New Rule : Use of "==" in strpos
+* Bug correction: Not correctly counting the end of a stack item after a "ELSE IF"
+
+                         
+Version 0.10.2
+--------------
+* issue 27 : Unused code is wrongly detected
+* issue 26 : Empty lines in comments will corrupt line numbering
+* issue 25 : Error: Notice: Trying to get property of non-object
+* issue 23 : Wrong indentation level for curly braces on new line
+* Embedding of CSS inside HTML Header
+* Fix for null pointer exceptions when run against newer code
+
+Version 0.10.1
+--------------
+* Fixed Rule encapsedVariablesInsideString : False positive when using heredoc
+* Rule needBraces : False positive for do/while
+
+Version 0.10.0
+--------------
+* Added support for interfaces
+* Improved checking of variables by scope
+* Rewrote the _checkLargeLine() function
+* Added rudimentary progress reporting, invoked with the parameter --progress
+* Edited Style errors for clarity
+* Included regex in the error report for appropriate types
+* Errors are now described in much greater detail and more consistent language
+* Removed 'old : ' and 'new : ' prefixes from constructor name hints
+* New output type - html console
+* Removed "controlStructNeedCurly" rule, duplicate with "needBraces" rule
+* Completed the test cases
+* The tokenizer now returns T_TAB separately from T_WHITESPACE
+
+Thanks a lot to Justin Creasey and Adam King
+
+Version 0.9.8
+-------------
+* Issue 3: Check for unreachable code
+
+Version 0.9.7
+-------------
+* Deprecation of long $HTTP_*_VARS predefined variables
+* Configuration of system variables lists
+* Issue 10: Don't blindly remove first 2 chars of file path
+
+Version 0.9.6
+-------------
+* Corrected the inner assignement rule (wasn't detecting the end of a control statement if no brackets).
+* Corrected the file exclusion list.
+* Corrected a bug with nextToken at the end of a file.
+* Added the possibility to add exceptions to the checkVariableNaming rule
+
+Version 0.9.5
+-------------
+* Corrected a bug with @SuppressWarnings on a class.
+
+Version 0.9.4
+-------------
+* Add  __invoke and __callStatic to the special functions.
+
+Version 0.9.3
+-------------
+* Refactoring of the indentation check (thanks to Charles Marion). The "noTabs" rule is replaced by the "indentation" rule.
+* Reactivation of the "noSpaceAfterControlStmt" rule.
+* Correction of a bug with multiple output files. 
+* Added a rule for the naming of protected functions. 
+
+Version 0.9.2
+-------------
+* Multiple output files (separated by a comma in the --format command line parameter)
+  
+Version 0.9.1
+-------------
+* Possibility to scan multiple source directories (separated by a comma in the --src command line parameter)
+                        
+Version 0.9
+-------------
+* Dependency on lib_xsl removed
+* Documentation updated to link to the new project home (http://code.google.com/p/phpcheckstyle/)
+* HTML Report validated with W3C validator, HTML characters escaped
+* Possibility to suppress some warnings using annotations before a class or a function in the code (@SuppressWarnings)
+* New logo
+
+Version 0.8.11
+-------------
+* Refactoring : Added the current stack of instruction to provide contextual information
+* New test : unusedCode
+* New test : deprecated functions
+
+
+Version 0.8.10
+-------------
+* Corrected JavaNCSS count of packages
+* New test : functionInsideLoop
+
+Version 0.8.9
+-------------
+* Corrected LevelOfNesting calculation
+* New test : oneClassPerFile
+
+Version 0.8.8
+-------------
+* New test : variableNaming
+* Added the possibility to configure the regular expressions for the naming rules
+* A taste of it's own dog food
+                        
+Version 0.8.7
+-------------
+* New test : checkUnusedVariables
+* New test : checkUnusedFunctionParameters
+      
+Version 0.8.6
+-------------
+* Correction in the controlStructOpenCurly check.
+      
+Version 0.8.5
+-------------  
+ * New test : empty statement (;;)
+ * New test : inner assignment
+ * New test : unused private functions
+      
+Version 0.8.4
+-------------
+ * Refactored the whiteSpaceBore / noSpaceBefore / whiteSpaceAfter / noSpaceAfter methods.
+ * Refactored peekNextValidToken and peekPrvsValidToken to avoid using call by reference 
+ * New test : function length
+ * New test : empty block (if ($a) {} )
+ * New test : avoid heredoc
+ * New test : excessive function parameters
+ * New test : need braces
+ * New test : switch have a default and default is at the end
+ * New test : switch case should have a break
+ 
+      
+Version 0.8.3
+-------------
+ * Added some tests on the docbloc (@param and @return)
+ * Added a test on unary operators
+ * Corrected a bug in the detection of the end of a function
+ 
+ Version 0.8.2
+-------------
+ * Added new test (Use boolean operators instead of logical operators)
+                        
+Version 0.8.1
+-------------
+ * Corrected a bug with NEW_LINE caracter inside a constant string
+
+                        
+Version 0.8
+-----------
+ * Replaced the token_get_all() function by token_get_all_nl() found here :  http://php.net/manual/fr/function.token-get-all.php
+   This function returns the new line caracters as a token. This solve some problems and impact a lot of code.
+   
+ * Added the possibility to generate a report on the number of lines of code compatible with the JavaNCSS format (http://kclee.de/clemens/java/javancss/)
+ 
+ * Added new tests (Extract TODOs, Avoid passing references)
+ 
+ * Some refactoring
+           
+           
+Version 0.7.1
+-------------
+ * Added new tests (Cyclomatic Complexity, ...)
+
+
+Version 0.7 
+-----------
+ * All tests are now configurable
+ 
+ * Included some propositions from the forum
+ 
+ * Added the possibility to define a severity level for each test rule
+ 
+ * Ignoring the .svn repositories
+ 
+ * Changed the XML outpout in order to be compatible with the checkstyle format (http://checkstyle.sourceforge.net/)
+
+Version 0.6.1
+-------------
+ * Bugs Fixes
+ 
+ * HTML Ouput changes
+
+
+Version 0.6
+-----------
+
+ This is the very first release of Spike PHPCheckstyle. It is an alpha release.
+
+ * Known Issues
+   
+   1. Indentation: The tools checks only for existence of tabs in a line. It 
+      does not check that every line follows the 4 space indentation rule.
+   2. Issue with do/while loop: The tool generates wrong errors when a do/while 
+      loop contains a while loop or another do/while loop.
+   3. Global variable nameing: Global variable naming convention checks are 
+      not implemented.
+   4. Docblocks: The tool currently checks only for the existence of docblocks 
+      but not for all the required elements within it.
+   5. Issue: when a cpp comment (starting with //) is followed by "}" in the 
+      next line, reports that the "}" should be on a new line (even though it 
+      is on a new line).
+   6. Expects the configuration file to be {install-dir}/config/pear.cfg.xml.
+      Can not change it.
+   7. Some of the tests are not configurable (that is, they are checked, but can not 
+      disable them). They are: "spaceAfterControlStmt", "spaceAfterSemicolon", 
+      "noSpaceAfterFuncCall" and "spaceAfterFuncNameDefn". (Refer documentation 
+      for more details on configurations).

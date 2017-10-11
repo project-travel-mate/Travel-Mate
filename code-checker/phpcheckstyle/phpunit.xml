@@ -1,0 +1,30 @@
+<phpunit bootstrap="./test/TestRunner.php" colors="true">
+
+	<testsuite name="PHPUnitTestSuite">
+ 		<file>./test/AliasesTest.php</file>
+ 		<file>./test/CommentsTest.php</file>
+ 		<file>./test/DeprecationTest.php</file>
+ 		<file>./test/GoodTest.php</file> 		
+ 		<file>./test/IndentationTest.php</file>
+ 		<file>./test/MetricsTest.php</file>
+ 		<file>./test/NamingTest.php</file>
+ 		<file>./test/OptimizationTest.php</file>
+ 		<file>./test/OtherTest.php</file>
+ 		<file>./test/PHPTagsTest.php</file>
+ 		<file>./test/ProhibitedTest.php</file>
+ 		<file>./test/StrictCompareTest.php</file> 	
+ 		<file>./test/UnusedTest.php</file>	
+	</testsuite>
+	
+	<filter>
+		<whitelist>
+			<directory suffix=".php">./src/</directory>
+		</whitelist>
+	</filter>
+	
+	<logging>
+		<log type="coverage-html" target="./checkstyle_result/phpunit/coverage" title="OCRE" />
+		<log type="coverage-clover" target="./checkstyle_result/phpunit/coverage.xml" />
+	</logging>
+		
+</phpunit>
