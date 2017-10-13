@@ -1,6 +1,6 @@
 # Travel Mate
 
-A must-have app for all the people who want to travel to new a city. The app provides them with everything from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). We have tried to include solutions for every possible problem the traveller might face during the course of his entire journey.
+A must-have app for all the people who want to travel to a new city. The app provides them with everything from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). We have tried to include solutions for every possible problem the traveller might face during the course of his entire journey.
 
 
 + **[How Travel Mate Works](#how-travel-mate-works)**
@@ -29,10 +29,10 @@ A must-have app for all the people who want to travel to new a city. The app pro
 ## How Travel Mate Works
 
 While travelling from one place to another, there are a lot of factors to be considered in order to make the trip a memorable one. Our platform helps the traveller with anything and everything that he might need from the moment he plans the journey till the time he is back home happy and content.
-The platform includes a wide variety of options - from selection of Mode of Transport, to finding out about the destination city to provision of best music, novels depending on the mood of the traveller. Travel Mate basically works in 3 phases. 
+The platform includes a wide variety of options - from selection of Mode of Transport, to finding out about the destination city, to provision of best music, novels, depending on the mood of the traveller. Travel Mate basically works in 3 phases. 
 
 ## Select Destination
-A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can be also seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
+A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can also be seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
 Based on this information and the recommendation from the app, user can opt for the best destination location for him.
 
 <img src="/screenshots/all_cities.png" width="200px"> <img src="/screenshots/one_city.png" width="200px"> <img src="/screenshots/fact.png" width="200px">
@@ -99,7 +99,7 @@ Estimote Beacons are small wireless sensors that we can attach to any location o
 
 
 
-One Estimote beacon is placed in each monument and with that travellers can get numerous facilities. The data related to that monument, along with the Estimote beacon ID, are uploaded on the cloud MySQL database.
+One Estimote beacon is placed in each monument and with that, travellers can get numerous facilities. The data related to that monument, along with the Estimote beacon ID, are uploaded on the cloud MySQL database.
 
 ## Features
 
@@ -109,7 +109,7 @@ As soon as the user with Travel Mate app installed comes in proximity (~70m) of 
 <img src="/screenshots/welcome.png" width="200px"> <img src="/screenshots/bye.png" width="200px">
 
 ### 2.Display details of Monument
-As soon as the estimote beacon finds a Travle Mate app it triggers and phone fetches all the the information about the monument from the cloud and are presented to the traveller. The key benefit of adding this is that user does not need to make extra efforts to know about the monument, he/she gets everything at one go.
+As soon as the estimote beacon finds a Travel Mate app, it triggers and the phone fetches all the the information about the monument from the cloud and are presented to the traveller. The key benefit of adding this is that the user does not need to make extra efforts to know about the monument, he/she gets everything at one go.
 
 <img src="/screenshots/after_estimote.png" width="200px">
 
