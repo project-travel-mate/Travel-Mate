@@ -46,5 +46,5 @@ if($city_id > 0){
 if(isset($final_response)){
 	echo json_encode($final_response, true);
 } else {
-	invalidParametesError();
+	invalidParametersError();
 }
