@@ -62,4 +62,4 @@
 	}
 
 	// incorrect parameters passed
-	invalidParametesError();
+	invalidParametersError();

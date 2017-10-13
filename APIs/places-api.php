@@ -39,10 +39,10 @@
 			}
 		} else {
 			// incorrect parameters passed
-			invalidParametesError();
+			invalidParametersError();
 		}
 	} else {
 		// incorrect parameters passed
-		invalidParametesError();
+		invalidParametersError();
 	}
 
