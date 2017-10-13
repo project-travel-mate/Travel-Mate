@@ -33,3 +33,4 @@ define("TWITTER_OAUTH_TOKEN_SECRET", "XXXX");
 
 
 define ("ECHONEST_API_KEY", "XXXX");
+define ("EBAY_API_KEY", "NSIT22619-c5e7-41ee-9311-cbde5b60ca2");
