@@ -1,5 +1,7 @@
 # Travel Mate
 
+[![Build Status](https://travis-ci.org/Swati4star/Travel-Mate.svg?branch=master)](https://travis-ci.org/Swati4star/Travel-Mate)
+
 A must-have app for all the people who want to travel to a new city. The app provides them with everything from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). We have tried to include solutions for every possible problem the traveller might face during the course of his entire journey.
 
 
