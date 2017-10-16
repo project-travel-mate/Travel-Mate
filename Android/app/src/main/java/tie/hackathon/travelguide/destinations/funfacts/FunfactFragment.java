@@ -1,4 +1,4 @@
-package tie.hackathon.travelguide;
+package tie.hackathon.travelguide.destinations.funfacts;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +17,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tie.hackathon.travelguide.R;
 
 /**
  * Created by swati on 25/1/16.
@@ -76,13 +78,14 @@ public class FunfactFragment extends Fragment {
         tv.setText(getArguments().getString(EXTRA_MESSAGE_TITLE));
         ImageView iv    = (ImageView) v.findViewById(R.id.imag);
         Picasso.with(getContext()).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
+        ButterKnife.bind(this, v);
         return v;
     }
 
     @OnClick(R.id.fab) void onClick(){
         View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
         Bitmap b = getScreenShot(rootView);
-        store(b, "myfile" + System.currentTimeMillis());
+        store(b, "myfile" + System.currentTimeMillis() + ".png");
         shareImage(file);
     }
 

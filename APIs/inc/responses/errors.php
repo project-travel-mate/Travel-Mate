@@ -17,7 +17,7 @@
 	}
 
 
-	function invalidParametesError(){
+	function invalidParametersError(){
 		$error = baseError(400, "Invlid parameters passed!");
 		echo $error;
 	}

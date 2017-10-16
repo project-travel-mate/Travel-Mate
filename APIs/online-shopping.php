@@ -2,9 +2,9 @@
 
 	require_once 'inc/connection.inc.php';
 	require_once 'inc/function.inc.php';
+	require_once 'inc/constants.inc.php';
 
-	$ebay_app_name = 'NSIT22619-c5e7-41ee-9311-cbde5b60ca2';
-	$url = 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&RESPONSE-DATA-FORMAT=JSON&SECURITY-APPNAME=' . $ebay_app_name . '&REST-PAYLOAD&keywords=';
+	$url = 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&RESPONSE-DATA-FORMAT=JSON&SECURITY-APPNAME=' . EBAY_TOKEN . '&REST-PAYLOAD&keywords=';
 
 	$final_response = array();
 
