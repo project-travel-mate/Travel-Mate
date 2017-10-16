@@ -264,14 +264,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_login :
                 Num = num_login.getText().toString();
                 Pass = pass_login.getText().toString();
-                login(Num, Pass);
+                if (Num.isEmpty())
+                    Toast.makeText(this, "Please enter Phone Number!", Toast.LENGTH_SHORT).show();
+                else if (Pass.isEmpty())
+                    Toast.makeText(this, "Please enter Password!", Toast.LENGTH_SHORT).show();
+                else
+                    login(Num, Pass);
                 break;
             // Call signup
             case R.id.ok_signup :
                 Num = num_signup.getText().toString();
                 Pass = pass_signup.getText().toString();
                 Name = name.getText().toString();
-                signup(Name, Num, Pass);
+                if (Name.isEmpty())
+                    Toast.makeText(this, "Please enter name!", Toast.LENGTH_SHORT).show();
+                else if (Num.isEmpty())
+                    Toast.makeText(this, "Please enter Phone Number!", Toast.LENGTH_SHORT).show();
+                else if (Pass.isEmpty())
+                    Toast.makeText(this, "Please enter Password!", Toast.LENGTH_SHORT).show();
+                else
+                    signup(Name, Num, Pass);
                 break;
         }
     }
