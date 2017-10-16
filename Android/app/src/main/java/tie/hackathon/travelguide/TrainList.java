@@ -153,19 +153,22 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    Log.e("RESPONSE : ", "Done");
-                    try {
-                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                        JSONArray YTFeedItems = YTFeed.getJSONArray("trains");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("trains");
 
-                        Log.e("response", YTFeedItems + " ");
-                        pb.setVisibility(View.GONE);
-                        lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                            Log.e("response", YTFeedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+
                     }
-
                 });
             }
         });
@@ -300,27 +303,33 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
                 }
 
-                more.setOnClickListener(view -> {
-                    Intent browserIntent = null;
-                    try {
-                        browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("https://www.cleartrip.com/trains/" +
-                                        FeedItems.getJSONObject(position).getString("train_number")));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    context.startActivity(browserIntent);
+                more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent = null;
+                        try {
+                            browserIntent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://www.cleartrip.com/trains/" +
+                                            FeedItems.getJSONObject(position).getString("train_number")));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        context.startActivity(browserIntent);
 
+                    }
                 });
-                book.setOnClickListener(view -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    try {
-                        intent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("https://www.cleartrip.com/trains/" +
-                                        FeedItems.getJSONObject(position).getString("train_number")));
-                        context.startActivity(intent);
-                    } catch (JSONException e12) {
-                        e12.printStackTrace();
+                book.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        try {
+                            intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://www.cleartrip.com/trains/" +
+                                            FeedItems.getJSONObject(position).getString("train_number")));
+                            context.startActivity(intent);
+                        } catch (JSONException e12) {
+                            e12.printStackTrace();
+                        }
                     }
                 });
             } catch (JSONException e) {

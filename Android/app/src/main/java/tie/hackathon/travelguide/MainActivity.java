@@ -22,6 +22,7 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
 import Util.Constants;
+import tie.hackathon.travelguide.login.LoginActivity;
 
 /**
  * Launcher Activity; Handles fragment changes;

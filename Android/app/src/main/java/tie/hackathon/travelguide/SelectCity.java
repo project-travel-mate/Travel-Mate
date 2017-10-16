@@ -82,27 +82,30 @@ public class SelectCity extends AppCompatActivity {
         mHandler = new Handler(Looper.getMainLooper());
 
 
-        ok.setOnClickListener(view -> {
-            int sposition = source.getSelectedItemPosition();
-            int dposition = dest.getSelectedItemPosition();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int sposition = source.getSelectedItemPosition();
+                int dposition = dest.getSelectedItemPosition();
 
-            if (sposition == dposition) {
-                Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (sposition == dposition) {
+                    Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
 
-            } else {
-                e.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
-                e.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
-                e.putString(Constants.DESTINATION_CITY, names.get(dposition));
-                e.putString(Constants.SOURCE_CITY, names.get(sposition));
-                e.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
-                e.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
-                e.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
-                e.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
-                startService(new Intent(SelectCity.this, LocationService.class));
+                } else {
+                    e.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
+                    e.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
+                    e.putString(Constants.DESTINATION_CITY, names.get(dposition));
+                    e.putString(Constants.SOURCE_CITY, names.get(sposition));
+                    e.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
+                    e.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
+                    e.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
+                    e.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
+                    SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
 
-                e.apply();
-                finish();
+                    e.apply();
+                    SelectCity.this.finish();
+                }
             }
         });
 
@@ -139,27 +142,31 @@ public class SelectCity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                mHandler.post(() -> {
-                    try {
-                        JSONObject ob = new JSONObject(response.body().string());
-                        JSONArray ar = ob.getJSONArray("cities");
-                        for (int i = 0; i < ar.length(); i++) {
-                            id.add(ar.getJSONObject(i).getString("id"));
-                            names.add(ar.getJSONObject(i).getString("name"));
-                            lat.add(ar.getJSONObject(i).getString("lat"));
-                            lon.add(ar.getJSONObject(i).getString("lng"));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONArray ar = ob.getJSONArray("cities");
+                            for (int i = 0; i < ar.length(); i++) {
+                                id.add(ar.getJSONObject(i).getString("id"));
+                                names.add(ar.getJSONObject(i).getString("name"));
+                                lat.add(ar.getJSONObject(i).getString("lat"));
+                                lon.add(ar.getJSONObject(i).getString("lng"));
+
+                            }
+                            cities = new String[id.size()];
+                            cities = names.toArray(cities);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item, cities);
+                            source.setAdapter(adapter);
+                            dest.setAdapter(adapter);
+                            pb.setVisibility(View.GONE);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
                         }
-                        cities = new String[id.size()];
-                        cities = names.toArray(cities);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item, cities);
-                        source.setAdapter(adapter);
-                        dest.setAdapter(adapter);
-                        pb.setVisibility(View.GONE);
-                    } catch (JSONException e12) {
-                        e12.printStackTrace();
-                        Log.e("erro", e12.getMessage() + " ");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
                     }
                 });
 

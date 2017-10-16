@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -101,17 +102,20 @@ public class ChecklistFragment extends Fragment {
         builder.setCancelable(false);
         final View dialogv = inflater.inflate(R.layout.dialog, null);
         builder.setView(dialogv)
-                .setPositiveButton("OK", (dialog, id1) -> {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id1) {
 
-                    EditText e1 = (EditText) dialogv.findViewById(R.id.task);
-                    Log.e("added", "a" + e1.getText() + "a");
+                        EditText e1 = (EditText) dialogv.findViewById(R.id.task);
+                        Log.e("added", "a" + e1.getText() + "a");
 
-                    if (!e1.getText().toString().equals("")) {
-                        ContentValues insertValues = new ContentValues();
-                        insertValues.put(TableEntry.COLUMN_NAME, e1.getText().toString());
-                        insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
-                        db.insert(TableEntry.TABLE_NAME, null, insertValues);
-                        refresh();
+                        if (!e1.getText().toString().equals("")) {
+                            ContentValues insertValues = new ContentValues();
+                            insertValues.put(TableEntry.COLUMN_NAME, e1.getText().toString());
+                            insertValues.put(TableEntry.COLUMN_NAME_ISDONE, "0");
+                            db.insert(TableEntry.TABLE_NAME, null, insertValues);
+                            ChecklistFragment.this.refresh();
+                        }
                     }
                 });
         builder.create();
@@ -193,22 +197,25 @@ public class ChecklistFragment extends Fragment {
             }
             holder.c.setText(task.get(position));
 
-            holder.c.setOnClickListener(view1 -> {
-                CheckBox c2 = (CheckBox) view1;
-                if (c2.isChecked()) {
+            holder.c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view1) {
+                    CheckBox c2 = (CheckBox) view1;
+                    if (c2.isChecked()) {
 
-                    String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                            TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
+                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
+                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
 
-                    db.execSQL(x);
-                    Log.e("execited", x + " ");
-                } else {
-                    String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                            TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
-                    db.execSQL(x);
-                    Log.e("execited", x + " ");
+                        db.execSQL(x);
+                        Log.e("execited", x + " ");
+                    } else {
+                        String x = "UPDATE " + TableEntry.TABLE_NAME + " SET " + TableEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                                TableEntry.COLUMN_NAME_ID + " IS " + id.get(position);
+                        db.execSQL(x);
+                        Log.e("execited", x + " ");
+                    }
+                    refresh();
                 }
-                refresh();
             });
             return vi;
         }

@@ -83,6 +83,52 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
         dialog.dismiss();
     }
 
+<<<<<<< HEAD:Android/app/src/main/java/tie/hackathon/travelguide/FunFacts.java
+        // to fetch city names
+        String uri = Constants.apilink + "city_facts.php?id=" + id;
+        Log.e("executing", uri + " ");
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                final String res = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            JSONObject ob = new JSONObject(res);
+                            JSONArray ar = ob.getJSONArray("facts");
+                            List<Fragment> fList = new ArrayList<>();
+                            for (int i = 0; i < ar.length(); i++)
+                                fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
+                                        ar.getJSONObject(i).getString("fact"), name));
+                            viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
+                            viewPager.setPageTransformer(true, new AccordionTransformer());
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.e("ERROR : ", e1.getMessage() + " ");
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+=======
     /**
      * method called by presenter after successful network request
      * Presenter passes JSON facts array used for setting up view-pager
@@ -101,6 +147,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
                 }
             viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
             viewPager.setPageTransformer(true, new AccordionTransformer());
+>>>>>>> 0a5829f844a19d1dca45d52e54107ab8f7705cff:Android/app/src/main/java/tie/hackathon/travelguide/destinations/funfacts/FunFacts.java
         });
     }
 

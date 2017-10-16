@@ -191,20 +191,23 @@ public class PlacesOnMap extends AppCompatActivity {
 
                 final String res = response.body().string();
 
-                mHandler.post(() -> {
-                    try {
-                        JSONObject YTFeed = new JSONObject(res);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject YTFeed = new JSONObject(res);
 
-                        JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                        Log.e("response", YTFeedItems + " ");
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
+                            Log.e("response", YTFeedItems + " ");
 
 
-                        lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
+                            lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
 
-                        progressDialog.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", e.getMessage() + " ");
+                            progressDialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
+                        }
                     }
                 });
 
@@ -305,15 +308,18 @@ public class PlacesOnMap extends AppCompatActivity {
                 }
             });
 
-            vi.setOnClickListener(v -> {
-                map.clear();
-                try {
-                    ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
-                            Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
-                            FeedItems.getJSONObject(position).getString("name")
-                    );
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            vi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    map.clear();
+                    try {
+                                ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
+                                Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
+                                FeedItems.getJSONObject(position).getString("name")
+                        );
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             return vi;

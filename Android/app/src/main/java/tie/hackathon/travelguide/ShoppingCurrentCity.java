@@ -140,8 +140,11 @@ public class ShoppingCurrentCity extends AppCompatActivity {
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    (dialog, which) -> {
-                        dialog.dismiss();
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
                     });
             alertDialog.show();
             Log.e("YouTube:", "Cannot fetch " + e.toString());
@@ -284,15 +287,18 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            vi.setOnClickListener(view -> {
+            vi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent browserIntent = null;
-                try {
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                    Intent browserIntent = null;
+                    try {
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                    context.startActivity(browserIntent);
                 }
-                context.startActivity(browserIntent);
             });
             return vi;
         }

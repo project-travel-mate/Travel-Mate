@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -130,41 +131,44 @@ public class MapRealTimeActivity extends AppCompatActivity{
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
 
-        map.setOnMarkerClickListener(marker -> {
-            sc.setVisibility(View.VISIBLE);
-            for (int i = 0; i < name.size(); i++) {
-                if (name.get(i).equals(marker.getTitle())) {
-                    index = i;
-                    break;
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                sc.setVisibility(View.VISIBLE);
+                for (int i = 0; i < name.size(); i++) {
+                    if (name.get(i).equals(marker.getTitle())) {
+                        index = i;
+                        break;
+                    }
                 }
+
+                TextView Title = (TextView) MapRealTimeActivity.this.findViewById(R.id.VideoTitle);
+                TextView Description = (TextView) MapRealTimeActivity.this.findViewById(R.id.VideoDescription);
+                final Button calls, book;
+                calls = (Button) MapRealTimeActivity.this.findViewById(R.id.call);
+                book = (Button) MapRealTimeActivity.this.findViewById(R.id.book);
+
+                Title.setText(name.get(index));
+                Description.setText(addr.get(index));
+                calls.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + nums.get(index)));
+                        MapRealTimeActivity.this.startActivity(intent);
+
+                    }
+                });
+                book.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent;
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
+                        MapRealTimeActivity.this.startActivity(browserIntent);
+                    }
+                });
+                return false;
             }
-
-            TextView Title = (TextView) findViewById(R.id.VideoTitle);
-            TextView Description = (TextView) findViewById(R.id.VideoDescription);
-            final Button calls, book;
-            calls = (Button) findViewById(R.id.call);
-            book = (Button) findViewById(R.id.book);
-
-            Title.setText(name.get(index));
-            Description.setText(addr.get(index));
-            calls.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + nums.get(index)));
-                    MapRealTimeActivity.this.startActivity(intent);
-
-                }
-            });
-            book.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent;
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
-                    MapRealTimeActivity.this.startActivity(browserIntent);
-                }
-            });
-            return false;
         });
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -236,32 +240,53 @@ public class MapRealTimeActivity extends AppCompatActivity{
             new MaterialDialog.Builder(this)
                     .title(R.string.title)
                     .items(R.array.items)
-                    .itemsCallbackMultiChoice(null, (dialog, which, text) -> {
+                    .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                        @Override
+                        public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
 
-                        map.clear();
-                        name.clear();
-                        nums.clear();
-                        web.clear();
-                        addr.clear();
+                            map.clear();
+                            name.clear();
+                            nums.clear();
+                            web.clear();
+                            addr.clear();
 
-                        for (int i = 0; i < which.length; i++) {
-                            Log.e("selected", which[i] + " " + text[i]);
-                            Integer icon;
-                            switch (which[0]) {
-                                case 0: icon = R.drawable.ic_local_pizza_black_24dp;        break;
-                                case 1: icon = R.drawable.ic_local_bar_black_24dp;          break;
-                                case 2: icon = R.drawable.ic_camera_alt_black_24dp;         break;
-                                case 3: icon = R.drawable.ic_directions_bus_black_24dp;     break;
-                                case 4: icon = R.drawable.ic_local_mall_black_24dp;         break;
-                                case 5: icon = R.drawable.ic_local_gas_station_black_24dp;  break;
-                                case 6: icon = R.drawable.ic_local_atm_black_24dp;          break;
-                                case 7: icon = R.drawable.ic_local_hospital_black_24dp;     break;
-                                default:icon = R.drawable.ic_attach_money_black_24dp;       break;
+                            for (int i = 0; i < which.length; i++) {
+                                Log.e("selected", which[i] + " " + text[i]);
+                                Integer icon;
+                                switch (which[0]) {
+                                    case 0:
+                                        icon = R.drawable.ic_local_pizza_black_24dp;
+                                        break;
+                                    case 1:
+                                        icon = R.drawable.ic_local_bar_black_24dp;
+                                        break;
+                                    case 2:
+                                        icon = R.drawable.ic_camera_alt_black_24dp;
+                                        break;
+                                    case 3:
+                                        icon = R.drawable.ic_directions_bus_black_24dp;
+                                        break;
+                                    case 4:
+                                        icon = R.drawable.ic_local_mall_black_24dp;
+                                        break;
+                                    case 5:
+                                        icon = R.drawable.ic_local_gas_station_black_24dp;
+                                        break;
+                                    case 6:
+                                        icon = R.drawable.ic_local_atm_black_24dp;
+                                        break;
+                                    case 7:
+                                        icon = R.drawable.ic_local_hospital_black_24dp;
+                                        break;
+                                    default:
+                                        icon = R.drawable.ic_attach_money_black_24dp;
+                                        break;
+                                }
+                                MapRealTimeActivity.this.getMarkers(which[0], icon);
+
                             }
-                            getMarkers(which[0], icon);
-
+                            return true;
                         }
-                        return true;
                     })
                     .positiveText(R.string.choose)
                     .show();
