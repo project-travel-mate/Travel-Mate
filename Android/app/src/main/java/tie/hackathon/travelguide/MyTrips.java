@@ -132,9 +132,12 @@ public class MyTrips extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("erro", e.getMessage() + " ");
                 }
-                mHandler.post(() -> {
-                    dialog.dismiss();
-                    g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
+                    }
                 });
 
             }

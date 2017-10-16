@@ -349,15 +349,18 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    try {
-                        JSONObject YTFeed = new JSONObject(res);
-                        e.putString(Constants.CURRENT_SCORE, YTFeed.getString("mood"));
-                        e.commit();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject YTFeed = new JSONObject(res);
+                            e.putString(Constants.CURRENT_SCORE, YTFeed.getString("mood"));
+                            e.commit();
 
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.e("EXCEPTION : ", e1.getMessage() + " ");
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.e("EXCEPTION : ", e1.getMessage() + " ");
+                        }
                     }
                 });
 
@@ -389,16 +392,19 @@ public class Music extends AppCompatActivity implements MediaController.MediaPla
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    try {
-                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                        JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
-                        Log.e("response", YTFeedItems + " ");
-                        sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("songs");
+                            Log.e("response", YTFeedItems + " ");
+                            sugsongView.setAdapter(new SugMusic_adapter(Music.this, YTFeedItems));
 
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.e("EXCEPTION : ", e1.getMessage() + " ");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
                     }
                 });
 

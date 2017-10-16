@@ -167,19 +167,22 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    Log.e("RESPONSE : ", "Done");
-                    try {
-                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                        JSONArray YTFeedItems = YTFeed.getJSONArray("hotels");
-                        Log.e("response", YTFeedItems + " ");
-                        pb.setVisibility(View.GONE);
-                        lv.setAdapter(new Hotels_adapter(Hotels.this, YTFeedItems));
-                        pb.setVisibility(View.GONE);
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("hotels");
+                            Log.e("response", YTFeedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            lv.setAdapter(new Hotels_adapter(Hotels.this, YTFeedItems));
+                            pb.setVisibility(View.GONE);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
+                    }
                 });
             }
         });

@@ -211,16 +211,19 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * @param lon - longitude of requested city
      */
     @Override
-    public void parseResult(String description, String iconUrl, String temp, String humidity, String weatherInfo,
-                            String lat, String lon) {
-        mHandler.post(() -> {
-            des.setText(description);
-            Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
-            this.temp.setText(temp + (char) 0x00B0 + " C ");
-            this.humidity.setText("Humidity : " + humidity);
-            weatherinfo.setText(weatherInfo);
-            this.lat = lat;
-            this.lon = lon;
+    public void parseResult(final String description, final String iconUrl, final String temp, final String humidity, final String weatherInfo,
+                            final String lat, final String lon) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                des.setText(description);
+                Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
+                FinalCityInfo.this.temp.setText(temp + (char) 0x00B0 + " C ");
+                FinalCityInfo.this.humidity.setText("Humidity : " + humidity);
+                weatherinfo.setText(weatherInfo);
+                FinalCityInfo.this.lat = lat;
+                FinalCityInfo.this.lon = lon;
+            }
         });
     }
 

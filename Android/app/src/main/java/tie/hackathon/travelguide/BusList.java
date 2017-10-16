@@ -194,6 +194,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
                 .url(uri)
                 .build();
         //Setup callback
+        //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -203,16 +204,19 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    Log.e("RESPONSE : ", "Done");
-                    try {
-                        JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                        JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                        Log.e("response", YTFeedItems + " ");
-                        pb.setVisibility(View.GONE);
-                        lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        try {
+                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
+                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
+                            Log.e("response", YTFeedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 });
             }
@@ -284,21 +288,27 @@ public class BusList extends AppCompatActivity implements OnDateSetListener, Tim
                 Description.setText(FeedItems.getJSONObject(position).getString("type"));
                 add.setText(FeedItems.getJSONObject(position).getString("dep_add"));
 
-                contact.setOnClickListener(view -> {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    try {
-                        intent.setData(Uri.parse("tel:" + FeedItems.getJSONObject(position).getString("contact")));
-                        context.startActivity(intent);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        try {
+                            intent.setData(Uri.parse("tel:" + FeedItems.getJSONObject(position).getString("contact")));
+                            context.startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
-                url.setOnClickListener(view -> {
-                    Intent browserIntent = null;
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://redbus.in"));
+                url.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent = null;
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://redbus.in"));
 
-                    context.startActivity(browserIntent);
+                        context.startActivity(browserIntent);
+                    }
                 });
 
                 fair.setText(FeedItems.getJSONObject(position).getString("fair") + " Rs");

@@ -75,30 +75,33 @@ public class DetectedBeacon extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    try {
-                        final JSONObject json = new JSONObject(res);
-                        name = json.getString("monument_name");
-                        des = json.getString("monument_description");
-                        image = json.getString("monument_image");
-                        cname = json.getString("city_name");
-                        cid = json.getString("city_id");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final JSONObject json = new JSONObject(res);
+                            name = json.getString("monument_name");
+                            des = json.getString("monument_description");
+                            image = json.getString("monument_image");
+                            cname = json.getString("city_name");
+                            cid = json.getString("city_id");
 
-                        TextView tv = (TextView) findViewById(R.id.tv);
-                        tv.setText(des);
-                        tv = (TextView) findViewById(R.id.head);
-                        tv.setText(name);
+                            TextView tv = (TextView) findViewById(R.id.tv);
+                            tv.setText(des);
+                            tv = (TextView) findViewById(R.id.head);
+                            tv.setText(name);
 
-                        ImageView iv = (ImageView) findViewById(R.id.imag);
-                        Picasso.with(DetectedBeacon.this)
-                                .load(image)
-                                .error(R.drawable.delhi)
-                                .placeholder(R.drawable.delhi)
-                                .into(iv);
+                            ImageView iv = (ImageView) findViewById(R.id.imag);
+                            Picasso.with(DetectedBeacon.this)
+                                    .load(image)
+                                    .error(R.drawable.delhi)
+                                    .placeholder(R.drawable.delhi)
+                                    .into(iv);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
+                        }
                     }
                 });
             }

@@ -158,41 +158,44 @@ public class MyTripInfo extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    JSONObject ob;
-                    try {
-                        ob = new JSONObject(res);
-                        title = ob.getString("title");
-                        start = ob.getString("start_time");
-                        end = ob.getString("end_time");
-                        city = ob.getString("city");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject ob;
+                        try {
+                            ob = new JSONObject(res);
+                            title = ob.getString("title");
+                            start = ob.getString("start_time");
+                            end = ob.getString("end_time");
+                            city = ob.getString("city");
 
-                        tite.setText(city);
-                        tite = (TextView) findViewById(R.id.tname);
-                        tite.setText(title);
-                        final Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                        final String timeString =
-                                new SimpleDateFormat("dd-MMM").format(cal.getTime());
-                        date.setText("Started on : " + timeString);
+                            tite.setText(city);
+                            tite = (TextView) findViewById(R.id.tname);
+                            tite.setText(title);
+                            final Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                            final String timeString =
+                                    new SimpleDateFormat("dd-MMM").format(cal.getTime());
+                            date.setText("Started on : " + timeString);
 
-                        JSONArray arrr = ob.getJSONArray("users");
-                        for (int i = 0; i < arrr.length(); i++) {
-                            fname.add(arrr.getJSONObject(i).getString("name"));
+                            JSONArray arrr = ob.getJSONArray("users");
+                            for (int i = 0; i < arrr.length(); i++) {
+                                fname.add(arrr.getJSONObject(i).getString("name"));
 
-                            Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
+                                Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
+                            }
+
+                            Log.e("vdsv", fname.size() + " ");
+
+                            Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
+                            lv.setAdapter(dataAdapter);
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
                         }
-
-                        Log.e("vdsv", fname.size() + " ");
-
-                        Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
-                        lv.setAdapter(dataAdapter);
-
-
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                        dialog.dismiss();
                     }
-                    dialog.dismiss();
                 });
 
             }
@@ -241,47 +244,50 @@ public class MyTripInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                mHandler.post(() -> {
-                    Log.e("YO", "Done");
-                    JSONArray arr;
-                    final ArrayList list, list1;
-                    try {
-                        arr = new JSONArray(response.body().string());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("YO", "Done");
+                        JSONArray arr;
+                        final ArrayList list, list1;
+                        try {
+                            arr = new JSONArray(response.body().string());
 
-                        list = new ArrayList<>();
-                        list1 = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                list.add(arr.getJSONObject(i).getString("name"));
-                                list1.add(arr.getJSONObject(i).getString("id"));
-                                Log.e("adding", "aff");
+                            list = new ArrayList<>();
+                            list1 = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    list.add(arr.getJSONObject(i).getString("name"));
+                                    list1.add(arr.getJSONObject(i).getString("id"));
+                                    Log.e("adding", "aff");
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("error ", " " + e.getMessage());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
                             }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
+                                    (getApplicationContext(), R.layout.spinner_layout, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            frendname.setThreshold(1);
+                            frendname.setAdapter(dataAdapter);
+                            frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    // TODO Auto-generated method stub
+                                    Log.e("jkjb", "uihgiug" + arg2);
+
+                                    friendid = list1.get(arg2).toString();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                                (getApplicationContext(), R.layout.spinner_layout, list);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        frendname.setThreshold(1);
-                        frendname.setAdapter(dataAdapter);
-                        frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                // TODO Auto-generated method stub
-                                Log.e("jkjb", "uihgiug" + arg2);
 
-                                friendid = list1.get(arg2).toString();
-                            }
-                        });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("erro", e.getMessage() + " ");
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-
                 });
 
             }
@@ -315,10 +321,13 @@ public class MyTripInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                mHandler.post(() -> {
-                    Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
-                    finish();
-                    dialog.dismiss();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
+                        finish();
+                        dialog.dismiss();
+                    }
                 });
 
             }

@@ -94,23 +94,26 @@ public class FunFacts extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
 
-                    try {
-                        JSONObject ob = new JSONObject(res);
-                        JSONArray ar = ob.getJSONArray("facts");
-                        List<Fragment> fList = new ArrayList<>();
-                        for (int i = 0; i < ar.length(); i++)
-                            fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
-                                    ar.getJSONObject(i).getString("fact"), name));
-                        viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
-                        viewPager.setPageTransformer(true, new AccordionTransformer());
+                        try {
+                            JSONObject ob = new JSONObject(res);
+                            JSONArray ar = ob.getJSONArray("facts");
+                            List<Fragment> fList = new ArrayList<>();
+                            for (int i = 0; i < ar.length(); i++)
+                                fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
+                                        ar.getJSONObject(i).getString("fact"), name));
+                            viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
+                            viewPager.setPageTransformer(true, new AccordionTransformer());
 
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                        Log.e("ERROR : ", e1.getMessage() + " ");
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.e("ERROR : ", e1.getMessage() + " ");
+                        }
+                        dialog.dismiss();
                     }
-                    dialog.dismiss();
                 });
 
             }

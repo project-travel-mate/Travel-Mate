@@ -41,7 +41,7 @@ public class LoginPresenter {
      * @param Num  user's phone number
      * @param Pass password user entered
      */
-    public void ok_signUp(String Name,String Num,String Pass,Handler mHandler){
+    public void ok_signUp(final String Name, final String Num, String Pass, final Handler mHandler){
 
         view.showLoadingDialog();
 
@@ -94,7 +94,7 @@ public class LoginPresenter {
      * @param Num  user's phone number
      * @param Pass password user entered
      */
-    public void ok_login(String Num,String Pass,Handler mHandler){
+    public void ok_login(final String Num, String Pass, final Handler mHandler){
 
         view.showLoadingDialog();
 

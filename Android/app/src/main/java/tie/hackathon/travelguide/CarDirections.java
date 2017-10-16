@@ -187,48 +187,51 @@ public class CarDirections extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    Log.e("RESPONSE : ", "Done" + res);
-                    try {
-                        final JSONObject json = new JSONObject(res);
-                        JSONArray routeArray = json.getJSONArray("routes");
-                        JSONObject routes = routeArray.getJSONObject(0);
-                        JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
-                        String encodedString = overviewPolylines.getString("points");
-                        List<LatLng> list = decodePoly(encodedString);
-                        Polyline line = map.addPolyline(new PolylineOptions()
-                                .addAll(list)
-                                .width(12)
-                                .color(Color.parseColor("#05b1fb"))//Google maps blue color
-                                .geodesic(true)
-                        );
-                        distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
-                        distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done" + res);
+                        try {
+                            final JSONObject json = new JSONObject(res);
+                            JSONArray routeArray = json.getJSONArray("routes");
+                            JSONObject routes = routeArray.getJSONObject(0);
+                            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+                            String encodedString = overviewPolylines.getString("points");
+                            List<LatLng> list = decodePoly(encodedString);
+                            Polyline line = map.addPolyline(new PolylineOptions()
+                                    .addAll(list)
+                                    .width(12)
+                                    .color(Color.parseColor("#05b1fb"))//Google maps blue color
+                                    .geodesic(true)
+                            );
+                            distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
+                            distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
 
 
-                        cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
-                        cost2 = (distance / mileage_sedan) * fuelprice / 1000;
-                        cost3 = (distance / mileage_suv) * fuelprice / 1000;
+                            cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
+                            cost2 = (distance / mileage_sedan) * fuelprice / 1000;
+                            cost3 = (distance / mileage_suv) * fuelprice / 1000;
 
-                        coste1.setText(cost1.intValue() + "");
-                        coste2.setText(cost2.intValue() + "");
-                        coste3.setText(cost3.intValue() + "");
-                        for (int z = 0; z < list.size() - 1; z++) {
-                            LatLng src = list.get(z);
-                            LatLng dest1 = list.get(z + 1);
-                            Polyline line2 = map.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(src.latitude, src.longitude), new LatLng(dest1.latitude, dest1.longitude))
-                                    .width(2)
-                                    .color(Color.BLUE).geodesic(true));
+                            coste1.setText(cost1.intValue() + "");
+                            coste2.setText(cost2.intValue() + "");
+                            coste3.setText(cost3.intValue() + "");
+                            for (int z = 0; z < list.size() - 1; z++) {
+                                LatLng src = list.get(z);
+                                LatLng dest1 = list.get(z + 1);
+                                Polyline line2 = map.addPolyline(new PolylineOptions()
+                                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest1.latitude, dest1.longitude))
+                                        .width(2)
+                                        .color(Color.BLUE).geodesic(true));
+                            }
+                            progressDialog.hide();
+                            LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
+                            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
+                            map.animateCamera(yourLocation);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
                         }
-                        progressDialog.hide();
-                        LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
-                        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                        map.animateCamera(yourLocation);
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
 
+                    }
                 });
             }
         });

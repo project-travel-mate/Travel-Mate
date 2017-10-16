@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -144,33 +145,41 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    JSONArray arr;
-                    final ArrayList names, ids;
-                    try {
-                        arr = new JSONArray(res);
-                        Log.e("RESPONSE : ", arr + " ");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONArray arr;
+                        final ArrayList names, ids;
+                        try {
+                            arr = new JSONArray(res);
+                            Log.e("RESPONSE : ", arr + " ");
 
-                        names = new ArrayList<>();
-                        ids = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                names.add(arr.getJSONObject(i).getString("name"));
-                                ids.add(arr.getJSONObject(i).getString("id"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("error ", " " + e.getMessage());
+                            names = new ArrayList<>();
+                            ids = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    names.add(arr.getJSONObject(i).getString("name"));
+                                    ids.add(arr.getJSONObject(i).getString("id"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
                             }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
+                                    (getApplicationContext(), R.layout.spinner_layout, names);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            cityname.setThreshold(1);
+                            cityname.setAdapter(dataAdapter);
+                            cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    cityid = ids.get(arg2).toString();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
                         }
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                                (getApplicationContext(), R.layout.spinner_layout, names);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        cityname.setThreshold(1);
-                        cityname.setAdapter(dataAdapter);
-                        cityname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> cityid = ids.get(arg2).toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("EXCEPTION : ", e.getMessage() + " ");
                     }
                 });
 
@@ -212,10 +221,13 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                mHandler.post(() -> {
-                    Log.e("RESPONSE : ", "Done");
-                    Toast.makeText(AddNewTrip.this, "Trip added", Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("RESPONSE : ", "Done");
+                        Toast.makeText(AddNewTrip.this, "Trip added", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
                 });
             }
         });
