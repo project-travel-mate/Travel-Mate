@@ -3,8 +3,11 @@
 	require_once 'inc/connection.inc.php';
 	require_once 'inc/function.inc.php';
 	require_once 'inc/constants.inc.php';
+	require_once 'inc/responses/base.php';
+	require_once 'inc/responses/errors.php';
 	
 	if(isset($_GET['id'])){
+		// fetch city ID
 		$id = (int)$_GET['id'];
 
 		$query = "SELECT `lat`,`lng` FROM `cities` WHERE `id`='$id' LIMIT 1";
@@ -31,5 +34,12 @@
 			array_push($response['hotels'], $temp_array);
 		}
 
-		echo json_encode($response);
+		if(empty($response)){
+			noResultsError();
+		} else {
+			echo json_encode($response);
+		}
+	} else {
+		// incorrect parameters passed
+		invalidParametesError();
 	}
