@@ -119,51 +119,54 @@ public class CityFragment extends Fragment {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                mHandler.post(() -> {
-                    JSONArray arr;
-                    final ArrayList list, list1;
-                    try {
-                        arr = new JSONArray(response.body().string());
-                        Log.e("erro", arr + " ");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONArray arr;
+                        final ArrayList list, list1;
+                        try {
+                            arr = new JSONArray(response.body().string());
+                            Log.e("erro", arr + " ");
 
-                        list = new ArrayList<>();
-                        list1 = new ArrayList<>();
-                        list2 = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                list.add(arr.getJSONObject(i).getString("name"));
-                                list1.add(arr.getJSONObject(i).getString("id"));
-                                list2.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
-                                Log.e("adding", "aff");
+                            list = new ArrayList<>();
+                            list1 = new ArrayList<>();
+                            list2 = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    list.add(arr.getJSONObject(i).getString("name"));
+                                    list1.add(arr.getJSONObject(i).getString("id"));
+                                    list2.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
+                                    Log.e("adding", "aff");
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("error ", " " + e.getMessage());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("error ", " " + e.getMessage());
+                                }
                             }
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
+                                    (activity.getApplicationContext(), R.layout.spinner_layout, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            cityname.setThreshold(1);
+                            cityname.setAdapter(dataAdapter);
+                            cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                    Log.e("jkjb", "uihgiug" + arg2);
+                                    cityid = list1.get(arg2).toString();
+                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    i.putExtra("id_", cityid);
+                                    i.putExtra("name_", list.get(arg2).toString());
+                                    i.putExtra("image_", list2.get(arg2));
+                                    startActivity(i);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                                (activity.getApplicationContext(), R.layout.spinner_layout, list);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        cityname.setThreshold(1);
-                        cityname.setAdapter(dataAdapter);
-                        cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                Log.e("jkjb", "uihgiug" + arg2);
-                                cityid = list1.get(arg2).toString();
-                                Intent i = new Intent(activity, FinalCityInfo.class);
-                                i.putExtra("id_", cityid);
-                                i.putExtra("name_", list.get(arg2).toString());
-                                i.putExtra("image_", list2.get(arg2));
-                                startActivity(i);
-                            }
-                        });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("erro", e.getMessage() + " ");
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 });
 
@@ -194,57 +197,81 @@ public class CityFragment extends Fragment {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                mHandler.post(() -> {
-                    try {
-                        JSONObject ob = new JSONObject(response.body().string());
-                        JSONArray ar = ob.getJSONArray("cities");
-                        pb.setVisibility(View.GONE);
-                        FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
-                        List<City> friends = new ArrayList<>();
-                        for (int i = 0; i < ar.length(); i++) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONArray ar = ob.getJSONArray("cities");
+                            pb.setVisibility(View.GONE);
+                            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
+                            List<City> friends = new ArrayList<>();
+                            for (int i = 0; i < ar.length(); i++) {
 
-                            double color = Math.random();
-                            int c = (int) (color * 100) % 8;
+                                double color = Math.random();
+                                int c = (int) (color * 100) % 8;
 
-                            int colo;
-                            switch (c) {
-                                case 0: colo = R.color.sienna;  break;
-                                case 1: colo = R.color.saffron; break;
-                                case 2: colo = R.color.green;   break;
-                                case 3: colo = R.color.pink;    break;
-                                case 4: colo = R.color.orange;  break;
-                                case 5: colo = R.color.saffron; break;
-                                case 6: colo = R.color.purple;  break;
-                                case 7: colo = R.color.blue;    break;
-                                default:colo = R.color.blue;    break;
+                                int colo;
+                                switch (c) {
+                                    case 0:
+                                        colo = R.color.sienna;
+                                        break;
+                                    case 1:
+                                        colo = R.color.saffron;
+                                        break;
+                                    case 2:
+                                        colo = R.color.green;
+                                        break;
+                                    case 3:
+                                        colo = R.color.pink;
+                                        break;
+                                    case 4:
+                                        colo = R.color.orange;
+                                        break;
+                                    case 5:
+                                        colo = R.color.saffron;
+                                        break;
+                                    case 6:
+                                        colo = R.color.purple;
+                                        break;
+                                    case 7:
+                                        colo = R.color.blue;
+                                        break;
+                                    default:
+                                        colo = R.color.blue;
+                                        break;
+                                }
+
+                                friends.add(new City(
+                                        ar.getJSONObject(i).getString("id"),
+                                        ar.getJSONObject(i).optString("image", "yolo"),
+                                        ar.getJSONObject(i).getString("name"),
+                                        colo,
+                                        ar.getJSONObject(i).getString("lat"),
+                                        ar.getJSONObject(i).getString("lng"),
+                                        "Know More", "View on Map", "Fun Facts", "View Website"));
                             }
 
-                            friends.add(new City(
-                                    ar.getJSONObject(i).getString("id"),
-                                    ar.getJSONObject(i).optString("image", "yolo"),
-                                    ar.getJSONObject(i).getString("name"),
-                                    colo,
-                                    ar.getJSONObject(i).getString("lat"),
-                                    ar.getJSONObject(i).getString("lng"),
-                                    "Know More", "View on Map", "Fun Facts", "View Website"));
+                            lv.setAdapter(new CityAdapter(activity, friends, settings));
+                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id1) {
+                                    City f = (City) lv.getAdapter().getItem(position);
+                                    Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    i.putExtra("id_", f.getId());
+                                    i.putExtra("name_", f.getNickname());
+                                    i.putExtra("image_", f.getAvatar());
+                                    startActivity(i);
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("error", e.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-
-                        lv.setAdapter(new CityAdapter(activity, friends, settings));
-                        lv.setOnItemClickListener((parent, view, position, id1) -> {
-                            City f = (City) lv.getAdapter().getItem(position);
-                            Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(activity, FinalCityInfo.class);
-                            i.putExtra("id_", f.getId());
-                            i.putExtra("name_", f.getNickname());
-                            i.putExtra("image_", f.getAvatar());
-                            startActivity(i);
-                        });
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("error", e.getMessage() + " ");
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 });
 
@@ -328,39 +355,52 @@ public class CityFragment extends Fragment {
             holder.infoPage.setBackgroundColor(getResources().getColor(friend.getBackground()));
             holder.nickName.setText(friend.getNickname());
 
-            holder.nickName.setOnClickListener(v -> Log.e("fsgb", "clikc"));
-
-            holder.fv1.setOnClickListener(v -> {
-                Intent i = new Intent(activity, FinalCityInfo.class);
-                i.putExtra("id_", friend.getId());
-                i.putExtra("name_", friend.getNickname());
-                i.putExtra("image_", friend.getAvatar());
-                startActivity(i);
-
+            holder.nickName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("fsgb", "clikc");
+                }
             });
 
-            holder.fv3.setOnClickListener(v -> {
-                Intent i = new Intent(activity, FunFacts.class);
-                i.putExtra("id_", friend.getId());
-                i.putExtra("name_", friend.getNickname());
-                activity.startActivity(i);
-
+            holder.fv1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, FinalCityInfo.class);
+                    i.putExtra("id_", friend.getId());
+                    i.putExtra("name_", friend.getNickname());
+                    i.putExtra("image_", friend.getAvatar());
+                    startActivity(i);
+                }
             });
 
-            holder.fv2.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
-                        friend.getLa() +
-                        "," +
-                        friend.getLo() +
-                        "&z=13"));
-                activity.startActivity(browserIntent);
-
+            holder.fv3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, FunFacts.class);
+                    i.putExtra("id_", friend.getId());
+                    i.putExtra("name_", friend.getNickname());
+                    activity.startActivity(i);
+                }
             });
 
-            holder.fv4.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                activity.startActivity(browserIntent);
+            holder.fv2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
+                            friend.getLa() +
+                            "," +
+                            friend.getLo() +
+                            "&z=13"));
+                    activity.startActivity(browserIntent);
+                }
+            });
 
+            holder.fv4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                    activity.startActivity(browserIntent);
+                }
             });
         }
 

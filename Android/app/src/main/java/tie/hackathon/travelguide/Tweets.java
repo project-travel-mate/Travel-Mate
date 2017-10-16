@@ -104,22 +104,25 @@ public class Tweets extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(() -> {
-                    try {
-                        //Tranform the string into a json object
-                        JSONArray ob = new JSONArray(res);
-                        for (int i1 = 0; i1 < ob.length(); i1++) {
-                            nam.add(ob.getJSONObject(i1).getString("name"));
-                            lin.add(ob.getJSONObject(i1).getString("url"));
-                            cou.add(ob.getJSONObject(i1).getString("tweet_volume"));
-                        }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //Tranform the string into a json object
+                            JSONArray ob = new JSONArray(res);
+                            for (int i = 0; i < ob.length(); i++) {
+                                nam.add(ob.getJSONObject(i).getString("name"));
+                                lin.add(ob.getJSONObject(i).getString("url"));
+                                cou.add(ob.getJSONObject(i).getString("tweet_volume"));
+                            }
 
-                        adapter = new Tweetsadapter(Tweets.this, nam, cou, lin);
-                        lv.setAdapter(adapter);
-                        dialog.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("erro", e.getMessage() + " ");
+                            adapter = new Tweetsadapter(Tweets.this, nam, cou, lin);
+                            lv.setAdapter(adapter);
+                            dialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("erro", e.getMessage() + " ");
+                        }
                     }
                 });
 
@@ -161,9 +164,12 @@ public class Tweets extends AppCompatActivity {
 
             holder.name.setText(name.get(position));
 
-            view.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.get(position)));
-                startActivity(browserIntent);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.get(position)));
+                    startActivity(browserIntent);
+                }
             });
             return view;
         }
