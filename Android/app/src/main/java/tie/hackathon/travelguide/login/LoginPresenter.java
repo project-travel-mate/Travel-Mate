@@ -13,12 +13,13 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tie.hackathon.travelguide.Base.BasePresenter;
 
 /**
  * Created by el on 5/4/17.
  */
 
-public class LoginPresenter {
+public class LoginPresenter implements BasePresenter<LoginView>{
     private LoginView view;
 
     public void bind(LoginView view){

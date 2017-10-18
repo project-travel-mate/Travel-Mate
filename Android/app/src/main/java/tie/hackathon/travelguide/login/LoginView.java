@@ -1,10 +1,12 @@
 package tie.hackathon.travelguide.login;
 
+import tie.hackathon.travelguide.Base.BaseView;
+
 /**
  * Created by el on 5/4/17.
  */
 
-public interface LoginView {
+public interface LoginView  {
 
     void rememberUserInfo(String id,String name,String num);
 
