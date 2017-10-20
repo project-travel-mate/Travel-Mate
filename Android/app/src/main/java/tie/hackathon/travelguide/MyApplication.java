@@ -13,7 +13,7 @@ import android.content.Intent;
 
 import com.estimote.sdk.BeaconManager;
 
-import Util.Constants;
+import utils.Constants;
 
 public class MyApplication extends Application {
 

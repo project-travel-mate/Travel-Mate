@@ -18,10 +18,10 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tie.hackathon.travelguide.destinations.funfacts.FunFacts;
 import tie.hackathon.travelguide.PlacesOnMap;
 import tie.hackathon.travelguide.R;
 import tie.hackathon.travelguide.Tweets;
+import tie.hackathon.travelguide.destinations.funfacts.FunFacts;
 
 /**
  * Fetch city information for given city id

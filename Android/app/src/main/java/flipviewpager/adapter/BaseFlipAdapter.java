@@ -69,14 +69,16 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         });
 
         if (viewHolder.mFlipViewPager.getAdapter() == null) {
-            viewHolder.mFlipViewPager.setAdapter(new MergeAdapter(item1, item2), settings.getDefaultPage(), position, items.size());
+            viewHolder.mFlipViewPager.setAdapter(
+                    new MergeAdapter(item1, item2), settings.getDefaultPage(), position, items.size());
         } else {
             // Recycling internal adapter
             // So, it's double recycling - we have only 4-5 mFlipViewPager objects
             // and each of them have an adapter
             MergeAdapter adapter = (MergeAdapter) viewHolder.mFlipViewPager.getAdapter();
             adapter.updateData(item1, item2);
-            viewHolder.mFlipViewPager.setAdapter(adapter, settings.getPageForPosition(position), position, items.size());
+            viewHolder.mFlipViewPager.setAdapter(adapter,
+                    settings.getPageForPosition(position), position, items.size());
         }
         return convertView;
     }

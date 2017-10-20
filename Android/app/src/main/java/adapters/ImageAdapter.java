@@ -14,11 +14,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import Util.TouchImageView;
+import utils.TouchImageView;
 
 public class ImageAdapter extends PagerAdapter {
-    private final Context mContext;
-    private final ArrayList<String> GalImages;
+    private final Context context;
+    private final ArrayList<String> galImages;
 
     /**
      * Initializes and adapter that adds particular image into imageView adapter
@@ -27,8 +27,8 @@ public class ImageAdapter extends PagerAdapter {
      * @param images  Array list containing URLs of images
      */
     public ImageAdapter(Context context, ArrayList<String> images) {
-        GalImages = images;
-        this.mContext = context;
+        galImages = images;
+        this.context = context;
     }
 
     /**
@@ -38,9 +38,9 @@ public class ImageAdapter extends PagerAdapter {
      */
     @Override
     public int getCount() {
-        if (GalImages == null)
+        if (galImages == null)
             return 0;
-        return GalImages.size();
+        return galImages.size();
     }
 
 
@@ -58,9 +58,9 @@ public class ImageAdapter extends PagerAdapter {
      */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        TouchImageView imageView = new TouchImageView(mContext);
+        TouchImageView imageView = new TouchImageView(context);
 
-        Picasso.with(mContext).load(GalImages.get(position)).into(imageView);
+        Picasso.with(context).load(galImages.get(position)).into(imageView);
 
         container.addView(imageView, 0);
         return imageView;

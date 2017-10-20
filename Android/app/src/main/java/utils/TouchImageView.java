@@ -1,4 +1,4 @@
-package Util;
+package utils;
 
 /**
  * Created by Swati garg on 17-06-2015.
@@ -61,7 +61,7 @@ public class TouchImageView extends ImageView {
     private float maxScale;
     private float superMinScale;
     private float superMaxScale;
-    private float[] m;
+    private float[] mfloat;
 
     private Context context;
     private Fling fling;
@@ -111,7 +111,7 @@ public class TouchImageView extends ImageView {
         mGestureDetector = new GestureDetector(context, new GestureListener());
         matrix = new Matrix();
         prevMatrix = new Matrix();
-        m = new float[9];
+        mfloat = new float[9];
         normalizedScale = 1;
         if (mScaleType == null) {
             mScaleType = ScaleType.FIT_CENTER;
@@ -223,8 +223,8 @@ public class TouchImageView extends ImageView {
      */
     private void savePreviousImageValues() {
         if (matrix != null && viewHeight != 0 && viewWidth != 0) {
-            matrix.getValues(m);
-            prevMatrix.setValues(m);
+            matrix.getValues(mfloat);
+            prevMatrix.setValues(mfloat);
             prevMatchViewHeight = matchViewHeight;
             prevMatchViewWidth = matchViewWidth;
             prevViewHeight = viewHeight;
@@ -241,8 +241,8 @@ public class TouchImageView extends ImageView {
         bundle.putFloat("matchViewWidth", matchViewWidth);
         bundle.putInt("viewWidth", viewWidth);
         bundle.putInt("viewHeight", viewHeight);
-        matrix.getValues(m);
-        bundle.putFloatArray("matrix", m);
+        matrix.getValues(mfloat);
+        bundle.putFloatArray("matrix", mfloat);
         bundle.putBoolean("imageRendered", imageRenderedAtLeastOnce);
         return bundle;
     }
@@ -252,8 +252,8 @@ public class TouchImageView extends ImageView {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             normalizedScale = bundle.getFloat("saveScale");
-            m = bundle.getFloatArray("matrix");
-            prevMatrix.setValues(m);
+            mfloat = bundle.getFloatArray("matrix");
+            prevMatrix.setValues(mfloat);
             prevMatchViewHeight = bundle.getFloat("matchViewHeight");
             prevMatchViewWidth = bundle.getFloat("matchViewWidth");
             prevViewHeight = bundle.getInt("viewHeight");
@@ -271,7 +271,10 @@ public class TouchImageView extends ImageView {
         onDrawReady = true;
         imageRenderedAtLeastOnce = true;
         if (delayedZoomVariables != null) {
-            setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
+            setZoom(delayedZoomVariables.scale,
+                    delayedZoomVariables.focusX,
+                    delayedZoomVariables.focusY,
+                    delayedZoomVariables.scaleType);
             delayedZoomVariables = null;
         }
         super.onDraw(canvas);
@@ -381,10 +384,10 @@ public class TouchImageView extends ImageView {
         }
         resetZoom();
         scaleImage(scale, viewWidth / 2, viewHeight / 2, true);
-        matrix.getValues(m);
-        m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
-        m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
-        matrix.setValues(m);
+        matrix.getValues(mfloat);
+        mfloat[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
+        mfloat[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
+        matrix.setValues(mfloat);
         fixTrans();
         setImageMatrix(matrix);
     }
@@ -435,9 +438,9 @@ public class TouchImageView extends ImageView {
      * is out of bounds.
      */
     private void fixTrans() {
-        matrix.getValues(m);
-        float transX = m[Matrix.MTRANS_X];
-        float transY = m[Matrix.MTRANS_Y];
+        matrix.getValues(mfloat);
+        float transX = mfloat[Matrix.MTRANS_X];
+        float transY = mfloat[Matrix.MTRANS_Y];
 
         float fixTransX = getFixTrans(transX, viewWidth, getImageWidth());
         float fixTransY = getFixTrans(transY, viewHeight, getImageHeight());
@@ -456,15 +459,15 @@ public class TouchImageView extends ImageView {
      */
     private void fixScaleTrans() {
         fixTrans();
-        matrix.getValues(m);
+        matrix.getValues(mfloat);
         if (getImageWidth() < viewWidth) {
-            m[Matrix.MTRANS_X] = (viewWidth - getImageWidth()) / 2;
+            mfloat[Matrix.MTRANS_X] = (viewWidth - getImageWidth()) / 2;
         }
 
         if (getImageHeight() < viewHeight) {
-            m[Matrix.MTRANS_Y] = (viewHeight - getImageHeight()) / 2;
+            mfloat[Matrix.MTRANS_Y] = (viewHeight - getImageHeight()) / 2;
         }
-        matrix.setValues(m);
+        matrix.setValues(mfloat);
     }
 
     private float getFixTrans(float trans, float viewSize, float contentSize) {
@@ -604,38 +607,50 @@ public class TouchImageView extends ImageView {
                 savePreviousImageValues();
             }
 
-            prevMatrix.getValues(m);
+            prevMatrix.getValues(mfloat);
 
             //
             // Rescale Matrix after rotation
             //
-            m[Matrix.MSCALE_X] = matchViewWidth / drawableWidth * normalizedScale;
-            m[Matrix.MSCALE_Y] = matchViewHeight / drawableHeight * normalizedScale;
+            mfloat[Matrix.MSCALE_X] = matchViewWidth / drawableWidth * normalizedScale;
+            mfloat[Matrix.MSCALE_Y] = matchViewHeight / drawableHeight * normalizedScale;
 
             //
             // TransX and TransY from previous matrix
             //
-            float transX = m[Matrix.MTRANS_X];
-            float transY = m[Matrix.MTRANS_Y];
+            float transX = mfloat[Matrix.MTRANS_X];
+            float transY = mfloat[Matrix.MTRANS_Y];
 
             //
             // Width
             //
             float prevActualWidth = prevMatchViewWidth * normalizedScale;
             float actualWidth = getImageWidth();
-            translateMatrixAfterRotate(Matrix.MTRANS_X, transX, prevActualWidth, actualWidth, prevViewWidth, viewWidth, drawableWidth);
+            translateMatrixAfterRotate(Matrix.MTRANS_X,
+                    transX,
+                    prevActualWidth,
+                    actualWidth,
+                    prevViewWidth,
+                    viewWidth,
+                    drawableWidth);
 
             //
             // Height
             //
             float prevActualHeight = prevMatchViewHeight * normalizedScale;
             float actualHeight = getImageHeight();
-            translateMatrixAfterRotate(Matrix.MTRANS_Y, transY, prevActualHeight, actualHeight, prevViewHeight, viewHeight, drawableHeight);
+            translateMatrixAfterRotate(Matrix.MTRANS_Y,
+                    transY,
+                    prevActualHeight,
+                    actualHeight,
+                    prevViewHeight,
+                    viewHeight,
+                    drawableHeight);
 
             //
             // Set the matrix to the adjusted scale and translate values.
             //
-            matrix.setValues(m);
+            matrix.setValues(mfloat);
         }
         fixTrans();
         setImageMatrix(matrix);
@@ -683,18 +698,24 @@ public class TouchImageView extends ImageView {
      * @param viewSize width/height of view after rotation
      * @param drawableSize width/height of drawable
      */
-    private void translateMatrixAfterRotate(int axis, float trans, float prevImageSize, float imageSize, int prevViewSize, int viewSize, int drawableSize) {
+    private void translateMatrixAfterRotate(int axis,
+                                            float trans,
+                                            float prevImageSize,
+                                            float imageSize,
+                                            int prevViewSize,
+                                            int viewSize,
+                                            int drawableSize) {
         if (imageSize < viewSize) {
             //
             // The width/height of image is less than the view's width/height. Center it.
             //
-            m[axis] = (viewSize - (drawableSize * m[Matrix.MSCALE_X])) * 0.5f;
+            mfloat[axis] = (viewSize - (drawableSize * mfloat[Matrix.MSCALE_X])) * 0.5f;
 
         } else if (trans > 0) {
             //
             // The image is larger than the view, but was not before rotation. Center it.
             //
-            m[axis] = -((imageSize - viewSize) * 0.5f);
+            mfloat[axis] = -((imageSize - viewSize) * 0.5f);
 
         } else {
             //
@@ -703,7 +724,7 @@ public class TouchImageView extends ImageView {
             // to calculate the trans in the new view width/height.
             //
             float percentage = (Math.abs(trans) + (0.5f * prevViewSize)) / prevImageSize;
-            m[axis] = -((percentage * imageSize) - (viewSize * 0.5f));
+            mfloat[axis] = -((percentage * imageSize) - (viewSize * 0.5f));
         }
     }
 
@@ -717,8 +738,8 @@ public class TouchImageView extends ImageView {
 
     @Override
     public boolean canScrollHorizontally(int direction) {
-        matrix.getValues(m);
-        float x = m[Matrix.MTRANS_X];
+        matrix.getValues(mfloat);
+        float x = mfloat[Matrix.MTRANS_X];
 
         if (getImageWidth() < viewWidth) {
             return false;
@@ -742,23 +763,20 @@ public class TouchImageView extends ImageView {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e)
-        {
-            if(doubleTapListener != null) {
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            if (doubleTapListener != null) {
                 return doubleTapListener.onSingleTapConfirmed(e);
             }
             return performClick();
         }
 
         @Override
-        public void onLongPress(MotionEvent e)
-        {
+        public void onLongPress(MotionEvent e) {
             performLongClick();
         }
 
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
-        {
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (fling != null) {
                 //
                 // If a previous fling is still active, it should be cancelled so that two flings
@@ -774,7 +792,7 @@ public class TouchImageView extends ImageView {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             boolean consumed = false;
-            if(doubleTapListener != null) {
+            if (doubleTapListener != null) {
                 consumed = doubleTapListener.onDoubleTap(e);
             }
             if (state == State.NONE) {
@@ -848,7 +866,7 @@ public class TouchImageView extends ImageView {
             //
             // User-defined OnTouchListener
             //
-            if(userTouchListener != null) {
+            if (userTouchListener != null) {
                 userTouchListener.onTouch(v, event);
             }
 
@@ -1048,15 +1066,15 @@ public class TouchImageView extends ImageView {
      * @param x x-coordinate of touch event
      * @param y y-coordinate of touch event
      * @param clipToBitmap Touch event may occur within view, but outside image content. True, to clip return value
-     * 			to the bounds of the bitmap size.
+     *                     to the bounds of the bitmap size.
      * @return Coordinates of the point touched, in the coordinate system of the original drawable.
      */
     private PointF transformCoordTouchToBitmap(float x, float y, boolean clipToBitmap) {
-        matrix.getValues(m);
+        matrix.getValues(mfloat);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
-        float transX = m[Matrix.MTRANS_X];
-        float transY = m[Matrix.MTRANS_Y];
+        float transX = mfloat[Matrix.MTRANS_X];
+        float transY = mfloat[Matrix.MTRANS_Y];
         float finalX = ((x - transX) * origW) / getImageWidth();
         float finalY = ((y - transY) * origH) / getImageHeight();
 
@@ -1076,13 +1094,13 @@ public class TouchImageView extends ImageView {
      * @return Coordinates of the point in the view's coordinate system.
      */
     private PointF transformCoordBitmapToTouch(float bx, float by) {
-        matrix.getValues(m);
+        matrix.getValues(mfloat);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
         float px = bx / origW;
         float py = by / origH;
-        float finalX = m[Matrix.MTRANS_X] + getImageWidth() * px;
-        float finalY = m[Matrix.MTRANS_Y] + getImageHeight() * py;
+        float finalX = mfloat[Matrix.MTRANS_X] + getImageWidth() * px;
+        float finalY = mfloat[Matrix.MTRANS_Y] + getImageHeight() * py;
         return new PointF(finalX , finalY);
     }
 
@@ -1101,10 +1119,10 @@ public class TouchImageView extends ImageView {
         Fling(int velocityX, int velocityY) {
             setState(State.FLING);
             scroller = new CompatScroller(context);
-            matrix.getValues(m);
+            matrix.getValues(mfloat);
 
-            int startX = (int) m[Matrix.MTRANS_X];
-            int startY = (int) m[Matrix.MTRANS_Y];
+            int startX = (int) mfloat[Matrix.MTRANS_X];
+            int startY = (int) mfloat[Matrix.MTRANS_Y];
             int minX, maxX, minY, maxY;
 
             if (getImageWidth() > viewWidth) {
@@ -1184,7 +1202,8 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY) {
+        public void fling(int startX, int startY, int velocityX, int velocityY,
+                          int minX, int maxX, int minY, int maxY) {
             if (isPreGingerbread) {
                 scroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY);
             } else {
@@ -1240,7 +1259,7 @@ public class TouchImageView extends ImageView {
             postOnAnimation(runnable);
 
         } else {
-            postDelayed(runnable, 1000/60);
+            postDelayed(runnable, 1000 / 60);
         }
     }
 
@@ -1261,6 +1280,8 @@ public class TouchImageView extends ImageView {
     private void printMatrixInfo() {
         float[] n = new float[9];
         matrix.getValues(n);
-        Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
+        Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] +
+                " TransX: " + n[Matrix.MTRANS_X] +
+                " TransY: " + n[Matrix.MTRANS_Y]);
     }
 }

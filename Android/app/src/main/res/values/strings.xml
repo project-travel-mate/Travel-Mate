@@ -10,7 +10,6 @@
     <string name="title_activity_select__mode_of_transport">Select_ModeOfTransport</string>
     <string name="title_activity_car_directions">CarDirections</string>
     <string name="title_activity_bus_list">Bus_list</string>
-    <string name="title_activity_city_info">CityInfo</string>
     <string name="title_activity_shopping_currentcity">Shopping_currentcity</string>
     <string name="car1">Hatchback</string>
     <string name="car2">Sedan</string>
@@ -71,18 +70,8 @@
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
 
-    <string name="music">MUSIC</string>
-    <string name="books">BOOKS</string>
-
     <string name="search_a_city">Search a city...</string>
     <string name="popular_cities">Most Popular Cities</string>
-
-
-
-    <string name="tag1">Harry Potter</string>
-    <string name="tag2">Dinosaurs</string>
-    <string name="tag3">Joey Tribbiani</string>
-    <string name="tag4">Fiction</string>
 
 
     <string name="title">Select items to display in map</string>

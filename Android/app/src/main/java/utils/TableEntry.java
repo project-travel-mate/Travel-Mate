@@ -1,4 +1,4 @@
-package Util;
+package utils;
 
 import android.provider.BaseColumns;
 

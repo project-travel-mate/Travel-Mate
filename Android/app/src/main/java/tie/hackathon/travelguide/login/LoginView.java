@@ -6,7 +6,7 @@ package tie.hackathon.travelguide.login;
 
 public interface LoginView {
 
-    void rememberUserInfo(String id,String name,String num);
+    void rememberUserInfo(String id, String name, String num);
 
     void startMainActivity();
 

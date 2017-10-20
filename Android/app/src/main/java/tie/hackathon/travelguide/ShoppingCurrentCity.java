@@ -37,8 +37,8 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import Util.Constants;
-import Util.Utils;
+import utils.Constants;
+import utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

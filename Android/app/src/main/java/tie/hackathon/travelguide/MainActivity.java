@@ -21,7 +21,7 @@ import android.view.MenuItem;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-import Util.Constants;
+import utils.Constants;
 import tie.hackathon.travelguide.login.LoginActivity;
 
 /**
@@ -157,15 +157,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fragment = new UtilitiesFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+
         } else if (id == R.id.nav_changecity) {
+
             Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_emergency) {
+
             fragment = new EmergencyFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_signout) {
+
             sharedPreferences
                     .edit()
                     .putString(Constants.USER_ID, null)

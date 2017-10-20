@@ -10,10 +10,6 @@
             android:id="@+id/nav_travel"
             android:icon="@drawable/ic_directions_car_black_24dp"
             android:title="Travel" />
-         <item
-            android:id="@+id/nav_enter"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="Entertainment" />
         <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_share_black_24dp"

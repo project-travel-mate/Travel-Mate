@@ -35,8 +35,8 @@ import org.lucasr.twowayview.TwoWayView;
 
 import java.io.IOException;
 
-import Util.Constants;
-import Util.GPSTracker;
+import utils.Constants;
+import utils.GPSTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;

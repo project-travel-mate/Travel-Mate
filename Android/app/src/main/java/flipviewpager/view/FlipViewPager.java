@@ -278,7 +278,7 @@ public class FlipViewPager extends FrameLayout {
      * @return true if the points are within view bounds, false otherwise
      */
     private boolean isPointInsideView(float x, float y, View view) {
-        int location[] = new int[2];
+        int[] location = new int[2];
         view.getLocationOnScreen(location);
         int viewX = location[0];
         int viewY = location[1];
@@ -514,7 +514,11 @@ public class FlipViewPager extends FrameLayout {
         mCurrentPageIndex = -1;
         mFlipDistance = -1;
         setFlipDistance(0);
-        mScroller.startScroll(0, (int) mFlipDistance, 0, (int) (activePage * FLIP_DISTANCE - mFlipDistance), getFlipDuration(0));
+        mScroller.startScroll(0,
+                (int) mFlipDistance,
+                0,
+                (int) (activePage * FLIP_DISTANCE - mFlipDistance),
+                getFlipDuration(0));
     }
 
     private void flipToPage(int page) {

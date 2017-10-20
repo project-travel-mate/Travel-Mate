@@ -20,7 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import Util.Constants;
+import utils.Constants;
 
 /**
  * Created by swati on 17/10/15.
@@ -131,13 +131,16 @@ public class LocationService extends Service {
                                 .setContentTitle("Destination almost reached")
                                 .setContentText("Wake Up! Get Ready!")
                                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-                int NOTIFICATION_ID = 12345;
+                int notificationId = 12345;
 
                 Intent targetIntent = new Intent(LocationService.this, MainActivity.class);
-                PendingIntent contentIntent = PendingIntent.getActivity(LocationService.this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent contentIntent = PendingIntent.getActivity(LocationService.this,
+                        0,
+                        targetIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
                 builder.setContentIntent(contentIntent);
                 NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                nManager.notify(NOTIFICATION_ID, builder.build());
+                nManager.notify(notificationId, builder.build());
 
                 intent.putExtra("Latitude", loc.getLatitude());
                 intent.putExtra("Longitude", loc.getLongitude());
