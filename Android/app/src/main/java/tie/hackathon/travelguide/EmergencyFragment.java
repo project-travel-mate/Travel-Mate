@@ -35,7 +35,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_emergency, container, false);
 
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         police.setOnClickListener(this);
         fire.setOnClickListener(this);

@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Calendar;
 
-import Util.Constants;
+import utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;

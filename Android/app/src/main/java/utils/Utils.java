@@ -1,4 +1,4 @@
-package Util;
+package utils;
 
 /**
  * Created by Swati garg on 04-06-2015.
@@ -25,10 +25,10 @@ public class Utils {
 
     // validating email id
     public static boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
@@ -60,12 +60,12 @@ public class Utils {
     }
 
     //is network available?
-   public static boolean isNetworkAvailable(Activity a) {
-       ConnectivityManager connectivityManager
-               = (ConnectivityManager) a.getSystemService(Context.CONNECTIVITY_SERVICE);
-       NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-       return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-   }
+    public static boolean isNetworkAvailable(Activity a) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                                                    a.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
     //hide soft keyboard
@@ -78,15 +78,16 @@ public class Utils {
     }
 
 
-   public static String encrypt(String Data) throws UnsupportedEncodingException {
-       byte[] data = Data.getBytes("UTF-8");
-       String base64 = Base64.encodeToString(data, Base64.DEFAULT);
-       return base64;
-   }
-   public static String decryt(String d) throws UnsupportedEncodingException {
-       byte[] data = Base64.decode(d, Base64.DEFAULT);
-       String text = new String(data, "UTF-8");
-       return text;
-   }
+    public static String encrypt(String myData) throws UnsupportedEncodingException {
+        byte[] data = myData.getBytes("UTF-8");
+        String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+        return base64;
+    }
+
+    public static String decryt(String d) throws UnsupportedEncodingException {
+        byte[] data = Base64.decode(d, Base64.DEFAULT);
+        String text = new String(data, "UTF-8");
+        return text;
+    }
 
 }

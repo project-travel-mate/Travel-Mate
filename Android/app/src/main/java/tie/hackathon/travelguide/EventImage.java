@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import Util.Constants;
+import utils.Constants;
 import adapters.ImageAdapter;
 
 

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import Util.Constants;
+import utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;

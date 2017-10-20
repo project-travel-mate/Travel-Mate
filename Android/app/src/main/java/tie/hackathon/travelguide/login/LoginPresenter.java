@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import Util.Constants;
+import utils.Constants;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -21,15 +21,15 @@ import okhttp3.Response;
 public class LoginPresenter {
     private LoginView view;
 
-    public void bind(LoginView view){
+    public void bind(LoginView view) {
         this.view = view;
     }
 
-    public void unbind(){
+    public void unbind() {
         view = null;
     }
 
-    public void signUp(){
+    public void signUp() {
         view.openSignUp();
     }
 
@@ -37,15 +37,16 @@ public class LoginPresenter {
     /**
      * Calls Signup API
      *
-     * @param Name user's name
-     * @param Num  user's phone number
-     * @param Pass password user entered
+     * @param name      user's name
+     * @param num       user's phone number
+     * @param pass      password user entered
+     * @param mhandler  handler
      */
-    public void ok_signUp(final String Name, final String Num, String Pass, final Handler mHandler){
+    public void ok_signUp(final String name, final String num, String pass, final Handler mhandler) {
 
         view.showLoadingDialog();
 
-        String uri = Constants.apilink + "users/signup.php?name=" + Name + "&contact=" + Num + "&password=" + Pass;
+        String uri = Constants.apilink + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -64,13 +65,13 @@ public class LoginPresenter {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
+                mhandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             JSONObject ob = new JSONObject(res);
                             String id = ob.getString("user_id");
-                            view.rememberUserInfo(id,Name,Num);
+                            view.rememberUserInfo(id, name, num);
                             view.startMainActivity();
                             view.dismissLoadingDialog();
                         } catch (JSONException e) {
@@ -83,7 +84,7 @@ public class LoginPresenter {
         });
     }
 
-    public void login(){
+    public void login() {
         view.openLogin();
     }
 
@@ -91,14 +92,14 @@ public class LoginPresenter {
      * Calls Login API and checks for validity of credentials
      * If yes, transfer to MainActivity
      *
-     * @param Num  user's phone number
-     * @param Pass password user entered
+     * @param num  user's phone number
+     * @param pass password user entered
      */
-    public void ok_login(final String Num, String Pass, final Handler mHandler){
+    public void ok_login(final String num, String pass, final Handler mhandler) {
 
         view.showLoadingDialog();
 
-        String uri = Constants.apilink + "users/login.php?contact=" + Num + "&password=" + Pass;
+        String uri = Constants.apilink + "users/login.php?contact=" + num + "&password=" + pass;
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
@@ -115,7 +116,7 @@ public class LoginPresenter {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = response.body().string();
-                mHandler.post(new Runnable() {
+                mhandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -125,7 +126,7 @@ public class LoginPresenter {
                                 JSONObject o = ob.getJSONObject("user_id");
                                 String id = o.getString("id");
                                 String name = o.getString("name");
-                                view.rememberUserInfo(id,name,Num);
+                                view.rememberUserInfo(id, name, num);
                                 view.startMainActivity();
                                 view.dismissLoadingDialog();
                             } else {
@@ -136,7 +137,7 @@ public class LoginPresenter {
                         }
                     }
                     }
-             );
+                );
             }
         });
     }

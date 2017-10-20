@@ -25,9 +25,9 @@ import com.rey.material.widget.CheckBox;
 import java.util.ArrayList;
 import java.util.List;
 
-import Util.Constants;
-import Util.DBhelp;
-import Util.TableEntry;
+import utils.Constants;
+import utils.DBhelp;
+import utils.TableEntry;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

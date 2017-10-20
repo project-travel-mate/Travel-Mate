@@ -37,8 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Util.Constants;
-import Util.GPSTracker;
+import utils.Constants;
+import utils.GPSTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;

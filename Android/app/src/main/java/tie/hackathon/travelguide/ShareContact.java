@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import Util.Constants;
-import Util.Services;
+import utils.Constants;
+import utils.Services;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

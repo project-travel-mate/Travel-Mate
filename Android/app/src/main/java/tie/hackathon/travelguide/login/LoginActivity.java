@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,26 +21,16 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import Util.Constants;
+import utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import tie.hackathon.travelguide.MainActivity;
 import tie.hackathon.travelguide.R;
 
 /**
  * Initiates login
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener,LoginView {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
 
     @BindView(R.id.signup)              TextView        signup;
     @BindView(R.id.login)               TextView        login;
@@ -55,13 +44,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.ok_login)            FlatButton      ok_login;
     @BindView(R.id.ok_signup)           FlatButton      ok_signup;
 
-    private String Num;
-    private String Pass;
-    private String Name;
+    private String numString;
+    private String passString;
+    private String nameString;
 
     private SharedPreferences   sharedPreferences;
     private MaterialDialog      dialog;
-    private Handler             mHandler;
+    private Handler             mhandler;
 
     private LoginPresenter loginPresenter = new LoginPresenter();
 
@@ -77,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
 
         // Initialization
-        mHandler = new Handler(Looper.getMainLooper());
+        mhandler = new Handler(Looper.getMainLooper());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get runtime permissions for Android M
@@ -100,8 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             // Open signup
             case R.id.signup :
                 loginPresenter.signUp();
@@ -112,16 +100,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // Call login
             case R.id.ok_login :
-                Num = num_login.getText().toString();
-                Pass = pass_login.getText().toString();
-                loginPresenter.ok_login(Num,Pass,mHandler);
+                numString = num_login.getText().toString();
+                passString = pass_login.getText().toString();
+                loginPresenter.ok_login(numString, passString, mhandler);
                 break;
             // Call signup
             case R.id.ok_signup :
-                Num = num_signup.getText().toString();
-                Pass = pass_signup.getText().toString();
-                Name = name.getText().toString();
-                loginPresenter.ok_signUp(Name,Num,Pass,mHandler);
+                numString = num_signup.getText().toString();
+                passString = pass_signup.getText().toString();
+                nameString = name.getText().toString();
+                loginPresenter.ok_signUp(nameString, numString, passString, mhandler);
                 break;
         }
     }
