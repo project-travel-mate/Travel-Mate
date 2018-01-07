@@ -129,6 +129,4 @@ Technically, all Bluetooth Smart-enabled android devices could pick up Bluetooth
 
 ## Contact Us
 
-Feel free to contact us for any support, query, suggestion or even say hi.
- + [Prabhakar Gupta](mailto:prabhakargupta267@gmail.com)
- + [Swati Garg](mailto:swati.garg.nsit@gmail.com)
+Feel free to [open an issue](https://github.com/Swati4star/Travel-Mate/issues) for any setup query
