@@ -87,7 +87,7 @@ We need a checklist because remembering everything required for your perfect tri
 
 
 ## Push notification
-Push notification in between the journey. Often it happens that while travelling alone, a person tends to doze off. Push notification (alarm notification) feature saves the traveller from missing out the destination station.
+Push notifications during the journey. Often while travelling alone people tend to doze off. The push notification (alarm notification) feature ensures that the user will not miss out on their destination station. 
 
 
 <img src="/screenshots/notification.png" width="200px">
