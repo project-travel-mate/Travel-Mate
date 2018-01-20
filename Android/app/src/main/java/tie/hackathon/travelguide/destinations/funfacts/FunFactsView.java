@@ -2,6 +2,8 @@ package tie.hackathon.travelguide.destinations.funfacts;
 
 import org.json.JSONArray;
 
+import data.models.FunFactsModel.CityFunFactsModel;
+
 /**
  * Created by niranjanb on 14/06/17.
  */
@@ -9,5 +11,5 @@ import org.json.JSONArray;
 public interface FunFactsView {
     void showProgressDialog();
     void hideProgressDialog();
-    void setupViewPager(JSONArray factsArray);
+    void setupViewPager(CityFunFactsModel factsModel);
 }

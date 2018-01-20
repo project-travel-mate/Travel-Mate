@@ -4,23 +4,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
+import data.ApiTask;
+import data.models.AutocompleteModel.Autocomplete;
+import data.models.CityInfoModel.CityInfoModel;
 import utils.Constants;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.GlobalClass;
 
 /**
  * Created by niranjanb on 15/05/17.
  */
 
 public class FinalCityInfoPresenter {
+    private ApiTask apiTask;
+    private CityInfoModel cityInfoModel;
     FinalCityInfoView mFinalCityInfoView;
     OkHttpClient mOkHttpClient;
+    private FinalCityInfo finalCityInfo;
 
-    public FinalCityInfoPresenter() {
+    public FinalCityInfoPresenter(FinalCityInfo finalCityInfo) {
+        apiTask = ApiTask.getInstance();
+        this.finalCityInfo = finalCityInfo;
         mOkHttpClient = new OkHttpClient();
     }
 
@@ -31,35 +41,38 @@ public class FinalCityInfoPresenter {
     public void fetchCityInfo(String id) {
         mFinalCityInfoView.showProgress();
 
-        String uri = Constants.apilink + "city/info.php?id=" + id;
-        Request request = new Request.Builder()
-                .url(uri)
-                .build();
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                mFinalCityInfoView.dismissProgress();
-            }
+        apiTask.cityInfoApi(id, cityInfoCallback);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String res = response.body().string();
-
-                try {
-                    JSONObject responseObject = new JSONObject(res);
-                    mFinalCityInfoView.parseResult(responseObject.getString("description"),
-                            responseObject.getJSONObject("weather").getString("icon"),
-                            responseObject.getJSONObject("weather").getString("temprature"),
-                            responseObject.getJSONObject("weather").getString("humidity"),
-                            responseObject.getJSONObject("weather").getString("description"),
-                            responseObject.getString("lat"), responseObject.getString("lng"));
-                    mFinalCityInfoView.dismissProgress();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    mFinalCityInfoView.dismissProgress();
-                }
-            }
-        });
     }
+
+    private retrofit2.Callback<CityInfoModel> cityInfoCallback = new retrofit2.Callback<CityInfoModel>() {
+        @Override
+        public void onResponse(retrofit2.Call<CityInfoModel> call, retrofit2.Response<CityInfoModel> response) {
+            mFinalCityInfoView.dismissProgress();
+
+            if (response.isSuccessful()) {
+                if (response.code() == 200) {
+                    cityInfoModel = response.body();
+
+                    mFinalCityInfoView.parseResult(cityInfoModel.getDescription(),
+                            cityInfoModel.getWeather().getIcon(),
+                            String.valueOf(cityInfoModel.getWeather().getTemprature()),
+                            String.valueOf(cityInfoModel.getWeather().getHumidity()),
+                            cityInfoModel.getWeather().getDescription(),
+                            String.valueOf(cityInfoModel.getLat()), String.valueOf(cityInfoModel.getLng()));
+
+                }
+            } else {
+                GlobalClass.showApiFailureMessage(finalCityInfo);
+            }
+        }
+
+        @Override
+        public void onFailure(retrofit2.Call<CityInfoModel> call, Throwable t) {
+            mFinalCityInfoView.dismissProgress();
+
+            GlobalClass.showApiFailureMessage(finalCityInfo);
+        }
+    };
 
 }

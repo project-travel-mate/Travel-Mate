@@ -17,13 +17,6 @@
         android:focusableInTouchMode="true" />
 
 
-    <ProgressBar
-        android:id="@+id/pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -61,8 +54,15 @@
             android:cacheColorHint="@android:color/transparent"
             android:fastScrollEnabled="true"
             android:persistentDrawingCache="scrolling"
-            android:scrollingCache="false"/>
+            android:scrollingCache="false" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
 
 </FrameLayout>

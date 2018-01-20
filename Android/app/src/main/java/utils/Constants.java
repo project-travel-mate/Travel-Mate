@@ -53,4 +53,9 @@ public class Constants {
     public static final String apilink = "http://prabhakargupta.com/travel-mate/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
+    //retrofit api uri
+    public static final String ALL_CITY = "all-cities.php";
+    public static final String CITY_INFO = "city/info.php";
+    public static final String FUN_FACTS = "city_facts.php";
+    public static final String AUTOCOMPLETE = "city/autocomplete.php";
 }

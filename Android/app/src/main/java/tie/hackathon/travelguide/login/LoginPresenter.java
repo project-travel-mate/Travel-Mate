@@ -97,6 +97,8 @@ public class LoginPresenter {
      */
     public void ok_login(final String num, String pass, final Handler mhandler) {
 
+        view.startMainActivity();
+
         view.showLoadingDialog();
 
         String uri = Constants.apilink + "users/login.php?contact=" + num + "&password=" + pass;

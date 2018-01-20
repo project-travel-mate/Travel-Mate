@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import data.models.FunFactsModel.CityFunFactsModel;
 import tie.hackathon.travelguide.R;
 
 /**
@@ -29,7 +31,8 @@ import tie.hackathon.travelguide.R;
  */
 public class FunFacts extends AppCompatActivity implements FunFactsView {
 
-    @BindView(R.id.vp) ViewPager viewPager;
+    @BindView(R.id.vp)
+    ViewPager viewPager;
 
     private String id;
     private String name;
@@ -46,17 +49,17 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
         ButterKnife.bind(this);
 
-        Intent i    = getIntent();
-        id          = i.getStringExtra("id_");
-        name        = i.getStringExtra("name_");
-        mHandler    = new Handler(Looper.getMainLooper());
+        Intent i = getIntent();
+        id = i.getStringExtra("id_");
+        name = i.getStringExtra("name_");
+        mHandler = new Handler(Looper.getMainLooper());
 
         initPresenter();
         getSupportActionBar().hide();
     }
 
     private void initPresenter() {
-        FunFactsPresenter mPresenter = new FunFactsPresenter(this);
+        FunFactsPresenter mPresenter = new FunFactsPresenter(this, FunFacts.this);
         mPresenter.initPresenter(id);
     }
 
@@ -77,21 +80,17 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
     /**
      * method called by presenter after successful network request
      * Presenter passes JSON facts array used for setting up view-pager
-     * @param factsArray -> JSON array of facts
+     *
+     * @param factsModel -> model of facts
      */
     @Override
-    public void setupViewPager(final JSONArray factsArray) {
+    public void setupViewPager(final CityFunFactsModel factsModel) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 List<Fragment> fList = new ArrayList<>();
-                for (int i = 0; i < factsArray.length(); i++)
-                    try {
-                        fList.add(FunfactFragment.newInstance(factsArray.getJSONObject(i).getString("image"),
-                                factsArray.getJSONObject(i).getString("fact"), name));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                for (int i = 0; i < factsModel.getFacts().size(); i++)
+                    fList.add(FunfactFragment.newInstance(factsModel.getFacts().get(i).getImage(), factsModel.getFacts().get(i).getFact(), name));
                 viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
                 viewPager.setPageTransformer(true, new AccordionTransformer());
             }
