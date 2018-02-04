@@ -41,7 +41,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class TrainList extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
+public class TrainListActivity extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
 
     @BindView(R.id.pb)          ProgressBar     pb;
     @BindView(R.id.music_list)  ListView        lv;
@@ -163,7 +163,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
 
                             Log.e("response", YTFeedItems + " ");
                             pb.setVisibility(View.GONE);
-                            lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
+                            lv.setAdapter(new Train_adapter(TrainListActivity.this, YTFeedItems));
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -189,7 +189,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         switch (view.getId())
         {
             case R.id.city :
-                Intent i = new Intent(TrainList.this, SelectCity.class);
+                Intent i = new Intent(TrainListActivity.this, SelectCityActivity.class);
                 startActivity(i);
                 break;
             case R.id.seldate :

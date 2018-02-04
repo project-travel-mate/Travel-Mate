@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 
-public class Checklist extends AppCompatActivity {
+public class ChecklistActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

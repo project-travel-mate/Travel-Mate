@@ -47,7 +47,7 @@ import okhttp3.Response;
 /**
  * Show car directions between 2 cities
  */
-public class CarDirections extends AppCompatActivity {
+public class CarDirectionsActivity extends AppCompatActivity {
 
     private String sorcelat;
     private String deslat;
@@ -134,7 +134,7 @@ public class CarDirections extends AppCompatActivity {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
         if (map != null) {
-            if (ContextCompat.checkSelfPermission(CarDirections.this,
+            if (ContextCompat.checkSelfPermission(CarDirectionsActivity.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 map.setMyLocationEnabled(true);
@@ -158,7 +158,7 @@ public class CarDirections extends AppCompatActivity {
     private void getDirections() {
 
         // Show a dialog box
-        progressDialog = new ProgressDialog(CarDirections.this);
+        progressDialog = new ProgressDialog(CarDirectionsActivity.this);
         progressDialog.setMessage("Fetching route, Please wait...");
         progressDialog.setIndeterminate(true);
         progressDialog.show();

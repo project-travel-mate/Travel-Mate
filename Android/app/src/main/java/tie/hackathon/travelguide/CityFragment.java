@@ -46,8 +46,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tie.hackathon.travelguide.destinations.description.FinalCityInfo;
-import tie.hackathon.travelguide.destinations.funfacts.FunFacts;
+import tie.hackathon.travelguide.destinations.description.FinalCityInfoActivity;
+import tie.hackathon.travelguide.destinations.funfacts.FunFactsActivity;
 import views.FontTextView;
 
 public class CityFragment extends Fragment {
@@ -155,7 +155,7 @@ public class CityFragment extends Fragment {
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                                     Log.e("jkjb", "uihgiug" + arg2);
                                     cityid = list1.get(arg2).toString();
-                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    Intent i = new Intent(activity, FinalCityInfoActivity.class);
                                     i.putExtra("id_", cityid);
                                     i.putExtra("name_", list.get(arg2).toString());
                                     i.putExtra("image_", list2.get(arg2));
@@ -259,7 +259,7 @@ public class CityFragment extends Fragment {
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id1) {
                                     City f = (City) lv.getAdapter().getItem(position);
                                     Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    Intent i = new Intent(activity, FinalCityInfoActivity.class);
                                     i.putExtra("id_", f.getId());
                                     i.putExtra("name_", f.getNickname());
                                     i.putExtra("image_", f.getAvatar());
@@ -366,7 +366,7 @@ public class CityFragment extends Fragment {
             holder.fv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity, FinalCityInfo.class);
+                    Intent i = new Intent(activity, FinalCityInfoActivity.class);
                     i.putExtra("id_", friend.getId());
                     i.putExtra("name_", friend.getNickname());
                     i.putExtra("image_", friend.getAvatar());
@@ -377,7 +377,7 @@ public class CityFragment extends Fragment {
             holder.fv3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity, FunFacts.class);
+                    Intent i = new Intent(activity, FunFactsActivity.class);
                     i.putExtra("id_", friend.getId());
                     i.putExtra("name_", friend.getNickname());
                     activity.startActivity(i);

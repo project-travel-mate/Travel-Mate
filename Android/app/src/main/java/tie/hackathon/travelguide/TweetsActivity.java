@@ -34,7 +34,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Tweets extends AppCompatActivity {
+public class TweetsActivity extends AppCompatActivity {
 
     @BindView(R.id.list) ListView lv;
 
@@ -76,7 +76,7 @@ public class Tweets extends AppCompatActivity {
 
     private void getTweets() {
 
-        dialog = new MaterialDialog.Builder(Tweets.this)
+        dialog = new MaterialDialog.Builder(TweetsActivity.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -116,7 +116,7 @@ public class Tweets extends AppCompatActivity {
                                 cou.add(ob.getJSONObject(i).getString("tweet_volume"));
                             }
 
-                            adapter = new Tweetsadapter(Tweets.this, nam, cou, lin);
+                            adapter = new Tweetsadapter(TweetsActivity.this, nam, cou, lin);
                             lv.setAdapter(adapter);
                             dialog.dismiss();
                         } catch (JSONException e) {

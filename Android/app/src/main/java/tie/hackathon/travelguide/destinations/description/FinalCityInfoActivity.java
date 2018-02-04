@@ -18,15 +18,15 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tie.hackathon.travelguide.PlacesOnMap;
+import tie.hackathon.travelguide.PlacesOnMapActivity;
 import tie.hackathon.travelguide.R;
-import tie.hackathon.travelguide.Tweets;
-import tie.hackathon.travelguide.destinations.funfacts.FunFacts;
+import tie.hackathon.travelguide.TweetsActivity;
+import tie.hackathon.travelguide.destinations.funfacts.FunFactsActivity;
 
 /**
  * Fetch city information for given city id
  */
-public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
+public class FinalCityInfoActivity extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
     private Intent intent;
     private TextView mFunFactsTextView;
@@ -139,25 +139,25 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         Intent i;
         switch (v.getId()) {
             case R.id.funfact:
-                i = new Intent(FinalCityInfo.this, FunFacts.class);
+                i = new Intent(FinalCityInfoActivity.this, FunFactsActivity.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", mTitle);
                 startActivity(i);
                 break;
             case R.id.restau:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "restaurant");
+                fireIntent(new Intent(FinalCityInfoActivity.this, PlacesOnMapActivity.class), "restaurant");
                 break;
             case R.id.hangout:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "hangout");
+                fireIntent(new Intent(FinalCityInfoActivity.this, PlacesOnMapActivity.class), "hangout");
                 break;
             case R.id.monu:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "monument");
+                fireIntent(new Intent(FinalCityInfoActivity.this, PlacesOnMapActivity.class), "monument");
                 break;
             case R.id.shoppp:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "shopping");
+                fireIntent(new Intent(FinalCityInfoActivity.this, PlacesOnMapActivity.class), "shopping");
                 break;
             case R.id.trends:
-                i = new Intent(FinalCityInfo.this, Tweets.class);
+                i = new Intent(FinalCityInfoActivity.this, TweetsActivity.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", mTitle);
                 startActivity(i);
@@ -187,7 +187,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showProgress() {
-        dialog = new MaterialDialog.Builder(FinalCityInfo.this)
+        dialog = new MaterialDialog.Builder(FinalCityInfoActivity.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -217,12 +217,12 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             @Override
             public void run() {
                 des.setText(description);
-                Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
-                FinalCityInfo.this.temp.setText(temp + (char) 0x00B0 + " C ");
-                FinalCityInfo.this.humidity.setText("Humidity : " + humidity);
+                Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
+                FinalCityInfoActivity.this.temp.setText(temp + (char) 0x00B0 + " C ");
+                FinalCityInfoActivity.this.humidity.setText("Humidity : " + humidity);
                 weatherinfo.setText(weatherInfo);
-                FinalCityInfo.this.lat = lat;
-                FinalCityInfo.this.lon = lon;
+                FinalCityInfoActivity.this.lat = lat;
+                FinalCityInfoActivity.this.lon = lon;
             }
         });
     }

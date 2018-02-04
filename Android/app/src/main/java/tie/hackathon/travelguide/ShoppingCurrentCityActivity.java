@@ -43,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShoppingCurrentCity extends AppCompatActivity {
+public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
     @BindView(R.id.pb)          ProgressBar     pb;
     @BindView(R.id.music_list)  ListView        lv;
@@ -85,7 +85,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                     new Book_RetrieveFeed().execute();
 
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
                     alertDialog.setTitle("Can't connect.");
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -136,7 +136,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -209,11 +209,11 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                 Log.e("response", YTFeedItems + " ");
                 if(YTFeedItems.length()==0){
-                    Utils.hideKeyboard(ShoppingCurrentCity.this);
+                    Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
                     Snackbar.make(pb, "No results found", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
                 pb.setVisibility(View.GONE);
-                lv.setAdapter(new Shop_adapter(ShoppingCurrentCity.this , YTFeedItems) );
+                lv.setAdapter(new Shop_adapter(ShoppingCurrentCityActivity.this , YTFeedItems) );
 
             } catch (Exception e) {
                 e.printStackTrace();

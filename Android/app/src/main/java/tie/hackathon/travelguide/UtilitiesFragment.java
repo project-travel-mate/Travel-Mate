@@ -46,11 +46,11 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
         Intent intent;
         switch (view.getId()) {
             case R.id.sharecontact:
-                intent = new Intent(activity, ShareContact.class);
+                intent = new Intent(activity, ShareContactActivity.class);
                 startActivity(intent);
                 break;
             case R.id.checklist:
-                intent = new Intent(activity, Checklist.class);
+                intent = new Intent(activity, ChecklistActivity.class);
                 startActivity(intent);
                 break;
         }

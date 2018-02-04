@@ -23,7 +23,7 @@ import utils.Services;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShareContact extends AppCompatActivity implements View.OnClickListener{
+public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener{
 
     @BindView(R.id.create) Button create;
     @BindView(R.id.scan) Button scan;
@@ -74,12 +74,12 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
             //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
             if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(ShareContact.this, R.string.not_saved, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShareContactActivity.this, R.string.not_saved, Toast.LENGTH_LONG).show();
                 return;
             }
 
             //Show success message
-            Toast.makeText(ShareContact.this, getString(R.string.saved) + " " + qrCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(ShareContactActivity.this, getString(R.string.saved) + " " + qrCode, Toast.LENGTH_LONG).show();
 
             //Load QR code image from given path
             imgResult.setImageURI(Uri.parse(qrCode));
@@ -125,7 +125,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContactActivity.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.create :
@@ -151,7 +151,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_CREATE);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContactActivity.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
