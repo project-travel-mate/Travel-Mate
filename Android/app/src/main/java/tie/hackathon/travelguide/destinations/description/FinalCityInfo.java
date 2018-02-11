@@ -65,7 +65,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
 
-        mFinalCityInfoPresenter = new FinalCityInfoPresenter();
+        mFinalCityInfoPresenter = new FinalCityInfoPresenter(FinalCityInfo.this);
 
         code        = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
         codeb       = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
