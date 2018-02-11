@@ -1,25 +1,7 @@
 package tie.hackathon.travelguide.destinations.funfacts;
 
-import android.util.Log;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
-
 import data.ApiTask;
-import data.models.AutocompleteModel.Autocomplete;
 import data.models.FunFactsModel.CityFunFactsModel;
-import tie.hackathon.travelguide.R;
-import utils.Constants;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import utils.GlobalClass;
 
 /**

@@ -28,11 +28,11 @@ public interface ApiInterface {
     Call<AllCities> callAllCitiesApi();
 
     @GET(Constants.CITY_INFO)
-    Call<CityInfoModel> callCityInfoApi(@Query("id") String id);
+    Call<CityInfoModel> callCityInfoApi(@Query(Constants.CITY_INFO_ID) String id);
 
     @GET(Constants.FUN_FACTS)
-    Call<CityFunFactsModel> callFunFactsApi(@Query("id") String id);
+    Call<CityFunFactsModel> callFunFactsApi(@Query(Constants.FUN_FACTS_ID) String id);
 
     @GET(Constants.AUTOCOMPLETE)
-    Call<List<Autocomplete>> callAutocompleteApi(@Query("search") String search);
+    Call<List<Autocomplete>> callAutocompleteApi(@Query(Constants.AUTOCOMPLETE_SEARCH) String search);
 }

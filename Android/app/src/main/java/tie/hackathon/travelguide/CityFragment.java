@@ -65,7 +65,7 @@ public class CityFragment extends Fragment {
     ListView lv;
 
     List<String> id = new ArrayList<>();
-    List<String> list2 = new ArrayList<>();
+    List<String> imageArr = new ArrayList<>();
 
     private String nameyet;
     private String cityid;
@@ -190,20 +190,20 @@ public class CityFragment extends Fragment {
     };
 
     private void setAutocompleteAdapter() {
-        final ArrayList list, list1;
+        final ArrayList nameList, idList;
 
-        list = new ArrayList<>();
-        list1 = new ArrayList<>();
-        list2 = new ArrayList<>();
+        nameList = new ArrayList<>();
+        idList = new ArrayList<>();
+        imageArr = new ArrayList<>();
         for (int i = 0; i < autocompleteModel.size(); i++) {
-            list.add(autocompleteModel.get(i).getName());
-            list1.add(autocompleteModel.get(i).getId());
-            list2.add("http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg");
+            nameList.add(autocompleteModel.get(i).getName());
+            idList.add(autocompleteModel.get(i).getId());
+            imageArr.add("http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg");
             Log.e("adding", "aff");
 
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                (activity.getApplicationContext(), R.layout.spinner_layout, list);
+                (activity.getApplicationContext(), R.layout.spinner_layout, nameList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cityname.setThreshold(1);
         cityname.setAdapter(dataAdapter);
@@ -213,11 +213,11 @@ public class CityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("jkjb", "uihgiug" + arg2);
-                cityid = list1.get(arg2).toString();
+                cityid = idList.get(arg2).toString();
                 Intent i = new Intent(activity, FinalCityInfo.class);
                 i.putExtra("id_", cityid);
-                i.putExtra("name_", list.get(arg2).toString());
-                i.putExtra("image_", list2.get(arg2));
+                i.putExtra("name_", nameList.get(arg2).toString());
+                i.putExtra("image_", imageArr.get(arg2));
                 startActivity(i);
             }
         });

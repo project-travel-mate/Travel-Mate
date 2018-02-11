@@ -58,4 +58,9 @@ public class Constants {
     public static final String CITY_INFO = "city/info.php";
     public static final String FUN_FACTS = "city_facts.php";
     public static final String AUTOCOMPLETE = "city/autocomplete.php";
+
+    //retrofit api parameters
+    public static final String CITY_INFO_ID = "id";
+    public static final String FUN_FACTS_ID = "id";
+    public static final String AUTOCOMPLETE_SEARCH = "search";
 }
