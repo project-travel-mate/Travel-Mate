@@ -4,13 +4,20 @@ apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "tie.hackathon.travelguide"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 2
         versionName "2.0"
+        multiDexEnabled true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 
     compileOptions {
@@ -30,16 +37,24 @@ repositories {
     maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
     maven { url "https://jitpack.io" }
 
+    mavenCentral()
+
+    maven {
+       url 'https://maven.google.com/'
+       name 'Google'
+    }
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
 
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
 
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.ParkSangGwon:TedPicker:v1.0.10'
@@ -52,11 +67,36 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'org.lucasr.twowayview:twowayview:0.1.4'
 
-    compile 'com.google.android.gms:play-services-maps:8.4.0'
-    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:11.8.0'
+    compile 'com.google.android.gms:play-services-location:11.8.0'
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
+
+     // Espresso support
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+      exclude group: 'com.android.support'
+    })
+
+     // add this for intent mocking support
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
+
+    // add this for webview testing support
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:3.0.1'
+
+     configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
+     }
+
+     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 
     compile('com.github.afollestad.material-dialogs:core:0.8.5.4@aar') {
         transitive = true
@@ -67,6 +107,6 @@ dependencies {
 
     compile 'com.ms-square:expandableTextView:0.1.4'
 
-    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

@@ -86,7 +86,7 @@ public class MapRealTimeActivity extends AppCompatActivity{
 
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
+       // map = mapFragment.getMap();
         mHandler = new Handler(Looper.getMainLooper());
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
