@@ -106,7 +106,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
         this.mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
+        //map = mapFragment.getMap();
 
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {

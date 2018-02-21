@@ -99,7 +99,7 @@ public class CarDirections extends AppCompatActivity {
         dest        = s.getString(Constants.DESTINATION_CITY, "MUmbai");
 
         this.mapFragment    = (com.google.android.gms.maps.MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        map                 = mapFragment.getMap();
+       // map                 = mapFragment.getMap();
 
         ShowMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
         ShowMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");
