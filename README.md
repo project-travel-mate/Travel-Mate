@@ -130,3 +130,9 @@ Technically, all Bluetooth Smart-enabled android devices could pick up Bluetooth
 ## Contact Us
 
 Feel free to [open an issue](https://github.com/Swati4star/Travel-Mate/issues) for any setup query
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/Swati4star/Travel-Mate.svg)](https://starcharts.herokuapp.com/Swati4star/Travel-Mate)
+      
