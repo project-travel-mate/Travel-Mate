@@ -27,7 +27,7 @@ import okhttp3.Response;
 /**
  * If estimote beacon is detected, this activity is opened up
  */
-public class DetectedBeacon extends AppCompatActivity {
+public class DetectedBeaconActivity extends AppCompatActivity {
 
     private String major;
     private String name;
@@ -92,7 +92,7 @@ public class DetectedBeacon extends AppCompatActivity {
                             tv.setText(name);
 
                             ImageView iv = (ImageView) findViewById(R.id.imag);
-                            Picasso.with(DetectedBeacon.this)
+                            Picasso.with(DetectedBeaconActivity.this)
                                     .load(image)
                                     .error(R.drawable.delhi)
                                     .placeholder(R.drawable.delhi)

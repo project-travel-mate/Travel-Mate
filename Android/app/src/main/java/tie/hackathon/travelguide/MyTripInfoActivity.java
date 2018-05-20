@@ -49,7 +49,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyTripInfo extends AppCompatActivity {
+public class MyTripInfoActivity extends AppCompatActivity {
 
     @BindView(R.id.image)       ImageView iv;
     @BindView(R.id.head)        TextView tite;
@@ -130,7 +130,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void mytrip() {
 
-        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+        dialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
                 .content("Fetching trips...")
                 .progress(true, 0)
@@ -187,7 +187,7 @@ public class MyTripInfo extends AppCompatActivity {
 
                             Log.e("vdsv", fname.size() + " ");
 
-                            Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
+                            Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfoActivity.this, fname);
                             lv.setAdapter(dataAdapter);
 
 
@@ -211,7 +211,7 @@ public class MyTripInfo extends AppCompatActivity {
             for (int i = 0; i < image_uris.size(); i++) {
                 Log.e("cdscsd", image_uris.get(i).getPath());
             }
-            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyTripInfoActivity.this, "Images added", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -296,7 +296,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void addfriend() {
 
-        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+        dialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -324,7 +324,7 @@ public class MyTripInfo extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyTripInfoActivity.this, "City added", Toast.LENGTH_LONG).show();
                         finish();
                         dialog.dismiss();
                     }
@@ -361,7 +361,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1 = new Intent(MyTripInfo.this, ImagePickerActivity.class);
+                        Intent intent1 = new Intent(MyTripInfoActivity.this, ImagePickerActivity.class);
                         startActivityForResult(intent1, INTENT_REQUEST_GET_IMAGES);
                     }
                 });
@@ -370,7 +370,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
+                        Intent i = new Intent(MyTripInfoActivity.this, EventImageActivity.class);
                         ArrayList<String> a = new ArrayList<>();
                         a.add(name.get(position).getAbsolutePath());
 

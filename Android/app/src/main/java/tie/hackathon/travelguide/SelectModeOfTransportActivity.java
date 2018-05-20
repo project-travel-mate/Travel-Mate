@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
+public class SelectModeOfTransportActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.car)     LinearLayout car;
     @BindView(R.id.train)   LinearLayout train;
@@ -49,15 +49,15 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
         Intent i;
         switch (view.getId()) {
             case R.id.car:
-                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
+                i = new Intent(SelectModeOfTransportActivity.this, CarDirectionsActivity.class);
                 startActivity(i);
                 break;
             case R.id.bus:
-                i = new Intent(SelectModeOfTransport.this, BusList.class);
+                i = new Intent(SelectModeOfTransportActivity.this, BusListActivity.class);
                 startActivity(i);
                 break;
             case R.id.train:
-                i = new Intent(SelectModeOfTransport.this, TrainList.class);
+                i = new Intent(SelectModeOfTransportActivity.this, TrainListActivity.class);
                 startActivity(i);
                 break;
         }

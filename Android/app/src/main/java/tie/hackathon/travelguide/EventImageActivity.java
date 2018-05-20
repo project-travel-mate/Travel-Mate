@@ -11,7 +11,7 @@ import utils.Constants;
 import adapters.ImageAdapter;
 
 
-public class EventImage extends AppCompatActivity {
+public class EventImageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

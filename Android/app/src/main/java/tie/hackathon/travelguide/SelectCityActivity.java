@@ -34,7 +34,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 @SuppressWarnings("WeakerAccess")
-public class SelectCity extends AppCompatActivity {
+public class SelectCityActivity extends AppCompatActivity {
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.source) Spinner source;
@@ -101,10 +101,10 @@ public class SelectCity extends AppCompatActivity {
                     e.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
                     e.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
                     e.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
-                    SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
+                    SelectCityActivity.this.startService(new Intent(SelectCityActivity.this, LocationService.class));
 
                     e.apply();
-                    SelectCity.this.finish();
+                    SelectCityActivity.this.finish();
                 }
             }
         });
@@ -157,7 +157,7 @@ public class SelectCity extends AppCompatActivity {
                             }
                             cities = new String[id.size()];
                             cities = names.toArray(cities);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item, cities);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCityActivity.this, android.R.layout.simple_spinner_dropdown_item, cities);
                             source.setAdapter(adapter);
                             dest.setAdapter(adapter);
                             pb.setVisibility(View.GONE);

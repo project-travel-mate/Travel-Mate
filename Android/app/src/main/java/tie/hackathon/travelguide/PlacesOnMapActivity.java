@@ -45,7 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PlacesOnMap extends AppCompatActivity {
+public class PlacesOnMapActivity extends AppCompatActivity {
 
     @BindView(R.id.lv) TwoWayView lv;
 
@@ -143,7 +143,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
     private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
-        if (ContextCompat.checkSelfPermission(PlacesOnMap.this,
+        if (ContextCompat.checkSelfPermission(PlacesOnMapActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (map != null) {
@@ -163,7 +163,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
     private void getPlaces() {
 
-        progressDialog = new ProgressDialog(PlacesOnMap.this);
+        progressDialog = new ProgressDialog(PlacesOnMapActivity.this);
         progressDialog.setMessage("Fetching data, Please wait...");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
@@ -201,7 +201,7 @@ public class PlacesOnMap extends AppCompatActivity {
                             Log.e("response", YTFeedItems + " ");
 
 
-                            lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
+                            lv.setAdapter(new City_info_adapter(PlacesOnMapActivity.this, YTFeedItems, icon));
 
                             progressDialog.dismiss();
                         } catch (JSONException e) {

@@ -43,7 +43,7 @@ import okhttp3.Response;
 /**
  * Activity to add new trip
  */
-public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
+public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     private static final String DATEPICKER_TAG2 = "datepicker2";
@@ -193,7 +193,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     private void addTrip() {
 
         // Show a dialog box
-        dialog = new MaterialDialog.Builder(AddNewTrip.this)
+        dialog = new MaterialDialog.Builder(AddNewTripActivity.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -225,7 +225,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                     @Override
                     public void run() {
                         Log.e("RESPONSE : ", "Done");
-                        Toast.makeText(AddNewTrip.this, "Trip added", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddNewTripActivity.this, "Trip added", Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });

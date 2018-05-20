@@ -27,7 +27,7 @@ import tie.hackathon.travelguide.R;
 /**
  * Funfacts activity
  */
-public class FunFacts extends AppCompatActivity implements FunFactsView {
+public class FunFactsActivity extends AppCompatActivity implements FunFactsView {
 
     @BindView(R.id.vp) ViewPager viewPager;
 
@@ -62,7 +62,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     @Override
     public void showProgressDialog() {
-        dialog = new MaterialDialog.Builder(FunFacts.this)
+        dialog = new MaterialDialog.Builder(FunFactsActivity.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -92,7 +92,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
+                viewPager.setAdapter(new MyPageAdapter(FunFactsActivity.this.getSupportFragmentManager(), fList));
                 viewPager.setPageTransformer(true, new AccordionTransformer());
             }
         });

@@ -39,7 +39,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyTrips extends AppCompatActivity {
+public class MyTripsActivity extends AppCompatActivity {
 
     @BindView(R.id.gv) GridView g;
 
@@ -89,7 +89,7 @@ public class MyTrips extends AppCompatActivity {
 
     private void mytrip() {
 
-        dialog = new MaterialDialog.Builder(MyTrips.this)
+        dialog = new MaterialDialog.Builder(MyTripsActivity.this)
                 .title(R.string.app_name)
                 .content("Fetching trips...")
                 .progress(true, 0)
@@ -136,7 +136,7 @@ public class MyTrips extends AppCompatActivity {
                     @Override
                     public void run() {
                         dialog.dismiss();
-                        g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
+                        g.setAdapter(new MyTripsadapter(MyTripsActivity.this, id, name, image, start, end));
                     }
                 });
 
@@ -183,13 +183,13 @@ public class MyTrips extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTrips.this, AddNewTrip.class);
+                        Intent i = new Intent(MyTripsActivity.this, AddNewTripActivity.class);
                         context.startActivity(i);
                     }
                 });
 
             } else {
-                Picasso.with(MyTrips.this).load(image.get(position)).placeholder(R.drawable.add_list_item)
+                Picasso.with(MyTripsActivity.this).load(image.get(position)).placeholder(R.drawable.add_list_item)
                         .into(city);
                 cityname.setText(name.get(position));
                 date.setText(start.get(position));
@@ -202,7 +202,7 @@ public class MyTrips extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTrips.this, MyTripInfo.class);
+                        Intent i = new Intent(MyTripsActivity.this, MyTripInfoActivity.class);
                         i.putExtra("_id", id.get(position));
                         i.putExtra("_image", image.get(position));
                         startActivity(i);

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // If beacon detected, open activity
         final Intent intent = getIntent();
         if (intent.getBooleanExtra(Constants.IS_BEACON, false)) {
-            Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
+            Intent intent1 = new Intent(MainActivity.this, DetectedBeaconActivity.class);
             intent1.putExtra(Constants.CUR_UID, intent.getStringExtra(Constants.CUR_UID));
             intent1.putExtra(Constants.CUR_MAJOR, intent.getStringExtra(Constants.CUR_MAJOR));
             intent1.putExtra(Constants.CUR_MINOR, intent.getStringExtra(Constants.CUR_MINOR));
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     beaconmajor = Integer.toString(nearestBeacon.getMajor());
                     Log.e("Discovered", "Nearest places: " + nearestBeacon.getMajor());
                     discovered = true;
-                    Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
+                    Intent intent1 = new Intent(MainActivity.this, DetectedBeaconActivity.class);
                     intent1.putExtra(Constants.CUR_UID, " ");
                     intent1.putExtra(Constants.CUR_MAJOR, beaconmajor);
                     intent1.putExtra(Constants.CUR_MINOR, " ");
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_changecity) {
 
-            Intent i = new Intent(MainActivity.this, SelectCity.class);
+            Intent i = new Intent(MainActivity.this, SelectCityActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_emergency) {
