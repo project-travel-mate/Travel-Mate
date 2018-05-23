@@ -196,4 +196,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         log.setVisibility(View.VISIBLE);
         sig.setVisibility(View.GONE);
     }
+    
 }
