@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tie.hackathon.travelguide">
+    package="io.github.project_travel_mate">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -31,7 +32,8 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
 
 
         <activity
@@ -49,13 +51,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_picker" />
 
-        <service android:name=".MusicService" />
         <service android:name=".LocationService" />
 
-        <activity
-            android:name=".Music"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SelectCity"
             android:label="@string/title_activity_select_city"

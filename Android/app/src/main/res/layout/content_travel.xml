@@ -8,7 +8,7 @@
     android:background="#ffffff"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tie.hackathon.travelguide.Checklist">
+    tools:context="io.github.project_travel_mate.Checklist">
 
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -74,7 +75,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -121,7 +123,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -166,7 +169,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -212,7 +216,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"

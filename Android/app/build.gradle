@@ -6,7 +6,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "tie.hackathon.travelguide"
+        applicationId "io.github.project_travel_mate"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 2

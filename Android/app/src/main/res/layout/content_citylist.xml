@@ -7,7 +7,7 @@
     android:background="#ffffff"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tie.hackathon.travelguide.Checklist">
+    tools:context="io.github.project_travel_mate.Checklist">
 
 
     <LinearLayout
@@ -41,7 +41,8 @@
             android:popupBackground="#ffffff"
             android:singleLine="true"
             android:textColor="#000000"
-            android:textColorHint="#000000" />
+            android:textColorHint="#000000"
+            tools:targetApi="lollipop" />
 
 
         <views.FontTextView

@@ -10,7 +10,7 @@ import java.util.List;
 
 import flipviewpager.utils.FlipSettings;
 import flipviewpager.view.FlipViewPager;
-import tie.hackathon.travelguide.R;
+import io.github.project_travel_mate.R;
 
 /**
  * @author Yalantis
@@ -20,7 +20,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
     private final FlipSettings settings;
     private final LayoutInflater inflater;
 
-    public BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
+    protected BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
         this.items = items;
         this.settings = settings;
         inflater = LayoutInflater.from(context);
@@ -87,21 +87,21 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         FlipViewPager mFlipViewPager;
     }
 
-    public abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
+    protected abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
 
-    public abstract int getPagesCount();
+    protected abstract int getPagesCount();
 
     // Adapter merges 2 items together
     private class MergeAdapter extends BaseAdapter {
         private T item1;
         private T item2;
 
-        public MergeAdapter(T item1, T item2) {
+        MergeAdapter(T item1, T item2) {
             this.item1 = item1;
             this.item2 = item2;
         }
 
-        public void updateData(T item1, T item2) {
+        void updateData(T item1, T item2) {
             this.item1 = item1;
             this.item2 = item2;
         }

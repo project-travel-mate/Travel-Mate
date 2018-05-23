@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="tie.hackathon.travelguide.AddNewTrip">
+    tools:context="io.github.project_travel_mate.AddNewTrip">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
             android:maxLines="1"
             android:popupBackground="#ffffff"
             android:textColor="#000000"
-            android:textColorHint="#000000" />
+            android:textColorHint="#000000"
+            tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
 
     <AutoCompleteTextView
@@ -38,7 +39,8 @@
         android:popupBackground="#ffffff"
         android:singleLine="true"
         android:textColor="#000000"
-        android:textColorHint="#000000" />
+        android:textColorHint="#000000"
+        tools:targetApi="lollipop" />
 
 
     <LinearLayout

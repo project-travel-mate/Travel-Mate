@@ -1,9 +1,5 @@
 package objects;
 
-/**
- * Created by swati on 25/1/16.
- */
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

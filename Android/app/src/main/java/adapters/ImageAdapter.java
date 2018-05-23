@@ -1,9 +1,5 @@
 package adapters;
 
-/**
- * Created by swati on 20/10/16.
- */
-
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

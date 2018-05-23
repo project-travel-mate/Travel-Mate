@@ -1,8 +1,5 @@
 package utils;
 
-/**
- * Created by Swati garg on 17-06-2015.
- */
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -27,6 +24,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
+
+import java.util.Objects;
 
 public class TouchImageView extends ImageView {
 
@@ -399,7 +398,7 @@ public class TouchImageView extends ImageView {
      */
     private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
-        setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
+        setZoom(img.getCurrentZoom(), Objects.requireNonNull(center).x, center.y, img.getScaleType());
     }
 
     /**
@@ -741,17 +740,10 @@ public class TouchImageView extends ImageView {
         matrix.getValues(mfloat);
         float x = mfloat[Matrix.MTRANS_X];
 
-        if (getImageWidth() < viewWidth) {
-            return false;
+        return !(getImageWidth() < viewWidth) &&
+                (!(x >= -1) || direction >= 0) &&
+                (!(Math.abs(x) + viewWidth + 1 >= getImageWidth()) || direction <= 0);
 
-        } else if (x >= -1 && direction < 0) {
-            return false;
-
-        } else if (Math.abs(x) + viewWidth + 1 >= getImageWidth() && direction > 0) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -810,7 +802,7 @@ public class TouchImageView extends ImageView {
         }
     }
 
-    public interface OnTouchImageViewListener {
+    interface OnTouchImageViewListener {
         void onMove();
     }
 
@@ -1147,7 +1139,7 @@ public class TouchImageView extends ImageView {
             currY = startY;
         }
 
-        public void cancelFling() {
+        void cancelFling() {
             if (scroller != null) {
                 setState(State.NONE);
                 scroller.forceFinished();
@@ -1191,7 +1183,7 @@ public class TouchImageView extends ImageView {
         OverScroller overScroller;
         final boolean isPreGingerbread;
 
-        public CompatScroller(Context context) {
+        CompatScroller(Context context) {
             if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
                 isPreGingerbread = true;
                 scroller = new Scroller(context);
@@ -1202,8 +1194,8 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void fling(int startX, int startY, int velocityX, int velocityY,
-                          int minX, int maxX, int minY, int maxY) {
+        void fling(int startX, int startY, int velocityX, int velocityY,
+                   int minX, int maxX, int minY, int maxY) {
             if (isPreGingerbread) {
                 scroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY);
             } else {
@@ -1211,7 +1203,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void forceFinished() {
+        void forceFinished() {
             if (isPreGingerbread) {
                 scroller.forceFinished(true);
             } else {
@@ -1219,7 +1211,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public boolean isFinished() {
+        boolean isFinished() {
             if (isPreGingerbread) {
                 return scroller.isFinished();
             } else {
@@ -1227,7 +1219,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public boolean computeScrollOffset() {
+        boolean computeScrollOffset() {
             if (isPreGingerbread) {
                 return scroller.computeScrollOffset();
             } else {
@@ -1236,7 +1228,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public int getCurrX() {
+        int getCurrX() {
             if (isPreGingerbread) {
                 return scroller.getCurrX();
             } else {
@@ -1244,7 +1236,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public int getCurrY() {
+        int getCurrY() {
             if (isPreGingerbread) {
                 return scroller.getCurrY();
             } else {
@@ -1264,12 +1256,12 @@ public class TouchImageView extends ImageView {
     }
 
     private class ZoomVariables {
-        public final float scale;
-        public final float focusX;
-        public final float focusY;
-        public final ScaleType scaleType;
+        final float scale;
+        final float focusX;
+        final float focusY;
+        final ScaleType scaleType;
 
-        public ZoomVariables(float scale, float focusX, float focusY, ScaleType scaleType) {
+        ZoomVariables(float scale, float focusX, float focusY, ScaleType scaleType) {
             this.scale = scale;
             this.focusX = focusX;
             this.focusY = focusY;
