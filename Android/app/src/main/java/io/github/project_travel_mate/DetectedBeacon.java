@@ -45,7 +45,7 @@ public class DetectedBeacon extends AppCompatActivity {
 
         Intent intent = getIntent();
         major = intent.getStringExtra(Constants.CUR_MAJOR);
-        Log.e("Detected Beacon : ", major + " ");
+        Log.v("Detected Beacon : ", major + " ");
 
         mHandler = new Handler(Looper.getMainLooper());
         getCity(); // Get city name from latitude longitude
@@ -87,12 +87,12 @@ public class DetectedBeacon extends AppCompatActivity {
                             cname = json.getString("city_name");
                             cid = json.getString("city_id");
 
-                            TextView tv = (TextView) findViewById(R.id.tv);
+                            TextView tv = findViewById(R.id.tv);
                             tv.setText(des);
-                            tv = (TextView) findViewById(R.id.head);
+                            tv = findViewById(R.id.head);
                             tv.setText(name);
 
-                            ImageView iv = (ImageView) findViewById(R.id.imag);
+                            ImageView iv = findViewById(R.id.imag);
                             Picasso.with(DetectedBeacon.this)
                                     .load(image)
                                     .error(R.drawable.delhi)

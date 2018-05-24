@@ -45,24 +45,12 @@ public class SelectCity extends AppCompatActivity {
     @BindView(R.id.pb) ProgressBar pb;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.ok) Button ok;
-    @SuppressWarnings("WeakerAccess")
-    private
-    String[] cities;
-    @SuppressWarnings("WeakerAccess")
-    private
-    SharedPreferences.Editor e;
-    @SuppressWarnings("WeakerAccess")
-    private final
-    List<String> id = new ArrayList<>();
-    @SuppressWarnings("WeakerAccess")
-    private final
-    List<String> names = new ArrayList<>();
-    @SuppressWarnings("WeakerAccess")
-    private final
-    List<String> lat = new ArrayList<>();
-    @SuppressWarnings("WeakerAccess")
-    private final
-    List<String> lon = new ArrayList<>();
+    private String[] cities;
+    private SharedPreferences.Editor editor;
+    private final List<String> id = new ArrayList<>();
+    private final List<String> names = new ArrayList<>();
+    private final List<String> lat = new ArrayList<>();
+    private final List<String> lon = new ArrayList<>();
     private Handler mHandler;
 
     @Override
@@ -70,13 +58,13 @@ public class SelectCity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_city);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
-        e = s.edit();
+        editor = s.edit();
         mHandler = new Handler(Looper.getMainLooper());
 
 
@@ -91,17 +79,17 @@ public class SelectCity extends AppCompatActivity {
                             .setAction("Action", null).show();
 
                 } else {
-                    e.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
-                    e.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
-                    e.putString(Constants.DESTINATION_CITY, names.get(dposition));
-                    e.putString(Constants.SOURCE_CITY, names.get(sposition));
-                    e.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
-                    e.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
-                    e.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
-                    e.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
+                    editor.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
+                    editor.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
+                    editor.putString(Constants.DESTINATION_CITY, names.get(dposition));
+                    editor.putString(Constants.SOURCE_CITY, names.get(sposition));
+                    editor.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
+                    editor.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
+                    editor.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
+                    editor.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
                     SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
 
-                    e.apply();
+                    editor.apply();
                     SelectCity.this.finish();
                 }
             }
@@ -155,7 +143,10 @@ public class SelectCity extends AppCompatActivity {
                             }
                             cities = new String[id.size()];
                             cities = names.toArray(cities);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SelectCity.this, android.R.layout.simple_spinner_dropdown_item, cities);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                                    SelectCity.this,
+                                    android.R.layout.simple_spinner_dropdown_item,
+                                    cities);
                             source.setAdapter(adapter);
                             dest.setAdapter(adapter);
                             pb.setVisibility(View.GONE);

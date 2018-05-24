@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.transport;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +40,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -48,7 +51,7 @@ import utils.Constants;
 /**
  * Show car directions between 2 cities
  */
-public class CarDirections extends AppCompatActivity {
+public class CarDirections extends AppCompatActivity implements OnMapReadyCallback {
 
     private String sorcelat;
     private String deslat;
@@ -70,19 +73,19 @@ public class CarDirections extends AppCompatActivity {
     private Double cost2;
     private Double cost3;
     private final Double fuelprice          = 60.00;
-    private final Double mileage_hatchback  = 30.0;
-    private final Double mileage_sedan      = 18.0;
-    private final Double mileage_suv        = 16.0;
+    private final Double mileageHatchback  = 30.0;
+    private final Double mileageSedan      = 18.0;
+    private final Double mileageSuv        = 16.0;
 
     private ProgressDialog progressDialog;
-    private GoogleMap      map;
+    private GoogleMap      googleMap;
     private Handler        mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_directions);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
@@ -98,21 +101,20 @@ public class CarDirections extends AppCompatActivity {
         surce       = s.getString(Constants.SOURCE_CITY, "Delhi");
         dest        = s.getString(Constants.DESTINATION_CITY, "MUmbai");
 
-        com.google.android.gms.maps.MapFragment mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        map                 = mapFragment.getMap();
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
-        ShowMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
-        ShowMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("Car Directions");
         getDirections();
 
     }
 
-    @OnClick(R.id.fab) void onClickFab(){
-        String shareBody = "Lets plan a journey from " + surce + " to " + dest + ". The distace between the two cities is "
+    @OnClick(R.id.fab) void onClickFab() {
+        String shareBody = "Lets plan a journey from " +
+                surce + " to " + dest + ". The distace between the two cities is "
                 + distancetext;
 
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -130,23 +132,23 @@ public class CarDirections extends AppCompatActivity {
     }
 
 
-    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName) {
-        LatLng Coord = new LatLng(LocationLat, LocationLong);
+    private void showMarker(Double locationLat, Double locationLong, String locationName) {
+        LatLng coord = new LatLng(locationLat, locationLong);
 
-        if (map != null) {
+        if (googleMap != null) {
             if (ContextCompat.checkSelfPermission(CarDirections.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                map.setMyLocationEnabled(true);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 5));
+                googleMap.setMyLocationEnabled(true);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 5));
             }
 
             MarkerOptions abc = new MarkerOptions();
             MarkerOptions x = abc
-                    .title(LocationName)
-                    .position(Coord)
+                    .title(locationName)
+                    .position(coord)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
-            map.addMarker(x);
+            googleMap.addMarker(x);
 
         }
     }
@@ -198,35 +200,42 @@ public class CarDirections extends AppCompatActivity {
                             JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
                             String encodedString = overviewPolylines.getString("points");
                             List<LatLng> list = decodePoly(encodedString);
-                            Polyline line = map.addPolyline(new PolylineOptions()
+                            Polyline line = googleMap.addPolyline(new PolylineOptions()
                                     .addAll(list)
                                     .width(12)
                                     .color(Color.parseColor("#05b1fb"))//Google maps blue color
                                     .geodesic(true)
                             );
-                            distance = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
-                            distancetext = routes.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
+                            distance = routes.getJSONArray("legs")
+                                    .getJSONObject(0)
+                                    .getJSONObject("distance")
+                                    .getDouble("value");
+                            distancetext = routes.getJSONArray("legs")
+                                    .getJSONObject(0)
+                                    .getJSONObject("distance")
+                                    .getString("text");
 
 
-                            cost1 = (distance / mileage_hatchback) * fuelprice / 1000;
-                            cost2 = (distance / mileage_sedan) * fuelprice / 1000;
-                            cost3 = (distance / mileage_suv) * fuelprice / 1000;
+                            cost1 = (distance / mileageHatchback) * fuelprice / 1000;
+                            cost2 = (distance / mileageSedan) * fuelprice / 1000;
+                            cost3 = (distance / mileageSuv) * fuelprice / 1000;
 
-                            coste1.setText(cost1.intValue() + "");
-                            coste2.setText(cost2.intValue() + "");
-                            coste3.setText(cost3.intValue() + "");
+                            coste1.setText(cost1.intValue());
+                            coste2.setText(cost2.intValue());
+                            coste3.setText(cost3.intValue());
                             for (int z = 0; z < list.size() - 1; z++) {
                                 LatLng src = list.get(z);
                                 LatLng dest1 = list.get(z + 1);
-                                Polyline line2 = map.addPolyline(new PolylineOptions()
-                                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest1.latitude, dest1.longitude))
+                                Polyline line2 = googleMap.addPolyline(new PolylineOptions()
+                                        .add(new LatLng(src.latitude, src.longitude),
+                                                new LatLng(dest1.latitude, dest1.longitude))
                                         .width(2)
                                         .color(Color.BLUE).geodesic(true));
                             }
                             progressDialog.hide();
                             LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
                             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                            map.animateCamera(yourLocation);
+                            googleMap.animateCamera(yourLocation);
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -254,7 +263,8 @@ public class CarDirections extends AppCompatActivity {
                 b = encoded.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
                 shift += 5;
-            } while (b >= 0x20);
+            }
+            while (b >= 0x20);
             int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
             lat += dlat;
 
@@ -264,7 +274,8 @@ public class CarDirections extends AppCompatActivity {
                 b = encoded.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
                 shift += 5;
-            } while (b >= 0x20);
+            }
+            while (b >= 0x20);
             int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
             lng += dlng;
 
@@ -276,4 +287,12 @@ public class CarDirections extends AppCompatActivity {
         return poly;
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+
+        showMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
+        showMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");
+        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
+    }
 }

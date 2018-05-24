@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.transport;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -35,6 +35,8 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.SelectCity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -42,7 +44,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.Constants;
 
-public class TrainList extends AppCompatActivity implements com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,View.OnClickListener {
+public class TrainList extends AppCompatActivity implements
+        com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener,
+        View.OnClickListener {
 
     @BindView(R.id.pb)
     ProgressBar     pb;
@@ -58,7 +63,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     private String dest;
 
     private static final String DATEPICKER_TAG = "datepicker";
-    private SharedPreferences s;
+    private SharedPreferences sharedPreferences;
     private Handler mHandler;
     private com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog;
     DatePickerDialog.OnDateSetListener date;
@@ -68,24 +73,27 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
-        mHandler    = new Handler(Looper.getMainLooper());
-        s           = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor e = s.edit();
-        source      = s.getString(Constants.SOURCE_CITY, "delhi");
-        dest        = s.getString(Constants.DESTINATION_CITY, "mumbai");
-
-        city.setText(source + " to " + dest);
+        mHandler                    = new Handler(Looper.getMainLooper());
+        sharedPreferences           = PreferenceManager.getDefaultSharedPreferences(this);
+        source                      = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
+        dest                        = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        String cityText             = source + " to " + dest;
+        city.setText(cityText);
         selectdate.setText(dates);
 
         getTrainlist();
 
         final Calendar calendar = Calendar.getInstance();
-        datePickerDialog = com.fourmob.datetimepicker.date.DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
+        datePickerDialog = com.fourmob.datetimepicker.date.DatePickerDialog.newInstance(this,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                isVibrate());
 
         pb.setVisibility(View.GONE);
 
@@ -115,7 +123,8 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     }
 
     @Override
-    public void onDateSet(com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog, int year, int month, int day) {
+    public void onDateSet(com.fourmob.datetimepicker.date.DatePickerDialog datePickerDialog,
+                          int year, int month, int day) {
         month++;
         dates = day + "-" + month;
         selectdate.setText(dates);
@@ -123,7 +132,7 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {}
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) { }
 
     /**
      * Calls API to get train list
@@ -162,12 +171,12 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
                     public void run() {
                         Log.e("RESPONSE : ", "Done");
                         try {
-                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("trains");
+                            JSONObject feed = new JSONObject(String.valueOf(res));
+                            JSONArray feedItems = feed.getJSONArray("trains");
 
-                            Log.e("response", YTFeedItems + " ");
+                            Log.e("response", feedItems + " ");
                             pb.setVisibility(View.GONE);
-                            lv.setAdapter(new Train_adapter(TrainList.this, YTFeedItems));
+                            lv.setAdapter(new TrainAdapter(TrainList.this, feedItems));
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -181,17 +190,17 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
     @Override
     protected void onResume() {
         super.onResume();
-        source = s.getString(Constants.SOURCE_CITY, "delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "mumbai");
-        city.setText(source + " to " + dest);
+        source                  = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
+        dest                    = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        String cityText         = source + " to " + dest;
+        city.setText(cityText);
 
         getTrainlist();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.city :
                 Intent i = new Intent(TrainList.this, SelectCity.class);
                 startActivity(i);
@@ -205,13 +214,13 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         }
     }
 
-    class Train_adapter extends BaseAdapter {
+    class TrainAdapter extends BaseAdapter {
 
         final Context context;
         final JSONArray FeedItems;
         private final LayoutInflater inflater;
 
-        Train_adapter(Context context, JSONArray feedItems) {
+        TrainAdapter(Context context, JSONArray feedItems) {
             this.context = context;
             this.FeedItems = feedItems;
 
@@ -245,28 +254,32 @@ public class TrainList extends AppCompatActivity implements com.fourmob.datetime
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.train_listitem, null);
+                vi = inflater.inflate(R.layout.train_listitem, (ViewGroup) null);
 
-            TextView title = (TextView) vi.findViewById(R.id.bus_name);
-            TextView description = (TextView) vi.findViewById(R.id.bustype);
-            TextView atime = (TextView) vi.findViewById(R.id.arr);
-            TextView dtime = (TextView) vi.findViewById(R.id.dep);
-            Button more = (Button) vi.findViewById(R.id.more);
-            Button book = (Button) vi.findViewById(R.id.book);
+            TextView title = vi.findViewById(R.id.bus_name);
+            TextView description = vi.findViewById(R.id.bustype);
+            TextView atime = vi.findViewById(R.id.arr);
+            TextView dtime = vi.findViewById(R.id.dep);
+            Button more = vi.findViewById(R.id.more);
+            Button book = vi.findViewById(R.id.book);
             TextView d0, d1, d2, d3, d4, d5, d6;
-            d0 = (TextView) vi.findViewById(R.id.d0);
-            d1 = (TextView) vi.findViewById(R.id.d1);
-            d2 = (TextView) vi.findViewById(R.id.d2);
-            d3 = (TextView) vi.findViewById(R.id.d3);
-            d4 = (TextView) vi.findViewById(R.id.d4);
-            d5 = (TextView) vi.findViewById(R.id.d5);
-            d6 = (TextView) vi.findViewById(R.id.d6);
+            d0 = vi.findViewById(R.id.d0);
+            d1 = vi.findViewById(R.id.d1);
+            d2 = vi.findViewById(R.id.d2);
+            d3 = vi.findViewById(R.id.d3);
+            d4 = vi.findViewById(R.id.d4);
+            d5 = vi.findViewById(R.id.d5);
+            d6 = vi.findViewById(R.id.d6);
 
             try {
                 title.setText(FeedItems.getJSONObject(position).getString("name"));
-                description.setText("Train Number : " + FeedItems.getJSONObject(position).getString("train_number"));
-                atime.setText("Arrival Time : " + FeedItems.getJSONObject(position).getString("arrival_time"));
-                dtime.setText("Departure Time : " + FeedItems.getJSONObject(position).getString("departure_time"));
+                String descriptionText = "Train Number : " +
+                        FeedItems.getJSONObject(position).getString("train_number");
+                String aTimeText = "Arrival Time : " + FeedItems.getJSONObject(position).getString("arrival_time");
+                String dTimeText = "Departure Time : " + FeedItems.getJSONObject(position).getString("departure_time");
+                description.setText(descriptionText);
+                atime.setText(aTimeText);
+                dtime.setText(dTimeText);
 
                 JSONArray ar = FeedItems.getJSONObject(position).getJSONArray("days");
                 for (int i = 0; i < ar.length(); i++) {

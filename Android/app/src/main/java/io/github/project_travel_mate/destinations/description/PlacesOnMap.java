@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.destinations.description;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +40,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,7 +49,7 @@ import okhttp3.Response;
 import utils.Constants;
 import utils.GPSTracker;
 
-public class PlacesOnMap extends AppCompatActivity {
+public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.lv)
     TwoWayView lv;
@@ -59,7 +62,7 @@ public class PlacesOnMap extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private int mode;
     private int icon;
-    private GoogleMap map;
+    private GoogleMap googleMap;
     private Handler mHandler;
 
     @Override
@@ -69,13 +72,14 @@ public class PlacesOnMap extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Intent i = getIntent();
-        String name = i.getStringExtra("name_");
-        String id = i.getStringExtra("id_");
-        String type = i.getStringExtra("type_");
-        mHandler    = new Handler(Looper.getMainLooper());
+        Intent intent   = getIntent();
+        String name     = intent.getStringExtra("name_");
+        String id       = intent.getStringExtra("id_");
+        String type     = intent.getStringExtra("type_");
+        mHandler        = new Handler(Looper.getMainLooper());
 
         setTitle(name);
+
         switch (type) {
             case "restaurant":
                 mode = 0;
@@ -95,40 +99,19 @@ public class PlacesOnMap extends AppCompatActivity {
                 break;
         }
 
-        deslat = i.getStringExtra("lat_");
-        deslon = i.getStringExtra("lng_");
-
+        deslat = intent.getStringExtra("lat_");
+        deslon = intent.getStringExtra("lng_");
 
         getPlaces();
 
-        com.google.android.gms.maps.MapFragment mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
-
-        GPSTracker tracker = new GPSTracker(this);
-        if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
-            Log.e("cdsknvdsl ", curlat + "dsbjvdks" + curlon);
-        } else {
-            curlat = Double.toString(tracker.getLatitude());
-            curlon = Double.toString(tracker.getLongitude());
-            Log.e("cdsknvdsl", tracker.getLatitude() + " " + curlat + "dsbjvdks" + curlon);
-            if (curlat.equals("0.0")) {
-                curlat = "28.5952242";
-                curlon = "77.1656782";
-            }
-            LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
-            map.animateCamera(yourLocation);
-
-        }
+        mapFragment.getMapAsync(this);
 
         setTitle("Places");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -137,23 +120,21 @@ public class PlacesOnMap extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName) {
-        LatLng Coord = new LatLng(LocationLat, LocationLong);
+    private void showMarker(Double locationLat, Double locationLong, String locationName) {
+        LatLng coord = new LatLng(locationLat, locationLong);
         if (ContextCompat.checkSelfPermission(PlacesOnMap.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            if (map != null) {
-                map.setMyLocationEnabled(true);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 14));
+            if (googleMap != null) {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
 
-                MarkerOptions abc = new MarkerOptions();
-                MarkerOptions x = abc
-                        .title(LocationName)
-                        .position(Coord)
+                MarkerOptions temp = new MarkerOptions();
+                MarkerOptions markerOptions = temp
+                        .title(locationName)
+                        .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
-                map.addMarker(x);
-
+                googleMap.addMarker(markerOptions);
             }
         }
     }
@@ -167,8 +148,7 @@ public class PlacesOnMap extends AppCompatActivity {
 
         // to fetch city names
         String uri = Constants.apilink + "places-api.php?lat=" + deslat + "&lng=" + deslon + "&mode=" + mode;
-        Log.e("executing", uri + " ");
-
+        Log.v("executing", "URI : " + uri );
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -180,7 +160,7 @@ public class PlacesOnMap extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                Log.v("Request Failed", "Message : " + e.getMessage());
             }
 
             @Override
@@ -192,18 +172,18 @@ public class PlacesOnMap extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            JSONObject YTFeed = new JSONObject(res);
+                            JSONObject feed = new JSONObject(res);
 
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                            Log.e("response", YTFeedItems + " ");
+                            JSONArray feedItems = feed.getJSONArray("results");
+                            Log.v("response", feedItems.toString());
 
 
-                            lv.setAdapter(new City_info_adapter(PlacesOnMap.this, YTFeedItems, icon));
+                            lv.setAdapter(new CityInfoAdapter(PlacesOnMap.this, feedItems, icon));
 
                             progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage() + " ");
+                            Log.e("ERROR : ", e.getMessage());
                         }
                     }
                 });
@@ -212,7 +192,28 @@ public class PlacesOnMap extends AppCompatActivity {
         });
     }
 
-    class City_info_adapter extends BaseAdapter {
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        googleMap = map;
+
+        GPSTracker tracker = new GPSTracker(this);
+        if (!tracker.canGetLocation()) {
+            tracker.showSettingsAlert();
+        } else {
+            curlat = Double.toString(tracker.getLatitude());
+            curlon = Double.toString(tracker.getLongitude());
+            if (curlat.equals("0.0")) {
+                curlat = "28.5952242";
+                curlon = "77.1656782";
+            }
+            LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            map.animateCamera(yourLocation);
+        }
+    }
+
+    class CityInfoAdapter extends BaseAdapter {
 
         final Context context;
         final JSONArray FeedItems;
@@ -220,11 +221,10 @@ public class PlacesOnMap extends AppCompatActivity {
         LinearLayout b2;
         private final LayoutInflater inflater;
 
-        City_info_adapter(Context context, JSONArray FeedItems, int r) {
+        CityInfoAdapter(Context context, JSONArray feedItems, int r) {
             this.context = context;
-            this.FeedItems = FeedItems;
+            this.FeedItems = feedItems;
             rd = r;
-
             inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -256,23 +256,23 @@ public class PlacesOnMap extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.city_infoitem, null);
+                vi = inflater.inflate(R.layout.city_infoitem, (ViewGroup) null);
 
-            TextView Title = (TextView) vi.findViewById(R.id.item_name);
-            TextView Description = (TextView) vi.findViewById(R.id.item_address);
-            LinearLayout onmap = (LinearLayout) vi.findViewById(R.id.map);
-            b2 = (LinearLayout) vi.findViewById(R.id.b2);
+            TextView title = vi.findViewById(R.id.item_name);
+            TextView description = vi.findViewById(R.id.item_address);
+            LinearLayout onmap = vi.findViewById(R.id.map);
+            b2 = vi.findViewById(R.id.b2);
 
 
             try {
-                Title.setText(FeedItems.getJSONObject(position).getString("name"));
-                Description.setText(FeedItems.getJSONObject(position).getString("address"));
+                title.setText(FeedItems.getJSONObject(position).getString("name"));
+                description.setText(FeedItems.getJSONObject(position).getString("address"));
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("eroro", e.getMessage() + " ");
             }
 
-            ImageView iv = (ImageView) vi.findViewById(R.id.image);
+            ImageView iv = vi.findViewById(R.id.image);
             iv.setImageResource(rd);
 
             onmap.setOnClickListener(new View.OnClickListener() {
@@ -308,12 +308,11 @@ public class PlacesOnMap extends AppCompatActivity {
             vi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    map.clear();
+                    googleMap.clear();
                     try {
-                                ShowMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
+                        showMarker(Double.parseDouble(FeedItems.getJSONObject(position).getString("lat")),
                                 Double.parseDouble(FeedItems.getJSONObject(position).getString("lng")),
-                                FeedItems.getJSONObject(position).getString("name")
-                        );
+                                FeedItems.getJSONObject(position).getString("name"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

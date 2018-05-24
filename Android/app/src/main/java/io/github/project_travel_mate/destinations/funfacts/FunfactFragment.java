@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,24 +68,27 @@ public class FunfactFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        String image    = getArguments().getString(EXTRA_MESSAGE_IMAGE);
+        String image    = Objects.requireNonNull(getArguments()).getString(EXTRA_MESSAGE_IMAGE);
         String text     = getArguments().getString(EXTRA_MESSAGE_TEXT);
         View v          = inflater.inflate(R.layout.funfact_fragment, container, false);
-        TextView tv     = (TextView) v.findViewById(R.id.tv);
+        TextView tv     = v.findViewById(R.id.tv);
         tv.setText(text);
-        tv              = (TextView) v.findViewById(R.id.head);
+        tv              = v.findViewById(R.id.head);
         tv.setText(getArguments().getString(EXTRA_MESSAGE_TITLE));
-        ImageView iv    = (ImageView) v.findViewById(R.id.imag);
+        ImageView iv    = v.findViewById(R.id.imag);
         Picasso.with(getContext()).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
         ButterKnife.bind(this, v);
         return v;
     }
 
     @OnClick(R.id.fab) void onClick() {
-        View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        View rootView = Objects.requireNonNull(getActivity())
+                .getWindow()
+                .getDecorView()
+                .findViewById(android.R.id.content);
         Bitmap b = getScreenShot(rootView);
         store(b, "myfile" + System.currentTimeMillis() + ".png");
         shareImage(file);

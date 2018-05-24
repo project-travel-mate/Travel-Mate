@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.mytrips;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +33,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.destinations;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,14 +41,15 @@ import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
+import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.destinations.description.FinalCityInfo;
+import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 import objects.City;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import io.github.project_travel_mate.destinations.description.FinalCityInfo;
-import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 import utils.Constants;
 import views.FontTextView;
 
@@ -60,7 +62,7 @@ public class CityFragment extends Fragment {
     @BindView(R.id.music_list)
     ListView                lv;
 
-    List<String> id     = new ArrayList<>();
+    List<String> id             = new ArrayList<>();
     private List<String> list2  = new ArrayList<>();
 
     private String      nameyet;
@@ -72,26 +74,26 @@ public class CityFragment extends Fragment {
     public CityFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.content_citylist, container, false);
+        View view = inflater.inflate(R.layout.content_citylist, container, false);
 
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, view);
 
         // Hide keyboard
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm  = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
 
-        mHandler = new Handler(Looper.getMainLooper());
-        tex = Typeface.createFromAsset(activity.getAssets(), "fonts/texgyreadventor-bold.otf");
+        mHandler    = new Handler(Looper.getMainLooper());
+        tex         = Typeface.createFromAsset(activity.getAssets(), "fonts/texgyreadventor-bold.otf");
         cityname.setThreshold(1);
 
         getCity();
 
-        return v;
+        return view;
     }
 
-    @OnTextChanged(R.id.cityname) void onTextChanged(){
+    @OnTextChanged(R.id.cityname) void onTextChanged() {
         nameyet = cityname.getText().toString();
         if (!nameyet.contains(" ")) {
             Log.e("name", nameyet + " ");
@@ -105,8 +107,7 @@ public class CityFragment extends Fragment {
         // to fetch city names
         String uri = Constants.apilink +
                 "city/autocomplete.php?search=" + nameyet.trim();
-        Log.e("executing", uri + " ");
-
+        Log.v("executing", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -131,7 +132,7 @@ public class CityFragment extends Fragment {
                         final ArrayList list, list1;
                         try {
                             arr = new JSONArray(Objects.requireNonNull(response.body()).string());
-                            Log.e("erro", arr + " ");
+                            Log.v("RESPONSE : ", arr.toString());
 
                             list = new ArrayList<>();
                             list1 = new ArrayList<>();
@@ -148,8 +149,8 @@ public class CityFragment extends Fragment {
                                     Log.e("error ", " " + e.getMessage());
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                                    (activity.getApplicationContext(), R.layout.spinner_layout, list);
+                            ArrayAdapter<String> dataAdapter =
+                                    new ArrayAdapter<>(activity.getApplicationContext(), R.layout.spinner_layout, list);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
                             cityname.setAdapter(dataAdapter);
@@ -292,8 +293,9 @@ public class CityFragment extends Fragment {
 
     class CityAdapter extends BaseFlipAdapter<City> {
 
-        private final int PAGES = 3;
-        private final int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+        private final int pages = 3;
+        private final int[] idsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+
 
         CityAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
@@ -305,19 +307,19 @@ public class CityFragment extends Fragment {
 
             if (convertView == null) {
                 holder = new CitiesHolder();
-                convertView = activity.getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
-                holder.leftAvatar = (ImageView) convertView.findViewById(R.id.first);
-                holder.rightAvatar = (ImageView) convertView.findViewById(R.id.second);
-                holder.left = (TextView) convertView.findViewById(R.id.name1);
-                holder.right = (TextView) convertView.findViewById(R.id.name2);
-                holder.infoPage = activity.getLayoutInflater().inflate(R.layout.friends_info, parent, false);
-                holder.nickName = (TextView) holder.infoPage.findViewById(R.id.nickname);
+                convertView = activity.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
+                holder.leftAvatar = convertView.findViewById(R.id.first);
+                holder.rightAvatar = convertView.findViewById(R.id.second);
+                holder.left = convertView.findViewById(R.id.name1);
+                holder.right = convertView.findViewById(R.id.name2);
+                holder.infoPage = activity.getLayoutInflater().inflate(R.layout.home_city_info, parent, false);
+                holder.nickName = holder.infoPage.findViewById(R.id.nickname);
                 holder.fv1 = (FontTextView) holder.infoPage.findViewById(R.id.interest_1);
                 holder.fv2 = (FontTextView) holder.infoPage.findViewById(R.id.interest_2);
                 holder.fv3 = (FontTextView) holder.infoPage.findViewById(R.id.interest_3);
                 holder.fv4 = (FontTextView) holder.infoPage.findViewById(R.id.interest_4);
 
-                for (int id : IDS_INTEREST)
+                for (int id : idsInterest)
                     holder.interests.add((TextView) holder.infoPage.findViewById(id));
 
                 convertView.setTag(holder);
@@ -327,14 +329,20 @@ public class CityFragment extends Fragment {
 
             switch (position) {
                 case 1:
-                    Picasso.with(getActivity()).load(friend1.getAvatar()).placeholder(R.drawable.delhi).into(holder.leftAvatar);
+                    Picasso.with(getActivity()).
+                            load(friend1.getAvatar()).
+                            placeholder(R.drawable.delhi).
+                            into(holder.leftAvatar);
                     holder.left.setTypeface(tex);
                     holder.left.setText(friend1.getNickname());
 
                     if (friend2 != null) {
                         holder.right.setText(friend2.getNickname());
                         holder.right.setTypeface(tex);
-                        Picasso.with(getActivity()).load(friend2.getAvatar()).placeholder(R.drawable.delhi).into(holder.rightAvatar);
+                        Picasso.with(getActivity()).
+                                load(friend2.getAvatar()).
+                                placeholder(R.drawable.delhi).
+                                into(holder.rightAvatar);
                     }
                     break;
                 default:
@@ -347,7 +355,7 @@ public class CityFragment extends Fragment {
 
         @Override
         public int getPagesCount() {
-            return PAGES;
+            return pages;
         }
 
         private void fillHolder(CitiesHolder holder, final City friend) {
@@ -363,7 +371,6 @@ public class CityFragment extends Fragment {
             holder.nickName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("fsgb", "clikc");
                 }
             });
 
@@ -395,7 +402,7 @@ public class CityFragment extends Fragment {
                             friend.getLa() +
                             "," +
                             friend.getLo() +
-                            "&z=13"));
+                            "&z=13")); // zoom level
                     activity.startActivity(browserIntent);
                 }
             });

@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffffff"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
 
         <GridLayout
@@ -74,7 +75,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:id="@+id/map"
@@ -95,7 +97,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:gravity="center_vertical"
-                            android:text="@string/locate"
+                            android:text="@string/text_locate"
                             android:textColor="#ffffff" />
                     </LinearLayout>
 
@@ -119,7 +121,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:gravity="center_vertical"
-                            android:text="@string/prompt_call"
+                            android:text="@string/text_call"
                             android:textColor="#ffffff" />
                     </LinearLayout>
 
@@ -142,7 +144,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:gravity="center_vertical"
-                            android:text="@string/prompt_book"
+                            android:text="@string/text_book"
                             android:textColor="#ffffff" />
                     </LinearLayout>
 

@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel;
 
 import android.Manifest;
 import android.content.Intent;
@@ -24,6 +24,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -40,6 +42,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -51,17 +54,18 @@ import utils.GPSTracker;
 /**
  * Show markers on map around user's current location
  */
-public class MapRealTimeActivity extends AppCompatActivity{
+public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.data)
     ScrollView sc;
 
-    private GoogleMap map;
     private int index = 0;
     private Handler mHandler;
 
     private String curlat;
     private String curlon;
+
+    private GoogleMap googleMap;
 
     private List<String> name;
     private List<String> nums;
@@ -73,14 +77,14 @@ public class MapRealTimeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_realtime);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
-        com.google.android.gms.maps.MapFragment mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
+        mapFragment.getMapAsync(this);
         mHandler = new Handler(Looper.getMainLooper());
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -120,50 +124,7 @@ public class MapRealTimeActivity extends AppCompatActivity{
             getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
         }
 
-        // Zoom to current location
-        LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
-        map.animateCamera(yourLocation);
 
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                sc.setVisibility(View.VISIBLE);
-                for (int i = 0; i < name.size(); i++) {
-                    if (name.get(i).equals(marker.getTitle())) {
-                        index = i;
-                        break;
-                    }
-                }
-
-                TextView Title = (TextView) MapRealTimeActivity.this.findViewById(R.id.VideoTitle);
-                TextView Description = (TextView) MapRealTimeActivity.this.findViewById(R.id.VideoDescription);
-                final Button calls, book;
-                calls = (Button) MapRealTimeActivity.this.findViewById(R.id.call);
-                book = (Button) MapRealTimeActivity.this.findViewById(R.id.book);
-
-                Title.setText(name.get(index));
-                Description.setText(addr.get(index));
-                calls.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + nums.get(index)));
-                        MapRealTimeActivity.this.startActivity(intent);
-
-                    }
-                });
-                book.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserIntent;
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
-                        MapRealTimeActivity.this.startActivity(browserIntent);
-                    }
-                });
-                return false;
-            }
-        });
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -210,7 +171,7 @@ public class MapRealTimeActivity extends AppCompatActivity{
                                 web.add(routeArray.getJSONObject(i).getString("website"));
                                 nums.add(routeArray.getJSONObject(i).getString("phone"));
                                 addr.add(routeArray.getJSONObject(i).getString("address"));
-                                ShowMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
+                                showMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
                                         Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
                                         routeArray.getJSONObject(i).getString("name"),
                                         ic);
@@ -238,7 +199,7 @@ public class MapRealTimeActivity extends AppCompatActivity{
                         @Override
                         public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
 
-                            map.clear();
+                            googleMap.clear();
                             name.clear();
                             nums.clear();
                             web.clear();
@@ -293,27 +254,27 @@ public class MapRealTimeActivity extends AppCompatActivity{
     /**
      * Sets marker at given location on map
      *
-     * @param LocationLat  latitude
-     * @param LocationLong longitude
-     * @param LocationName name of location
-     * @param LocationIcon icon
+     * @param locationLat  latitude
+     * @param locationLong longitude
+     * @param locationName name of location
+     * @param locationIcon icon
      */
-    private void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
-        LatLng Coord = new LatLng(LocationLat, LocationLong);
+    private void showMarker(Double locationLat, Double locationLong, String locationName, Integer locationIcon) {
+        LatLng coord = new LatLng(locationLat, locationLong);
 
         if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            if (map != null) {
-                map.setMyLocationEnabled(true);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
+            if (googleMap != null) {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 10));
 
                 MarkerOptions abc = new MarkerOptions();
                 MarkerOptions x = abc
-                        .title(LocationName)
-                        .position(Coord)
-                        .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
-                map.addMarker(x);
+                        .title(locationName)
+                        .position(coord)
+                        .icon(BitmapDescriptorFactory.fromResource(locationIcon));
+                googleMap.addMarker(x);
 
             }
         }
@@ -323,5 +284,57 @@ public class MapRealTimeActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.map_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        googleMap = map;
+
+        // Zoom to current location
+        LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+        map.animateCamera(yourLocation);
+
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                sc.setVisibility(View.VISIBLE);
+                for (int i = 0; i < name.size(); i++) {
+                    if (name.get(i).equals(marker.getTitle())) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                TextView title = MapRealTimeActivity.this.findViewById(R.id.VideoTitle);
+                TextView description = MapRealTimeActivity.this.findViewById(R.id.VideoDescription);
+                final Button calls, book;
+                calls = MapRealTimeActivity.this.findViewById(R.id.call);
+                book = MapRealTimeActivity.this.findViewById(R.id.book);
+
+                title.setText(name.get(index));
+                description.setText(addr.get(index));
+                calls.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + nums.get(index)));
+                        MapRealTimeActivity.this.startActivity(intent);
+
+                    }
+                });
+                book.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browserIntent;
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
+                        MapRealTimeActivity.this.startActivity(browserIntent);
+                    }
+                });
+                return false;
+            }
+        });
+
     }
 }

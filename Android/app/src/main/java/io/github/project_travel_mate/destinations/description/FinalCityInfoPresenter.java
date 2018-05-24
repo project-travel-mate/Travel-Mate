@@ -18,8 +18,8 @@ import utils.Constants;
  */
 
 class FinalCityInfoPresenter {
-    private FinalCityInfoView mFinalCityInfoView;
-    private final OkHttpClient mOkHttpClient;
+    private FinalCityInfoView   mFinalCityInfoView;
+    private final OkHttpClient  mOkHttpClient;
 
     public FinalCityInfoPresenter() {
         mOkHttpClient = new OkHttpClient();

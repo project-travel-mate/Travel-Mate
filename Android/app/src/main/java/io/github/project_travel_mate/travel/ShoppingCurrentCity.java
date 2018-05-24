@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -41,6 +41,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.project_travel_mate.R;
 import utils.Constants;
 import utils.Utils;
 
@@ -55,36 +56,35 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     @BindView(R.id.go)          Button          ok;
 
     private MaterialSearchView searchView;
-    private String item="bags";
+    private String item = "bags";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_currentcity);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor e = s.edit();
 
         setTitle("Shopping");
 
-        new Book_RetrieveFeed().execute();
+        new BookRetrieveFeed().execute();
 
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
-                Log.e("VDSvsd",query+" ");
+                Log.e("VDSvsd", query + " ");
                 pb.setVisibility(View.VISIBLE);
                 try {
                     item = query;
                     Log.e("click", "going" + item);
-                    new Book_RetrieveFeed().execute();
+                    new BookRetrieveFeed().execute();
 
                 } catch (Exception e) {
                     AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
@@ -127,14 +127,14 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.go) void onClick(){
+    @OnClick(R.id.go) void onClick() {
         Log.e("vfs", "clcike");
         pb.setVisibility(View.VISIBLE);
         try {
             item = q.getText().toString();
 
             Log.e("click", "going" + item);
-            new Book_RetrieveFeed().execute();
+            new BookRetrieveFeed().execute();
 
 
         } catch (Exception e) {
@@ -173,13 +173,13 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() ==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
     }
 
-    private class Book_RetrieveFeed extends AsyncTask<String, Void, String> {
+    private class BookRetrieveFeed extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -190,13 +190,13 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
             try {
                 String uri = Constants.apilink +
-                        "online-shopping.php?string="+item;
-                uri = uri.replace(" ","+");
+                        "online-shopping.php?string=" + item;
+                uri = uri.replace(" ", "+");
                 URL url = new URL(uri);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 String readStream = Utils.readStream(con.getInputStream());
 
-                Log.e("here",uri +" ");
+                Log.e("here", uri + " ");
                 return readStream;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -205,17 +205,17 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String Result) {
+        protected void onPostExecute(String result) {
             try {
-                JSONObject YTFeed = new JSONObject(String.valueOf(Result));
-                JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                Log.e("response", YTFeedItems + " ");
-                if(YTFeedItems.length()==0){
+                JSONObject feed = new JSONObject(String.valueOf(result));
+                JSONArray feedItems = feed.getJSONArray("results");
+                Log.e("response", feedItems + " ");
+                if (feedItems.length() == 0) {
                     Utils.hideKeyboard(ShoppingCurrentCity.this);
                     Snackbar.make(pb, "No results found", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
                 pb.setVisibility(View.GONE);
-                lv.setAdapter(new Shop_adapter(ShoppingCurrentCity.this , YTFeedItems) );
+                lv.setAdapter(new ShopAdapter(ShoppingCurrentCity.this , feedItems) );
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -224,15 +224,15 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     }
 
 
-    class Shop_adapter extends BaseAdapter {
+    class ShopAdapter extends BaseAdapter {
 
         final Context context;
         final JSONArray FeedItems;
         private final LayoutInflater inflater;
 
-        Shop_adapter(Context context, JSONArray FeedItems) {
+        ShopAdapter(Context context, JSONArray feedItems) {
             this.context = context;
-            this.FeedItems = FeedItems;
+            this.FeedItems = feedItems;
 
             inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -265,23 +265,23 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.shop_listitem, null);
+                vi = inflater.inflate(R.layout.shop_listitem, (ViewGroup) null);
 
-            TextView Title = (TextView) vi.findViewById(R.id.VideoTitle);
-            TextView Description = (TextView) vi.findViewById(R.id.VideoDescription);
-            ImageView iv = (ImageView) vi.findViewById(R.id.VideoThumbnail);
+            TextView title = vi.findViewById(R.id.VideoTitle);
+            TextView description = vi.findViewById(R.id.VideoDescription);
+            ImageView iv = vi.findViewById(R.id.VideoThumbnail);
 
 
             try {
                 String x = FeedItems.getJSONObject(position).getString("name");
                 x = Html.fromHtml(x).toString();
-                Title.setText(x);
+                title.setText(x);
 
 
-                String DescriptionText = FeedItems.getJSONObject(position).getString("value");
+                String descriptionText = FeedItems.getJSONObject(position).getString("value");
 
-                DescriptionText = Html.fromHtml(DescriptionText).toString();
-                Description.setText(DescriptionText + " Rs");
+                descriptionText = Html.fromHtml(descriptionText).toString() + " Rs";
+                description.setText(descriptionText);
 
                 Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(iv);
 
@@ -295,7 +295,8 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
                     Intent browserIntent = null;
                     try {
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                        browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(FeedItems.getJSONObject(position).getString("url")));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }

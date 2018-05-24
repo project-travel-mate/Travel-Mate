@@ -32,7 +32,6 @@
 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="4"
             android:alpha="0.2"
             android:background="@drawable/city"
             android:contentDescription="@string/empty_description"
@@ -213,8 +212,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:gravity="right"
-                    android:text="Signup | "
+                    android:gravity="end"
+                    android:text="@string/text_signup_or"
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -222,7 +221,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:text="@string/login"
                     android:textColor="#ffffff" />
             </LinearLayout>

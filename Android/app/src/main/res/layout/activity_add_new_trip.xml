@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="io.github.project_travel_mate.AddNewTrip">
+    tools:context=".travel.mytrips.AddNewTrip">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:popupBackground="#ffffff"
             android:textColor="#000000"
             android:textColorHint="#000000"
+            android:inputType="text"
             tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
 
@@ -78,7 +79,7 @@
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="@string/add_trip"
+        android:text="@string/prompt_add_trip"
         android:textColor="#ffffff" />
 
 </LinearLayout>

@@ -1,10 +1,11 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 
 /**
  * Displays emergency contact numbers
@@ -35,7 +37,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     public EmergencyFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_emergency, container, false);
 

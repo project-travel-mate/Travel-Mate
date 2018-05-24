@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -21,17 +21,18 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import utils.Constants;
 import utils.Services;
 
-public class ShareContact extends AppCompatActivity implements View.OnClickListener{
+public class ShareContact extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.create)
     Button create;
     @BindView(R.id.scan)
     Button scan;
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
-    private SharedPreferences s;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor e = s.edit();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         create.setOnClickListener(this);
         scan.setOnClickListener(this);
@@ -58,30 +58,30 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
             String result = data.getExtras().getString(Services.RESULT);
             //Just set result to EditText to be able to view it
 
-            String x[] = Objects.requireNonNull(result).split("---");
+            String[] x = Objects.requireNonNull(result).split("---");
             String r = "My name is " + x[1] + ". My phone number : " + x[0];
 
             addContact(x[1], x[0]);
 
-            TextView resultTxt = (TextView) findViewById(R.id.result);
+            TextView resultTxt = findViewById(R.id.result);
             resultTxt.setText(r);
             resultTxt.setVisibility(View.VISIBLE);
         }
         if (ACTIVITY_CREATE == requestCode && null != data && data.getExtras() != null) {
             //Read result from QR Droid (it's stored in la.droid.qr.result)
             //Result is a string or a bitmap, according what was requested
-            ImageView imgResult = (ImageView) findViewById(R.id.im);
+            ImageView imgResult = findViewById(R.id.im);
 
             String qrCode = data.getExtras().getString(Services.RESULT);
 
             //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
             if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(ShareContact.this, R.string.not_saved, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShareContact.this, R.string.msg_qr_not_saved, Toast.LENGTH_LONG).show();
                 return;
             }
 
             //Show success message
-            Toast.makeText(ShareContact.this, getString(R.string.saved) + " " + qrCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(ShareContact.this, getString(R.string.msg_saved) + " " + qrCode, Toast.LENGTH_LONG).show();
 
             //Load QR code image from given path
             imgResult.setImageURI(Uri.parse(qrCode));
@@ -89,8 +89,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
             imgResult.setVisibility(View.VISIBLE);
         }
 
-        if (ACTIVITY_INSERT_CONTACT == requestCode)
-        {
+        if (ACTIVITY_INSERT_CONTACT == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Added Contact", Toast.LENGTH_SHORT).show();
             }
@@ -123,8 +122,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         Intent qrDroid;
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.scan :
                 qrDroid = new Intent(Services.SCAN); //Set action "la.droid.qr.scan"
 
@@ -135,15 +133,17 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContact.this,
+                            "can't be generated. Need to download QR services",
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.create :
                 //Create a new Intent to send to QR Droid
                 qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
 
-                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
-                String name = s.getString(Constants.USER_NAME, "Swati Garg");
+                String mPhoneNumber     = sharedPreferences.getString(Constants.USER_NUMBER, "997112322");
+                String name             = sharedPreferences.getString(Constants.USER_NAME, "Swati Garg");
 
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
@@ -161,7 +161,9 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_CREATE);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this, "can't be generated. Need to download QR services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareContact.this,
+                            "can't be generated. Need to download QR services",
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

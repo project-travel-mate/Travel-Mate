@@ -1,7 +1,6 @@
 package flipviewpager.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseIntArray;
 
 /**
  * @author Yalantis
@@ -9,7 +8,7 @@ import java.util.Map;
 public class FlipSettings {
     private final int defaultPage;
 
-    private final Map<Integer, Integer> pages = new HashMap<>();
+    private final SparseIntArray pages = new SparseIntArray();
 
     private FlipSettings(int defaultPage) {
         this.defaultPage = defaultPage;
@@ -20,7 +19,7 @@ public class FlipSettings {
     }
 
     public Integer getPageForPosition(int position) {
-        return pages.containsKey(position) ? pages.get(position) : defaultPage;
+        return pages.get(position, defaultPage);
     }
 
     public int getDefaultPage() {

@@ -110,23 +110,25 @@
 
 
                             <Button
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/call"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
                                 android:layout_weight="1.0"
                                 android:background="@color/colorPrimary"
-                                android:text="@string/prompt_call"
+                                android:text="@string/text_call"
                                 android:textColor="#ffffff" />
 
                             <Button
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/book"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
                                 android:layout_weight="1.0"
                                 android:background="@color/colorPrimary"
-                                android:text="@string/prompt_book"
+                                android:text="@string/text_book"
                                 android:textColor="#ffffff" />
 
 

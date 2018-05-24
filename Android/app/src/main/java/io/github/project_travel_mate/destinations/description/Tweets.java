@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.destinations.description;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -58,15 +59,15 @@ public class Tweets extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        Intent i = getIntent();
-        String tit = i.getStringExtra("name_");
-        id      = i.getStringExtra("id_");
-        String image = i.getStringExtra("image_");
-        nam     = new ArrayList<>();
-        cou     = new ArrayList<>();
-        lin     = new ArrayList<>();
+        Intent intent   = getIntent();
+        String title    = intent.getStringExtra("name_");
+        id              = intent.getStringExtra("id_");
+        String image    = intent.getStringExtra("image_");
+        nam             = new ArrayList<>();
+        cou             = new ArrayList<>();
+        lin             = new ArrayList<>();
 
-        setTitle(tit);
+        setTitle(title);
         getTweets();
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,7 +85,7 @@ public class Tweets extends AppCompatActivity {
 
         // to fetch city names
         String uri = Constants.apilink + "city/trends/twitter.php?city=" + id;
-        Log.e("executing", uri + " ");
+        Log.v("executing", uri);
 
 
         //Set up client
@@ -121,11 +122,10 @@ public class Tweets extends AppCompatActivity {
                             dialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
+                            Log.e("ERROR : ", e.getMessage());
                         }
                     }
                 });
-
             }
         });
     }
@@ -147,7 +147,6 @@ public class Tweets extends AppCompatActivity {
             this.name = name;
             this.count = count;
             this.link = link;
-
         }
 
         @NonNull
@@ -156,9 +155,9 @@ public class Tweets extends AppCompatActivity {
             ViewHolder holder;
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, null);
+                view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, (ViewGroup) null);
                 holder = new ViewHolder();
-                holder.name = (TextView) view.findViewById(R.id.tagmain);
+                holder.name = view.findViewById(R.id.tagmain);
                 view.setTag(holder);
             } else
                 holder = (ViewHolder) view.getTag();
@@ -179,5 +178,4 @@ public class Tweets extends AppCompatActivity {
             TextView name;
         }
     }
-
 }

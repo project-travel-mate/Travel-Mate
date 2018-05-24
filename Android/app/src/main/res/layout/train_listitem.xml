@@ -22,7 +22,7 @@
             android:id="@+id/bus_name"
             android:layout_width="182dp"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:gravity="start"
             android:padding="10dp"
             android:text="@string/text_title"
             android:textColor="#ff4a4a4a"
@@ -50,7 +50,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:maxLines="10"
-                android:text="@string/bus_text"
+                android:text="@string/text_bus"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/bus_text"
+                android:text="@string/text_bus"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -73,14 +73,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="5dp"
-                android:text="@string/bus_text"
+                android:text="@string/text_bus"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -93,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Mon"
+                        android:text="@string/monday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -104,7 +105,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -119,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Tue"
+                        android:text="@string/tuesday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -130,7 +131,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -145,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Wed"
+                        android:text="@string/wednesday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -156,7 +157,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -171,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Thu"
+                        android:text="@string/thursday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -182,7 +183,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -197,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Fri"
+                        android:text="@string/friday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -208,7 +209,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -223,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Sat"
+                        android:text="@string/saturday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -234,7 +235,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -249,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:gravity="center"
-                        android:text="Sun"
+                        android:text="@string/sunday"
                         android:textSize="15sp" />
 
                     <TextView
@@ -260,7 +261,7 @@
                         android:layout_weight="1.0"
                         android:background="@color/green"
                         android:gravity="center"
-                        android:text="Y" />
+                        android:text="@string/yes" />
 
                 </LinearLayout>
 
@@ -274,23 +275,25 @@
                 android:orientation="horizontal">
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:id="@+id/more"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:layout_weight="1.0"
                     android:background="@color/colorPrimary"
-                    android:text="@string/more"
+                    android:text="@string/text_more"
                     android:textColor="#ffffff" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:id="@+id/book"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:layout_weight="1.0"
                     android:background="@color/colorPrimary"
-                    android:text="@string/prompt_book"
+                    android:text="@string/text_book"
                     android:textColor="#ffffff" />
             </LinearLayout>
 

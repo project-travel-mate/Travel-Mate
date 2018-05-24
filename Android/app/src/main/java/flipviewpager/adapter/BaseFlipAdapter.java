@@ -51,13 +51,13 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
 
         final ViewHolder viewHolder;
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.flipper, null);
+            convertView = inflater.inflate(R.layout.flipper, (ViewGroup) null);
         if (convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
             viewHolder = new ViewHolder();
             convertView.setTag(viewHolder);
-            viewHolder.mFlipViewPager = (FlipViewPager) convertView.findViewById(R.id.flip_view);
+            viewHolder.mFlipViewPager = convertView.findViewById(R.id.flip_view);
         }
 
         // Listener to store flipped page

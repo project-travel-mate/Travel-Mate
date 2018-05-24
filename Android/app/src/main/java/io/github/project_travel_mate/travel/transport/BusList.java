@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.transport;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +36,8 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.SelectCity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -73,7 +75,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -84,7 +86,8 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
         dest                = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
 
         selectdate.setText(dates);
-        city.setText(source + " to " + dest);
+        String cityText = source + " to " + dest;
+        city.setText(cityText);
 
 
         getBuslist();
@@ -216,11 +219,11 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
                     public void run() {
                         Log.e("RESPONSE : ", "Done");
                         try {
-                            JSONObject YTFeed = new JSONObject(String.valueOf(res));
-                            JSONArray YTFeedItems = YTFeed.getJSONArray("results");
-                            Log.e("response", YTFeedItems + " ");
+                            JSONObject feed = new JSONObject(String.valueOf(res));
+                            JSONArray feedItems = feed.getJSONArray("results");
+                            Log.e("response", feedItems + " ");
                             pb.setVisibility(View.GONE);
-                            lv.setAdapter(new Bus_adapter(BusList.this, YTFeedItems));
+                            lv.setAdapter(new BusAdapter(BusList.this, feedItems));
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -236,21 +239,22 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
         super.onResume();
         source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
         dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
-        city.setText(source + " to " + dest);
+        String cityText = source + " to " + dest;
+        city.setText(cityText);
         getBuslist(); // Update Bus list
     }
 
 
     // Sets adapter for bus list
-    class Bus_adapter extends BaseAdapter {
+    class BusAdapter extends BaseAdapter {
 
         final Context context;
         final JSONArray FeedItems;
         private final LayoutInflater inflater;
 
-        Bus_adapter(Context context, JSONArray FeedItems) {
+        BusAdapter(Context context, JSONArray feedItems) {
             this.context = context;
-            this.FeedItems = FeedItems;
+            this.FeedItems = feedItems;
 
             inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -280,19 +284,19 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.bus_listitem, null);
+                vi = inflater.inflate(R.layout.bus_listitem, (ViewGroup) null);
 
-            TextView Title = (TextView) vi.findViewById(R.id.bus_name);
-            TextView Description = (TextView) vi.findViewById(R.id.bustype);
-            TextView add = (TextView) vi.findViewById(R.id.add);
-            Button contact = (Button) vi.findViewById(R.id.call);
-            Button url = (Button) vi.findViewById(R.id.book);
-            TextView fair = (TextView) vi.findViewById(R.id.fair);
+            TextView title = vi.findViewById(R.id.bus_name);
+            TextView description = vi.findViewById(R.id.bustype);
+            TextView add = vi.findViewById(R.id.add);
+            Button contact = vi.findViewById(R.id.call);
+            Button url = vi.findViewById(R.id.book);
+            TextView fair = vi.findViewById(R.id.fair);
 
 
             try {
-                Title.setText(FeedItems.getJSONObject(position).getString("name"));
-                Description.setText(FeedItems.getJSONObject(position).getString("type"));
+                title.setText(FeedItems.getJSONObject(position).getString("name"));
+                description.setText(FeedItems.getJSONObject(position).getString("type"));
                 add.setText(FeedItems.getJSONObject(position).getString("dep_add"));
 
                 contact.setOnClickListener(new View.OnClickListener() {
@@ -317,8 +321,8 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
                         context.startActivity(browserIntent);
                     }
                 });
-
-                fair.setText(FeedItems.getJSONObject(position).getString("fair") + " Rs");
+                String fairText = FeedItems.getJSONObject(position).getString("fair") + " Rs";
+                fair.setText(fairText);
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("ERROR : ", e.getMessage() + " ");
@@ -329,8 +333,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.city :
                 Intent i = new Intent(BusList.this, SelectCity.class);
                 startActivity(i);

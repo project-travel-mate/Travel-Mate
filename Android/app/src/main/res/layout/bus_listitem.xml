@@ -50,7 +50,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:maxLines="10"
-                android:text="@string/bus_text"
+                android:text="@string/text_bus"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="15sp" />
 
@@ -96,12 +96,12 @@
 
             <TextView
                 android:id="@+id/fair"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:maxLines="10"
                 android:padding="5dp"
-                android:text="110/-"
+                android:text="@string/bus_fair_default"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -115,23 +115,25 @@
 
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/call"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1.0"
                 android:background="@color/colorAccent"
-                android:text="@string/prompt_call"
+                android:text="@string/text_call"
                 android:textColor="#ffffff" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/book"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1.0"
                 android:background="@color/colorAccent"
-                android:text="@string/prompt_book"
+                android:text="@string/text_book"
                 android:textColor="#ffffff" />
 
 

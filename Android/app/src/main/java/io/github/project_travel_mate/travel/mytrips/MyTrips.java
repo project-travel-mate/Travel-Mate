@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.mytrips;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,10 +30,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -159,7 +161,12 @@ public class MyTrips extends AppCompatActivity {
         private final List<String> ids, name, image, start, end;
         ImageView city;
         TextView cityname, date;
-        MyTripsadapter(Activity context, List<String> id, List<String> name, List<String> image, List<String> start, List<String> end) {
+        MyTripsadapter(Activity context,
+                       List<String> id,
+                       List<String> name,
+                       List<String> image,
+                       List<String> start,
+                       List<String> end) {
             super(context, R.layout.trip_listitem, id);
             this.context    = context;
             ids             = id;
@@ -173,14 +180,14 @@ public class MyTrips extends AppCompatActivity {
         @Override
         public View getView(final int position, View view2, @NonNull ViewGroup parent) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, null);
-            city = (ImageView) view.findViewById(R.id.profile_image);
-            cityname = (TextView) view.findViewById(R.id.tv);
-            date = (TextView) view.findViewById(R.id.date);
+            View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, (ViewGroup) null);
+            city = view.findViewById(R.id.profile_image);
+            cityname = view.findViewById(R.id.tv);
+            date = view.findViewById(R.id.date);
 
             if (position == 0) {
                 city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-                cityname.setText("Add New Trip");
+                cityname.setText(getResources().getString(R.string.prompt_add_new_trip));
                 date.setText("");
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +207,7 @@ public class MyTrips extends AppCompatActivity {
                 final Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(Long.parseLong(start.get(position)) * 1000);
                 final String timeString =
-                        new SimpleDateFormat("dd-MMM").format(cal.getTime());
+                        new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
                 date.setText(timeString);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

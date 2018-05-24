@@ -1,9 +1,10 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 
 public class UtilitiesFragment extends Fragment implements View.OnClickListener {
 
@@ -24,7 +26,7 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
     public UtilitiesFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_utility, container, false);

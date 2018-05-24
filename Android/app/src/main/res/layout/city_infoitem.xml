@@ -48,13 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="@string/add_trip" />
+                android:text="@string/prompt_add_trip" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:id="@+id/map"
@@ -75,7 +76,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/locate"
+                        android:text="@string/text_locate"
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -99,7 +100,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/more"
+                        android:text="@string/text_more"
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
                 </LinearLayout>

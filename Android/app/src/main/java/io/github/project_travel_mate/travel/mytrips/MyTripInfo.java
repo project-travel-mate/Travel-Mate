@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.mytrips;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import adapters.NestedListView;
@@ -44,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -121,7 +123,7 @@ public class MyTripInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @OnTextChanged(R.id.fname) void onTextChanged(){
+    @OnTextChanged(R.id.fname) void onTextChanged() {
         nameyet = frendname.getText().toString();
         if (!nameyet.contains(" ")) {
             Log.e("name", nameyet + " ");
@@ -129,7 +131,7 @@ public class MyTripInfo extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.newfrriend) void onClick(){
+    @OnClick(R.id.newfrriend) void onClick() {
         addfriend();
     }
 
@@ -175,13 +177,14 @@ public class MyTripInfo extends AppCompatActivity {
                             city = ob.getString("city");
 
                             tite.setText(city);
-                            tite = (TextView) findViewById(R.id.tname);
+                            tite = findViewById(R.id.tname);
                             tite.setText(title);
                             final Calendar cal = Calendar.getInstance();
                             cal.setTimeInMillis(Long.parseLong(start) * 1000);
                             final String timeString =
-                                    new SimpleDateFormat("dd-MMM").format(cal.getTime());
-                            date.setText("Started on : " + timeString);
+                                    getResources().getString(R.string.text_started_on) +
+                                    new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                            date.setText(timeString);
 
                             JSONArray arrr = ob.getJSONArray("users");
                             for (int i = 0; i < arrr.length(); i++) {
@@ -212,9 +215,9 @@ public class MyTripInfo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
 
-            ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            for (int i = 0; i < image_uris.size(); i++) {
-                Log.e("cdscsd", image_uris.get(i).getPath());
+            ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+            for (int i = 0; i < imageUris.size(); i++) {
+                Log.e("cdscsd", imageUris.get(i).getPath());
             }
             Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
 
@@ -271,8 +274,8 @@ public class MyTripInfo extends AppCompatActivity {
                                     Log.e("error ", " " + e.getMessage());
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
-                                    (getApplicationContext(), R.layout.spinner_layout, list);
+                            ArrayAdapter<String> dataAdapter =
+                                    new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, list);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             frendname.setThreshold(1);
                             frendname.setAdapter(dataAdapter);
@@ -355,9 +358,9 @@ public class MyTripInfo extends AppCompatActivity {
             ViewHolder holder;
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, null);
+                view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, (ViewGroup) null);
                 holder = new ViewHolder();
-                holder.iv = (ImageView) view.findViewById(R.id.iv);
+                holder.iv = view.findViewById(R.id.iv);
 
                 view.setTag(holder);
             } else
@@ -376,7 +379,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
+                        Intent i = new Intent(MyTripInfo.this, TripImage.class);
                         ArrayList<String> a = new ArrayList<>();
                         a.add(name.get(position).getAbsolutePath());
 
@@ -399,7 +402,7 @@ public class MyTripInfo extends AppCompatActivity {
         private final List<String> name;
 
         Friendnameadapter(Activity context, List<String> name) {
-            super(context, R.layout.friend_listitem, name);
+            super(context, R.layout.home_city_listitem, name);
             this.context = context;
             this.name = name;
         }
@@ -410,13 +413,13 @@ public class MyTripInfo extends AppCompatActivity {
             ViewHolder holder;
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.friend_listitem, null);
+                view = Objects.requireNonNull(mInflater).inflate(R.layout.home_city_listitem, (ViewGroup) null);
                 holder = new ViewHolder();
-                holder.iv = (TextView) view.findViewById(R.id.name);
+                holder.iv = view.findViewById(R.id.name);
                 view.setTag(holder);
             } else
                 holder = (ViewHolder) view.getTag();
-            holder.iv.setText(name.get(position) + " ");
+            holder.iv.setText(name.get(position));
             return view;
         }
 

@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/black"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="1dp"

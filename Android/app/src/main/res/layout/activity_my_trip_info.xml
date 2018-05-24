@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
-            android:text="@string/add_friend"
+            android:text="@string/prompt_add_friend"
             android:textColor="#ffffff" />
 
 

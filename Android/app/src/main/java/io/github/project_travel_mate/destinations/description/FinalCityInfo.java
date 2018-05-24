@@ -20,9 +20,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.project_travel_mate.PlacesOnMap;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.Tweets;
 import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 
 /**
@@ -31,7 +29,7 @@ import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
     private Typeface code;
-    private Typeface codeb;
+    private Typeface codeBold;
     private MaterialDialog dialog;
     private Handler mHandler;
 
@@ -79,15 +77,14 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         mFinalCityInfoPresenter = new FinalCityInfoPresenter();
 
-        code        = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
-        codeb       = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
-        Typeface tex = Typeface.createFromAsset(getAssets(), "fonts/texgyreadventor-regular.otf");
-        mHandler    = new Handler(Looper.getMainLooper());
+        code            = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
+        codeBold        = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
+        mHandler        = new Handler(Looper.getMainLooper());
 
-        Intent intent = getIntent();
-        mTitle = intent.getStringExtra("name_");
-        id = intent.getStringExtra("id_");
-        image = intent.getStringExtra("image_");
+        Intent intent   = getIntent();
+        mTitle          = intent.getStringExtra("name_");
+        id              = intent.getStringExtra("id_");
+        image           = intent.getStringExtra("image_");
 
         initUi();
         initPresenter();
@@ -101,7 +98,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     private void initUi() {
         des.setText(getString(R.string.sample_string));
         setTitle(mTitle);
-        title.setTypeface(codeb);
+        title.setTypeface(codeBold);
         title.setText(mTitle);
         // Load image into ImageView
         Picasso.with(this).load(image).into(iv);
@@ -123,17 +120,17 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     }
 
     private void setTypeFaces() {
-        TextView mFunFactsTextView = (TextView) findViewById(R.id.fftext);
+        TextView mFunFactsTextView = findViewById(R.id.fftext);
         mFunFactsTextView.setTypeface(code);
-        mFunFactsTextView = (TextView) findViewById(R.id.hgtext);
+        mFunFactsTextView = findViewById(R.id.hgtext);
         mFunFactsTextView.setTypeface(code);
-        mFunFactsTextView = (TextView) findViewById(R.id.shtext);
+        mFunFactsTextView = findViewById(R.id.shtext);
         mFunFactsTextView.setTypeface(code);
-        mFunFactsTextView = (TextView) findViewById(R.id.mntext);
+        mFunFactsTextView = findViewById(R.id.mntext);
         mFunFactsTextView.setTypeface(code);
-        mFunFactsTextView = (TextView) findViewById(R.id.rstext);
+        mFunFactsTextView = findViewById(R.id.rstext);
         mFunFactsTextView.setTypeface(code);
-        mFunFactsTextView = (TextView) findViewById(R.id.cttext);
+        mFunFactsTextView = findViewById(R.id.cttext);
         mFunFactsTextView.setTypeface(code);
     }
 
@@ -236,8 +233,10 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             public void run() {
                 des.setText(description);
                 Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
-                FinalCityInfo.this.temp.setText(temp + (char) 0x00B0 + " C ");
-                FinalCityInfo.this.humidity.setText("Humidity : " + humidity);
+                String temperatureText = temp + (char) 0x00B0 + " C ";
+                FinalCityInfo.this.temp.setText(temperatureText);
+                String humidityText = "Humidity : " + humidity;
+                FinalCityInfo.this.humidity.setText(humidityText);
                 weatherinfo.setText(weatherInfo);
                 FinalCityInfo.this.lat = lat;
                 FinalCityInfo.this.lon = lon;

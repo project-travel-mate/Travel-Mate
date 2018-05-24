@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.transport;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 
 public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +28,7 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode_of_transport);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

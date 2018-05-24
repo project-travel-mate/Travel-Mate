@@ -43,7 +43,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_facts);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

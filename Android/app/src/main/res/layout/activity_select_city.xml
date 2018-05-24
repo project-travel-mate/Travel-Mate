@@ -56,10 +56,10 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TRAVEL GUIDE"
+                android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffffff"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
 
             <Spinner
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="2dp"
-                    android:text="TO"
+                    android:text="@string/text_to"
                     android:textColor="#ffffff"
 
                     android:textSize="18sp" />
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#ffffff"
-                android:text="Change" />
+                android:text="@string/text_change" />
 
         </LinearLayout>
 

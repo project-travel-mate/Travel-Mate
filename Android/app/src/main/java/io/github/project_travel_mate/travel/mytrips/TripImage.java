@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.travel.mytrips;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import adapters.ImageAdapter;
+import io.github.project_travel_mate.R;
 import utils.Constants;
 
 
-public class EventImage extends AppCompatActivity {
+public class TripImage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_event_image);
+        setContentView(R.layout.activity_trip_image);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra(Constants.EVENT_NAME);
@@ -26,7 +27,7 @@ public class EventImage extends AppCompatActivity {
 
         ArrayList<String> images = intent.getStringArrayListExtra(Constants.EVENT_IMG);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         ImageAdapter adapter = new ImageAdapter(this, images);
         viewPager.setAdapter(adapter);
         if (pos != -1)
