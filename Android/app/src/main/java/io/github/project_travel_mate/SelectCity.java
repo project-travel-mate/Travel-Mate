@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -27,6 +26,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -37,14 +37,9 @@ import utils.Constants;
 @SuppressWarnings("WeakerAccess")
 public class SelectCity extends AppCompatActivity {
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.source) Spinner source;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.destination) Spinner dest;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.pb) ProgressBar pb;
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.ok) Button ok;
     private String[] cities;
     private SharedPreferences.Editor editor;
     private final List<String> id = new ArrayList<>();
@@ -63,54 +58,45 @@ public class SelectCity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = s.edit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPreferences.edit();
         mHandler = new Handler(Looper.getMainLooper());
-
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int sposition = source.getSelectedItemPosition();
-                int dposition = dest.getSelectedItemPosition();
-
-                if (sposition == dposition) {
-                    Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-
-                } else {
-                    editor.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
-                    editor.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
-                    editor.putString(Constants.DESTINATION_CITY, names.get(dposition));
-                    editor.putString(Constants.SOURCE_CITY, names.get(sposition));
-                    editor.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
-                    editor.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
-                    editor.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
-                    editor.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
-                    SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
-
-                    editor.apply();
-                    SelectCity.this.finish();
-                }
-            }
-        });
 
         getcitytask();
 
-
         Objects.requireNonNull(getSupportActionBar()).setTitle(" ");
-
     }
 
+    @OnClick(R.id.ok)
+    public void okClicked(View view) {
 
+        int sposition = source.getSelectedItemPosition();
+        int dposition = dest.getSelectedItemPosition();
 
-    @SuppressWarnings("WeakerAccess")
+        if (sposition == dposition) {
+            Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else {
+            editor.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
+            editor.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
+            editor.putString(Constants.DESTINATION_CITY, names.get(dposition));
+            editor.putString(Constants.SOURCE_CITY, names.get(sposition));
+            editor.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
+            editor.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
+            editor.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
+            editor.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
+            SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
+
+            editor.apply();
+            SelectCity.this.finish();
+        }
+    }
+
     private void getcitytask() {
 
         // to fetch city names
         String uri = Constants.apilink + "all-cities.php";
-        Log.e("executing", uri + " ");
-
+        Log.v("EXECUTING : ", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -139,7 +125,6 @@ public class SelectCity extends AppCompatActivity {
                                 names.add(ar.getJSONObject(i).getString("name"));
                                 lat.add(ar.getJSONObject(i).getString("lat"));
                                 lon.add(ar.getJSONObject(i).getString("lng"));
-
                             }
                             cities = new String[id.size()];
                             cities = names.toArray(cities);
@@ -152,7 +137,7 @@ public class SelectCity extends AppCompatActivity {
                             pb.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
+                            Log.e("ERROR : ", e.getMessage());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }

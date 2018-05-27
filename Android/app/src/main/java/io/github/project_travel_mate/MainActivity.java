@@ -19,9 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
-
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
@@ -35,10 +32,6 @@ import utils.Constants;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences   sharedPreferences;
-    private Boolean             discovered = false;
-    private String              beaconmajor;
-    private BeaconManager       beaconManager;
-    private Region              region;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,43 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new CityFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
-        // If beacon detected, open activity
-        final Intent intent = getIntent();
-        if (intent.getBooleanExtra(Constants.IS_BEACON, false)) {
-            Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
-            intent1.putExtra(Constants.CUR_UID, intent.getStringExtra(Constants.CUR_UID));
-            intent1.putExtra(Constants.CUR_MAJOR, intent.getStringExtra(Constants.CUR_MAJOR));
-            intent1.putExtra(Constants.CUR_MINOR, intent.getStringExtra(Constants.CUR_MINOR));
-            intent1.putExtra(Constants.IS_BEACON, true);
-            startActivity(intent1);
-        }
-
-
-        /*// Start beacon ranging
-        beaconManager = new BeaconManager(this);
-        region = new Region("Minion region", UUID.fromString(Constants.UID), null, null);
-
-        beaconManager.connect(() -> beaconManager.startRanging(region));
-
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-            @Override
-            public void onBeaconsDiscovered(Region region1, List<Beacon> list) {
-                if (!discovered && list.size() > 0) {
-                    Beacon nearestBeacon = list.get(0);
-                    beaconmajor = Integer.toString(nearestBeacon.getMajor());
-                    Log.e("Discovered", "Nearest places: " + nearestBeacon.getMajor());
-                    discovered = true;
-                    Intent intent1 = new Intent(MainActivity.this, DetectedBeacon.class);
-                    intent1.putExtra(Constants.CUR_UID, " ");
-                    intent1.putExtra(Constants.CUR_MAJOR, beaconmajor);
-                    intent1.putExtra(Constants.CUR_MINOR, " ");
-                    intent1.putExtra(Constants.IS_BEACON, true);
-                    MainActivity.this.startActivity(intent1);
-                }
-            }
-
-        });*/
 
         // Get runtime permissions for Android M
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.VIBRATE,
-
                 }, 0);
             }
         }

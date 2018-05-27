@@ -56,8 +56,6 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
     private String deslon;
     private String deslat;
-    private String curlat;
-    private String curlon;
 
     private ProgressDialog progressDialog;
     private int mode;
@@ -201,8 +199,8 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         if (!tracker.canGetLocation()) {
             tracker.showSettingsAlert();
         } else {
-            curlat = Double.toString(tracker.getLatitude());
-            curlon = Double.toString(tracker.getLongitude());
+            String curlat = Double.toString(tracker.getLatitude());
+            String curlon = Double.toString(tracker.getLongitude());
             if (curlat.equals("0.0")) {
                 curlat = "28.5952242";
                 curlon = "77.1656782";

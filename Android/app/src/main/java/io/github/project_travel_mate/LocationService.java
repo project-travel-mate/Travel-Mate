@@ -82,7 +82,7 @@ public class LocationService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListener();
         if (ContextCompat.checkSelfPermission(LocationService.this,
@@ -91,6 +91,7 @@ public class LocationService extends Service {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
         }
+        return START_NOT_STICKY;
     }
 
     @Override

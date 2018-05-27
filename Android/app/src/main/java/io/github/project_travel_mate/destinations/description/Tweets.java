@@ -1,21 +1,13 @@
 package io.github.project_travel_mate.destinations.description;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -30,6 +22,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.Tweet;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -44,10 +37,8 @@ public class Tweets extends AppCompatActivity {
 
     private String id;
     private MaterialDialog dialog;
-    private List<String> nam;
-    private List<String> cou;
-    private List<String> lin;
-    private Tweetsadapter adapter;
+    private List<Tweet> tweets = new ArrayList<>();
+    private TweetsAdapter adapter;
     private Handler mHandler;
 
     @Override
@@ -63,9 +54,6 @@ public class Tweets extends AppCompatActivity {
         String title    = intent.getStringExtra("name_");
         id              = intent.getStringExtra("id_");
         String image    = intent.getStringExtra("image_");
-        nam             = new ArrayList<>();
-        cou             = new ArrayList<>();
-        lin             = new ArrayList<>();
 
         setTitle(title);
         getTweets();
@@ -109,15 +97,14 @@ public class Tweets extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            //Tranform the string into a json object
                             JSONArray ob = new JSONArray(res);
                             for (int i = 0; i < ob.length(); i++) {
-                                nam.add(ob.getJSONObject(i).getString("name"));
-                                lin.add(ob.getJSONObject(i).getString("url"));
-                                cou.add(ob.getJSONObject(i).getString("tweet_volume"));
+                                String nam = ob.getJSONObject(i).getString("name");
+                                String link = ob.getJSONObject(i).getString("url");
+                                String count = ob.getJSONObject(i).getString("tweet_volume");
+                                tweets.add(new Tweet(nam, link, count));
                             }
-
-                            adapter = new Tweetsadapter(Tweets.this, nam, cou, lin);
+                            adapter = new TweetsAdapter(Tweets.this, tweets);
                             lv.setAdapter(adapter);
                             dialog.dismiss();
                         } catch (JSONException e) {
@@ -135,47 +122,5 @@ public class Tweets extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
-    }
-
-    class Tweetsadapter extends ArrayAdapter<String> {
-        private final Activity context;
-        private final List<String> name, count, link;
-
-        Tweetsadapter(Activity context, List<String> name, List<String> count, List<String> link) {
-            super(context, R.layout.trip_listitem, name);
-            this.context = context;
-            this.name = name;
-            this.count = count;
-            this.link = link;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View view, @NonNull ViewGroup parent) {
-            ViewHolder holder;
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, (ViewGroup) null);
-                holder = new ViewHolder();
-                holder.name = view.findViewById(R.id.tagmain);
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-
-            holder.name.setText(name.get(position));
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.get(position)));
-                    startActivity(browserIntent);
-                }
-            });
-            return view;
-        }
-
-        private class ViewHolder {
-            TextView name;
-        }
     }
 }
