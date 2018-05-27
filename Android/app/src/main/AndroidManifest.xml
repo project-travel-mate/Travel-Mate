@@ -110,7 +110,6 @@
             android:name=".destinations.funfacts.FunFacts"
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetectedBeacon" />
         <activity android:name=".utilities.ShareContact" />
         <activity
             android:name=".login.LoginActivity"

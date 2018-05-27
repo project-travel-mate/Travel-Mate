@@ -2,18 +2,14 @@ package io.github.project_travel_mate.travel.mytrips;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -82,7 +78,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private MaterialDialog dialog;
     private Handler mHandler;
-    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    public static final int INTENT_REQUEST_GET_IMAGES = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +108,7 @@ public class MyTripInfo extends AppCompatActivity {
         }
         mediaimages.add(null);
 
-        Imagesadapter ad = new Imagesadapter(this, mediaimages);
+        MyTripInfoImagesAdapter ad = new MyTripInfoImagesAdapter(this, mediaimages);
         twoway.setAdapter(ad);
 
         frendname.setThreshold(1);
@@ -195,7 +191,7 @@ public class MyTripInfo extends AppCompatActivity {
 
                             Log.e("vdsv", fname.size() + " ");
 
-                            Friendnameadapter dataAdapter = new Friendnameadapter(MyTripInfo.this, fname);
+                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, fname);
                             lv.setAdapter(dataAdapter);
 
 
@@ -282,9 +278,6 @@ public class MyTripInfo extends AppCompatActivity {
                             frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    // TODO Auto-generated method stub
-                                    Log.e("jkjb", "uihgiug" + arg2);
-
                                     friendid = list1.get(arg2).toString();
                                 }
                             });
@@ -341,91 +334,4 @@ public class MyTripInfo extends AppCompatActivity {
             }
         });
     }
-
-    class Imagesadapter extends ArrayAdapter<File> {
-        private final Activity context;
-        private final List<File> name;
-
-        Imagesadapter(Activity context, List<File> name) {
-            super(context, R.layout.trip_listitem, name);
-            this.context = context;
-            this.name = name;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View view, @NonNull ViewGroup parent) {
-            ViewHolder holder;
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, (ViewGroup) null);
-                holder = new ViewHolder();
-                holder.iv = view.findViewById(R.id.iv);
-
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-            if (position == name.size() - 1) {
-                holder.iv.setImageResource(R.drawable.add_image);
-                holder.iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent1 = new Intent(MyTripInfo.this, ImagePickerActivity.class);
-                        startActivityForResult(intent1, INTENT_REQUEST_GET_IMAGES);
-                    }
-                });
-            } else {
-                holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
-                holder.iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, TripImage.class);
-                        ArrayList<String> a = new ArrayList<>();
-                        a.add(name.get(position).getAbsolutePath());
-
-                        i.putExtra(Constants.EVENT_IMG, a);
-                        i.putExtra(Constants.EVENT_NAME, "Image");
-                        startActivity(i);
-                    }
-                });
-            }
-            return view;
-        }
-
-        private class ViewHolder {
-            ImageView iv;
-        }
-    }
-
-    class Friendnameadapter extends ArrayAdapter<String> {
-        private final Activity context;
-        private final List<String> name;
-
-        Friendnameadapter(Activity context, List<String> name) {
-            super(context, R.layout.home_city_listitem, name);
-            this.context = context;
-            this.name = name;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View view, @NonNull ViewGroup parent) {
-            ViewHolder holder;
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = Objects.requireNonNull(mInflater).inflate(R.layout.home_city_listitem, (ViewGroup) null);
-                holder = new ViewHolder();
-                holder.iv = view.findViewById(R.id.name);
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-            holder.iv.setText(name.get(position));
-            return view;
-        }
-
-        private class ViewHolder {
-            TextView iv;
-        }
-    }
-
 }

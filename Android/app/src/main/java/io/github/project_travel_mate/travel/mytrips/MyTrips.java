@@ -1,41 +1,29 @@
 package io.github.project_travel_mate.travel.mytrips;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -49,12 +37,7 @@ public class MyTrips extends AppCompatActivity {
     GridView g;
 
     private MaterialDialog dialog;
-    private List<String> id;
-    private List<String> name;
-    private List<String> image;
-    private List<String> start;
-    private List<String> end;
-    private List<String> tname;
+    private List<Trip> trips = new ArrayList<>();
     private String userid;
     private Handler mHandler;
 
@@ -65,22 +48,11 @@ public class MyTrips extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        id      = new ArrayList<>();
-        name    = new ArrayList<>();
-        tname   = new ArrayList<>();
-        image   = new ArrayList<>();
-        start   = new ArrayList<>();
-        end     = new ArrayList<>();
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
         userid  = s.getString(Constants.USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
 
-        id.add("yo");
-        name.add("yo");
-        tname.add("yo");
-        image.add("yo");
-        start.add("yo");
-        end.add("yo");
+        trips.add(new Trip());
 
         mytrip();
 
@@ -125,12 +97,13 @@ public class MyTrips extends AppCompatActivity {
                     arr = new JSONArray(res);
 
                     for (int i = 0; i < arr.length(); i++) {
-                        id.add(arr.getJSONObject(i).getString("id"));
-                        start.add(arr.getJSONObject(i).getString("start_time"));
-                        end.add(arr.getJSONObject(i).getString("end_time"));
-                        name.add(arr.getJSONObject(i).getString("city"));
-                        tname.add(arr.getJSONObject(i).getString("title"));
-                        image.add(arr.getJSONObject(i).getString("image"));
+                        String id = arr.getJSONObject(i).getString("id");
+                        String start = arr.getJSONObject(i).getString("start_time");
+                        String end = arr.getJSONObject(i).getString("end_time");
+                        String name = arr.getJSONObject(i).getString("city");
+                        String tname = arr.getJSONObject(i).getString("title");
+                        String image = arr.getJSONObject(i).getString("image");
+                        trips.add(new Trip(id, name, image, start, end, tname));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -140,7 +113,7 @@ public class MyTrips extends AppCompatActivity {
                     @Override
                     public void run() {
                         dialog.dismiss();
-                        g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
+                        g.setAdapter(new MyTripsAdapter(MyTrips.this, trips));
                     }
                 });
 
@@ -154,72 +127,5 @@ public class MyTrips extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
-    }
-
-    class MyTripsadapter extends ArrayAdapter<String> {
-        private final Activity context;
-        private final List<String> ids, name, image, start, end;
-        ImageView city;
-        TextView cityname, date;
-        MyTripsadapter(Activity context,
-                       List<String> id,
-                       List<String> name,
-                       List<String> image,
-                       List<String> start,
-                       List<String> end) {
-            super(context, R.layout.trip_listitem, id);
-            this.context    = context;
-            ids             = id;
-            this.name       = name;
-            this.image      = image;
-            this.start      = start;
-            this.end        = end;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View view2, @NonNull ViewGroup parent) {
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, (ViewGroup) null);
-            city = view.findViewById(R.id.profile_image);
-            cityname = view.findViewById(R.id.tv);
-            date = view.findViewById(R.id.date);
-
-            if (position == 0) {
-                city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-                cityname.setText(getResources().getString(R.string.prompt_add_new_trip));
-                date.setText("");
-
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MyTrips.this, AddNewTrip.class);
-                        context.startActivity(i);
-                    }
-                });
-
-            } else {
-                Picasso.with(MyTrips.this).load(image.get(position)).placeholder(R.drawable.add_list_item)
-                        .into(city);
-                cityname.setText(name.get(position));
-                date.setText(start.get(position));
-                Log.e("time", start.get(position) + " " + image.get(position));
-                final Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(Long.parseLong(start.get(position)) * 1000);
-                final String timeString =
-                        new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
-                date.setText(timeString);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MyTrips.this, MyTripInfo.class);
-                        i.putExtra("_id", id.get(position));
-                        i.putExtra("_image", image.get(position));
-                        startActivity(i);
-                    }
-                });
-            }
-            return view;
-        }
     }
 }

@@ -24,7 +24,6 @@ public class Splash extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-
         final PathView pathView = findViewById(R.id.pathView);
         pathView.getPathAnimator()
                 .delay(1000)
@@ -42,10 +41,7 @@ public class Splash extends AppCompatActivity {
                 Intent i = new Intent(Splash.this, LoginActivity.class);
                 startActivity(i);
                 finish();
-
             }
         }, 2000);
-
     }
-
 }

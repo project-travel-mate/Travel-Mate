@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * <p>
  * Constants for database column names
  */
-public abstract class TableEntry implements BaseColumns {
+public abstract class ChecklistEntry implements BaseColumns {
     public static final String TABLE_NAME = "events_new";
     public static final String COLUMN_NAME_ID = "id";
     public static final String COLUMN_NAME = "name";

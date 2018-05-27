@@ -43,6 +43,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.MapItem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -67,10 +68,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
     private GoogleMap googleMap;
 
-    private List<String> name;
-    private List<String> nums;
-    private List<String> web;
-    private List<String> addr;
+    private List<MapItem> mapItems =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +96,6 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
         sc.setVisibility(View.GONE);
 
-        name    = new ArrayList<>();
-        nums    = new ArrayList<>();
-        web     = new ArrayList<>();
-        addr    = new ArrayList<>();
-
         curlat = deslat;
         curlon = deslon;
 
@@ -123,8 +116,6 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             }
             getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
         }
-
-
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -167,14 +158,15 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                             JSONArray routeArray = json.getJSONArray("results");
 
                             for (int i = 0; i < routeArray.length(); i++) {
-                                name.add(routeArray.getJSONObject(i).getString("name"));
-                                web.add(routeArray.getJSONObject(i).getString("website"));
-                                nums.add(routeArray.getJSONObject(i).getString("phone"));
-                                addr.add(routeArray.getJSONObject(i).getString("address"));
+                                String name = routeArray.getJSONObject(i).getString("name");
+                                String web = routeArray.getJSONObject(i).getString("website");
+                                String nums = routeArray.getJSONObject(i).getString("phone");
+                                String addr = routeArray.getJSONObject(i).getString("address");
                                 showMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
                                         Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
                                         routeArray.getJSONObject(i).getString("name"),
                                         ic);
+                                mapItems.add(new MapItem(name, nums, web, addr));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,10 +192,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                         public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
 
                             googleMap.clear();
-                            name.clear();
-                            nums.clear();
-                            web.clear();
-                            addr.clear();
+                            mapItems.clear();
 
                             for (int i = 0; i < which.length; i++) {
                                 Log.e("selected", which[i] + " " + text[i]);
@@ -300,8 +289,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             @Override
             public boolean onMarkerClick(Marker marker) {
                 sc.setVisibility(View.VISIBLE);
-                for (int i = 0; i < name.size(); i++) {
-                    if (name.get(i).equals(marker.getTitle())) {
+                for (int i = 0; i < mapItems.size(); i++) {
+                    if (mapItems.get(i).getName().equals(marker.getTitle())) {
                         index = i;
                         break;
                     }
@@ -313,13 +302,13 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 calls = MapRealTimeActivity.this.findViewById(R.id.call);
                 book = MapRealTimeActivity.this.findViewById(R.id.book);
 
-                title.setText(name.get(index));
-                description.setText(addr.get(index));
+                title.setText(mapItems.get(index).getName());
+                description.setText(mapItems.get(index).getAddress());
                 calls.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + nums.get(index)));
+                        intent.setData(Uri.parse("tel:" + mapItems.get(index).getNumber()));
                         MapRealTimeActivity.this.startActivity(intent);
 
                     }
@@ -328,7 +317,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onClick(View view) {
                         Intent browserIntent;
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(web.get(index)));
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapItems.get(index).getAddress()));
                         MapRealTimeActivity.this.startActivity(browserIntent);
                     }
                 });

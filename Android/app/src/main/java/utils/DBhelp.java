@@ -18,13 +18,13 @@ public class DBhelp extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TableEntry.TABLE_NAME + " (" +
-                    TableEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL" + COMMA_SEP +
-                    TableEntry.COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
-                    TableEntry.COLUMN_NAME_ISDONE
+            "CREATE TABLE " + ChecklistEntry.TABLE_NAME + " (" +
+                    ChecklistEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL" + COMMA_SEP +
+                    ChecklistEntry.COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
+                    ChecklistEntry.COLUMN_NAME_ISDONE
                     + TEXT_TYPE +
                     " )";
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TableEntry.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + ChecklistEntry.TABLE_NAME;
 
     public DBhelp(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
