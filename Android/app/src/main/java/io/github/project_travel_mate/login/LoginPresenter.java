@@ -13,7 +13,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
 
 /**
  * Created by el on 5/4/17.
@@ -47,7 +48,7 @@ class LoginPresenter {
 
         view.showLoadingDialog();
 
-        String uri = Constants.apilink + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+        String uri = API_LINK + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -100,7 +101,7 @@ class LoginPresenter {
 
         view.showLoadingDialog();
 
-        String uri = Constants.apilink + "users/login.php?contact=" + num + "&password=" + pass;
+        String uri = API_LINK + "users/login.php?contact=" + num + "&password=" + pass;
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request

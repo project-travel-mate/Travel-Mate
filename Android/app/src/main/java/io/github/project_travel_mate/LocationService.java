@@ -22,7 +22,8 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
-import utils.Constants;
+import static utils.Constants.DESTINATION_CITY_LAT;
+import static utils.Constants.DESTINATION_CITY_LON;
 
 /**
  * Created by swati on 17/10/15.
@@ -103,9 +104,9 @@ public class LocationService extends Service {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
         Double m = distance(location.getLatitude(),
-                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, "0.0")),
+                Double.parseDouble(sharedPreferences.getString(DESTINATION_CITY_LAT, "0.0")),
                 location.getLongitude(),
-                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LON, "0.0")));
+                Double.parseDouble(sharedPreferences.getString(DESTINATION_CITY_LON, "0.0")));
         return m < 5000;
     }
 

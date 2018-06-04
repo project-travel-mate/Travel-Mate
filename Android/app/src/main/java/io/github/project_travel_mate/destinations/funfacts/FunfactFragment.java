@@ -23,6 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_TEXT;
+import static utils.Constants.EXTRA_MESSAGE_TITLE;
+
 /**
  * Created by swati on 25/1/16.
  * <p>
@@ -30,9 +34,6 @@ import io.github.project_travel_mate.R;
  */
 public class FunfactFragment extends Fragment {
 
-    private static final String EXTRA_MESSAGE_IMAGE     = "_image";
-    private static final String EXTRA_MESSAGE_TEXT      = "_text";
-    private static final String EXTRA_MESSAGE_TITLE     = "_title";
     private File file;
 
     /**

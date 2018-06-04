@@ -25,6 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
+
 /**
  * Funfacts activity
  */
@@ -48,10 +51,10 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
         ButterKnife.bind(this);
 
-        Intent i    = getIntent();
-        id          = i.getStringExtra("id_");
-        name        = i.getStringExtra("name_");
-        mHandler    = new Handler(Looper.getMainLooper());
+        Intent intent       = getIntent();
+        id                  = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        name                = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        mHandler            = new Handler(Looper.getMainLooper());
 
         initPresenter();
         Objects.requireNonNull(getSupportActionBar()).hide();

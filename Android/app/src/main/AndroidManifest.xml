@@ -49,7 +49,7 @@
             android:theme="@style/AppTheme_picker" />
 
         <service android:enabled="true" android:name=".LocationService" />
-        <service android:enabled="true" android:name=".utils.GPSTracker" />
+        <service android:enabled="true" android:name="utils.GPSTracker" />
 
         <activity
             android:name=".SelectCity"

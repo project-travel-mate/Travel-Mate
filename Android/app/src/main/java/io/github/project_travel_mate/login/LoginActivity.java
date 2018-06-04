@@ -25,7 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
-import utils.Constants;
+
+import static utils.Constants.USER_ID;
+import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_NUMBER;
 
 /**
  * Initiates login
@@ -124,9 +127,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void rememberUserInfo(String id, String name, String num) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.USER_ID, id);
-        editor.putString(Constants.USER_NAME, name);
-        editor.putString(Constants.USER_NUMBER, num);
+        editor.putString(USER_ID, id);
+        editor.putString(USER_NAME, name);
+        editor.putString(USER_NUMBER, num);
         editor.apply();
     }
 
@@ -185,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void checkUserSession() {
-        if (sharedPreferences.getString(Constants.USER_ID, null) != null) {
+        if (sharedPreferences.getString(USER_ID, null) != null) {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();

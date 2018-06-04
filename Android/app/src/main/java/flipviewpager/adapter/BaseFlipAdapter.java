@@ -51,7 +51,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
 
         final ViewHolder viewHolder;
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.flipper, (ViewGroup) null);
+            convertView = inflater.inflate(R.layout.flipper, parent, false);
         if (convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {

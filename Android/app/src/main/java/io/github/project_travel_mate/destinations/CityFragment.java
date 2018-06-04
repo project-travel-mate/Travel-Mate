@@ -41,7 +41,11 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
 
 public class CityFragment extends Fragment {
 
@@ -52,7 +56,7 @@ public class CityFragment extends Fragment {
     @BindView(R.id.music_list)
     ListView                lv;
 
-    private List<String> image  = new ArrayList<>();
+    private final List<String> image  = new ArrayList<>();
 
     private String      nameyet;
     private String      cityid;
@@ -91,7 +95,7 @@ public class CityFragment extends Fragment {
     private void tripAutoComplete() {
 
         // to fetch city names
-        String uri = Constants.apilink +
+        String uri = API_LINK +
                 "city/autocomplete.php?search=" + nameyet.trim();
         Log.v("executing", uri);
 
@@ -146,9 +150,9 @@ public class CityFragment extends Fragment {
                                     Log.e("jkjb", "uihgiug" + arg2);
                                     cityid = id.get(arg2).toString();
                                     Intent i = new Intent(activity, FinalCityInfo.class);
-                                    i.putExtra("id_", cityid);
-                                    i.putExtra("name_", name.get(arg2).toString());
-                                    i.putExtra("image_", image.get(arg2));
+                                    i.putExtra(EXTRA_MESSAGE_ID, cityid);
+                                    i.putExtra(EXTRA_MESSAGE_NAME, name.get(arg2).toString());
+                                    i.putExtra(EXTRA_MESSAGE_IMAGE, image.get(arg2));
                                     startActivity(i);
                                 }
                             });
@@ -168,7 +172,7 @@ public class CityFragment extends Fragment {
     private void getCity() {
 
         // to fetch city names
-        String uri = Constants.apilink +
+        String uri = API_LINK +
                 "all-cities.php";
         Log.e("executing", uri + " ");
 
@@ -232,9 +236,9 @@ public class CityFragment extends Fragment {
                                     City f = (City) lv.getAdapter().getItem(position);
                                     Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(activity, FinalCityInfo.class);
-                                    i.putExtra("id_", f.getId());
-                                    i.putExtra("name_", f.getNickname());
-                                    i.putExtra("image_", f.getAvatar());
+                                    i.putExtra(EXTRA_MESSAGE_ID, f.getId());
+                                    i.putExtra(EXTRA_MESSAGE_NAME, f.getNickname());
+                                    i.putExtra(EXTRA_MESSAGE_IMAGE, f.getAvatar());
                                     startActivity(i);
                                 }
                             });

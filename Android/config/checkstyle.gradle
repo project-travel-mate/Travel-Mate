@@ -18,7 +18,7 @@ task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code
         xml.enabled = true
         xml {
             //noinspection GrDeprecatedAPIUsage
-            destination "$reportsDir/checkstyle/checkstyle.xml"
+            destination file("$reportsDir/checkstyle/checkstyle.xml")
         }
     }
 

@@ -38,6 +38,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.Constants;
 
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.SOURCE_CITY;
+
 public class TrainList extends AppCompatActivity implements
         com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
@@ -74,8 +77,8 @@ public class TrainList extends AppCompatActivity implements
 
         mHandler                    = new Handler(Looper.getMainLooper());
         sharedPreferences           = PreferenceManager.getDefaultSharedPreferences(this);
-        source                      = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
-        dest                        = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        source                      = sharedPreferences.getString(SOURCE_CITY, "delhi");
+        dest                        = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
         String cityText             = source + " to " + dest;
         city.setText(cityText);
         selectdate.setText(dates);
@@ -134,7 +137,7 @@ public class TrainList extends AppCompatActivity implements
     private void getTrainlist() {
 
         pb.setVisibility(View.VISIBLE);
-        String uri = Constants.apilink +
+        String uri = Constants.API_LINK +
                 "get-trains.php?src_city=" + source +
                 "&dest_city=" + dest +
                 "&date=" + dates;
@@ -181,8 +184,8 @@ public class TrainList extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        source                  = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
-        dest                    = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        source                  = sharedPreferences.getString(SOURCE_CITY, "delhi");
+        dest                    = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
         String cityText         = source + " to " + dest;
         city.setText(cityText);
 

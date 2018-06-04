@@ -37,7 +37,10 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.SOURCE_CITY;
 
 /**
  * Displays a list of available buses
@@ -76,8 +79,8 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
         ButterKnife.bind(this);
 
         sharedPreferences   = PreferenceManager.getDefaultSharedPreferences(this);
-        source              = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
-        dest                = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        source              = sharedPreferences.getString(SOURCE_CITY, "delhi");
+        dest                = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
 
         selectdate.setText(dates);
         String cityText = source + " to " + dest;
@@ -155,7 +158,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     private void getBuslist() {
 
         pb.setVisibility(View.VISIBLE);
-        String uri = Constants.apilink + "bus-booking.php?src=" +
+        String uri = API_LINK + "bus-booking.php?src=" +
                 source +
                 "&dest=" +
                 dest +
@@ -204,8 +207,8 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     @Override
     protected void onResume() {
         super.onResume();
-        source = sharedPreferences.getString(Constants.SOURCE_CITY, "delhi");
-        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "mumbai");
+        source = sharedPreferences.getString(SOURCE_CITY, "delhi");
+        dest = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
         String cityText = source + " to " + dest;
         city.setText(cityText);
         getBuslist(); // Update Bus list

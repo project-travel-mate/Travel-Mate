@@ -32,7 +32,7 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
         ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
-            view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, (ViewGroup) null);
+            view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, parent, false);
             holder = new ViewHolder();
             holder.name = view.findViewById(R.id.tagmain);
             view.setTag(holder);

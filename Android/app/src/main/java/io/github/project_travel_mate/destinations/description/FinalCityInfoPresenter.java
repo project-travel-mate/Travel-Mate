@@ -11,7 +11,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
 
 /**
  * Created by niranjanb on 15/05/17.
@@ -32,7 +33,7 @@ class FinalCityInfoPresenter {
     public void fetchCityInfo(String id) {
         mFinalCityInfoView.showProgress();
 
-        String uri = Constants.apilink + "city/info.php?id=" + id;
+        String uri = API_LINK + "city/info.php?id=" + id;
         Request request = new Request.Builder()
                 .url(uri)
                 .build();

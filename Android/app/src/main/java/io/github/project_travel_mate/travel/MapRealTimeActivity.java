@@ -49,8 +49,19 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
 import utils.GPSTracker;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.DELHI_LAT;
+import static utils.Constants.DELHI_LON;
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.DESTINATION_CITY_LAT;
+import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.MUMBAI_LAT;
+import static utils.Constants.MUMBAI_LON;
+import static utils.Constants.SOURCE_CITY;
+import static utils.Constants.SOURCE_CITY_LAT;
+import static utils.Constants.SOURCE_CITY_LON;
 
 /**
  * Show markers on map around user's current location
@@ -68,7 +79,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
     private GoogleMap googleMap;
 
-    private List<MapItem> mapItems =  new ArrayList<>();
+    private final List<MapItem> mapItems =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +98,12 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String sorcelat = sharedPreferences.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        String sorcelon = sharedPreferences.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        String deslat = sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        String deslon = sharedPreferences.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
-        String surce = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
-        String dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+        String sorcelat = sharedPreferences.getString(SOURCE_CITY_LAT, DELHI_LAT);
+        String sorcelon = sharedPreferences.getString(SOURCE_CITY_LON, DELHI_LON);
+        String deslat = sharedPreferences.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
+        String deslon = sharedPreferences.getString(DESTINATION_CITY_LON, MUMBAI_LON);
+        String surce = sharedPreferences.getString(SOURCE_CITY, "Delhi");
+        String dest = sharedPreferences.getString(DESTINATION_CITY, "Mumbai");
 
         sc.setVisibility(View.GONE);
 
@@ -129,7 +140,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
      */
     private void getMarkers(int mo, final int ic) {
 
-        String uri = Constants.apilink + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
+        String uri = API_LINK + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
         Log.e("executing", uri + " ");
 
         //Set up client

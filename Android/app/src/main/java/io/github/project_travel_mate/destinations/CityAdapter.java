@@ -25,11 +25,14 @@ import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 import objects.City;
 import views.FontTextView;
 
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
+
 class CityAdapter extends BaseFlipAdapter<City> {
 
-    private Activity context;
-    private final int pages = 3;
-    private Typeface tex;
+    private final Activity context;
+    private final Typeface tex;
     private final int[] idsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
 
@@ -93,6 +96,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     @Override
     public int getPagesCount() {
+        int pages = 3;
         return pages;
     }
 
@@ -116,9 +120,9 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, FinalCityInfo.class);
-                i.putExtra("id_", friend.getId());
-                i.putExtra("name_", friend.getNickname());
-                i.putExtra("image_", friend.getAvatar());
+                i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
+                i.putExtra(EXTRA_MESSAGE_NAME, friend.getNickname());
+                i.putExtra(EXTRA_MESSAGE_IMAGE, friend.getAvatar());
                 context.startActivity(i);
             }
         });
@@ -127,8 +131,8 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, FunFacts.class);
-                i.putExtra("id_", friend.getId());
-                i.putExtra("name_", friend.getNickname());
+                i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
+                i.putExtra(EXTRA_MESSAGE_NAME, friend.getNickname());
                 context.startActivity(i);
             }
         });

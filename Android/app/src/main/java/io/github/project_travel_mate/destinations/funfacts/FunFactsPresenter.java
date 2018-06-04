@@ -14,7 +14,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
 
 /**
  * Created by niranjanb on 14/06/17.
@@ -36,7 +37,7 @@ class FunFactsPresenter {
         mFunFactsView.showProgressDialog();
 
         // to fetch city names
-        String uri = Constants.apilink + "city_facts.php?id=" + id;
+        String uri = API_LINK + "city_facts.php?id=" + id;
 
         //Set up client
         OkHttpClient client = new OkHttpClient();

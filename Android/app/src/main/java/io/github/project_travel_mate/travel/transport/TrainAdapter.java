@@ -56,7 +56,7 @@ class TrainAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.train_listitem, (ViewGroup) null);
+            vi = inflater.inflate(R.layout.train_listitem, parent, false);
 
         TextView title = vi.findViewById(R.id.bus_name);
         TextView description = vi.findViewById(R.id.bustype);

@@ -23,6 +23,9 @@ import java.util.Objects;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+
 class MyTripsAdapter extends ArrayAdapter<Trip> {
     private final Activity context;
     private final List<Trip> trips;
@@ -38,7 +41,7 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
     @Override
     public View getView(final int position, View view2, @NonNull ViewGroup parent) {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, (ViewGroup) null);
+        View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, parent, false);
         ImageView city = view.findViewById(R.id.profile_image);
         TextView cityname = view.findViewById(R.id.tv);
         TextView date = view.findViewById(R.id.date);
@@ -71,8 +74,8 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, MyTripInfo.class);
-                    i.putExtra("_id", trips.get(position).getId());
-                    i.putExtra("_image", trips.get(position).getImage());
+                    i.putExtra(EXTRA_MESSAGE_ID, trips.get(position).getId());
+                    i.putExtra(EXTRA_MESSAGE_IMAGE, trips.get(position).getImage());
                     context.startActivity(i);
                 }
             });

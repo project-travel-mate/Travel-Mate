@@ -1,4 +1,4 @@
-package utils;
+package io.github.project_travel_mate.utilities;
 
 import android.provider.BaseColumns;
 

@@ -2,9 +2,9 @@ package objects;
 
 public class Tweet {
 
-    private String name;
-    private String url;
-    private String volume;
+    private final String name;
+    private final String url;
+    private final String volume;
 
     public Tweet(String name, String url, String volume) {
         this.name = name;

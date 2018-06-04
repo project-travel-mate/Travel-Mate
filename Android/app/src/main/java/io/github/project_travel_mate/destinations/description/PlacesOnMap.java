@@ -46,8 +46,14 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
 import utils.GPSTracker;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
+import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_TYPE;
 
 public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -71,9 +77,9 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
 
         Intent intent   = getIntent();
-        String name     = intent.getStringExtra("name_");
-        String id       = intent.getStringExtra("id_");
-        String type     = intent.getStringExtra("type_");
+        String name     = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        String id       = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        String type     = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
         mHandler        = new Handler(Looper.getMainLooper());
 
         setTitle(name);
@@ -97,8 +103,8 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 break;
         }
 
-        deslat = intent.getStringExtra("lat_");
-        deslon = intent.getStringExtra("lng_");
+        deslat = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
+        deslon = intent.getStringExtra(EXTRA_MESSAGE_LONGITUDE);
 
         getPlaces();
 
@@ -145,7 +151,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         progressDialog.show();
 
         // to fetch city names
-        String uri = Constants.apilink + "places-api.php?lat=" + deslat + "&lng=" + deslon + "&mode=" + mode;
+        String uri = API_LINK + "places-api.php?lat=" + deslat + "&lng=" + deslon + "&mode=" + mode;
         Log.v("executing", "URI : " + uri );
 
         //Set up client
@@ -254,7 +260,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.city_infoitem, (ViewGroup) null);
+                vi = inflater.inflate(R.layout.city_infoitem, parent, false);
 
             TextView title = vi.findViewById(R.id.item_name);
             TextView description = vi.findViewById(R.id.item_address);

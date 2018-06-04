@@ -30,6 +30,7 @@
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:inputType="text"
+                    android:hint="@string/empty_description"
                     android:layout_weight="100" />
 
                 <Button

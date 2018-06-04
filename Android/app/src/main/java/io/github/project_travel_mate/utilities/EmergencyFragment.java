@@ -1,6 +1,5 @@
 package io.github.project_travel_mate.utilities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,12 +49,6 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
         railways.setOnClickListener(this);
 
         return view;
-    }
-
-
-    @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
     }
 
     @Override

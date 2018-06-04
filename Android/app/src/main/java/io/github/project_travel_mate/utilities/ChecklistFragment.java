@@ -31,9 +31,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import objects.ChecklistItem;
-import utils.ChecklistEntry;
-import utils.Constants;
 import utils.DBhelp;
+
+import static utils.Constants.BASE_TASKS;
+import static utils.Constants.ID_ADDED_INDB;
 
 
 public class ChecklistFragment extends Fragment {
@@ -42,7 +43,7 @@ public class ChecklistFragment extends Fragment {
     private SQLiteDatabase      db;
     private Activity            activity;
 
-    private ArrayList<ChecklistItem> items = new ArrayList<>();
+    private final ArrayList<ChecklistItem> items = new ArrayList<>();
 
     @BindView(R.id.lv)
     ListView lv;
@@ -64,17 +65,17 @@ public class ChecklistFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         //First time uers
-        String isAlreadyAdded = sharedPreferences.getString(Constants.ID_ADDED_INDB, "null");
+        String isAlreadyAdded = sharedPreferences.getString(ID_ADDED_INDB, "null");
         if (isAlreadyAdded.equals("null")) {
 
-            for (int i = 0; i < Constants.baseTask.size(); i++) {
+            for (int i = 0; i < BASE_TASKS.size(); i++) {
                 ContentValues insertValues = new ContentValues();
-                insertValues.put(ChecklistEntry.COLUMN_NAME, Constants.baseTask.get(i));
+                insertValues.put(ChecklistEntry.COLUMN_NAME, BASE_TASKS.get(i));
                 insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
                 db.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
             }
 
-            editor.putString(Constants.ID_ADDED_INDB, "yes");
+            editor.putString(ID_ADDED_INDB, "yes");
             editor.apply();
         }
 
@@ -91,7 +92,7 @@ public class ChecklistFragment extends Fragment {
         LayoutInflater inflater = (activity).getLayoutInflater();
         builder.setTitle("Add new item");
         builder.setCancelable(false);
-        final View dialogv = inflater.inflate(R.layout.dialog, (ViewGroup) null);
+        final View dialogv = inflater.inflate(R.layout.dialog, null);
         builder.setView(dialogv)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

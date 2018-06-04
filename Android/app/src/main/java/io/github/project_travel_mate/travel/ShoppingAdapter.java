@@ -55,7 +55,7 @@ class ShoppingAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.shop_listitem, (ViewGroup) null);
+            vi = inflater.inflate(R.layout.shop_listitem, parent, false);
 
         TextView title = vi.findViewById(R.id.VideoTitle);
         TextView description = vi.findViewById(R.id.VideoDescription);

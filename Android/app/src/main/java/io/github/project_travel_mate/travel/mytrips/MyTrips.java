@@ -29,7 +29,9 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.USER_ID;
 
 public class MyTrips extends AppCompatActivity {
 
@@ -37,7 +39,7 @@ public class MyTrips extends AppCompatActivity {
     GridView g;
 
     private MaterialDialog dialog;
-    private List<Trip> trips = new ArrayList<>();
+    private final List<Trip> trips = new ArrayList<>();
     private String userid;
     private Handler mHandler;
 
@@ -49,7 +51,7 @@ public class MyTrips extends AppCompatActivity {
         ButterKnife.bind(this);
 
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
-        userid  = s.getString(Constants.USER_ID, "1");
+        userid  = s.getString(USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
 
         trips.add(new Trip());
@@ -71,7 +73,7 @@ public class MyTrips extends AppCompatActivity {
                 .progress(true, 0)
                 .show();
 
-        String uri = Constants.apilink + "trip/get-all.php?user=" + userid;
+        String uri = API_LINK + "trip/get-all.php?user=" + userid;
         Log.e("executing", uri + " ");
 
 

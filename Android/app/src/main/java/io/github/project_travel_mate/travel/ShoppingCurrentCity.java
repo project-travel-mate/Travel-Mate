@@ -31,8 +31,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import utils.Constants;
 import utils.Utils;
+
+import static utils.Constants.API_LINK;
 
 public class ShoppingCurrentCity extends AppCompatActivity {
 
@@ -160,14 +161,9 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
     private class GetShoppingItems extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
         protected String doInBackground(String... urls) {
             try {
-                String uri = Constants.apilink +
+                String uri = API_LINK +
                         "online-shopping.php?string=" + item;
                 uri = uri.replace(" ", "+");
                 URL url = new URL(uri);

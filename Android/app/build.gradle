@@ -44,7 +44,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.0.0'
     implementation 'com.github.ParkSangGwon:TedPicker:v1.0.10'
 
-    implementation 'com.estimote:sdk:0.9.4@aar'
     implementation 'com.eftimoff:android-pathview:1.0.8@aar'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 

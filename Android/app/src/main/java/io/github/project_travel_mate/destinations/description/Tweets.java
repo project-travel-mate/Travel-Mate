@@ -28,7 +28,11 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
 
 public class Tweets extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class Tweets extends AppCompatActivity {
 
     private String id;
     private MaterialDialog dialog;
-    private List<Tweet> tweets = new ArrayList<>();
+    private final List<Tweet> tweets = new ArrayList<>();
     private TweetsAdapter adapter;
     private Handler mHandler;
 
@@ -51,9 +55,9 @@ public class Tweets extends AppCompatActivity {
         mHandler = new Handler(Looper.getMainLooper());
 
         Intent intent   = getIntent();
-        String title    = intent.getStringExtra("name_");
-        id              = intent.getStringExtra("id_");
-        String image    = intent.getStringExtra("image_");
+        String title    = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        id              = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        String image    = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
 
         setTitle(title);
         getTweets();
@@ -72,7 +76,7 @@ public class Tweets extends AppCompatActivity {
                 .show();
 
         // to fetch city names
-        String uri = Constants.apilink + "city/trends/twitter.php?city=" + id;
+        String uri = API_LINK + "city/trends/twitter.php?city=" + id;
         Log.v("executing", uri);
 
 

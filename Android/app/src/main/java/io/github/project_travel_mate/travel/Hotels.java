@@ -42,7 +42,12 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.DESTINATION_CITY_ID;
+import static utils.Constants.SOURCE_CITY;
+import static utils.Constants.SOURCE_CITY_ID;
 
 /**
  * Display list of hotels in destination city
@@ -84,10 +89,10 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
         mHandler    = new Handler(Looper.getMainLooper());
         sharedPreferences           = PreferenceManager.getDefaultSharedPreferences(this);
-        source      = sharedPreferences.getString(Constants.SOURCE_CITY_ID, "1");
-        dest        = sharedPreferences.getString(Constants.DESTINATION_CITY_ID, "1");
-        sourcet     = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
-        destt       = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+        source      = sharedPreferences.getString(SOURCE_CITY_ID, "1");
+        dest        = sharedPreferences.getString(DESTINATION_CITY_ID, "1");
+        sourcet     = sharedPreferences.getString(SOURCE_CITY, "Delhi");
+        destt       = sharedPreferences.getString(DESTINATION_CITY, "Mumbai");
 
         String cityText = "Showing " + destt + " hotels";
         String selectDateText = "Check In : " + dates;
@@ -159,7 +164,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     private void getHotellist() {
 
         pb.setVisibility(View.VISIBLE);
-        String uri = Constants.apilink +
+        String uri = API_LINK +
                 "get-city-hotels.php?id=" +
                 dest +
                 "&date=" +
@@ -207,10 +212,10 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     @Override
     protected void onResume() {
         super.onResume();
-        source =    sharedPreferences.getString(Constants.SOURCE_CITY_ID, "1");
-        dest =      sharedPreferences.getString(Constants.DESTINATION_CITY_ID, "1");
-        sourcet =   sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
-        destt =     sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+        source =    sharedPreferences.getString(SOURCE_CITY_ID, "1");
+        dest =      sharedPreferences.getString(DESTINATION_CITY_ID, "1");
+        sourcet =   sharedPreferences.getString(SOURCE_CITY, "Delhi");
+        destt =     sharedPreferences.getString(DESTINATION_CITY, "Mumbai");
         String cityText = "Showing " + destt + " hotels";
         city.setText(cityText);
         getHotellist();
@@ -265,7 +270,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
         public View getView(final int position, View convertView, ViewGroup parent) {
             View vi = convertView;
             if (vi == null)
-                vi = inflater.inflate(R.layout.hotel_listitem, (ViewGroup) null);
+                vi = inflater.inflate(R.layout.hotel_listitem, parent, false);
 
             LinearLayout call, map, book;
 

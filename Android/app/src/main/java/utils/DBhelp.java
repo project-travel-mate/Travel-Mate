@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import io.github.project_travel_mate.utilities.ChecklistEntry;
+
 /**
  * Created by Swati garg on 30-06-2015.
  * <p>

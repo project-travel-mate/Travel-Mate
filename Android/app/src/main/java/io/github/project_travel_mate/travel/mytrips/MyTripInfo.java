@@ -49,6 +49,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.Constants;
 
+import static utils.Constants.API_LINK;
+
 public class MyTripInfo extends AppCompatActivity {
 
     @BindView(R.id.image)
@@ -88,8 +90,8 @@ public class MyTripInfo extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        id          = intent.getStringExtra("_id");
-        String img = intent.getStringExtra("_image");
+        id          = intent.getStringExtra(Constants.EXTRA_MESSAGE_ID);
+        String img = intent.getStringExtra(Constants.EXTRA_MESSAGE_IMAGE);
 
         List<File> mediaimages = new ArrayList<>();
         List<File> imagesuri = new ArrayList<>();
@@ -140,7 +142,7 @@ public class MyTripInfo extends AppCompatActivity {
                 .show();
 
         // to fetch city names
-        String uri = Constants.apilink + "trip/get-one.php?trip=" + id;
+        String uri = API_LINK + "trip/get-one.php?trip=" + id;
         Log.e("executing", uri + " ");
 
 
@@ -229,7 +231,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void friendautocomplete() {
 
-        String uri = Constants.apilink + "users/find.php?search=" + nameyet.trim();
+        String uri = API_LINK + "users/find.php?search=" + nameyet.trim();
         Log.e("executing", uri + " ");
 
         //Set up client
@@ -303,7 +305,7 @@ public class MyTripInfo extends AppCompatActivity {
                 .progress(true, 0)
                 .show();
 
-        String uri = Constants.apilink + "trip/add-user.php?user=" + friendid + "&trip=" + id;
+        String uri = API_LINK + "trip/add-user.php?user=" + friendid + "&trip=" + id;
         Log.e("executing", uri + " ");
 
         //Set up client

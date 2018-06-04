@@ -39,7 +39,9 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.USER_ID;
 
 /**
  * Activity to add new trip
@@ -80,7 +82,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         ButterKnife.bind(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userid = sharedPreferences.getString(Constants.USER_ID, "1");
+        userid = sharedPreferences.getString(USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
 
         cityname.setThreshold(1);
@@ -131,7 +133,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     private void tripAutoComplete() {
 
         // to fetch city names
-        String uri = Constants.apilink + "city/autocomplete.php?search=" + nameyet.trim();
+        String uri = API_LINK + "city/autocomplete.php?search=" + nameyet.trim();
         Log.e("executing", uri + " ");
 
         //Set up client
@@ -205,7 +207,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                 .progress(true, 0)
                 .show();
 
-        String uri = Constants.apilink + "trip/add-trip.php?user=" + userid +
+        String uri = API_LINK + "trip/add-trip.php?user=" + userid +
                 "&title=" + tripname +
                 "&start_time=" + startdate +
                 "&city=" + cityid;

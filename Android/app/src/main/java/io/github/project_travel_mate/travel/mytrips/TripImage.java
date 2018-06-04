@@ -10,7 +10,10 @@ import java.util.Objects;
 
 import adapters.ImageAdapter;
 import io.github.project_travel_mate.R;
-import utils.Constants;
+
+import static utils.Constants.EVENT_IMG;
+import static utils.Constants.EVENT_NAME;
+import static utils.Constants.IMAGE_NO;
 
 
 public class TripImage extends AppCompatActivity {
@@ -22,10 +25,10 @@ public class TripImage extends AppCompatActivity {
         setContentView(R.layout.activity_trip_image);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra(Constants.EVENT_NAME);
-        int pos = intent.getIntExtra(Constants.IMAGE_NO, -1);
+        String name = intent.getStringExtra(EVENT_NAME);
+        int pos = intent.getIntExtra(IMAGE_NO, -1);
 
-        ArrayList<String> images = intent.getStringArrayListExtra(Constants.EVENT_IMG);
+        ArrayList<String> images = intent.getStringArrayListExtra(EVENT_IMG);
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         ImageAdapter adapter = new ImageAdapter(this, images);

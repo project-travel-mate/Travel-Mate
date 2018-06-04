@@ -46,7 +46,18 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.DELHI_LAT;
+import static utils.Constants.DELHI_LON;
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.DESTINATION_CITY_LAT;
+import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.MUMBAI_LAT;
+import static utils.Constants.MUMBAI_LON;
+import static utils.Constants.SOURCE_CITY;
+import static utils.Constants.SOURCE_CITY_LAT;
+import static utils.Constants.SOURCE_CITY_LON;
+import static utils.Constants.maps_key;
 
 /**
  * Show car directions between 2 cities
@@ -94,12 +105,12 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        sorcelat    = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon    = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat      = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon      = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
-        surce       = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest        = s.getString(Constants.DESTINATION_CITY, "MUmbai");
+        sorcelat    = s.getString(SOURCE_CITY_LAT, DELHI_LAT);
+        sorcelon    = s.getString(SOURCE_CITY_LON, DELHI_LON);
+        deslat      = s.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
+        deslon      = s.getString(DESTINATION_CITY_LON, MUMBAI_LON);
+        surce       = s.getString(SOURCE_CITY, "Delhi");
+        dest        = s.getString(DESTINATION_CITY, "MUmbai");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -168,7 +179,7 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
         String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
                 sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
                 "&key=" +
-                Constants.maps_key +
+                maps_key +
                 "&mode=driving\n";
 
         Log.e("CALLING : ", uri);

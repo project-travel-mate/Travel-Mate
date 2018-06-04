@@ -29,7 +29,7 @@ class MyTripFriendnameAdapter extends ArrayAdapter<String> {
         ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
-            view = Objects.requireNonNull(mInflater).inflate(R.layout.home_city_listitem, (ViewGroup) null);
+            view = Objects.requireNonNull(mInflater).inflate(R.layout.home_city_listitem, parent, false);
             holder = new ViewHolder();
             holder.iv = view.findViewById(R.id.name);
             view.setTag(holder);

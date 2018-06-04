@@ -23,6 +23,13 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 
+import static utils.Constants.EXTRA_MESSAGE_ID;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
+import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
+import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_TYPE;
+
 /**
  * Fetch city information for given city id
  */
@@ -82,9 +89,9 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         mHandler        = new Handler(Looper.getMainLooper());
 
         Intent intent   = getIntent();
-        mTitle          = intent.getStringExtra("name_");
-        id              = intent.getStringExtra("id_");
-        image           = intent.getStringExtra("image_");
+        mTitle          = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        id              = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        image           = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
 
         initUi();
         initPresenter();
@@ -149,8 +156,8 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.funfact:
                 i = new Intent(FinalCityInfo.this, FunFacts.class);
-                i.putExtra("id_", id);
-                i.putExtra("name_", mTitle);
+                i.putExtra(EXTRA_MESSAGE_ID, id);
+                i.putExtra(EXTRA_MESSAGE_NAME, mTitle);
                 startActivity(i);
                 break;
             case R.id.restau:
@@ -167,8 +174,8 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.trends:
                 i = new Intent(FinalCityInfo.this, Tweets.class);
-                i.putExtra("id_", id);
-                i.putExtra("name_", mTitle);
+                i.putExtra(EXTRA_MESSAGE_ID, id);
+                i.putExtra(EXTRA_MESSAGE_NAME, mTitle);
                 startActivity(i);
                 break;
         }
@@ -197,7 +204,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     @Override
     public void showProgress() {
         dialog = new MaterialDialog.Builder(FinalCityInfo.this)
-                .title(R.string.app_name)
+                .title(getString(R.string.app_name))
                 .content("Please wait...")
                 .progress(true, 0)
                 .show();
@@ -245,11 +252,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     }
 
     private void fireIntent(Intent intent, String type) {
-        intent.putExtra("id_", id);
-        intent.putExtra("lat_", lat);
-        intent.putExtra("lng_", lon);
-        intent.putExtra("name_", mTitle);
-        intent.putExtra("type_", type);
+        intent.putExtra(EXTRA_MESSAGE_ID, id);
+        intent.putExtra(EXTRA_MESSAGE_LATITUDE, lat);
+        intent.putExtra(EXTRA_MESSAGE_LONGITUDE, lon);
+        intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+        intent.putExtra(EXTRA_MESSAGE_TYPE, type);
         startActivity(intent);
     }
 }

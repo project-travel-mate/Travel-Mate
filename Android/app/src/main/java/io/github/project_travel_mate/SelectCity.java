@@ -32,7 +32,16 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
+
+import static utils.Constants.API_LINK;
+import static utils.Constants.DESTINATION_CITY;
+import static utils.Constants.DESTINATION_CITY_ID;
+import static utils.Constants.DESTINATION_CITY_LAT;
+import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.SOURCE_CITY;
+import static utils.Constants.SOURCE_CITY_ID;
+import static utils.Constants.SOURCE_CITY_LAT;
+import static utils.Constants.SOURCE_CITY_LON;
 
 @SuppressWarnings("WeakerAccess")
 public class SelectCity extends AppCompatActivity {
@@ -77,14 +86,14 @@ public class SelectCity extends AppCompatActivity {
             Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } else {
-            editor.putString(Constants.DESTINATION_CITY_ID, id.get(dposition));
-            editor.putString(Constants.SOURCE_CITY_ID, id.get(sposition));
-            editor.putString(Constants.DESTINATION_CITY, names.get(dposition));
-            editor.putString(Constants.SOURCE_CITY, names.get(sposition));
-            editor.putString(Constants.DESTINATION_CITY_LAT, lat.get(dposition));
-            editor.putString(Constants.SOURCE_CITY_LAT, lat.get(sposition));
-            editor.putString(Constants.DESTINATION_CITY_LON, lon.get(dposition));
-            editor.putString(Constants.SOURCE_CITY_LON, lon.get(sposition));
+            editor.putString(DESTINATION_CITY_ID, id.get(dposition));
+            editor.putString(SOURCE_CITY_ID, id.get(sposition));
+            editor.putString(DESTINATION_CITY, names.get(dposition));
+            editor.putString(SOURCE_CITY, names.get(sposition));
+            editor.putString(DESTINATION_CITY_LAT, lat.get(dposition));
+            editor.putString(SOURCE_CITY_LAT, lat.get(sposition));
+            editor.putString(DESTINATION_CITY_LON, lon.get(dposition));
+            editor.putString(SOURCE_CITY_LON, lon.get(sposition));
             SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
 
             editor.apply();
@@ -95,7 +104,7 @@ public class SelectCity extends AppCompatActivity {
     private void getcitytask() {
 
         // to fetch city names
-        String uri = Constants.apilink + "all-cities.php";
+        String uri = API_LINK + "all-cities.php";
         Log.v("EXECUTING : ", uri);
 
         //Set up client

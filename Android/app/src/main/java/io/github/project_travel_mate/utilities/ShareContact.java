@@ -22,8 +22,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import utils.Constants;
 import utils.Services;
+
+import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_NUMBER;
 
 public class ShareContact extends AppCompatActivity implements View.OnClickListener {
 
@@ -142,8 +144,8 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 //Create a new Intent to send to QR Droid
                 qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
 
-                String mPhoneNumber     = sharedPreferences.getString(Constants.USER_NUMBER, "997112322");
-                String name             = sharedPreferences.getString(Constants.USER_NAME, "Swati Garg");
+                String mPhoneNumber     = sharedPreferences.getString(USER_NUMBER, "997112322");
+                String name             = sharedPreferences.getString(USER_NAME, "Swati Garg");
 
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 

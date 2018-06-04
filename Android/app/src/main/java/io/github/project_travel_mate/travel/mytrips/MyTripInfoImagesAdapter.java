@@ -36,7 +36,7 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
         ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
-            view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, (ViewGroup) null);
+            view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, parent, false);
             holder = new ViewHolder();
             holder.iv = view.findViewById(R.id.iv);
 
