@@ -1,6 +1,6 @@
 # Travel Mate
 
-[![Build Status](https://travis-ci.org/Swati4star/Travel-Mate.svg?branch=master)](https://travis-ci.org/Swati4star/Travel-Mate)
+[![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate)
 
 A must-have app for those interested in travel. The app provides users with various features from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for every possible problem a traveller might face during the course of his or her entire journey.
 
