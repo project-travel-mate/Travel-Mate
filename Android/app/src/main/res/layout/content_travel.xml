@@ -8,7 +8,7 @@
     android:background="#ffffff"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tie.hackathon.travelguide.Checklist">
+    tools:context="io.github.project_travel_mate.utilities.Checklist">
 
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -40,7 +41,6 @@
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/city"
                         android:contentDescription="@string/empty_description"
@@ -53,7 +53,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
@@ -74,7 +73,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -86,7 +86,6 @@
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/transport"
                         android:contentDescription="@string/empty_description"
@@ -99,7 +98,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
@@ -121,7 +119,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -133,7 +132,6 @@
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/hotel"
                         android:contentDescription="@string/empty_description"
@@ -166,7 +164,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -178,7 +177,6 @@
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/shop"
                         android:contentDescription="@string/empty_description"
@@ -212,7 +210,8 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#ff000000"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                tools:targetApi="lollipop">
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -224,7 +223,6 @@
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_weight="4"
                         android:alpha="0.6"
                         android:background="@drawable/location"
                         android:contentDescription="@string/empty_description"
@@ -237,7 +235,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="1.6"
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"

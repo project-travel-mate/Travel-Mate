@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tie.hackathon.travelguide.destinations.description.FinalCityInfo">
+    tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfo">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context="tie.hackathon.travelguide.destinations.description.FinalCityInfo">
+        tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfo">
 
         <ImageView
 
@@ -91,7 +91,8 @@
             android:id="@+id/friendlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="true" />
+            android:nestedScrollingEnabled="true"
+            tools:targetApi="lollipop" />
 
         <AutoCompleteTextView
             android:id="@+id/fname"
@@ -105,7 +106,8 @@
             android:padding="10dp"
             android:popupBackground="#ffffff"
             android:textColor="#000000"
-            android:textColorHint="#000000" />
+            android:textColorHint="#000000"
+            tools:targetApi="lollipop" />
 
 
         <com.dd.processbutton.FlatButton
@@ -114,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
-            android:text="@string/add_friend"
+            android:text="@string/prompt_add_friend"
             android:textColor="#ffffff" />
 
 

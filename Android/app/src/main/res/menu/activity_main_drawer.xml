@@ -5,39 +5,35 @@
         <item
             android:id="@+id/nav_city"
             android:icon="@drawable/ic_location_city_black_24dp"
-            android:title="Destinations" />
+            android:title="@string/navigation_drawer_destination" />
         <item
             android:id="@+id/nav_travel"
             android:icon="@drawable/ic_directions_car_black_24dp"
-            android:title="Travel" />
-         <item
-            android:id="@+id/nav_enter"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="Entertainment" />
+            android:title="@string/navigation_drawer_travel" />
         <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_share_black_24dp"
-            android:title="Utilities" />
+            android:title="@string/navigation_drawer_utilities" />
 
 
     </group>
 
-    <item android:title="Extras">
+    <item android:title="@string/navigation_drawer_extras">
         <menu>
 
             <item
                 android:id="@+id/nav_changecity"
                 android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Change Source/Destination" />
+                android:title="@string/navigation_drawer_change_source_dest" />
             <item
                 android:id="@+id/nav_emergency"
                 android:icon="@drawable/ic_announcement_black_24dp"
-                android:title="Emergency Contacts" />
+                android:title="@string/navigation_drawer_emergency_contact" />
 
             <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_group_black_24dp"
-                android:title="Sign Out" />
+                android:title="@string/navigation_drawer_signout" />
 
         </menu>
     </item>

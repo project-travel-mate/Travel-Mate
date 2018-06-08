@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -20,8 +21,6 @@ import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Scroller;
-
-import java.util.HashMap;
 
 /**
  * onInterceptTouchEvent() modified by Tom-Philipp Seifert to allow delegation of click events
@@ -36,7 +35,7 @@ public class FlipViewPager extends FrameLayout {
     private static final int FLIP_SHADE_ALPHA = 130;
     private static final int INVALID_POINTER = -1;
 
-    private final HashMap<Integer, PageItem> pages = new HashMap<>();
+    private final SparseArray<PageItem> pages = new SparseArray<>();
 
     private final PageItem mPrev = new PageItem();
     private final PageItem mCurrent = new PageItem();
@@ -278,7 +277,7 @@ public class FlipViewPager extends FrameLayout {
      * @return true if the points are within view bounds, false otherwise
      */
     private boolean isPointInsideView(float x, float y, View view) {
-        int location[] = new int[2];
+        int[] location = new int[2];
         view.getLocationOnScreen(location);
         int viewX = location[0];
         int viewY = location[1];
@@ -504,8 +503,8 @@ public class FlipViewPager extends FrameLayout {
         // For case we're showing row with less items than we storing
         if (pages.size() > adapter.getCount()) pages.clear();
         for (int i = 0; i < adapter.getCount(); i++) {
-            PageItem item = pages.containsKey(i) ? pages.get(i) : new PageItem();
-            item.pageView = adapter.getView(i, pages.containsKey(i) ? pages.get(i).pageView : null, this);
+            PageItem item = pages.get(i) != null ? pages.get(i) : new PageItem();
+            item.pageView = adapter.getView(i, pages.get(i) != null ? pages.get(i).pageView : null, this);
             pages.put(i, item);
         }
         mPageCount = pages.size();
@@ -514,7 +513,11 @@ public class FlipViewPager extends FrameLayout {
         mCurrentPageIndex = -1;
         mFlipDistance = -1;
         setFlipDistance(0);
-        mScroller.startScroll(0, (int) mFlipDistance, 0, (int) (activePage * FLIP_DISTANCE - mFlipDistance), getFlipDuration(0));
+        mScroller.startScroll(0,
+                (int) mFlipDistance,
+                0,
+                (int) (activePage * FLIP_DISTANCE - mFlipDistance),
+                getFlipDuration(0));
     }
 
     private void flipToPage(int page) {

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context="tie.hackathon.travelguide.destinations.description.FinalCityInfo">
+        tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfo">
 
         <ImageView
             android:id="@+id/image"
@@ -54,7 +54,7 @@
                 android:id="@id/expand_collapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
+                android:layout_gravity="end|bottom"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/empty_description"
                 android:padding="16dp" />
@@ -66,7 +66,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shadow_1"
             android:backgroundTint="#000000"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:targetApi="lollipop">
 
 
             <LinearLayout
@@ -96,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="@string/max_text"
+                        android:text="@string/text_max"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -114,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1.0"
-                            android:text="@string/min_text"
+                            android:text="@string/text_min"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -126,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1.0"
-                            android:text="@string/min_text"
+                            android:text="@string/text_min"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -142,7 +143,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
 
             <LinearLayout
@@ -153,7 +155,8 @@
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#000000"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -180,7 +183,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
 
             <LinearLayout
@@ -192,7 +196,8 @@
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#000000"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -207,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Hangout"
+                    android:text="@string/text_hangout"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -222,7 +227,8 @@
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#000000"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -237,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Monuments"
+                    android:text="@string/text_monuments"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -249,7 +255,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
 
             <LinearLayout
@@ -260,7 +267,8 @@
                 android:background="@drawable/shadow_1"
                 android:backgroundTint="#000000"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -275,8 +283,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Shopping"
-                    android:textColor="#000000"
+                    android:text="@string/text_shopping"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -287,9 +295,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="@drawable/shadow_1"
-                android:backgroundTint="#000000"
+                android:backgroundTint="@color/black"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -304,8 +313,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Restaurants"
-                    android:textColor="#000000"
+                    android:text="@string/text_restaurants"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -316,7 +325,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/trends"
@@ -324,9 +334,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="@drawable/shadow_1"
-                android:backgroundTint="#000000"
+                android:backgroundTint="@color/black"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
 
                 <ImageView
@@ -341,8 +352,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="City Trends"
-                    android:textColor="#000000"
+                    android:text="@string/text_city_trends"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
             </LinearLayout>

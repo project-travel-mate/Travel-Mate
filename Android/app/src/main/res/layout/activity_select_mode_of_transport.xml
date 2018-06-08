@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="tie.hackathon.travelguide.SelectModeOfTransport">
+    tools:context="io.github.project_travel_mate.travel.transport.SelectModeOfTransport">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -43,7 +43,8 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/shadow_1"
                     android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    tools:targetApi="lollipop">
 
                     <FrameLayout
                         android:layout_width="fill_parent"
@@ -55,7 +56,6 @@
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_weight="4"
                             android:alpha="0.6"
                             android:background="@drawable/train"
                             android:contentDescription="@string/empty_description"
@@ -68,11 +68,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="10dp"
-                            android:layout_weight="1.6"
                             android:fontFamily="sans-serif-condensed"
                             android:gravity="center"
                             android:padding="2dp"
-                            android:text="@string/train_text"
+                            android:text="@string/text_train"
                             android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -90,7 +89,8 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/shadow_1"
                     android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    tools:targetApi="lollipop">
 
                     <FrameLayout
                         android:layout_width="fill_parent"
@@ -102,7 +102,6 @@
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_weight="4"
                             android:alpha="0.6"
                             android:background="@drawable/bus"
                             android:contentDescription="@string/empty_description"
@@ -118,7 +117,7 @@
                             android:fontFamily="sans-serif-condensed"
                             android:gravity="center"
                             android:padding="2dp"
-                            android:text="@string/bus_text"
+                            android:text="@string/text_bus"
                             android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -135,7 +134,8 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/shadow_1"
                     android:backgroundTint="#ff000000"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    tools:targetApi="lollipop">
 
                     <FrameLayout
                         android:layout_width="fill_parent"
@@ -147,7 +147,6 @@
                         <ImageView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_weight="4"
                             android:alpha="0.6"
                             android:background="@drawable/car"
                             android:contentDescription="@string/empty_description"
@@ -163,7 +162,7 @@
                             android:fontFamily="sans-serif-condensed"
                             android:gravity="center"
                             android:padding="2dp"
-                            android:text="@string/car_text"
+                            android:text="@string/text_cart"
                             android:textColor="#ffffff"
                             android:textSize="20sp"
                             android:textStyle="bold" />

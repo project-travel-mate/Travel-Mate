@@ -4,87 +4,49 @@
     <string name="navigation_drawer_open">Travel Guide</string>
     <string name="navigation_drawer_close">Travel Guide</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_music">Music</string>
-    <string name="title_activity_select_city">SelectCity</string>
-    <string name="title_activity_select__mode_of_transport">Select_ModeOfTransport</string>
-    <string name="title_activity_car_directions">CarDirections</string>
-    <string name="title_activity_bus_list">Bus_list</string>
-    <string name="title_activity_city_info">CityInfo</string>
-    <string name="title_activity_shopping_currentcity">Shopping_currentcity</string>
-    <string name="car1">Hatchback</string>
-    <string name="car2">Sedan</string>
-    <string name="car3">SUV</string>
+    <!--Drawer Strings -->
+    <string name="navigation_drawer_destination">Destinations</string>
+    <string name="navigation_drawer_travel">Travel</string>
+    <string name="navigation_drawer_utilities">Utilities</string>
+    <string name="navigation_drawer_extras">Extras</string>
+    <string name="navigation_drawer_change_source_dest">Change Source/Destination</string>
+    <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
+    <string name="navigation_drawer_signout">Sign Out</string>
+
+    <!-- Activity Title strings -->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_select_city">Select City</string>
+    <string name="title_activity_select__mode_of_transport">Select Mode of Transport</string>
+    <string name="title_activity_car_directions">Car Directions</string>
+    <string name="title_activity_bus_list">Bus List</string>
+    <string name="title_activity_shopping_currentcity">Shopping current city</string>
     <string name="title_activity_train_list">TrainList</string>
     <string name="title_activity_hotels">Hotels</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
 
-    <string name="empty_description">No description available.</string>
-    <string name="text_title">Title</string>
-    <string name="text_artist">Artist</string>
-    <string name="prompt_call">Call</string>
-    <string name="prompt_book">Book</string>
-    <string name="travel_cost">Travel Cost</string>
-    <string name="unknown_value">...</string>
-    <string name="max_text">max</string>
-    <string name="min_text">min</string>
-    <string name="fun_facts">Fun Facts</string>
+    <!-- login/signup strings -->
     <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
 
-    <string name="prompt_trip_name">Enter trip Name</string>
-    <string name="prompt_city_name">Enter city name</string>
-    <string name="prompt_start_date">Enter start date</string>
-    <string name="prompt_end_date">Enter end date</string>
-    <string name="add_trip">Add trip</string>
-    <string name="photos_of_trip">Photos of this trip : </string>
-    <string name="friends_of_trip">Friends in this trip </string>
-    <string name="prompt_friend_name">Enter friend name</string>
-    <string name="add_friend">Add New friend</string>
 
-
-    <string name="car_text">Car</string>
-    <string name="bus_text">Bus</string>
-    <string name="train_text">Train</string>
-
-
-    <string name="share_contact">Share My Contact</string>
-    <string name="view_contact">View someone Contact</string>
-    <string name="go_text">Go</string>
-    <string name="locate">Locate</string>
-    <string name="more">More</string>
-
-    <string name="all">All</string>
-    <string name="suggested">Suggested</string>
-
-    <string name="share_contact_text">Share Contact</string>
-    <string name="chechlist_text">Checklist</string>
-    <string name="enter_task_name">Enter task name</string>
-    <string name="my_trips">MY TRIPS</string>
-
+    <!-- Travel home page strings -->
     <string name="transport">TRANSPORT</string>
     <string name="hotel">HOTEL BOOKING</string>
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
+    <string name="my_trips">MY TRIPS</string>
+    <string name="fun_facts">Fun Facts</string>
 
-    <string name="music">MUSIC</string>
-    <string name="books">BOOKS</string>
-
-    <string name="search_a_city">Search a city...</string>
+    <!-- Destinations home page strings -->
+    <string name="search_a_city">Search a city…</string>
     <string name="popular_cities">Most Popular Cities</string>
 
 
-
-    <string name="tag1">Harry Potter</string>
-    <string name="tag2">Dinosaurs</string>
-    <string name="tag3">Joey Tribbiani</string>
-    <string name="tag4">Fiction</string>
-
-
+    <!-- Map strings -->
     <string name="title">Select items to display in map</string>
     <string name="choose">Select</string>
     <array name="items">
@@ -98,25 +60,91 @@
         <item>Hospital</item>
     </array>
 
+    <!-- Checklist strings -->
+    <string name="text_checklist">Checklist</string>
+    <string name="enter_task_name">Enter task name</string>
 
-    <!-- Titles -->
+    <!-- My Trip Strings -->
+    <string name="prompt_trip_name">Enter trip Name</string>
+    <string name="prompt_city_name">Enter city name</string>
+    <string name="prompt_start_date">Enter start date</string>
+    <string name="prompt_end_date">Enter end date</string>
+    <string name="prompt_add_trip">Add trip</string>
+    <string name="prompt_friend_name">Enter friend name</string>
+    <string name="prompt_add_friend">Add New friend</string>
+    <string name="photos_of_trip">Photos of this trip : </string>
+    <string name="friends_of_trip">Friends in this trip </string>
+    <string name="text_started_on">Started on :  </string>
+    <string name="prompt_add_new_trip">Add New Trip</string>
 
     <!-- Errors and messages -->
-    <string name="not_saved">QR code image could not be saved. Check your SD card is available</string>
-    <string name="saved">QR code image was saved as</string>
-
-    <!-- URLs -->
-
-    <!-- Demo -->
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
+    <string name="msg_saved">QR code image was saved as</string>
 
 
+    <!-- Car direction strings -->
+    <string name="car1">Hatchback</string>
+    <string name="car2">Sedan</string>
+    <string name="car3">SUV</string>
+    <string name="bus_fair_default">110/-</string>
+    <string name="default_mileage_1">22</string>
+    <string name="default_mileage_2">18</string>
+    <string name="default_mileage_3">16</string>
 
+    <!-- Train direction strings -->
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+    <string name="yes">Y</string>
 
+    <!-- Share contact strings -->
+    <string name="share_contact_text">Share Contact</string>
+    <string name="share_contact">Share My Contact</string>
+    <string name="view_contact">View someone Contact</string>
+
+    <!-- Emergency contact strings -->
+    <string name="emergency_call">Call</string>
+    <string name="emergency_police">POLICE</string>
+    <string name="emergency_fire">FIRE</string>
+    <string name="emergency_ambulance">AMBULANCE</string>
+    <string name="emergency_blood_bank">Blood Bank Organisation</string>
+    <string name="emergency_bomb_disposal">Bomb Disposal Squad</string>
+    <string name="emergency_railways">Railways Enquiry</string>
+
+    <!-- Constant texts -->
+    <string name="text_to">TO</string>
+    <string name="text_change">Change</string>
+    <string name="text_mileage">Mileage</string>
+    <string name="text_travel_cost">Travel Cost </string>
+    <string name="text_toll">Toll </string>
+    <string name="text_hangout">Hangout</string>
+    <string name="text_monuments">Monuments</string>
+    <string name="text_shopping">Shopping</string>
+    <string name="text_restaurants">Restaurants</string>
+    <string name="text_city_trends">City Trends</string>
+    <string name="text_signup_or">Signup | </string>
+    <string name="text_cart">Car</string>
+    <string name="text_bus">Bus</string>
+    <string name="text_train">Train</string>
+    <string name="text_max">max</string>
+    <string name="text_min">min</string>
+    <string name="text_go">Go</string>
+    <string name="text_locate">Locate</string>
+    <string name="text_more">More</string>
+    <string name="text_title">Title</string>
+    <string name="text_call">Call</string>
+    <string name="text_book">Book</string>
+    <string name="unknown_value">…</string>
+
+    <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
     <string name="sample_string">Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
-
+    <string name="empty_description">No description available.</string>
 
 </resources>

@@ -10,7 +10,7 @@ import java.util.List;
 
 import flipviewpager.utils.FlipSettings;
 import flipviewpager.view.FlipViewPager;
-import tie.hackathon.travelguide.R;
+import io.github.project_travel_mate.R;
 
 /**
  * @author Yalantis
@@ -20,7 +20,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
     private final FlipSettings settings;
     private final LayoutInflater inflater;
 
-    public BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
+    protected BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
         this.items = items;
         this.settings = settings;
         inflater = LayoutInflater.from(context);
@@ -51,13 +51,13 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
 
         final ViewHolder viewHolder;
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.flipper, null);
+            convertView = inflater.inflate(R.layout.flipper, parent, false);
         if (convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
             viewHolder = new ViewHolder();
             convertView.setTag(viewHolder);
-            viewHolder.mFlipViewPager = (FlipViewPager) convertView.findViewById(R.id.flip_view);
+            viewHolder.mFlipViewPager = convertView.findViewById(R.id.flip_view);
         }
 
         // Listener to store flipped page
@@ -69,14 +69,16 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         });
 
         if (viewHolder.mFlipViewPager.getAdapter() == null) {
-            viewHolder.mFlipViewPager.setAdapter(new MergeAdapter(item1, item2), settings.getDefaultPage(), position, items.size());
+            viewHolder.mFlipViewPager.setAdapter(
+                    new MergeAdapter(item1, item2), settings.getDefaultPage(), position, items.size());
         } else {
             // Recycling internal adapter
             // So, it's double recycling - we have only 4-5 mFlipViewPager objects
             // and each of them have an adapter
             MergeAdapter adapter = (MergeAdapter) viewHolder.mFlipViewPager.getAdapter();
             adapter.updateData(item1, item2);
-            viewHolder.mFlipViewPager.setAdapter(adapter, settings.getPageForPosition(position), position, items.size());
+            viewHolder.mFlipViewPager.setAdapter(adapter,
+                    settings.getPageForPosition(position), position, items.size());
         }
         return convertView;
     }
@@ -85,21 +87,21 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         FlipViewPager mFlipViewPager;
     }
 
-    public abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
+    protected abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
 
-    public abstract int getPagesCount();
+    protected abstract int getPagesCount();
 
     // Adapter merges 2 items together
     private class MergeAdapter extends BaseAdapter {
         private T item1;
         private T item2;
 
-        public MergeAdapter(T item1, T item2) {
+        MergeAdapter(T item1, T item2) {
             this.item1 = item1;
             this.item2 = item2;
         }
 
-        public void updateData(T item1, T item2) {
+        void updateData(T item1, T item2) {
             this.item1 = item1;
             this.item2 = item2;
         }

@@ -3,14 +3,13 @@ package views;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import java.io.File;
 
 /**
  * @author Yalantis
  */
-public class FontTextView extends TextView {
+public class FontTextView extends android.support.v7.widget.AppCompatTextView {
 
     public FontTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

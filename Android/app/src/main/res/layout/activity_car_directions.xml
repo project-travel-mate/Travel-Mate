@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="tie.hackathon.travelguide.CarDirections">
+    tools:context="io.github.project_travel_mate.travel.transport.CarDirections">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="tie.hackathon.travelguide.CarDirections"
+        tools:context="io.github.project_travel_mate.travel.transport.CarDirections"
         tools:showIn="@layout/activity_car_directions">
 
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="@string/travel_cost"
+            android:text="@string/text_travel_cost"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_marginStart="20dp"
             android:layout_marginTop="2dp"
             android:layout_weight="1.0"
@@ -71,7 +71,6 @@
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="0"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text=""
                 android:textSize="15sp"
@@ -81,7 +80,6 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="0"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car1"
                 android:textSize="15sp"
@@ -91,7 +89,6 @@
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="0"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car2"
                 android:textSize="15sp"
@@ -101,7 +98,6 @@
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="0"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car3"
                 android:textSize="15sp"
@@ -112,9 +108,8 @@
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="1"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="Mileage"
+                android:text="@string/text_mileage"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -122,9 +117,8 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="1"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="22"
+                android:text="@string/default_mileage_1"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -132,9 +126,8 @@
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="1"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="18"
+                android:text="@string/default_mileage_2"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -142,9 +135,8 @@
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="1"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="16"
+                android:text="@string/default_mileage_3"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -153,9 +145,8 @@
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="2"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="Travel Cost"
+                android:text="@string/text_travel_cost"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -164,7 +155,6 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="2"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car1"
                 android:textSize="15sp"
@@ -175,7 +165,6 @@
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="2"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car2"
                 android:textSize="15sp"
@@ -186,7 +175,6 @@
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="2"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/car3"
                 android:textSize="15sp"
@@ -196,9 +184,8 @@
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="Toll "
+                android:text="@string/text_toll"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -207,7 +194,6 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"
@@ -218,7 +204,6 @@
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"
@@ -229,7 +214,6 @@
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"
@@ -241,9 +225,8 @@
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
-                android:layout_weight="1.0"
                 android:padding="10dp"
-                android:text="@string/travel_cost"
+                android:text="@string/text_travel_cost"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -252,7 +235,6 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"
@@ -263,7 +245,6 @@
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"
@@ -273,7 +254,6 @@
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
-                android:layout_weight="1.0"
                 android:padding="10dp"
                 android:text="@string/unknown_value"
                 android:textSize="15sp"

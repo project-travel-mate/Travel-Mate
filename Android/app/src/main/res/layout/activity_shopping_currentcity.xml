@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="tie.hackathon.travelguide.ShoppingCurrentCity">
+    tools:context="io.github.project_travel_mate.travel.ShoppingCurrentCity">
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/white"
         android:orientation="vertical">
 
 
@@ -29,6 +29,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
+                    android:inputType="text"
+                    android:hint="@string/empty_description"
                     android:layout_weight="100" />
 
                 <Button
@@ -37,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="100"
                     android:background="@color/colorPrimaryDark"
-                    android:text="@string/go_text"
+                    android:text="@string/text_go"
                     android:textColor="#ffffff" />
 
             </LinearLayout>
