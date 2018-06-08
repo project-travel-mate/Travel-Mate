@@ -24,5 +24,6 @@ interface LoginView {
 
     void openLogin();
     void setLoginNumber(String number);
+    void showMessage(String Message);
 
 }

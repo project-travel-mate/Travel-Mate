@@ -210,4 +210,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void setLoginNumber(String number){
         num_login.setText(number);
     }
+    public void showMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
+                .show();
+    }
 }
