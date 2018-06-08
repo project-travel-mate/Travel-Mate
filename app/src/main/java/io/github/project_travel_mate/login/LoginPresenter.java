@@ -48,8 +48,8 @@ class LoginPresenter {
 
         view.showLoadingDialog();
 
-//        String uri = API_LINK + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
-        String uri = "http://192.168.1.4/" + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+       String uri = API_LINK + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
