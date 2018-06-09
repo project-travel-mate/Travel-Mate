@@ -78,7 +78,7 @@ class LoginPresenter {
                             view.rememberUserInfo(id, name, num);
                             view.startMainActivity();
                             */
-
+							//if successful redirect to login
                             view.openLogin();
                             view.setLoginNumber(num);
                             view.showMessage("signup succeeded! please login");
