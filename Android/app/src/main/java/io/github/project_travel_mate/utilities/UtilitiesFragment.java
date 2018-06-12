@@ -6,22 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import utils.CardItemEntity;
 
-public class UtilitiesFragment extends Fragment implements View.OnClickListener {
+public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListner {
 
     private Activity activity;
-    @BindView(R.id.sharecontact)
-    LinearLayout sharecontact;
-    @BindView(R.id.checklist)
-    LinearLayout checklist;
+    @BindView(R.id.utility_options_recycle_view)
+    RecyclerView mUtilityOptionsRecycleView;
 
     public UtilitiesFragment() {}
 
@@ -33,8 +38,22 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
 
         ButterKnife.bind(this, v);
 
-        sharecontact.setOnClickListener(this);
-        checklist.setOnClickListener(this);
+        List<CardItemEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.contact),
+                        getResources().getString(R.string.share_contact_text)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.checklist),
+                        getResources().getString(R.string.text_checklist)));
+
+
+        CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity.getApplicationContext());
+        mUtilityOptionsRecycleView.setLayoutManager(mLayoutManager);
+        mUtilityOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
+        mUtilityOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
 
         return v;
     }
@@ -46,14 +65,14 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
     }
 
     @Override
-    public void onClick(View view) {
+    public void onItemClick(int position) {
         Intent intent;
-        switch (view.getId()) {
-            case R.id.sharecontact:
+        switch (position) {
+            case 0:
                 intent = new Intent(activity, ShareContact.class);
                 startActivity(intent);
                 break;
-            case R.id.checklist:
+            case 1:
                 intent = new Intent(activity, Checklist.class);
                 startActivity(intent);
                 break;
