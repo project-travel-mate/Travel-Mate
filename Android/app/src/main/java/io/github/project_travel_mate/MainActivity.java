@@ -25,7 +25,7 @@ import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 
-import static utils.Constants.USER_ID;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Launcher Activity; Handles fragment changes;
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 sharedPreferences
                         .edit()
-                        .putString(USER_ID, null)
+                        .putString(USER_TOKEN, null)
                         .apply();
                 Intent i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);

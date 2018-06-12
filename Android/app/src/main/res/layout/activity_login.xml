@@ -82,11 +82,11 @@
                     android:textColorHint="#ffffff">
 
                     <EditText
-                        android:id="@+id/input_num_login"
+                        android:id="@+id/input_email_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
-                        android:inputType="number"
+                        android:hint="@string/email_id"
+                        android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
@@ -159,11 +159,11 @@
                     android:textColorHint="#ffffff">
 
                     <EditText
-                        android:id="@+id/input_num_signup"
+                        android:id="@+id/input_email_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
-                        android:inputType="number"
+                        android:hint="@string/email_id"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
