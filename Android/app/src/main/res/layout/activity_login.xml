@@ -138,18 +138,38 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textColorHint="#ffffff">
 
                     <EditText
-                        android:id="@+id/input_name_signup"
+                        android:id="@+id/input_first_name_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name"
+                        android:hint="@string/first_name"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#ffffff">
+
+                    <EditText
+                        android:id="@+id/input_last_name_signup"
+                        android:layout_width="341dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/last_name"
+                        android:inputType="textPersonName"
+                        android:selectAllOnFocus="false"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textColorHighlight="#ffffff" />
+
                 </android.support.design.widget.TextInputLayout>
 
 

@@ -31,9 +31,14 @@
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="signup">Signup</string>
-    <string name="name">Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
-
+    <string name="invalid_email">Email address is invalid!</string>
+    <string name="invalid_password">Password is invalid!</string>
+    <string name="first_name_required">First name is required!</string>
+    <string name="last_name_required">Last name is required!</string>
+    <string name="password_required">Password can\'t be empty</string>
 
     <!-- Travel home page strings -->
     <string name="transport">TRANSPORT</string>

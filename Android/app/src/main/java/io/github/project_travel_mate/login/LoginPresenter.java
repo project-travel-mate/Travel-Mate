@@ -1,13 +1,18 @@
 package io.github.project_travel_mate.login;
 
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Patterns;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -15,6 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.ValidationException;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.STATUS_CODE_CREATED;
@@ -43,13 +49,19 @@ class LoginPresenter {
     /**
      * Calls Signup API
      *
-     * @param name      user's name
+     * @param firstName user's first name
+     * @param lastName  user's last name
      * @param email     user's email id
      * @param pass      password user entered
      * @param mhandler  handler
      */
-    public void ok_signUp(final String name, final String email, String pass, final Handler mhandler) {
-
+    public void ok_signUp(final String firstName,final String lastName, final String email, String pass, final Handler mhandler) {
+        try{
+            validateSignUp(firstName,lastName,email,pass);
+        }catch (ValidationException e){
+            view.showMessage(e.getMessage());
+            return;
+        }
         view.showLoadingDialog();
 
         String uri = API_LINK_V2 + "sign-up";
@@ -61,8 +73,8 @@ class LoginPresenter {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("email", email)
                 .addFormDataPart("password", pass)
-                .addFormDataPart("firstname", name)
-                .addFormDataPart("lastname", name)
+                .addFormDataPart("firstname", firstName)
+                .addFormDataPart("lastname", lastName)
                 .build();
 
         //Execute request
@@ -120,7 +132,12 @@ class LoginPresenter {
      * @param pass      password user entered
      */
     public void ok_login(final String email, String pass, final Handler mhandler) {
-
+        try{
+            validateLogin(email,pass);
+        }catch (ValidationException e){
+            view.showMessage(e.getMessage());
+            return;
+        }
         view.showLoadingDialog();
 
         String uri = API_LINK_V2 + "sign-in";
@@ -171,6 +188,46 @@ class LoginPresenter {
                 );
             }
         });
+    }
+    public void validateSignUp(final String firstName,final String lastName, final String email, String pass) throws ValidationException {
+        if(emptyStringCheck(firstName)){
+            throw new ValidationException(view.getString(R.string.first_name_required));
+        }
+        if(emptyStringCheck(lastName)){
+            throw new ValidationException(view.getString(R.string.last_name_required));
+        }if (!isValidEmail(email)){
+            throw new ValidationException(view.getString(R.string.invalid_email));
+        }
+        if(!isValidPassword(pass)){
+            throw new ValidationException(view.getString(R.string.invalid_password));
+        }
+    }
+
+    public void validateLogin(final String email, String pass) throws ValidationException {
+        if(!isValidEmail(email)){
+            throw new ValidationException(view.getString(R.string.invalid_email));
+        }
+        if(emptyStringCheck(pass)){
+            throw new ValidationException(view.getString(R.string.password_required));
+        }
+    }
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+    public static boolean isValidPassword(final String password) {
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+        return matcher.matches();
+
+    }
+    private boolean emptyStringCheck(String input){
+        if(input != null && input.trim().equals(""))
+            return true;
+        else
+            return false;
     }
 
 }

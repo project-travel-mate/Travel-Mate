@@ -20,26 +20,26 @@ import io.github.project_travel_mate.R;
 
 class ShoppingAdapter extends BaseAdapter {
 
-    final Context context;
-    final JSONArray FeedItems;
+    private final Context context;
+    private final JSONArray feedItems;
     private final LayoutInflater inflater;
 
     ShoppingAdapter(Context context, JSONArray feedItems) {
         this.context = context;
-        this.FeedItems = feedItems;
+        this.feedItems = feedItems;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return FeedItems.length();
+        return feedItems.length();
     }
 
     @Override
     public Object getItem(int position) {
         try {
-            return FeedItems.getJSONObject(position);
+            return feedItems.getJSONObject(position);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -62,16 +62,17 @@ class ShoppingAdapter extends BaseAdapter {
         ImageView iv = vi.findViewById(R.id.VideoThumbnail);
 
         try {
-            String name = FeedItems.getJSONObject(position).getString("name");
+            String name = feedItems.getJSONObject(position).getString("name");
             name = Html.fromHtml(name).toString();
             title.setText(name);
 
-            String descriptionText = FeedItems.getJSONObject(position).getString("value");
+            String descriptionText = feedItems.getJSONObject(position).getString("value");
 
-            descriptionText = Html.fromHtml(descriptionText).toString() + " Rs";
+            descriptionText = Html.fromHtml(descriptionText).toString() + " "
+                + feedItems.getJSONObject(position).getString("currency");
             description.setText(descriptionText);
 
-            Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(iv);
+            Picasso.with(context).load(feedItems.getJSONObject(position).getString("image")).into(iv);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,7 +83,7 @@ class ShoppingAdapter extends BaseAdapter {
                 Intent browserIntent = null;
                 try {
                     browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                            Uri.parse(feedItems.getJSONObject(position).getString("url")));
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
