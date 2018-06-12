@@ -206,4 +206,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         log.setVisibility(View.VISIBLE);
         sig.setVisibility(View.GONE);
     }
+
+    public void setLoginNumber(String number){
+		//fill the login phone number
+        num_login.setText(number);
+    }
+    public void showMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
+                .show();
+    }
 }

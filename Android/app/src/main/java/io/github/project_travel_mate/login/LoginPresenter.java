@@ -48,7 +48,8 @@ class LoginPresenter {
 
         view.showLoadingDialog();
 
-        String uri = API_LINK + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+       String uri = API_LINK + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
+
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -71,12 +72,18 @@ class LoginPresenter {
                     @Override
                     public void run() {
                         try {
+                            /* removed in order to direct t login on signup
                             JSONObject ob = new JSONObject(res);
                             String id = ob.getString("user_id");
                             view.rememberUserInfo(id, name, num);
                             view.startMainActivity();
+                            */
+							//if successful redirect to login
+                            view.openLogin();
+                            view.setLoginNumber(num);
+                            view.showMessage("signup succeeded! please login");
                             view.dismissLoadingDialog();
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             view.showError();
                         }
@@ -143,4 +150,5 @@ class LoginPresenter {
             }
         });
     }
+
 }
