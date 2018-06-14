@@ -18,13 +18,19 @@ import utils.CardItemEntity;
 public class CardViewOptionsAdapter
         extends RecyclerView.Adapter<CardViewOptionsAdapter.UtilityOptionsViewHolder> {
 
-    private OnItemClickListner mOnItemClickListner;
-    private List<CardItemEntity> mUtilityOptionsEntityList;
+    private final OnItemClickListener mOnItemClickListener;
+    private final List<CardItemEntity> mOptionsEntityList;
 
-    public CardViewOptionsAdapter(OnItemClickListner mOnItemClickListner,
-                                  List<CardItemEntity> mUtilityOptionsEntityList) {
-        this.mOnItemClickListner = mOnItemClickListner;
-        this.mUtilityOptionsEntityList = mUtilityOptionsEntityList;
+    /**
+     * Initializes new CarViewoptions adapter
+     *
+     * @param mOnItemClickListener   the onclick listener for the cardview items
+     * @param mOptionsEntityList    the list of entities to be populated in view
+     */
+    public CardViewOptionsAdapter(OnItemClickListener mOnItemClickListener,
+                                  List<CardItemEntity> mOptionsEntityList) {
+        this.mOnItemClickListener = mOnItemClickListener;
+        this.mOptionsEntityList = mOptionsEntityList;
     }
 
     @NonNull
@@ -37,15 +43,23 @@ public class CardViewOptionsAdapter
 
     @Override
     public void onBindViewHolder(@NonNull UtilityOptionsViewHolder holder, int position) {
-        holder.optionImage.setImageDrawable(mUtilityOptionsEntityList.get(position).getImage());
-        holder.optionName.setText(mUtilityOptionsEntityList.get(position).getName());
+        holder.optionImage.setImageDrawable(mOptionsEntityList.get(position).getImage());
+        holder.optionName.setText(mOptionsEntityList.get(position).getName());
     }
 
+    /**
+     * Get items count in the adapter
+     *
+     * @return item count
+     */
     @Override
     public int getItemCount() {
-        return mUtilityOptionsEntityList.size();
+        return mOptionsEntityList.size();
     }
 
+    /**
+     * Viewholder for the cardView item
+     */
     public class UtilityOptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.image)
@@ -62,11 +76,11 @@ public class CardViewOptionsAdapter
 
         @Override
         public void onClick(View view) {
-            mOnItemClickListner.onItemClick(getAdapterPosition());
+            mOnItemClickListener.onItemClick(getAdapterPosition());
         }
     }
 
-    public interface OnItemClickListner {
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 }

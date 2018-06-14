@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.CardItemEntity;
 
-public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListner {
+public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
 
-    private Activity activity;
+    private Activity mActivity;
     @BindView(R.id.utility_options_recycle_view)
     RecyclerView mUtilityOptionsRecycleView;
 
@@ -50,7 +50,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
 
 
         CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity.getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
         mUtilityOptionsRecycleView.setLayoutManager(mLayoutManager);
         mUtilityOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
         mUtilityOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
@@ -61,7 +61,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = (Activity) activity;
+        this.mActivity = (Activity) activity;
     }
 
     @Override
@@ -69,11 +69,11 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         Intent intent;
         switch (position) {
             case 0:
-                intent = new Intent(activity, ShareContact.class);
+                intent = new Intent(mActivity, ShareContact.class);
                 startActivity(intent);
                 break;
             case 1:
-                intent = new Intent(activity, Checklist.class);
+                intent = new Intent(mActivity, Checklist.class);
                 startActivity(intent);
                 break;
         }

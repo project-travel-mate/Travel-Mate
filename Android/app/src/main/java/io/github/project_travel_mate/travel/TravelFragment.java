@@ -25,9 +25,9 @@ import io.github.project_travel_mate.travel.transport.SelectModeOfTransport;
 import utils.CardItemEntity;
 
 
-public class TravelFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListner {
+public class TravelFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
 
-    Activity activity;
+    private Activity mActivity;
 
     @BindView(R.id.travel_options_recycle_view)
     RecyclerView mTravelOptionsRecycleView;
@@ -66,7 +66,7 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
 
 
         CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity.getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
         mTravelOptionsRecycleView.setLayoutManager(mLayoutManager);
         mTravelOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
         mTravelOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
@@ -78,26 +78,26 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = (Activity) activity;
+        this.mActivity = (Activity) activity;
     }
 
     @Override
     public void onItemClick(int position) {
         Intent i;
         switch (position) {
-            case 0: i = new Intent(activity, MyTrips.class);
+            case 0: i = new Intent(mActivity, MyTrips.class);
                 startActivity(i);
                 break;
-            case 1: i = new Intent(activity, SelectModeOfTransport.class);
+            case 1: i = new Intent(mActivity, SelectModeOfTransport.class);
                 startActivity(i);
                 break;
-            case 2: i = new Intent(activity, Hotels.class);
+            case 2: i = new Intent(mActivity, Hotels.class);
                 startActivity(i);
                 break;
-            case 3: i = new Intent(activity, ShoppingCurrentCity.class);
+            case 3: i = new Intent(mActivity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
-            case 4: i = new Intent(activity, MapRealTimeActivity.class);
+            case 4: i = new Intent(mActivity, MapRealTimeActivity.class);
                 startActivity(i);
                 break;
         }

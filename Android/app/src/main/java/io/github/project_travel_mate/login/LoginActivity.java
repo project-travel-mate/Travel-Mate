@@ -57,11 +57,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.ok_signup)
     FlatButton      ok_signup;
 
-    private SharedPreferences   sharedPreferences;
-    private MaterialDialog      dialog;
-    private Handler             mhandler;
+    private SharedPreferences mSharedPreferences;
+    private MaterialDialog mDialog;
+    private Handler mHandler;
 
-    private final LoginPresenter loginPresenter = new LoginPresenter();
+    private final LoginPresenter mLoginPresenter = new LoginPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +71,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        loginPresenter.bind(this);
+        mLoginPresenter.bind(this);
         ButterKnife.bind(this);
 
         // Initialization
-        mhandler = new Handler(Looper.getMainLooper());
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mHandler = new Handler(Looper.getMainLooper());
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get runtime permissions for Android M
         getRunTimePermissions();
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onDestroy() {
-        loginPresenter.unbind();
+        mLoginPresenter.unbind();
         super.onDestroy();
     }
 
@@ -101,31 +101,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             // Open signup
             case R.id.signup :
-                loginPresenter.signUp();
+                mLoginPresenter.signUp();
                 break;
             // Open login
             case R.id.login :
-                loginPresenter.login();
+                mLoginPresenter.login();
                 break;
             // Call login
             case R.id.ok_login :
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
-                loginPresenter.ok_login(emailString, passString, mhandler);
+                mLoginPresenter.ok_login(emailString, passString, mHandler);
                 break;
             // Call signup
             case R.id.ok_signup :
                 emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
                 String nameString = name.getText().toString();
-                loginPresenter.ok_signUp(nameString, emailString, passString, mhandler);
+                mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
                 break;
         }
     }
 
     @Override
     public void rememberUserInfo(String token, String email) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(USER_TOKEN, token);
         editor.putString(USER_EMAIL, email);
         editor.apply();
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showLoadingDialog() {
-        dialog = new MaterialDialog.Builder(this)
+        mDialog = new MaterialDialog.Builder(this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void dismissLoadingDialog() {
-        dialog.dismiss();
+        mDialog.dismiss();
     }
 
     @Override
@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void checkUserSession() {
-        if (sharedPreferences.getString(USER_TOKEN, null) != null) {
+        if (mSharedPreferences.getString(USER_TOKEN, null) != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

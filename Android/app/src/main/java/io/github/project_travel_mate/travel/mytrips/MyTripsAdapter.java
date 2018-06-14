@@ -27,20 +27,20 @@ import static utils.Constants.EXTRA_MESSAGE_ID;
 import static utils.Constants.EXTRA_MESSAGE_IMAGE;
 
 class MyTripsAdapter extends ArrayAdapter<Trip> {
-    private final Activity context;
-    private final List<Trip> trips;
+    private final Activity mContext;
+    private final List<Trip> mTrips;
 
     MyTripsAdapter(Activity context,
                    List<Trip> trips) {
         super(context, R.layout.trip_listitem, trips);
-        this.context    = context;
-        this.trips       = trips;
+        this.mContext = context;
+        this.mTrips = trips;
     }
 
     @NonNull
     @Override
     public View getView(final int position, View view2, @NonNull ViewGroup parent) {
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, parent, false);
         ImageView city = view.findViewById(R.id.profile_image);
         TextView cityname = view.findViewById(R.id.tv);
@@ -48,35 +48,35 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
 
         if (position == 0) {
             city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-            cityname.setText(context.getResources().getString(R.string.prompt_add_new_trip));
+            cityname.setText(mContext.getResources().getString(R.string.prompt_add_new_trip));
             date.setText("");
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, AddNewTrip.class);
-                    context.startActivity(i);
+                    Intent i = new Intent(mContext, AddNewTrip.class);
+                    mContext.startActivity(i);
                 }
             });
 
         } else {
-            Picasso.with(context).load(trips.get(position).getImage()).placeholder(R.drawable.add_list_item)
+            Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.add_list_item)
                     .into(city);
-            cityname.setText(trips.get(position).getName());
-            date.setText(trips.get(position).getStart());
-            Log.e("time", trips.get(position).getStart() + " " + trips.get(position).getImage());
+            cityname.setText(mTrips.get(position).getName());
+            date.setText(mTrips.get(position).getStart());
+            Log.v("time", mTrips.get(position).getStart() + " " + mTrips.get(position).getImage());
             final Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(Long.parseLong(trips.get(position).getStart()) * 1000);
+            cal.setTimeInMillis(Long.parseLong(mTrips.get(position).getStart()) * 1000);
             final String timeString =
                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
             date.setText(timeString);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, MyTripInfo.class);
-                    i.putExtra(EXTRA_MESSAGE_ID, trips.get(position).getId());
-                    i.putExtra(EXTRA_MESSAGE_IMAGE, trips.get(position).getImage());
-                    context.startActivity(i);
+                    Intent i = new Intent(mContext, MyTripInfo.class);
+                    i.putExtra(EXTRA_MESSAGE_ID, mTrips.get(position).getId());
+                    i.putExtra(EXTRA_MESSAGE_IMAGE, mTrips.get(position).getImage());
+                    mContext.startActivity(i);
                 }
             });
         }

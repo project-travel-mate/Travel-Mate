@@ -17,20 +17,20 @@ import io.github.project_travel_mate.R;
 import objects.Tweet;
 
 class TweetsAdapter extends ArrayAdapter<Tweet> {
-    private final Activity context;
-    private final List<Tweet> tweets;
+    private final Activity mContext;
+    private final List<Tweet> mTweetsList;
 
     TweetsAdapter(Activity context, List<Tweet> tweets) {
         super(context, R.layout.trip_listitem, tweets);
-        this.context = context;
-        this.tweets = tweets;
+        this.mContext = context;
+        this.mTweetsList = tweets;
     }
 
     @NonNull
     @Override
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
         ViewHolder holder;
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, parent, false);
             holder = new ViewHolder();
@@ -39,13 +39,13 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
         } else
             holder = (ViewHolder) view.getTag();
 
-        holder.name.setText(tweets.get(position).getName());
+        holder.name.setText(mTweetsList.get(position).getName());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweets.get(position).getUrl()));
-                context.startActivity(browserIntent);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTweetsList.get(position).getUrl()));
+                mContext.startActivity(browserIntent);
             }
         });
         return view;

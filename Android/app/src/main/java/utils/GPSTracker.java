@@ -25,11 +25,11 @@ public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
 
-    private boolean canGetLocation = false;
+    private boolean mCanGetLocation = false;
 
-    private Location location; // location
-    private double latitude; // latitude
-    private double longitude; // longitude
+    private Location mLocation; // mLocation
+    private double mLatitude; // mLatitude
+    private double mLongitude; // mLongitude
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -62,8 +62,8 @@ public class GPSTracker extends Service implements LocationListener {
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
-                this.canGetLocation = true;
-                // First get location from Network Provider
+                this.mCanGetLocation = true;
+                // First get mLocation from Network Provider
                 if (isNetworkEnabled) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED
@@ -83,26 +83,26 @@ public class GPSTracker extends Service implements LocationListener {
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("Network", "Network");
-                    location = locationManager
+                    mLocation = locationManager
                             .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (location != null) {
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
+                    if (mLocation != null) {
+                        mLatitude = mLocation.getLatitude();
+                        mLongitude = mLocation.getLongitude();
                     }
                 }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
-                    if (location == null) {
+                    if (mLocation == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                         Log.d("GPS Enabled", "GPS Enabled");
-                        location = locationManager
+                        mLocation = locationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                        if (mLocation != null) {
+                            mLatitude = mLocation.getLatitude();
+                            mLongitude = mLocation.getLongitude();
                         }
                     }
                 }
@@ -112,7 +112,7 @@ public class GPSTracker extends Service implements LocationListener {
             e.printStackTrace();
         }
 
-        return location;
+        return mLocation;
 
     }
 
@@ -137,29 +137,29 @@ public class GPSTracker extends Service implements LocationListener {
         return null;
     }
     public double getLatitude() {
-        if (location != null) {
-            latitude = location.getLatitude();
+        if (mLocation != null) {
+            mLatitude = mLocation.getLatitude();
         }
 
-        // return latitude
-        return latitude;
+        // return mLatitude
+        return mLatitude;
     }
 
     /**
-     * Function to get longitude
+     * Function to get mLongitude
      * */
     public double getLongitude() {
-        if (location != null) {
-            longitude = location.getLongitude();
+        if (mLocation != null) {
+            mLongitude = mLocation.getLongitude();
         }
 
-        // return longitude
-        return longitude;
+        // return mLongitude
+        return mLongitude;
     }
 
 
     public boolean canGetLocation() {
-        return this.canGetLocation;
+        return this.mCanGetLocation;
     }
 
     /**

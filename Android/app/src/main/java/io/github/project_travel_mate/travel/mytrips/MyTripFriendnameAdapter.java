@@ -14,20 +14,20 @@ import java.util.Objects;
 import io.github.project_travel_mate.R;
 
 class MyTripFriendnameAdapter extends ArrayAdapter<String> {
-    private final Activity context;
-    private final List<String> name;
+    private final Activity mContext;
+    private final List<String> mName;
 
     MyTripFriendnameAdapter(Activity context, List<String> name) {
         super(context, R.layout.home_city_listitem, name);
-        this.context = context;
-        this.name = name;
+        this.mContext = context;
+        this.mName = name;
     }
 
     @NonNull
     @Override
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
         ViewHolder holder;
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = Objects.requireNonNull(mInflater).inflate(R.layout.home_city_listitem, parent, false);
             holder = new ViewHolder();
@@ -35,7 +35,7 @@ class MyTripFriendnameAdapter extends ArrayAdapter<String> {
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
-        holder.iv.setText(name.get(position));
+        holder.iv.setText(mName.get(position));
         return view;
     }
 

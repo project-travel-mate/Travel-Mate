@@ -16,25 +16,25 @@ import io.github.project_travel_mate.R;
  * @author Yalantis
  */
 public abstract class BaseFlipAdapter<T> extends BaseAdapter {
-    private final List<T> items;
-    private final FlipSettings settings;
-    private final LayoutInflater inflater;
+    private final List<T> mItems;
+    private final FlipSettings mSettings;
+    private final LayoutInflater mInflater;
 
     protected BaseFlipAdapter(Context context, List<T> items, FlipSettings settings) {
-        this.items = items;
-        this.settings = settings;
-        inflater = LayoutInflater.from(context);
+        this.mItems = items;
+        this.mSettings = settings;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
         // Checking if we need an additional row for single item
-        return items.size() % 2 != 0 ? ((items.size() / 2) + 1) : (items.size() / 2);
+        return mItems.size() % 2 != 0 ? ((mItems.size() / 2) + 1) : (mItems.size() / 2);
     }
 
     @Override
     public T getItem(int position) {
-        return items.get(position);
+        return mItems.get(position);
     }
 
     @Override
@@ -47,11 +47,11 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         // Trick to divide list into 2 parts
         T item1 = getItem(position * 2);
         // Used for cases when we have not an even size in incoming list
-        T item2 = items.size() > (position * 2 + 1) ? getItem(position * 2 + 1) : null;
+        T item2 = mItems.size() > (position * 2 + 1) ? getItem(position * 2 + 1) : null;
 
         final ViewHolder viewHolder;
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.flipper, parent, false);
+            convertView = mInflater.inflate(R.layout.flipper, parent, false);
         if (convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -64,13 +64,13 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         viewHolder.mFlipViewPager.setOnChangePageListener(new FlipViewPager.OnChangePageListener() {
             @Override
             public void onFlipped(int page) {
-                settings.savePageState(position, page);
+                mSettings.savePageState(position, page);
             }
         });
 
         if (viewHolder.mFlipViewPager.getAdapter() == null) {
             viewHolder.mFlipViewPager.setAdapter(
-                    new MergeAdapter(item1, item2), settings.getDefaultPage(), position, items.size());
+                    new MergeAdapter(item1, item2), mSettings.getDefaultPage(), position, mItems.size());
         } else {
             // Recycling internal adapter
             // So, it's double recycling - we have only 4-5 mFlipViewPager objects
@@ -78,7 +78,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
             MergeAdapter adapter = (MergeAdapter) viewHolder.mFlipViewPager.getAdapter();
             adapter.updateData(item1, item2);
             viewHolder.mFlipViewPager.setAdapter(adapter,
-                    settings.getPageForPosition(position), position, items.size());
+                    mSettings.getPageForPosition(position), position, mItems.size());
         }
         return convertView;
     }
@@ -91,24 +91,24 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
 
     protected abstract int getPagesCount();
 
-    // Adapter merges 2 items together
+    // Adapter merges 2 mItems together
     private class MergeAdapter extends BaseAdapter {
-        private T item1;
-        private T item2;
+        private T mItem1;
+        private T mItem2;
 
         MergeAdapter(T item1, T item2) {
-            this.item1 = item1;
-            this.item2 = item2;
+            this.mItem1 = item1;
+            this.mItem2 = item2;
         }
 
         void updateData(T item1, T item2) {
-            this.item1 = item1;
-            this.item2 = item2;
+            this.mItem1 = item1;
+            this.mItem2 = item2;
         }
 
         @Override
         public int getCount() {
-            return item2 == null ? getPagesCount() - 1 : getPagesCount();
+            return mItem2 == null ? getPagesCount() - 1 : getPagesCount();
         }
 
         @Override
@@ -123,7 +123,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return getPage(position, convertView, parent, item1, item2);
+            return getPage(position, convertView, parent, mItem1, mItem2);
         }
     }
 }

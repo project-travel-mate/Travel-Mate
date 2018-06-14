@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.CardItemEntity;
 
-public class SelectModeOfTransport extends AppCompatActivity implements CardViewOptionsAdapter.OnItemClickListner {
+public class SelectModeOfTransport extends AppCompatActivity implements CardViewOptionsAdapter.OnItemClickListener {
 
     @BindView(R.id.transport_mode_options_recycle_view)
     RecyclerView mTransportModeOptionsRecycleView;

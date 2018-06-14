@@ -32,7 +32,7 @@ import static utils.Constants.USER_TOKEN;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SharedPreferences   sharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Initially city fragment
         Fragment fragment;
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_signout: {
 
-                sharedPreferences
+                mSharedPreferences
                         .edit()
                         .putString(USER_TOKEN, null)
                         .apply();

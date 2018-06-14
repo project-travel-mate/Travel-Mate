@@ -18,29 +18,29 @@ import io.github.project_travel_mate.R;
 
 class TrainAdapter extends BaseAdapter {
 
-    private final Context context;
-    private final JSONArray feedItems;
-    private final LayoutInflater inflater;
+    private final Context mContext;
+    private final JSONArray mFeedItems;
+    private final LayoutInflater mInflater;
 
     TrainAdapter(Context context, JSONArray feedItems) {
-        this.context = context;
-        this.feedItems = feedItems;
+        this.mContext = context;
+        this.mFeedItems = feedItems;
 
-        inflater = (LayoutInflater) context
+        mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return feedItems.length();
+        return mFeedItems.length();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
         try {
-            return feedItems.getJSONObject(position);
+            return mFeedItems.getJSONObject(position);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ class TrainAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.train_listitem, parent, false);
+            vi = mInflater.inflate(R.layout.train_listitem, parent, false);
 
         TextView title = vi.findViewById(R.id.bus_name);
         TextView description = vi.findViewById(R.id.bustype);
@@ -74,16 +74,16 @@ class TrainAdapter extends BaseAdapter {
         d6 = vi.findViewById(R.id.d6);
 
         try {
-            title.setText(feedItems.getJSONObject(position).getString("name"));
+            title.setText(mFeedItems.getJSONObject(position).getString("name"));
             String descriptionText = "Train Number : " +
-                    feedItems.getJSONObject(position).getString("train_number");
-            String aTimeText = "Arrival Time : " + feedItems.getJSONObject(position).getString("arrival_time");
-            String dTimeText = "Departure Time : " + feedItems.getJSONObject(position).getString("departure_time");
+                    mFeedItems.getJSONObject(position).getString("train_number");
+            String aTimeText = "Arrival Time : " + mFeedItems.getJSONObject(position).getString("arrival_time");
+            String dTimeText = "Departure Time : " + mFeedItems.getJSONObject(position).getString("departure_time");
             description.setText(descriptionText);
             atime.setText(aTimeText);
             dtime.setText(dTimeText);
 
-            JSONArray ar = feedItems.getJSONObject(position).getJSONArray("days");
+            JSONArray ar = mFeedItems.getJSONObject(position).getJSONArray("days");
             for (int i = 0; i < ar.length(); i++) {
                 int m = ar.getInt(i);
                 if (m == 1)
@@ -129,11 +129,11 @@ class TrainAdapter extends BaseAdapter {
                     try {
                         browserIntent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse("https://www.cleartrip.com/trains/" +
-                                        feedItems.getJSONObject(position).getString("train_number")));
+                                        mFeedItems.getJSONObject(position).getString("train_number")));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
-                    context.startActivity(browserIntent);
+                    mContext.startActivity(browserIntent);
 
                 }
             });
@@ -143,8 +143,8 @@ class TrainAdapter extends BaseAdapter {
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse("https://www.cleartrip.com/trains/" +
-                                        feedItems.getJSONObject(position).getString("train_number")));
-                        context.startActivity(intent);
+                                        mFeedItems.getJSONObject(position).getString("train_number")));
+                        mContext.startActivity(intent);
                     } catch (JSONException e12) {
                         e12.printStackTrace();
                     }
@@ -152,7 +152,7 @@ class TrainAdapter extends BaseAdapter {
             });
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR : ", e.getMessage() + " ");
+            Log.e("ERROR : ", "Message : " + e.getMessage());
         }
         return vi;
     }

@@ -34,7 +34,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.scan)
     Button scan;
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         create.setOnClickListener(this);
         scan.setOnClickListener(this);
@@ -144,12 +144,12 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 //Create a new Intent to send to QR Droid
                 qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
 
-                String mPhoneNumber     = sharedPreferences.getString(USER_NUMBER, "997112322");
-                String name             = sharedPreferences.getString(USER_NAME, "Swati Garg");
+                String mPhoneNumber     = mSharedPreferences.getString(USER_NUMBER, "997112322");
+                String name             = mSharedPreferences.getString(USER_NAME, "Swati Garg");
 
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
-                Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
+                Log.v("Sharing Contact", "Hey, My contact number is :" + mPhoneNumber);
 
                 //Check whether an URL or an imge is required
                 //First item selected ("Get Bitmap")

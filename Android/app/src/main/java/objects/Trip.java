@@ -2,48 +2,48 @@ package objects;
 
 public class Trip {
 
-    private String id;
-    private String name;
-    private String image;
-    private String start;
-    private String end;
-    private String tname;
+    private String mId;
+    private String mName;
+    private String mImage;
+    private String mStart;
+    private String mEnd;
+    private String mTname;
 
     public Trip() {
 
     }
 
     public Trip(String id, String name, String image, String start, String end, String tname) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.start = start;
-        this.end = end;
-        this.tname = tname;
+        this.mId = id;
+        this.mName = name;
+        this.mImage = image;
+        this.mStart = start;
+        this.mEnd = end;
+        this.mTname = tname;
     }
 
     public String getId() {
-        return id;
+        return mId;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getImage() {
-        return image;
+        return mImage;
     }
 
     public String getStart() {
-        return start;
+        return mStart;
     }
 
     public String getEnd() {
-        return end;
+        return mEnd;
     }
 
-    public String getTname() {
-        return tname;
+    public String getmTname() {
+        return mTname;
     }
 
 

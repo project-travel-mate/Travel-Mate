@@ -20,4 +20,6 @@ before_script:
 
 script:
    - chmod +x ./gradlew
+   - ./gradlew clean
    - ./gradlew assembleDebug assembleRelease
+   - ./gradlew checkstyle
