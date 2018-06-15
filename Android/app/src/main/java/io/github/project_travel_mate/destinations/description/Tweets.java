@@ -39,10 +39,10 @@ public class Tweets extends AppCompatActivity {
     @BindView(R.id.list)
     ListView lv;
 
-    private String id;
-    private MaterialDialog dialog;
-    private final List<Tweet> tweets = new ArrayList<>();
-    private TweetsAdapter adapter;
+    private String mId;
+    private MaterialDialog mDialog;
+    private final List<Tweet> mTweets = new ArrayList<>();
+    private TweetsAdapter mAdapter;
     private Handler mHandler;
 
     @Override
@@ -56,7 +56,7 @@ public class Tweets extends AppCompatActivity {
 
         Intent intent   = getIntent();
         String title    = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        id              = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
         String image    = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
 
         setTitle(title);
@@ -69,14 +69,14 @@ public class Tweets extends AppCompatActivity {
 
     private void getTweets() {
 
-        dialog = new MaterialDialog.Builder(Tweets.this)
+        mDialog = new MaterialDialog.Builder(Tweets.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
                 .show();
 
         // to fetch city names
-        String uri = API_LINK + "city/trends/twitter.php?city=" + id;
+        String uri = API_LINK + "city/trends/twitter.php?city=" + mId;
         Log.v("executing", uri);
 
 
@@ -106,14 +106,14 @@ public class Tweets extends AppCompatActivity {
                                 String nam = ob.getJSONObject(i).getString("name");
                                 String link = ob.getJSONObject(i).getString("url");
                                 String count = ob.getJSONObject(i).getString("tweet_volume");
-                                tweets.add(new Tweet(nam, link, count));
+                                mTweets.add(new Tweet(nam, link, count));
                             }
-                            adapter = new TweetsAdapter(Tweets.this, tweets);
-                            lv.setAdapter(adapter);
-                            dialog.dismiss();
+                            mAdapter = new TweetsAdapter(Tweets.this, mTweets);
+                            lv.setAdapter(mAdapter);
+                            mDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage());
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
                         }
                     }
                 });

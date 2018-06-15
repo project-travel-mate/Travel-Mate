@@ -10,7 +10,9 @@ public class Constants {
     public static final String ID_ADDED_INDB = "is_added_in_db";
     public static final String USER_NAME = "user_name";
     public static final String USER_NUMBER = "user_number";
+    public static final String USER_EMAIL = "user_email";
     public static final String USER_ID = "user_id";
+    public static final String USER_TOKEN = "user_token";
 
     public static final String EVENT_IMG = "event_name";
     public static final String EVENT_NAME = "event_img";
@@ -32,6 +34,7 @@ public class Constants {
     public static final String MUMBAI_LON = "772.8777";
 
     public static final String API_LINK = "http://prabhakargupta.com/travel-mate/";
+    public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
     public static final List<String> BASE_TASKS  = new ArrayList<String>() {
@@ -57,5 +60,9 @@ public class Constants {
     public static final String EXTRA_MESSAGE_TITLE     = "title_";
 
 
+
+    // HTTP STATUS CODES
+    public static final int STATUS_CODE_OK      = 200;
+    public static final int STATUS_CODE_CREATED = 201;
 
 }

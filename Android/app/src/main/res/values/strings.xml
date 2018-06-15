@@ -27,10 +27,12 @@
 
     <!-- login/signup strings -->
     <string name="phone_number">Phone Number</string>
+    <string name="email_id">Email id</string>
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
+    <string name="toast_invalid_username_or_password">Invalid username or password</string>
 
 
     <!-- Travel home page strings -->

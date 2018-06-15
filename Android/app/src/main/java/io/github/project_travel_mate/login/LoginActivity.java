@@ -28,9 +28,8 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 
-import static utils.Constants.USER_ID;
-import static utils.Constants.USER_NAME;
-import static utils.Constants.USER_NUMBER;
+import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Initiates login
@@ -45,12 +44,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LinearLayout    sig;
     @BindView(R.id.loginlayout)
     LinearLayout    log;
-    @BindView(R.id.input_num_login)
-    EditText        num_login;
+    @BindView(R.id.input_email_login)
+    EditText        email_login;
     @BindView(R.id.input_pass_login)
     EditText        pass_login;
-    @BindView(R.id.input_num_signup)
-    EditText        num_signup;
+    @BindView(R.id.input_email_signup)
+    EditText        email_signup;
     @BindView(R.id.input_pass_signup)
     EditText        pass_signup;
     @BindView(R.id.input_name_signup)
@@ -60,11 +59,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.ok_signup)
     FlatButton      ok_signup;
 
-    private SharedPreferences   sharedPreferences;
-    private MaterialDialog      dialog;
-    private Handler             mhandler;
+    private SharedPreferences mSharedPreferences;
+    private MaterialDialog mDialog;
+    private Handler mHandler;
 
-    private final LoginPresenter loginPresenter = new LoginPresenter();
+    private final LoginPresenter mLoginPresenter = new LoginPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +79,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
 
-        loginPresenter.bind(this);
+        mLoginPresenter.bind(this);
         ButterKnife.bind(this);
 
         // Initialization
-        mhandler = new Handler(Looper.getMainLooper());
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mHandler = new Handler(Looper.getMainLooper());
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get runtime permissions for Android M
         getRunTimePermissions();
@@ -101,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onDestroy() {
-        loginPresenter.unbind();
+        mLoginPresenter.unbind();
         super.onDestroy();
     }
 
@@ -110,34 +109,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             // Open signup
             case R.id.signup :
-                loginPresenter.signUp();
+                mLoginPresenter.signUp();
                 break;
             // Open login
             case R.id.login :
-                loginPresenter.login();
+                mLoginPresenter.login();
                 break;
             // Call login
             case R.id.ok_login :
-                String numString = num_login.getText().toString();
+                String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
-                loginPresenter.ok_login(numString, passString, mhandler);
+                mLoginPresenter.ok_login(emailString, passString, mHandler);
                 break;
             // Call signup
             case R.id.ok_signup :
-                numString = num_signup.getText().toString();
+                emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
                 String nameString = name.getText().toString();
-                loginPresenter.ok_signUp(nameString, numString, passString, mhandler);
+                mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
                 break;
         }
     }
 
     @Override
-    public void rememberUserInfo(String id, String name, String num) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(USER_ID, id);
-        editor.putString(USER_NAME, name);
-        editor.putString(USER_NUMBER, num);
+    public void rememberUserInfo(String token, String email) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(USER_TOKEN, token);
+        editor.putString(USER_EMAIL, email);
         editor.apply();
     }
 
@@ -150,13 +148,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showError() {
-        Toast.makeText(this, "Invalid Password or number", Toast.LENGTH_LONG)
+        Toast.makeText(this, R.string.toast_invalid_username_or_password, Toast.LENGTH_LONG)
                 .show();
     }
 
     @Override
     public void showLoadingDialog() {
-        dialog = new MaterialDialog.Builder(this)
+        mDialog = new MaterialDialog.Builder(this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -165,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void dismissLoadingDialog() {
-        dialog.dismiss();
+        mDialog.dismiss();
     }
 
     @Override
@@ -196,9 +194,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void checkUserSession() {
-        if (sharedPreferences.getString(USER_ID, null) != null) {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(i);
+        if (mSharedPreferences.getString(USER_TOKEN, null) != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         }
     }
@@ -213,5 +211,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void openLogin() {
         log.setVisibility(View.VISIBLE);
         sig.setVisibility(View.GONE);
+    }
+
+    public void setLoginEmail(String email) {
+        email_login.setText(email);
+    }
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
+                .show();
     }
 }

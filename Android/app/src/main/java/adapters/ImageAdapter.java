@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import utils.TouchImageView;
 
 public class ImageAdapter extends PagerAdapter {
-    private final Context context;
-    private final ArrayList<String> galImages;
+    private final Context mContext;
+    private final ArrayList<String> mGalImages;
 
     /**
      * Initializes and adapter that adds particular image into imageView adapter
@@ -24,8 +24,8 @@ public class ImageAdapter extends PagerAdapter {
      * @param images  Array list containing URLs of images
      */
     public ImageAdapter(Context context, ArrayList<String> images) {
-        galImages = images;
-        this.context = context;
+        mGalImages = images;
+        this.mContext = context;
     }
 
     /**
@@ -35,9 +35,9 @@ public class ImageAdapter extends PagerAdapter {
      */
     @Override
     public int getCount() {
-        if (galImages == null)
+        if (mGalImages == null)
             return 0;
-        return galImages.size();
+        return mGalImages.size();
     }
 
 
@@ -56,9 +56,9 @@ public class ImageAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        TouchImageView imageView = new TouchImageView(context);
+        TouchImageView imageView = new TouchImageView(mContext);
 
-        Picasso.with(context).load(galImages.get(position)).into(imageView);
+        Picasso.with(mContext).load(mGalImages.get(position)).into(imageView);
 
         container.addView(imageView, 0);
         return imageView;

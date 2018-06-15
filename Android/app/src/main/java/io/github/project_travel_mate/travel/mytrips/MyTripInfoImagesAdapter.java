@@ -21,20 +21,20 @@ import io.github.project_travel_mate.R;
 import utils.Constants;
 
 class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
-    private final Activity context;
-    private final List<File> name;
+    private final Activity mContext;
+    private final List<File> mName;
 
     MyTripInfoImagesAdapter(Activity context, List<File> name) {
         super(context, R.layout.trip_listitem, name);
-        this.context = context;
-        this.name = name;
+        this.mContext = context;
+        this.mName = name;
     }
 
     @NonNull
     @Override
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
         ViewHolder holder;
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, parent, false);
             holder = new ViewHolder();
@@ -43,27 +43,27 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
-        if (position == name.size() - 1) {
+        if (position == mName.size() - 1) {
             holder.iv.setImageResource(R.drawable.add_image);
             holder.iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent1 = new Intent(context, ImagePickerActivity.class);
-                    context.startActivityForResult(intent1, MyTripInfo.INTENT_REQUEST_GET_IMAGES);
+                    Intent intent1 = new Intent(mContext, ImagePickerActivity.class);
+                    mContext.startActivityForResult(intent1, MyTripInfo.INTENT_REQUEST_GET_IMAGES);
                 }
             });
         } else {
-            holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
+            holder.iv.setImageDrawable(Drawable.createFromPath(mName.get(position).getAbsolutePath()));
             holder.iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, TripImage.class);
+                    Intent i = new Intent(mContext, TripImage.class);
                     ArrayList<String> a = new ArrayList<>();
-                    a.add(name.get(position).getAbsolutePath());
+                    a.add(mName.get(position).getAbsolutePath());
 
                     i.putExtra(Constants.EVENT_IMG, a);
                     i.putExtra(Constants.EVENT_NAME, "Image");
-                    context.startActivity(i);
+                    mContext.startActivity(i);
                 }
             });
         }

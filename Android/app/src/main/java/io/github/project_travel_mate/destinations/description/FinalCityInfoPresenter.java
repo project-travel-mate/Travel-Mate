@@ -22,7 +22,7 @@ class FinalCityInfoPresenter {
     private FinalCityInfoView   mFinalCityInfoView;
     private final OkHttpClient  mOkHttpClient;
 
-    public FinalCityInfoPresenter() {
+    FinalCityInfoPresenter() {
         mOkHttpClient = new OkHttpClient();
     }
 
@@ -30,6 +30,10 @@ class FinalCityInfoPresenter {
         mFinalCityInfoView = finalCityInfoView;
     }
 
+    /**
+     * Calls the API & fetch details of a city with given id
+     * @param id the city id
+     */
     public void fetchCityInfo(String id) {
         mFinalCityInfoView.showProgress();
 
