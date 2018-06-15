@@ -1,6 +1,7 @@
 package io.github.project_travel_mate;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,9 +16,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -137,14 +141,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
             case R.id.nav_signout: {
+                //AlertDialog after user click signout
+                ContextThemeWrapper ctr = new ContextThemeWrapper(this, R.style.AlertDialog);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctr);
+                builder.setMessage(R.string.signout_alert_messsage);
 
-                mSharedPreferences
-                        .edit()
-                        .putString(USER_TOKEN, null)
-                        .apply();
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
+                //Set "OK" button and proceed to signout after click
+                builder.setPositiveButton(
+                        R.string.signout_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mSharedPreferences
+                                        .edit()
+                                        .putString(USER_TOKEN, null)
+                                        .apply();
+                                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }
+                );
+
+                //Set "CANCEL" button on AlertDialog
+                builder.setNegativeButton(
+                        R.string.signout_negative_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }
+                );
+                AlertDialog alertDialogSignout = builder.create();
+                alertDialogSignout.show();
+
                 break;
             }
         }
