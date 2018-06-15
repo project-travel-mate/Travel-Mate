@@ -6,7 +6,7 @@ package io.github.project_travel_mate.login;
 
 interface LoginView {
 
-    void rememberUserInfo(String id, String name, String num);
+    void rememberUserInfo(String token, String email);
 
     void startMainActivity();
 
@@ -23,5 +23,9 @@ interface LoginView {
     void openSignUp();
 
     void openLogin();
+
+    void setLoginEmail(String email);
+
+    void showMessage(String message);
 
 }

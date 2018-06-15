@@ -49,12 +49,12 @@ public class SelectCity extends AppCompatActivity {
     @BindView(R.id.source) Spinner source;
     @BindView(R.id.destination) Spinner dest;
     @BindView(R.id.pb) ProgressBar pb;
-    private String[] cities;
-    private SharedPreferences.Editor editor;
-    private final List<String> id = new ArrayList<>();
-    private final List<String> names = new ArrayList<>();
-    private final List<String> lat = new ArrayList<>();
-    private final List<String> lon = new ArrayList<>();
+    private String[] mCities;
+    private SharedPreferences.Editor mEditor;
+    private final List<String> mId = new ArrayList<>();
+    private final List<String> mNames = new ArrayList<>();
+    private final List<String> mLatitude = new ArrayList<>();
+    private final List<String> mLongitude = new ArrayList<>();
     private Handler mHandler;
 
     @Override
@@ -68,7 +68,7 @@ public class SelectCity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
+        mEditor = sharedPreferences.edit();
         mHandler = new Handler(Looper.getMainLooper());
 
         getcitytask();
@@ -86,25 +86,25 @@ public class SelectCity extends AppCompatActivity {
             Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } else {
-            editor.putString(DESTINATION_CITY_ID, id.get(dposition));
-            editor.putString(SOURCE_CITY_ID, id.get(sposition));
-            editor.putString(DESTINATION_CITY, names.get(dposition));
-            editor.putString(SOURCE_CITY, names.get(sposition));
-            editor.putString(DESTINATION_CITY_LAT, lat.get(dposition));
-            editor.putString(SOURCE_CITY_LAT, lat.get(sposition));
-            editor.putString(DESTINATION_CITY_LON, lon.get(dposition));
-            editor.putString(SOURCE_CITY_LON, lon.get(sposition));
+            mEditor.putString(DESTINATION_CITY_ID, mId.get(dposition));
+            mEditor.putString(SOURCE_CITY_ID, mId.get(sposition));
+            mEditor.putString(DESTINATION_CITY, mNames.get(dposition));
+            mEditor.putString(SOURCE_CITY, mNames.get(sposition));
+            mEditor.putString(DESTINATION_CITY_LAT, mLatitude.get(dposition));
+            mEditor.putString(SOURCE_CITY_LAT, mLatitude.get(sposition));
+            mEditor.putString(DESTINATION_CITY_LON, mLongitude.get(dposition));
+            mEditor.putString(SOURCE_CITY_LON, mLongitude.get(sposition));
             SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
 
-            editor.apply();
+            mEditor.apply();
             SelectCity.this.finish();
         }
     }
 
     private void getcitytask() {
 
-        // to fetch city names
-        String uri = API_LINK + "all-cities.php";
+        // to fetch city mNames
+        String uri = API_LINK + "all-mCities.php";
         Log.v("EXECUTING : ", uri);
 
         //Set up client
@@ -128,25 +128,25 @@ public class SelectCity extends AppCompatActivity {
                     public void run() {
                         try {
                             JSONObject ob = new JSONObject(Objects.requireNonNull(response.body()).string());
-                            JSONArray ar = ob.getJSONArray("cities");
+                            JSONArray ar = ob.getJSONArray("mCities");
                             for (int i = 0; i < ar.length(); i++) {
-                                id.add(ar.getJSONObject(i).getString("id"));
-                                names.add(ar.getJSONObject(i).getString("name"));
-                                lat.add(ar.getJSONObject(i).getString("lat"));
-                                lon.add(ar.getJSONObject(i).getString("lng"));
+                                mId.add(ar.getJSONObject(i).getString("mId"));
+                                mNames.add(ar.getJSONObject(i).getString("name"));
+                                mLatitude.add(ar.getJSONObject(i).getString("mLatitude"));
+                                mLongitude.add(ar.getJSONObject(i).getString("lng"));
                             }
-                            cities = new String[id.size()];
-                            cities = names.toArray(cities);
+                            mCities = new String[mId.size()];
+                            mCities = mNames.toArray(mCities);
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                                     SelectCity.this,
                                     android.R.layout.simple_spinner_dropdown_item,
-                                    cities);
+                                    mCities);
                             source.setAdapter(adapter);
                             dest.setAdapter(adapter);
                             pb.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage());
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }

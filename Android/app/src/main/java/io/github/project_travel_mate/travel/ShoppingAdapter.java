@@ -20,26 +20,26 @@ import io.github.project_travel_mate.R;
 
 class ShoppingAdapter extends BaseAdapter {
 
-    final Context context;
-    final JSONArray FeedItems;
-    private final LayoutInflater inflater;
+    private final Context mContext;
+    private final JSONArray mFeedItems;
+    private final LayoutInflater mInflater;
 
     ShoppingAdapter(Context context, JSONArray feedItems) {
-        this.context = context;
-        this.FeedItems = feedItems;
-        inflater = (LayoutInflater) context
+        this.mContext = context;
+        this.mFeedItems = feedItems;
+        mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return FeedItems.length();
+        return mFeedItems.length();
     }
 
     @Override
     public Object getItem(int position) {
         try {
-            return FeedItems.getJSONObject(position);
+            return mFeedItems.getJSONObject(position);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -55,23 +55,24 @@ class ShoppingAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.shop_listitem, parent, false);
+            vi = mInflater.inflate(R.layout.shop_listitem, parent, false);
 
         TextView title = vi.findViewById(R.id.VideoTitle);
         TextView description = vi.findViewById(R.id.VideoDescription);
         ImageView iv = vi.findViewById(R.id.VideoThumbnail);
 
         try {
-            String name = FeedItems.getJSONObject(position).getString("name");
+            String name = mFeedItems.getJSONObject(position).getString("name");
             name = Html.fromHtml(name).toString();
             title.setText(name);
 
-            String descriptionText = FeedItems.getJSONObject(position).getString("value");
+            String descriptionText = mFeedItems.getJSONObject(position).getString("value");
 
-            descriptionText = Html.fromHtml(descriptionText).toString() + " Rs";
+            descriptionText = Html.fromHtml(descriptionText).toString() + " "
+                + mFeedItems.getJSONObject(position).getString("currency");
             description.setText(descriptionText);
 
-            Picasso.with(context).load(FeedItems.getJSONObject(position).getString("image")).into(iv);
+            Picasso.with(mContext).load(mFeedItems.getJSONObject(position).getString("image")).into(iv);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,11 +83,11 @@ class ShoppingAdapter extends BaseAdapter {
                 Intent browserIntent = null;
                 try {
                     browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(FeedItems.getJSONObject(position).getString("url")));
+                            Uri.parse(mFeedItems.getJSONObject(position).getString("url")));
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
-                context.startActivity(browserIntent);
+                mContext.startActivity(browserIntent);
             }
         });
         return vi;

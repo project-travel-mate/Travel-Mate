@@ -31,15 +31,15 @@ import static utils.Constants.EXTRA_MESSAGE_NAME;
 
 class CityAdapter extends BaseFlipAdapter<City> {
 
-    private final Activity context;
-    private final Typeface tex;
-    private final int[] idsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+    private final Activity mContext;
+    private final Typeface mTypefaceTex;
+    private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
         super(context, items, settings);
-        this.context = (Activity) context;
-        tex = Typeface.createFromAsset(context.getAssets(), "fonts/texgyreadventor-bold.otf");
+        this.mContext = (Activity) context;
+        mTypefaceTex = Typeface.createFromAsset(context.getAssets(), "fonts/texgyreadventor-bold.otf");
     }
 
     @Override
@@ -48,19 +48,19 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
         if (convertView == null) {
             holder = new CitiesHolder();
-            convertView = context.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
+            convertView = mContext.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
             holder.leftAvatar = convertView.findViewById(R.id.first);
             holder.rightAvatar = convertView.findViewById(R.id.second);
             holder.left = convertView.findViewById(R.id.name1);
             holder.right = convertView.findViewById(R.id.name2);
-            holder.infoPage = context.getLayoutInflater().inflate(R.layout.home_city_info, parent, false);
+            holder.infoPage = mContext.getLayoutInflater().inflate(R.layout.home_city_info, parent, false);
             holder.nickName = holder.infoPage.findViewById(R.id.nickname);
             holder.fv1 = (FontTextView) holder.infoPage.findViewById(R.id.interest_1);
             holder.fv2 = (FontTextView) holder.infoPage.findViewById(R.id.interest_2);
             holder.fv3 = (FontTextView) holder.infoPage.findViewById(R.id.interest_3);
             holder.fv4 = (FontTextView) holder.infoPage.findViewById(R.id.interest_4);
 
-            for (int id : idsInterest)
+            for (int id : mIdsInterest)
                 holder.interests.add((TextView) holder.infoPage.findViewById(id));
 
             convertView.setTag(holder);
@@ -70,18 +70,18 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
         switch (position) {
             case 1:
-                Picasso.with(context).
-                        load(friend1.getAvatar()).
+                Picasso.with(mContext).
+                        load(friend1.getmAvatar()).
                         placeholder(R.drawable.delhi).
                         into(holder.leftAvatar);
-                holder.left.setTypeface(tex);
-                holder.left.setText(friend1.getNickname());
+                holder.left.setTypeface(mTypefaceTex);
+                holder.left.setText(friend1.getmNickname());
 
                 if (friend2 != null) {
-                    holder.right.setText(friend2.getNickname());
-                    holder.right.setTypeface(tex);
-                    Picasso.with(context).
-                            load(friend2.getAvatar()).
+                    holder.right.setText(friend2.getmNickname());
+                    holder.right.setTypeface(mTypefaceTex);
+                    Picasso.with(mContext).
+                            load(friend2.getmAvatar()).
                             placeholder(R.drawable.delhi).
                             into(holder.rightAvatar);
                 }
@@ -104,11 +104,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
         if (friend == null)
             return;
         Iterator<TextView> iViews = holder.interests.iterator();
-        Iterator<String> iInterests = friend.getInterests().iterator();
+        Iterator<String> iInterests = friend.getmInterests().iterator();
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
-        holder.infoPage.setBackgroundColor(context.getResources().getColor(friend.getBackground()));
-        holder.nickName.setText(friend.getNickname());
+        holder.infoPage.setBackgroundColor(mContext.getResources().getColor(friend.getmBackground()));
+        holder.nickName.setText(friend.getmNickname());
 
         holder.nickName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,21 +119,21 @@ class CityAdapter extends BaseFlipAdapter<City> {
         holder.fv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, FinalCityInfo.class);
+                Intent i = new Intent(mContext, FinalCityInfo.class);
                 i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, friend.getNickname());
-                i.putExtra(EXTRA_MESSAGE_IMAGE, friend.getAvatar());
-                context.startActivity(i);
+                i.putExtra(EXTRA_MESSAGE_NAME, friend.getmNickname());
+                i.putExtra(EXTRA_MESSAGE_IMAGE, friend.getmAvatar());
+                mContext.startActivity(i);
             }
         });
 
         holder.fv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, FunFacts.class);
+                Intent i = new Intent(mContext, FunFacts.class);
                 i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, friend.getNickname());
-                context.startActivity(i);
+                i.putExtra(EXTRA_MESSAGE_NAME, friend.getmNickname());
+                mContext.startActivity(i);
             }
         });
 
@@ -141,11 +141,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
-                        friend.getLa() +
+                        friend.getmLatitude() +
                         "," +
-                        friend.getLo() +
+                        friend.getmLongitude() +
                         "&z=13")); // zoom level
-                context.startActivity(browserIntent);
+                mContext.startActivity(browserIntent);
             }
         });
 
@@ -153,7 +153,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                context.startActivity(browserIntent);
+                mContext.startActivity(browserIntent);
             }
         });
     }

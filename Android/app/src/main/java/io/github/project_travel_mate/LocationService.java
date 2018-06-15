@@ -34,11 +34,11 @@ import static utils.Constants.DESTINATION_CITY_LON;
 
 public class LocationService extends Service {
     private static final String BROADCAST_ACTION = "Hello World";
-    private LocationManager locationManager;
-    private MyLocationListener listener;
-    private final Location previousBestLocation = null;
+    private LocationManager mLocationManager;
+    private MyLocationListener mListener;
+    private final Location mPreviousBestLocation = null;
 
-    private Intent intent;
+    private Intent mIntent;
 
     public static Thread performOnBackgroundThread(final Runnable runnable) {
         final Thread t = new Thread() {
@@ -79,18 +79,18 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        intent = new Intent(BROADCAST_ACTION);
+        mIntent = new Intent(BROADCAST_ACTION);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mListener = new MyLocationListener();
         if (ContextCompat.checkSelfPermission(LocationService.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, mListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, mListener);
         }
         return START_NOT_STICKY;
     }
@@ -118,14 +118,14 @@ public class LocationService extends Service {
         if (ContextCompat.checkSelfPermission(LocationService.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            locationManager.removeUpdates(listener);
+            mLocationManager.removeUpdates(mListener);
         }
     }
 
     class MyLocationListener implements LocationListener {
 
         public void onLocationChanged(final Location loc) {
-            if (isBetterLocation(loc, previousBestLocation)) {
+            if (isBetterLocation(loc, mPreviousBestLocation)) {
                 loc.getLatitude();
                 loc.getLongitude();
 
@@ -146,10 +146,10 @@ public class LocationService extends Service {
                 NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Objects.requireNonNull(nManager).notify(notificationId, builder.build());
 
-                intent.putExtra("Latitude", loc.getLatitude());
-                intent.putExtra("Longitude", loc.getLongitude());
-                intent.putExtra("Provider", loc.getProvider());
-                sendBroadcast(intent);
+                mIntent.putExtra("Latitude", loc.getLatitude());
+                mIntent.putExtra("Longitude", loc.getLongitude());
+                mIntent.putExtra("Provider", loc.getProvider());
+                sendBroadcast(mIntent);
                 stopSelf();
             }
         }

@@ -34,7 +34,7 @@ import static utils.Constants.EXTRA_MESSAGE_TITLE;
  */
 public class FunfactFragment extends Fragment {
 
-    private File file;
+    private File mFile;
 
     /**
      * instantiate funfact fragment
@@ -92,23 +92,23 @@ public class FunfactFragment extends Fragment {
                 .findViewById(android.R.id.content);
         Bitmap b = getScreenShot(rootView);
         store(b, "myfile" + System.currentTimeMillis() + ".png");
-        shareImage(file);
+        shareImage(mFile);
     }
 
     /**
-     * Store bitmap file in MyScreenshots directory
+     * Store bitmap mFile in MyScreenshots directory
      *
      * @param bitmap   bitmap to be saved
-     * @param fileName Name of bitmap file
+     * @param fileName Name of bitmap mFile
      */
     private void store(Bitmap bitmap, String fileName) {
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyScreenshots";
         File dr = new File(dir);
         if (!dr.exists())
             dr.mkdirs();
-        file = new File(dr, fileName);
+        mFile = new File(dr, fileName);
         try {
-            FileOutputStream fOut = new FileOutputStream(file);
+            FileOutputStream fOut = new FileOutputStream(mFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
@@ -118,7 +118,7 @@ public class FunfactFragment extends Fragment {
     }
 
     /**
-     * To Share a file via file sharer
+     * To Share a mFile via mFile sharer
      *
      * @param file File location to be shared
      */

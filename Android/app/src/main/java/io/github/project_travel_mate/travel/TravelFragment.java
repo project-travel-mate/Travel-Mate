@@ -6,31 +6,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.travel.mytrips.MyTrips;
 import io.github.project_travel_mate.travel.transport.SelectModeOfTransport;
+import utils.CardItemEntity;
 
 
-public class TravelFragment extends Fragment implements View.OnClickListener {
+public class TravelFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
 
-    Activity activity;
-    @BindView(R.id.vehicle)
-    LinearLayout vehicle;
-    @BindView(R.id.accomo)
-    LinearLayout acc;
-    @BindView(R.id.shopping)
-    LinearLayout shop;
-    @BindView(R.id.realtime)
-    LinearLayout realtime;
-    @BindView(R.id.mytrips)
-    LinearLayout mytrips;
+    private Activity mActivity;
+
+    @BindView(R.id.travel_options_recycle_view)
+    RecyclerView mTravelOptionsRecycleView;
 
     public TravelFragment() {}
 
@@ -38,55 +38,66 @@ public class TravelFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.content_travel, container, false);
+        View view = inflater.inflate(R.layout.content_travel, container, false);
 
-        ButterKnife.bind(this, v);
+        ButterKnife.bind(this, view);
 
-        realtime.setOnClickListener(this);
-        mytrips.setOnClickListener(this);
-        vehicle.setOnClickListener(this);
-        acc.setOnClickListener(this);
-        shop.setOnClickListener(this);
+        List<CardItemEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.city),
+                        getResources().getString(R.string.my_trips)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.transport),
+                        getResources().getString(R.string.transport)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.hotel),
+                        getResources().getString(R.string.hotel)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.shop),
+                        getResources().getString(R.string.online_Shopping)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.location),
+                        getResources().getString(R.string.real_time_locator)));
 
-        return v;
+
+        CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
+        mTravelOptionsRecycleView.setLayoutManager(mLayoutManager);
+        mTravelOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
+        mTravelOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
+
+        return view;
     }
 
 
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = (Activity) activity;
+        this.mActivity = (Activity) activity;
     }
 
-
     @Override
-    public void onClick(View view) {
+    public void onItemClick(int position) {
         Intent i;
-
-        switch (view.getId()) {
-
-            case R.id.vehicle:
-                i = new Intent(activity, SelectModeOfTransport.class);
+        switch (position) {
+            case 0: i = new Intent(mActivity, MyTrips.class);
                 startActivity(i);
                 break;
-
-            case R.id.shopping:
-                i = new Intent(activity, ShoppingCurrentCity.class);
+            case 1: i = new Intent(mActivity, SelectModeOfTransport.class);
                 startActivity(i);
                 break;
-
-            case R.id.accomo:
-                i = new Intent(activity, Hotels.class);
+            case 2: i = new Intent(mActivity, Hotels.class);
                 startActivity(i);
                 break;
-
-            case R.id.realtime:
-                i = new Intent(activity, MapRealTimeActivity.class);
+            case 3: i = new Intent(mActivity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
-
-            case R.id.mytrips:
-                i = new Intent(activity, MyTrips.class);
+            case 4: i = new Intent(mActivity, MapRealTimeActivity.class);
                 startActivity(i);
                 break;
         }

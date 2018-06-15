@@ -2,25 +2,25 @@ package objects;
 
 public class Tweet {
 
-    private final String name;
-    private final String url;
-    private final String volume;
+    private final String mName;
+    private final String mUrl;
+    private final String mVolume;
 
     public Tweet(String name, String url, String volume) {
-        this.name = name;
-        this.url = url;
-        this.volume = volume;
+        this.mName = name;
+        this.mUrl = url;
+        this.mVolume = volume;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getUrl() {
-        return url;
+        return mUrl;
     }
 
     public String getVolume() {
-        return volume;
+        return mVolume;
     }
 }

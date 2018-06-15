@@ -27,10 +27,12 @@
 
     <!-- login/signup strings -->
     <string name="phone_number">Phone Number</string>
+    <string name="email_id">Email id</string>
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
+    <string name="toast_invalid_username_or_password">Invalid username or password</string>
 
 
     <!-- Travel home page strings -->
@@ -146,5 +148,10 @@
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
     <string name="empty_description">No description available.</string>
+
+    <!--signout AlertDialog-->
+    <string name="signout_alert_messsage">Are you sure want to sign out?</string>
+    <string name="signout_positive_button">OK</string>
+    <string name="signout_negative_button">CANCEL</string>
 
 </resources>
