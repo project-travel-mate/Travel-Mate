@@ -61,6 +61,7 @@
         <item>ATM</item>
         <item>Hospital</item>
     </array>
+    <string name="no_activity_for_browser">No app found to open this website</string>
 
     <!-- Checklist strings -->
     <string name="text_checklist">Checklist</string>

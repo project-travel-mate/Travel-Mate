@@ -60,9 +60,27 @@ public class Constants {
     public static final String EXTRA_MESSAGE_TITLE     = "title_";
 
 
-
     // HTTP STATUS CODES
-    public static final int STATUS_CODE_OK      = 200;
-    public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_OK              = 200;
+    public static final int STATUS_CODE_CREATED         = 201;
+    public static final int STATUS_CODE_UNAUTHORIZED    = 403;
+
+    // Here API
+    public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
+    public static final String HERE_API_APP_ID = "7xQMJiIPsG3ptIohUobu";
+    public static final String HERE_API_APP_CODE = "iPNVovxnQdkSvsRPjPct3w";
+
+    public static final List<String> HERE_API_MODES = new ArrayList<String>() {
+        {
+            add("eat-drink");
+            add("going-out,leisure-outdoor");
+            add("sights-museums");
+            add("transport");
+            add("shopping");
+            add("petrol-station");
+            add("atm-bank-exchange");
+            add("hospital-health-care-facility");
+        }
+    };
 
 }

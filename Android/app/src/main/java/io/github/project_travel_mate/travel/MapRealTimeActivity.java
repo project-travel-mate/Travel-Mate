@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
@@ -51,12 +52,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.GPSTracker;
 
-import static utils.Constants.API_LINK;
 import static utils.Constants.DELHI_LAT;
 import static utils.Constants.DELHI_LON;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.DESTINATION_CITY_LAT;
 import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.HERE_API_APP_CODE;
+import static utils.Constants.HERE_API_APP_ID;
+import static utils.Constants.HERE_API_LINK;
+import static utils.Constants.HERE_API_MODES;
 import static utils.Constants.MUMBAI_LAT;
 import static utils.Constants.MUMBAI_LON;
 import static utils.Constants.SOURCE_CITY;
@@ -123,7 +127,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 mCurlat = "28.5952242";
                 mCurlon = "77.1656782";
             }
-            getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
+            getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -133,12 +137,14 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     /**
      * Calls API to get nearby places
      *
-     * @param mo mode; type of places;
-     * @param ic marker icon
+     * @param mode mode; type of places;
+     * @param icon marker icon
      */
-    private void getMarkers(int mo, final int ic) {
+    private void getMarkers(String mode, final int icon) {
 
-        String uri = API_LINK + "places-api.php?mode=" + mo + "&lat=" + mCurlat + "&lng=" + mCurlon;
+        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&mode=" + mode
+                + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
+
         Log.v("EXECUTING", uri);
 
         //Set up client
@@ -162,18 +168,22 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void run() {
                         try {
-                            final JSONObject json = new JSONObject(res);
-                            JSONArray routeArray = json.getJSONArray("results");
+                            JSONObject json = new JSONObject(res);
+                            json = json.getJSONObject("results");
+                            JSONArray routeArray = json.getJSONArray("items");
 
                             for (int i = 0; i < routeArray.length(); i++) {
-                                String name = routeArray.getJSONObject(i).getString("name");
-                                String web = routeArray.getJSONObject(i).getString("website");
-                                String nums = routeArray.getJSONObject(i).getString("phone");
-                                String addr = routeArray.getJSONObject(i).getString("address");
-                                showMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
-                                        Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
-                                        routeArray.getJSONObject(i).getString("name"),
-                                        ic);
+                                String name = routeArray.getJSONObject(i).getString("title");
+                                String web = routeArray.getJSONObject(i).getString("href");
+                                String nums = routeArray.getJSONObject(i).getString("distance");
+                                String addr = routeArray.getJSONObject(i).getString("vicinity");
+
+                                Double latitude = Double.parseDouble(
+                                        routeArray.getJSONObject(i).getJSONArray("position").get(0).toString());
+                                Double longitude = Double.parseDouble(
+                                        routeArray.getJSONObject(i).getJSONArray("position").get(1).toString());
+
+                                showMarker(latitude, longitude, name, icon);
                                 mMapItems.add(new MapItem(name, nums, web, addr));
                             }
                         } catch (JSONException e) {
@@ -234,7 +244,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                                         icon = R.drawable.ic_attach_money_black_24dp;
                                         break;
                                 }
-                                MapRealTimeActivity.this.getMarkers(which[0], icon);
+                                MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
 
                             }
                             return true;
@@ -325,8 +335,14 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onClick(View view) {
                         Intent browserIntent;
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getmAddress()));
-                        MapRealTimeActivity.this.startActivity(browserIntent);
+                        try {
+                            browserIntent = new Intent(
+                                    Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getmAddress()));
+                            MapRealTimeActivity.this.startActivity(browserIntent);
+                        } catch (Exception e) {
+                            Toast.makeText(MapRealTimeActivity.this,
+                                    R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
                 return false;
