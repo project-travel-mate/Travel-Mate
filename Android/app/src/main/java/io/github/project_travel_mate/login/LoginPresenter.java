@@ -159,10 +159,10 @@ class LoginPresenter {
                                 String token = responeJsonObject.getString("token");
                                 mView.rememberUserInfo(token, email);
                                 mView.startMainActivity();
-                                mView.dismissLoadingDialog();
                             } else {
                                 mView.showError();
                             }
+                            mView.dismissLoadingDialog();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
