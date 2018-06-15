@@ -9,7 +9,6 @@
     </style>
 
 
-
     <style name="AppTheme_picker" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -59,5 +58,10 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!--styling for signout alert dialog-->
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--button text color-->
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 
 </resources>
