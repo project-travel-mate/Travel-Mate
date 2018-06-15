@@ -36,7 +36,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.SelectCity;
+import io.github.project_travel_mate.SelectCityFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -337,7 +337,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city :
-                Intent i = new Intent(Hotels.this, SelectCity.class);
+                Intent i = new Intent(Hotels.this, SelectCityFragment.class);
                 startActivity(i);
                 break;
             case R.id.seldate :

@@ -1,16 +1,20 @@
 package io.github.project_travel_mate;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -43,8 +47,9 @@ import static utils.Constants.SOURCE_CITY_ID;
 import static utils.Constants.SOURCE_CITY_LAT;
 import static utils.Constants.SOURCE_CITY_LON;
 
-@SuppressWarnings("WeakerAccess")
-public class SelectCity extends AppCompatActivity {
+public class SelectCityFragment extends Fragment {
+
+    private Activity mActivity;
 
     @BindView(R.id.source) Spinner source;
     @BindView(R.id.destination) Spinner dest;
@@ -57,23 +62,28 @@ public class SelectCity extends AppCompatActivity {
     private final List<String> mLongitude = new ArrayList<>();
     private Handler mHandler;
 
+    public SelectCityFragment() {}
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_city);
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        this.mActivity = (Activity) activity;
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        ButterKnife.bind(this);
+        View view = inflater.inflate(R.layout.activity_select_city, container, false);
+        ButterKnife.bind(this, view);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mEditor = sharedPreferences.edit();
         mHandler = new Handler(Looper.getMainLooper());
 
         getcitytask();
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(" ");
+        return view;
     }
 
     @OnClick(R.id.ok)
@@ -94,18 +104,17 @@ public class SelectCity extends AppCompatActivity {
             mEditor.putString(SOURCE_CITY_LAT, mLatitude.get(sposition));
             mEditor.putString(DESTINATION_CITY_LON, mLongitude.get(dposition));
             mEditor.putString(SOURCE_CITY_LON, mLongitude.get(sposition));
-            SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
+            mActivity.startService(new Intent(mActivity, LocationService.class));
 
             mEditor.apply();
-            SelectCity.this.finish();
         }
     }
 
     private void getcitytask() {
 
         // to fetch city mNames
-        String uri = API_LINK + "all-mCities.php";
-        Log.v("EXECUTING : ", uri);
+        String uri = API_LINK + "all-cities.php";
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -128,17 +137,17 @@ public class SelectCity extends AppCompatActivity {
                     public void run() {
                         try {
                             JSONObject ob = new JSONObject(Objects.requireNonNull(response.body()).string());
-                            JSONArray ar = ob.getJSONArray("mCities");
+                            JSONArray ar = ob.getJSONArray("cities");
                             for (int i = 0; i < ar.length(); i++) {
-                                mId.add(ar.getJSONObject(i).getString("mId"));
+                                mId.add(ar.getJSONObject(i).getString("id"));
                                 mNames.add(ar.getJSONObject(i).getString("name"));
-                                mLatitude.add(ar.getJSONObject(i).getString("mLatitude"));
+                                mLatitude.add(ar.getJSONObject(i).getString("lat"));
                                 mLongitude.add(ar.getJSONObject(i).getString("lng"));
                             }
                             mCities = new String[mId.size()];
                             mCities = mNames.toArray(mCities);
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                                    SelectCity.this,
+                                    mActivity,
                                     android.R.layout.simple_spinner_dropdown_item,
                                     mCities);
                             source.setAdapter(adapter);

@@ -1,6 +1,5 @@
 package io.github.project_travel_mate.travel.transport;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.SelectCity;
+import io.github.project_travel_mate.SelectCityFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -194,7 +193,7 @@ public class TrainList extends AppCompatActivity implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city :
-                Intent i = new Intent(TrainList.this, SelectCity.class);
+                Intent i = new Intent(TrainList.this, SelectCityFragment.class);
                 startActivity(i);
                 break;
             case R.id.seldate :

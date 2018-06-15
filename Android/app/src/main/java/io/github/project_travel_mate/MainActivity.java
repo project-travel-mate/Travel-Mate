@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_changecity: {
 
-                Intent i = new Intent(MainActivity.this, SelectCity.class);
-                startActivity(i);
+                fragment = new SelectCityFragment();
+                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
                 break;
             }

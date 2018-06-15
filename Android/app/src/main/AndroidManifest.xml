@@ -50,11 +50,6 @@
 
         <service android:enabled="true" android:name=".LocationService" />
         <service android:enabled="true" android:name="utils.GPSTracker" />
-
-        <activity
-            android:name=".SelectCity"
-            android:label="@string/title_activity_select_city"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".utilities.Checklist"
             android:label="@string/title_activity_select_city"
