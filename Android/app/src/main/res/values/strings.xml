@@ -29,7 +29,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="email_id">Email id</string>
     <string name="password">Password</string>
-    <string name="login">Log in</string>
+    <string name="login">&#160;Login</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
@@ -129,7 +129,7 @@
     <string name="text_shopping">Shopping</string>
     <string name="text_restaurants">Restaurants</string>
     <string name="text_city_trends">City Trends</string>
-    <string name="text_signup_or">Signup | </string>
+    <string name="text_signup_or">Signup |</string>
     <string name="text_cart">Car</string>
     <string name="text_bus">Bus</string>
     <string name="text_train">Train</string>
