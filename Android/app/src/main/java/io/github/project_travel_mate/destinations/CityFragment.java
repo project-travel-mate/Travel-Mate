@@ -56,12 +56,12 @@ public class CityFragment extends Fragment {
     @BindView(R.id.music_list)
     ListView                lv;
 
-    private final List<String> image  = new ArrayList<>();
+    private final List<String> mImage = new ArrayList<>();
 
-    private String      nameyet;
-    private String      cityid;
-    private Activity    activity;
-    private Handler     mHandler;
+    private String mNameyet;
+    private String mCityid;
+    private Activity mActivity;
+    private Handler mHandler;
 
     public CityFragment() {}
 
@@ -73,8 +73,8 @@ public class CityFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         // Hide keyboard
-        InputMethodManager imm  = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(imm).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        InputMethodManager imm  = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(imm).hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
 
         mHandler    = new Handler(Looper.getMainLooper());
         cityname.setThreshold(1);
@@ -85,9 +85,8 @@ public class CityFragment extends Fragment {
     }
 
     @OnTextChanged(R.id.cityname) void onTextChanged() {
-        nameyet = cityname.getText().toString();
-        if (!nameyet.contains(" ")) {
-            Log.e("name", nameyet + " ");
+        mNameyet = cityname.getText().toString();
+        if (!mNameyet.contains(" ")) {
             tripAutoComplete();
         }
     }
@@ -96,7 +95,7 @@ public class CityFragment extends Fragment {
 
         // to fetch city names
         String uri = API_LINK +
-                "city/autocomplete.php?search=" + nameyet.trim();
+                "city/autocomplete.php?search=" + mNameyet.trim();
         Log.v("executing", uri);
 
         //Set up client
@@ -130,16 +129,14 @@ public class CityFragment extends Fragment {
                                 try {
                                     name.add(arr.getJSONObject(i).getString("name"));
                                     id.add(arr.getJSONObject(i).getString("id"));
-                                    image.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
-                                    Log.e("adding", "aff");
-
+                                    mImage.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.e("error ", " " + e.getMessage());
                                 }
                             }
                             ArrayAdapter<String> dataAdapter =
-                                    new ArrayAdapter<>(activity.getApplicationContext(), R.layout.spinner_layout, name);
+                                    new ArrayAdapter<>(
+                                            mActivity.getApplicationContext(), R.layout.spinner_layout, name);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
                             cityname.setAdapter(dataAdapter);
@@ -147,18 +144,17 @@ public class CityFragment extends Fragment {
 
                                 @Override
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    Log.e("jkjb", "uihgiug" + arg2);
-                                    cityid = id.get(arg2).toString();
-                                    Intent i = new Intent(activity, FinalCityInfo.class);
-                                    i.putExtra(EXTRA_MESSAGE_ID, cityid);
+                                    mCityid = id.get(arg2).toString();
+                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
+                                    i.putExtra(EXTRA_MESSAGE_ID, mCityid);
                                     i.putExtra(EXTRA_MESSAGE_NAME, name.get(arg2).toString());
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, image.get(arg2));
+                                    i.putExtra(EXTRA_MESSAGE_IMAGE, mImage.get(arg2));
                                     startActivity(i);
                                 }
                             });
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
+                            Log.e("ERROR", "Message : " + e.getMessage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -172,9 +168,8 @@ public class CityFragment extends Fragment {
     private void getCity() {
 
         // to fetch city names
-        String uri = API_LINK +
-                "all-cities.php";
-        Log.e("executing", uri + " ");
+        String uri = API_LINK + "all-cities.php";
+        Log.v("EXECUTING", uri );
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -229,23 +224,23 @@ public class CityFragment extends Fragment {
                                         "Know More", "View on Map", "Fun Facts", "View Website"));
                             }
 
-                            lv.setAdapter(new CityAdapter(activity, friends, settings));
+                            lv.setAdapter(new CityAdapter(mActivity, friends, settings));
                             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id1) {
                                     City f = (City) lv.getAdapter().getItem(position);
-                                    Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(activity, FinalCityInfo.class);
+                                    Toast.makeText(mActivity, f.getmNickname(), Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
                                     i.putExtra(EXTRA_MESSAGE_ID, f.getId());
-                                    i.putExtra(EXTRA_MESSAGE_NAME, f.getNickname());
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, f.getAvatar());
+                                    i.putExtra(EXTRA_MESSAGE_NAME, f.getmNickname());
+                                    i.putExtra(EXTRA_MESSAGE_IMAGE, f.getmAvatar());
                                     startActivity(i);
                                 }
                             });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("error", e.getMessage() + " ");
+                            Log.e("ERROR", "Message : " + e.getMessage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -258,6 +253,6 @@ public class CityFragment extends Fragment {
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = (Activity) activity;
+        this.mActivity = (Activity) activity;
     }
 }

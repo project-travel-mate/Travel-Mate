@@ -38,9 +38,9 @@ public class MyTrips extends AppCompatActivity {
     @BindView(R.id.gv)
     GridView g;
 
-    private MaterialDialog dialog;
-    private final List<Trip> trips = new ArrayList<>();
-    private String userid;
+    private MaterialDialog mDialog;
+    private final List<Trip> mTrips = new ArrayList<>();
+    private String mUserid;
     private Handler mHandler;
 
     @Override
@@ -51,10 +51,10 @@ public class MyTrips extends AppCompatActivity {
         ButterKnife.bind(this);
 
         SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(this);
-        userid  = s.getString(USER_ID, "1");
+        mUserid = s.getString(USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
 
-        trips.add(new Trip());
+        mTrips.add(new Trip());
 
         mytrip();
 
@@ -67,14 +67,14 @@ public class MyTrips extends AppCompatActivity {
 
     private void mytrip() {
 
-        dialog = new MaterialDialog.Builder(MyTrips.this)
+        mDialog = new MaterialDialog.Builder(MyTrips.this)
                 .title(R.string.app_name)
-                .content("Fetching trips...")
+                .content("Fetching mTrips...")
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK + "trip/get-all.php?user=" + userid;
-        Log.e("executing", uri + " ");
+        String uri = API_LINK + "trip/get-all.php?user=" + mUserid;
+        Log.v("EXECUTING", uri);
 
 
         //Set up client
@@ -105,17 +105,17 @@ public class MyTrips extends AppCompatActivity {
                         String name = arr.getJSONObject(i).getString("city");
                         String tname = arr.getJSONObject(i).getString("title");
                         String image = arr.getJSONObject(i).getString("image");
-                        trips.add(new Trip(id, name, image, start, end, tname));
+                        mTrips.add(new Trip(id, name, image, start, end, tname));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("erro", e.getMessage() + " ");
+                    Log.e("ERROR", "Message : " + e.getMessage());
                 }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        dialog.dismiss();
-                        g.setAdapter(new MyTripsAdapter(MyTrips.this, trips));
+                        mDialog.dismiss();
+                        g.setAdapter(new MyTripsAdapter(MyTrips.this, mTrips));
                     }
                 });
 

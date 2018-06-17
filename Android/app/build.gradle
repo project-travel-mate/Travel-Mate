@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: '../config/checkstyle.gradle'
-apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 27
@@ -13,13 +12,14 @@ android {
         versionName "2.0"
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-
     buildTypes {
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,7 +29,6 @@ android {
 repositories {
     maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
     maven { url "https://jitpack.io" }
-
 }
 
 dependencies {

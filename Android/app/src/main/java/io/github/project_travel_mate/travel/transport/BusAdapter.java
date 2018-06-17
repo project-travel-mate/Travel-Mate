@@ -20,27 +20,27 @@ import io.github.project_travel_mate.R;
 // Sets adapter for bus list
 class BusAdapter extends BaseAdapter {
 
-    final Context context;
-    final JSONArray FeedItems;
-    private final LayoutInflater inflater;
+    private final Context mContext;
+    private final JSONArray mFeedItems;
+    private final LayoutInflater mInflater;
 
     BusAdapter(Context context, JSONArray feedItems) {
-        this.context = context;
-        this.FeedItems = feedItems;
+        this.mContext = context;
+        this.mFeedItems = feedItems;
 
-        inflater = (LayoutInflater) context
+        mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return FeedItems.length();
+        return mFeedItems.length();
     }
 
     @Override
     public Object getItem(int position) {
         try {
-            return FeedItems.getJSONObject(position);
+            return mFeedItems.getJSONObject(position);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ class BusAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.bus_listitem, parent, false);
+            vi = mInflater.inflate(R.layout.bus_listitem, parent, false);
 
         TextView title = vi.findViewById(R.id.bus_name);
         TextView description = vi.findViewById(R.id.bustype);
@@ -67,17 +67,17 @@ class BusAdapter extends BaseAdapter {
 
 
         try {
-            title.setText(FeedItems.getJSONObject(position).getString("name"));
-            description.setText(FeedItems.getJSONObject(position).getString("type"));
-            add.setText(FeedItems.getJSONObject(position).getString("dep_add"));
+            title.setText(mFeedItems.getJSONObject(position).getString("name"));
+            description.setText(mFeedItems.getJSONObject(position).getString("type"));
+            add.setText(mFeedItems.getJSONObject(position).getString("dep_add"));
 
             contact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     try {
-                        intent.setData(Uri.parse("tel:" + FeedItems.getJSONObject(position).getString("contact")));
-                        context.startActivity(intent);
+                        intent.setData(Uri.parse("tel:" + mFeedItems.getJSONObject(position).getString("contact")));
+                        mContext.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -90,14 +90,14 @@ class BusAdapter extends BaseAdapter {
                     Intent browserIntent;
                     browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://redbus.in"));
 
-                    context.startActivity(browserIntent);
+                    mContext.startActivity(browserIntent);
                 }
             });
-            String fairText = FeedItems.getJSONObject(position).getString("fair") + " Rs";
+            String fairText = mFeedItems.getJSONObject(position).getString("fair") + " Rs";
             fair.setText(fairText);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR : ", e.getMessage() + " ");
+            Log.e("ERROR : ", "Message : " + e.getMessage());
         }
         return vi;
     }

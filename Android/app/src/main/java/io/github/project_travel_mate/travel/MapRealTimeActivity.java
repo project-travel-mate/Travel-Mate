@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
@@ -51,12 +52,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.GPSTracker;
 
-import static utils.Constants.API_LINK;
 import static utils.Constants.DELHI_LAT;
 import static utils.Constants.DELHI_LON;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.DESTINATION_CITY_LAT;
 import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.HERE_API_APP_CODE;
+import static utils.Constants.HERE_API_APP_ID;
+import static utils.Constants.HERE_API_LINK;
+import static utils.Constants.HERE_API_MODES;
 import static utils.Constants.MUMBAI_LAT;
 import static utils.Constants.MUMBAI_LON;
 import static utils.Constants.SOURCE_CITY;
@@ -71,15 +75,15 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     @BindView(R.id.data)
     ScrollView sc;
 
-    private int index = 0;
+    private int mIndex = 0;
     private Handler mHandler;
 
-    private String curlat;
-    private String curlon;
+    private String mCurlat;
+    private String mCurlon;
 
-    private GoogleMap googleMap;
+    private GoogleMap mGoogleMap;
 
-    private final List<MapItem> mapItems =  new ArrayList<>();
+    private final List<MapItem> mMapItems =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +111,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
         sc.setVisibility(View.GONE);
 
-        curlat = deslat;
-        curlon = deslon;
+        mCurlat = deslat;
+        mCurlon = deslon;
 
         setTitle("Places");
 
@@ -116,16 +120,14 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
             tracker.showSettingsAlert();
-            Log.e("cdsknvdsl ", curlat + "dsbjvdks" + curlon);
         } else {
-            curlat = Double.toString(tracker.getLatitude());
-            curlon = Double.toString(tracker.getLongitude());
-            Log.e("cdsknvdsl", tracker.getLatitude() + " " + curlat + "dsbjvdks" + curlon);
-            if (curlat.equals("0.0")) {
-                curlat = "28.5952242";
-                curlon = "77.1656782";
+            mCurlat = Double.toString(tracker.getLatitude());
+            mCurlon = Double.toString(tracker.getLongitude());
+            if (mCurlat.equals("0.0")) {
+                mCurlat = "28.5952242";
+                mCurlon = "77.1656782";
             }
-            getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
+            getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -135,13 +137,15 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     /**
      * Calls API to get nearby places
      *
-     * @param mo mode; type of places;
-     * @param ic marker icon
+     * @param mode mode; type of places;
+     * @param icon marker icon
      */
-    private void getMarkers(int mo, final int ic) {
+    private void getMarkers(String mode, final int icon) {
 
-        String uri = API_LINK + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
-        Log.e("executing", uri + " ");
+        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&mode=" + mode
+                + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
+
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -163,21 +167,24 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("YO", "Done");
                         try {
-                            final JSONObject json = new JSONObject(res);
-                            JSONArray routeArray = json.getJSONArray("results");
+                            JSONObject json = new JSONObject(res);
+                            json = json.getJSONObject("results");
+                            JSONArray routeArray = json.getJSONArray("items");
 
                             for (int i = 0; i < routeArray.length(); i++) {
-                                String name = routeArray.getJSONObject(i).getString("name");
-                                String web = routeArray.getJSONObject(i).getString("website");
-                                String nums = routeArray.getJSONObject(i).getString("phone");
-                                String addr = routeArray.getJSONObject(i).getString("address");
-                                showMarker(Double.parseDouble(routeArray.getJSONObject(i).getString("lat")),
-                                        Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
-                                        routeArray.getJSONObject(i).getString("name"),
-                                        ic);
-                                mapItems.add(new MapItem(name, nums, web, addr));
+                                String name = routeArray.getJSONObject(i).getString("title");
+                                String web = routeArray.getJSONObject(i).getString("href");
+                                String nums = routeArray.getJSONObject(i).getString("distance");
+                                String addr = routeArray.getJSONObject(i).getString("vicinity");
+
+                                Double latitude = Double.parseDouble(
+                                        routeArray.getJSONObject(i).getJSONArray("position").get(0).toString());
+                                Double longitude = Double.parseDouble(
+                                        routeArray.getJSONObject(i).getJSONArray("position").get(1).toString());
+
+                                showMarker(latitude, longitude, name, icon);
+                                mMapItems.add(new MapItem(name, nums, web, addr));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -202,11 +209,11 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                         @Override
                         public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
 
-                            googleMap.clear();
-                            mapItems.clear();
+                            mGoogleMap.clear();
+                            mMapItems.clear();
 
                             for (int i = 0; i < which.length; i++) {
-                                Log.e("selected", which[i] + " " + text[i]);
+                                Log.v("selected", which[i] + " " + text[i]);
                                 Integer icon;
                                 switch (which[0]) {
                                     case 0:
@@ -237,7 +244,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                                         icon = R.drawable.ic_attach_money_black_24dp;
                                         break;
                                 }
-                                MapRealTimeActivity.this.getMarkers(which[0], icon);
+                                MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
 
                             }
                             return true;
@@ -265,16 +272,16 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            if (googleMap != null) {
-                googleMap.setMyLocationEnabled(true);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 10));
+            if (mGoogleMap != null) {
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 10));
 
                 MarkerOptions abc = new MarkerOptions();
                 MarkerOptions x = abc
                         .title(locationName)
                         .position(coord)
                         .icon(BitmapDescriptorFactory.fromResource(locationIcon));
-                googleMap.addMarker(x);
+                mGoogleMap.addMarker(x);
 
             }
         }
@@ -289,10 +296,10 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap map) {
 
-        googleMap = map;
+        mGoogleMap = map;
 
         // Zoom to current location
-        LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
+        LatLng coordinate = new LatLng(Double.parseDouble(mCurlat), Double.parseDouble(mCurlon));
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
 
@@ -300,9 +307,9 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             @Override
             public boolean onMarkerClick(Marker marker) {
                 sc.setVisibility(View.VISIBLE);
-                for (int i = 0; i < mapItems.size(); i++) {
-                    if (mapItems.get(i).getName().equals(marker.getTitle())) {
-                        index = i;
+                for (int i = 0; i < mMapItems.size(); i++) {
+                    if (mMapItems.get(i).getmName().equals(marker.getTitle())) {
+                        mIndex = i;
                         break;
                     }
                 }
@@ -313,13 +320,13 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 calls = MapRealTimeActivity.this.findViewById(R.id.call);
                 book = MapRealTimeActivity.this.findViewById(R.id.book);
 
-                title.setText(mapItems.get(index).getName());
-                description.setText(mapItems.get(index).getAddress());
+                title.setText(mMapItems.get(mIndex).getmName());
+                description.setText(mMapItems.get(mIndex).getmAddress());
                 calls.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + mapItems.get(index).getNumber()));
+                        intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getmNumber()));
                         MapRealTimeActivity.this.startActivity(intent);
 
                     }
@@ -328,8 +335,14 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onClick(View view) {
                         Intent browserIntent;
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapItems.get(index).getAddress()));
-                        MapRealTimeActivity.this.startActivity(browserIntent);
+                        try {
+                            browserIntent = new Intent(
+                                    Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getmAddress()));
+                            MapRealTimeActivity.this.startActivity(browserIntent);
+                        } catch (Exception e) {
+                            Toast.makeText(MapRealTimeActivity.this,
+                                    R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
                 return false;

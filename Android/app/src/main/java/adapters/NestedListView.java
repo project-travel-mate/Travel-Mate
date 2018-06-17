@@ -15,7 +15,7 @@ import android.widget.ListView;
 public class NestedListView extends ListView implements View.OnTouchListener, AbsListView.OnScrollListener {
 
     private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 99;
-    private final int listViewTouchAction;
+    private final int mListViewTouchAction;
 
     /**
      * Initites nestedlistview object
@@ -25,7 +25,7 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
      */
     public NestedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        listViewTouchAction = -1;
+        mListViewTouchAction = -1;
         setOnScrollListener(this);
         setOnTouchListener(this);
     }
@@ -34,7 +34,7 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
     public void onScroll(AbsListView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
         if (getAdapter() != null && getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE) {
-            if (listViewTouchAction == MotionEvent.ACTION_MOVE) {
+            if (mListViewTouchAction == MotionEvent.ACTION_MOVE) {
                 scrollBy(0, -1);
             }
         }
@@ -83,7 +83,7 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (getAdapter() != null && getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE) {
-            if (listViewTouchAction == MotionEvent.ACTION_MOVE) {
+            if (mListViewTouchAction == MotionEvent.ACTION_MOVE) {
                 scrollBy(0, 1);
             }
         }

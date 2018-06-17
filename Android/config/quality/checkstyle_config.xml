@@ -1,4 +1,5 @@
-<?xml version="1.0"?><!DOCTYPE module PUBLIC
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
     "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
     "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
@@ -113,7 +114,7 @@
         <!-- Naming -->
 
         <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9_]*)*$" />
+            <property name="format" value="^[a-z][a-z0-9]+(\.[a-z][a-z0-9_]*)*$" />
             <message key="name.invalidPattern"
                 value="Package name ''{0}'' must match pattern ''{1}''." />
         </module>
@@ -133,7 +134,7 @@
             <property name="applyToPublic" value="false" />
             <property name="applyToPackage" value="false" />
             <property name="applyToProtected" value="false" />
-            <property name="format" value="^[a-z][a-z0-9A-Z][a-zA-Z0-9]*$" />
+            <property name="format" value="^m[A-Z][a-zA-Z0-9]*$" />
             <message key="name.invalidPattern"
                 value="Member name ''{0}'' must match pattern ''{1}''." />
         </module>

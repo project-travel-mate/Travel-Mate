@@ -64,13 +64,13 @@ import static utils.Constants.maps_key;
  */
 public class CarDirections extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String sorcelat;
-    private String deslat;
-    private String sorcelon;
-    private String deslon;
-    private String surce;
-    private String dest;
-    private String distancetext;
+    private String mSorcelat;
+    private String mDeslat;
+    private String mSorcelon;
+    private String mDeslon;
+    private String mSource;
+    private String mDestination;
+    private String mDistanceText;
 
     @BindView(R.id.travelcost1)
     TextView coste1;
@@ -79,17 +79,17 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
     @BindView(R.id.travelcost3)
     TextView coste3;
 
-    private Double distance;
-    private Double cost1;
-    private Double cost2;
-    private Double cost3;
-    private final Double fuelprice          = 60.00;
-    private final Double mileageHatchback  = 30.0;
-    private final Double mileageSedan      = 18.0;
-    private final Double mileageSuv        = 16.0;
+    private Double mDistance;
+    private Double mCost1;
+    private Double mCost2;
+    private Double mCost3;
+    private final Double mFuelprice = 60.00;
+    private final Double mMileageHatchback = 30.0;
+    private final Double mMileageSedan = 18.0;
+    private final Double mMileageSuv = 16.0;
 
-    private ProgressDialog progressDialog;
-    private GoogleMap      googleMap;
+    private ProgressDialog mProgressDialog;
+    private GoogleMap mGoogleMap;
     private Handler        mHandler;
 
     @Override
@@ -105,12 +105,12 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        sorcelat    = s.getString(SOURCE_CITY_LAT, DELHI_LAT);
-        sorcelon    = s.getString(SOURCE_CITY_LON, DELHI_LON);
-        deslat      = s.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
-        deslon      = s.getString(DESTINATION_CITY_LON, MUMBAI_LON);
-        surce       = s.getString(SOURCE_CITY, "Delhi");
-        dest        = s.getString(DESTINATION_CITY, "MUmbai");
+        mSorcelat = s.getString(SOURCE_CITY_LAT, DELHI_LAT);
+        mSorcelon = s.getString(SOURCE_CITY_LON, DELHI_LON);
+        mDeslat = s.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
+        mDeslon = s.getString(DESTINATION_CITY_LON, MUMBAI_LON);
+        mSource = s.getString(SOURCE_CITY, "Delhi");
+        mDestination = s.getString(DESTINATION_CITY, "MUmbai");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -125,8 +125,8 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
     @OnClick(R.id.fab) void onClickFab() {
         String shareBody = "Lets plan a journey from " +
-                surce + " to " + dest + ". The distace between the two cities is "
-                + distancetext;
+                mSource + " to " + mDestination + ". The distace between the two cities is "
+                + mDistanceText;
 
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
@@ -146,12 +146,12 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
     private void showMarker(Double locationLat, Double locationLong, String locationName) {
         LatLng coord = new LatLng(locationLat, locationLong);
 
-        if (googleMap != null) {
+        if (mGoogleMap != null) {
             if (ContextCompat.checkSelfPermission(CarDirections.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                googleMap.setMyLocationEnabled(true);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 5));
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 5));
             }
 
             MarkerOptions abc = new MarkerOptions();
@@ -159,7 +159,7 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
                     .title(locationName)
                     .position(coord)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
-            googleMap.addMarker(x);
+            mGoogleMap.addMarker(x);
 
         }
     }
@@ -171,18 +171,18 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
     private void getDirections() {
 
         // Show a dialog box
-        progressDialog = new ProgressDialog(CarDirections.this);
-        progressDialog.setMessage("Fetching route, Please wait...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
+        mProgressDialog = new ProgressDialog(CarDirections.this);
+        mProgressDialog.setMessage("Fetching route, Please wait...");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.show();
 
         String uri = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-                sorcelat + "," + sorcelon + "&destination=" + deslat + "," + deslon +
+                mSorcelat + "," + mSorcelon + "&destination=" + mDeslat + "," + mDeslon +
                 "&key=" +
                 maps_key +
                 "&mode=driving\n";
 
-        Log.e("CALLING : ", uri);
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -203,7 +203,7 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("RESPONSE : ", "Done" + res);
+                        Log.v("RESPONSE : ", "Done" + res);
                         try {
                             final JSONObject json = new JSONObject(res);
                             JSONArray routeArray = json.getJSONArray("routes");
@@ -211,42 +211,43 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
                             JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
                             String encodedString = overviewPolylines.getString("points");
                             List<LatLng> list = decodePoly(encodedString);
-                            Polyline line = googleMap.addPolyline(new PolylineOptions()
+                            Polyline line = mGoogleMap.addPolyline(new PolylineOptions()
                                     .addAll(list)
                                     .width(12)
                                     .color(Color.parseColor("#05b1fb"))//Google maps blue color
                                     .geodesic(true)
                             );
-                            distance = routes.getJSONArray("legs")
+                            mDistance = routes.getJSONArray("legs")
                                     .getJSONObject(0)
-                                    .getJSONObject("distance")
+                                    .getJSONObject("mDistance")
                                     .getDouble("value");
-                            distancetext = routes.getJSONArray("legs")
+                            mDistanceText = routes.getJSONArray("legs")
                                     .getJSONObject(0)
-                                    .getJSONObject("distance")
+                                    .getJSONObject("mDistance")
                                     .getString("text");
 
 
-                            cost1 = (distance / mileageHatchback) * fuelprice / 1000;
-                            cost2 = (distance / mileageSedan) * fuelprice / 1000;
-                            cost3 = (distance / mileageSuv) * fuelprice / 1000;
+                            mCost1 = (mDistance / mMileageHatchback) * mFuelprice / 1000;
+                            mCost2 = (mDistance / mMileageSedan) * mFuelprice / 1000;
+                            mCost3 = (mDistance / mMileageSuv) * mFuelprice / 1000;
 
-                            coste1.setText(cost1.intValue());
-                            coste2.setText(cost2.intValue());
-                            coste3.setText(cost3.intValue());
+                            coste1.setText(mCost1.intValue());
+                            coste2.setText(mCost2.intValue());
+                            coste3.setText(mCost3.intValue());
                             for (int z = 0; z < list.size() - 1; z++) {
                                 LatLng src = list.get(z);
                                 LatLng dest1 = list.get(z + 1);
-                                Polyline line2 = googleMap.addPolyline(new PolylineOptions()
+                                Polyline line2 = mGoogleMap.addPolyline(new PolylineOptions()
                                         .add(new LatLng(src.latitude, src.longitude),
                                                 new LatLng(dest1.latitude, dest1.longitude))
                                         .width(2)
                                         .color(Color.BLUE).geodesic(true));
                             }
-                            progressDialog.hide();
-                            LatLng coordinate = new LatLng(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon));
+                            mProgressDialog.hide();
+                            LatLng coordinate =
+                                    new LatLng(Double.parseDouble(mSorcelat), Double.parseDouble(mSorcelon));
                             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                            googleMap.animateCamera(yourLocation);
+                            mGoogleMap.animateCamera(yourLocation);
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -300,10 +301,10 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap map) {
-        googleMap = map;
+        mGoogleMap = map;
 
-        showMarker(Double.parseDouble(sorcelat), Double.parseDouble(sorcelon), "SOURCE");
-        showMarker(Double.parseDouble(deslat), Double.parseDouble(deslon), "DESTINATION");
+        showMarker(Double.parseDouble(mSorcelat), Double.parseDouble(mSorcelon), "SOURCE");
+        showMarker(Double.parseDouble(mDeslat), Double.parseDouble(mDeslon), "DESTINATION");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
     }
 }

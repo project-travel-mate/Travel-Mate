@@ -31,20 +31,20 @@ import static utils.Constants.EXTRA_MESSAGE_NAME;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 
 /**
- * Fetch city information for given city id
+ * Fetch city information for given city mId
  */
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
-    private Typeface code;
-    private Typeface codeBold;
-    private MaterialDialog dialog;
+    private Typeface mCode;
+    private Typeface mCodeBold;
+    private MaterialDialog mDialog;
     private Handler mHandler;
 
-    private String id;
+    private String mId;
     private String mTitle;
-    private String image;
-    private String lat;
-    private String lon;
+    private String mImage;
+    private String mLatitude;
+    private String mLongitude;
 
     @BindView(R.id.temp)
     TextView temp;
@@ -84,14 +84,14 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         mFinalCityInfoPresenter = new FinalCityInfoPresenter();
 
-        code            = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
-        codeBold        = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
+        mCode = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
+        mCodeBold = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
         mHandler        = new Handler(Looper.getMainLooper());
 
         Intent intent   = getIntent();
         mTitle          = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        id              = intent.getStringExtra(EXTRA_MESSAGE_ID);
-        image           = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
+        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        mImage = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
 
         initUi();
         initPresenter();
@@ -99,16 +99,16 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private void initPresenter() {
         mFinalCityInfoPresenter.attachView(this);
-        mFinalCityInfoPresenter.fetchCityInfo(id);
+        mFinalCityInfoPresenter.fetchCityInfo(mId);
     }
 
     private void initUi() {
         des.setText(getString(R.string.sample_string));
         setTitle(mTitle);
-        title.setTypeface(codeBold);
+        title.setTypeface(mCodeBold);
         title.setText(mTitle);
-        // Load image into ImageView
-        Picasso.with(this).load(image).into(iv);
+        // Load mImage into ImageView
+        Picasso.with(this).load(mImage).into(iv);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -128,17 +128,17 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private void setTypeFaces() {
         TextView mFunFactsTextView = findViewById(R.id.fftext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
         mFunFactsTextView = findViewById(R.id.hgtext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
         mFunFactsTextView = findViewById(R.id.shtext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
         mFunFactsTextView = findViewById(R.id.mntext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
         mFunFactsTextView = findViewById(R.id.rstext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
         mFunFactsTextView = findViewById(R.id.cttext);
-        mFunFactsTextView.setTypeface(code);
+        mFunFactsTextView.setTypeface(mCode);
     }
 
 
@@ -152,13 +152,13 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        Intent i;
+        Intent intent;
         switch (v.getId()) {
             case R.id.funfact:
-                i = new Intent(FinalCityInfo.this, FunFacts.class);
-                i.putExtra(EXTRA_MESSAGE_ID, id);
-                i.putExtra(EXTRA_MESSAGE_NAME, mTitle);
-                startActivity(i);
+                intent = new Intent(FinalCityInfo.this, FunFacts.class);
+                intent.putExtra(EXTRA_MESSAGE_ID, mId);
+                intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+                startActivity(intent);
                 break;
             case R.id.restau:
                 fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "restaurant");
@@ -173,10 +173,10 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "shopping");
                 break;
             case R.id.trends:
-                i = new Intent(FinalCityInfo.this, Tweets.class);
-                i.putExtra(EXTRA_MESSAGE_ID, id);
-                i.putExtra(EXTRA_MESSAGE_NAME, mTitle);
-                startActivity(i);
+                intent = new Intent(FinalCityInfo.this, Tweets.class);
+                intent.putExtra(EXTRA_MESSAGE_ID, mId);
+                intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+                startActivity(intent);
                 break;
         }
     }
@@ -203,7 +203,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showProgress() {
-        dialog = new MaterialDialog.Builder(FinalCityInfo.this)
+        mDialog = new MaterialDialog.Builder(FinalCityInfo.this)
                 .title(getString(R.string.app_name))
                 .content("Please wait...")
                 .progress(true, 0)
@@ -212,7 +212,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void dismissProgress() {
-        dialog.dismiss();
+        mDialog.dismiss();
     }
 
     /**
@@ -220,7 +220,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
      * @param description - description of city
-     * @param iconUrl - image url
+     * @param iconUrl - mImage url
      * @param temp - current temperature of requested city
      * @param humidity - current humidity of requested city
      * @param weatherInfo - weather information of requested city
@@ -245,16 +245,22 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 String humidityText = "Humidity : " + humidity;
                 FinalCityInfo.this.humidity.setText(humidityText);
                 weatherinfo.setText(weatherInfo);
-                FinalCityInfo.this.lat = lat;
-                FinalCityInfo.this.lon = lon;
+                FinalCityInfo.this.mLatitude = lat;
+                FinalCityInfo.this.mLongitude = lon;
             }
         });
     }
 
+    /**
+     * Fires an Intent with given parameters
+     *
+     * @param intent Intent to be fires
+     * @param type the type to be passed as extra parameter
+     */
     private void fireIntent(Intent intent, String type) {
-        intent.putExtra(EXTRA_MESSAGE_ID, id);
-        intent.putExtra(EXTRA_MESSAGE_LATITUDE, lat);
-        intent.putExtra(EXTRA_MESSAGE_LONGITUDE, lon);
+        intent.putExtra(EXTRA_MESSAGE_ID, mId);
+        intent.putExtra(EXTRA_MESSAGE_LATITUDE, mLatitude);
+        intent.putExtra(EXTRA_MESSAGE_LONGITUDE, mLongitude);
         intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
         intent.putExtra(EXTRA_MESSAGE_TYPE, type);
         startActivity(intent);

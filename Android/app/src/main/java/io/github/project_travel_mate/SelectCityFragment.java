@@ -1,16 +1,20 @@
 package io.github.project_travel_mate;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -43,37 +47,43 @@ import static utils.Constants.SOURCE_CITY_ID;
 import static utils.Constants.SOURCE_CITY_LAT;
 import static utils.Constants.SOURCE_CITY_LON;
 
-@SuppressWarnings("WeakerAccess")
-public class SelectCity extends AppCompatActivity {
+public class SelectCityFragment extends Fragment {
+
+    private Activity mActivity;
 
     @BindView(R.id.source) Spinner source;
     @BindView(R.id.destination) Spinner dest;
     @BindView(R.id.pb) ProgressBar pb;
-    private String[] cities;
-    private SharedPreferences.Editor editor;
-    private final List<String> id = new ArrayList<>();
-    private final List<String> names = new ArrayList<>();
-    private final List<String> lat = new ArrayList<>();
-    private final List<String> lon = new ArrayList<>();
+    private String[] mCities;
+    private SharedPreferences.Editor mEditor;
+    private final List<String> mId = new ArrayList<>();
+    private final List<String> mNames = new ArrayList<>();
+    private final List<String> mLatitude = new ArrayList<>();
+    private final List<String> mLongitude = new ArrayList<>();
     private Handler mHandler;
 
+    public SelectCityFragment() {}
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_city);
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        this.mActivity = (Activity) activity;
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        ButterKnife.bind(this);
+        View view = inflater.inflate(R.layout.activity_select_city, container, false);
+        ButterKnife.bind(this, view);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        mEditor = sharedPreferences.edit();
         mHandler = new Handler(Looper.getMainLooper());
 
         getcitytask();
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(" ");
+        return view;
     }
 
     @OnClick(R.id.ok)
@@ -86,26 +96,25 @@ public class SelectCity extends AppCompatActivity {
             Snackbar.make(view, "Source and destination cannot be same", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } else {
-            editor.putString(DESTINATION_CITY_ID, id.get(dposition));
-            editor.putString(SOURCE_CITY_ID, id.get(sposition));
-            editor.putString(DESTINATION_CITY, names.get(dposition));
-            editor.putString(SOURCE_CITY, names.get(sposition));
-            editor.putString(DESTINATION_CITY_LAT, lat.get(dposition));
-            editor.putString(SOURCE_CITY_LAT, lat.get(sposition));
-            editor.putString(DESTINATION_CITY_LON, lon.get(dposition));
-            editor.putString(SOURCE_CITY_LON, lon.get(sposition));
-            SelectCity.this.startService(new Intent(SelectCity.this, LocationService.class));
+            mEditor.putString(DESTINATION_CITY_ID, mId.get(dposition));
+            mEditor.putString(SOURCE_CITY_ID, mId.get(sposition));
+            mEditor.putString(DESTINATION_CITY, mNames.get(dposition));
+            mEditor.putString(SOURCE_CITY, mNames.get(sposition));
+            mEditor.putString(DESTINATION_CITY_LAT, mLatitude.get(dposition));
+            mEditor.putString(SOURCE_CITY_LAT, mLatitude.get(sposition));
+            mEditor.putString(DESTINATION_CITY_LON, mLongitude.get(dposition));
+            mEditor.putString(SOURCE_CITY_LON, mLongitude.get(sposition));
+            mActivity.startService(new Intent(mActivity, LocationService.class));
 
-            editor.apply();
-            SelectCity.this.finish();
+            mEditor.apply();
         }
     }
 
     private void getcitytask() {
 
-        // to fetch city names
+        // to fetch city mNames
         String uri = API_LINK + "all-cities.php";
-        Log.v("EXECUTING : ", uri);
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -130,23 +139,23 @@ public class SelectCity extends AppCompatActivity {
                             JSONObject ob = new JSONObject(Objects.requireNonNull(response.body()).string());
                             JSONArray ar = ob.getJSONArray("cities");
                             for (int i = 0; i < ar.length(); i++) {
-                                id.add(ar.getJSONObject(i).getString("id"));
-                                names.add(ar.getJSONObject(i).getString("name"));
-                                lat.add(ar.getJSONObject(i).getString("lat"));
-                                lon.add(ar.getJSONObject(i).getString("lng"));
+                                mId.add(ar.getJSONObject(i).getString("id"));
+                                mNames.add(ar.getJSONObject(i).getString("name"));
+                                mLatitude.add(ar.getJSONObject(i).getString("lat"));
+                                mLongitude.add(ar.getJSONObject(i).getString("lng"));
                             }
-                            cities = new String[id.size()];
-                            cities = names.toArray(cities);
+                            mCities = new String[mId.size()];
+                            mCities = mNames.toArray(mCities);
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                                    SelectCity.this,
+                                    mActivity,
                                     android.R.layout.simple_spinner_dropdown_item,
-                                    cities);
+                                    mCities);
                             source.setAdapter(adapter);
                             dest.setAdapter(adapter);
                             pb.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage());
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }

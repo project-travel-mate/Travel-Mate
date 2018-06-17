@@ -31,7 +31,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.SelectCity;
+import io.github.project_travel_mate.SelectCityFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -60,13 +60,13 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     @BindView(R.id.city)
     TextView    city;
 
-    private String source;
-    private String dest;
-    private String dates = "17-October-2015";
+    private String mSource;
+    private String mDestination;
+    private String mDate = "17-October-2015";
 
-    private Handler             mHandler;
-    private SharedPreferences   sharedPreferences;
-    private DatePickerDialog    datePickerDialog;
+    private Handler mHandler;
+    private SharedPreferences mSharedPreferences;
+    private DatePickerDialog mDatePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +78,18 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
 
         ButterKnife.bind(this);
 
-        sharedPreferences   = PreferenceManager.getDefaultSharedPreferences(this);
-        source              = sharedPreferences.getString(SOURCE_CITY, "delhi");
-        dest                = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
+        mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
 
-        selectdate.setText(dates);
-        String cityText = source + " to " + dest;
+        selectdate.setText(mDate);
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
 
         getBuslist();
 
         final Calendar calendar = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(this,
+        mDatePickerDialog = DatePickerDialog.newInstance(this,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH),
@@ -115,7 +115,7 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         // Set date in format 17-October-2016
-        dates = day + "-";
+        mDate = day + "-";
 
         String monthString;
         switch (month + 1) {
@@ -134,10 +134,10 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
             default: monthString = "Invalid month"; break;
         }
 
-        dates = dates + monthString;
-        dates = dates + "-" + year;
+        mDate = mDate + monthString;
+        mDate = mDate + "-" + year;
 
-        selectdate.setText(dates);
+        selectdate.setText(mDate);
         getBuslist(); //Update bus list
     }
 
@@ -158,14 +158,11 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     private void getBuslist() {
 
         pb.setVisibility(View.VISIBLE);
-        String uri = API_LINK + "bus-booking.php?src=" +
-                source +
-                "&dest=" +
-                dest +
-                "&date=" +
-                dates;
+        String uri = API_LINK + "bus-booking.php?src=" + mSource +
+                "&mDestination=" + mDestination +
+                "&date=" + mDate;
 
-        Log.e("CALLING : ", uri);
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -187,11 +184,10 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("RESPONSE : ", "Done");
                         try {
                             JSONObject feed = new JSONObject(String.valueOf(res));
                             JSONArray feedItems = feed.getJSONArray("results");
-                            Log.e("response", feedItems + " ");
+                            Log.v("response", "Response : " + feedItems);
                             pb.setVisibility(View.GONE);
                             lv.setAdapter(new BusAdapter(BusList.this, feedItems));
                         } catch (JSONException e1) {
@@ -207,9 +203,9 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     @Override
     protected void onResume() {
         super.onResume();
-        source = sharedPreferences.getString(SOURCE_CITY, "delhi");
-        dest = sharedPreferences.getString(DESTINATION_CITY, "mumbai");
-        String cityText = source + " to " + dest;
+        mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
+        mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
         getBuslist(); // Update Bus list
     }
@@ -218,14 +214,14 @@ public class BusList extends AppCompatActivity implements OnDateSetListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city :
-                Intent i = new Intent(BusList.this, SelectCity.class);
+                Intent i = new Intent(BusList.this, SelectCityFragment.class);
                 startActivity(i);
                 break;
             case R.id.seldate :
-                datePickerDialog.setVibrate(isVibrate());
-                datePickerDialog.setYearRange(1985, 2028);
-                datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
-                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+                mDatePickerDialog.setVibrate(isVibrate());
+                mDatePickerDialog.setYearRange(1985, 2028);
+                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
+                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
                 break;
         }
     }

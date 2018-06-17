@@ -3,25 +3,26 @@ package io.github.project_travel_mate.travel.transport;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import utils.CardItemEntity;
 
-public class SelectModeOfTransport extends AppCompatActivity implements View.OnClickListener {
+public class SelectModeOfTransport extends AppCompatActivity implements CardViewOptionsAdapter.OnItemClickListener {
 
-    @BindView(R.id.car)
-    LinearLayout car;
-    @BindView(R.id.train)
-    LinearLayout train;
-    @BindView(R.id.bus)
-    LinearLayout bus;
+    @BindView(R.id.transport_mode_options_recycle_view)
+    RecyclerView mTransportModeOptionsRecycleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +34,26 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
 
         ButterKnife.bind(this);
 
-        car.setOnClickListener(this);
-        train.setOnClickListener(this);
-        bus.setOnClickListener(this);
+        List<CardItemEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.train),
+                        getResources().getString(R.string.text_train)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.bus),
+                        getResources().getString(R.string.text_bus)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.car),
+                        getResources().getString(R.string.text_cart)));
+
+        CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mTransportModeOptionsRecycleView.setLayoutManager(mLayoutManager);
+        mTransportModeOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
+        mTransportModeOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
+
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,21 +69,19 @@ public class SelectModeOfTransport extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onClick(View view) {
+    public void onItemClick(int position) {
         Intent i;
-        switch (view.getId()) {
-            case R.id.car:
-                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
+        switch (position) {
+            case 0: i = new Intent(SelectModeOfTransport.this, TrainList.class);
                 startActivity(i);
                 break;
-            case R.id.bus:
-                i = new Intent(SelectModeOfTransport.this, BusList.class);
+            case 1: i = new Intent(SelectModeOfTransport.this, BusList.class);
                 startActivity(i);
                 break;
-            case R.id.train:
-                i = new Intent(SelectModeOfTransport.this, TrainList.class);
+            case 2: i = new Intent(SelectModeOfTransport.this, CarDirections.class);
                 startActivity(i);
                 break;
         }
+
     }
 }

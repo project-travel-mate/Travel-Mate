@@ -68,17 +68,17 @@ public class MyTripInfo extends AppCompatActivity {
     @BindView(R.id.fname)
     AutoCompleteTextView frendname;
 
-    private String id;
-    private String title;
-    private String start;
-    private String end;
-    private String city;
-    private String friendid;
-    private String nameyet;
+    private String mId;
+    private String mTitle;
+    private String mStart;
+    private String mEnd;
+    private String mCity;
+    private String mFriendid;
+    private String mNameYet;
 
-    private List<String> fname;
+    private List<String> mFname;
 
-    private MaterialDialog dialog;
+    private MaterialDialog mDialog;
     private Handler mHandler;
     public static final int INTENT_REQUEST_GET_IMAGES = 13;
 
@@ -90,12 +90,12 @@ public class MyTripInfo extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        id          = intent.getStringExtra(Constants.EXTRA_MESSAGE_ID);
+        mId = intent.getStringExtra(Constants.EXTRA_MESSAGE_ID);
         String img = intent.getStringExtra(Constants.EXTRA_MESSAGE_IMAGE);
 
         List<File> mediaimages = new ArrayList<>();
         List<File> imagesuri = new ArrayList<>();
-        fname       = new ArrayList<>();
+        mFname = new ArrayList<>();
 
         Picasso.with(this).load(img).into(iv);
 
@@ -122,9 +122,8 @@ public class MyTripInfo extends AppCompatActivity {
     }
 
     @OnTextChanged(R.id.fname) void onTextChanged() {
-        nameyet = frendname.getText().toString();
-        if (!nameyet.contains(" ")) {
-            Log.e("name", nameyet + " ");
+        mNameYet = frendname.getText().toString();
+        if (!mNameYet.contains(" ")) {
             friendautocomplete();
         }
     }
@@ -135,15 +134,15 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void mytrip() {
 
-        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+        mDialog = new MaterialDialog.Builder(MyTripInfo.this)
                 .title(R.string.app_name)
                 .content("Fetching trips...")
                 .progress(true, 0)
                 .show();
 
-        // to fetch city names
-        String uri = API_LINK + "trip/get-one.php?trip=" + id;
-        Log.e("executing", uri + " ");
+        // to fetch mCity names
+        String uri = API_LINK + "trip/get-one.php?trip=" + mId;
+        Log.v("executing", uri + " ");
 
 
         //Set up client
@@ -169,16 +168,16 @@ public class MyTripInfo extends AppCompatActivity {
                         JSONObject ob;
                         try {
                             ob = new JSONObject(res);
-                            title = ob.getString("title");
-                            start = ob.getString("start_time");
-                            end = ob.getString("end_time");
-                            city = ob.getString("city");
+                            mTitle = ob.getString("mTitle");
+                            mStart = ob.getString("start_time");
+                            mEnd = ob.getString("end_time");
+                            mCity = ob.getString("mCity");
 
-                            tite.setText(city);
+                            tite.setText(mCity);
                             tite = findViewById(R.id.tname);
-                            tite.setText(title);
+                            tite.setText(mTitle);
                             final Calendar cal = Calendar.getInstance();
-                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                            cal.setTimeInMillis(Long.parseLong(mStart) * 1000);
                             final String timeString =
                                     getResources().getString(R.string.text_started_on) +
                                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
@@ -186,21 +185,16 @@ public class MyTripInfo extends AppCompatActivity {
 
                             JSONArray arrr = ob.getJSONArray("users");
                             for (int i = 0; i < arrr.length(); i++) {
-                                fname.add(arrr.getJSONObject(i).getString("name"));
-
-                                Log.e("fvdvdf", "adding " + arrr.getJSONObject(i).getString("name"));
+                                mFname.add(arrr.getJSONObject(i).getString("name"));
                             }
 
-                            Log.e("vdsv", fname.size() + " ");
-
-                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, fname);
+                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, mFname);
                             lv.setAdapter(dataAdapter);
-
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
-                        dialog.dismiss();
+                        mDialog.dismiss();
                     }
                 });
 
@@ -212,13 +206,8 @@ public class MyTripInfo extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
-
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            for (int i = 0; i < imageUris.size(); i++) {
-                Log.e("cdscsd", imageUris.get(i).getPath());
-            }
             Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -231,8 +220,8 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void friendautocomplete() {
 
-        String uri = API_LINK + "users/find.php?search=" + nameyet.trim();
-        Log.e("executing", uri + " ");
+        String uri = API_LINK + "users/find.php?search=" + mNameYet.trim();
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -253,7 +242,6 @@ public class MyTripInfo extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("YO", "Done");
                         JSONArray arr;
                         final ArrayList list, list1;
                         try {
@@ -264,12 +252,10 @@ public class MyTripInfo extends AppCompatActivity {
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
                                     list.add(arr.getJSONObject(i).getString("name"));
-                                    list1.add(arr.getJSONObject(i).getString("id"));
-                                    Log.e("adding", "aff");
-
+                                    list1.add(arr.getJSONObject(i).getString("mId"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.e("error ", " " + e.getMessage());
+                                    Log.e("ERROR ", "Message : " + e.getMessage());
                                 }
                             }
                             ArrayAdapter<String> dataAdapter =
@@ -280,12 +266,12 @@ public class MyTripInfo extends AppCompatActivity {
                             frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    friendid = list1.get(arg2).toString();
+                                    mFriendid = list1.get(arg2).toString();
                                 }
                             });
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
+                            Log.e("ERROR", "Message : " + e.getMessage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -299,14 +285,14 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void addfriend() {
 
-        dialog = new MaterialDialog.Builder(MyTripInfo.this)
+        mDialog = new MaterialDialog.Builder(MyTripInfo.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK + "trip/add-user.php?user=" + friendid + "&trip=" + id;
-        Log.e("executing", uri + " ");
+        String uri = API_LINK + "trip/add-user.php?user=" + mFriendid + "&trip=" + mId;
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -329,7 +315,7 @@ public class MyTripInfo extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
                         finish();
-                        dialog.dismiss();
+                        mDialog.dismiss();
                     }
                 });
 

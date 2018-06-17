@@ -36,9 +36,9 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
     @BindView(R.id.vp)
     ViewPager viewPager;
 
-    private String id;
-    private String name;
-    private MaterialDialog dialog;
+    private String mId;
+    private String mName;
+    private MaterialDialog mDialog;
     private Handler mHandler;
 
     @Override
@@ -52,8 +52,8 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
         ButterKnife.bind(this);
 
         Intent intent       = getIntent();
-        id                  = intent.getStringExtra(EXTRA_MESSAGE_ID);
-        name                = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        mName = intent.getStringExtra(EXTRA_MESSAGE_NAME);
         mHandler            = new Handler(Looper.getMainLooper());
 
         initPresenter();
@@ -62,12 +62,12 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     private void initPresenter() {
         FunFactsPresenter mPresenter = new FunFactsPresenter(this);
-        mPresenter.initPresenter(id);
+        mPresenter.initPresenter(mId);
     }
 
     @Override
     public void showProgressDialog() {
-        dialog = new MaterialDialog.Builder(FunFacts.this)
+        mDialog = new MaterialDialog.Builder(FunFacts.this)
                 .title(R.string.app_name)
                 .content("Please wait...")
                 .progress(true, 0)
@@ -76,7 +76,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     @Override
     public void hideProgressDialog() {
-        dialog.dismiss();
+        mDialog.dismiss();
     }
 
     /**
@@ -93,7 +93,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
                 for (int i = 0; i < factsArray.length(); i++)
                     try {
                         fList.add(FunfactFragment.newInstance(factsArray.getJSONObject(i).getString("image"),
-                                factsArray.getJSONObject(i).getString("fact"), name));
+                                factsArray.getJSONObject(i).getString("fact"), mName));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -107,21 +107,21 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
      * Sets adapter for funfacts
      */
     class MyPageAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> fragments;
+        private final List<Fragment> mFragments;
 
         MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
-            this.fragments = fragments;
+            this.mFragments = fragments;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return this.fragments.get(position);
+            return this.mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return this.fragments.size();
+            return this.mFragments.size();
         }
     }
 }

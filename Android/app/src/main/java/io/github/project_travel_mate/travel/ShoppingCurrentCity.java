@@ -48,8 +48,9 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     @BindView(R.id.query) EditText q;
     @BindView(R.id.go) Button ok;
 
-    private MaterialSearchView searchView;
-    private String token;
+
+    private MaterialSearchView mSearchView;
+    private String mToken;
     private Handler mHandler;
 
     @Override
@@ -63,19 +64,19 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        token = sharedPreferences.getString(USER_TOKEN, null);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
         setTitle("Shopping");
 
         getShoppingItems("bags");
 
-        searchView = findViewById(R.id.search_view);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        mSearchView = findViewById(R.id.search_view);
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
-                Log.e("QUERY ITEM : ", query + " ");
+                Log.v("QUERY ITEM : ", query);
                 pb.setVisibility(View.VISIBLE);
                 try {
                     getShoppingItems(query);
@@ -103,7 +104,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         });
 
 
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
                 //Do some magic
@@ -144,14 +145,14 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+        mSearchView.setMenuItem(item);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
+        if (mSearchView.isSearchOpen()) {
+            mSearchView.closeSearch();
         } else {
             super.onBackPressed();
         }
@@ -176,10 +177,10 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
         //Execute request
         Request request = new Request.Builder()
-                .header("Authorization", "Token " + token)
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
-        Log.e("EXECUTING : ", uri);
+        Log.v("EXECUTING : ", uri);
 
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
@@ -189,14 +190,14 @@ public class ShoppingCurrentCity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                Log.e("RESULT : " , res);
+                Log.v("RESULT" , res);
                 final int responseCode = response.code();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
                                 JSONArray feedItems = new JSONArray(res);
-                                Log.e("response", feedItems + " ");
+                                Log.v("response", feedItems + " ");
                                 if (feedItems.length() == 0) {
                                     Utils.hideKeyboard(ShoppingCurrentCity.this);
                                     Snackbar.make(pb, "No results found",

@@ -5,31 +5,31 @@ package objects;
  */
 public class MapItem {
 
-    private final String name;
-    private final String number;
-    private final String website;
-    private final String address;
+    private final String mName;
+    private final String mNumber;
+    private final String mWebsite;
+    private final String mAddress;
 
     public MapItem(String name, String number, String website, String address) {
-        this.name       = name;
-        this.number     = number;
-        this.website    = website;
-        this.address    = address;
+        this.mName = name;
+        this.mNumber = number;
+        this.mWebsite = website;
+        this.mAddress = address;
     }
 
-    public String getName() {
-        return name;
+    public String getmName() {
+        return mName;
     }
 
-    public String getNumber() {
-        return number;
+    public String getmNumber() {
+        return mNumber;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getmWebsite() {
+        return mWebsite;
     }
 
-    public String getAddress() {
-        return address;
+    public String getmAddress() {
+        return mAddress;
     }
 }

@@ -31,18 +31,18 @@ import static utils.Constants.STATUS_CODE_OK;
  */
 
 class LoginPresenter {
-    private LoginView view;
+    private LoginView mView;
 
     public void bind(LoginView view) {
-        this.view = view;
+        this.mView = view;
     }
 
     public void unbind() {
-        view = null;
+        mView = null;
     }
 
     public void signUp() {
-        view.openSignUp();
+        mView.openSignUp();
     }
 
 
@@ -87,7 +87,7 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                view.showError();
+                mView.showError();
             }
 
             @Override
@@ -102,17 +102,17 @@ class LoginPresenter {
                             String successfulMessage = "\"Successfully registered\"";
                             if (responseCode == STATUS_CODE_CREATED &&  res.equals(successfulMessage)) {
                                 //if successful redirect to login
-                                view.openLogin();
-                                view.setLoginEmail(email);
-                                view.showMessage("signup succeeded! please login");
+                                mView.openLogin();
+                                mView.setLoginEmail(email);
+                                mView.showMessage("signup succeeded! please login");
                             } else {
                                 // show error message
-                                view.showMessage(res);
+                                mView.showMessage(res);
                             }
-                            view.dismissLoadingDialog();
+                            mView.dismissLoadingDialog();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            view.showError();
+                            mView.showError();
                         }
                     }
                 });
@@ -121,7 +121,7 @@ class LoginPresenter {
     }
 
     public void login() {
-        view.openLogin();
+        mView.openLogin();
     }
 
     /**
@@ -160,7 +160,7 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                view.showError();
+                mView.showError();
             }
 
             @Override
@@ -174,12 +174,12 @@ class LoginPresenter {
                             if (responseCode == STATUS_CODE_OK) {
                                 JSONObject responeJsonObject = new JSONObject(res);
                                 String token = responeJsonObject.getString("token");
-                                view.rememberUserInfo(token, email);
-                                view.startMainActivity();
-                                view.dismissLoadingDialog();
+                                mView.rememberUserInfo(token, email);
+                                mView.startMainActivity();
                             } else {
-                                view.showError();
+                                mView.showError();
                             }
+                            mView.dismissLoadingDialog();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
