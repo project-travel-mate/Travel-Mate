@@ -48,6 +48,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
     @BindView(R.id.query) EditText q;
     @BindView(R.id.go) Button ok;
 
+
     private MaterialSearchView mSearchView;
     private String mToken;
     private Handler mHandler;

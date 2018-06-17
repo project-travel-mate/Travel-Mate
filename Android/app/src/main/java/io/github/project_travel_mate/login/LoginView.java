@@ -1,5 +1,7 @@
 package io.github.project_travel_mate.login;
 
+import utils.ValidationException;
+
 /**
  * Created by el on 5/4/17.
  */
@@ -27,5 +29,6 @@ interface LoginView {
     void setLoginEmail(String email);
 
     void showMessage(String message);
+    String getString(int resId);
 
 }

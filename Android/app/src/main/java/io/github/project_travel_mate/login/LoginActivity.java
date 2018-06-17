@@ -22,12 +22,10 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
-
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
 
@@ -52,8 +50,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText        email_signup;
     @BindView(R.id.input_pass_signup)
     EditText        pass_signup;
-    @BindView(R.id.input_name_signup)
-    EditText        name;
+    @BindView(R.id.input_first_name_signup)
+    EditText        firstName;
+    @BindView(R.id.input_last_name_signup)
+    EditText        lastName;
     @BindView(R.id.ok_login)
     FlatButton      ok_login;
     @BindView(R.id.ok_signup)
@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().hide();
@@ -98,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
         ok_login.setOnClickListener(this);
         ok_signup.setOnClickListener(this);
+
     }
 
     @Override
@@ -127,8 +127,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_signup :
                 emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
-                String nameString = name.getText().toString();
-                mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
+                String firstNameString = firstName.getText().toString();
+                String lastNameString = lastName.getText().toString();
+                loginPresenter.ok_signUp(firstNameString,lastNameString, emailString, passString, mhandler);
                 break;
         }
     }
