@@ -30,18 +30,6 @@ public class Utils {
         return matcher.matches();
     }
 
-    // validating password with retype password
-    public static boolean isValidPassword(String pass) {
-        return pass != null && pass.length() > 2;
-    }
-
-    /*
-    open in browser
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-    startActivity(browserIntent);
-     */
-
-
     public static String readStream(InputStream in) {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {

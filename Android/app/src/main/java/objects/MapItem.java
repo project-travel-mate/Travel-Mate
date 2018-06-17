@@ -10,6 +10,14 @@ public class MapItem {
     private final String mWebsite;
     private final String mAddress;
 
+    /**
+     * Initiates MapItem object
+     *
+     * @param name          name of the place
+     * @param number        contact details
+     * @param website       url of the place
+     * @param address       physical address of the place
+     */
     public MapItem(String name, String number, String website, String address) {
         this.mName = name;
         this.mNumber = number;
@@ -17,19 +25,19 @@ public class MapItem {
         this.mAddress = address;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public String getmNumber() {
+    public String getNumber() {
         return mNumber;
     }
 
-    public String getmWebsite() {
+    public String getWebsite() {
         return mWebsite;
     }
 
-    public String getmAddress() {
+    public String getAddress() {
         return mAddress;
     }
 }

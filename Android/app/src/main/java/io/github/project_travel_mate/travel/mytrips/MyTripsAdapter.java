@@ -66,7 +66,11 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             date.setText(mTrips.get(position).getStart());
             Log.v("time", mTrips.get(position).getStart() + " " + mTrips.get(position).getImage());
             final Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(Long.parseLong(mTrips.get(position).getStart()) * 1000);
+            try {
+                cal.setTimeInMillis(Long.parseLong(mTrips.get(position).getStart()) * 1000);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
             final String timeString =
                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
             date.setText(timeString);

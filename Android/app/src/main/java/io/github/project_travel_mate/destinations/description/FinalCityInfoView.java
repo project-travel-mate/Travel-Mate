@@ -11,11 +11,8 @@ interface FinalCityInfoView {
     void onStop();
     void showProgress();
     void dismissProgress();
-    void parseResult(String description,
-                     String iconUrl,
+    void parseResult(String iconUrl,
                      String temp,
                      String humidity,
-                     String weatherInfo,
-                     String lat,
-                     String lon);
+                     String weatherInfo);
 }

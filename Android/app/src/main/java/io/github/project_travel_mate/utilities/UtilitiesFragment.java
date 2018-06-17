@@ -34,20 +34,11 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_utility, container, false);
+        View view = inflater.inflate(R.layout.fragment_utility, container, false);
 
-        ButterKnife.bind(this, v);
+        ButterKnife.bind(this, view);
 
-        List<CardItemEntity> cardEntities = new ArrayList<>();
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.contact),
-                        getResources().getString(R.string.share_contact_text)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.checklist),
-                        getResources().getString(R.string.text_checklist)));
-
+        List<CardItemEntity> cardEntities = getUtilityItems();
 
         CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
@@ -55,7 +46,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         mUtilityOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
         mUtilityOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
 
-        return v;
+        return view;
     }
 
     @Override
@@ -77,5 +68,18 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 startActivity(intent);
                 break;
         }
+    }
+
+    List<CardItemEntity> getUtilityItems() {
+        List<CardItemEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.contact),
+                        getResources().getString(R.string.share_contact_text)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.checklist),
+                        getResources().getString(R.string.text_checklist)));
+        return cardEntities;
     }
 }

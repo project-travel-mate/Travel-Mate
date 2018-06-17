@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
+import static utils.Constants.API_LINK_V2;
 
 /**
  * Created by niranjanb on 14/06/17.
@@ -24,25 +24,26 @@ import static utils.Constants.API_LINK;
 class FunFactsPresenter {
     private final FunFactsView mFunFactsView;
 
-    public FunFactsPresenter(FunFactsView funFactsView) {
+    FunFactsPresenter(FunFactsView funFactsView) {
         mFunFactsView = funFactsView;
     }
 
-    public void initPresenter(String id) {
-        getCityFacts(id);
+    public void initPresenter(String id, String token) {
+        getCityFacts(id, token);
     }
 
     // Fetch fun facts about city
-    private void getCityFacts(String id) {
+    private void getCityFacts(String id, String token) {
         mFunFactsView.showProgressDialog();
 
         // to fetch city names
-        String uri = API_LINK + "city_facts.php?id=" + id;
+        String uri = API_LINK_V2 + "get-city-facts" + id;
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + token)
                 .url(uri)
                 .build();
         //Setup callback

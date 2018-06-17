@@ -15,6 +15,7 @@ import io.github.project_travel_mate.R;
 /**
  * @author Yalantis
  */
+@SuppressWarnings("unchecked")
 public abstract class BaseFlipAdapter<T> extends BaseAdapter {
     private final List<T> mItems;
     private final FlipSettings mSettings;

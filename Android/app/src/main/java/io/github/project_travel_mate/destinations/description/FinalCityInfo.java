@@ -1,10 +1,12 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +25,14 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 
+import static utils.Constants.EXTRA_MESSAGE_DESCRIPTION;
 import static utils.Constants.EXTRA_MESSAGE_ID;
 import static utils.Constants.EXTRA_MESSAGE_IMAGE;
 import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
 import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
 import static utils.Constants.EXTRA_MESSAGE_NAME;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Fetch city information for given city mId
@@ -42,9 +46,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private String mId;
     private String mTitle;
+    private String mDescription;
     private String mImage;
     private String mLatitude;
     private String mLongitude;
+    private String mToken;
 
     @BindView(R.id.temp)
     TextView temp;
@@ -86,12 +92,18 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
         mCode = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
         mCodeBold = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
-        mHandler        = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
 
-        Intent intent   = getIntent();
-        mTitle          = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        Intent intent = getIntent();
+        mTitle = intent.getStringExtra(EXTRA_MESSAGE_NAME);
         mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
         mImage = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
+        mDescription = intent.getStringExtra(EXTRA_MESSAGE_DESCRIPTION);
+        mLatitude = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
+        mLongitude = intent.getStringExtra(EXTRA_MESSAGE_LONGITUDE);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         initUi();
         initPresenter();
@@ -99,15 +111,18 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private void initPresenter() {
         mFinalCityInfoPresenter.attachView(this);
-        mFinalCityInfoPresenter.fetchCityInfo(mId);
+        mFinalCityInfoPresenter.fetchCityInfo(mTitle, mToken);
     }
 
+    /**
+     * Initialize view items with information
+     * received from previous intent
+     */
     private void initUi() {
-        des.setText(getString(R.string.sample_string));
+        des.setText(mDescription);
         setTitle(mTitle);
         title.setTypeface(mCodeBold);
         title.setText(mTitle);
-        // Load mImage into ImageView
         Picasso.with(this).load(mImage).into(iv);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -127,20 +142,14 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     }
 
     private void setTypeFaces() {
-        TextView mFunFactsTextView = findViewById(R.id.fftext);
-        mFunFactsTextView.setTypeface(mCode);
-        mFunFactsTextView = findViewById(R.id.hgtext);
-        mFunFactsTextView.setTypeface(mCode);
-        mFunFactsTextView = findViewById(R.id.shtext);
-        mFunFactsTextView.setTypeface(mCode);
-        mFunFactsTextView = findViewById(R.id.mntext);
-        mFunFactsTextView.setTypeface(mCode);
-        mFunFactsTextView = findViewById(R.id.rstext);
-        mFunFactsTextView.setTypeface(mCode);
-        mFunFactsTextView = findViewById(R.id.cttext);
-        mFunFactsTextView.setTypeface(mCode);
+        Integer[] textViewids = new Integer[]{R.id.fftext, R.id.hgtext,
+                R.id.shtext, R.id.mntext, R.id.rstext, R.id.cttext};
+        TextView funFactsTextView;
+        for (Integer id : textViewids) {
+            funFactsTextView = findViewById(id);
+            funFactsTextView.setTypeface(mCode);
+        }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -205,7 +214,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     public void showProgress() {
         mDialog = new MaterialDialog.Builder(FinalCityInfo.this)
                 .title(getString(R.string.app_name))
-                .content("Please wait...")
+                .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
     }
@@ -219,34 +228,24 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * method called by FinalCityInfoPresenter when the network
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
-     * @param description - description of city
-     * @param iconUrl - mImage url
-     * @param temp - current temperature of requested city
-     * @param humidity - current humidity of requested city
-     * @param weatherInfo - weather information of requested city
-     * @param lat - latitude of requested city
-     * @param lon - longitude of requested city
+     *
+     * @param iconUrl     - mImage url
+     * @param tempText        - current temperature of requested city
+     * @param humidityText    - current humidity of requested city
+     * @param weatherDescription - weather information of requested city
      */
     @Override
-    public void parseResult(final String description,
-                            final String iconUrl,
-                            final String temp,
-                            final String humidity,
-                            final String weatherInfo,
-                            final String lat,
-                            final String lon) {
+    public void parseResult(final String iconUrl,
+                            final String tempText,
+                            final String humidityText,
+                            final String weatherDescription) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                des.setText(description);
                 Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
-                String temperatureText = temp + (char) 0x00B0 + " C ";
-                FinalCityInfo.this.temp.setText(temperatureText);
-                String humidityText = "Humidity : " + humidity;
-                FinalCityInfo.this.humidity.setText(humidityText);
-                weatherinfo.setText(weatherInfo);
-                FinalCityInfo.this.mLatitude = lat;
-                FinalCityInfo.this.mLongitude = lon;
+                temp.setText(tempText);
+                humidity.setText(humidityText);
+                weatherinfo.setText(weatherDescription);
             }
         });
     }
@@ -255,7 +254,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * Fires an Intent with given parameters
      *
      * @param intent Intent to be fires
-     * @param type the type to be passed as extra parameter
+     * @param type   the type to be passed as extra parameter
      */
     private void fireIntent(Intent intent, String type) {
         intent.putExtra(EXTRA_MESSAGE_ID, mId);

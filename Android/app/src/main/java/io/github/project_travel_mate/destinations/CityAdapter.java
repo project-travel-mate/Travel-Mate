@@ -43,7 +43,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
     }
 
     @Override
-    public View getPage(int position, View convertView, ViewGroup parent, final City friend1, final City friend2) {
+    public View getPage(int position, View convertView, ViewGroup parent, final City city1, final City city2) {
         final CitiesHolder holder;
 
         if (convertView == null) {
@@ -71,23 +71,23 @@ class CityAdapter extends BaseFlipAdapter<City> {
         switch (position) {
             case 1:
                 Picasso.with(mContext).
-                        load(friend1.getmAvatar()).
+                        load(city1.getAvatar()).
                         placeholder(R.drawable.delhi).
                         into(holder.leftAvatar);
                 holder.left.setTypeface(mTypefaceTex);
-                holder.left.setText(friend1.getmNickname());
+                holder.left.setText(city1.getNickname());
 
-                if (friend2 != null) {
-                    holder.right.setText(friend2.getmNickname());
+                if (city2 != null) {
+                    holder.right.setText(city2.getNickname());
                     holder.right.setTypeface(mTypefaceTex);
                     Picasso.with(mContext).
-                            load(friend2.getmAvatar()).
+                            load(city2.getAvatar()).
                             placeholder(R.drawable.delhi).
                             into(holder.rightAvatar);
                 }
                 break;
             default:
-                fillHolder(holder, position == 0 ? friend1 : friend2);
+                fillHolder(holder, position == 0 ? city1 : city2);
                 holder.infoPage.setTag(holder);
                 return holder.infoPage;
         }
@@ -96,19 +96,18 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     @Override
     public int getPagesCount() {
-        int pages = 3;
-        return pages;
+        return 3;
     }
 
-    private void fillHolder(CitiesHolder holder, final City friend) {
-        if (friend == null)
+    private void fillHolder(CitiesHolder holder, final City city) {
+        if (city == null)
             return;
         Iterator<TextView> iViews = holder.interests.iterator();
-        Iterator<String> iInterests = friend.getmInterests().iterator();
+        Iterator<String> iInterests = city.getInterests().iterator();
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
-        holder.infoPage.setBackgroundColor(mContext.getResources().getColor(friend.getmBackground()));
-        holder.nickName.setText(friend.getmNickname());
+        holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackground()));
+        holder.nickName.setText(city.getNickname());
 
         holder.nickName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,9 +119,9 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, FinalCityInfo.class);
-                i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, friend.getmNickname());
-                i.putExtra(EXTRA_MESSAGE_IMAGE, friend.getmAvatar());
+                i.putExtra(EXTRA_MESSAGE_ID, city.getId());
+                i.putExtra(EXTRA_MESSAGE_NAME, city.getNickname());
+                i.putExtra(EXTRA_MESSAGE_IMAGE, city.getAvatar());
                 mContext.startActivity(i);
             }
         });
@@ -131,8 +130,8 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, FunFacts.class);
-                i.putExtra(EXTRA_MESSAGE_ID, friend.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, friend.getmNickname());
+                i.putExtra(EXTRA_MESSAGE_ID, city.getId());
+                i.putExtra(EXTRA_MESSAGE_NAME, city.getNickname());
                 mContext.startActivity(i);
             }
         });
@@ -141,9 +140,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
-                        friend.getmLatitude() +
-                        "," +
-                        friend.getmLongitude() +
+                        city.getLatitude() + "," + city.getLongitude() +
                         "&z=13")); // zoom level
                 mContext.startActivity(browserIntent);
             }

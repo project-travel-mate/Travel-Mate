@@ -73,7 +73,7 @@ import static utils.Constants.SOURCE_CITY_LON;
 public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.data)
-    ScrollView sc;
+    ScrollView scrollView;
 
     private int mIndex = 0;
     private Handler mHandler;
@@ -109,7 +109,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         String surce = sharedPreferences.getString(SOURCE_CITY, "Delhi");
         String dest = sharedPreferences.getString(DESTINATION_CITY, "Mumbai");
 
-        sc.setVisibility(View.GONE);
+        scrollView.setVisibility(View.GONE);
 
         mCurlat = deslat;
         mCurlon = deslon;
@@ -306,27 +306,27 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                sc.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.VISIBLE);
                 for (int i = 0; i < mMapItems.size(); i++) {
-                    if (mMapItems.get(i).getmName().equals(marker.getTitle())) {
+                    if (mMapItems.get(i).getName().equals(marker.getTitle())) {
                         mIndex = i;
                         break;
                     }
                 }
 
-                TextView title = MapRealTimeActivity.this.findViewById(R.id.VideoTitle);
-                TextView description = MapRealTimeActivity.this.findViewById(R.id.VideoDescription);
+                TextView title = MapRealTimeActivity.this.findViewById(R.id.item_title);
+                TextView description = MapRealTimeActivity.this.findViewById(R.id.item_description);
                 final Button calls, book;
                 calls = MapRealTimeActivity.this.findViewById(R.id.call);
                 book = MapRealTimeActivity.this.findViewById(R.id.book);
 
-                title.setText(mMapItems.get(mIndex).getmName());
-                description.setText(mMapItems.get(mIndex).getmAddress());
+                title.setText(mMapItems.get(mIndex).getName());
+                description.setText(mMapItems.get(mIndex).getAddress());
                 calls.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getmNumber()));
+                        intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
                         MapRealTimeActivity.this.startActivity(intent);
 
                     }
@@ -337,7 +337,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                         Intent browserIntent;
                         try {
                             browserIntent = new Intent(
-                                    Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getmAddress()));
+                                    Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
                             MapRealTimeActivity.this.startActivity(browserIntent);
                         } catch (Exception e) {
                             Toast.makeText(MapRealTimeActivity.this,

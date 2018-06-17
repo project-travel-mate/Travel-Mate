@@ -42,28 +42,7 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
 
         ButterKnife.bind(this, view);
 
-        List<CardItemEntity> cardEntities = new ArrayList<>();
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.city),
-                        getResources().getString(R.string.my_trips)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.transport),
-                        getResources().getString(R.string.transport)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.hotel),
-                        getResources().getString(R.string.hotel)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.shop),
-                        getResources().getString(R.string.online_Shopping)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.location),
-                        getResources().getString(R.string.real_time_locator)));
-
+        List<CardItemEntity> cardEntities = getTravelItems();
 
         CardViewOptionsAdapter cardViewOptionsAdapter = new CardViewOptionsAdapter(this, cardEntities);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
@@ -101,5 +80,30 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
                 startActivity(i);
                 break;
         }
+    }
+
+    private List<CardItemEntity> getTravelItems() {
+        List<CardItemEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.city),
+                        getResources().getString(R.string.my_trips)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.transport),
+                        getResources().getString(R.string.transport)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.hotel),
+                        getResources().getString(R.string.hotel)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.shop),
+                        getResources().getString(R.string.online_Shopping)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.location),
+                        getResources().getString(R.string.real_time_locator)));
+        return cardEntities;
     }
 }

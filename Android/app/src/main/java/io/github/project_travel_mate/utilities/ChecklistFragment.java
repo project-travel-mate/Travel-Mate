@@ -30,8 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
+import objects.ChecklistEntry;
 import objects.ChecklistItem;
-import utils.DBhelp;
+import utils.DBChecklist;
 
 import static utils.Constants.BASE_TASKS;
 import static utils.Constants.ID_ADDED_INDB;
@@ -45,8 +46,8 @@ public class ChecklistFragment extends Fragment {
 
     private final ArrayList<ChecklistItem> mItems = new ArrayList<>();
 
-    @BindView(R.id.lv)
-    ListView lv;
+    @BindView(R.id.listview)
+    ListView listview;
 
     public ChecklistFragment() {
     }
@@ -56,31 +57,15 @@ public class ChecklistFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_check_list, container, false);
 
-        DBhelp dbhelp = new DBhelp(getContext());
+        DBChecklist dbhelp = new DBChecklist(getContext());
         mDatabase = dbhelp.getWritableDatabase();
 
         ButterKnife.bind(this, view);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        //First time uers
-        String isAlreadyAdded = sharedPreferences.getString(ID_ADDED_INDB, "null");
-        if (isAlreadyAdded.equals("null")) {
-
-            for (int i = 0; i < BASE_TASKS.size(); i++) {
-                ContentValues insertValues = new ContentValues();
-                insertValues.put(ChecklistEntry.COLUMN_NAME, BASE_TASKS.get(i));
-                insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
-                mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
-            }
-
-            editor.putString(ID_ADDED_INDB, "yes");
-            editor.apply();
-        }
+        addDefaultItems();
 
         mAdapter = new CheckListAdapter(mActivity, mItems);
-        lv.setAdapter(mAdapter);
+        listview.setAdapter(mAdapter);
 
         refresh();
 
@@ -111,6 +96,25 @@ public class ChecklistFragment extends Fragment {
         builder.show();
     }
 
+    private void addDefaultItems() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //First time uers
+        String isAlreadyAdded = sharedPreferences.getString(ID_ADDED_INDB, "null");
+        if (isAlreadyAdded.equals("null")) {
+
+            for (int i = 0; i < BASE_TASKS.size(); i++) {
+                ContentValues insertValues = new ContentValues();
+                insertValues.put(ChecklistEntry.COLUMN_NAME, BASE_TASKS.get(i));
+                insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
+                mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
+            }
+            editor.putString(ID_ADDED_INDB, "yes");
+            editor.apply();
+        }
+    }
+
     private void refresh() {
         mItems.clear();
         mAdapter.notifyDataSetChanged();
@@ -136,11 +140,12 @@ public class ChecklistFragment extends Fragment {
         mActivity = (Activity) context;
     }
 
+    // TODO :: Move CheckListAdapter to another file
     class CheckListAdapter extends ArrayAdapter<ChecklistItem> {
 
         private final Activity mContext;
         private final List<ChecklistItem> mItems;
-        DBhelp dbhelp;
+        DBChecklist dbhelp;
         SQLiteDatabase db;
 
         CheckListAdapter(Activity context, List<ChecklistItem> items) {
@@ -150,7 +155,7 @@ public class ChecklistFragment extends Fragment {
         }
 
         class ViewHolder {
-            CheckBox c;
+            CheckBox checkBox;
         }
 
         @NonNull
@@ -158,52 +163,51 @@ public class ChecklistFragment extends Fragment {
         public View getView(final int position, View view, @NonNull ViewGroup parent) {
             LayoutInflater inflater = mContext.getLayoutInflater();
 
-            View vi = view;             //trying to reuse a recycled view
             ViewHolder holder;
-            if (vi == null) {
-                vi = inflater.inflate(R.layout.checklist_item, parent, false);
+            if (view == null) {
+                view = inflater.inflate(R.layout.checklist_item, parent, false);
                 holder = new ViewHolder();
-                holder.c = vi.findViewById(R.id.cb1);
-                vi.setTag(holder);
+                holder.checkBox = view.findViewById(R.id.cb1);
+                view.setTag(holder);
 
             } else {
-                holder = (ViewHolder) vi.getTag();
+                holder = (ViewHolder) view.getTag();
             }
 
-            dbhelp = new DBhelp(mContext);
+            dbhelp = new DBChecklist(mContext);
             db = dbhelp.getWritableDatabase();
 
-            if (mItems.get(position).getmIsDone().equals("1")) {
-                holder.c.setPaintFlags(holder.c.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.c.setChecked(true);
+            if (mItems.get(position).getIsDone().equals("1")) {
+                holder.checkBox.setPaintFlags(holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.checkBox.setChecked(true);
             } else {
-                holder.c.setPaintFlags(holder.c.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.c.setChecked(false);
+                holder.checkBox.setPaintFlags(holder.checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.checkBox.setChecked(false);
             }
-            holder.c.setText(mItems.get(position).getmName());
+            holder.checkBox.setText(mItems.get(position).getName());
 
-            holder.c.setOnClickListener(new View.OnClickListener() {
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view1) {
                     CheckBox c2 = (CheckBox) view1;
                     if (c2.isChecked()) {
                         String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
                                 " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getmId();
+                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
 
                         db.execSQL(query);
                         Log.v("EXECUTED : ", query);
                     } else {
                         String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
                                 " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getmId();
+                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
                         db.execSQL(query);
                         Log.v("EXECUTED : ", query);
                     }
                     refresh();
                 }
             });
-            return vi;
+            return view;
         }
     }
 }

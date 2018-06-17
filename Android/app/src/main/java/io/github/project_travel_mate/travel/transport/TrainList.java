@@ -35,8 +35,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
 
+import static utils.Constants.API_LINK;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.SOURCE_CITY;
 
@@ -135,7 +135,7 @@ public class TrainList extends AppCompatActivity implements
     private void getTrainlist() {
 
         progressBar.setVisibility(View.VISIBLE);
-        String uri = Constants.API_LINK +
+        String uri = API_LINK +
                 "get-trains.php?src_city=" + mSource +
                 "&dest_city=" + mDestination +
                 "&date=" + mDate;

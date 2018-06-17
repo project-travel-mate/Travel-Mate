@@ -79,10 +79,16 @@
     <string name="friends_of_trip">Friends in this trip </string>
     <string name="text_started_on">Started on :  </string>
     <string name="prompt_add_new_trip">Add New Trip</string>
+    <string name="progress_fetching_trip">Fetching trips…</string>
+    <string name="progress_wait">Please wait…</string>
+    <string name="trip_added">Trip added</string>
+    <string name="friend_added">Friend added to trip</string>
 
     <!-- Errors and messages -->
     <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
     <string name="msg_saved">QR code image was saved as</string>
+    <string name="source_dest_cant_be_same">Source and destination cannot be same</string>
+    <string name="source_dest_set">Source and destination set</string>
 
 
     <!-- Car direction strings -->
@@ -141,6 +147,7 @@
     <string name="text_title">Title</string>
     <string name="text_call">Call</string>
     <string name="text_book">Book</string>
+    <string name="text_my_trips">My Trips</string>
     <string name="unknown_value">…</string>
 
     <!-- Sample Data -->

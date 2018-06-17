@@ -102,7 +102,6 @@
             android:backgroundTint="#000000"
             android:ems="10"
             android:hint="@string/prompt_friend_name"
-            android:maxLength="1"
             android:padding="10dp"
             android:popupBackground="#ffffff"
             android:textColor="#000000"

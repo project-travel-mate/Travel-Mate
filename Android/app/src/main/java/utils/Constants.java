@@ -11,7 +11,6 @@ public class Constants {
     public static final String USER_NAME = "user_name";
     public static final String USER_NUMBER = "user_number";
     public static final String USER_EMAIL = "user_email";
-    public static final String USER_ID = "user_id";
     public static final String USER_TOKEN = "user_token";
 
     public static final String EVENT_IMG = "event_name";
@@ -53,6 +52,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_NAME = "name_";
     public static final String EXTRA_MESSAGE_ID = "id_";
     public static final String EXTRA_MESSAGE_IMAGE = "image_";
+    public static final String EXTRA_MESSAGE_DESCRIPTION = "description_";
     public static final String EXTRA_MESSAGE_LATITUDE = "lat_";
     public static final String EXTRA_MESSAGE_LONGITUDE = "lon_";
     public static final String EXTRA_MESSAGE_TYPE = "type_";
@@ -69,7 +69,6 @@ public class Constants {
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
     public static final String HERE_API_APP_ID = "7xQMJiIPsG3ptIohUobu";
     public static final String HERE_API_APP_CODE = "iPNVovxnQdkSvsRPjPct3w";
-
     public static final List<String> HERE_API_MODES = new ArrayList<String>() {
         {
             add("eat-drink");

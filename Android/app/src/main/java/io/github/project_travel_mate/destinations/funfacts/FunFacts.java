@@ -1,9 +1,11 @@
 package io.github.project_travel_mate.destinations.funfacts;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,6 +29,7 @@ import io.github.project_travel_mate.R;
 
 import static utils.Constants.EXTRA_MESSAGE_ID;
 import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Funfacts activity
@@ -38,6 +41,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     private String mId;
     private String mName;
+    private String mToken;
     private MaterialDialog mDialog;
     private Handler mHandler;
 
@@ -51,10 +55,13 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
         ButterKnife.bind(this);
 
-        Intent intent       = getIntent();
+        Intent intent = getIntent();
         mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
         mName = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        mHandler            = new Handler(Looper.getMainLooper());
+        mHandler  = new Handler(Looper.getMainLooper());
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         initPresenter();
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -62,14 +69,14 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     private void initPresenter() {
         FunFactsPresenter mPresenter = new FunFactsPresenter(this);
-        mPresenter.initPresenter(mId);
+        mPresenter.initPresenter(mId, mToken);
     }
 
     @Override
     public void showProgressDialog() {
         mDialog = new MaterialDialog.Builder(FunFacts.this)
                 .title(R.string.app_name)
-                .content("Please wait...")
+                .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
     }

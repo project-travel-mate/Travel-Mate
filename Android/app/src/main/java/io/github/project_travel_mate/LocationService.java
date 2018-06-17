@@ -129,6 +129,7 @@ public class LocationService extends Service {
                 loc.getLatitude();
                 loc.getLongitude();
 
+                // TODO :: Remove NotificationCompat.builder, use something else
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(LocationService.this)
                                 .setSmallIcon(R.drawable.google_travel_logo)

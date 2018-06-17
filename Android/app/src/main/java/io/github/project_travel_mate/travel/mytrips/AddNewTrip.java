@@ -36,12 +36,15 @@ import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
-import static utils.Constants.USER_ID;
+import static utils.Constants.API_LINK_V2;
+import static utils.Constants.STATUS_CODE_CREATED;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Activity to add new trip
@@ -57,7 +60,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     private String mCityid = "2";
     private String mStartdate;
     private String mTripname;
-    private String mUserid;
+    private String mToken;
 
     private MaterialDialog mDialog;
     private Handler mHandler;
@@ -82,8 +85,8 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         ButterKnife.bind(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mUserid = sharedPreferences.getString(USER_ID, "1");
         mHandler = new Handler(Looper.getMainLooper());
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         cityname.setThreshold(1);
 
@@ -102,11 +105,10 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
     @OnTextChanged(R.id.cityname) void onTextChanged() {
         mNameyet = cityname.getText().toString();
-        if (!mNameyet.contains(" ")) {
-            tripAutoComplete();     // Calls API to autocomplete cityname
+        if (!mNameyet.contains(" ") && mNameyet.length() % 3 == 0) {
+            cityNameAutoComplete();     // Calls API to autocomplete cityname
         }
     }
 
@@ -125,22 +127,24 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) { }
 
-
     /**
      * Calls city name autocomplete API
      */
-    private void tripAutoComplete() {
+    private void cityNameAutoComplete() {
 
         // to fetch city names
-        String uri = API_LINK + "city/autocomplete.php?search=" + mNameyet.trim();
-        Log.v("executing", uri + " ");
+        String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
+
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
+
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -156,7 +160,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                     @Override
                     public void run() {
                         JSONArray arr;
-                        final ArrayList names, ids;
+                        final ArrayList<String> names, ids;
                         try {
                             arr = new JSONArray(res);
                             Log.v("RESPONSE : ", res);
@@ -165,7 +169,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                             ids = new ArrayList<>();
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
-                                    names.add(arr.getJSONObject(i).getString("name"));
+                                    names.add(arr.getJSONObject(i).getString("city_name"));
                                     ids.add(arr.getJSONObject(i).getString("id"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -180,7 +184,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                             cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    mCityid = ids.get(arg2).toString();
+                                    mCityid = ids.get(arg2);
                                 }
                             });
                         } catch (JSONException e) {
@@ -202,23 +206,31 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
         // Show a mDialog box
         mDialog = new MaterialDialog.Builder(AddNewTrip.this)
                 .title(R.string.app_name)
-                .content("Please wait...")
+                .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK + "trip/add-trip.php?user=" + mUserid +
-                "&title=" + mTripname +
-                "&start_time=" + mStartdate +
-                "&city=" + mCityid;
+        String uri = API_LINK_V2 + "add-trip";
 
         Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("trip_name", mTripname)
+                .addFormDataPart("city_id", mCityid)
+                .addFormDataPart("start_date_tx", mStartdate)
+                .build();
+
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .post(requestBody)
                 .url(uri)
                 .build();
+
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -228,13 +240,25 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
 
             @Override
             public void onResponse(Call call, final Response response) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(AddNewTrip.this, "Trip added", Toast.LENGTH_LONG).show();
-                        mDialog.dismiss();
-                    }
-                });
+                try {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    final int responseCode = response.code();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (responseCode == STATUS_CODE_CREATED) {
+                                Toast.makeText(AddNewTrip.this, R.string.trip_added, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(AddNewTrip.this, res, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mDialog.dismiss();
+
             }
         });
     }

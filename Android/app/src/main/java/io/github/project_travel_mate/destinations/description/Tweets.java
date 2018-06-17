@@ -1,9 +1,11 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,10 +31,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
+import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_ID;
 import static utils.Constants.EXTRA_MESSAGE_IMAGE;
 import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.USER_TOKEN;
 
 public class Tweets extends AppCompatActivity {
 
@@ -44,6 +47,7 @@ public class Tweets extends AppCompatActivity {
     private final List<Tweet> mTweets = new ArrayList<>();
     private TweetsAdapter mAdapter;
     private Handler mHandler;
+    private String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,8 @@ public class Tweets extends AppCompatActivity {
         String title    = intent.getStringExtra(EXTRA_MESSAGE_NAME);
         mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
         String image    = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         setTitle(title);
         getTweets();
@@ -71,19 +77,19 @@ public class Tweets extends AppCompatActivity {
 
         mDialog = new MaterialDialog.Builder(Tweets.this)
                 .title(R.string.app_name)
-                .content("Please wait...")
+                .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
 
         // to fetch city names
-        String uri = API_LINK + "city/trends/twitter.php?city=" + mId;
-        Log.v("executing", uri);
-
+        String uri = API_LINK_V2 + "get-city-trends/" + mId;
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -101,11 +107,11 @@ public class Tweets extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            JSONArray ob = new JSONArray(res);
-                            for (int i = 0; i < ob.length(); i++) {
-                                String nam = ob.getJSONObject(i).getString("name");
-                                String link = ob.getJSONObject(i).getString("url");
-                                String count = ob.getJSONObject(i).getString("tweet_volume");
+                            JSONArray array = new JSONArray(res);
+                            for (int i = 0; i < array.length(); i++) {
+                                String nam = array.getJSONObject(i).getString("name");
+                                String link = array.getJSONObject(i).getString("url");
+                                String count = array.getJSONObject(i).getString("tweet_volume");
                                 mTweets.add(new Tweet(nam, link, count));
                             }
                             mAdapter = new TweetsAdapter(Tweets.this, mTweets);

@@ -9,10 +9,17 @@ public class Trip {
     private String mEnd;
     private String mTname;
 
-    public Trip() {
+    public Trip() { }
 
-    }
-
+    /**
+     * Initiates trip object
+     * @param id        trip id
+     * @param name      name of the city
+     * @param image     trip icon
+     * @param start     start date of trip
+     * @param end       end date of trip
+     * @param tname     name of trip
+     */
     public Trip(String id, String name, String image, String start, String end, String tname) {
         this.mId = id;
         this.mName = name;
@@ -42,7 +49,7 @@ public class Trip {
         return mEnd;
     }
 
-    public String getmTname() {
+    public String getTname() {
         return mTname;
     }
 

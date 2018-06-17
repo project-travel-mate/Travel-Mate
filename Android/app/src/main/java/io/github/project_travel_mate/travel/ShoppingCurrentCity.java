@@ -44,7 +44,7 @@ import static utils.Constants.USER_TOKEN;
 public class ShoppingCurrentCity extends AppCompatActivity {
 
     @BindView(R.id.pb) ProgressBar pb;
-    @BindView(R.id.music_list) ListView lv;
+    @BindView(R.id.shopping_list) ListView lv;
     @BindView(R.id.query) EditText q;
     @BindView(R.id.go) Button ok;
 
@@ -66,7 +66,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        setTitle("Shopping");
+        setTitle(getResources().getString(R.string.text_shopping));
 
         getShoppingItems("bags");
 
@@ -117,7 +117,6 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
     @OnClick(R.id.go) void onClick() {
@@ -159,7 +158,6 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
 

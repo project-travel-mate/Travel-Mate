@@ -60,10 +60,10 @@ import static utils.Constants.HERE_API_LINK;
 public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.lv)
-    TwoWayView lv;
+    TwoWayView twoWayView;
 
     private String mDestinationLongitude;
-    private String mDesinationLatitude;
+    private String mDestinationLatitude;
 
     private ProgressDialog mProgressDialog;
     private String mMode;
@@ -105,7 +105,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 break;
         }
 
-        mDesinationLatitude = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
+        mDestinationLatitude = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
         mDestinationLongitude = intent.getStringExtra(EXTRA_MESSAGE_LONGITUDE);
 
         getPlaces();
@@ -153,7 +153,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         mProgressDialog.show();
 
         // to fetch city names
-        String uri = HERE_API_LINK + "?at=" + mDesinationLatitude + "," + mDestinationLongitude + "&mode=" + mMode
+        String uri = HERE_API_LINK + "?at=" + mDestinationLatitude + "," + mDestinationLongitude + "&mode=" + mMode
                 + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
         Log.v("executing", "URI : " + uri );
 
@@ -185,8 +185,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                             JSONArray feedItems = feed.getJSONArray("items");
                             Log.v("response", feedItems.toString());
 
-
-                            lv.setAdapter(new PlacesOnMapAdapter(PlacesOnMap.this, feedItems, mIcon));
+                            twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMap.this, feedItems, mIcon));
 
                             mProgressDialog.dismiss();
                         } catch (JSONException e) {
@@ -262,7 +261,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if (view == null)
-                view = mInflater.inflate(R.layout.city_infoitem, null, false);
+                view = mInflater.inflate(R.layout.city_infoitem, parent, false);
 
             // TODO :: Use butterknife
             TextView title = view.findViewById(R.id.item_name);
