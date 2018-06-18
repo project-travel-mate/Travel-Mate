@@ -157,4 +157,9 @@
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
     <string name="empty_description">No description available.</string>
 
+    <!--AlertDialog sign out-->
+    <string name="signout_message">Are you sure want to sign out?</string>
+    <string name="positive_button">OK</string>
+    <string name="negative_button">CANCEL</string>
+
 </resources>
