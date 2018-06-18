@@ -23,8 +23,7 @@ import java.util.Objects;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
+import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 
 class MyTripsAdapter extends ArrayAdapter<Trip> {
     private final Activity mContext;
@@ -60,7 +59,7 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             });
 
         } else {
-            Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.add_list_item)
+            Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.delhi)
                     .into(city);
             cityname.setText(mTrips.get(position).getName());
             date.setText(mTrips.get(position).getStart());
@@ -77,10 +76,9 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(mContext, MyTripInfo.class);
-                    i.putExtra(EXTRA_MESSAGE_ID, mTrips.get(position).getId());
-                    i.putExtra(EXTRA_MESSAGE_IMAGE, mTrips.get(position).getImage());
-                    mContext.startActivity(i);
+                    Intent intent = new Intent(mContext, MyTripInfo.class);
+                    intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrips.get(position));
+                    mContext.startActivity(intent);
                 }
             });
         }

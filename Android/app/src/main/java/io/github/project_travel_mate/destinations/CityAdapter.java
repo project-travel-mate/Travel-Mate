@@ -25,9 +25,7 @@ import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 import objects.City;
 import views.FontTextView;
 
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 
 class CityAdapter extends BaseFlipAdapter<City> {
 
@@ -118,21 +116,18 @@ class CityAdapter extends BaseFlipAdapter<City> {
         holder.fv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, FinalCityInfo.class);
-                i.putExtra(EXTRA_MESSAGE_ID, city.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, city.getNickname());
-                i.putExtra(EXTRA_MESSAGE_IMAGE, city.getAvatar());
-                mContext.startActivity(i);
+                Intent intent = new Intent(mContext, FinalCityInfo.class);
+                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+                mContext.startActivity(intent);
             }
         });
 
         holder.fv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, FunFacts.class);
-                i.putExtra(EXTRA_MESSAGE_ID, city.getId());
-                i.putExtra(EXTRA_MESSAGE_NAME, city.getNickname());
-                mContext.startActivity(i);
+                Intent intent = new Intent(mContext, FunFacts.class);
+                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+                mContext.startActivity(intent);
             }
         });
 

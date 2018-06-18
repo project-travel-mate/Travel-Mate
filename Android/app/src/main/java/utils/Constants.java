@@ -49,15 +49,10 @@ public class Constants {
     };
 
     // For passing within intents / fragments
-    public static final String EXTRA_MESSAGE_NAME = "name_";
-    public static final String EXTRA_MESSAGE_ID = "id_";
-    public static final String EXTRA_MESSAGE_IMAGE = "image_";
-    public static final String EXTRA_MESSAGE_DESCRIPTION = "description_";
-    public static final String EXTRA_MESSAGE_LATITUDE = "lat_";
-    public static final String EXTRA_MESSAGE_LONGITUDE = "lon_";
     public static final String EXTRA_MESSAGE_TYPE = "type_";
-    public static final String EXTRA_MESSAGE_TEXT      = "text_";
-    public static final String EXTRA_MESSAGE_TITLE     = "title_";
+    public static final String EXTRA_MESSAGE_CITY_OBJECT = "cityobject_";
+    public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
+    public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
 
 
     // HTTP STATUS CODES

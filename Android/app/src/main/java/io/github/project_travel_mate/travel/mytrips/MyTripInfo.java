@@ -44,14 +44,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
+import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_TOKEN;
 
@@ -72,14 +73,11 @@ public class MyTripInfo extends AppCompatActivity {
     @BindView(R.id.fname)
     AutoCompleteTextView frendname;
 
-    private String mId;
-    private String mTitle;
-    private String mStart;
-    private String mEnd;
-    private String mCity;
     private String mFriendid;
     private String mNameYet;
     private String mToken;
+
+    private Trip mTrip;
 
     private List<String> mFname;
 
@@ -95,8 +93,7 @@ public class MyTripInfo extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        mId = intent.getStringExtra(Constants.EXTRA_MESSAGE_ID);
-        String img = intent.getStringExtra(Constants.EXTRA_MESSAGE_IMAGE);
+        mTrip = (Trip) intent.getSerializableExtra(EXTRA_MESSAGE_TRIP_OBJECT);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
@@ -105,7 +102,7 @@ public class MyTripInfo extends AppCompatActivity {
         List<File> imagesuri = new ArrayList<>();
         mFname = new ArrayList<>();
 
-        Picasso.with(this).load(img).into(iv);
+        Picasso.with(this).load(mTrip.getImage()).into(iv);
 
         mHandler    = new Handler(Looper.getMainLooper());
 
@@ -149,7 +146,7 @@ public class MyTripInfo extends AppCompatActivity {
                 .show();
 
         // to fetch mCity names
-        String uri = API_LINK_V2 + "get-trip/" + mId;
+        String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
 
         Log.v("EXECUTING", uri);
 
@@ -178,16 +175,16 @@ public class MyTripInfo extends AppCompatActivity {
                         JSONObject ob;
                         try {
                             ob = new JSONObject(res);
-                            mTitle = ob.getString("trip_name");
-                            mStart = ob.getString("start_date_tx");
-                            mEnd = ob.optString("end_date", null);
-                            mCity = ob.getJSONObject("city").getString("city_name");
+                            String title = ob.getString("trip_name");
+                            String start = ob.getString("start_date_tx");
+                            String end = ob.optString("end_date", null);
+                            String city = ob.getJSONObject("city").getString("city_name");
 
-                            tite.setText(mCity);
+                            tite.setText(city);
                             tite = findViewById(R.id.tname);
-                            tite.setText(mTitle);
+                            tite.setText(title);
                             final Calendar cal = Calendar.getInstance();
-                            cal.setTimeInMillis(Long.parseLong(mStart) * 1000);
+                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
                             final String timeString =
                                     getResources().getString(R.string.text_started_on) +
                                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
@@ -304,7 +301,7 @@ public class MyTripInfo extends AppCompatActivity {
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK_V2 + "add-friend-to-trip/" + mId + "/" + mFriendid;
+        String uri = API_LINK_V2 + "add-friend-to-trip/" + mTrip.getId() + "/" + mFriendid;
 
         Log.v("EXECUTING", uri);
 

@@ -44,12 +44,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.EXTRA_MESSAGE_DESCRIPTION;
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
-import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
-import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment {
@@ -127,25 +122,24 @@ public class CityFragment extends Fragment {
                     @Override
                     public void run() {
                         JSONArray arr;
-                        final ArrayList<String> name, id;
+                        final ArrayList<City> cities;
                         try {
                             arr = new JSONArray(Objects.requireNonNull(response.body()).string());
                             Log.v("RESPONSE : ", arr.toString());
 
-                            name = new ArrayList<>();
-                            id = new ArrayList<>();
+                            cities = new ArrayList<>();
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
-                                    name.add(arr.getJSONObject(i).getString("city_name"));
-                                    id.add(arr.getJSONObject(i).getString("id"));
-                                    mImage.add(arr.getJSONObject(i).getString("image"));
+                                    cities.add(new City(arr.getJSONObject(i).getString("id"),
+                                            arr.getJSONObject(i).getString("image"),
+                                            arr.getJSONObject(i).getString("city_name")));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            ArrayAdapter<String> dataAdapter =
+                            ArrayAdapter<City> dataAdapter =
                                     new ArrayAdapter<>(
-                                            mActivity.getApplicationContext(), R.layout.spinner_layout, name);
+                                            mActivity.getApplicationContext(), R.layout.spinner_layout, cities);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
                             cityname.setAdapter(dataAdapter);
@@ -153,12 +147,9 @@ public class CityFragment extends Fragment {
 
                                 @Override
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    mCityid = id.get(arg2);
-                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
-                                    i.putExtra(EXTRA_MESSAGE_ID, mCityid);
-                                    i.putExtra(EXTRA_MESSAGE_NAME, name.get(arg2));
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, mImage.get(arg2));
-                                    startActivity(i);
+                                    Intent intent = new Intent(mActivity, FinalCityInfo.class);
+                                    intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, cities.get(arg2));
+                                    startActivity(intent);
                                 }
                             });
                         } catch (JSONException e) {
@@ -228,14 +219,9 @@ public class CityFragment extends Fragment {
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id1) {
                                     City city = (City) lv.getAdapter().getItem(position);
                                     Toast.makeText(mActivity, city.getNickname(), Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
-                                    i.putExtra(EXTRA_MESSAGE_ID, city.getId());
-                                    i.putExtra(EXTRA_MESSAGE_NAME, city.getNickname());
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, city.getAvatar());
-                                    i.putExtra(EXTRA_MESSAGE_DESCRIPTION, city.getDescription());
-                                    i.putExtra(EXTRA_MESSAGE_LATITUDE, city.getLatitude());
-                                    i.putExtra(EXTRA_MESSAGE_LONGITUDE, city.getLongitude());
-                                    startActivity(i);
+                                    Intent intent = new Intent(mActivity, FinalCityInfo.class);
+                                    intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+                                    startActivity(intent);
                                 }
                             });
 

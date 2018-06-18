@@ -1,5 +1,6 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,14 +8,15 @@ import java.util.List;
 /**
  * Model class for city object
  */
-public class City {
-    private final String mAvatar;
-    private final String mNickname;
-    private final String mDescription;
-    private final String mId;
-    private final String mLatitude;
-    private final String mLongitude;
-    private final int mBackground;
+public class City implements Serializable {
+
+    private String mAvatar;
+    private String mNickname;
+    private String mDescription;
+    private String mId;
+    private String mLatitude;
+    private String mLongitude;
+    private int mBackground;
     private final List<String> mInterests = new ArrayList<>();
 
     /**
@@ -39,6 +41,12 @@ public class City {
         this.mDescription = description;
         this.mBackground = background;
         mInterests.addAll(Arrays.asList(interest));
+    }
+
+    public City( String mId, String mAvatar, String mNickname) {
+        this.mAvatar = mAvatar;
+        this.mNickname = mNickname;
+        this.mId = mId;
     }
 
     public String getAvatar() {
