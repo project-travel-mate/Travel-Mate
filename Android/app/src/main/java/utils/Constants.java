@@ -30,7 +30,7 @@ public class Constants {
     public static final String DELHI_LAT = "28.6466773";
     public static final String DELHI_LON = "76.813073";
     public static final String MUMBAI_LAT = "19.076";
-    public static final String MUMBAI_LON = "772.8777";
+    public static final String MUMBAI_LON = "72.8777";
 
     public static final String API_LINK = "http://prabhakargupta.com/travel-mate/";
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";

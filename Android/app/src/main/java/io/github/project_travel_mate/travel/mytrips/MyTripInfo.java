@@ -27,7 +27,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lucasr.twowayview.TwoWayView;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,14 +65,12 @@ public class MyTripInfo extends AppCompatActivity {
     TextView date;
     @BindView(R.id.newfrriend)
     FlatButton add;
-    @BindView(R.id.lv)
-    TwoWayView twoway;
     @BindView(R.id.friendlist)
     NestedListView lv;
     @BindView(R.id.fname)
     AutoCompleteTextView frendname;
 
-    private String mFriendid;
+    private String mFriendid = null;
     private String mNameYet;
     private String mToken;
 
@@ -106,18 +103,6 @@ public class MyTripInfo extends AppCompatActivity {
 
         mHandler    = new Handler(Looper.getMainLooper());
 
-        String mainfolder = "/storage/emulated/0/Pictures/";
-        File sdDir  = new File(mainfolder);
-        File[] sdDirFiles = sdDir.listFiles();
-        for (File singleFile : sdDirFiles) {
-            if (!singleFile.isDirectory())
-                mediaimages.add(singleFile);
-        }
-        mediaimages.add(null);
-
-        MyTripInfoImagesAdapter ad = new MyTripInfoImagesAdapter(this, mediaimages);
-        twoway.setAdapter(ad);
-
         frendname.setThreshold(1);
 
         getSingleTrip();
@@ -134,7 +119,13 @@ public class MyTripInfo extends AppCompatActivity {
     }
 
     @OnClick(R.id.newfrriend) void onClick() {
-        addfriend();
+        if (mFriendid == null) {
+            Toast.makeText(MyTripInfo.this,
+                    getResources().getString(R.string.no_friend_selected),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            addfriend();
+        }
     }
 
     private void getSingleTrip() {
@@ -202,6 +193,7 @@ public class MyTripInfo extends AppCompatActivity {
                             e1.printStackTrace();
                         }
                         mDialog.dismiss();
+                        mFriendid = null;
                     }
                 });
 

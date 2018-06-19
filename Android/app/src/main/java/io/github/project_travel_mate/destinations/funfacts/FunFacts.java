@@ -91,19 +91,17 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
      * @param factsArray -> JSON array of facts
      */
     @Override
-    public void setupViewPager(final JSONArray factsArray) {
+    public void setupViewPager(final ArrayList<FunFact> factsArray) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 List<Fragment> fList = new ArrayList<>();
-                for (int i = 0; i < factsArray.length(); i++)
-                    try {
-                        FunFact fact = new FunFact(mCity.getNickname(), factsArray.getJSONObject(i).getString("image"),
-                                factsArray.getJSONObject(i).getString("fact"));
-                        fList.add(FunfactFragment.newInstance(fact));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                for (int i = 0; i < factsArray.size(); i++) {
+                    FunFact fact = new FunFact(mCity.getNickname(),
+                            factsArray.get(i).getImage(),
+                            factsArray.get(i).getText());
+                    fList.add(FunfactFragment.newInstance(fact));
+                }
                 viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
                 viewPager.setPageTransformer(true, new AccordionTransformer());
             }

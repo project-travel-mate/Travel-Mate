@@ -60,14 +60,12 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
     @BindView(R.id.lv)
     TwoWayView twoWayView;
 
-    private String mDestinationLongitude;
-    private String mDestinationLatitude;
-
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
+    private City mCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +75,11 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
 
         Intent intent   = getIntent();
-        City city = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         String type     = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
         mHandler        = new Handler(Looper.getMainLooper());
 
-        setTitle(city.getNickname());
+        setTitle(mCity.getNickname());
 
         switch (type) {
             case "restaurant":
@@ -101,9 +99,6 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 mIcon = R.drawable.shopping;
                 break;
         }
-
-        mDestinationLatitude = city.getLatitude();
-        mDestinationLongitude = city.getLongitude();
 
         getPlaces();
 
@@ -150,7 +145,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         mProgressDialog.show();
 
         // to fetch city names
-        String uri = HERE_API_LINK + "?at=" + mDestinationLatitude + "," + mDestinationLongitude + "&mode=" + mMode
+        String uri = HERE_API_LINK + "?at=" + mCity.getLatitude() + "," + mCity.getLongitude() + "&mode=" + mMode
                 + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
         Log.v("executing", "URI : " + uri );
 

@@ -121,23 +121,26 @@ public class CityFragment extends Fragment {
                     public void run() {
                         JSONArray arr;
                         final ArrayList<City> cities;
+                        final ArrayList<String> citynames;
                         try {
                             arr = new JSONArray(Objects.requireNonNull(response.body()).string());
                             Log.v("RESPONSE : ", arr.toString());
 
                             cities = new ArrayList<>();
+                            citynames = new ArrayList<>();
                             for (int i = 0; i < arr.length(); i++) {
                                 try {
                                     cities.add(new City(arr.getJSONObject(i).getString("id"),
                                             arr.getJSONObject(i).getString("image"),
                                             arr.getJSONObject(i).getString("city_name")));
+                                    citynames.add(arr.getJSONObject(i).getString("city_name"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            ArrayAdapter<City> dataAdapter =
+                            ArrayAdapter<String> dataAdapter =
                                     new ArrayAdapter<>(
-                                            mActivity.getApplicationContext(), R.layout.spinner_layout, cities);
+                                            mActivity.getApplicationContext(), R.layout.spinner_layout, citynames);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             cityname.setThreshold(1);
                             cityname.setAdapter(dataAdapter);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.project_travel_mate.BuildConfig;
 import io.github.project_travel_mate.R;
 import objects.FunFact;
 
@@ -119,7 +121,7 @@ public class FunfactFragment extends Fragment {
      * @param file File location to be shared
      */
     private void shareImage(File file) {
-        Uri uri = Uri.fromFile(file);
+        Uri uri = FileProvider.getUriForFile(getActivity(), "io.github.project_travel_mate.shareFile", file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
@@ -128,5 +130,4 @@ public class FunfactFragment extends Fragment {
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
-
 }

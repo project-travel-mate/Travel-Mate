@@ -9,7 +9,6 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_extras">Extras</string>
-    <string name="navigation_drawer_change_source_dest">Change Source/Destination</string>
     <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
     <string name="navigation_drawer_signout">Sign Out</string>
 
@@ -18,7 +17,6 @@
     <string name="title_activity_select_city">Select City</string>
     <string name="title_activity_select__mode_of_transport">Select Mode of Transport</string>
     <string name="title_activity_car_directions">Car Directions</string>
-    <string name="title_activity_bus_list">Bus List</string>
     <string name="title_activity_shopping_currentcity">Shopping current city</string>
     <string name="title_activity_train_list">TrainList</string>
     <string name="title_activity_hotels">Hotels</string>
@@ -83,6 +81,7 @@
     <string name="progress_wait">Please wait…</string>
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
+    <string name="no_friend_selected">Please select a valid friend to add</string>
 
     <!-- Errors and messages -->
     <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
@@ -95,7 +94,6 @@
     <string name="car1">Hatchback</string>
     <string name="car2">Sedan</string>
     <string name="car3">SUV</string>
-    <string name="bus_fair_default">110/-</string>
     <string name="default_mileage_1">22</string>
     <string name="default_mileage_2">18</string>
     <string name="default_mileage_3">16</string>
@@ -109,6 +107,9 @@
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="yes">Y</string>
+
+    <!--Hotel strings-->
+    <string name="no_hotels">No hotels to show</string>
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
@@ -137,7 +138,6 @@
     <string name="text_city_trends">City Trends</string>
     <string name="text_signup_or">Signup |</string>
     <string name="text_cart">Car</string>
-    <string name="text_bus">Bus</string>
     <string name="text_train">Train</string>
     <string name="text_max">max</string>
     <string name="text_min">min</string>
@@ -147,6 +147,7 @@
     <string name="text_title">Title</string>
     <string name="text_call">Call</string>
     <string name="text_book">Book</string>
+    <string name="text_share_screenshot">Share screenshot</string>
     <string name="text_my_trips">My Trips</string>
     <string name="unknown_value">…</string>
 

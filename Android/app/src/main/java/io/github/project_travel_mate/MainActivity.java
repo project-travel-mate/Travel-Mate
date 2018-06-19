@@ -105,13 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
                 break;
-            case R.id.nav_changecity: {
-
-                fragment = new SelectCityFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
-                break;
-            }
             case R.id.nav_emergency:
 
                 fragment = new EmergencyFragment();

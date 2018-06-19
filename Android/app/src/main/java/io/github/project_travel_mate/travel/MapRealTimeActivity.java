@@ -142,7 +142,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
      */
     private void getMarkers(String mode, final int icon) {
 
-        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&mode=" + mode
+        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&cat=" + mode
                 + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
 
         Log.v("EXECUTING", uri);
