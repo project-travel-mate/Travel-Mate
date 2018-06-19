@@ -56,8 +56,6 @@ public class CityFragment extends Fragment {
     @BindView(R.id.music_list)
     ListView                lv;
 
-    private final List<String> mImage = new ArrayList<>();
-
     private String mNameyet;
     private String mCityid;
     private Activity mActivity;

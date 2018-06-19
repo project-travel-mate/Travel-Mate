@@ -162,14 +162,12 @@ public class ChecklistFragment extends Fragment {
         @Override
         public View getView(final int position, View view, @NonNull ViewGroup parent) {
             LayoutInflater inflater = mContext.getLayoutInflater();
-
             ViewHolder holder;
             if (view == null) {
                 view = inflater.inflate(R.layout.checklist_item, parent, false);
                 holder = new ViewHolder();
                 holder.checkBox = view.findViewById(R.id.cb1);
                 view.setTag(holder);
-
             } else {
                 holder = (ViewHolder) view.getTag();
             }
