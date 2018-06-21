@@ -24,6 +24,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.City;
 import objects.Tweet;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,9 +33,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
 public class Tweets extends AppCompatActivity {
@@ -42,12 +41,13 @@ public class Tweets extends AppCompatActivity {
     @BindView(R.id.list)
     ListView lv;
 
-    private String mId;
     private MaterialDialog mDialog;
     private final List<Tweet> mTweets = new ArrayList<>();
     private TweetsAdapter mAdapter;
     private Handler mHandler;
     private String mToken;
+
+    private City mCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +58,13 @@ public class Tweets extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        Intent intent   = getIntent();
-        String title    = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
-        String image    = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
+        Intent intent = getIntent();
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
-        setTitle(title);
+        setTitle(mCity.getNickname());
         getTweets();
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,7 +81,7 @@ public class Tweets extends AppCompatActivity {
                 .show();
 
         // to fetch city names
-        String uri = API_LINK_V2 + "get-city-trends/" + mId;
+        String uri = API_LINK_V2 + "get-city-trends/" + mCity.getId();
         Log.v("EXECUTING", uri);
 
         //Set up client

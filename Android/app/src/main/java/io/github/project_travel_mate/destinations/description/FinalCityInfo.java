@@ -24,13 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFacts;
+import objects.City;
 
-import static utils.Constants.EXTRA_MESSAGE_DESCRIPTION;
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
-import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
-import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
 
@@ -44,12 +40,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     private MaterialDialog mDialog;
     private Handler mHandler;
 
-    private String mId;
-    private String mTitle;
-    private String mDescription;
-    private String mImage;
-    private String mLatitude;
-    private String mLongitude;
+    private City mCity;
     private String mToken;
 
     @BindView(R.id.temp)
@@ -95,12 +86,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         mHandler = new Handler(Looper.getMainLooper());
 
         Intent intent = getIntent();
-        mTitle = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
-        mImage = intent.getStringExtra(EXTRA_MESSAGE_IMAGE);
-        mDescription = intent.getStringExtra(EXTRA_MESSAGE_DESCRIPTION);
-        mLatitude = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
-        mLongitude = intent.getStringExtra(EXTRA_MESSAGE_LONGITUDE);
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
@@ -111,7 +97,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     private void initPresenter() {
         mFinalCityInfoPresenter.attachView(this);
-        mFinalCityInfoPresenter.fetchCityInfo(mTitle, mToken);
+        mFinalCityInfoPresenter.fetchCityInfo(mCity.getNickname(), mToken);
     }
 
     /**
@@ -119,11 +105,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * received from previous intent
      */
     private void initUi() {
-        des.setText(mDescription);
-        setTitle(mTitle);
+        des.setText(mCity.getDescription());
+        setTitle(mCity.getNickname());
         title.setTypeface(mCodeBold);
-        title.setText(mTitle);
-        Picasso.with(this).load(mImage).into(iv);
+        title.setText(mCity.getNickname());
+        Picasso.with(this).load(mCity.getAvatar()).into(iv);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -165,8 +151,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.funfact:
                 intent = new Intent(FinalCityInfo.this, FunFacts.class);
-                intent.putExtra(EXTRA_MESSAGE_ID, mId);
-                intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
                 startActivity(intent);
                 break;
             case R.id.restau:
@@ -183,8 +168,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.trends:
                 intent = new Intent(FinalCityInfo.this, Tweets.class);
-                intent.putExtra(EXTRA_MESSAGE_ID, mId);
-                intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
                 startActivity(intent);
                 break;
         }
@@ -257,10 +241,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * @param type   the type to be passed as extra parameter
      */
     private void fireIntent(Intent intent, String type) {
-        intent.putExtra(EXTRA_MESSAGE_ID, mId);
-        intent.putExtra(EXTRA_MESSAGE_LATITUDE, mLatitude);
-        intent.putExtra(EXTRA_MESSAGE_LONGITUDE, mLongitude);
-        intent.putExtra(EXTRA_MESSAGE_NAME, mTitle);
+        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
         intent.putExtra(EXTRA_MESSAGE_TYPE, type);
         startActivity(intent);
     }

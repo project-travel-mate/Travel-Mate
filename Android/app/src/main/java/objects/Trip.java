@@ -1,6 +1,8 @@
 package objects;
 
-public class Trip {
+import java.io.Serializable;
+
+public class Trip implements Serializable {
 
     private String mId;
     private String mName;
@@ -27,6 +29,11 @@ public class Trip {
         this.mStart = start;
         this.mEnd = end;
         this.mTname = tname;
+    }
+
+    public Trip(String mId, String mImage) {
+        this.mId = mId;
+        this.mImage = mImage;
     }
 
     public String getId() {

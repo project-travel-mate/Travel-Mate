@@ -71,10 +71,6 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".travel.transport.BusList"
-            android:label="@string/title_activity_bus_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".travel.ShoppingCurrentCity"
             android:label="@string/title_activity_shopping_currentcity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -115,6 +111,16 @@
         <activity android:name=".travel.mytrips.AddNewTrip" />
         <activity android:name=".travel.mytrips.MyTripInfo" />
         <activity android:name=".destinations.description.Tweets"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="io.github.project_travel_mate.shareFile"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

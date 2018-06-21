@@ -30,7 +30,7 @@ public class Constants {
     public static final String DELHI_LAT = "28.6466773";
     public static final String DELHI_LON = "76.813073";
     public static final String MUMBAI_LAT = "19.076";
-    public static final String MUMBAI_LON = "772.8777";
+    public static final String MUMBAI_LON = "72.8777";
 
     public static final String API_LINK = "http://prabhakargupta.com/travel-mate/";
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
@@ -49,15 +49,10 @@ public class Constants {
     };
 
     // For passing within intents / fragments
-    public static final String EXTRA_MESSAGE_NAME = "name_";
-    public static final String EXTRA_MESSAGE_ID = "id_";
-    public static final String EXTRA_MESSAGE_IMAGE = "image_";
-    public static final String EXTRA_MESSAGE_DESCRIPTION = "description_";
-    public static final String EXTRA_MESSAGE_LATITUDE = "lat_";
-    public static final String EXTRA_MESSAGE_LONGITUDE = "lon_";
     public static final String EXTRA_MESSAGE_TYPE = "type_";
-    public static final String EXTRA_MESSAGE_TEXT      = "text_";
-    public static final String EXTRA_MESSAGE_TITLE     = "title_";
+    public static final String EXTRA_MESSAGE_CITY_OBJECT = "cityobject_";
+    public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
+    public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
 
 
     // HTTP STATUS CODES

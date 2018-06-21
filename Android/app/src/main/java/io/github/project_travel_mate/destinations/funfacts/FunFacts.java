@@ -26,9 +26,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.City;
+import objects.FunFact;
 
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
 /**
@@ -39,8 +40,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
     @BindView(R.id.vp)
     ViewPager viewPager;
 
-    private String mId;
-    private String mName;
+    private City mCity;
     private String mToken;
     private MaterialDialog mDialog;
     private Handler mHandler;
@@ -56,8 +56,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        mId = intent.getStringExtra(EXTRA_MESSAGE_ID);
-        mName = intent.getStringExtra(EXTRA_MESSAGE_NAME);
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         mHandler  = new Handler(Looper.getMainLooper());
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -69,7 +68,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     private void initPresenter() {
         FunFactsPresenter mPresenter = new FunFactsPresenter(this);
-        mPresenter.initPresenter(mId, mToken);
+        mPresenter.initPresenter(mCity.getId(), mToken);
     }
 
     @Override
@@ -92,18 +91,17 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
      * @param factsArray -> JSON array of facts
      */
     @Override
-    public void setupViewPager(final JSONArray factsArray) {
+    public void setupViewPager(final ArrayList<FunFact> factsArray) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 List<Fragment> fList = new ArrayList<>();
-                for (int i = 0; i < factsArray.length(); i++)
-                    try {
-                        fList.add(FunfactFragment.newInstance(factsArray.getJSONObject(i).getString("image"),
-                                factsArray.getJSONObject(i).getString("fact"), mName));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                for (int i = 0; i < factsArray.size(); i++) {
+                    FunFact fact = new FunFact(mCity.getNickname(),
+                            factsArray.get(i).getImage(),
+                            factsArray.get(i).getText());
+                    fList.add(FunfactFragment.newInstance(fact));
+                }
                 viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
                 viewPager.setPageTransformer(true, new AccordionTransformer());
             }

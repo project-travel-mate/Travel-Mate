@@ -1,6 +1,11 @@
 # Travel Mate
 
 [![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/project-travel-mate/Travel-Mate.svg?columns=all)](https://waffle.io/project-travel-mate/Travel-Mate)
+
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height=
+"80">](https://goo.gl/1iAq94)
+
 
 A must-have app for those interested in travel. The app provides users with various features from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for every possible problem a traveller might face during the course of his or her entire journey.
 
@@ -17,12 +22,7 @@ A must-have app for those interested in travel. The app provides users with vari
   + [Share contact](#share-contact)
   + [Checklist](#checklist)
 + **[Push notification](#push-notification)**
-+ **[Estimote Beacons](#estimote-beacons)**
-+ **[Features](#features)**
-  + [Notify the user as soon as he enters proximity](#1notify-the-user-as-soon-as-he-enters-proximity)
-  + [Display details of Monument](#2display-details-of-monument)
-+ **[Technical Requirements](#technical-requirements)**
-+ **[How does Estitmote Beacon work](#how-does-estitmote-beacon-work)**
++ **[Dependencies](#dependencies)**
 + **[Contact Us](#contact-us)**
 
 
@@ -93,37 +93,21 @@ P
 <img src="./screenshots/notification.png" width="200px">
 
 
-
-## Estimote Beacons
-Estimote Beacons are small wireless sensors that can be attached to any location or object. They broadcast tiny radio signals which smartphone can receive and interpret, unlocking micro-location and contextual awareness.
-
-<img src="http://www.mjdinteractive.com/wp-content/uploads/2013/12/estimote-beacons1.jpg" width="400px" height="200px" />
-
-
-
-One Estimote beacon is placed in each monument, emitting signals that can be detcted by users' smartphones. The data related to that monument, along with the Estimote beacon ID, are uploaded on the cloud MySQL database.
-
-## Features
-
-### 1.Notify the user as soon as he enters proximity
-As soon as the user with Travel Mate app installed comes in proximity (~70m) of a monument (detected by estimote beacon), he  or she will receive a push notification welcoming him. 
-
-<img src="./screenshots/welcome.png" width="200px"> <img src="./screenshots/bye.png" width="200px">
-
-### 2.Display details of Monument
-As soon as the estimote beacon finds a Travel Mate app, it triggers and the phone fetches all the the information about the monument from the cloud and are presented to the traveller. This saves the user the trouble of gathering information about places of interest beforehand.  
-<img src="./screenshots/after_estimote.png" width="200px">
-
-
-## Technical Requirements
-
-Technically, all Bluetooth Smart-enabled android devices could pick up Bluetooth Low Energy signals. The Bluetooth Special Interest Group maintains a [list of devices](https://www.bluetooth.com/what-is-bluetooth-technology/bluetooth-devices) that support Bluetooth Low Energy. These include Android devices like: Samsung Galaxy S devices, Google Nexus, Google Glass and many more.
-
-## How does Estitmote Beacon work
-
-![](https://raw.githubusercontent.com/Swati4star/Hackathon-airtel/master/screenies/Screenshot%20from%202016-01-17%2001%3A58%3A26.png)
-
-
+## Dependencies
++ [okhttp](https://github.com/square/okhttp)
++ [CircleImageView](https://github.com/hdodenhof/CircleImageView)
++ [TedPicker](https://github.com/ParkSangGwon/TedPicker)
++ [android-pathview](https://github.com/geftimov/android-pathview)
++ [picasso](https://github.com/square/picasso)
++ [material](https://github.com/rey5137/material)
++ [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
++ [twoway-view](https://github.com/lucasr/twoway-view)
++ [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
++ [datetimepicker](https://github.com/flavienlaurent/datetimepicker)
++ [MaterialSearchView](https://github.com/MiguelCatalan/MaterialSearchView)
++ [android-process-button](https://github.com/dmytrodanylyk/android-process-button)
++ [ExpandableTextView](https://github.com/Manabu-GT/ExpandableTextView)
++ [butterknife](https://github.com/JakeWharton/butterknife)
 
 
 ## Contact Us

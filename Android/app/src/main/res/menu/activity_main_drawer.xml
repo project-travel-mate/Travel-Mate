@@ -22,10 +22,6 @@
         <menu>
 
             <item
-                android:id="@+id/nav_changecity"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/navigation_drawer_change_source_dest" />
-            <item
                 android:id="@+id/nav_emergency"
                 android:icon="@drawable/ic_announcement_black_24dp"
                 android:title="@string/navigation_drawer_emergency_contact" />

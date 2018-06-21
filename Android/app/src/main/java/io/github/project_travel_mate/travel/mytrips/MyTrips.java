@@ -92,23 +92,25 @@ public class MyTrips extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                final String res = Objects.requireNonNull(response.body()).string();
-                JSONArray arr;
-                try {
-                    arr = new JSONArray(res);
+                if (response.isSuccessful() && response.body() != null) {
+                    final String res = response.body().string();
+                    JSONArray arr;
+                    try {
+                        arr = new JSONArray(res);
 
-                    for (int i = 0; i < arr.length(); i++) {
-                        String id = arr.getJSONObject(i).getString("id");
-                        String start = arr.getJSONObject(i).getString("start_date_tx");
-                        String end = arr.getJSONObject(i).optString("end_date", null);
-                        String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                        String tname = arr.getJSONObject(i).getString("trip_name");
-                        String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                        mTrips.add(new Trip(id, name, image, start, end, tname));
+                        for (int i = 0; i < arr.length(); i++) {
+                            String id = arr.getJSONObject(i).getString("id");
+                            String start = arr.getJSONObject(i).getString("start_date_tx");
+                            String end = arr.getJSONObject(i).optString("end_date", null);
+                            String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
+                            String tname = arr.getJSONObject(i).getString("trip_name");
+                            String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
+                            mTrips.add(new Trip(id, name, image, start, end, tname));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR", "Message : " + e.getMessage());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("ERROR", "Message : " + e.getMessage());
                 }
                 mHandler.post(new Runnable() {
                     @Override

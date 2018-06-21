@@ -60,5 +60,10 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!--AlertDialog SignOut-->
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+    </style>
+
 
 </resources>

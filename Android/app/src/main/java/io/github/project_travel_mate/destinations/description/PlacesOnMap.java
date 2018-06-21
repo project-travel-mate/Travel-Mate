@@ -41,6 +41,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.City;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -48,10 +49,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.GPSTracker;
 
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_LATITUDE;
-import static utils.Constants.EXTRA_MESSAGE_LONGITUDE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
@@ -62,14 +60,12 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
     @BindView(R.id.lv)
     TwoWayView twoWayView;
 
-    private String mDestinationLongitude;
-    private String mDestinationLatitude;
-
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
+    private City mCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +75,11 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
 
         Intent intent   = getIntent();
-        String name     = intent.getStringExtra(EXTRA_MESSAGE_NAME);
-        String id       = intent.getStringExtra(EXTRA_MESSAGE_ID);
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         String type     = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
         mHandler        = new Handler(Looper.getMainLooper());
 
-        setTitle(name);
+        setTitle(mCity.getNickname());
 
         switch (type) {
             case "restaurant":
@@ -104,9 +99,6 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 mIcon = R.drawable.shopping;
                 break;
         }
-
-        mDestinationLatitude = intent.getStringExtra(EXTRA_MESSAGE_LATITUDE);
-        mDestinationLongitude = intent.getStringExtra(EXTRA_MESSAGE_LONGITUDE);
 
         getPlaces();
 
@@ -153,7 +145,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         mProgressDialog.show();
 
         // to fetch city names
-        String uri = HERE_API_LINK + "?at=" + mDestinationLatitude + "," + mDestinationLongitude + "&mode=" + mMode
+        String uri = HERE_API_LINK + "?at=" + mCity.getLatitude() + "," + mCity.getLongitude() + "&mode=" + mMode
                 + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
         Log.v("executing", "URI : " + uri );
 
