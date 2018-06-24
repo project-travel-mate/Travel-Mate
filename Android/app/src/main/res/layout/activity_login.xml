@@ -229,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:gravity="start"
-                    android:text="@string/login"
+                    android:text="@string/text_login"
                     android:visibility="gone"
                     android:textAlignment="center"
                     android:textColor="#ffffff" />
