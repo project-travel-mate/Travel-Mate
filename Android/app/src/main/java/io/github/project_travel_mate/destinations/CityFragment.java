@@ -71,8 +71,6 @@ public class CityFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mConnectivity = new AppConnectivity(getContext());
-
-
         View view = inflater.inflate(R.layout.content_citylist, container, false);
 
         ButterKnife.bind(this, view);
