@@ -220,6 +220,7 @@
                     android:layout_weight="1.0"
                     android:gravity="end"
                     android:text="@string/text_signup_or"
+                    android:textAlignment="center"
                     android:textColor="#ffffff" />
 
                 <TextView
@@ -229,6 +230,8 @@
                     android:layout_weight="1.0"
                     android:gravity="start"
                     android:text="@string/login"
+                    android:visibility="gone"
+                    android:textAlignment="center"
                     android:textColor="#ffffff" />
             </LinearLayout>
 

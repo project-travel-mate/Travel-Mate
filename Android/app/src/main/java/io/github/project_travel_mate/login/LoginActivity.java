@@ -111,10 +111,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             // Open signup
             case R.id.signup :
+                signup.setVisibility(View.GONE);
+                login.setVisibility(View.VISIBLE);
                 mLoginPresenter.signUp();
                 break;
             // Open login
             case R.id.login :
+                signup.setVisibility(View.VISIBLE);
+                login.setVisibility(View.GONE);
                 mLoginPresenter.login();
                 break;
             // Call login
