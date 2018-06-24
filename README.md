@@ -1,6 +1,8 @@
 # Travel Mate
 
-[![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate)
+[![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate) [![Uplabs](https://img.shields.io/badge/Uplabs-PhotoEditor-orange.svg)](https://www.uplabs.com/posts/travel-mate) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/project-travel-mate/Travel-Mate.svg?columns=all)](https://waffle.io/project-travel-mate/Travel-Mate)
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height=
