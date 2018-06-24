@@ -22,7 +22,6 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.github.project_travel_mate.BuildConfig;
 import io.github.project_travel_mate.R;
 import objects.FunFact;
 

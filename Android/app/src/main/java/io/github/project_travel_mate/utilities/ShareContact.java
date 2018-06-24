@@ -29,11 +29,11 @@ import static utils.Constants.USER_NUMBER;
 
 public class ShareContact extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
     @BindView(R.id.create)
     Button create;
     @BindView(R.id.scan)
     Button scan;
-    private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
     private SharedPreferences mSharedPreferences;
 
     @Override
@@ -125,7 +125,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
         Intent qrDroid;
         switch (view.getId()) {
-            case R.id.scan :
+            case R.id.scan:
                 qrDroid = new Intent(Services.SCAN); //Set action "la.droid.qr.scan"
 
                 //Check whether a complete or displayable result is needed
@@ -140,12 +140,12 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.create :
+            case R.id.create:
                 //Create a new Intent to send to QR Droid
                 qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
 
-                String mPhoneNumber     = mSharedPreferences.getString(USER_NUMBER, "997112322");
-                String name             = mSharedPreferences.getString(USER_NAME, "Swati Garg");
+                String mPhoneNumber = mSharedPreferences.getString(USER_NUMBER, "997112322");
+                String name = mSharedPreferences.getString(USER_NAME, "Swati Garg");
 
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 

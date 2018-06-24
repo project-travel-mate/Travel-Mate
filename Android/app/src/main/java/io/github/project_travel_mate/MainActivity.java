@@ -2,7 +2,6 @@ package io.github.project_travel_mate;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,10 +20,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
+import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 
@@ -36,6 +37,7 @@ import static utils.Constants.USER_TOKEN;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences mSharedPreferences;
+    private DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get runtime permissions for Android M
         getRuntimePermissions();
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawer,
+                mDrawer,
                 toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -83,34 +85,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment;
+        Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (id) {
             case R.id.nav_travel:
-
                 fragment = new TravelFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_city:
-
                 fragment = new CityFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_utility:
-
                 fragment = new UtilitiesFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_emergency:
-
                 fragment = new EmergencyFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_signout: {
 
                 //set AlertDIalog before signout
@@ -118,33 +112,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AlertDialog.Builder builder = new AlertDialog.Builder(crt);
                 builder.setMessage(R.string.signout_message)
                         .setPositiveButton(R.string.positive_button,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        mSharedPreferences
-                                                .edit()
-                                                .putString(USER_TOKEN, null)
-                                                .apply();
-                                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
+                                (dialog, which) -> {
+                                    mSharedPreferences
+                                            .edit()
+                                            .putString(USER_TOKEN, null)
+                                            .apply();
+                                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivity(i);
+                                    finish();
                                 })
                         .setNegativeButton(R.string.negative_button,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                                (dialog, which) -> {
 
-                                    }
                                 });
                 builder.create().show();
                 break;
 
             }
+
+            case R.id.nav_report_bug:
+                fragment = BugReportFragment.newInstance();
+                break;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
+
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -170,5 +165,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, 0);
             }
         }
+    }
+
+    public void onClickProfile(View view) {
+        Intent in = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(in);
     }
 }

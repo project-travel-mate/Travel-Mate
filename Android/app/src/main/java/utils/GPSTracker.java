@@ -1,20 +1,28 @@
 package utils;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import java.util.Objects;
 
@@ -23,19 +31,19 @@ import java.util.Objects;
  */
 public class GPSTracker extends Service implements LocationListener {
 
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
     private final Context mContext;
-
     private boolean mCanGetLocation = false;
-
     private Location mLocation; // mLocation
     private double mLatitude; // mLatitude
     private double mLongitude; // mLongitude
-
-    // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
+    private static final int REQUEST_LOCATION = 199;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private PendingResult<LocationSettingsResult> mPendingResult;
 
     public GPSTracker() {
         this.mContext = null;
@@ -136,6 +144,7 @@ public class GPSTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
+
     public double getLatitude() {
         if (mLocation != null) {
             mLatitude = mLocation.getLatitude();
@@ -147,7 +156,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     /**
      * Function to get mLongitude
-     * */
+     */
     public double getLongitude() {
         if (mLocation != null) {
             mLongitude = mLocation.getLongitude();
@@ -163,38 +172,41 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     /**
-     * Function to show settings alert dialog
-     * */
-    public void showSettingsAlert() {
+     * Function to switch GPS on
+     */
+    public void displayLocationRequest(Context context) {
+        mGoogleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-        // Setting Dialog Title
-        alertDialog.setTitle("GPS settings");
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000 / 2);
+        LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
 
-        // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-        // Setting Icon to Dialog
-        //alertDialog.setIcon(R.drawable.delete);
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
+        mBuilder.setAlwaysShow(true);
+        mPendingResult = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
+        mPendingResult.setResultCallback(locationSettingsResult -> {
+            final Status mStatus = locationSettingsResult.getStatus();
+            switch (mStatus.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    //All location settings are satisfied
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    //Display dialog to update location settings
+                    try {
+                        mStatus.startResolutionForResult((Activity) context, REQUEST_LOCATION);
+                    } catch (IntentSender.SendIntentException e) {
+                        //Unable to execute request
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    //Dialog cannot be displayed
+                    break;
             }
         });
-
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
     }
 }

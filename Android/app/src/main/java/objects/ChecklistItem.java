@@ -10,11 +10,13 @@ public class ChecklistItem {
     private final String mIsDone;
 
     // TODO :: Make isDone bool
+
     /**
      * Initiates checklist item
-     * @param id        unique id of item
-     * @param name      checklist task name
-     * @param isDone    specify if the item is checked
+     *
+     * @param id     unique id of item
+     * @param name   checklist task name
+     * @param isDone specify if the item is checked
      */
     public ChecklistItem(String id, String name, String isDone) {
         this.mId = id;

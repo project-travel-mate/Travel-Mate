@@ -24,8 +24,8 @@ public class CardViewOptionsAdapter
     /**
      * Initializes new CarViewoptions adapter
      *
-     * @param mOnItemClickListener   the onclick listener for the cardview items
-     * @param mOptionsEntityList    the list of entities to be populated in view
+     * @param mOnItemClickListener the onclick listener for the cardview items
+     * @param mOptionsEntityList   the list of entities to be populated in view
      */
     public CardViewOptionsAdapter(OnItemClickListener mOnItemClickListener,
                                   List<CardItemEntity> mOptionsEntityList) {
@@ -57,6 +57,10 @@ public class CardViewOptionsAdapter
         return mOptionsEntityList.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
     /**
      * Viewholder for the cardView item
      */
@@ -78,9 +82,5 @@ public class CardViewOptionsAdapter
         public void onClick(View view) {
             mOnItemClickListener.onItemClick(getAdapterPosition());
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
     }
 }

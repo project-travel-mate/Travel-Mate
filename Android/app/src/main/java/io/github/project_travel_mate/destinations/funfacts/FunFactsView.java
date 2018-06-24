@@ -1,7 +1,5 @@
 package io.github.project_travel_mate.destinations.funfacts;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 import objects.FunFact;

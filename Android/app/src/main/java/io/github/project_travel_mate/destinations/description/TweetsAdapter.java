@@ -41,12 +41,9 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
 
         holder.name.setText(mTweetsList.get(position).getName());
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTweetsList.get(position).getUrl()));
-                mContext.startActivity(browserIntent);
-            }
+        view.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTweetsList.get(position).getUrl()));
+            mContext.startActivity(browserIntent);
         });
         return view;
     }

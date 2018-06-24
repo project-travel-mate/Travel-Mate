@@ -29,7 +29,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -72,18 +71,14 @@ import static utils.Constants.SOURCE_CITY_LON;
  */
 public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private final List<MapItem> mMapItems = new ArrayList<>();
     @BindView(R.id.data)
     ScrollView scrollView;
-
     private int mIndex = 0;
     private Handler mHandler;
-
     private String mCurlat;
     private String mCurlon;
-
     private GoogleMap mGoogleMap;
-
-    private final List<MapItem> mMapItems =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +114,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         // Get user's current location
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
+            tracker.displayLocationRequest(this);
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
@@ -164,32 +159,29 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             public void onResponse(final Call call, final Response response) throws IOException {
 
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject json = new JSONObject(res);
-                            json = json.getJSONObject("results");
-                            JSONArray routeArray = json.getJSONArray("items");
+                mHandler.post(() -> {
+                    try {
+                        JSONObject json = new JSONObject(res);
+                        json = json.getJSONObject("results");
+                        JSONArray routeArray = json.getJSONArray("items");
 
-                            for (int i = 0; i < routeArray.length(); i++) {
-                                String name = routeArray.getJSONObject(i).getString("title");
-                                String web = routeArray.getJSONObject(i).getString("href");
-                                String nums = routeArray.getJSONObject(i).getString("distance");
-                                String addr = routeArray.getJSONObject(i).getString("vicinity");
+                        for (int i = 0; i < routeArray.length(); i++) {
+                            String name = routeArray.getJSONObject(i).getString("title");
+                            String web = routeArray.getJSONObject(i).getString("href");
+                            String nums = routeArray.getJSONObject(i).getString("distance");
+                            String addr = routeArray.getJSONObject(i).getString("vicinity");
 
-                                Double latitude = Double.parseDouble(
-                                        routeArray.getJSONObject(i).getJSONArray("position").get(0).toString());
-                                Double longitude = Double.parseDouble(
-                                        routeArray.getJSONObject(i).getJSONArray("position").get(1).toString());
+                            Double latitude = Double.parseDouble(
+                                    routeArray.getJSONObject(i).getJSONArray("position").get(0).toString());
+                            Double longitude = Double.parseDouble(
+                                    routeArray.getJSONObject(i).getJSONArray("position").get(1).toString());
 
-                                showMarker(latitude, longitude, name, icon);
-                                mMapItems.add(new MapItem(name, nums, web, addr));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR : ", e.getMessage() + " ");
+                            showMarker(latitude, longitude, name, icon);
+                            mMapItems.add(new MapItem(name, nums, web, addr));
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", e.getMessage() + " ");
                     }
                 });
             }
@@ -205,50 +197,47 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             new MaterialDialog.Builder(this)
                     .title(R.string.title)
                     .items(R.array.items)
-                    .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                        @Override
-                        public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    .itemsCallbackMultiChoice(null, (dialog, which, text) -> {
 
-                            mGoogleMap.clear();
-                            mMapItems.clear();
+                        mGoogleMap.clear();
+                        mMapItems.clear();
 
-                            for (int i = 0; i < which.length; i++) {
-                                Log.v("selected", which[i] + " " + text[i]);
-                                Integer icon;
-                                switch (which[0]) {
-                                    case 0:
-                                        icon = R.drawable.ic_local_pizza_black_24dp;
-                                        break;
-                                    case 1:
-                                        icon = R.drawable.ic_local_bar_black_24dp;
-                                        break;
-                                    case 2:
-                                        icon = R.drawable.ic_camera_alt_black_24dp;
-                                        break;
-                                    case 3:
-                                        icon = R.drawable.ic_directions_bus_black_24dp;
-                                        break;
-                                    case 4:
-                                        icon = R.drawable.ic_local_mall_black_24dp;
-                                        break;
-                                    case 5:
-                                        icon = R.drawable.ic_local_gas_station_black_24dp;
-                                        break;
-                                    case 6:
-                                        icon = R.drawable.ic_local_atm_black_24dp;
-                                        break;
-                                    case 7:
-                                        icon = R.drawable.ic_local_hospital_black_24dp;
-                                        break;
-                                    default:
-                                        icon = R.drawable.ic_attach_money_black_24dp;
-                                        break;
-                                }
-                                MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
-
+                        for (int i = 0; i < which.length; i++) {
+                            Log.v("selected", which[i] + " " + text[i]);
+                            Integer icon;
+                            switch (which[0]) {
+                                case 0:
+                                    icon = R.drawable.ic_local_pizza_black_24dp;
+                                    break;
+                                case 1:
+                                    icon = R.drawable.ic_local_bar_black_24dp;
+                                    break;
+                                case 2:
+                                    icon = R.drawable.ic_camera_alt_black_24dp;
+                                    break;
+                                case 3:
+                                    icon = R.drawable.ic_directions_bus_black_24dp;
+                                    break;
+                                case 4:
+                                    icon = R.drawable.ic_local_mall_black_24dp;
+                                    break;
+                                case 5:
+                                    icon = R.drawable.ic_local_gas_station_black_24dp;
+                                    break;
+                                case 6:
+                                    icon = R.drawable.ic_local_atm_black_24dp;
+                                    break;
+                                case 7:
+                                    icon = R.drawable.ic_local_hospital_black_24dp;
+                                    break;
+                                default:
+                                    icon = R.drawable.ic_attach_money_black_24dp;
+                                    break;
                             }
-                            return true;
+                            MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
+
                         }
+                        return true;
                     })
                     .positiveText(R.string.choose)
                     .show();
@@ -303,50 +292,41 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
 
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                scrollView.setVisibility(View.VISIBLE);
-                for (int i = 0; i < mMapItems.size(); i++) {
-                    if (mMapItems.get(i).getName().equals(marker.getTitle())) {
-                        mIndex = i;
-                        break;
-                    }
+        map.setOnMarkerClickListener(marker -> {
+            scrollView.setVisibility(View.VISIBLE);
+            for (int i = 0; i < mMapItems.size(); i++) {
+                if (mMapItems.get(i).getName().equals(marker.getTitle())) {
+                    mIndex = i;
+                    break;
                 }
-
-                TextView title = MapRealTimeActivity.this.findViewById(R.id.item_title);
-                TextView description = MapRealTimeActivity.this.findViewById(R.id.item_description);
-                final Button calls, book;
-                calls = MapRealTimeActivity.this.findViewById(R.id.call);
-                book = MapRealTimeActivity.this.findViewById(R.id.book);
-
-                title.setText(mMapItems.get(mIndex).getName());
-                description.setText(mMapItems.get(mIndex).getAddress());
-                calls.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
-                        MapRealTimeActivity.this.startActivity(intent);
-
-                    }
-                });
-                book.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserIntent;
-                        try {
-                            browserIntent = new Intent(
-                                    Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
-                            MapRealTimeActivity.this.startActivity(browserIntent);
-                        } catch (Exception e) {
-                            Toast.makeText(MapRealTimeActivity.this,
-                                    R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-                return false;
             }
+
+            TextView title = MapRealTimeActivity.this.findViewById(R.id.item_title);
+            TextView description = MapRealTimeActivity.this.findViewById(R.id.item_description);
+            final Button calls, book;
+            calls = MapRealTimeActivity.this.findViewById(R.id.call);
+            book = MapRealTimeActivity.this.findViewById(R.id.book);
+
+            title.setText(mMapItems.get(mIndex).getName());
+            description.setText(mMapItems.get(mIndex).getAddress());
+            calls.setOnClickListener(view -> {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
+                MapRealTimeActivity.this.startActivity(intent);
+
+            });
+            book.setOnClickListener(view -> {
+                Intent browserIntent;
+                try {
+                    browserIntent = new Intent(
+                            Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
+                    MapRealTimeActivity.this.startActivity(browserIntent);
+                } catch (Exception e) {
+                    Toast.makeText(MapRealTimeActivity.this,
+                            R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
+                }
+            });
+            return false;
         });
 
     }

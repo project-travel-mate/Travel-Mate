@@ -16,9 +16,6 @@ import android.support.v7.widget.Toolbar;
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -92,19 +89,16 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
      */
     @Override
     public void setupViewPager(final ArrayList<FunFact> factsArray) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                List<Fragment> fList = new ArrayList<>();
-                for (int i = 0; i < factsArray.size(); i++) {
-                    FunFact fact = new FunFact(mCity.getNickname(),
-                            factsArray.get(i).getImage(),
-                            factsArray.get(i).getText());
-                    fList.add(FunfactFragment.newInstance(fact));
-                }
-                viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
-                viewPager.setPageTransformer(true, new AccordionTransformer());
+        mHandler.post(() -> {
+            List<Fragment> fList = new ArrayList<>();
+            for (int i = 0; i < factsArray.size(); i++) {
+                FunFact fact = new FunFact(mCity.getNickname(),
+                        factsArray.get(i).getImage(),
+                        factsArray.get(i).getText());
+                fList.add(FunfactFragment.newInstance(fact));
             }
+            viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
+            viewPager.setPageTransformer(true, new AccordionTransformer());
         });
     }
 

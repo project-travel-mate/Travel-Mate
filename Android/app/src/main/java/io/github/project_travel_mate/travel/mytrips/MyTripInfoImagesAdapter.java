@@ -45,26 +45,20 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
             holder = (ViewHolder) view.getTag();
         if (position == mName.size() - 1) {
             holder.iv.setImageResource(R.drawable.add_image);
-            holder.iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent1 = new Intent(mContext, ImagePickerActivity.class);
-                    mContext.startActivityForResult(intent1, MyTripInfo.INTENT_REQUEST_GET_IMAGES);
-                }
+            holder.iv.setOnClickListener(v -> {
+                Intent intent1 = new Intent(mContext, ImagePickerActivity.class);
+                mContext.startActivityForResult(intent1, MyTripInfo.INTENT_REQUEST_GET_IMAGES);
             });
         } else {
             holder.iv.setImageDrawable(Drawable.createFromPath(mName.get(position).getAbsolutePath()));
-            holder.iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(mContext, TripImage.class);
-                    ArrayList<String> a = new ArrayList<>();
-                    a.add(mName.get(position).getAbsolutePath());
+            holder.iv.setOnClickListener(v -> {
+                Intent i = new Intent(mContext, TripImage.class);
+                ArrayList<String> a = new ArrayList<>();
+                a.add(mName.get(position).getAbsolutePath());
 
-                    i.putExtra(Constants.EVENT_IMG, a);
-                    i.putExtra(Constants.EVENT_NAME, "Image");
-                    mContext.startActivity(i);
-                }
+                i.putExtra(Constants.EVENT_IMG, a);
+                i.putExtra(Constants.EVENT_NAME, "Image");
+                mContext.startActivity(i);
             });
         }
         return view;

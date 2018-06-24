@@ -35,11 +35,10 @@ import static utils.Constants.USER_TOKEN;
 
 public class MyTrips extends AppCompatActivity {
 
+    private final List<Trip> mTrips = new ArrayList<>();
     @BindView(R.id.gv)
     GridView gridView;
-
     private MaterialDialog mDialog;
-    private final List<Trip> mTrips = new ArrayList<>();
     private String mToken;
     private Handler mHandler;
 
@@ -112,12 +111,9 @@ public class MyTrips extends AppCompatActivity {
                         Log.e("ERROR", "Message : " + e.getMessage());
                     }
                 }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDialog.dismiss();
-                        gridView.setAdapter(new MyTripsAdapter(MyTrips.this, mTrips));
-                    }
+                mHandler.post(() -> {
+                    mDialog.dismiss();
+                    gridView.setAdapter(new MyTripsAdapter(MyTrips.this, mTrips));
                 });
             }
         });

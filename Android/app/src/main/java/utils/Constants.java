@@ -12,6 +12,7 @@ public class Constants {
     public static final String USER_NUMBER = "user_number";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_TOKEN = "user_token";
+    public static final String FIRST_NAME = "first_name";
 
     public static final String EVENT_IMG = "event_name";
     public static final String EVENT_NAME = "event_img";
@@ -36,7 +37,7 @@ public class Constants {
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
-    public static final List<String> BASE_TASKS  = new ArrayList<String>() {
+    public static final List<String> BASE_TASKS = new ArrayList<String>() {
         {
             add("Bags");
             add("Keys");
@@ -56,9 +57,9 @@ public class Constants {
 
 
     // HTTP STATUS CODES
-    public static final int STATUS_CODE_OK              = 200;
-    public static final int STATUS_CODE_CREATED         = 201;
-    public static final int STATUS_CODE_UNAUTHORIZED    = 403;
+    public static final int STATUS_CODE_OK = 200;
+    public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_UNAUTHORIZED = 403;
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";

@@ -38,11 +38,10 @@ import static utils.Constants.USER_TOKEN;
 
 public class Tweets extends AppCompatActivity {
 
+    private final List<Tweet> mTweets = new ArrayList<>();
     @BindView(R.id.list)
     ListView lv;
-
     private MaterialDialog mDialog;
-    private final List<Tweet> mTweets = new ArrayList<>();
     private TweetsAdapter mAdapter;
     private Handler mHandler;
     private String mToken;
@@ -102,24 +101,21 @@ public class Tweets extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONArray array = new JSONArray(res);
-                            for (int i = 0; i < array.length(); i++) {
-                                String nam = array.getJSONObject(i).getString("name");
-                                String link = array.getJSONObject(i).getString("url");
-                                String count = array.getJSONObject(i).getString("tweet_volume");
-                                mTweets.add(new Tweet(nam, link, count));
-                            }
-                            mAdapter = new TweetsAdapter(Tweets.this, mTweets);
-                            lv.setAdapter(mAdapter);
-                            mDialog.dismiss();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR : ", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    try {
+                        JSONArray array = new JSONArray(res);
+                        for (int i = 0; i < array.length(); i++) {
+                            String nam = array.getJSONObject(i).getString("name");
+                            String link = array.getJSONObject(i).getString("url");
+                            String count = array.getJSONObject(i).getString("tweet_volume");
+                            mTweets.add(new Tweet(nam, link, count));
                         }
+                        mAdapter = new TweetsAdapter(Tweets.this, mTweets);
+                        lv.setAdapter(mAdapter);
+                        mDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
                     }
                 });
             }

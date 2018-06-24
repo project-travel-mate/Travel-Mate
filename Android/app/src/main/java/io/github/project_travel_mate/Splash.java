@@ -36,14 +36,10 @@ public class Splash extends AppCompatActivity {
 
         // TODO :: check for the user_token here & redirect to corresponding class
         // If token is null -> LoginActivity, else Mainactivity
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                Intent i = new Intent(Splash.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent i = new Intent(Splash.this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }, 2000);
     }
 }

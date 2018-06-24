@@ -50,12 +50,9 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             cityname.setText(mContext.getResources().getString(R.string.prompt_add_new_trip));
             date.setText("");
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(mContext, AddNewTrip.class);
-                    mContext.startActivity(i);
-                }
+            view.setOnClickListener(v -> {
+                Intent i = new Intent(mContext, AddNewTrip.class);
+                mContext.startActivity(i);
             });
 
         } else {
@@ -73,13 +70,10 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             final String timeString =
                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
             date.setText(timeString);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, MyTripInfo.class);
-                    intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrips.get(position));
-                    mContext.startActivity(intent);
-                }
+            view.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, MyTripInfo.class);
+                intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrips.get(position));
+                mContext.startActivity(intent);
             });
         }
         return view;

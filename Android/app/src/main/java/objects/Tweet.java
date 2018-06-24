@@ -8,9 +8,10 @@ public class Tweet {
 
     /**
      * Initiates Tweet object
-     * @param name      tweet description
-     * @param url       tweet url
-     * @param volume    tweet volume
+     *
+     * @param name   tweet description
+     * @param url    tweet url
+     * @param volume tweet volume
      */
     public Tweet(String name, String url, String volume) {
         this.mName = name;

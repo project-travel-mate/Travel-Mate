@@ -62,12 +62,7 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         }
 
         // Listener to store flipped page
-        viewHolder.mFlipViewPager.setOnChangePageListener(new FlipViewPager.OnChangePageListener() {
-            @Override
-            public void onFlipped(int page) {
-                mSettings.savePageState(position, page);
-            }
-        });
+        viewHolder.mFlipViewPager.setOnChangePageListener(page -> mSettings.savePageState(position, page));
 
         if (viewHolder.mFlipViewPager.getAdapter() == null) {
             viewHolder.mFlipViewPager.setAdapter(
@@ -84,13 +79,13 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder {
-        FlipViewPager mFlipViewPager;
-    }
-
     protected abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
 
     protected abstract int getPagesCount();
+
+    class ViewHolder {
+        FlipViewPager mFlipViewPager;
+    }
 
     // Adapter merges 2 mItems together
     private class MergeAdapter extends BaseAdapter {

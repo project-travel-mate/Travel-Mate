@@ -43,7 +43,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.DESTINATION_CITY_ID;
 import static utils.Constants.DESTINATION_CITY_LAT;
@@ -63,15 +62,15 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
 
+    private static final String DATEPICKER_TAG = "datepicker";
     @BindView(R.id.pb)
     ProgressBar pb;
     @BindView(R.id.music_list)
-    ListView    lv;
+    ListView lv;
     @BindView(R.id.seldate)
-    TextView    selectdate;
+    TextView selectdate;
     @BindView(R.id.city)
-    TextView    city;
-
+    TextView city;
     private String mSource;
     private String mDestination;
     private String mSourceText;
@@ -79,8 +78,6 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     private String mDeslat;
     private String mDeslon;
     private String mDate = "17-October-2015";
-
-    private static final String DATEPICKER_TAG = "datepicker";
     private SharedPreferences mSharedPreferences;
     private Handler mHandler;
     private DatePickerDialog mDatePickerDialog;
@@ -95,7 +92,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
         ButterKnife.bind(this);
 
-        mHandler    = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSource = mSharedPreferences.getString(SOURCE_CITY_ID, "1");
         mDestination = mSharedPreferences.getString(DESTINATION_CITY_ID, "1");
@@ -142,19 +139,45 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
         mDate = day + "-";
         String monthString;
         switch (month + 1) {
-            case 1: monthString = "January";    break;
-            case 2: monthString = "February";   break;
-            case 3: monthString = "March";      break;
-            case 4: monthString = "April";      break;
-            case 5: monthString = "May";        break;
-            case 6: monthString = "June";       break;
-            case 7: monthString = "July";       break;
-            case 8: monthString = "August";     break;
-            case 9: monthString = "September";  break;
-            case 10:monthString = "October";    break;
-            case 11:monthString = "November";   break;
-            case 12:monthString = "December";   break;
-            default:monthString = "Invalid month"; break;
+            case 1:
+                monthString = "January";
+                break;
+            case 2:
+                monthString = "February";
+                break;
+            case 3:
+                monthString = "March";
+                break;
+            case 4:
+                monthString = "April";
+                break;
+            case 5:
+                monthString = "May";
+                break;
+            case 6:
+                monthString = "June";
+                break;
+            case 7:
+                monthString = "July";
+                break;
+            case 8:
+                monthString = "August";
+                break;
+            case 9:
+                monthString = "September";
+                break;
+            case 10:
+                monthString = "October";
+                break;
+            case 11:
+                monthString = "November";
+                break;
+            case 12:
+                monthString = "December";
+                break;
+            default:
+                monthString = "Invalid month";
+                break;
         }
 
         mDate = mDate + monthString;
@@ -166,7 +189,8 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) { }
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    }
 
     /**
      * Calls API to get hotel list
@@ -196,30 +220,27 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject json = new JSONObject(res);
-                            Log.v("Response", res);
-                            json = json.getJSONObject("results");
-                            JSONArray feedItems = json.getJSONArray("items");
+                mHandler.post(() -> {
+                    try {
+                        JSONObject json = new JSONObject(res);
+                        Log.v("Response", res);
+                        json = json.getJSONObject("results");
+                        JSONArray feedItems = json.getJSONArray("items");
 
-                            Log.v("response", feedItems + " ");
-                            pb.setVisibility(View.GONE);
-                            if (feedItems.length() > 0) {
-                                lv.setAdapter(new HotelsAdapter(Hotels.this, feedItems));
-                            } else {
-                                Toast.makeText(Hotels.this,
-                                        getResources().getString(R.string.no_hotels),
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
+                        Log.v("response", feedItems + " ");
                         pb.setVisibility(View.GONE);
-
+                        if (feedItems.length() > 0) {
+                            lv.setAdapter(new HotelsAdapter(Hotels.this, feedItems));
+                        } else {
+                            Toast.makeText(Hotels.this,
+                                    getResources().getString(R.string.no_hotels),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+                    pb.setVisibility(View.GONE);
+
                 });
             }
         });
@@ -228,10 +249,10 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     @Override
     protected void onResume() {
         super.onResume();
-        mSource =    mSharedPreferences.getString(SOURCE_CITY_ID, "1");
-        mDestination =      mSharedPreferences.getString(DESTINATION_CITY_ID, "1");
-        mSourceText =   mSharedPreferences.getString(SOURCE_CITY, "Delhi");
-        mDestinationText =     mSharedPreferences.getString(DESTINATION_CITY, "Mumbai");
+        mSource = mSharedPreferences.getString(SOURCE_CITY_ID, "1");
+        mDestination = mSharedPreferences.getString(DESTINATION_CITY_ID, "1");
+        mSourceText = mSharedPreferences.getString(SOURCE_CITY, "Delhi");
+        mDestinationText = mSharedPreferences.getString(DESTINATION_CITY, "Mumbai");
         String cityText = "Showing " + mDestinationText + " hotels";
         city.setText(cityText);
         getHotellist();
@@ -243,6 +264,20 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
     private boolean isCloseOnSingleTapDay() {
         return false;
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.city:
+                //TODO :: show a dialog with list of cities
+                break;
+            case R.id.seldate:
+                mDatePickerDialog.setVibrate(isVibrate());
+                mDatePickerDialog.setYearRange(1985, 2028);
+                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
+                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+                break;
+        }
     }
 
     class HotelsAdapter extends BaseAdapter {
@@ -289,64 +324,55 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             LinearLayout call, map, book;
 
             // TODO:: Use butterknife & viewholder
-            TextView title          = vi.findViewById(R.id.VideoTitle);
-            TextView description    = vi.findViewById(R.id.VideoDescription);
-            call                    = vi.findViewById(R.id.call);
-            map                     = vi.findViewById(R.id.map);
-            book                    = vi.findViewById(R.id.book);
+            TextView title = vi.findViewById(R.id.VideoTitle);
+            TextView description = vi.findViewById(R.id.VideoDescription);
+            call = vi.findViewById(R.id.call);
+            map = vi.findViewById(R.id.map);
+            book = vi.findViewById(R.id.book);
 
             try {
                 title.setText(mFeedItems.getJSONObject(position).getString("title"));
                 description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
 
-                call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        try {
-                            intent.setData(Uri.parse("tel:" +
-                                    mFeedItems.getJSONObject(position).optString("phone", "000")));
-                            mContext.startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                call.setOnClickListener(view -> {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    try {
+                        intent.setData(Uri.parse("tel:" +
+                                mFeedItems.getJSONObject(position).optString("phone", "000")));
+                        mContext.startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
-                map.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserIntent;
-                        try {
-                            Double latitude = Double.parseDouble(
-                                    mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                            Double longitude = Double.parseDouble(
-                                    mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+                map.setOnClickListener(view -> {
+                    Intent browserIntent;
+                    try {
+                        Double latitude = Double.parseDouble(
+                                mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
+                        Double longitude = Double.parseDouble(
+                                mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
 
-                            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
-                                    mFeedItems.getJSONObject(position).getString("title") +
-                                    "+(name)+@" + latitude +
-                                    "," + longitude));
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
+                                mFeedItems.getJSONObject(position).getString("title") +
+                                "+(name)+@" + latitude +
+                                "," + longitude));
 
-                            mContext.startActivity(browserIntent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-                book.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserIntent = null;
-                        try {
-                            browserIntent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(mFeedItems.getJSONObject(position).getString("href")));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                         mContext.startActivity(browserIntent);
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
+                });
+                book.setOnClickListener(view -> {
+                    Intent browserIntent = null;
+                    try {
+                        browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(mFeedItems.getJSONObject(position).getString("href")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    mContext.startActivity(browserIntent);
+
                 });
 
             } catch (JSONException e) {
@@ -354,20 +380,6 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                 Log.e("ERROR : ", "Message : " + e.getMessage());
             }
             return vi;
-        }
-    }
-
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.city :
-                //TODO :: show a dialog with list of cities
-                break;
-            case R.id.seldate :
-                mDatePickerDialog.setVibrate(isVibrate());
-                mDatePickerDialog.setYearRange(1985, 2028);
-                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
-                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
-                break;
         }
     }
 }

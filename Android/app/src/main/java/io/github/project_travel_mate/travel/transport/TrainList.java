@@ -43,6 +43,7 @@ public class TrainList extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
 
+    private static final String DATEPICKER_TAG = "datepicker";
     @BindView(R.id.pb)
     ProgressBar progressBar;
     @BindView(R.id.music_list)
@@ -51,12 +52,9 @@ public class TrainList extends AppCompatActivity implements
     TextView city;
     @BindView(R.id.seldate)
     TextView selectdate;
-
     private String mDate = "17-10";
     private String mSource;
     private String mDestination;
-
-    private static final String DATEPICKER_TAG = "datepicker";
     private SharedPreferences mSharedPreferences;
     private Handler mHandler;
     private com.fourmob.datetimepicker.date.DatePickerDialog mDatePickerDialog;
@@ -71,11 +69,11 @@ public class TrainList extends AppCompatActivity implements
 
         ButterKnife.bind(this);
 
-        mHandler                    = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
         mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
-        String cityText             = mSource + " to " + mDestination;
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
         selectdate.setText(mDate);
 
@@ -125,7 +123,8 @@ public class TrainList extends AppCompatActivity implements
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) { }
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    }
 
     /**
      * Calls API to get train list
@@ -156,21 +155,18 @@ public class TrainList extends AppCompatActivity implements
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject feed = new JSONObject(String.valueOf(res));
-                            JSONArray feedItems = feed.getJSONArray("trains");
+                mHandler.post(() -> {
+                    try {
+                        JSONObject feed = new JSONObject(String.valueOf(res));
+                        JSONArray feedItems = feed.getJSONArray("trains");
 
-                            Log.v("RESPONSE", "Message : " + feedItems);
-                            progressBar.setVisibility(View.GONE);
-                            listView.setAdapter(new TrainAdapter(TrainList.this, feedItems));
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-
+                        Log.v("RESPONSE", "Message : " + feedItems);
+                        progressBar.setVisibility(View.GONE);
+                        listView.setAdapter(new TrainAdapter(TrainList.this, feedItems));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+
                 });
             }
         });
@@ -181,7 +177,7 @@ public class TrainList extends AppCompatActivity implements
         super.onResume();
         mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
         mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
-        String cityText         = mSource + " to " + mDestination;
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
 
         getTrainlist();
@@ -190,10 +186,10 @@ public class TrainList extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.city :
+            case R.id.city:
                 //TODO :: show a dialog with list of cities
                 break;
-            case R.id.seldate :
+            case R.id.seldate:
                 mDatePickerDialog.setVibrate(isVibrate());
                 mDatePickerDialog.setYearRange(1985, 2028);
                 mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
