@@ -85,7 +85,7 @@ public class CityFragment extends Fragment {
         mHandler    = new Handler(Looper.getMainLooper());
         cityname.setThreshold(1);
 
-        if (appConnectivity.isOnline()) {
+        if (mConnectivity.isOnline()) {
             pb.setVisibility(View.VISIBLE);
             getCity();
         } else {
