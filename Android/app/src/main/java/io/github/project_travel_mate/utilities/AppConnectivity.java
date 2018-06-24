@@ -8,15 +8,15 @@ public class AppConnectivity {
 
     Context context;
 
-    public AppConnectivity(Context context){
+    public AppConnectivity(Context context) {
         this.context = context;
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
-        try{
+        try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue=ipProcess.waitFor();
+            int exitValue = ipProcess.waitFor();
             return (exitValue == 0);
 
         } catch (IOException e) {
