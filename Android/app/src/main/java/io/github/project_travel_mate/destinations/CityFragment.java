@@ -25,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.rey.material.widget.SnackBar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -66,14 +65,14 @@ public class CityFragment extends Fragment {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
-    private AppConnectivity appConnectivity;
+    private AppConnectivity mConnectivity;
 
     public CityFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        appConnectivity = new AppConnectivity(getContext());
+        mConnectivity = new AppConnectivity(getContext());
 
 
         View view = inflater.inflate(R.layout.content_citylist, container, false);
