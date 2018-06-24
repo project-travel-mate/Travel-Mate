@@ -95,6 +95,9 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleDrawable="@drawable/icon_selector"
+                    app:passwordToggleTint="@color/white"
                     android:textColorHint="#ffffff">
 
                     <EditText
@@ -173,6 +176,9 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleDrawable="@drawable/icon_selector"
+                    app:passwordToggleTint="@color/white"
                     android:textColorHint="#ffffff">
 
                     <EditText
