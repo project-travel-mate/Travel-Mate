@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import butterknife.OnTextChanged;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfo;
+import io.github.project_travel_mate.utilities.AppConnectivity;
 import objects.City;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,12 +63,14 @@ public class CityFragment extends Fragment {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
+    private AppConnectivity mConnectivity;
 
     public CityFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mConnectivity = new AppConnectivity(getContext());
         View view = inflater.inflate(R.layout.content_citylist, container, false);
 
         ButterKnife.bind(this, view);
@@ -81,7 +85,13 @@ public class CityFragment extends Fragment {
         mHandler    = new Handler(Looper.getMainLooper());
         cityname.setThreshold(1);
 
-        getCity();
+        if (mConnectivity.isOnline()) {
+            pb.setVisibility(View.VISIBLE);
+            getCity();
+        } else {
+            final Snackbar snackbar = Snackbar.make(view, R.string.internet_connectivity, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
         return view;
     }
