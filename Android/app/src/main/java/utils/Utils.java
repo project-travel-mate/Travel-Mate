@@ -47,7 +47,7 @@ public class Utils {
     //is network available?
     public static boolean isNetworkAvailable(Activity a) {
         ConnectivityManager connectivityManager = (ConnectivityManager)
-                                                    a.getSystemService(Context.CONNECTIVITY_SERVICE);
+                a.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

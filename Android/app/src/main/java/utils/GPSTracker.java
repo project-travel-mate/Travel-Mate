@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,19 +22,15 @@ import java.util.Objects;
  */
 public class GPSTracker extends Service implements LocationListener {
 
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
     private final Context mContext;
-
     private boolean mCanGetLocation = false;
-
     private Location mLocation; // mLocation
     private double mLatitude; // mLatitude
     private double mLongitude; // mLongitude
-
-    // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
 
     public GPSTracker() {
         this.mContext = null;
@@ -136,6 +131,7 @@ public class GPSTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
+
     public double getLatitude() {
         if (mLocation != null) {
             mLatitude = mLocation.getLatitude();
@@ -147,7 +143,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     /**
      * Function to get mLongitude
-     * */
+     */
     public double getLongitude() {
         if (mLocation != null) {
             mLongitude = mLocation.getLongitude();
@@ -164,7 +160,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     /**
      * Function to show settings alert dialog
-     * */
+     */
     public void showSettingsAlert() {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
@@ -178,21 +174,13 @@ public class GPSTracker extends Service implements LocationListener {
         //alertDialog.setIcon(R.drawable.delete);
 
         // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
-            }
+        alertDialog.setPositiveButton("Settings", (dialog, which) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            mContext.startActivity(intent);
         });
 
         // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-
-            }
-        });
+        alertDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         // Showing Alert Message
         alertDialog.show();

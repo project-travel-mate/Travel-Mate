@@ -19,8 +19,8 @@ import static utils.Constants.API_LINK_V2;
  */
 
 class FinalCityInfoPresenter {
-    private FinalCityInfoView   mFinalCityInfoView;
-    private final OkHttpClient  mOkHttpClient;
+    private final OkHttpClient mOkHttpClient;
+    private FinalCityInfoView mFinalCityInfoView;
 
     FinalCityInfoPresenter() {
         mOkHttpClient = new OkHttpClient();
@@ -32,8 +32,9 @@ class FinalCityInfoPresenter {
 
     /**
      * Calls the API & fetch details of the weather of city with given name
+     *
      * @param cityName the city id
-     * @param token authentication token
+     * @param token    authentication token
      */
     public void fetchCityInfo(String cityName, String token) {
         mFinalCityInfoView.showProgress();

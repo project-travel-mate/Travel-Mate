@@ -35,14 +35,6 @@ import static utils.Constants.USER_TOKEN;
  */
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
-    private Typeface mCode;
-    private Typeface mCodeBold;
-    private MaterialDialog mDialog;
-    private Handler mHandler;
-
-    private City mCity;
-    private String mToken;
-
     @BindView(R.id.temp)
     TextView temp;
     @BindView(R.id.humidit)
@@ -69,7 +61,12 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     LinearLayout shopp;
     @BindView(R.id.trends)
     LinearLayout trend;
-
+    private Typeface mCode;
+    private Typeface mCodeBold;
+    private MaterialDialog mDialog;
+    private Handler mHandler;
+    private City mCity;
+    private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
 
     @Override
@@ -213,9 +210,9 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
      *
-     * @param iconUrl     - mImage url
-     * @param tempText        - current temperature of requested city
-     * @param humidityText    - current humidity of requested city
+     * @param iconUrl            - mImage url
+     * @param tempText           - current temperature of requested city
+     * @param humidityText       - current humidity of requested city
      * @param weatherDescription - weather information of requested city
      */
     @Override
@@ -223,14 +220,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                             final String tempText,
                             final String humidityText,
                             final String weatherDescription) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
-                temp.setText(tempText);
-                humidity.setText(humidityText);
-                weatherinfo.setText(weatherDescription);
-            }
+        mHandler.post(() -> {
+            Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
+            temp.setText(tempText);
+            humidity.setText(humidityText);
+            weatherinfo.setText(weatherDescription);
         });
     }
 

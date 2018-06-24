@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class City implements Serializable {
 
+    private final List<String> mInterests = new ArrayList<>();
     private String mAvatar;
     private String mNickname;
     private String mDescription;
@@ -17,19 +18,18 @@ public class City implements Serializable {
     private String mLatitude;
     private String mLongitude;
     private int mBackground;
-    private final List<String> mInterests = new ArrayList<>();
 
     /**
      * Instantiates city object
      *
-     * @param id         unique id for a city
-     * @param avatar     city image
-     * @param nickname   city name
-     * @param description   city description
-     * @param background Background color when card is opened
-     * @param lat        latitude of city
-     * @param lon        longitude of city
-     * @param interest   list of items when string is opened
+     * @param id          unique id for a city
+     * @param avatar      city image
+     * @param nickname    city name
+     * @param description city description
+     * @param background  Background color when card is opened
+     * @param lat         latitude of city
+     * @param lon         longitude of city
+     * @param interest    list of items when string is opened
      */
     public City(String id, String avatar, String nickname, String description,
                 int background, String lat, String lon, String... interest) {
@@ -43,7 +43,7 @@ public class City implements Serializable {
         mInterests.addAll(Arrays.asList(interest));
     }
 
-    public City( String mId, String mAvatar, String mNickname) {
+    public City(String mId, String mAvatar, String mNickname) {
         this.mAvatar = mAvatar;
         this.mNickname = mNickname;
         this.mId = mId;

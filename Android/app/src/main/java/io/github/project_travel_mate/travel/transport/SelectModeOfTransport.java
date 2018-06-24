@@ -68,10 +68,12 @@ public class SelectModeOfTransport extends AppCompatActivity implements CardView
     public void onItemClick(int position) {
         Intent i;
         switch (position) {
-            case 0: i = new Intent(SelectModeOfTransport.this, TrainList.class);
+            case 0:
+                i = new Intent(SelectModeOfTransport.this, TrainList.class);
                 startActivity(i);
                 break;
-            case 1: i = new Intent(SelectModeOfTransport.this, CarDirections.class);
+            case 1:
+                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
                 startActivity(i);
                 break;
         }

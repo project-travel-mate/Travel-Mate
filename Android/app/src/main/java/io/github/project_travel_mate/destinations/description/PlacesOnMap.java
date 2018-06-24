@@ -74,10 +74,10 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
         ButterKnife.bind(this);
 
-        Intent intent   = getIntent();
+        Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
-        String type     = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
-        mHandler        = new Handler(Looper.getMainLooper());
+        String type = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
+        mHandler = new Handler(Looper.getMainLooper());
 
         setTitle(mCity.getNickname());
 
@@ -147,7 +147,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         // to fetch city names
         String uri = HERE_API_LINK + "?at=" + mCity.getLatitude() + "," + mCity.getLongitude() + "&mode=" + mMode
                 + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
-        Log.v("executing", "URI : " + uri );
+        Log.v("executing", "URI : " + uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -167,23 +167,20 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
                 final String res = Objects.requireNonNull(response.body()).string();
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject feed = new JSONObject(res);
-                            feed = feed.getJSONObject("results");
+                mHandler.post(() -> {
+                    try {
+                        JSONObject feed = new JSONObject(res);
+                        feed = feed.getJSONObject("results");
 
-                            JSONArray feedItems = feed.getJSONArray("items");
-                            Log.v("response", feedItems.toString());
+                        JSONArray feedItems = feed.getJSONArray("items");
+                        Log.v("response", feedItems.toString());
 
-                            twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMap.this, feedItems, mIcon));
+                        twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMap.this, feedItems, mIcon));
 
-                            mProgressDialog.dismiss();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR : ", "Message : " + e.getMessage());
-                        }
+                        mProgressDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
                     }
                 });
 
@@ -217,8 +214,8 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         final Context mContext;
         final JSONArray mFeedItems;
         final int mRd;
-        LinearLayout mLinearLayout;
         private final LayoutInflater mInflater;
+        LinearLayout mLinearLayout;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
             this.mContext = context;
@@ -272,51 +269,42 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
             ImageView iv = view.findViewById(R.id.image);
             iv.setImageResource(mRd);
 
-            onmap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            onmap.setOnClickListener(view12 -> {
 
-                    Intent browserIntent;
-                    try {
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
-                                mFeedItems.getJSONObject(position).getString("name") +
-                                "+(name)+@" +
-                                mFeedItems.getJSONObject(position).getString("lat") +
-                                "," +
-                                mFeedItems.getJSONObject(position).getString("lng")
-                        ));
-                        mContext.startActivity(browserIntent);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-
-            mLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent;
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"));
+                Intent browserIntent;
+                try {
+                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
+                            mFeedItems.getJSONObject(position).getString("name") +
+                            "+(name)+@" +
+                            mFeedItems.getJSONObject(position).getString("lat") +
+                            "," +
+                            mFeedItems.getJSONObject(position).getString("lng")
+                    ));
                     mContext.startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             });
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mGoogleMap.clear();
-                    try {
-                        Double latitude = Double.parseDouble(
-                                mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                        Double longitude = Double.parseDouble(
-                                mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
-                        showMarker(latitude,
-                                longitude,
-                                mFeedItems.getJSONObject(position).getString("name"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            mLinearLayout.setOnClickListener(view1 -> {
+                Intent browserIntent;
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"));
+                mContext.startActivity(browserIntent);
+            });
+
+            view.setOnClickListener(v -> {
+                mGoogleMap.clear();
+                try {
+                    Double latitude = Double.parseDouble(
+                            mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
+                    Double longitude = Double.parseDouble(
+                            mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+                    showMarker(latitude,
+                            longitude,
+                            mFeedItems.getJSONObject(position).getString("name"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             });
             return view;

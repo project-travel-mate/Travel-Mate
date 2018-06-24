@@ -35,7 +35,7 @@ public class FunFact implements Serializable {
                 factsArray.add(fact1);
             }
         }
-        return  factsArray;
+        return factsArray;
     }
 
     public String getTitle() {

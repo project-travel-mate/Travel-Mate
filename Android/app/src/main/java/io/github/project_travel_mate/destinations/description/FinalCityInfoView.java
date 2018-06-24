@@ -6,11 +6,17 @@ package io.github.project_travel_mate.destinations.description;
 
 interface FinalCityInfoView {
     void onPause();
+
     void onResume();
+
     void onStart();
+
     void onStop();
+
     void showProgress();
+
     void dismissProgress();
+
     void parseResult(String iconUrl,
                      String temp,
                      String humidity,
