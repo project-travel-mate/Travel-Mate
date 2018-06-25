@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,6 +68,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
+    private static final int REQUEST_LOCATION = 199;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +198,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
+            tracker.displayLocationRequest(this);
         } else {
             String curlat = Double.toString(tracker.getLatitude());
             String curlon = Double.toString(tracker.getLongitude());
@@ -308,6 +311,28 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 }
             });
             return view;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_LOCATION:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        //User agreed to make required location settings changes
+                        //startLocationUpdates();
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_enabled, Toast.LENGTH_LONG).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        //User chose not to make required location settings changes
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_not_enabled, Toast.LENGTH_LONG);
+                        break;
+                }
+                break;
         }
     }
 }

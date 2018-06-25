@@ -91,6 +91,8 @@
     <string name="source_dest_set">Source and destination set</string>
     <string name="internet_connectivity">No Internet Connectivity</string>
     <string name="passwords_check">Passwords do not match!</string>
+    <string name="location_enabled">Location enabled</string>
+    <string name="location_not_enabled">Location not enabled</string>
 
     <!-- Car direction strings -->
     <string name="car1">Hatchback</string>
