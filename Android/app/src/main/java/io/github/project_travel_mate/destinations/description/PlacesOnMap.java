@@ -1,14 +1,17 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +23,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,6 +78,10 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
+    private static final int REQUEST_LOCATION = 199;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private PendingResult<LocationSettingsResult> mPendingResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +211,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
+            displayLocationRequest(getApplicationContext());
         } else {
             String curlat = Double.toString(tracker.getLatitude());
             String curlon = Double.toString(tracker.getLongitude());
@@ -308,6 +324,68 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 }
             });
             return view;
+        }
+    }
+
+    private void displayLocationRequest(Context context) {
+        mGoogleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000 / 2);
+
+        LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+        mBuilder.setAlwaysShow(true);
+
+        mPendingResult = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
+        mPendingResult.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+                final Status mStatus = locationSettingsResult.getStatus();
+                switch (mStatus.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        //All location settings are satisfied
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        //Display dialog to update location settings
+                        try {
+                            mStatus.startResolutionForResult(PlacesOnMap.this, REQUEST_LOCATION);
+                        } catch (IntentSender.SendIntentException e) {
+                            //Unable to execute request
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        //Dialog cannot be displayed
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_LOCATION:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        //User agreed to make required location settings changes
+                        //startLocationUpdates();
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_enabled, Toast.LENGTH_LONG).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        //User chose not to make required location settings changes
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_not_enabled, Toast.LENGTH_LONG);
+                        break;
+                }
+                break;
         }
     }
 }
