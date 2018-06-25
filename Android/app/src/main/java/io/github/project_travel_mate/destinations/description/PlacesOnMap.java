@@ -339,7 +339,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(10000 / 2);
 
         LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder()
-            .addLocationRequest(mLocationRequest);
+                .addLocationRequest(mLocationRequest);
         mBuilder.setAlwaysShow(true);
 
         mPendingResult = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
