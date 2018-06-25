@@ -114,7 +114,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         // Get user's current location
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
+            tracker.displayLocationRequest(this);
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
