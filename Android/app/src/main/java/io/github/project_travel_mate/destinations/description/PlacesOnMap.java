@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -79,11 +78,10 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
-    private static final int REQUEST_LOCATION=199;
+    private static final int REQUEST_LOCATION = 199;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private PendingResult<LocationSettingsResult> mPendingResult;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,7 +338,8 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(10000 / 2);
 
-        LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
+        LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder()
+            .addLocationRequest(mLocationRequest);
         mBuilder.setAlwaysShow(true);
 
         mPendingResult = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
