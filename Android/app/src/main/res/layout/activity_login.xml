@@ -192,6 +192,25 @@
                         android:textColorHint="#ffffff" />
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleDrawable="@drawable/icon_selector"
+                    app:passwordToggleTint="@color/white"
+                    android:textColorHint="#ffffff">
+
+                    <EditText
+                        android:id="@+id/input_confirm_pass_signup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/confirm_password"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff" />
+                </android.support.design.widget.TextInputLayout>
+
 
                 <com.dd.processbutton.FlatButton
                     android:id="@+id/ok_signup"

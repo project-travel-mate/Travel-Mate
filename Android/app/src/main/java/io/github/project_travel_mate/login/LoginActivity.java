@@ -53,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText email_signup;
     @BindView(R.id.input_pass_signup)
     EditText pass_signup;
+    @BindView(R.id.input_confirm_pass_signup)
+    EditText confirm_pass_signup;
     @BindView(R.id.input_name_signup)
     EditText name;
     @BindView(R.id.ok_login)
@@ -129,8 +131,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_signup:
                 emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
+                String confirmPassString = confirm_pass_signup.getText().toString();
                 String nameString = name.getText().toString();
-                mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
+                if (passString.equals(confirmPassString)) {
+                    mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
+                } else {
+                    Toast.makeText(this, R.string.passwords_check,
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

@@ -27,6 +27,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="email_id">Email id</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
@@ -91,6 +92,7 @@
     <string name="internet_connectivity">No Internet Connectivity</string>
     <string name="location_enabled">Location enabled</string>
     <string name="location_not_enabled">Location not enabled</string>
+    <string name="passwords_check">Passwords do not match!</string>
 
     <!-- Car direction strings -->
     <string name="car1">Hatchback</string>
