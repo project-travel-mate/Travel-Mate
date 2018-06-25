@@ -90,6 +90,8 @@
     <string name="source_dest_cant_be_same">Source and destination cannot be same</string>
     <string name="source_dest_set">Source and destination set</string>
     <string name="internet_connectivity">No Internet Connectivity</string>
+    <string name="location_enabled">Location enabled</string>
+    <string name="location_not_enabled">Location not enabled</string>
     <string name="passwords_check">Passwords do not match!</string>
 
     <!-- Car direction strings -->
