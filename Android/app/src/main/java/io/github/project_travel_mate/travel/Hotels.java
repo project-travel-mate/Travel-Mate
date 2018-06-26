@@ -234,12 +234,9 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city:
-
                 Intent i = new Intent(Hotels.this, CityFragment.class);
                 startActivity(i);
-
                //TODO :: show a dialog with list of cities
-
                 break;
             case R.id.seldate:
                 mDatePickerDialog.setVibrate(isVibrate());
@@ -347,6 +344,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        mContext.startActivity(browserIntent);
                     }
                 });
 
@@ -357,6 +355,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             }
             return convertView;
         }
+
 
 
         class ViewHolder {
@@ -377,4 +376,5 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
         }
     }
 
-}
+    }
+
