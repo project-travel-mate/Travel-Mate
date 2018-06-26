@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="io.github.project_travel_mate.utilities.Checklist"
@@ -47,8 +46,8 @@
             android:background="@color/colorAccent" />
 
         <ListView
-            android:id="@+id/lv"
-            android:layout_width="fill_parent"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:divider="@null" />

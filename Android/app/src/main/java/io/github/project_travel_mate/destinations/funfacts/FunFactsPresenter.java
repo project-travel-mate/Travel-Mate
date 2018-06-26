@@ -7,15 +7,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
+import objects.FunFact;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
+import static objects.FunFact.createFunFactList;
+import static utils.Constants.API_LINK_V2;
 
 /**
  * Created by niranjanb on 14/06/17.
@@ -23,26 +26,31 @@ import static utils.Constants.API_LINK;
 
 class FunFactsPresenter {
     private final FunFactsView mFunFactsView;
-
-    public FunFactsPresenter(FunFactsView funFactsView) {
+    private ArrayList<String> mFactsText;
+    private ArrayList<String> mImages;
+    FunFactsPresenter(FunFactsView funFactsView) {
         mFunFactsView = funFactsView;
     }
 
-    public void initPresenter(String id) {
-        getCityFacts(id);
+    public void initPresenter(String id, String token) {
+        mFunFactsView.showProgressDialog();
+        mFactsText = new ArrayList<>();
+        mImages = new ArrayList<>();
+        getCityFacts(id, token);
     }
 
     // Fetch fun facts about city
-    private void getCityFacts(String id) {
-        mFunFactsView.showProgressDialog();
+    private void getCityFacts(final String id, final String token) {
 
         // to fetch city names
-        String uri = API_LINK + "city_facts.php?id=" + id;
+        String uri = API_LINK_V2 + "get-city-facts/" + id;
+        Log.v("EXECUTING", uri );
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + token)
                 .url(uri)
                 .build();
         //Setup callback
@@ -50,7 +58,44 @@ class FunFactsPresenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                mFunFactsView.hideProgressDialog();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+                try {
+                    JSONArray array = new JSONArray(res);
+                    for (int i = 0; i < array.length(); i++) {
+                        mFactsText.add(array.getJSONObject(i).getString("fact"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getCityImages(id, token);
+            }
+        });
+    }
+
+
+    // Fetch images of a city
+    private void getCityImages(String id, String token) {
+
+        // to fetch city names
+        String uri = API_LINK_V2 + "get-city-images/" + id;
+        Log.v("EXECUTING", uri );
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + token)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
             }
 
             @Override
@@ -58,15 +103,19 @@ class FunFactsPresenter {
                 final String res = Objects.requireNonNull(response.body()).string();
 
                 try {
-                    JSONObject ob = new JSONObject(res);
-                    JSONArray ar = ob.getJSONArray("facts");
-                    mFunFactsView.setupViewPager(ar);
+                    JSONArray array = new JSONArray(res);
+                    for (int i = 0; i < array.length(); i++) {
+                        mImages.add(array.getJSONObject(i).getString("image"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    mFunFactsView.hideProgressDialog();
                 }
+
+                ArrayList<FunFact> funFacts = createFunFactList(mFactsText, mImages);
+                mFunFactsView.setupViewPager(funFacts);
                 mFunFactsView.hideProgressDialog();
             }
         });
+
     }
 }

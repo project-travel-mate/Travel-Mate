@@ -122,32 +122,26 @@ class TrainAdapter extends BaseAdapter {
 
             }
 
-            more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent = null;
-                    try {
-                        browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("https://www.cleartrip.com/trains/" +
-                                        mFeedItems.getJSONObject(position).getString("train_number")));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                    mContext.startActivity(browserIntent);
-
+            more.setOnClickListener(view -> {
+                Intent browserIntent = null;
+                try {
+                    browserIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://www.cleartrip.com/trains/" +
+                                    mFeedItems.getJSONObject(position).getString("train_number")));
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
                 }
+                mContext.startActivity(browserIntent);
+
             });
-            book.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("https://www.cleartrip.com/trains/" +
-                                        mFeedItems.getJSONObject(position).getString("train_number")));
-                        mContext.startActivity(intent);
-                    } catch (JSONException e12) {
-                        e12.printStackTrace();
-                    }
+            book.setOnClickListener(view -> {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://www.cleartrip.com/trains/" +
+                                    mFeedItems.getJSONObject(position).getString("train_number")));
+                    mContext.startActivity(intent);
+                } catch (JSONException e12) {
+                    e12.printStackTrace();
                 }
             });
         } catch (JSONException e) {

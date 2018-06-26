@@ -29,23 +29,19 @@ public class Checklist extends AppCompatActivity {
         fragment = new ChecklistFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
-        setTitle("Check List");
+        setTitle(getResources().getString(R.string.text_checklist));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //menu item selected
         switch (item.getItemId()) {
-
             case android.R.id.home:
                 finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

@@ -3,18 +3,18 @@ package utils;
 /**
  * Shows three Tabs with options to Scan, Decode and Encode QR codes using
  * services provided by "QR Droid"
- * 
+ * <p>
  * _________________________________________________________________________________
  * This is part of "QRDroidServices", by DroidLa. If you're creating an Android app
  * which uses one or more services provided by "QR Droid", you can use this code for
  * free, and modify it as you need, for personal and commercial use.
- * 
+ * <p>
  * Any other use of this code is forbidden.
- * 
+ *
  * @author DroidLa
  * @version 1.0
  */
-public class Services  {
+public class Services {
     //Actions
     public static final String SCAN = "la.droid.qr.scan";
     public static final String ENCODE = "la.droid.qr.encode";
@@ -24,10 +24,10 @@ public class Services  {
     //SCAN / DECODE
     public static final String COMPLETE = "la.droid.qr.complete"; //Default: false
     //ENCODE
-    public static final String CODE =  "la.droid.qr.code"; //Required
+    public static final String CODE = "la.droid.qr.code"; //Required
     public static final String SIZE = "la.droid.qr.size"; //Default: Fit screen
     //ENCODE / DECODE
-    public static final String IMAGE =  "la.droid.qr.image"; //Default for encode: false / Required for decode
+    public static final String IMAGE = "la.droid.qr.image"; //Default for encode: false / Required for decode
 
     //Result
 

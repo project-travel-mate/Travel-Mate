@@ -3,17 +3,19 @@ package io.github.project_travel_mate.destinations;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -22,7 +24,6 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import butterknife.OnTextChanged;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfo;
+import io.github.project_travel_mate.utilities.AppConnectivity;
 import objects.City;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,66 +44,77 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
-import static utils.Constants.EXTRA_MESSAGE_ID;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE;
-import static utils.Constants.EXTRA_MESSAGE_NAME;
+import static utils.Constants.API_LINK_V2;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
+import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment {
 
     @BindView(R.id.cityname)
-    AutoCompleteTextView    cityname;
+    AutoCompleteTextView cityname;
     @BindView(R.id.pb)
-    ProgressBar             pb;
+    ProgressBar pb;
     @BindView(R.id.music_list)
-    ListView                lv;
-
-    private final List<String> mImage = new ArrayList<>();
+    ListView lv;
 
     private String mNameyet;
     private String mCityid;
     private Activity mActivity;
     private Handler mHandler;
+    private String mToken;
+    private AppConnectivity mConnectivity;
 
-    public CityFragment() {}
+    public CityFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mConnectivity = new AppConnectivity(getContext());
         View view = inflater.inflate(R.layout.content_citylist, container, false);
 
         ButterKnife.bind(this, view);
 
         // Hide keyboard
-        InputMethodManager imm  = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
 
-        mHandler    = new Handler(Looper.getMainLooper());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
+
+        mHandler = new Handler(Looper.getMainLooper());
         cityname.setThreshold(1);
 
-        getCity();
+        if (mConnectivity.isOnline()) {
+            pb.setVisibility(View.VISIBLE);
+            getCity();
+        } else {
+            final Snackbar snackbar = Snackbar.make(view, R.string.internet_connectivity, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
         return view;
     }
 
-    @OnTextChanged(R.id.cityname) void onTextChanged() {
+    @OnTextChanged(R.id.cityname)
+    void onTextChanged() {
         mNameyet = cityname.getText().toString();
-        if (!mNameyet.contains(" ")) {
-            tripAutoComplete();
+        if (!mNameyet.contains(" ") && mNameyet.length() % 3 == 0) {
+            cityAutoComplete();
         }
     }
 
-    private void tripAutoComplete() {
+    private void cityAutoComplete() {
 
         // to fetch city names
-        String uri = API_LINK +
-                "city/autocomplete.php?search=" + mNameyet.trim();
-        Log.v("executing", uri);
+        String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -114,50 +127,42 @@ public class CityFragment extends Fragment {
             @Override
             public void onResponse(Call call, final Response response) {
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONArray arr;
-                        final ArrayList name, id;
-                        try {
-                            arr = new JSONArray(Objects.requireNonNull(response.body()).string());
-                            Log.v("RESPONSE : ", arr.toString());
+                mHandler.post(() -> {
+                    JSONArray arr;
+                    final ArrayList<City> cities;
+                    final ArrayList<String> citynames;
+                    try {
+                        arr = new JSONArray(Objects.requireNonNull(response.body()).string());
+                        Log.v("RESPONSE : ", arr.toString());
 
-                            name = new ArrayList<>();
-                            id = new ArrayList<>();
-                            for (int i = 0; i < arr.length(); i++) {
-                                try {
-                                    name.add(arr.getJSONObject(i).getString("name"));
-                                    id.add(arr.getJSONObject(i).getString("id"));
-                                    mImage.add(arr.getJSONObject(i).optString("image", "http://i.ndtvimg.com/i/2015-12/delhi-pollution-traffic-cars-afp_650x400_71451565121.jpg"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                        cities = new ArrayList<>();
+                        citynames = new ArrayList<>();
+                        for (int i = 0; i < arr.length(); i++) {
+                            try {
+                                cities.add(new City(arr.getJSONObject(i).getString("id"),
+                                        arr.getJSONObject(i).getString("image"),
+                                        arr.getJSONObject(i).getString("city_name")));
+                                citynames.add(arr.getJSONObject(i).getString("city_name"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            ArrayAdapter<String> dataAdapter =
-                                    new ArrayAdapter<>(
-                                            mActivity.getApplicationContext(), R.layout.spinner_layout, name);
-                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            cityname.setThreshold(1);
-                            cityname.setAdapter(dataAdapter);
-                            cityname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                @Override
-                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    mCityid = id.get(arg2).toString();
-                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
-                                    i.putExtra(EXTRA_MESSAGE_ID, mCityid);
-                                    i.putExtra(EXTRA_MESSAGE_NAME, name.get(arg2).toString());
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, mImage.get(arg2));
-                                    startActivity(i);
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR", "Message : " + e.getMessage());
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
+                        ArrayAdapter<String> dataAdapter =
+                                new ArrayAdapter<>(
+                                        mActivity.getApplicationContext(), R.layout.spinner_layout, citynames);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        cityname.setThreshold(1);
+                        cityname.setAdapter(dataAdapter);
+                        cityname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                            Intent intent = new Intent(mActivity, FinalCityInfo.class);
+                            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, cities.get(arg2));
+                            startActivity(intent);
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR", "Message : " + e.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 });
 
@@ -167,14 +172,15 @@ public class CityFragment extends Fragment {
 
     private void getCity() {
 
-        // to fetch city names
-        String uri = API_LINK + "all-cities.php";
-        Log.v("EXECUTING", uri );
+        // to fetch 6 city names
+        String uri = API_LINK_V2 + "get-all-cities/6";
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -186,64 +192,44 @@ public class CityFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, final Response response) {
-
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject ob = new JSONObject(Objects.requireNonNull(response.body()).string());
-                            JSONArray ar = ob.getJSONArray("cities");
-                            pb.setVisibility(View.GONE);
-                            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
-                            List<City> friends = new ArrayList<>();
-                            for (int i = 0; i < ar.length(); i++) {
-
-                                double color = Math.random();
-                                int c = (int) (color * 100) % 8;
-
-                                int colo;
-                                switch (c) {
-                                    case 0: colo = R.color.sienna; break;
-                                    case 1: colo = R.color.saffron; break;
-                                    case 2: colo = R.color.green; break;
-                                    case 3: colo = R.color.pink; break;
-                                    case 4: colo = R.color.orange; break;
-                                    case 5: colo = R.color.saffron; break;
-                                    case 6: colo = R.color.purple; break;
-                                    case 7: colo = R.color.blue; break;
-                                    default: colo = R.color.blue; break;
-                                }
-
-                                friends.add(new City(
-                                        ar.getJSONObject(i).getString("id"),
-                                        ar.getJSONObject(i).optString("image", "yolo"),
-                                        ar.getJSONObject(i).getString("name"),
-                                        colo,
-                                        ar.getJSONObject(i).getString("lat"),
-                                        ar.getJSONObject(i).getString("lng"),
-                                        "Know More", "View on Map", "Fun Facts", "View Website"));
-                            }
-
-                            lv.setAdapter(new CityAdapter(mActivity, friends, settings));
-                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id1) {
-                                    City f = (City) lv.getAdapter().getItem(position);
-                                    Toast.makeText(mActivity, f.getmNickname(), Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(mActivity, FinalCityInfo.class);
-                                    i.putExtra(EXTRA_MESSAGE_ID, f.getId());
-                                    i.putExtra(EXTRA_MESSAGE_NAME, f.getmNickname());
-                                    i.putExtra(EXTRA_MESSAGE_IMAGE, f.getmAvatar());
-                                    startActivity(i);
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR", "Message : " + e.getMessage());
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                final int responseCode = response.code();
+                mHandler.post(() -> {
+                    try {
+                        String res = null;
+                        if (response.body() != null) {
+                            res = response.body().string();
                         }
+                        Log.v("RESULT", res);
+                        JSONArray ar = new JSONArray(res);
+                        pb.setVisibility(View.GONE);
+                        FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
+                        List<City> friends = new ArrayList<>();
+                        for (int i = 0; i < ar.length(); i++) {
+                            friends.add(new City(
+                                    ar.getJSONObject(i).getString("id"),
+                                    ar.getJSONObject(i).optString("image"),
+                                    ar.getJSONObject(i).getString("city_name"),
+                                    ar.getJSONObject(i).getString("description"),
+                                    getRandomColor(),
+                                    ar.getJSONObject(i).getString("latitude"),
+                                    ar.getJSONObject(i).getString("longitude"),
+                                    "Know More", "View on Map", "Fun Facts", "View Website"));
+                        }
+
+                        lv.setAdapter(new CityAdapter(mActivity, friends, settings));
+                        lv.setOnItemClickListener((parent, view, position, id1) -> {
+                            City city = (City) lv.getAdapter().getItem(position);
+                            Toast.makeText(mActivity, city.getNickname(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mActivity, FinalCityInfo.class);
+                            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+                            startActivity(intent);
+                        });
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR", "Message : " + e.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 });
             }
@@ -254,5 +240,41 @@ public class CityFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         this.mActivity = (Activity) activity;
+    }
+
+    private int getRandomColor() {
+        double random = Math.random();
+        int randomNum8 = (int) (random * 100) % 8;
+        int color;
+        switch (randomNum8) {
+            case 0:
+                color = R.color.sienna;
+                break;
+            case 1:
+                color = R.color.saffron;
+                break;
+            case 2:
+                color = R.color.green;
+                break;
+            case 3:
+                color = R.color.pink;
+                break;
+            case 4:
+                color = R.color.orange;
+                break;
+            case 5:
+                color = R.color.saffron;
+                break;
+            case 6:
+                color = R.color.purple;
+                break;
+            case 7:
+                color = R.color.blue;
+                break;
+            default:
+                color = R.color.blue;
+                break;
+        }
+        return color;
     }
 }

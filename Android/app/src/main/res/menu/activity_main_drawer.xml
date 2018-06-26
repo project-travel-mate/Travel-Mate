@@ -12,7 +12,7 @@
             android:title="@string/navigation_drawer_travel" />
         <item
             android:id="@+id/nav_utility"
-            android:icon="@drawable/ic_share_black_24dp"
+            android:icon="@drawable/ic_utilities"
             android:title="@string/navigation_drawer_utilities" />
 
 
@@ -21,10 +21,6 @@
     <item android:title="@string/navigation_drawer_extras">
         <menu>
 
-            <item
-                android:id="@+id/nav_changecity"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/navigation_drawer_change_source_dest" />
             <item
                 android:id="@+id/nav_emergency"
                 android:icon="@drawable/ic_announcement_black_24dp"

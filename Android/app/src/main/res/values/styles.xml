@@ -21,9 +21,10 @@
 
 
     <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+        false
+        true
+        true
+        @android:color/transparent</style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -57,6 +58,11 @@
         <item name="android:layout_marginTop">14dp</item>
         <item name="android:layout_marginLeft">14dp</item>
         <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!--AlertDialog SignOut-->
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
 

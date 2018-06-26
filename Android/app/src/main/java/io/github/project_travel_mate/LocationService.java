@@ -34,10 +34,9 @@ import static utils.Constants.DESTINATION_CITY_LON;
 
 public class LocationService extends Service {
     private static final String BROADCAST_ACTION = "Hello World";
+    private final Location mPreviousBestLocation = null;
     private LocationManager mLocationManager;
     private MyLocationListener mListener;
-    private final Location mPreviousBestLocation = null;
-
     private Intent mIntent;
 
     public static Thread performOnBackgroundThread(final Runnable runnable) {
@@ -129,6 +128,7 @@ public class LocationService extends Service {
                 loc.getLatitude();
                 loc.getLongitude();
 
+                // TODO :: Remove NotificationCompat.builder, use something else
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(LocationService.this)
                                 .setSmallIcon(R.drawable.google_travel_logo)

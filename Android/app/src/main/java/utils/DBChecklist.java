@@ -4,14 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import io.github.project_travel_mate.utilities.ChecklistEntry;
+import objects.ChecklistEntry;
 
 /**
  * Created by Swati garg on 30-06-2015.
  * <p>
  * Helper class for database operations on checklist database
  */
-public class DBhelp extends SQLiteOpenHelper {
+public class DBChecklist extends SQLiteOpenHelper {
 
 
     private static final int DATABASE_VERSION = 1;
@@ -28,7 +28,7 @@ public class DBhelp extends SQLiteOpenHelper {
                     " )";
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + ChecklistEntry.TABLE_NAME;
 
-    public DBhelp(Context context) {
+    public DBChecklist(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

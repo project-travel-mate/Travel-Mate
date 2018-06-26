@@ -1,6 +1,5 @@
 package io.github.project_travel_mate.travel.transport;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,14 +28,13 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.SelectCityFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Constants;
 
+import static utils.Constants.API_LINK;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.SOURCE_CITY;
 
@@ -45,6 +43,7 @@ public class TrainList extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
 
+    private static final String DATEPICKER_TAG = "datepicker";
     @BindView(R.id.pb)
     ProgressBar progressBar;
     @BindView(R.id.music_list)
@@ -53,12 +52,9 @@ public class TrainList extends AppCompatActivity implements
     TextView city;
     @BindView(R.id.seldate)
     TextView selectdate;
-
     private String mDate = "17-10";
     private String mSource;
     private String mDestination;
-
-    private static final String DATEPICKER_TAG = "datepicker";
     private SharedPreferences mSharedPreferences;
     private Handler mHandler;
     private com.fourmob.datetimepicker.date.DatePickerDialog mDatePickerDialog;
@@ -73,11 +69,11 @@ public class TrainList extends AppCompatActivity implements
 
         ButterKnife.bind(this);
 
-        mHandler                    = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
         mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
-        String cityText             = mSource + " to " + mDestination;
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
         selectdate.setText(mDate);
 
@@ -127,7 +123,8 @@ public class TrainList extends AppCompatActivity implements
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) { }
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    }
 
     /**
      * Calls API to get train list
@@ -135,7 +132,7 @@ public class TrainList extends AppCompatActivity implements
     private void getTrainlist() {
 
         progressBar.setVisibility(View.VISIBLE);
-        String uri = Constants.API_LINK +
+        String uri = API_LINK +
                 "get-trains.php?src_city=" + mSource +
                 "&dest_city=" + mDestination +
                 "&date=" + mDate;
@@ -158,21 +155,18 @@ public class TrainList extends AppCompatActivity implements
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject feed = new JSONObject(String.valueOf(res));
-                            JSONArray feedItems = feed.getJSONArray("trains");
+                mHandler.post(() -> {
+                    try {
+                        JSONObject feed = new JSONObject(String.valueOf(res));
+                        JSONArray feedItems = feed.getJSONArray("trains");
 
-                            Log.v("RESPONSE", "Message : " + feedItems);
-                            progressBar.setVisibility(View.GONE);
-                            listView.setAdapter(new TrainAdapter(TrainList.this, feedItems));
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-
+                        Log.v("RESPONSE", "Message : " + feedItems);
+                        progressBar.setVisibility(View.GONE);
+                        listView.setAdapter(new TrainAdapter(TrainList.this, feedItems));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+
                 });
             }
         });
@@ -183,7 +177,7 @@ public class TrainList extends AppCompatActivity implements
         super.onResume();
         mSource = mSharedPreferences.getString(SOURCE_CITY, "delhi");
         mDestination = mSharedPreferences.getString(DESTINATION_CITY, "mumbai");
-        String cityText         = mSource + " to " + mDestination;
+        String cityText = mSource + " to " + mDestination;
         city.setText(cityText);
 
         getTrainlist();
@@ -192,11 +186,10 @@ public class TrainList extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.city :
-                Intent i = new Intent(TrainList.this, SelectCityFragment.class);
-                startActivity(i);
+            case R.id.city:
+                //TODO :: show a dialog with list of cities
                 break;
-            case R.id.seldate :
+            case R.id.seldate:
                 mDatePickerDialog.setVibrate(isVibrate());
                 mDatePickerDialog.setYearRange(1985, 2028);
                 mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
