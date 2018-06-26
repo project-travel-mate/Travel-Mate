@@ -12,12 +12,15 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/nav_profile"
+        android:layout_width="74dp"
+        android:layout_height="69dp"
+        android:alpha="1"
+        android:clickable="true"
         android:contentDescription="@string/empty_description"
-        android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:onClick="onClickProfile"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/ic_menu_myplaces" />
+        android:src="@drawable/icon_profile" />
 
     <TextView
         android:layout_width="match_parent"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
+<!-- suppress ALL -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.project_travel_mate">
 
@@ -25,19 +25,19 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:largeHeap="true"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/google_travel_logo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".travel.mytrips.TripImage"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".MainActivity"
@@ -48,8 +48,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_picker" />
 
-        <service android:enabled="true" android:name=".LocationService" />
-        <service android:enabled="true" android:name="utils.GPSTracker" />
+        <service android:name=".LocationService" android:enabled="true" />
+        <service android:name="utils.GPSTracker" android:enabled="true" />
         <activity
             android:name=".utilities.Checklist"
             android:label="@string/title_activity_select_city"
@@ -110,7 +110,7 @@
         <activity android:name=".travel.mytrips.MyTrips" />
         <activity android:name=".travel.mytrips.AddNewTrip" />
         <activity android:name=".travel.mytrips.MyTripInfo" />
-        <activity android:name=".destinations.description.Tweets"/>
+        <activity android:name=".destinations.description.Tweets" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -119,8 +119,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".ProfileActivity"/>
     </application>
 
 </manifest>

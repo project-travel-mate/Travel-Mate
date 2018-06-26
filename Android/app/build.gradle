@@ -38,6 +38,7 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
 
     implementation 'com.squareup.okhttp3:okhttp:3.9.0'
