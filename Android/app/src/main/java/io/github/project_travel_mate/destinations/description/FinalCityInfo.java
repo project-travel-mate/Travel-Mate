@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -93,8 +94,10 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     }
 
     private void initPresenter() {
+        showProgress();
         mFinalCityInfoPresenter.attachView(this);
-        mFinalCityInfoPresenter.fetchCityInfo(mCity.getNickname(), mToken);
+        mFinalCityInfoPresenter.fetchCityWeather(mCity.getNickname(), mToken);
+        mFinalCityInfoPresenter.fetchCityInfo(mCity.getId(), mToken);
     }
 
     /**
@@ -102,11 +105,14 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
      * received from previous intent
      */
     private void initUi() {
-        des.setText(mCity.getDescription());
         setTitle(mCity.getNickname());
         title.setTypeface(mCodeBold);
         title.setText(mCity.getNickname());
         Picasso.with(this).load(mCity.getAvatar()).into(iv);
+
+        if (mCity.getFunFactsCount() < 1) {
+            funfact.setVisibility(View.GONE);
+        }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -207,7 +213,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     /**
      * method called by FinalCityInfoPresenter when the network
-     * request to fetch city information comes back successfully
+     * request to fetch city weather information comes back successfully
      * used to display the fetched information from backend on activity
      *
      * @param iconUrl            - mImage url
@@ -227,6 +233,32 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             weatherinfo.setText(weatherDescription);
         });
     }
+
+
+    /**
+     * method called by FinalCityInfoPresenter when the network
+     * request to fetch city information comes back successfully
+     * used to display the fetched information from backend on activity
+     *
+     * @param description               city description
+     * @param latitude                  city latitude
+     * @param longitude                 city longitude
+     * @param imagesArray               images array for the city
+     */
+    @Override
+    public void parseInfoResult(final String description,
+                                final String latitude,
+                                final String longitude,
+                                ArrayList<String> imagesArray) {
+        mHandler.post(() -> {
+            des.setText(description);
+            mCity.setDescription(description);
+            mCity.setLatitude(latitude);
+            mCity.setLongitude(longitude);
+        });
+    }
+
+
 
     /**
      * Fires an Intent with given parameters

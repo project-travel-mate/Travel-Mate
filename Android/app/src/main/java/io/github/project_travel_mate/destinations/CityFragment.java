@@ -58,7 +58,6 @@ public class CityFragment extends Fragment {
     ListView lv;
 
     private String mNameyet;
-    private String mCityid;
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
@@ -141,7 +140,9 @@ public class CityFragment extends Fragment {
                             try {
                                 cities.add(new City(arr.getJSONObject(i).getString("id"),
                                         arr.getJSONObject(i).getString("image"),
-                                        arr.getJSONObject(i).getString("city_name")));
+                                        arr.getJSONObject(i).getString("city_name"),
+                                        arr.getJSONObject(i).getInt("facts_count"),
+                                        "Know More", "View on Map", "Fun Facts", "View Website"));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -203,20 +204,17 @@ public class CityFragment extends Fragment {
                         JSONArray ar = new JSONArray(res);
                         pb.setVisibility(View.GONE);
                         FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
-                        List<City> friends = new ArrayList<>();
+                        List<City> cities = new ArrayList<>();
                         for (int i = 0; i < ar.length(); i++) {
-                            friends.add(new City(
+                            cities.add(new City(
                                     ar.getJSONObject(i).getString("id"),
                                     ar.getJSONObject(i).optString("image"),
                                     ar.getJSONObject(i).getString("city_name"),
-                                    ar.getJSONObject(i).getString("description"),
-                                    getRandomColor(),
-                                    ar.getJSONObject(i).getString("latitude"),
-                                    ar.getJSONObject(i).getString("longitude"),
+                                    ar.getJSONObject(i).getInt("facts_count"),
                                     "Know More", "View on Map", "Fun Facts", "View Website"));
                         }
 
-                        lv.setAdapter(new CityAdapter(mActivity, friends, settings));
+                        lv.setAdapter(new CityAdapter(mActivity, cities, settings));
                         lv.setOnItemClickListener((parent, view, position, id1) -> {
                             City city = (City) lv.getAdapter().getItem(position);
                             Toast.makeText(mActivity, city.getNickname(), Toast.LENGTH_SHORT).show();
@@ -242,39 +240,4 @@ public class CityFragment extends Fragment {
         this.mActivity = (Activity) activity;
     }
 
-    private int getRandomColor() {
-        double random = Math.random();
-        int randomNum8 = (int) (random * 100) % 8;
-        int color;
-        switch (randomNum8) {
-            case 0:
-                color = R.color.sienna;
-                break;
-            case 1:
-                color = R.color.saffron;
-                break;
-            case 2:
-                color = R.color.green;
-                break;
-            case 3:
-                color = R.color.pink;
-                break;
-            case 4:
-                color = R.color.orange;
-                break;
-            case 5:
-                color = R.color.saffron;
-                break;
-            case 6:
-                color = R.color.purple;
-                break;
-            case 7:
-                color = R.color.blue;
-                break;
-            default:
-                color = R.color.blue;
-                break;
-        }
-        return color;
-    }
 }

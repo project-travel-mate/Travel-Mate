@@ -104,7 +104,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         Iterator<String> iInterests = city.getInterests().iterator();
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
-        holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackground()));
+        holder.infoPage.setBackgroundColor(mContext.getResources().getColor(getRandomColor()));
         holder.nickName.setText(city.getNickname());
 
         holder.nickName.setOnClickListener(v -> {
@@ -115,6 +115,12 @@ class CityAdapter extends BaseFlipAdapter<City> {
             intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
             mContext.startActivity(intent);
         });
+
+        if (city.getFunFactsCount() < 1) {
+            holder.fv3.setVisibility(View.GONE);
+        } else {
+            holder.fv3.setVisibility(View.VISIBLE);
+        }
 
         holder.fv3.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, FunFacts.class);
@@ -143,5 +149,41 @@ class CityAdapter extends BaseFlipAdapter<City> {
         TextView fv1, fv2, fv3, fv4;
         TextView left, right;
         TextView nickName;
+    }
+
+    private int getRandomColor() {
+        double random = Math.random();
+        int randomNum8 = (int) (random * 100) % 8;
+        int color;
+        switch (randomNum8) {
+            case 0:
+                color = R.color.sienna;
+                break;
+            case 1:
+                color = R.color.saffron;
+                break;
+            case 2:
+                color = R.color.green;
+                break;
+            case 3:
+                color = R.color.pink;
+                break;
+            case 4:
+                color = R.color.orange;
+                break;
+            case 5:
+                color = R.color.saffron;
+                break;
+            case 6:
+                color = R.color.purple;
+                break;
+            case 7:
+                color = R.color.blue;
+                break;
+            default:
+                color = R.color.blue;
+                break;
+        }
+        return color;
     }
 }

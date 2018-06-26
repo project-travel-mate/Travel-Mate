@@ -1,9 +1,13 @@
 package io.github.project_travel_mate.destinations.description;
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -36,8 +40,7 @@ class FinalCityInfoPresenter {
      * @param cityName the city id
      * @param token    authentication token
      */
-    public void fetchCityInfo(String cityName, String token) {
-        mFinalCityInfoView.showProgress();
+    public void fetchCityWeather(String cityName, String token) {
 
         String uri = API_LINK_V2 + "get-city-weather/" + cityName;
 
@@ -63,6 +66,53 @@ class FinalCityInfoPresenter {
                             responseObject.getString("temp") + " " + responseObject.getString("temp_units"),
                             responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
                             responseObject.getString("description"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mFinalCityInfoView.dismissProgress();
+            }
+        });
+    }
+
+
+    /**
+     * Calls the API & fetch details of city with given id
+     *
+     * @param cityid the city id
+     * @param token    authentication token
+     */
+    public void fetchCityInfo(String cityid, String token) {
+
+        String uri = API_LINK_V2 + "get-city/" + cityid;
+
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + token)
+                .url(uri)
+                .build();
+
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mFinalCityInfoView.dismissProgress();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                try {
+                    Log.v("Response", res);
+                    JSONObject responseObject = new JSONObject(res);
+                    JSONArray arr = responseObject.getJSONArray("images");
+                    ArrayList<String> imagesArray = new ArrayList<>();
+                    for ( int i = 0; i < arr.length(); i++ ) {
+                        imagesArray.add(arr.getString(i));
+                    }
+                    mFinalCityInfoView.parseInfoResult(
+                            responseObject.getString("description"),
+                            responseObject.getString("latitude"),
+                            responseObject.getString("longitude"),
+                            imagesArray);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

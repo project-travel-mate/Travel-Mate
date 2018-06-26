@@ -16,9 +16,6 @@ import android.support.v7.widget.Toolbar;
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
