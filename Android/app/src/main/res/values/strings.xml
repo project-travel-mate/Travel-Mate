@@ -167,5 +167,15 @@
     <string name="signout_message">Are you sure want to sign out?</string>
     <string name="positive_button">OK</string>
     <string name="negative_button">CANCEL</string>
+    <string name="display_email" >Display Email</string>
+    <string name="display_name" >Display Name</string>
+    <string name="default_name">Default Name</string>
+    <string name="email">Email</string>
+    <string name="member_from">Member from</string>
+    <string name="change_dp">Change DP</string>
+    <string name="profile_icon">Profile_icon</string>
+    <string name="mail_icon">mail_icon</string>
+    <string name="info_icon">info_icon</string>
+    <string name="profile">Profile</string>
 
 </resources>

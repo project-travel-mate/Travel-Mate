@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -163,5 +164,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, 0);
             }
         }
+    }
+
+    public void onClickProfile(View view) {
+        Intent in = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(in);
     }
 }
