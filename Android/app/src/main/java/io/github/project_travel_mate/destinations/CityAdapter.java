@@ -107,56 +107,41 @@ class CityAdapter extends BaseFlipAdapter<City> {
         holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackground()));
         holder.nickName.setText(city.getNickname());
 
-        holder.nickName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
+        holder.nickName.setOnClickListener(v -> {
         });
 
-        holder.fv1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, FinalCityInfo.class);
-                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
-                mContext.startActivity(intent);
-            }
+        holder.fv1.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, FinalCityInfo.class);
+            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            mContext.startActivity(intent);
         });
 
-        holder.fv3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, FunFacts.class);
-                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
-                mContext.startActivity(intent);
-            }
+        holder.fv3.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, FunFacts.class);
+            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            mContext.startActivity(intent);
         });
 
-        holder.fv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
-                        city.getLatitude() + "," + city.getLongitude() +
-                        "&z=13")); // zoom level
-                mContext.startActivity(browserIntent);
-            }
+        holder.fv2.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
+                    city.getLatitude() + "," + city.getLongitude() +
+                    "&z=13")); // zoom level
+            mContext.startActivity(browserIntent);
         });
 
-        holder.fv4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                mContext.startActivity(browserIntent);
-            }
+        holder.fv4.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+            mContext.startActivity(browserIntent);
         });
     }
 
     class CitiesHolder {
+        final List<TextView> interests = new ArrayList<>();
         ImageView leftAvatar;
         ImageView rightAvatar;
         View infoPage;
         TextView fv1, fv2, fv3, fv4;
         TextView left, right;
-        final List<TextView> interests = new ArrayList<>();
         TextView nickName;
     }
 }

@@ -2,7 +2,6 @@ package io.github.project_travel_mate;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -118,24 +117,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AlertDialog.Builder builder = new AlertDialog.Builder(crt);
                 builder.setMessage(R.string.signout_message)
                         .setPositiveButton(R.string.positive_button,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        mSharedPreferences
-                                                .edit()
-                                                .putString(USER_TOKEN, null)
-                                                .apply();
-                                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
+                                (dialog, which) -> {
+                                    mSharedPreferences
+                                            .edit()
+                                            .putString(USER_TOKEN, null)
+                                            .apply();
+                                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivity(i);
+                                    finish();
                                 })
                         .setNegativeButton(R.string.negative_button,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                                (dialog, which) -> {
 
-                                    }
                                 });
                 builder.create().show();
                 break;

@@ -13,10 +13,10 @@ public class MapItem {
     /**
      * Initiates MapItem object
      *
-     * @param name          name of the place
-     * @param number        contact details
-     * @param website       url of the place
-     * @param address       physical address of the place
+     * @param name    name of the place
+     * @param number  contact details
+     * @param website url of the place
+     * @param address physical address of the place
      */
     public MapItem(String name, String number, String website, String address) {
         this.mName = name;

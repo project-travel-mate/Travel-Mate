@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,14 +39,12 @@ import static utils.Constants.ID_ADDED_INDB;
 
 public class ChecklistFragment extends Fragment {
 
+    private final ArrayList<ChecklistItem> mItems = new ArrayList<>();
+    @BindView(R.id.listview)
+    ListView listview;
     private CheckListAdapter mAdapter;
     private SQLiteDatabase mDatabase;
     private Activity mActivity;
-
-    private final ArrayList<ChecklistItem> mItems = new ArrayList<>();
-
-    @BindView(R.id.listview)
-    ListView listview;
 
     public ChecklistFragment() {
     }
@@ -72,24 +69,22 @@ public class ChecklistFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.add) void onClick() {
+    @OnClick(R.id.add)
+    void onClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = (mActivity).getLayoutInflater();
         builder.setTitle("Add new item");
         builder.setCancelable(false);
         final View dialogv = inflater.inflate(R.layout.dialog, null, false);
         builder.setView(dialogv)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id1) {
-                        EditText e1 = dialogv.findViewById(R.id.task);
-                        if (!e1.getText().toString().equals("")) {
-                            ContentValues insertValues = new ContentValues();
-                            insertValues.put(ChecklistEntry.COLUMN_NAME, e1.getText().toString());
-                            insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
-                            mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
-                            ChecklistFragment.this.refresh();
-                        }
+                .setPositiveButton("OK", (dialog, id1) -> {
+                    EditText e1 = dialogv.findViewById(R.id.task);
+                    if (!e1.getText().toString().equals("")) {
+                        ContentValues insertValues = new ContentValues();
+                        insertValues.put(ChecklistEntry.COLUMN_NAME, e1.getText().toString());
+                        insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
+                        mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
+                        ChecklistFragment.this.refresh();
                     }
                 });
         builder.create();
@@ -154,10 +149,6 @@ public class ChecklistFragment extends Fragment {
             this.mItems = items;
         }
 
-        class ViewHolder {
-            CheckBox checkBox;
-        }
-
         @NonNull
         @Override
         public View getView(final int position, View view, @NonNull ViewGroup parent) {
@@ -184,28 +175,29 @@ public class ChecklistFragment extends Fragment {
             }
             holder.checkBox.setText(mItems.get(position).getName());
 
-            holder.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view1) {
-                    CheckBox c2 = (CheckBox) view1;
-                    if (c2.isChecked()) {
-                        String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
-                                " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
+            holder.checkBox.setOnClickListener(view1 -> {
+                CheckBox c2 = (CheckBox) view1;
+                if (c2.isChecked()) {
+                    String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
+                            " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
+                            ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
 
-                        db.execSQL(query);
-                        Log.v("EXECUTED : ", query);
-                    } else {
-                        String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
-                                " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                                ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
-                        db.execSQL(query);
-                        Log.v("EXECUTED : ", query);
-                    }
-                    refresh();
+                    db.execSQL(query);
+                    Log.v("EXECUTED : ", query);
+                } else {
+                    String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
+                            " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
+                            ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
+                    db.execSQL(query);
+                    Log.v("EXECUTED : ", query);
                 }
+                refresh();
             });
             return view;
+        }
+
+        class ViewHolder {
+            CheckBox checkBox;
         }
     }
 }

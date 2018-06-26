@@ -11,8 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -57,6 +55,7 @@ import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfo extends AppCompatActivity {
 
+    public static final int INTENT_REQUEST_GET_IMAGES = 13;
     @BindView(R.id.image)
     ImageView iv;
     @BindView(R.id.head)
@@ -69,18 +68,13 @@ public class MyTripInfo extends AppCompatActivity {
     NestedListView lv;
     @BindView(R.id.fname)
     AutoCompleteTextView frendname;
-
     private String mFriendid = null;
     private String mNameYet;
     private String mToken;
-
     private Trip mTrip;
-
     private List<String> mFname;
-
     private MaterialDialog mDialog;
     private Handler mHandler;
-    public static final int INTENT_REQUEST_GET_IMAGES = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +95,7 @@ public class MyTripInfo extends AppCompatActivity {
 
         Picasso.with(this).load(mTrip.getImage()).into(iv);
 
-        mHandler    = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper());
 
         frendname.setThreshold(1);
 
@@ -111,14 +105,16 @@ public class MyTripInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @OnTextChanged(R.id.fname) void onTextChanged() {
+    @OnTextChanged(R.id.fname)
+    void onTextChanged() {
         mNameYet = frendname.getText().toString();
         if (!mNameYet.contains(" ") && mNameYet.length() % 3 == 0) {
             friendautocomplete();
         }
     }
 
-    @OnClick(R.id.newfrriend) void onClick() {
+    @OnClick(R.id.newfrriend)
+    void onClick() {
         if (mFriendid == null) {
             Toast.makeText(MyTripInfo.this,
                     getResources().getString(R.string.no_friend_selected),
@@ -160,41 +156,38 @@ public class MyTripInfo extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject ob;
-                        try {
-                            ob = new JSONObject(res);
-                            String title = ob.getString("trip_name");
-                            String start = ob.getString("start_date_tx");
-                            String end = ob.optString("end_date", null);
-                            String city = ob.getJSONObject("city").getString("city_name");
+                mHandler.post(() -> {
+                    JSONObject ob;
+                    try {
+                        ob = new JSONObject(res);
+                        String title = ob.getString("trip_name");
+                        String start = ob.getString("start_date_tx");
+                        String end = ob.optString("end_date", null);
+                        String city = ob.getJSONObject("city").getString("city_name");
 
-                            tite.setText(city);
-                            tite = findViewById(R.id.tname);
-                            tite.setText(title);
-                            final Calendar cal = Calendar.getInstance();
-                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                            final String timeString =
-                                    getResources().getString(R.string.text_started_on) +
-                                    new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
-                            date.setText(timeString);
+                        tite.setText(city);
+                        tite = findViewById(R.id.tname);
+                        tite.setText(title);
+                        final Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                        final String timeString =
+                                getResources().getString(R.string.text_started_on) +
+                                        new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                        date.setText(timeString);
 
-                            JSONArray usersArray = ob.getJSONArray("users");
-                            for (int i = 0; i < usersArray.length(); i++) {
-                                mFname.add(usersArray.getJSONObject(i).getString("first_name"));
-                            }
-
-                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, mFname);
-                            lv.setAdapter(dataAdapter);
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
+                        JSONArray usersArray = ob.getJSONArray("users");
+                        for (int i = 0; i < usersArray.length(); i++) {
+                            mFname.add(usersArray.getJSONObject(i).getString("first_name"));
                         }
-                        mDialog.dismiss();
-                        mFriendid = null;
+
+                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, mFname);
+                        lv.setAdapter(dataAdapter);
+
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+                    mDialog.dismiss();
+                    mFriendid = null;
                 });
 
             }
@@ -239,45 +232,37 @@ public class MyTripInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) {
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONArray arr;
-                        final ArrayList<String> id, email;
-                        try {
-                            String result = response.body().string();
-                            Log.e("RES", result);
-                            if (response.body() == null)
-                                return;
-                            arr = new JSONArray(result);
+                mHandler.post(() -> {
+                    JSONArray arr;
+                    final ArrayList<String> id, email;
+                    try {
+                        String result = response.body().string();
+                        Log.e("RES", result);
+                        if (response.body() == null)
+                            return;
+                        arr = new JSONArray(result);
 
-                            id = new ArrayList<>();
-                            email = new ArrayList<>();
-                            for (int i = 0; i < arr.length(); i++) {
-                                try {
-                                    id.add(arr.getJSONObject(i).getString("id"));
-                                    email.add(arr.getJSONObject(i).getString("username"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Log.e("ERROR ", "Message : " + e.getMessage());
-                                }
+                        id = new ArrayList<>();
+                        email = new ArrayList<>();
+                        for (int i = 0; i < arr.length(); i++) {
+                            try {
+                                id.add(arr.getJSONObject(i).getString("id"));
+                                email.add(arr.getJSONObject(i).getString("username"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e("ERROR ", "Message : " + e.getMessage());
                             }
-                            ArrayAdapter<String> dataAdapter =
-                                    new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
-                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            frendname.setAdapter(dataAdapter);
-                            frendname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    mFriendid = id.get(arg2);
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR", "Message : " + e.getMessage());
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
+                        ArrayAdapter<String> dataAdapter =
+                                new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        frendname.setAdapter(dataAdapter);
+                        frendname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mFriendid = id.get(arg2));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR", "Message : " + e.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 });
 
@@ -316,16 +301,13 @@ public class MyTripInfo extends AppCompatActivity {
                 try {
                     final String res = response.body().string();
                     final int responseCode = response.code();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (responseCode == STATUS_CODE_OK) {
-                                Toast.makeText(MyTripInfo.this, R.string.friend_added, Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(MyTripInfo.this, res, Toast.LENGTH_LONG).show();
-                            }
-                            mDialog.dismiss();
+                    mHandler.post(() -> {
+                        if (responseCode == STATUS_CODE_OK) {
+                            Toast.makeText(MyTripInfo.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(MyTripInfo.this, res, Toast.LENGTH_LONG).show();
                         }
+                        mDialog.dismiss();
                     });
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -24,11 +24,12 @@ import utils.CardItemEntity;
 
 public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
 
-    private Activity mActivity;
     @BindView(R.id.utility_options_recycle_view)
     RecyclerView mUtilityOptionsRecycleView;
+    private Activity mActivity;
 
-    public UtilitiesFragment() {}
+    public UtilitiesFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

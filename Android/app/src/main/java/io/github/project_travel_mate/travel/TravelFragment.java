@@ -27,12 +27,12 @@ import utils.CardItemEntity;
 
 public class TravelFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
 
-    private Activity mActivity;
-
     @BindView(R.id.travel_options_recycle_view)
     RecyclerView mTravelOptionsRecycleView;
+    private Activity mActivity;
 
-    public TravelFragment() {}
+    public TravelFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,19 +64,24 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
     public void onItemClick(int position) {
         Intent i;
         switch (position) {
-            case 0: i = new Intent(mActivity, MyTrips.class);
+            case 0:
+                i = new Intent(mActivity, MyTrips.class);
                 startActivity(i);
                 break;
-            case 1: i = new Intent(mActivity, SelectModeOfTransport.class);
+            case 1:
+                i = new Intent(mActivity, SelectModeOfTransport.class);
                 startActivity(i);
                 break;
-            case 2: i = new Intent(mActivity, Hotels.class);
+            case 2:
+                i = new Intent(mActivity, Hotels.class);
                 startActivity(i);
                 break;
-            case 3: i = new Intent(mActivity, ShoppingCurrentCity.class);
+            case 3:
+                i = new Intent(mActivity, ShoppingCurrentCity.class);
                 startActivity(i);
                 break;
-            case 4: i = new Intent(mActivity, MapRealTimeActivity.class);
+            case 4:
+                i = new Intent(mActivity, MapRealTimeActivity.class);
                 startActivity(i);
                 break;
         }

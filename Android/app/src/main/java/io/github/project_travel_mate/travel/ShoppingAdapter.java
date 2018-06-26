@@ -69,7 +69,7 @@ class ShoppingAdapter extends BaseAdapter {
             String descriptionText = mFeedItems.getJSONObject(position).getString("value");
 
             descriptionText = Html.fromHtml(descriptionText).toString() + " "
-                + mFeedItems.getJSONObject(position).getString("currency");
+                    + mFeedItems.getJSONObject(position).getString("currency");
             description.setText(descriptionText);
 
             Picasso.with(mContext).load(mFeedItems.getJSONObject(position).getString("image")).into(iv);
@@ -77,18 +77,15 @@ class ShoppingAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = null;
-                try {
-                    browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(mFeedItems.getJSONObject(position).getString("url")));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                mContext.startActivity(browserIntent);
+        convertView.setOnClickListener(view -> {
+            Intent browserIntent = null;
+            try {
+                browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(mFeedItems.getJSONObject(position).getString("url")));
+            } catch (JSONException e1) {
+                e1.printStackTrace();
             }
+            mContext.startActivity(browserIntent);
         });
         return convertView;
     }
