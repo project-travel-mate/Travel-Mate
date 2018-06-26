@@ -2,6 +2,10 @@ package io.github.project_travel_mate.destinations.funfacts;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
+import objects.FunFact;
+
 /**
  * Created by niranjanb on 14/06/17.
  */
@@ -9,5 +13,5 @@ import org.json.JSONArray;
 interface FunFactsView {
     void showProgressDialog();
     void hideProgressDialog();
-    void setupViewPager(JSONArray factsArray);
+    void setupViewPager(ArrayList<FunFact> factsArray);
 }

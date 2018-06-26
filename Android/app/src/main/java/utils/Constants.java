@@ -11,7 +11,6 @@ public class Constants {
     public static final String USER_NAME = "user_name";
     public static final String USER_NUMBER = "user_number";
     public static final String USER_EMAIL = "user_email";
-    public static final String USER_ID = "user_id";
     public static final String USER_TOKEN = "user_token";
 
     public static final String EVENT_IMG = "event_name";
@@ -31,13 +30,13 @@ public class Constants {
     public static final String DELHI_LAT = "28.6466773";
     public static final String DELHI_LON = "76.813073";
     public static final String MUMBAI_LAT = "19.076";
-    public static final String MUMBAI_LON = "772.8777";
+    public static final String MUMBAI_LON = "72.8777";
 
     public static final String API_LINK = "http://prabhakargupta.com/travel-mate/";
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
-    public static final List<String> BASE_TASKS  = new ArrayList<String>() {
+    public static final List<String> BASE_TASKS = new ArrayList<String>() {
         {
             add("Bags");
             add("Keys");
@@ -50,26 +49,21 @@ public class Constants {
     };
 
     // For passing within intents / fragments
-    public static final String EXTRA_MESSAGE_NAME = "name_";
-    public static final String EXTRA_MESSAGE_ID = "id_";
-    public static final String EXTRA_MESSAGE_IMAGE = "image_";
-    public static final String EXTRA_MESSAGE_LATITUDE = "lat_";
-    public static final String EXTRA_MESSAGE_LONGITUDE = "lon_";
     public static final String EXTRA_MESSAGE_TYPE = "type_";
-    public static final String EXTRA_MESSAGE_TEXT      = "text_";
-    public static final String EXTRA_MESSAGE_TITLE     = "title_";
+    public static final String EXTRA_MESSAGE_CITY_OBJECT = "cityobject_";
+    public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
+    public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
 
 
     // HTTP STATUS CODES
-    public static final int STATUS_CODE_OK              = 200;
-    public static final int STATUS_CODE_CREATED         = 201;
-    public static final int STATUS_CODE_UNAUTHORIZED    = 403;
+    public static final int STATUS_CODE_OK = 200;
+    public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_UNAUTHORIZED = 403;
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
     public static final String HERE_API_APP_ID = "7xQMJiIPsG3ptIohUobu";
     public static final String HERE_API_APP_CODE = "iPNVovxnQdkSvsRPjPct3w";
-
     public static final List<String> HERE_API_MODES = new ArrayList<String>() {
         {
             add("eat-drink");

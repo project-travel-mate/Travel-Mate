@@ -12,15 +12,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.API_LINK;
+import static utils.Constants.API_LINK_V2;
 
 /**
  * Created by niranjanb on 15/05/17.
  */
 
 class FinalCityInfoPresenter {
-    private FinalCityInfoView   mFinalCityInfoView;
-    private final OkHttpClient  mOkHttpClient;
+    private final OkHttpClient mOkHttpClient;
+    private FinalCityInfoView mFinalCityInfoView;
 
     FinalCityInfoPresenter() {
         mOkHttpClient = new OkHttpClient();
@@ -31,16 +31,21 @@ class FinalCityInfoPresenter {
     }
 
     /**
-     * Calls the API & fetch details of a city with given id
-     * @param id the city id
+     * Calls the API & fetch details of the weather of city with given name
+     *
+     * @param cityName the city id
+     * @param token    authentication token
      */
-    public void fetchCityInfo(String id) {
+    public void fetchCityInfo(String cityName, String token) {
         mFinalCityInfoView.showProgress();
 
-        String uri = API_LINK + "city/info.php?id=" + id;
+        String uri = API_LINK_V2 + "get-city-weather/" + cityName;
+
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + token)
                 .url(uri)
                 .build();
+
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -53,19 +58,16 @@ class FinalCityInfoPresenter {
 
                 try {
                     JSONObject responseObject = new JSONObject(res);
-                    mFinalCityInfoView.parseResult(responseObject.getString("description"),
-                            responseObject.getJSONObject("weather").getString("icon"),
-                            responseObject.getJSONObject("weather").getString("temprature"),
-                            responseObject.getJSONObject("weather").getString("humidity"),
-                            responseObject.getJSONObject("weather").getString("description"),
-                            responseObject.getString("lat"), responseObject.getString("lng"));
-                    mFinalCityInfoView.dismissProgress();
+                    mFinalCityInfoView.parseResult(
+                            responseObject.getString("icon"),
+                            responseObject.getString("temp") + " " + responseObject.getString("temp_units"),
+                            responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
+                            responseObject.getString("description"));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    mFinalCityInfoView.dismissProgress();
                 }
+                mFinalCityInfoView.dismissProgress();
             }
         });
     }
-
 }

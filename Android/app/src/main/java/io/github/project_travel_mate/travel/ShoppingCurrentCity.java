@@ -1,7 +1,6 @@
 package io.github.project_travel_mate.travel;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,10 +42,14 @@ import static utils.Constants.USER_TOKEN;
 
 public class ShoppingCurrentCity extends AppCompatActivity {
 
-    @BindView(R.id.pb) ProgressBar pb;
-    @BindView(R.id.music_list) ListView lv;
-    @BindView(R.id.query) EditText q;
-    @BindView(R.id.go) Button ok;
+    @BindView(R.id.pb)
+    ProgressBar pb;
+    @BindView(R.id.shopping_list)
+    ListView lv;
+    @BindView(R.id.query)
+    EditText q;
+    @BindView(R.id.go)
+    Button ok;
 
     private MaterialSearchView mSearchView;
     private String mToken;
@@ -66,7 +69,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        setTitle("Shopping");
+        setTitle(getResources().getString(R.string.text_shopping));
 
         getShoppingItems("bags");
 
@@ -84,12 +87,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                     alertDialog.setTitle("Can't connect.");
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
+                            (dialog, which) -> dialog.dismiss());
                     alertDialog.show();
                 }
                 return false;
@@ -117,10 +115,10 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
-    @OnClick(R.id.go) void onClick() {
+    @OnClick(R.id.go)
+    void onClick() {
         pb.setVisibility(View.VISIBLE);
         try {
             String item = q.getText().toString();
@@ -130,12 +128,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    (dialog, which) -> dialog.dismiss());
             alertDialog.show();
         }
     }
@@ -159,7 +152,6 @@ public class ShoppingCurrentCity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
 
@@ -184,29 +176,27 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) { }
+            public void onFailure(Call call, IOException e) {
+            }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                Log.v("RESULT" , res);
+                Log.v("RESULT", res);
                 final int responseCode = response.code();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                                JSONArray feedItems = new JSONArray(res);
-                                Log.v("response", feedItems + " ");
-                                if (feedItems.length() == 0) {
-                                    Utils.hideKeyboard(ShoppingCurrentCity.this);
-                                    Snackbar.make(pb, "No results found",
-                                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                                }
-                                pb.setVisibility(View.GONE);
-                                lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCity.this , feedItems) );
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                mHandler.post(() -> {
+                    try {
+                        JSONArray feedItems = new JSONArray(res);
+                        Log.v("response", feedItems + " ");
+                        if (feedItems.length() == 0) {
+                            Utils.hideKeyboard(ShoppingCurrentCity.this);
+                            Snackbar.make(pb, "No results found",
+                                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        }
+                        pb.setVisibility(View.GONE);
+                        lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCity.this, feedItems));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 });
             }

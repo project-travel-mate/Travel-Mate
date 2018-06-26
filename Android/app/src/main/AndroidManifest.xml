@@ -53,15 +53,15 @@
         <activity
             android:name=".utilities.Checklist"
             android:label="@string/title_activity_select_city"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.transport.SelectModeOfTransport"
             android:label="@string/title_activity_select__mode_of_transport"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.transport.CarDirections"
             android:label="@string/title_activity_car_directions"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -71,25 +71,21 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".travel.transport.BusList"
-            android:label="@string/title_activity_bus_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".travel.ShoppingCurrentCity"
             android:label="@string/title_activity_shopping_currentcity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.transport.TrainList"
             android:label="@string/title_activity_train_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.Hotels"
             android:label="@string/title_activity_hotels"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.MapRealTimeActivity"
             android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".Splash"
             android:label="@string/app_name"
@@ -103,7 +99,7 @@
         <activity
             android:name=".destinations.funfacts.FunFacts"
             android:label="@string/title_activity_fun_facts"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_picker" />
         <activity android:name=".utilities.ShareContact" />
         <activity
             android:name=".login.LoginActivity"
@@ -115,6 +111,16 @@
         <activity android:name=".travel.mytrips.AddNewTrip" />
         <activity android:name=".travel.mytrips.MyTripInfo" />
         <activity android:name=".destinations.description.Tweets"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="io.github.project_travel_mate.shareFile"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

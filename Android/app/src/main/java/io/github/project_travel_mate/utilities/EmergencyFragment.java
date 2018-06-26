@@ -32,7 +32,8 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     @BindView(R.id.railways)
     Button railways;
 
-    public EmergencyFragment() {}
+    public EmergencyFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

@@ -54,27 +54,6 @@
             android:textColor="#000000"
             android:textSize="15sp" />
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-bold"
-            android:padding="10dp"
-            android:text="@string/photos_of_trip"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-
-        <org.lucasr.twowayview.TwoWayView
-            android:id="@+id/lv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false"
-            android:orientation="horizontal" />
-
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +81,6 @@
             android:backgroundTint="#000000"
             android:ems="10"
             android:hint="@string/prompt_friend_name"
-            android:maxLength="1"
             android:padding="10dp"
             android:popupBackground="#ffffff"
             android:textColor="#000000"

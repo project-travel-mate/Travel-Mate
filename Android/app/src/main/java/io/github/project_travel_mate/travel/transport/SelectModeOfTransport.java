@@ -41,10 +41,6 @@ public class SelectModeOfTransport extends AppCompatActivity implements CardView
                         getResources().getString(R.string.text_train)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.bus),
-                        getResources().getString(R.string.text_bus)));
-        cardEntities.add(
-                new CardItemEntity(
                         getResources().getDrawable(R.drawable.car),
                         getResources().getString(R.string.text_cart)));
 
@@ -72,13 +68,12 @@ public class SelectModeOfTransport extends AppCompatActivity implements CardView
     public void onItemClick(int position) {
         Intent i;
         switch (position) {
-            case 0: i = new Intent(SelectModeOfTransport.this, TrainList.class);
+            case 0:
+                i = new Intent(SelectModeOfTransport.this, TrainList.class);
                 startActivity(i);
                 break;
-            case 1: i = new Intent(SelectModeOfTransport.this, BusList.class);
-                startActivity(i);
-                break;
-            case 2: i = new Intent(SelectModeOfTransport.this, CarDirections.class);
+            case 1:
+                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
                 startActivity(i);
                 break;
         }

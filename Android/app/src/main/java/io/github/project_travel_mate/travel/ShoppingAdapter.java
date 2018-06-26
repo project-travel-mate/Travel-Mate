@@ -53,13 +53,13 @@ class ShoppingAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
-        if (vi == null)
-            vi = mInflater.inflate(R.layout.shop_listitem, parent, false);
+        if (convertView == null)
+            convertView = mInflater.inflate(R.layout.shop_listitem, parent, false);
 
-        TextView title = vi.findViewById(R.id.VideoTitle);
-        TextView description = vi.findViewById(R.id.VideoDescription);
-        ImageView iv = vi.findViewById(R.id.VideoThumbnail);
+        // TODO : use butterknife
+        TextView title = convertView.findViewById(R.id.VideoTitle);
+        TextView description = convertView.findViewById(R.id.VideoDescription);
+        ImageView iv = convertView.findViewById(R.id.VideoThumbnail);
 
         try {
             String name = mFeedItems.getJSONObject(position).getString("name");
@@ -69,7 +69,7 @@ class ShoppingAdapter extends BaseAdapter {
             String descriptionText = mFeedItems.getJSONObject(position).getString("value");
 
             descriptionText = Html.fromHtml(descriptionText).toString() + " "
-                + mFeedItems.getJSONObject(position).getString("currency");
+                    + mFeedItems.getJSONObject(position).getString("currency");
             description.setText(descriptionText);
 
             Picasso.with(mContext).load(mFeedItems.getJSONObject(position).getString("image")).into(iv);
@@ -77,19 +77,16 @@ class ShoppingAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        vi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = null;
-                try {
-                    browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(mFeedItems.getJSONObject(position).getString("url")));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                mContext.startActivity(browserIntent);
+        convertView.setOnClickListener(view -> {
+            Intent browserIntent = null;
+            try {
+                browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(mFeedItems.getJSONObject(position).getString("url")));
+            } catch (JSONException e1) {
+                e1.printStackTrace();
             }
+            mContext.startActivity(browserIntent);
         });
-        return vi;
+        return convertView;
     }
 }

@@ -36,34 +36,34 @@ import static utils.Constants.USER_TOKEN;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
 
+    private final LoginPresenter mLoginPresenter = new LoginPresenter();
     @BindView(R.id.signup)
-    TextView        signup;
+    TextView signup;
     @BindView(R.id.login)
-    TextView        login;
+    TextView login;
     @BindView(R.id.signup_layout)
-    LinearLayout    sig;
+    LinearLayout sig;
     @BindView(R.id.loginlayout)
-    LinearLayout    log;
+    LinearLayout log;
     @BindView(R.id.input_email_login)
-    EditText        email_login;
+    EditText email_login;
     @BindView(R.id.input_pass_login)
-    EditText        pass_login;
+    EditText pass_login;
     @BindView(R.id.input_email_signup)
-    EditText        email_signup;
+    EditText email_signup;
     @BindView(R.id.input_pass_signup)
-    EditText        pass_signup;
+    EditText pass_signup;
+    @BindView(R.id.input_confirm_pass_signup)
+    EditText confirm_pass_signup;
     @BindView(R.id.input_name_signup)
-    EditText        name;
+    EditText name;
     @BindView(R.id.ok_login)
-    FlatButton      ok_login;
+    FlatButton ok_login;
     @BindView(R.id.ok_signup)
-    FlatButton      ok_signup;
-
+    FlatButton ok_signup;
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
     private Handler mHandler;
-
-    private final LoginPresenter mLoginPresenter = new LoginPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +75,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().hide();
 
         Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        }
 
         mLoginPresenter.bind(this);
         ButterKnife.bind(this);
@@ -108,25 +110,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             // Open signup
-            case R.id.signup :
+            case R.id.signup:
+                signup.setVisibility(View.GONE);
+                login.setVisibility(View.VISIBLE);
                 mLoginPresenter.signUp();
                 break;
             // Open login
-            case R.id.login :
+            case R.id.login:
+                signup.setVisibility(View.VISIBLE);
+                login.setVisibility(View.GONE);
                 mLoginPresenter.login();
                 break;
             // Call login
-            case R.id.ok_login :
+            case R.id.ok_login:
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
                 mLoginPresenter.ok_login(emailString, passString, mHandler);
                 break;
             // Call signup
-            case R.id.ok_signup :
+            case R.id.ok_signup:
                 emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
+                String confirmPassString = confirm_pass_signup.getText().toString();
                 String nameString = name.getText().toString();
-                mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
+                if (passString.equals(confirmPassString)) {
+                    mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
+                } else {
+                    Toast.makeText(this, R.string.passwords_check,
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -156,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void showLoadingDialog() {
         mDialog = new MaterialDialog.Builder(this)
                 .title(R.string.app_name)
-                .content("Please wait...")
+                .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
     }
@@ -216,6 +228,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void setLoginEmail(String email) {
         email_login.setText(email);
     }
+
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG)
                 .show();

@@ -9,7 +9,6 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_extras">Extras</string>
-    <string name="navigation_drawer_change_source_dest">Change Source/Destination</string>
     <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
     <string name="navigation_drawer_signout">Sign Out</string>
 
@@ -18,7 +17,6 @@
     <string name="title_activity_select_city">Select City</string>
     <string name="title_activity_select__mode_of_transport">Select Mode of Transport</string>
     <string name="title_activity_car_directions">Car Directions</string>
-    <string name="title_activity_bus_list">Bus List</string>
     <string name="title_activity_shopping_currentcity">Shopping current city</string>
     <string name="title_activity_train_list">TrainList</string>
     <string name="title_activity_hotels">Hotels</string>
@@ -29,7 +27,8 @@
     <string name="phone_number">Phone Number</string>
     <string name="email_id">Email id</string>
     <string name="password">Password</string>
-    <string name="login">Log in</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
@@ -79,17 +78,26 @@
     <string name="friends_of_trip">Friends in this trip </string>
     <string name="text_started_on">Started on :  </string>
     <string name="prompt_add_new_trip">Add New Trip</string>
+    <string name="progress_fetching_trip">Fetching trips…</string>
+    <string name="progress_wait">Please wait…</string>
+    <string name="trip_added">Trip added</string>
+    <string name="friend_added">Friend added to trip</string>
+    <string name="no_friend_selected">Please select a valid friend to add</string>
 
     <!-- Errors and messages -->
     <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
     <string name="msg_saved">QR code image was saved as</string>
-
+    <string name="source_dest_cant_be_same">Source and destination cannot be same</string>
+    <string name="source_dest_set">Source and destination set</string>
+    <string name="internet_connectivity">No Internet Connectivity</string>
+    <string name="passwords_check">Passwords do not match!</string>
+    <string name="location_enabled">Location enabled</string>
+    <string name="location_not_enabled">Location not enabled</string>
 
     <!-- Car direction strings -->
     <string name="car1">Hatchback</string>
     <string name="car2">Sedan</string>
     <string name="car3">SUV</string>
-    <string name="bus_fair_default">110/-</string>
     <string name="default_mileage_1">22</string>
     <string name="default_mileage_2">18</string>
     <string name="default_mileage_3">16</string>
@@ -103,6 +111,9 @@
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="yes">Y</string>
+
+    <!--Hotel strings-->
+    <string name="no_hotels">No hotels to show</string>
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
@@ -129,9 +140,9 @@
     <string name="text_shopping">Shopping</string>
     <string name="text_restaurants">Restaurants</string>
     <string name="text_city_trends">City Trends</string>
-    <string name="text_signup_or">Signup | </string>
+    <string name="text_login"><u>Already a member? Login</u></string>
+    <string name="text_signup_or"><u>Not registered yet? Create new account</u></string>
     <string name="text_cart">Car</string>
-    <string name="text_bus">Bus</string>
     <string name="text_train">Train</string>
     <string name="text_max">max</string>
     <string name="text_min">min</string>
@@ -141,6 +152,8 @@
     <string name="text_title">Title</string>
     <string name="text_call">Call</string>
     <string name="text_book">Book</string>
+    <string name="text_share_screenshot">Share screenshot</string>
+    <string name="text_my_trips">My Trips</string>
     <string name="unknown_value">…</string>
 
     <!-- Sample Data -->
@@ -149,5 +162,10 @@
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
     <string name="empty_description">No description available.</string>
+
+    <!--AlertDialog sign out-->
+    <string name="signout_message">Are you sure want to sign out?</string>
+    <string name="positive_button">OK</string>
+    <string name="negative_button">CANCEL</string>
 
 </resources>

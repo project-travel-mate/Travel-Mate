@@ -64,6 +64,16 @@ import static utils.Constants.maps_key;
  */
 public class CarDirections extends AppCompatActivity implements OnMapReadyCallback {
 
+    private final Double mFuelprice = 60.00;
+    private final Double mMileageHatchback = 30.0;
+    private final Double mMileageSedan = 18.0;
+    private final Double mMileageSuv = 16.0;
+    @BindView(R.id.travelcost1)
+    TextView coste1;
+    @BindView(R.id.travelcost2)
+    TextView coste2;
+    @BindView(R.id.travelcost3)
+    TextView coste3;
     private String mSorcelat;
     private String mDeslat;
     private String mSorcelon;
@@ -71,26 +81,13 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
     private String mSource;
     private String mDestination;
     private String mDistanceText;
-
-    @BindView(R.id.travelcost1)
-    TextView coste1;
-    @BindView(R.id.travelcost2)
-    TextView coste2;
-    @BindView(R.id.travelcost3)
-    TextView coste3;
-
     private Double mDistance;
     private Double mCost1;
     private Double mCost2;
     private Double mCost3;
-    private final Double mFuelprice = 60.00;
-    private final Double mMileageHatchback = 30.0;
-    private final Double mMileageSedan = 18.0;
-    private final Double mMileageSuv = 16.0;
-
     private ProgressDialog mProgressDialog;
     private GoogleMap mGoogleMap;
-    private Handler        mHandler;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +120,8 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
-    @OnClick(R.id.fab) void onClickFab() {
+    @OnClick(R.id.fab)
+    void onClickFab() {
         String shareBody = "Lets plan a journey from " +
                 mSource + " to " + mDestination + ". The distace between the two cities is "
                 + mDistanceText;
@@ -200,59 +198,56 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.v("RESPONSE : ", "Done" + res);
-                        try {
-                            final JSONObject json = new JSONObject(res);
-                            JSONArray routeArray = json.getJSONArray("routes");
-                            JSONObject routes = routeArray.getJSONObject(0);
-                            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
-                            String encodedString = overviewPolylines.getString("points");
-                            List<LatLng> list = decodePoly(encodedString);
-                            Polyline line = mGoogleMap.addPolyline(new PolylineOptions()
-                                    .addAll(list)
-                                    .width(12)
-                                    .color(Color.parseColor("#05b1fb"))//Google maps blue color
-                                    .geodesic(true)
-                            );
-                            mDistance = routes.getJSONArray("legs")
-                                    .getJSONObject(0)
-                                    .getJSONObject("mDistance")
-                                    .getDouble("value");
-                            mDistanceText = routes.getJSONArray("legs")
-                                    .getJSONObject(0)
-                                    .getJSONObject("mDistance")
-                                    .getString("text");
+                mHandler.post(() -> {
+                    Log.v("RESPONSE : ", "Done" + res);
+                    try {
+                        final JSONObject json = new JSONObject(res);
+                        JSONArray routeArray = json.getJSONArray("routes");
+                        JSONObject routes = routeArray.getJSONObject(0);
+                        JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+                        String encodedString = overviewPolylines.getString("points");
+                        List<LatLng> list = decodePoly(encodedString);
+                        Polyline line = mGoogleMap.addPolyline(new PolylineOptions()
+                                .addAll(list)
+                                .width(12)
+                                .color(Color.parseColor("#05b1fb"))//Google maps blue color
+                                .geodesic(true)
+                        );
+                        mDistance = routes.getJSONArray("legs")
+                                .getJSONObject(0)
+                                .getJSONObject("mDistance")
+                                .getDouble("value");
+                        mDistanceText = routes.getJSONArray("legs")
+                                .getJSONObject(0)
+                                .getJSONObject("mDistance")
+                                .getString("text");
 
 
-                            mCost1 = (mDistance / mMileageHatchback) * mFuelprice / 1000;
-                            mCost2 = (mDistance / mMileageSedan) * mFuelprice / 1000;
-                            mCost3 = (mDistance / mMileageSuv) * mFuelprice / 1000;
+                        mCost1 = (mDistance / mMileageHatchback) * mFuelprice / 1000;
+                        mCost2 = (mDistance / mMileageSedan) * mFuelprice / 1000;
+                        mCost3 = (mDistance / mMileageSuv) * mFuelprice / 1000;
 
-                            coste1.setText(mCost1.intValue());
-                            coste2.setText(mCost2.intValue());
-                            coste3.setText(mCost3.intValue());
-                            for (int z = 0; z < list.size() - 1; z++) {
-                                LatLng src = list.get(z);
-                                LatLng dest1 = list.get(z + 1);
-                                Polyline line2 = mGoogleMap.addPolyline(new PolylineOptions()
-                                        .add(new LatLng(src.latitude, src.longitude),
-                                                new LatLng(dest1.latitude, dest1.longitude))
-                                        .width(2)
-                                        .color(Color.BLUE).geodesic(true));
-                            }
-                            mProgressDialog.hide();
-                            LatLng coordinate =
-                                    new LatLng(Double.parseDouble(mSorcelat), Double.parseDouble(mSorcelon));
-                            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
-                            mGoogleMap.animateCamera(yourLocation);
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
+                        coste1.setText(mCost1.intValue());
+                        coste2.setText(mCost2.intValue());
+                        coste3.setText(mCost3.intValue());
+                        for (int z = 0; z < list.size() - 1; z++) {
+                            LatLng src = list.get(z);
+                            LatLng dest1 = list.get(z + 1);
+                            Polyline line2 = mGoogleMap.addPolyline(new PolylineOptions()
+                                    .add(new LatLng(src.latitude, src.longitude),
+                                            new LatLng(dest1.latitude, dest1.longitude))
+                                    .width(2)
+                                    .color(Color.BLUE).geodesic(true));
                         }
-
+                        mProgressDialog.hide();
+                        LatLng coordinate =
+                                new LatLng(Double.parseDouble(mSorcelat), Double.parseDouble(mSorcelon));
+                        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 5);
+                        mGoogleMap.animateCamera(yourLocation);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
+
                 });
             }
         });
@@ -260,8 +255,9 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
 
     /**
      * Displays path on path
-     * @param encoded   Encoded string that contains path
-     * @return          Points on map
+     *
+     * @param encoded Encoded string that contains path
+     * @return Points on map
      */
     private List<LatLng> decodePoly(String encoded) {
 
