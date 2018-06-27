@@ -11,6 +11,7 @@
     <string name="navigation_drawer_extras">Extras</string>
     <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
     <string name="navigation_drawer_signout">Sign Out</string>
+    <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
@@ -177,5 +178,18 @@
     <string name="mail_icon">mail_icon</string>
     <string name="info_icon">info_icon</string>
     <string name="profile">Profile</string>
+
+    <!-- Choose feature type -->
+    <array name="bug_types">
+        <item>Crash</item>
+        <item>Feature Request</item>
+        <item>Other</item>
+    </array>
+
+    <string name="choose_a_type_bugreport">Choose a Type:</string>
+    <string name="hint_edit_text_bugreport">Describe your issue...</string>
+    <string name="button_text_bugreport">Report</string>
+    <string name="failure_message_bugreport">Failed to send issue...</string>
+    <string name="success_message_bugreport">Issue Sent Successfully...</string>
 
 </resources>
