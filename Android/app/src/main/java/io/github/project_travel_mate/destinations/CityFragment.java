@@ -60,7 +60,6 @@ public class CityFragment extends Fragment {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
-    private AppConnectivity mConnectivity;
 
     public CityFragment() {
     }
@@ -68,7 +67,7 @@ public class CityFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mConnectivity = new AppConnectivity(getContext());
+        AppConnectivity mConnectivity = new AppConnectivity(getContext());
         View view = inflater.inflate(R.layout.content_citylist, container, false);
 
         ButterKnife.bind(this, view);

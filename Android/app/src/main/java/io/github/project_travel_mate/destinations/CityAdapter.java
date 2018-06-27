@@ -60,7 +60,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
             holder.fv4 = (FontTextView) holder.infoPage.findViewById(R.id.interest_4);
 
             for (int id : mIdsInterest)
-                holder.interests.add((TextView) holder.infoPage.findViewById(id));
+                holder.interests.add(holder.infoPage.findViewById(id));
 
             convertView.setTag(holder);
         } else {

@@ -71,7 +71,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         }
     }
 
-    List<CardItemEntity> getUtilityItems() {
+    private List<CardItemEntity> getUtilityItems() {
         List<CardItemEntity> cardEntities = new ArrayList<>();
         cardEntities.add(
                 new CardItemEntity(

@@ -158,7 +158,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getShoppingItems(final String item) {
+    private void getShoppingItems(final String item) {
 
         String uri = API_LINK_V2 + "get-shopping-info/" + item;
         uri = uri.replace(" ", "+");

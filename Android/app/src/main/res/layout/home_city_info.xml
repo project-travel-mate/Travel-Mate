@@ -26,7 +26,6 @@
 
 
     <LinearLayout
-        android:id="@+id/interestsSecondary"
         style="@style/LinearLayout.Interests"
         android:layout_below="@+id/interestsPrimary"
         android:layout_marginTop="5dp">

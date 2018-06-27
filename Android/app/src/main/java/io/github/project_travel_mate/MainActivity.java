@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_signout: {
 
-                //set AlertDIalog before signout
+                //set AlertDialog before signout
                 ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
                 AlertDialog.Builder builder = new AlertDialog.Builder(crt);
                 builder.setMessage(R.string.signout_message)
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     startActivity(i);
                                     finish();
                                 })
-                        .setNegativeButton(R.string.negative_button,
+                        .setNegativeButton(android.R.string.cancel,
                                 (dialog, which) -> {
 
                                 });
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    void getRuntimePermissions() {
+    private void getRuntimePermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(MainActivity.this,
                     Manifest.permission.CAMERA)
