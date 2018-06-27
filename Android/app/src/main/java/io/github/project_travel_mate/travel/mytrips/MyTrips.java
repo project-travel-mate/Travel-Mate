@@ -93,6 +93,7 @@ public class MyTrips extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     final String res = response.body().string();
+                    Log.v("Response", res);
                     JSONArray arr;
                     try {
                         arr = new JSONArray(res);
@@ -103,7 +104,8 @@ public class MyTrips extends AppCompatActivity {
                             String end = arr.getJSONObject(i).optString("end_date", null);
                             String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                             String tname = arr.getJSONObject(i).getString("trip_name");
-                            String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
+                            JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
+                            String image = array.length() > 1 ? array.getString(0) : null;
                             mTrips.add(new Trip(id, name, image, start, end, tname));
                         }
                     } catch (JSONException e) {
