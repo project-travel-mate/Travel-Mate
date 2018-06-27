@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
@@ -322,8 +322,9 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                             Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
                     MapRealTimeActivity.this.startActivity(browserIntent);
                 } catch (Exception e) {
-                    Toast.makeText(MapRealTimeActivity.this,
-                            R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
+                    Snackbar.make(Objects.requireNonNull(MapRealTimeActivity.this).findViewById(android.R.id.content),
+                            R.string.no_activity_for_browser,
+                            Snackbar.LENGTH_LONG).show();
                 }
             });
             return false;

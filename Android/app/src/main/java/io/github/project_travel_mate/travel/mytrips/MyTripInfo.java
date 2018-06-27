@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
@@ -116,9 +116,9 @@ public class MyTripInfo extends AppCompatActivity {
     @OnClick(R.id.newfrriend)
     void onClick() {
         if (mFriendid == null) {
-            Toast.makeText(MyTripInfo.this,
-                    getResources().getString(R.string.no_friend_selected),
-                    Toast.LENGTH_LONG).show();
+            Snackbar.make(Objects.requireNonNull(MyTripInfo.this).findViewById(android.R.id.content),
+                    R.string.no_friend_selected,
+                    Snackbar.LENGTH_LONG).show();
         } else {
             addfriend();
         }
@@ -199,7 +199,9 @@ public class MyTripInfo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
+            Snackbar.make(Objects.requireNonNull(MyTripInfo.this).findViewById(android.R.id.content),
+                    "Images Added",
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -303,9 +305,13 @@ public class MyTripInfo extends AppCompatActivity {
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_OK) {
-                            Toast.makeText(MyTripInfo.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+                            Snackbar.make(Objects.requireNonNull(MyTripInfo.this).findViewById(android.R.id.content),
+                                    R.string.friend_added,
+                                    Snackbar.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(MyTripInfo.this, res, Toast.LENGTH_LONG).show();
+                            Snackbar.make(Objects.requireNonNull(MyTripInfo.this).findViewById(android.R.id.content),
+                                    res,
+                                    Snackbar.LENGTH_LONG).show();
                         }
                         mDialog.dismiss();
                     });
