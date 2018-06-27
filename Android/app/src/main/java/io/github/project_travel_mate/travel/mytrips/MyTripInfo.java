@@ -93,7 +93,8 @@ public class MyTripInfo extends AppCompatActivity {
         List<File> imagesuri = new ArrayList<>();
         mFname = new ArrayList<>();
 
-        Picasso.with(this).load(mTrip.getImage()).into(iv);
+        Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
+                .placeholder(R.drawable.delhi).into(iv);
 
         mHandler = new Handler(Looper.getMainLooper());
 

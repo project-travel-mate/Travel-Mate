@@ -27,7 +27,6 @@
 
 
         <GridLayout
-            android:id="@+id/TextContentGrid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"

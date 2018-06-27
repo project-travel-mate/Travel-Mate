@@ -190,7 +190,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/toll1"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
@@ -200,7 +199,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/toll2"
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
@@ -210,7 +208,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/toll3"
                 android:layout_column="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="3"
@@ -221,7 +218,6 @@
 
 
             <TextView
-                android:id="@+id/total1"
                 android:layout_column="0"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
@@ -231,7 +227,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/total2"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"
@@ -241,7 +236,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/total3"
                 android:layout_column="2"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="4"

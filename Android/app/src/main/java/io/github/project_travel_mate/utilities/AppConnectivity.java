@@ -6,10 +6,8 @@ import java.io.IOException;
 
 public class AppConnectivity {
 
-    Context context;
-
     public AppConnectivity(Context context) {
-        this.context = context;
+        Context context1 = context;
     }
 
     public boolean isOnline() {
@@ -19,9 +17,7 @@ public class AppConnectivity {
             int exitValue = ipProcess.waitFor();
             return (exitValue == 0);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return false;

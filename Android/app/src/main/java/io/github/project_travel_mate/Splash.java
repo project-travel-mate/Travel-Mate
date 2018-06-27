@@ -19,10 +19,6 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        Objects.requireNonNull(getSupportActionBar()).hide();
 
         final PathView pathView = findViewById(R.id.pathView);
         pathView.getPathAnimator()
@@ -35,7 +31,7 @@ public class Splash extends AppCompatActivity {
         pathView.setFillAfter(true);
 
         // TODO :: check for the user_token here & redirect to corresponding class
-        // If token is null -> LoginActivity, else Mainactivity
+        // If token is null -> LoginActivity, else MainActivity
         new Handler().postDelayed(() -> {
             Intent i = new Intent(Splash.this, LoginActivity.class);
             startActivity(i);
