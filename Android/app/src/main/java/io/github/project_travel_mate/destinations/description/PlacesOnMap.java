@@ -305,7 +305,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                             mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
                     showMarker(latitude,
                             longitude,
-                            mFeedItems.getJSONObject(position).getString("name"));
+                            mFeedItems.getJSONObject(position).getString("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

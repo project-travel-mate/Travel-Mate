@@ -21,6 +21,7 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -28,6 +29,7 @@ import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 
+import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
 
 /**
@@ -67,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Get reference to the navigation view header and email textview
+        View navigationHeader = navigationView.getHeaderView(0);
+        TextView emailTextView = navigationHeader.findViewById(R.id.email);
+        // Fetch the user mail id from SharedPreferences
+        String emailId = mSharedPreferences.getString(USER_EMAIL, getString(R.string.app_name));
+        emailTextView.setText(emailId);
     }
 
     @Override
