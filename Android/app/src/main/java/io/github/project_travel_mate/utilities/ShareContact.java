@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -78,12 +78,16 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
             //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
             if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(ShareContact.this, R.string.msg_qr_not_saved, Toast.LENGTH_LONG).show();
+                Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                        R.string.msg_qr_not_saved,
+                        Snackbar.LENGTH_LONG).show();
                 return;
             }
 
             //Show success message
-            Toast.makeText(ShareContact.this, getString(R.string.msg_saved) + " " + qrCode, Toast.LENGTH_LONG).show();
+            Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                    getString(R.string.msg_saved) + " " + qrCode,
+                    Snackbar.LENGTH_LONG).show();
 
             //Load QR code image from given path
             imgResult.setImageURI(Uri.parse(qrCode));
@@ -93,10 +97,14 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
 
         if (ACTIVITY_INSERT_CONTACT == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Added Contact", Toast.LENGTH_SHORT).show();
+                Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                        "Added Contact",
+                        Snackbar.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Cancelled Added Contact", Toast.LENGTH_SHORT).show();
+                Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                        "Cancelled Added Contact",
+                        Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -135,9 +143,9 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
+                    Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                            "Can't be generated. Need to download QR services",
+                            Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.create:
@@ -163,9 +171,9 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_CREATE);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContact.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
+                    Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
+                            "Can't be generated. Need to download QR Services",
+                            Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }

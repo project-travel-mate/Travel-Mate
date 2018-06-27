@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
@@ -232,9 +232,9 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                         if (feedItems.length() > 0) {
                             lv.setAdapter(new HotelsAdapter(Hotels.this, feedItems));
                         } else {
-                            Toast.makeText(Hotels.this,
+                            Snackbar.make(Objects.requireNonNull(Hotels.this).findViewById(android.R.id.content),
                                     getResources().getString(R.string.no_hotels),
-                                    Toast.LENGTH_LONG).show();
+                                    Snackbar.LENGTH_LONG).show();
                         }
                     } catch (JSONException e1) {
                         e1.printStackTrace();

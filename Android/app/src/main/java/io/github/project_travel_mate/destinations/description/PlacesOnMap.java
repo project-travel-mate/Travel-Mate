@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,7 +22,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -323,13 +323,15 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                     case Activity.RESULT_OK:
                         //User agreed to make required location settings changes
                         //startLocationUpdates();
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_enabled, Toast.LENGTH_LONG).show();
+                        Snackbar.make(Objects.requireNonNull(PlacesOnMap.this).findViewById(android.R.id.content),
+                                R.string.location_enabled,
+                                Snackbar.LENGTH_LONG).show();
                         break;
                     case Activity.RESULT_CANCELED:
                         //User chose not to make required location settings changes
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_not_enabled, Toast.LENGTH_LONG).show();
+                        Snackbar.make(Objects.requireNonNull(PlacesOnMap.this).findViewById(android.R.id.content),
+                                R.string.location_not_enabled,
+                                Snackbar.LENGTH_LONG).show();
                         break;
                 }
                 break;
