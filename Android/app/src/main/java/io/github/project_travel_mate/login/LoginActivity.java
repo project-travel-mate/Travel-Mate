@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +19,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -136,8 +138,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (passString.equals(confirmPassString)) {
                     mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
                 } else {
-                    Toast.makeText(this, R.string.passwords_check,
-                            Toast.LENGTH_SHORT).show();
+                    Snackbar.make(Objects.requireNonNull(LoginActivity.this).findViewById(android.R.id.content),
+                            R.string.passwords_check,
+                            Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -160,8 +163,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showError() {
-        Toast.makeText(this, R.string.toast_invalid_username_or_password, Toast.LENGTH_LONG)
-                .show();
+        Snackbar.make(Objects.requireNonNull(LoginActivity.this).findViewById(android.R.id.content),
+                R.string.snackbar_invalid_username_or_password,
+                Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -230,7 +234,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG)
-                .show();
+        Snackbar.make(Objects.requireNonNull(LoginActivity.this).findViewById(android.R.id.content),
+                message,
+                Snackbar.LENGTH_SHORT).show();
     }
 }

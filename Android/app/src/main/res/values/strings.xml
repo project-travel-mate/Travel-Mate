@@ -30,7 +30,7 @@
     <string name="login">Login</string>
     <string name="signup">Signup</string>
     <string name="name">Name</string>
-    <string name="toast_invalid_username_or_password">Invalid username or password</string>
+    <string name="snackbar_invalid_username_or_password">Invalid username or password</string>
 
 
     <!-- Travel home page strings -->
@@ -164,6 +164,10 @@
     <string name="member_from">Member from</string>
     <string name="profile_icon">Profile_icon</string>
     <string name="mail_icon">mail_icon</string>
+    <string name ="cant_generate">"Can't be generated. Need to download QR services"</string>
+    <string name="cancel_contact">Cancelled Added Contact</string>
+    <string name="added_contact">Added Contact</string>
+    <string name="snackbar_imageadd">Images Added</string>
     <string name="info_icon">info_icon</string>
 
 </resources>

@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -216,7 +215,9 @@ public class CityFragment extends Fragment {
                         lv.setAdapter(new CityAdapter(mActivity, cities, settings));
                         lv.setOnItemClickListener((parent, view, position, id1) -> {
                             City city = (City) lv.getAdapter().getItem(position);
-                            Toast.makeText(mActivity, city.getNickname(), Toast.LENGTH_SHORT).show();
+                            Snackbar.make(Objects.requireNonNull(mActivity).findViewById(android.R.id.content),
+                                    city.getNickname(),
+                                    Snackbar.LENGTH_SHORT).show();
                             Intent intent = new Intent(mActivity, FinalCityInfo.class);
                             intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
                             startActivity(intent);

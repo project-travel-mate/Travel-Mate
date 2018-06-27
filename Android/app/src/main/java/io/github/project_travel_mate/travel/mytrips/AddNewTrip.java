@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
@@ -235,9 +235,13 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_CREATED) {
-                            Toast.makeText(AddNewTrip.this, R.string.trip_added, Toast.LENGTH_LONG).show();
+                            Snackbar.make(Objects.requireNonNull(AddNewTrip.this).findViewById(android.R.id.content),
+                                    R.string.trip_added,
+                                    Snackbar.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(AddNewTrip.this, res, Toast.LENGTH_LONG).show();
+                            Snackbar.make(Objects.requireNonNull(AddNewTrip.this).findViewById(android.R.id.content),
+                                    res,
+                                    Snackbar.LENGTH_LONG).show();
                         }
                     });
 
