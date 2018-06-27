@@ -61,7 +61,6 @@ public class CityFragment extends Fragment {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
-    private AppConnectivity mConnectivity;
 
     public CityFragment() {
     }
@@ -69,7 +68,7 @@ public class CityFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mConnectivity = new AppConnectivity(getContext());
+        AppConnectivity mConnectivity = new AppConnectivity(getContext());
         View view = inflater.inflate(R.layout.content_citylist, container, false);
 
         ButterKnife.bind(this, view);
@@ -142,7 +141,7 @@ public class CityFragment extends Fragment {
                                         arr.getJSONObject(i).getString("image"),
                                         arr.getJSONObject(i).getString("city_name"),
                                         arr.getJSONObject(i).getInt("facts_count"),
-                                        "Know More", "View on Map", "Fun Facts", "View Website"));
+                                        "Know More", "View on Map", "Fun Facts", "City Trends"));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -211,7 +210,7 @@ public class CityFragment extends Fragment {
                                     ar.getJSONObject(i).optString("image"),
                                     ar.getJSONObject(i).getString("city_name"),
                                     ar.getJSONObject(i).getInt("facts_count"),
-                                    "Know More", "View on Map", "Fun Facts", "View Website"));
+                                    "Know More", "View on Map", "Fun Facts", "City Trends"));
                         }
 
                         lv.setAdapter(new CityAdapter(mActivity, cities, settings));

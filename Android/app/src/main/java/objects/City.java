@@ -18,7 +18,6 @@ public class City implements Serializable {
     private String mLatitude;
     private String mLongitude;
     private int mFunFactsCount;
-    private int mBackground;
 
     /**
      * Instantiates city object
@@ -27,21 +26,19 @@ public class City implements Serializable {
      * @param avatar      city image
      * @param nickname    city name
      * @param description city description
-     * @param background  Background color when card is opened
      * @param lat         latitude of city
      * @param lon         longitude of city
      * @param funFactsCount count of fun facts for the city
      * @param interest    list of items when string is opened
      */
     public City(String id, String avatar, String nickname, String description,
-                int background, String lat, String lon,  int funFactsCount, String... interest) {
+                String lat, String lon,  int funFactsCount, String... interest) {
         this.mAvatar = avatar;
         this.mId = id;
         this.mLatitude = lat;
         this.mLongitude = lon;
         this.mNickname = nickname;
         this.mDescription = description;
-        this.mBackground = background;
         this.mFunFactsCount = funFactsCount;
         mInterests.addAll(Arrays.asList(interest));
     }
@@ -76,10 +73,6 @@ public class City implements Serializable {
 
     public String getLongitude() {
         return mLongitude;
-    }
-
-    public int getBackground() {
-        return mBackground;
     }
 
     public List<String> getInterests() {

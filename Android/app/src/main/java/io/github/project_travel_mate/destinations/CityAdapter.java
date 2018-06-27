@@ -21,6 +21,7 @@ import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfo;
+import io.github.project_travel_mate.destinations.description.Tweets;
 import io.github.project_travel_mate.destinations.funfacts.FunFacts;
 import objects.City;
 import views.FontTextView;
@@ -59,7 +60,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
             holder.fv4 = (FontTextView) holder.infoPage.findViewById(R.id.interest_4);
 
             for (int id : mIdsInterest)
-                holder.interests.add((TextView) holder.infoPage.findViewById(id));
+                holder.interests.add(holder.infoPage.findViewById(id));
 
             convertView.setTag(holder);
         } else {
@@ -136,8 +137,9 @@ class CityAdapter extends BaseFlipAdapter<City> {
         });
 
         holder.fv4.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-            mContext.startActivity(browserIntent);
+            Intent intent = new Intent(mContext, Tweets.class);
+            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            mContext.startActivity(intent);
         });
     }
 

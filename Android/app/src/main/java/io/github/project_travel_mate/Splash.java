@@ -35,7 +35,7 @@ public class Splash extends AppCompatActivity {
         pathView.setFillAfter(true);
 
         // TODO :: check for the user_token here & redirect to corresponding class
-        // If token is null -> LoginActivity, else Mainactivity
+        // If token is null -> LoginActivity, else MainActivity
         new Handler().postDelayed(() -> {
             Intent i = new Intent(Splash.this, LoginActivity.class);
             startActivity(i);

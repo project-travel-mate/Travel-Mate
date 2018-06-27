@@ -305,7 +305,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                             mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
                     showMarker(latitude,
                             longitude,
-                            mFeedItems.getJSONObject(position).getString("name"));
+                            mFeedItems.getJSONObject(position).getString("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -329,7 +329,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                     case Activity.RESULT_CANCELED:
                         //User chose not to make required location settings changes
                         Toast.makeText(getApplicationContext(),
-                                R.string.location_not_enabled, Toast.LENGTH_LONG);
+                                R.string.location_not_enabled, Toast.LENGTH_LONG).show();
                         break;
                 }
                 break;
