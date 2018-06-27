@@ -117,7 +117,7 @@ public class MyTripInfo extends AppCompatActivity {
     void onClick() {
         if (mFriendid == null) {
             Snackbar.make(Objects.requireNonNull(MyTripInfo.this).findViewById(android.R.id.content),
-                    R.string.no_friend_selected,
+                    getResources().getString(R.string.no_friend_selected),
                     Snackbar.LENGTH_LONG).show();
         } else {
             addfriend();

@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     Snackbar.make(Objects.requireNonNull(LoginActivity.this).findViewById(android.R.id.content),
                             R.string.passwords_check,
-                            Snackbar.LENGTH_LONG).show();
+                            Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
