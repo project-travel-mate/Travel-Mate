@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.destinations.description;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -24,7 +25,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.destinations.funfacts.FunFacts;
+import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
@@ -34,7 +35,7 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Fetch city information for given city mId
  */
-public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
+public class FinalCityInfoActivity extends AppCompatActivity implements View.OnClickListener, FinalCityInfoView {
 
     @BindView(R.id.temp)
     TextView temp;
@@ -153,25 +154,23 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         Intent intent;
         switch (v.getId()) {
             case R.id.funfact:
-                intent = new Intent(FinalCityInfo.this, FunFacts.class);
-                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
+                intent = FunFactsActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 startActivity(intent);
                 break;
             case R.id.restau:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "restaurant");
+                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "restaurant");
                 break;
             case R.id.hangout:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "hangout");
+                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "hangout");
                 break;
             case R.id.monu:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "monument");
+                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "monument");
                 break;
             case R.id.shoppp:
-                fireIntent(new Intent(FinalCityInfo.this, PlacesOnMap.class), "shopping");
+                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "shopping");
                 break;
             case R.id.trends:
-                intent = new Intent(FinalCityInfo.this, Tweets.class);
-                intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
+                intent = TweetsActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 startActivity(intent);
                 break;
         }
@@ -199,7 +198,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showProgress() {
-        mDialog = new MaterialDialog.Builder(FinalCityInfo.this)
+        mDialog = new MaterialDialog.Builder(FinalCityInfoActivity.this)
                 .title(getString(R.string.app_name))
                 .content(R.string.progress_wait)
                 .progress(true, 0)
@@ -227,7 +226,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
-            Picasso.with(FinalCityInfo.this).load(iconUrl).into(ico);
+            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
             temp.setText(tempText);
             humidity.setText(humidityText);
             weatherinfo.setText(weatherDescription);
@@ -270,5 +269,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, mCity);
         intent.putExtra(EXTRA_MESSAGE_TYPE, type);
         startActivity(intent);
+    }
+
+    public static Intent getStartIntent(Context context, City city) {
+        Intent intent = new Intent(context, FinalCityInfoActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+        return intent;
     }
 }

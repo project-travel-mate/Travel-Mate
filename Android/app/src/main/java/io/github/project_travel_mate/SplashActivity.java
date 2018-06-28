@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import io.github.project_travel_mate.login.LoginActivity;
 
-public class Splash extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class Splash extends AppCompatActivity {
         // TODO :: check for the user_token here & redirect to corresponding class
         // If token is null -> LoginActivity, else MainActivity
         new Handler().postDelayed(() -> {
-            Intent i = new Intent(Splash.this, LoginActivity.class);
+            Intent i = LoginActivity.getStartIntent(SplashActivity.this);
             startActivity(i);
             finish();
         }, 2000);

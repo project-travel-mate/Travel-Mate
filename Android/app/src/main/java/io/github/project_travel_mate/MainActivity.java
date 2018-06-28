@@ -2,6 +2,7 @@ package io.github.project_travel_mate;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Initially city fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new CityFragment();
+        fragment = CityFragment.newInstance();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         // Get runtime permissions for Android M
@@ -108,19 +109,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case R.id.nav_travel:
-                fragment = new TravelFragment();
+                fragment = TravelFragment.newInstance();
                 break;
 
             case R.id.nav_city:
-                fragment = new CityFragment();
+                fragment = CityFragment.newInstance();
                 break;
 
             case R.id.nav_utility:
-                fragment = new UtilitiesFragment();
+                fragment = UtilitiesFragment.newInstance();
                 break;
 
             case R.id.nav_emergency:
-                fragment = new EmergencyFragment();
+                fragment = EmergencyFragment.newInstance();
                 break;
 
             case R.id.nav_signout: {
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             .edit()
                                             .putString(USER_TOKEN, null)
                                             .apply();
-                                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                                    Intent i = LoginActivity.getStartIntent(MainActivity.this);
                                     startActivity(i);
                                     finish();
                                 })
@@ -187,7 +188,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onClickProfile(View view) {
-        Intent in = new Intent(MainActivity.this, ProfileActivity.class);
+        Intent in = ProfileActivity.getStartIntent(MainActivity.this);
         startActivity(in);
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.travel.transport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,8 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.CardItemEntity;
 
-public class SelectModeOfTransport extends AppCompatActivity implements CardViewOptionsAdapter.OnItemClickListener {
+public class SelectModeOfTransportActivity extends AppCompatActivity
+        implements CardViewOptionsAdapter.OnItemClickListener {
 
     @BindView(R.id.transport_mode_options_recycle_view)
     RecyclerView mTransportModeOptionsRecycleView;
@@ -69,14 +71,18 @@ public class SelectModeOfTransport extends AppCompatActivity implements CardView
         Intent i;
         switch (position) {
             case 0:
-                i = new Intent(SelectModeOfTransport.this, TrainList.class);
+                i = TrainListActivity.getStartIntent(SelectModeOfTransportActivity.this);
                 startActivity(i);
                 break;
             case 1:
-                i = new Intent(SelectModeOfTransport.this, CarDirections.class);
+                i = CarDirectionsActivity.getStartIntent(SelectModeOfTransportActivity.this);
                 startActivity(i);
                 break;
         }
+    }
 
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, SelectModeOfTransportActivity.class);
+        return intent;
     }
 }

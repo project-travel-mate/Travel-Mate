@@ -1,5 +1,7 @@
 package io.github.project_travel_mate.utilities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +14,7 @@ import java.util.Objects;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
-public class Checklist extends AppCompatActivity {
+public class ChecklistActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class Checklist extends AppCompatActivity {
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new ChecklistFragment();
+        fragment = ChecklistFragment.newInstance();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         setTitle(getResources().getString(R.string.text_checklist));
@@ -44,4 +46,8 @@ public class Checklist extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, ChecklistActivity.class);
+        return intent;
+    }
 }

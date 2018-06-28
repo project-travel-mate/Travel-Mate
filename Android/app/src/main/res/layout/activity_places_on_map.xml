@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="io.github.project_travel_mate.destinations.description.PlacesOnMap">
+    tools:context="io.github.project_travel_mate.destinations.description.PlacesOnMapActivity">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"

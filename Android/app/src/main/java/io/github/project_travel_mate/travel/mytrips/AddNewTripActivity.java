@@ -1,5 +1,7 @@
 package io.github.project_travel_mate.travel.mytrips;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,7 +50,7 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Activity to add new trip
  */
-public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
 
@@ -194,7 +196,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     private void addTrip() {
 
         // Show a mDialog box
-        mDialog = new MaterialDialog.Builder(AddNewTrip.this)
+        mDialog = new MaterialDialog.Builder(AddNewTripActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)
@@ -235,9 +237,9 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_CREATED) {
-                            Toast.makeText(AddNewTrip.this, R.string.trip_added, Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(AddNewTrip.this, res, Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -288,5 +290,10 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                 addTrip();
                 break;
         }
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, AddNewTripActivity.class);
+        return intent;
     }
 }

@@ -2,6 +2,7 @@ package io.github.project_travel_mate.travel.transport;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -62,7 +63,7 @@ import static utils.Constants.maps_key;
 /**
  * Show car directions between 2 cities
  */
-public class CarDirections extends AppCompatActivity implements OnMapReadyCallback {
+public class CarDirectionsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private final Double mFuelprice = 60.00;
     private final Double mMileageHatchback = 30.0;
@@ -145,7 +146,7 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
         LatLng coord = new LatLng(locationLat, locationLong);
 
         if (mGoogleMap != null) {
-            if (ContextCompat.checkSelfPermission(CarDirections.this,
+            if (ContextCompat.checkSelfPermission(CarDirectionsActivity.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mGoogleMap.setMyLocationEnabled(true);
@@ -169,7 +170,7 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
     private void getDirections() {
 
         // Show a dialog box
-        mProgressDialog = new ProgressDialog(CarDirections.this);
+        mProgressDialog = new ProgressDialog(CarDirectionsActivity.this);
         mProgressDialog.setMessage("Fetching route, Please wait...");
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
@@ -302,5 +303,10 @@ public class CarDirections extends AppCompatActivity implements OnMapReadyCallba
         showMarker(Double.parseDouble(mSorcelat), Double.parseDouble(mSorcelon), "SOURCE");
         showMarker(Double.parseDouble(mDeslat), Double.parseDouble(mDeslon), "DESTINATION");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, CarDirectionsActivity.class);
+        return intent;
     }
 }

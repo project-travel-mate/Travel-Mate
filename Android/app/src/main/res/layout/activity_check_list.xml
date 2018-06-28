@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="io.github.project_travel_mate.utilities.Checklist">
+    tools:context="io.github.project_travel_mate.utilities.ChecklistActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,6 +23,6 @@
 
     <include
         android:id="@+id/inc"
-        layout="@layout/content_check_list" />
+        layout="@layout/fragment_check_list" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,7 +8,7 @@
     android:background="#ffffff"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io.github.project_travel_mate.utilities.Checklist">
+    tools:context="io.github.project_travel_mate.utilities.ChecklistActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/travel_options_recycle_view"

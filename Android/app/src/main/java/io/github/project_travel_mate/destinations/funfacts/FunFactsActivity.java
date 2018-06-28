@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.destinations.funfacts;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Funfacts activity
  */
-public class FunFacts extends AppCompatActivity implements FunFactsView {
+public class FunFactsActivity extends AppCompatActivity implements FunFactsView {
 
     @BindView(R.id.vp)
     ViewPager viewPager;
@@ -70,7 +71,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
 
     @Override
     public void showProgressDialog() {
-        mDialog = new MaterialDialog.Builder(FunFacts.this)
+        mDialog = new MaterialDialog.Builder(FunFactsActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)
@@ -97,7 +98,7 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
                         factsArray.get(i).getText());
                 fList.add(FunfactFragment.newInstance(fact));
             }
-            viewPager.setAdapter(new MyPageAdapter(FunFacts.this.getSupportFragmentManager(), fList));
+            viewPager.setAdapter(new MyPageAdapter(FunFactsActivity.this.getSupportFragmentManager(), fList));
             viewPager.setPageTransformer(true, new AccordionTransformer());
         });
     }
@@ -122,5 +123,11 @@ public class FunFacts extends AppCompatActivity implements FunFactsView {
         public int getCount() {
             return this.mFragments.size();
         }
+    }
+
+    public static Intent getStartIntent(Context context, City city) {
+        Intent intent = new Intent(context, FunFactsActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+        return intent;
     }
 }
