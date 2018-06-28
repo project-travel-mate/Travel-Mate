@@ -26,6 +26,7 @@ import android.widget.TextView;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
+import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SharedPreferences mSharedPreferences;
     private int mPreviousMenuItemId;
+    private DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get runtime permissions for Android M
         getRuntimePermissions();
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawer,
+                mDrawer,
                 toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -101,34 +103,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         int id = item.getItemId();
-        Fragment fragment;
+        Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (id) {
             case R.id.nav_travel:
-
                 fragment = new TravelFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_city:
-
                 fragment = new CityFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_utility:
-
                 fragment = new UtilitiesFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_emergency:
-
                 fragment = new EmergencyFragment();
-                fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-
                 break;
+
             case R.id.nav_signout: {
 
                 //set AlertDialog before signout
@@ -153,10 +147,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             }
+
+            case R.id.nav_report_bug:
+                fragment = BugReportFragment.newInstance();
+                break;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
+
+        mDrawer.closeDrawer(GravityCompat.START);
         mPreviousMenuItemId = item.getItemId();
         return true;
     }
