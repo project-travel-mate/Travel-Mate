@@ -166,6 +166,13 @@
     <string name="profile_icon">Profile_icon</string>
     <string name="mail_icon">mail_icon</string>
     <string name="info_icon">info_icon</string>
+    <string name="profile">Profile</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="invalid_password">Password must contain at least 1 Capital Alphabet, 1 Number and 1 Special Character.</string>
+    <string name="password_length">Password must contain minimum 8 characters</string>
+    <string name="invalid_email">Invalid Email</string>
+
 
     <!-- Choose feature type -->
     <array name="bug_types">
@@ -179,5 +186,4 @@
     <string name="button_text_bugreport">Report</string>
     <string name="failure_message_bugreport">Failed to send issue...</string>
     <string name="success_message_bugreport">Issue Sent Successfully...</string>
-
 </resources>

@@ -43,12 +43,14 @@ class LoginPresenter {
     /**
      * Calls Signup API
      *
-     * @param name     user's name
-     * @param email    user's email id
-     * @param pass     password user entered
-     * @param mhandler handler
+     * @param firstname user's first name
+     * @param lastname  user's last name
+     * @param email     user's email id
+     * @param pass      password user entered
+     * @param mhandler  handler
      */
-    public void ok_signUp(final String name, final String email, String pass, final Handler mhandler) {
+    public void ok_signUp(final String firstname, final String lastname, final String email,
+                          String pass, final Handler mhandler) {
 
         mView.showLoadingDialog();
 
@@ -61,8 +63,8 @@ class LoginPresenter {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("email", email)
                 .addFormDataPart("password", pass)
-                .addFormDataPart("firstname", name)
-                .addFormDataPart("lastname", name)
+                .addFormDataPart("firstname", firstname)
+                .addFormDataPart("lastname", lastname)
                 .build();
 
         //Execute request

@@ -10,19 +10,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,8 +60,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText pass_signup;
     @BindView(R.id.input_confirm_pass_signup)
     EditText confirm_pass_signup;
-    @BindView(R.id.input_name_signup)
-    EditText name;
+    @BindView(R.id.input_firstname_signup)
+    EditText firstName;
+    @BindView(R.id.input_lastname_signup)
+    EditText lastName;
     @BindView(R.id.ok_login)
     FlatButton ok_login;
     @BindView(R.id.ok_signup)
@@ -131,13 +137,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 emailString = email_signup.getText().toString();
                 passString = pass_signup.getText().toString();
                 String confirmPassString = confirm_pass_signup.getText().toString();
-                String nameString = name.getText().toString();
-                if (passString.equals(confirmPassString)) {
-                    mLoginPresenter.ok_signUp(nameString, emailString, passString, mHandler);
-                } else {
-                    Toast.makeText(this, R.string.passwords_check,
-                            Toast.LENGTH_SHORT).show();
+                String firstname = firstName.getText().toString();
+                String lastname = lastName.getText().toString();
+                if (validateEmail(emailString)) {
+                    if (validatePassword(passString)) {
+                        if (passString.equals(confirmPassString)) {
+                            mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                        } else {
+                            Snackbar snackbar = Snackbar
+                                    .make(findViewById(android.R.id.content), 
+                                          R.string.passwords_check, Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    }
                 }
+
                 break;
         }
     }
@@ -159,8 +173,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showError() {
-        Toast.makeText(this, R.string.toast_invalid_username_or_password, Toast.LENGTH_LONG)
-                .show();
+        Snackbar snackbar = Snackbar
+                .make(findViewById(android.R.id.content), 
+                      R.string.toast_invalid_username_or_password, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     @Override
@@ -229,10 +245,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG)
-                .show();
+        Snackbar snackbar = Snackbar
+                .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
+    /**
+     * Validates the given email, checks if given email proper format as standard email string
+     * @param email email string to be validate
+     * @return Boolean returns true if email format is correct, otherwise false
+     */
+    public boolean validateEmail(String email) {
+        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
+        if (!email.equals("") && matcher.matches()) {
+            return true;
+        } else {
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(android.R.id.content), R.string.invalid_email, Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }
+    }
+/**
+     * Validates the given password, checks if given password proper format as standard password string
+     * @param passString password string to be validate
+     * @return Boolean returns true if email format is correct, otherwise false
+     */
+    public boolean validatePassword(String passString) {
+        if (passString.length() >= 8) {
+            Pattern pattern;
+            Matcher matcher;
+            final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+            pattern = Pattern.compile(PASSWORD_PATTERN);
+            matcher = pattern.matcher(passString);
+
+            if (matcher.matches()) {
+                return true;
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(android.R.id.content), R.string.invalid_password, Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return false;
+            }
+        } else {
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(android.R.id.content), R.string.password_length, Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }
+    }
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;

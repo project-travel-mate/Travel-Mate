@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
                 android:text="@string/app_name"
@@ -95,10 +95,10 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
+                    android:textColorHint="#ffffff"
                     app:passwordToggleDrawable="@drawable/icon_selector"
-                    app:passwordToggleTint="@color/white"
-                    android:textColorHint="#ffffff">
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/white">
 
                     <EditText
                         android:id="@+id/input_pass_login"
@@ -141,14 +141,30 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColorHint="#ffffff">
+
+                    <EditText
+                        android:id="@+id/input_firstname_signup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/first_name"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#ffffff">
 
                     <EditText
-                        android:id="@+id/input_name_signup"
+                        android:id="@+id/input_lastname_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name"
+                        android:hint="@string/last_name"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textColor="#ffffff"
@@ -176,10 +192,10 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
+                    android:textColorHint="#ffffff"
                     app:passwordToggleDrawable="@drawable/icon_selector"
-                    app:passwordToggleTint="@color/white"
-                    android:textColorHint="#ffffff">
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/white">
 
                     <EditText
                         android:id="@+id/input_pass_signup"
@@ -195,10 +211,10 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
+                    android:textColorHint="#ffffff"
                     app:passwordToggleDrawable="@drawable/icon_selector"
-                    app:passwordToggleTint="@color/white"
-                    android:textColorHint="#ffffff">
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/white">
 
                     <EditText
                         android:id="@+id/input_confirm_pass_signup"
