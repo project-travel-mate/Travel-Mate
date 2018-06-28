@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="io.github.project_travel_mate.travel.transport.CarDirections">
+    tools:context="io.github.project_travel_mate.travel.transport.CarDirectionsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="io.github.project_travel_mate.travel.transport.CarDirections"
+        tools:context="io.github.project_travel_mate.travel.transport.CarDirectionsActivity"
         tools:showIn="@layout/activity_car_directions">
 
 

@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.destinations.description.FinalCityInfo;
+import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import io.github.project_travel_mate.utilities.AppConnectivity;
 import objects.City;
 import okhttp3.Call;
@@ -45,7 +45,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment {
@@ -65,11 +64,16 @@ public class CityFragment extends Fragment {
     public CityFragment() {
     }
 
+    public static CityFragment newInstance() {
+        CityFragment fragment = new CityFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         AppConnectivity mConnectivity = new AppConnectivity(getContext());
-        View view = inflater.inflate(R.layout.content_citylist, container, false);
+        View view = inflater.inflate(R.layout.fragment_citylist, container, false);
 
         ButterKnife.bind(this, view);
 
@@ -154,8 +158,7 @@ public class CityFragment extends Fragment {
                         cityname.setThreshold(1);
                         cityname.setAdapter(dataAdapter);
                         cityname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
-                            Intent intent = new Intent(mActivity, FinalCityInfo.class);
-                            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, cities.get(arg2));
+                            Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, cities.get(arg2));
                             startActivity(intent);
                         });
                     } catch (JSONException e) {
@@ -217,8 +220,7 @@ public class CityFragment extends Fragment {
                         lv.setOnItemClickListener((parent, view, position, id1) -> {
                             City city = (City) lv.getAdapter().getItem(position);
                             Toast.makeText(mActivity, city.getNickname(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(mActivity, FinalCityInfo.class);
-                            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+                            Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
                             startActivity(intent);
                         });
 

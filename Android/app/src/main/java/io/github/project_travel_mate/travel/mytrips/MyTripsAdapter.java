@@ -51,7 +51,7 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             date.setText("");
 
             view.setOnClickListener(v -> {
-                Intent i = new Intent(mContext, AddNewTrip.class);
+                Intent i = AddNewTripActivity.getStartIntent(mContext);
                 mContext.startActivity(i);
             });
 
@@ -71,8 +71,7 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
             date.setText(timeString);
             view.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, MyTripInfo.class);
-                intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrips.get(position));
+                Intent intent = MyTripInfoActivity.getStartIntent(mContext, mTrips.get(position));
                 mContext.startActivity(intent);
             });
         }

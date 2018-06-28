@@ -1,6 +1,8 @@
 package io.github.project_travel_mate.travel;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,7 +42,7 @@ import utils.Utils;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class ShoppingCurrentCity extends AppCompatActivity {
+public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
     @BindView(R.id.pb)
     ProgressBar pb;
@@ -83,7 +85,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                 try {
                     getShoppingItems(query);
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
                     alertDialog.setTitle("Can't connect.");
                     alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -124,7 +126,7 @@ public class ShoppingCurrentCity extends AppCompatActivity {
             String item = q.getText().toString();
             getShoppingItems(item);
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCity.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
             alertDialog.setTitle("Can't connect.");
             alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -189,12 +191,12 @@ public class ShoppingCurrentCity extends AppCompatActivity {
                         JSONArray feedItems = new JSONArray(res);
                         Log.v("response", feedItems + " ");
                         if (feedItems.length() == 0) {
-                            Utils.hideKeyboard(ShoppingCurrentCity.this);
+                            Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
                             Snackbar.make(pb, "No results found",
                                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         }
                         pb.setVisibility(View.GONE);
-                        lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCity.this, feedItems));
+                        lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, feedItems));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -203,4 +205,8 @@ public class ShoppingCurrentCity extends AppCompatActivity {
         });
     }
 
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, ShoppingCurrentCityActivity.class);
+        return intent;
+    }
 }

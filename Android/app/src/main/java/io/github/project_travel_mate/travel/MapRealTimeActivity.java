@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.travel;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -328,6 +329,10 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             });
             return false;
         });
+    }
 
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, MapRealTimeActivity.class);
+        return intent;
     }
 }

@@ -137,7 +137,7 @@ public class LocationService extends Service {
                                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                 int notificationId = 12345;
 
-                Intent targetIntent = new Intent(LocationService.this, MainActivity.class);
+                Intent targetIntent = MainActivity.getStartIntent(LocationService.this);
                 PendingIntent contentIntent = PendingIntent.getActivity(LocationService.this,
                         0,
                         targetIntent,

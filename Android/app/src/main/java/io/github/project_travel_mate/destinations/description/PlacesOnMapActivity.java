@@ -57,7 +57,7 @@ import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
 
-public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback {
+public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.lv)
     TwoWayView twoWayView;
@@ -123,7 +123,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
     private void showMarker(Double locationLat, Double locationLong, String locationName) {
         LatLng coord = new LatLng(locationLat, locationLong);
-        if (ContextCompat.checkSelfPermission(PlacesOnMap.this,
+        if (ContextCompat.checkSelfPermission(PlacesOnMapActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (mGoogleMap != null) {
@@ -142,7 +142,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
 
     private void getPlaces() {
 
-        mProgressDialog = new ProgressDialog(PlacesOnMap.this);
+        mProgressDialog = new ProgressDialog(PlacesOnMapActivity.this);
         mProgressDialog.setMessage("Fetching data, Please wait...");
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
@@ -178,7 +178,7 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                         JSONArray feedItems = feed.getJSONArray("items");
                         Log.v("response", feedItems.toString());
 
-                        twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMap.this, feedItems, mIcon));
+                        twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
 
                         mProgressDialog.dismiss();
                     } catch (JSONException e) {
@@ -334,5 +334,10 @@ public class PlacesOnMap extends AppCompatActivity implements OnMapReadyCallback
                 }
                 break;
         }
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, PlacesOnMapActivity.class);
+        return intent;
     }
 }

@@ -31,6 +31,11 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
     public UtilitiesFragment() {
     }
 
+    public static UtilitiesFragment newInstance() {
+        UtilitiesFragment fragment = new UtilitiesFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,11 +66,11 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         Intent intent;
         switch (position) {
             case 0:
-                intent = new Intent(mActivity, ShareContact.class);
+                intent = ShareContactActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
             case 1:
-                intent = new Intent(mActivity, Checklist.class);
+                intent = ChecklistActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
         }

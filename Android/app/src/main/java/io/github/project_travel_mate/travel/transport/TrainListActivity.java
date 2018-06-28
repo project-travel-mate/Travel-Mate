@@ -1,5 +1,7 @@
 package io.github.project_travel_mate.travel.transport;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +40,7 @@ import static utils.Constants.API_LINK;
 import static utils.Constants.DESTINATION_CITY;
 import static utils.Constants.SOURCE_CITY;
 
-public class TrainList extends AppCompatActivity implements
+public class TrainListActivity extends AppCompatActivity implements
         com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
@@ -162,7 +164,7 @@ public class TrainList extends AppCompatActivity implements
 
                         Log.v("RESPONSE", "Message : " + feedItems);
                         progressBar.setVisibility(View.GONE);
-                        listView.setAdapter(new TrainAdapter(TrainList.this, feedItems));
+                        listView.setAdapter(new TrainAdapter(TrainListActivity.this, feedItems));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -196,5 +198,10 @@ public class TrainList extends AppCompatActivity implements
                 mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
                 break;
         }
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, TrainListActivity.class);
+        return intent;
     }
 }

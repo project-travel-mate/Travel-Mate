@@ -49,10 +49,15 @@ public class ChecklistFragment extends Fragment {
     public ChecklistFragment() {
     }
 
+    public static ChecklistFragment newInstance() {
+        ChecklistFragment fragment = new ChecklistFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_check_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_check_list, container, false);
 
         DBChecklist dbhelp = new DBChecklist(getContext());
         mDatabase = dbhelp.getWritableDatabase();

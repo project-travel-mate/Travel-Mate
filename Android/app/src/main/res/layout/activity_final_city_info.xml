@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfo">
+        tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
         <ImageView
             android:id="@+id/image"

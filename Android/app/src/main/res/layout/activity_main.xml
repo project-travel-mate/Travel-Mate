@@ -29,7 +29,7 @@
 
         <include
             android:id="@+id/inc"
-            layout="@layout/content_travel" />
+            layout="@layout/fragment_travel" />
 
 
     </android.support.design.widget.CoordinatorLayout>

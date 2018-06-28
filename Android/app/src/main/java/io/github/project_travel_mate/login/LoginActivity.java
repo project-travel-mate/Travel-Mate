@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.login;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -151,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void startMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = MainActivity.getStartIntent(this);
         startActivity(i);
         finish();
     }
@@ -205,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void checkUserSession() {
         if (mSharedPreferences.getString(USER_TOKEN, null) != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = MainActivity.getStartIntent(LoginActivity.this);
             startActivity(intent);
             finish();
         }
@@ -230,5 +231,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG)
                 .show();
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        return intent;
     }
 }

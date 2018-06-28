@@ -20,8 +20,8 @@ import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.travel.mytrips.MyTrips;
-import io.github.project_travel_mate.travel.transport.SelectModeOfTransport;
+import io.github.project_travel_mate.travel.mytrips.MyTripsActivity;
+import io.github.project_travel_mate.travel.transport.SelectModeOfTransportActivity;
 import utils.CardItemEntity;
 
 
@@ -34,11 +34,16 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
     public TravelFragment() {
     }
 
+    public static TravelFragment newInstance() {
+        TravelFragment fragment = new TravelFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.content_travel, container, false);
+        View view = inflater.inflate(R.layout.fragment_travel, container, false);
 
         ButterKnife.bind(this, view);
 
@@ -65,23 +70,23 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
         Intent i;
         switch (position) {
             case 0:
-                i = new Intent(mActivity, MyTrips.class);
+                i = MyTripsActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
             case 1:
-                i = new Intent(mActivity, SelectModeOfTransport.class);
+                i = SelectModeOfTransportActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
             case 2:
-                i = new Intent(mActivity, Hotels.class);
+                i = HotelsActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
             case 3:
-                i = new Intent(mActivity, ShoppingCurrentCity.class);
+                i = ShoppingCurrentCityActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
             case 4:
-                i = new Intent(mActivity, MapRealTimeActivity.class);
+                i = MapRealTimeActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
         }
