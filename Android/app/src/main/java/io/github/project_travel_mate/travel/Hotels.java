@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -137,49 +139,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         mDate = day + "-";
-        String monthString;
-        switch (month + 1) {
-            case 1:
-                monthString = "January";
-                break;
-            case 2:
-                monthString = "February";
-                break;
-            case 3:
-                monthString = "March";
-                break;
-            case 4:
-                monthString = "April";
-                break;
-            case 5:
-                monthString = "May";
-                break;
-            case 6:
-                monthString = "June";
-                break;
-            case 7:
-                monthString = "July";
-                break;
-            case 8:
-                monthString = "August";
-                break;
-            case 9:
-                monthString = "September";
-                break;
-            case 10:
-                monthString = "October";
-                break;
-            case 11:
-                monthString = "November";
-                break;
-            case 12:
-                monthString = "December";
-                break;
-            default:
-                monthString = "Invalid month";
-                break;
-        }
-
+        String monthString = new DateFormatSymbols().getMonths()[month];
         mDate = mDate + monthString;
         mDate = mDate + "-" + year;
         String selectDateText = "Check In : " + mDate;
@@ -317,24 +277,20 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            View vi = convertView;
-            if (vi == null)
-                vi = mInflater.inflate(R.layout.hotel_listitem, parent, false);
-
-            LinearLayout call, map, book;
-
-            // TODO:: Use butterknife & viewholder
-            TextView title = vi.findViewById(R.id.VideoTitle);
-            TextView description = vi.findViewById(R.id.VideoDescription);
-            call = vi.findViewById(R.id.call);
-            map = vi.findViewById(R.id.map);
-            book = vi.findViewById(R.id.book);
+            ViewHolder holder;
+            if (convertView != null) {
+                holder = (ViewHolder) convertView.getTag();
+            } else {
+                convertView = mInflater.inflate(R.layout.hotel_listitem, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            }
 
             try {
-                title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
+                holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
+                holder.description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
 
-                call.setOnClickListener(view -> {
+                holder.call.setOnClickListener(view -> {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     try {
                         intent.setData(Uri.parse("tel:" +
@@ -344,7 +300,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                         e.printStackTrace();
                     }
                 });
-                map.setOnClickListener(view -> {
+                holder.map.setOnClickListener(view -> {
                     Intent browserIntent;
                     try {
                         Double latitude = Double.parseDouble(
@@ -363,7 +319,7 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                     }
 
                 });
-                book.setOnClickListener(view -> {
+                holder.book.setOnClickListener(view -> {
                     Intent browserIntent = null;
                     try {
                         browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -379,7 +335,24 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                 e.printStackTrace();
                 Log.e("ERROR : ", "Message : " + e.getMessage());
             }
-            return vi;
+            return convertView;
+        }
+    }
+
+    class ViewHolder {
+        @BindView(R.id.hotel_name)
+        TextView title;
+        @BindView(R.id.hotel_address)
+        TextView description;
+        @BindView(R.id.call)
+        LinearLayout call;
+        @BindView(R.id.map)
+        LinearLayout map;
+        @BindView(R.id.book)
+        LinearLayout book;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
     }
 }
