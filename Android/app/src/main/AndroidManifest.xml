@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- suppress ALL -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.github.project_travel_mate">
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:icon="@drawable/google_travel_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".travel.mytrips.TripImageActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name="com.gun0912.tedpicker.ImagePickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_picker" />
+
+        <service android:name=".LocationService" android:enabled="true" />
+        <service android:name="utils.GPSTracker" android:enabled="true" />
+        <activity
+            android:name=".utilities.ChecklistActivity"
+            android:label="@string/title_activity_select_city"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.transport.SelectModeOfTransportActivity"
+            android:label="@string/title_activity_select__mode_of_transport"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.transport.CarDirectionsActivity"
+            android:label="@string/title_activity_car_directions"
+            android:theme="@style/AppTheme_picker" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDay6Qbk3MQD4Z80MH_HnR36TJGTrd2Ddc" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".travel.ShoppingCurrentCityActivity"
+            android:label="@string/title_activity_shopping_currentcity"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.transport.TrainListActivity"
+            android:label="@string/title_activity_train_list"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.HotelsActivity"
+            android:label="@string/title_activity_hotels"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.MapRealTimeActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNoBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".destinations.funfacts.FunFactsActivity"
+            android:label="@string/title_activity_fun_facts"
+            android:theme="@style/AppTheme_picker" />
+        <activity android:name=".utilities.ShareContactActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".destinations.description.FinalCityInfoActivity" />
+        <activity android:name=".destinations.description.PlacesOnMapActivity" />
+        <activity android:name=".travel.mytrips.MyTripsActivity" />
+        <activity android:name=".travel.mytrips.AddNewTripActivity" />
+        <activity android:name=".travel.mytrips.MyTripInfoActivity" />
+        <activity android:name=".destinations.description.TweetsActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="io.github.project_travel_mate.shareFile"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".ProfileActivity"/>
+    </application>
+
+</manifest>

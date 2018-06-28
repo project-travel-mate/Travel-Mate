@@ -1,0 +1,25 @@
+language: android
+jdk: oraclejdk8
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-27.0.3
+    - android-27
+# Support library
+    - extra-android-support
+    - extra-android-m2repository
+    - extra-google-google_play_services
+    - extra-google-m2repository
+  licenses:
+    - '.+'
+
+before_script:
+    - cd Android
+    - chmod +x gradlew
+
+script:
+   - chmod +x ./gradlew
+   - ./gradlew clean
+   - ./gradlew assembleDebug assembleRelease
+   - ./gradlew checkstyle

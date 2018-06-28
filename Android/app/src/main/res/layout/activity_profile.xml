@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ProfileActivity">
+
+    <TextView
+        android:id="@+id/display_joining_date"
+        android:layout_width="143dp"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp"
+        android:paddingTop="6sp"
+        android:text="@string/member_from"
+        android:textColor="#333434"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/display_email"
+        android:layout_width="254dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/display_joining_date"
+        android:layout_marginBottom="124dp"
+        android:layout_marginStart="0dp"
+        android:paddingTop="8sp"
+        android:text="@string/email"
+        android:textColor="#333434"
+        android:textSize="18sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/default_user_icon" />
+
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="146dp"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="188dp"
+        android:paddingTop="8dp"
+        android:text="@string/default_name"
+        android:textColor="#333434"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/profile_icon"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/display_name"
+        android:layout_marginStart="45dp"
+        android:contentDescription="@string/profile_icon"
+        app:srcCompat="@drawable/profile_page_profile" />
+
+    <ImageView
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/display_email"
+        android:layout_marginStart="45dp"
+        android:alpha="0.8"
+        android:contentDescription="@string/mail_icon"
+        app:srcCompat="@drawable/profile_page_email" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignStart="@+id/profile_icon"
+        android:layout_alignTop="@+id/display_joining_date"
+        android:alpha="0.6"
+        android:contentDescription="@string/info_icon"
+        app:srcCompat="@drawable/profile_page_info" />
+
+</RelativeLayout>

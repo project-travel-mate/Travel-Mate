@@ -1,0 +1,189 @@
+<resources>
+    <string name="app_name">Travel Mate</string>
+
+    <string name="navigation_drawer_open">Travel Guide</string>
+    <string name="navigation_drawer_close">Travel Guide</string>
+
+    <!--Drawer Strings -->
+    <string name="navigation_drawer_destination">Destinations</string>
+    <string name="navigation_drawer_travel">Travel</string>
+    <string name="navigation_drawer_utilities">Utilities</string>
+    <string name="navigation_drawer_extras">Extras</string>
+    <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
+    <string name="navigation_drawer_signout">Sign Out</string>
+    <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
+
+    <!-- Activity Title strings -->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_select_city">Select City</string>
+    <string name="title_activity_select__mode_of_transport">Select Mode of Transport</string>
+    <string name="title_activity_car_directions">Car Directions</string>
+    <string name="title_activity_shopping_currentcity">Shopping current city</string>
+    <string name="title_activity_train_list">TrainList</string>
+    <string name="title_activity_hotels">Hotels</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_fun_facts">FunFacts</string>
+
+    <!-- login/signup strings -->
+    <string name="email_id">Email id</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="name">Name</string>
+    <string name="toast_invalid_username_or_password">Invalid username or password</string>
+
+
+    <!-- Travel home page strings -->
+    <string name="transport">TRANSPORT</string>
+    <string name="hotel">HOTEL BOOKING</string>
+    <string name="online_Shopping">ONLINE SHOPPING</string>
+    <string name="real_time_locator">REAL TIME LOCATOR</string>
+    <string name="my_trips">MY TRIPS</string>
+    <string name="fun_facts">Fun Facts</string>
+
+    <!-- Destinations home page strings -->
+    <string name="search_a_city">Search a city…</string>
+    <string name="popular_cities">Most Popular Cities</string>
+
+
+    <!-- Map strings -->
+    <string name="title">Select items to display in map</string>
+    <string name="choose">Select</string>
+    <array name="items">
+        <item>Food</item>
+        <item>Hangout Spots</item>
+        <item>Monuments</item>
+        <item>Bus Stop</item>
+        <item>Shopping</item>
+        <item>Petrol</item>
+        <item>ATM</item>
+        <item>Hospital</item>
+    </array>
+    <string name="no_activity_for_browser">No app found to open this website</string>
+
+    <!-- Checklist strings -->
+    <string name="text_checklist">Checklist</string>
+    <string name="enter_task_name">Enter task name</string>
+
+    <!-- My Trip Strings -->
+    <string name="prompt_trip_name">Enter trip Name</string>
+    <string name="prompt_city_name">Enter city name</string>
+    <string name="prompt_start_date">Enter start date</string>
+    <string name="prompt_end_date">Enter end date</string>
+    <string name="prompt_add_trip">Add trip</string>
+    <string name="prompt_friend_name">Enter friend name</string>
+    <string name="prompt_add_friend">Add New friend</string>
+    <string name="friends_of_trip">Friends in this trip </string>
+    <string name="text_started_on">Started on :  </string>
+    <string name="prompt_add_new_trip">Add New Trip</string>
+    <string name="progress_fetching_trip">Fetching trips…</string>
+    <string name="progress_wait">Please wait…</string>
+    <string name="trip_added">Trip added</string>
+    <string name="friend_added">Friend added to trip</string>
+    <string name="no_friend_selected">Please select a valid friend to add</string>
+
+    <!-- Errors and messages -->
+    <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
+    <string name="msg_saved">QR code image was saved as</string>
+    <string name="internet_connectivity">No Internet Connectivity</string>
+    <string name="passwords_check">Passwords do not match!</string>
+    <string name="location_enabled">Location enabled</string>
+    <string name="location_not_enabled">Location not enabled</string>
+
+    <!-- Car direction strings -->
+    <string name="car1">Hatchback</string>
+    <string name="car2">Sedan</string>
+    <string name="car3">SUV</string>
+    <string name="default_mileage_1">22</string>
+    <string name="default_mileage_2">18</string>
+    <string name="default_mileage_3">16</string>
+
+    <!-- Train direction strings -->
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+    <string name="yes">Y</string>
+
+    <!--Hotel strings-->
+    <string name="no_hotels">No hotels to show</string>
+
+    <!-- Share contact strings -->
+    <string name="share_contact_text">Share Contact</string>
+    <string name="share_contact">Share My Contact</string>
+    <string name="view_contact">View someone Contact</string>
+
+    <!-- Emergency contact strings -->
+    <string name="emergency_call">Call</string>
+    <string name="emergency_police">POLICE</string>
+    <string name="emergency_fire">FIRE</string>
+    <string name="emergency_ambulance">AMBULANCE</string>
+    <string name="emergency_blood_bank">Blood Bank Organisation</string>
+    <string name="emergency_bomb_disposal">Bomb Disposal Squad</string>
+    <string name="emergency_railways">Railways Enquiry</string>
+
+    <!-- Constant texts -->
+    <string name="text_mileage">Mileage</string>
+    <string name="text_travel_cost">Travel Cost </string>
+    <string name="text_toll">Toll </string>
+    <string name="text_hangout">Hangout</string>
+    <string name="text_monuments">Monuments</string>
+    <string name="text_shopping">Shopping</string>
+    <string name="text_restaurants">Restaurants</string>
+    <string name="text_city_trends">City Trends</string>
+    <string name="text_login"><u>Already a member? Login</u></string>
+    <string name="text_signup_or"><u>Not registered yet? Create new account</u></string>
+    <string name="text_cart">Car</string>
+    <string name="text_train">Train</string>
+    <string name="text_max">max</string>
+    <string name="text_min">min</string>
+    <string name="text_go">Go</string>
+    <string name="text_locate">Locate</string>
+    <string name="text_more">More</string>
+    <string name="text_title">Title</string>
+    <string name="text_call">Call</string>
+    <string name="text_book">Book</string>
+    <string name="text_my_trips">My Trips</string>
+    <string name="unknown_value">…</string>
+
+    <!-- Sample Data -->
+    <string name="sample_state">Delhi</string>
+    <string name="sample_string">Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
+    Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
+    Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
+    <string name="empty_description">No description available.</string>
+
+    <!--AlertDialog sign out-->
+    <string name="signout_message">Are you sure want to sign out?</string>
+    <string name="positive_button">OK</string>
+    <string name="default_name">Default Name</string>
+    <string name="email">Email</string>
+    <string name="member_from">Member from</string>
+    <string name="profile_icon">Profile_icon</string>
+    <string name="mail_icon">mail_icon</string>
+    <string name="info_icon">info_icon</string>
+    <string name="profile">Profile</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="invalid_password">Password must contain at least 1 Capital Alphabet, 1 Number and 1 Special Character.</string>
+    <string name="password_length">Password must contain minimum 8 characters</string>
+    <string name="invalid_email">Invalid Email</string>
+
+
+    <!-- Choose feature type -->
+    <array name="bug_types">
+        <item>Crash</item>
+        <item>Feature Request</item>
+        <item>Other</item>
+    </array>
+
+    <string name="choose_a_type_bugreport">Choose a Type:</string>
+    <string name="hint_edit_text_bugreport">Describe your issue...</string>
+    <string name="button_text_bugreport">Report</string>
+    <string name="failure_message_bugreport">Failed to send issue...</string>
+    <string name="success_message_bugreport">Issue Sent Successfully...</string>
+</resources>
