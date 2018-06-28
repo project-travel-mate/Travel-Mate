@@ -58,7 +58,7 @@ import static utils.Constants.SOURCE_CITY_ID;
 /**
  * Display list of hotels in destination city
  */
-public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+public class HotelsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         View.OnClickListener {
 
@@ -230,9 +230,9 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
                         Log.v("response", feedItems + " ");
                         pb.setVisibility(View.GONE);
                         if (feedItems.length() > 0) {
-                            lv.setAdapter(new HotelsAdapter(Hotels.this, feedItems));
+                            lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
                         } else {
-                            Toast.makeText(Hotels.this,
+                            Toast.makeText(HotelsActivity.this,
                                     getResources().getString(R.string.no_hotels),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -381,5 +381,10 @@ public class Hotels extends AppCompatActivity implements DatePickerDialog.OnDate
             }
             return vi;
         }
+    }
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, HotelsActivity.class);
+        return intent;
     }
 }

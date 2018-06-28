@@ -20,9 +20,9 @@ import java.util.List;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.destinations.description.FinalCityInfo;
-import io.github.project_travel_mate.destinations.description.Tweets;
-import io.github.project_travel_mate.destinations.funfacts.FunFacts;
+import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
+import io.github.project_travel_mate.destinations.description.TweetsActivity;
+import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 import views.FontTextView;
 
@@ -112,8 +112,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         });
 
         holder.fv1.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, FinalCityInfo.class);
-            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
 
@@ -124,8 +123,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         }
 
         holder.fv3.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, FunFacts.class);
-            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            Intent intent = FunFactsActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
 
@@ -137,8 +135,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         });
 
         holder.fv4.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, Tweets.class);
-            intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+            Intent intent = TweetsActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
     }

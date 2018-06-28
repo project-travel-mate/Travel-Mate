@@ -1,5 +1,7 @@
-package io.github.project_travel_mate.travel.mytrips;
+package io.github.project_travel_mate.destinations.description;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -23,7 +25,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import objects.Trip;
+import objects.City;
+import objects.Tweet;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -31,53 +34,60 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTrips extends AppCompatActivity {
+public class TweetsActivity extends AppCompatActivity {
 
-    private final List<Trip> mTrips = new ArrayList<>();
-    @BindView(R.id.gv)
-    GridView gridView;
+    private final List<Tweet> mTweets = new ArrayList<>();
+    @BindView(R.id.list)
+    ListView lv;
     private MaterialDialog mDialog;
-    private String mToken;
+    private TweetsAdapter mAdapter;
     private Handler mHandler;
+    private String mToken;
+
+    private City mCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_trips);
+        setContentView(R.layout.activity_tweets);
 
         ButterKnife.bind(this);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        mTrips.add(new Trip());
+        Intent intent = getIntent();
+        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
 
-        mytrip();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = sharedPreferences.getString(USER_TOKEN, null);
 
-        setTitle(getResources().getString(R.string.text_my_trips));
+        setTitle(mCity.getNickname());
+        getTweets();
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
-    private void mytrip() {
 
-        mDialog = new MaterialDialog.Builder(MyTrips.this)
+    private void getTweets() {
+
+        mDialog = new MaterialDialog.Builder(TweetsActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK_V2 + "get-all-trips";
-
+        // to fetch city names
+        String uri = API_LINK_V2 + "get-city-trends/" + mCity.getId();
         Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
-        final Request request = new Request.Builder()
+        Request request = new Request.Builder()
                 .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
@@ -91,31 +101,23 @@ public class MyTrips extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                if (response.isSuccessful() && response.body() != null) {
-                    final String res = response.body().string();
-                    Log.v("Response", res);
-                    JSONArray arr;
+                final String res = Objects.requireNonNull(response.body()).string();
+                mHandler.post(() -> {
                     try {
-                        arr = new JSONArray(res);
-
-                        for (int i = 0; i < arr.length(); i++) {
-                            String id = arr.getJSONObject(i).getString("id");
-                            String start = arr.getJSONObject(i).getString("start_date_tx");
-                            String end = arr.getJSONObject(i).optString("end_date", null);
-                            String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                            String tname = arr.getJSONObject(i).getString("trip_name");
-                            JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
-                            String image = array.length() > 1 ? array.getString(0) : null;
-                            mTrips.add(new Trip(id, name, image, start, end, tname));
+                        JSONArray array = new JSONArray(res);
+                        for (int i = 0; i < array.length(); i++) {
+                            String nam = array.getJSONObject(i).getString("name");
+                            String link = array.getJSONObject(i).getString("url");
+                            String count = array.getJSONObject(i).getString("tweet_volume");
+                            mTweets.add(new Tweet(nam, link, count));
                         }
+                        mAdapter = new TweetsAdapter(TweetsActivity.this, mTweets);
+                        lv.setAdapter(mAdapter);
+                        mDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
                     }
-                }
-                mHandler.post(() -> {
-                    mDialog.dismiss();
-                    gridView.setAdapter(new MyTripsAdapter(MyTrips.this, mTrips));
                 });
             }
         });
@@ -126,5 +128,11 @@ public class MyTrips extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent getStartIntent(Context context, City city) {
+        Intent intent = new Intent(context, TweetsActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+        return intent;
     }
 }

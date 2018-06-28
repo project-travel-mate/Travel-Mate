@@ -35,6 +35,11 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     public EmergencyFragment() {
     }
 
+    public static EmergencyFragment newInstance() {
+        EmergencyFragment fragment = new EmergencyFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

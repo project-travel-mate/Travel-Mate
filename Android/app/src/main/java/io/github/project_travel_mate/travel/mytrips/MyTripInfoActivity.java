@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.travel.mytrips;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -53,7 +54,7 @@ import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripInfo extends AppCompatActivity {
+public class MyTripInfoActivity extends AppCompatActivity {
 
     public static final int INTENT_REQUEST_GET_IMAGES = 13;
     @BindView(R.id.image)
@@ -117,7 +118,7 @@ public class MyTripInfo extends AppCompatActivity {
     @OnClick(R.id.newfrriend)
     void onClick() {
         if (mFriendid == null) {
-            Toast.makeText(MyTripInfo.this,
+            Toast.makeText(MyTripInfoActivity.this,
                     getResources().getString(R.string.no_friend_selected),
                     Toast.LENGTH_LONG).show();
         } else {
@@ -127,7 +128,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void getSingleTrip() {
 
-        mDialog = new MaterialDialog.Builder(MyTripInfo.this)
+        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_fetching_trip)
                 .progress(true, 0)
@@ -181,7 +182,8 @@ public class MyTripInfo extends AppCompatActivity {
                             mFname.add(usersArray.getJSONObject(i).getString("first_name"));
                         }
 
-                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(MyTripInfo.this, mFname);
+                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
+                                MyTripInfoActivity.this, mFname);
                         lv.setAdapter(dataAdapter);
 
                     } catch (JSONException e1) {
@@ -200,7 +202,7 @@ public class MyTripInfo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyTripInfoActivity.this, "Images added", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -273,7 +275,7 @@ public class MyTripInfo extends AppCompatActivity {
 
     private void addfriend() {
 
-        mDialog = new MaterialDialog.Builder(MyTripInfo.this)
+        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)
@@ -304,9 +306,9 @@ public class MyTripInfo extends AppCompatActivity {
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_OK) {
-                            Toast.makeText(MyTripInfo.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyTripInfoActivity.this, R.string.friend_added, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(MyTripInfo.this, res, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
                         }
                         mDialog.dismiss();
                     });
@@ -315,5 +317,11 @@ public class MyTripInfo extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static Intent getStartIntent(Context context, Trip trip) {
+        Intent intent = new Intent(context, MyTripInfoActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
+        return intent;
     }
 }

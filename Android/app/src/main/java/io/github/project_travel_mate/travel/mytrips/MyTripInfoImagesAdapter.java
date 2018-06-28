@@ -47,12 +47,12 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
             holder.iv.setImageResource(R.drawable.add_image);
             holder.iv.setOnClickListener(v -> {
                 Intent intent1 = new Intent(mContext, ImagePickerActivity.class);
-                mContext.startActivityForResult(intent1, MyTripInfo.INTENT_REQUEST_GET_IMAGES);
+                mContext.startActivityForResult(intent1, MyTripInfoActivity.INTENT_REQUEST_GET_IMAGES);
             });
         } else {
             holder.iv.setImageDrawable(Drawable.createFromPath(mName.get(position).getAbsolutePath()));
             holder.iv.setOnClickListener(v -> {
-                Intent i = new Intent(mContext, TripImage.class);
+                Intent i = TripImageActivity.getStartIntent(mContext);
                 ArrayList<String> a = new ArrayList<>();
                 a.add(mName.get(position).getAbsolutePath());
 
