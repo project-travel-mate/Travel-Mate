@@ -144,7 +144,7 @@ public class ShareContact extends AppCompatActivity implements View.OnClickListe
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
                     Snackbar.make(Objects.requireNonNull(ShareContact.this).findViewById(android.R.id.content),
-                            R.string.cant_generate,
+                            R.string.snackbar_cant_generate_qrcode,
                             Snackbar.LENGTH_SHORT).show();
                 }
                 break;

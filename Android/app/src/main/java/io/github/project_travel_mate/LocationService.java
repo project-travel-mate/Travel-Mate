@@ -155,12 +155,12 @@ public class LocationService extends Service {
         }
 
         public void onProviderDisabled(String provider) {
-            Toast.makeText(getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.gps_disabled, Toast.LENGTH_SHORT).show();
 
         }
 
         public void onProviderEnabled(String provider) {
-            Toast.makeText(getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.gps_enabled, Toast.LENGTH_SHORT).show();
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {

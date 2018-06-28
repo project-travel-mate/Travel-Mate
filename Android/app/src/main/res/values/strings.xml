@@ -164,10 +164,12 @@
     <string name="member_from">Member from</string>
     <string name="profile_icon">Profile_icon</string>
     <string name="mail_icon">mail_icon</string>
-    <string name ="cant_generate">"Can't be generated. Need to download QR services"</string>
+    <string name ="snackbar_cant_generate_qrcode">"Can't be generated. Need to download QR services"</string>
     <string name="cancel_contact">Cancelled Added Contact</string>
     <string name="added_contact">Added Contact</string>
     <string name="snackbar_imageadd">Images Added</string>
     <string name="info_icon">info_icon</string>
+    <string name="gps_disabled">GPS Disabled</string>
+    <string name="gps_enabled">GPS Enabled</string>
 
 </resources>
