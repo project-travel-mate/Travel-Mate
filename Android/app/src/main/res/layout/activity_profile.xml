@@ -9,10 +9,10 @@
 
     <TextView
         android:id="@+id/display_joining_date"
-        android:layout_width="143dp"
+        android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/display_email"
         android:layout_marginBottom="63dp"
         android:paddingTop="6sp"
         android:text="@string/member_from"
@@ -21,18 +21,18 @@
 
     <TextView
         android:id="@+id/display_email"
-        android:layout_width="254dp"
+        android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/display_joining_date"
+        android:layout_alignStart="@+id/display_name"
         android:layout_marginBottom="124dp"
-        android:layout_marginStart="0dp"
         android:paddingTop="8sp"
         android:text="@string/email"
         android:textColor="#333434"
         android:textSize="18sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/display_image"
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:layout_alignParentTop="true"
@@ -42,11 +42,12 @@
 
     <TextView
         android:id="@+id/display_name"
-        android:layout_width="146dp"
+        android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="188dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="185dp"
+        android:layout_marginStart="110dp"
         android:paddingTop="8dp"
         android:text="@string/default_name"
         android:textColor="#333434"

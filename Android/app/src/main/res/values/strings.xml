@@ -149,6 +149,7 @@
     <string name="text_book">Book</string>
     <string name="text_my_trips">My Trips</string>
     <string name="unknown_value">…</string>
+    <string name="text_joining_date">Joined on</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -160,7 +161,7 @@
     <!--AlertDialog sign out-->
     <string name="signout_message">Are you sure want to sign out?</string>
     <string name="positive_button">OK</string>
-    <string name="default_name">Default Name</string>
+    <string name="default_name">--</string>
     <string name="email">Email</string>
     <string name="member_from">Member from</string>
     <string name="profile_icon">Profile_icon</string>
