@@ -23,7 +23,7 @@
             android:layout_height="fill_parent"
             android:alpha="0.6"
             android:contentDescription="@string/empty_description"
-            android:padding="10dp"
+            android:cropToPadding="false"
             android:scaleType="centerCrop" />
 
 
