@@ -27,6 +27,7 @@ import android.widget.TextView;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
+import io.github.project_travel_mate.travel.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
@@ -110,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.nav_travel:
                 fragment = TravelFragment.newInstance();
+                break;
+
+            case R.id.nav_mytrips:
+                fragment = MyTripsFragment.newInstance();
                 break;
 
             case R.id.nav_city:

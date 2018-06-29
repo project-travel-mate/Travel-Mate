@@ -2,6 +2,7 @@ package io.github.project_travel_mate.travel.mytrips;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -23,13 +24,11 @@ import java.util.Objects;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 
-import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
-
 class MyTripsAdapter extends ArrayAdapter<Trip> {
-    private final Activity mContext;
+    private final Context mContext;
     private final List<Trip> mTrips;
 
-    MyTripsAdapter(Activity context,
+    MyTripsAdapter(Context context,
                    List<Trip> trips) {
         super(context, R.layout.trip_listitem, trips);
         this.mContext = context;

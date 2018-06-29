@@ -1,15 +1,16 @@
 package io.github.project_travel_mate.travel.mytrips;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,11 +21,11 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.travel.TravelFragment;
 import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,8 +36,7 @@ import okhttp3.Response;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripsActivity extends AppCompatActivity {
-
+public class MyTripsFragment extends Fragment {
     private final List<Trip> mTrips = new ArrayList<>();
     @BindView(R.id.gv)
     GridView gridView;
@@ -44,29 +44,34 @@ public class MyTripsActivity extends AppCompatActivity {
     private String mToken;
     private Handler mHandler;
 
+    public MyTripsFragment() {
+        // Required empty public constructor
+    }
+    public static MyTripsFragment newInstance() {
+        MyTripsFragment fragment = new MyTripsFragment();
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_trips);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_my_trips, container, false);
+        ButterKnife.bind(this, view);
 
-        ButterKnife.bind(this);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
         mTrips.add(new Trip());
 
         mytrip();
+        return view;
 
-        setTitle(getResources().getString(R.string.text_my_trips));
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
     private void mytrip() {
 
-        mDialog = new MaterialDialog.Builder(MyTripsActivity.this)
+        mDialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)
@@ -117,21 +122,11 @@ public class MyTripsActivity extends AppCompatActivity {
                 }
                 mHandler.post(() -> {
                     mDialog.dismiss();
-                    gridView.setAdapter(new MyTripsAdapter(MyTripsActivity.this, mTrips));
+                    gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
                 });
             }
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
-    }
 
-    public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, MyTripsActivity.class);
-        return intent;
-    }
 }

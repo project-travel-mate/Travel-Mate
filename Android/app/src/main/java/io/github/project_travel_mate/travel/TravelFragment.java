@@ -20,7 +20,6 @@ import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.travel.mytrips.MyTripsActivity;
 import io.github.project_travel_mate.travel.transport.SelectModeOfTransportActivity;
 import utils.CardItemEntity;
 
@@ -70,22 +69,18 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
         Intent i;
         switch (position) {
             case 0:
-                i = MyTripsActivity.getStartIntent(mActivity);
-                startActivity(i);
-                break;
-            case 1:
                 i = SelectModeOfTransportActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
-            case 2:
+            case 1:
                 i = HotelsActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
-            case 3:
+            case 2:
                 i = ShoppingCurrentCityActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
-            case 4:
+            case 3:
                 i = MapRealTimeActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
@@ -94,10 +89,6 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
 
     private List<CardItemEntity> getTravelItems() {
         List<CardItemEntity> cardEntities = new ArrayList<>();
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.city),
-                        getResources().getString(R.string.my_trips)));
         cardEntities.add(
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.transport),
