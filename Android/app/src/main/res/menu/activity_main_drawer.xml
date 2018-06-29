@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single" android:id="@+id/nav_grp1">
         <item
@@ -10,6 +11,10 @@
             android:id="@+id/nav_travel"
             android:icon="@drawable/ic_directions_car_black_24dp"
             android:title="@string/navigation_drawer_travel" />
+        <item
+            android:id="@+id/nav_mytrips"
+            android:icon="@drawable/mytrips"
+            android:title="@string/my_trip" />
         <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"

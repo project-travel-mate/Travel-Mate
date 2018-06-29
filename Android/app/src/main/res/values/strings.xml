@@ -187,4 +187,8 @@
     <string name="button_text_bugreport">Report</string>
     <string name="failure_message_bugreport">Failed to send issue...</string>
     <string name="success_message_bugreport">Issue Sent Successfully...</string>
+    <string name="my_trip">My Trips</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
