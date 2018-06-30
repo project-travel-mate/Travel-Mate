@@ -26,8 +26,6 @@ import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 import views.FontTextView;
 
-import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
-
 class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;

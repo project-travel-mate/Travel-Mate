@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.travel.TravelFragment;
 import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
