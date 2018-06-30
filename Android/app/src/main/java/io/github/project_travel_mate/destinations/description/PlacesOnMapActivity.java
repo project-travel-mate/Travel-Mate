@@ -218,7 +218,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         final JSONArray mFeedItems;
         final int mRd;
         private final LayoutInflater mInflater;
-        LinearLayout mLinearLayout;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
             this.mContext = context;
@@ -251,28 +250,26 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
             View view = convertView;
-            if (view == null)
+            if (view == null) {
                 view = mInflater.inflate(R.layout.city_infoitem, parent, false);
-
-            // TODO :: Use butterknife
-            TextView title = view.findViewById(R.id.item_name);
-            TextView description = view.findViewById(R.id.item_address);
-            LinearLayout onmap = view.findViewById(R.id.map);
-            mLinearLayout = view.findViewById(R.id.b2);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
+            } else
+                holder = (ViewHolder) view.getTag();
 
             try {
-                title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
+                holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
+                holder.description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("ERROR", "Message : " + e.getMessage());
             }
 
-            ImageView iv = view.findViewById(R.id.image);
-            iv.setImageResource(mRd);
+            holder.iv.setImageResource(mRd);
 
-            onmap.setOnClickListener(view12 -> {
+            holder.onmap.setOnClickListener(view12 -> {
 
                 Intent browserIntent;
                 try {
@@ -290,7 +287,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
             });
 
-            mLinearLayout.setOnClickListener(view1 -> {
+            holder.linearLayout.setOnClickListener(view1 -> {
                 Intent browserIntent;
                 browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"));
                 mContext.startActivity(browserIntent);
@@ -311,6 +308,24 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 }
             });
             return view;
+        }
+
+        class ViewHolder {
+            @BindView(R.id.item_name)
+            TextView title;
+            @BindView(R.id.item_address)
+            TextView description;
+            @BindView(R.id.image)
+            ImageView iv;
+            @BindView(R.id.map)
+            LinearLayout onmap;
+            @BindView(R.id.b2)
+            LinearLayout linearLayout;
+
+            public ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+
         }
     }
 
