@@ -1,30 +1,41 @@
 package objects;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Model class for city object
  */
+@Entity(tableName = "events_new")
 public class ChecklistItem {
 
-    private final String mId;
+    //so that primary key is generated automatically
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private  int mId = 0;
+
+    @ColumnInfo(name = "name")
     private final String mName;
+
+    @ColumnInfo(name = "isDone")
     private final String mIsDone;
 
     // TODO :: Make isDone bool
 
     /**
      * Initiates checklist item
-     *
-     * @param id     unique id of item
      * @param name   checklist task name
      * @param isDone specify if the item is checked
      */
-    public ChecklistItem(String id, String name, String isDone) {
-        this.mId = id;
-        this.mIsDone = isDone;
+
+    public ChecklistItem(String name, String isDone) {
         this.mName = name;
+        this.mIsDone = isDone;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
@@ -34,5 +45,9 @@ public class ChecklistItem {
 
     public String getIsDone() {
         return mIsDone;
+    }
+
+    public void setId(int id) {
+        this.mId = id;
     }
 }

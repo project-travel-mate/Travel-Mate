@@ -2,17 +2,13 @@ package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +20,15 @@ import com.rey.material.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import objects.ChecklistEntry;
 import objects.ChecklistItem;
-import utils.DBChecklist;
+import utils.AppExecutors;
+import utils.DbChecklist;
 
 import static utils.Constants.BASE_TASKS;
 import static utils.Constants.ID_ADDED_INDB;
@@ -43,8 +40,9 @@ public class ChecklistFragment extends Fragment {
     @BindView(R.id.listview)
     ListView listview;
     private CheckListAdapter mAdapter;
-    private SQLiteDatabase mDatabase;
+    private DbChecklist mChecklistDatabase;
     private Activity mActivity;
+    private Executor mAppExecutor = AppExecutors.getInstance().getDiskIO();
 
     public ChecklistFragment() {
     }
@@ -57,10 +55,10 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_check_list, container, false);
 
-        DBChecklist dbhelp = new DBChecklist(getContext());
-        mDatabase = dbhelp.getWritableDatabase();
+        mChecklistDatabase = DbChecklist.getsInstance(mActivity);
 
         ButterKnife.bind(this, view);
 
@@ -85,10 +83,13 @@ public class ChecklistFragment extends Fragment {
                 .setPositiveButton("OK", (dialog, id1) -> {
                     EditText e1 = dialogv.findViewById(R.id.task);
                     if (!e1.getText().toString().equals("")) {
-                        ContentValues insertValues = new ContentValues();
-                        insertValues.put(ChecklistEntry.COLUMN_NAME, e1.getText().toString());
-                        insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
-                        mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
+                        ChecklistItem checklistItem = new ChecklistItem(e1.getText().toString(), String.valueOf(0));
+                        mAppExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                mChecklistDatabase.checklistItemDAO().insertItems(checklistItem);
+                            }
+                        } );
                         ChecklistFragment.this.refresh();
                     }
                 });
@@ -100,15 +101,17 @@ public class ChecklistFragment extends Fragment {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        //First time uers
+        //First time users
         String isAlreadyAdded = sharedPreferences.getString(ID_ADDED_INDB, "null");
         if (isAlreadyAdded.equals("null")) {
-
             for (int i = 0; i < BASE_TASKS.size(); i++) {
-                ContentValues insertValues = new ContentValues();
-                insertValues.put(ChecklistEntry.COLUMN_NAME, BASE_TASKS.get(i));
-                insertValues.put(ChecklistEntry.COLUMN_NAME_ISDONE, "0");
-                mDatabase.insert(ChecklistEntry.TABLE_NAME, null, insertValues);
+                ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), String.valueOf(0));
+                mAppExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChecklistDatabase.checklistItemDAO().insertItems(checklistItem);
+                    }
+                });
             }
             editor.putString(ID_ADDED_INDB, "yes");
             editor.apply();
@@ -119,18 +122,15 @@ public class ChecklistFragment extends Fragment {
         mItems.clear();
         mAdapter.notifyDataSetChanged();
 
-        Cursor cursor = mDatabase.rawQuery("SELECT * FROM " + ChecklistEntry.TABLE_NAME + " ORDER BY " +
-                ChecklistEntry.COLUMN_NAME_ISDONE, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String id = cursor.getString(cursor.getColumnIndex(ChecklistEntry.COLUMN_NAME_ID));
-                String task = cursor.getString(cursor.getColumnIndex(ChecklistEntry.COLUMN_NAME));
-                String isdone = cursor.getString(cursor.getColumnIndex(ChecklistEntry.COLUMN_NAME_ISDONE));
-                mItems.add(new ChecklistItem(id, task, isdone));
+        mAppExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<ChecklistItem> checklistItems = mChecklistDatabase.checklistItemDAO().getSortedItems();
+                for (int i = 0; i < checklistItems.size(); i++)
+                    mItems.add(checklistItems.get(i));
             }
-            while (cursor.moveToNext());
-        }
-        cursor.close();
+        } );
+
         mAdapter.notifyDataSetChanged();
     }
 
@@ -145,8 +145,6 @@ public class ChecklistFragment extends Fragment {
 
         private final Activity mContext;
         private final List<ChecklistItem> mItems;
-        DBChecklist dbhelp;
-        SQLiteDatabase db;
 
         CheckListAdapter(Activity context, List<ChecklistItem> items) {
             super(context, R.layout.checklist_item, items);
@@ -167,9 +165,6 @@ public class ChecklistFragment extends Fragment {
                 holder = (ViewHolder) view.getTag();
             }
 
-            dbhelp = new DBChecklist(mContext);
-            db = dbhelp.getWritableDatabase();
-
             if (mItems.get(position).getIsDone().equals("1")) {
                 holder.checkBox.setPaintFlags(holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.checkBox.setChecked(true);
@@ -182,19 +177,25 @@ public class ChecklistFragment extends Fragment {
             holder.checkBox.setOnClickListener(view1 -> {
                 CheckBox c2 = (CheckBox) view1;
                 if (c2.isChecked()) {
-                    String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
-                            " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 1 WHERE " +
-                            ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
-
-                    db.execSQL(query);
-                    Log.v("EXECUTED : ", query);
+                    //updating isDone to 1 in database
+                    mAppExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!mItems.isEmpty())
+                             mChecklistDatabase.checklistItemDAO().updateIsDone(mItems.get(position).getId());
+                        }
+                    } );
                 } else {
-                    String query = "UPDATE " + ChecklistEntry.TABLE_NAME +
-                            " SET " + ChecklistEntry.COLUMN_NAME_ISDONE + " = 0 WHERE " +
-                            ChecklistEntry.COLUMN_NAME_ID + " IS " + mItems.get(position).getId();
-                    db.execSQL(query);
-                    Log.v("EXECUTED : ", query);
+                    //updating isDone to 0 in database
+                    mAppExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!mItems.isEmpty())
+                             mChecklistDatabase.checklistItemDAO().updateUndone(mItems.get(position).getId());
+                        }
+                    } );
                 }
+
                 refresh();
             });
             return view;
@@ -210,3 +211,7 @@ public class ChecklistFragment extends Fragment {
         }
     }
 }
+
+
+
+
