@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.Constants;
 
@@ -37,8 +39,7 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = Objects.requireNonNull(mInflater).inflate(R.layout.image_listitem, parent, false);
-            holder = new ViewHolder();
-            holder.iv = view.findViewById(R.id.iv);
+            holder = new ViewHolder(view);
 
             view.setTag(holder);
         } else
@@ -64,7 +65,12 @@ class MyTripInfoImagesAdapter extends ArrayAdapter<File> {
         return view;
     }
 
-    private class ViewHolder {
+    class ViewHolder {
+        @BindView(R.id.iv)
         ImageView iv;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(view);
+        }
     }
 }

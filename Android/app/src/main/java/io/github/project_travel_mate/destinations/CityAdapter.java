@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
@@ -43,21 +45,12 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     @Override
     public View getPage(int position, View convertView, ViewGroup parent, final City city1, final City city2) {
-        final CitiesHolder holder;
-
+        CitiesHolder holder;
+        CitiesInfoHolder infoHolder;
         if (convertView == null) {
-            holder = new CitiesHolder();
             convertView = mContext.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
-            holder.leftAvatar = convertView.findViewById(R.id.first);
-            holder.rightAvatar = convertView.findViewById(R.id.second);
-            holder.left = convertView.findViewById(R.id.name1);
-            holder.right = convertView.findViewById(R.id.name2);
+            holder = new CitiesHolder(convertView);
             holder.infoPage = mContext.getLayoutInflater().inflate(R.layout.home_city_info, parent, false);
-            holder.nickName = holder.infoPage.findViewById(R.id.nickname);
-            holder.fv1 = (FontTextView) holder.infoPage.findViewById(R.id.interest_1);
-            holder.fv2 = (FontTextView) holder.infoPage.findViewById(R.id.interest_2);
-            holder.fv3 = (FontTextView) holder.infoPage.findViewById(R.id.interest_3);
-            holder.fv4 = (FontTextView) holder.infoPage.findViewById(R.id.interest_4);
 
             for (int id : mIdsInterest)
                 holder.interests.add(holder.infoPage.findViewById(id));
@@ -66,6 +59,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         } else {
             holder = (CitiesHolder) convertView.getTag();
         }
+        infoHolder = new CitiesInfoHolder(holder.infoPage);
 
         switch (position) {
             case 1:
@@ -86,7 +80,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
                 }
                 break;
             default:
-                fillHolder(holder, position == 0 ? city1 : city2);
+                fillHolder(holder, infoHolder, position == 0 ? city1 : city2);
                 holder.infoPage.setTag(holder);
                 return holder.infoPage;
         }
@@ -98,7 +92,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         return 3;
     }
 
-    private void fillHolder(CitiesHolder holder, final City city) {
+    private void fillHolder(CitiesHolder holder, CitiesInfoHolder infoHolder, final City city) {
         if (city == null)
             return;
         Iterator<TextView> iViews = holder.interests.iterator();
@@ -106,35 +100,35 @@ class CityAdapter extends BaseFlipAdapter<City> {
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
         holder.infoPage.setBackgroundColor(mContext.getResources().getColor(getRandomColor()));
-        holder.nickName.setText(city.getNickname());
+        infoHolder.nickName.setText(city.getNickname());
 
-        holder.nickName.setOnClickListener(v -> {
+        infoHolder.nickName.setOnClickListener(v -> {
         });
 
-        holder.fv1.setOnClickListener(v -> {
+        infoHolder.fv1.setOnClickListener(v -> {
             Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
 
         if (city.getFunFactsCount() < 1) {
-            holder.fv3.setVisibility(View.GONE);
+            infoHolder.fv3.setVisibility(View.GONE);
         } else {
-            holder.fv3.setVisibility(View.VISIBLE);
+            infoHolder.fv3.setVisibility(View.VISIBLE);
         }
 
-        holder.fv3.setOnClickListener(v -> {
+        infoHolder.fv3.setOnClickListener(v -> {
             Intent intent = FunFactsActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
 
-        holder.fv2.setOnClickListener(v -> {
+        infoHolder.fv2.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
                     city.getLatitude() + "," + city.getLongitude() +
                     "&z=13")); // zoom level
             mContext.startActivity(browserIntent);
         });
 
-        holder.fv4.setOnClickListener(v -> {
+        infoHolder.fv4.setOnClickListener(v -> {
             Intent intent = TweetsActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
@@ -142,12 +136,37 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     class CitiesHolder {
         final List<TextView> interests = new ArrayList<>();
+        @BindView(R.id.first)
         ImageView leftAvatar;
+        @BindView(R.id.second)
         ImageView rightAvatar;
+        @BindView(R.id.name1)
+        TextView left;
+        @BindView(R.id.name2)
+        TextView right;
         View infoPage;
-        TextView fv1, fv2, fv3, fv4;
-        TextView left, right;
+
+        CitiesHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
+    }
+
+    class CitiesInfoHolder {
+        @BindView(R.id.nickname)
         TextView nickName;
+        @BindView(R.id.interest_1)
+        TextView fv1;
+        @BindView(R.id.interest_2)
+        TextView fv2;
+        @BindView(R.id.interest_3)
+        TextView fv3;
+        @BindView(R.id.interest_4)
+        TextView fv4;
+
+        CitiesInfoHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
     private int getRandomColor() {

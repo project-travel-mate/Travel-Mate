@@ -14,6 +14,8 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 class TrainAdapter extends BaseAdapter {
@@ -54,34 +56,25 @@ class TrainAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         View vi = convertView;
-        if (vi == null)
+        if (vi == null) {
             vi = mInflater.inflate(R.layout.train_listitem, parent, false);
-
-        TextView title = vi.findViewById(R.id.bus_name);
-        TextView description = vi.findViewById(R.id.bustype);
-        TextView atime = vi.findViewById(R.id.arr);
-        TextView dtime = vi.findViewById(R.id.dep);
-        Button more = vi.findViewById(R.id.more);
-        Button book = vi.findViewById(R.id.book);
-        TextView d0, d1, d2, d3, d4, d5, d6;
-        d0 = vi.findViewById(R.id.d0);
-        d1 = vi.findViewById(R.id.d1);
-        d2 = vi.findViewById(R.id.d2);
-        d3 = vi.findViewById(R.id.d3);
-        d4 = vi.findViewById(R.id.d4);
-        d5 = vi.findViewById(R.id.d5);
-        d6 = vi.findViewById(R.id.d6);
+            holder = new ViewHolder(vi);
+            vi.setTag(holder);
+        } else {
+            holder = (ViewHolder) vi.getTag();
+        }
 
         try {
-            title.setText(mFeedItems.getJSONObject(position).getString("name"));
+            holder.title.setText(mFeedItems.getJSONObject(position).getString("name"));
             String descriptionText = "Train Number : " +
                     mFeedItems.getJSONObject(position).getString("train_number");
             String aTimeText = "Arrival Time : " + mFeedItems.getJSONObject(position).getString("arrival_time");
             String dTimeText = "Departure Time : " + mFeedItems.getJSONObject(position).getString("departure_time");
-            description.setText(descriptionText);
-            atime.setText(aTimeText);
-            dtime.setText(dTimeText);
+            holder.description.setText(descriptionText);
+            holder.atime.setText(aTimeText);
+            holder.dtime.setText(dTimeText);
 
             JSONArray ar = mFeedItems.getJSONObject(position).getJSONArray("days");
             for (int i = 0; i < ar.length(); i++) {
@@ -91,38 +84,38 @@ class TrainAdapter extends BaseAdapter {
                 switch (i) {
 
                     case 0:
-                        d0.setText("N");
-                        d0.setBackgroundResource(R.color.red);
+                        holder.d0.setText("N");
+                        holder.d0.setBackgroundResource(R.color.red);
                         break;
                     case 1:
-                        d1.setText("N");
-                        d1.setBackgroundResource(R.color.red);
+                        holder.d1.setText("N");
+                        holder.d1.setBackgroundResource(R.color.red);
                         break;
                     case 2:
-                        d2.setText("N");
-                        d2.setBackgroundResource(R.color.red);
+                        holder.d2.setText("N");
+                        holder.d2.setBackgroundResource(R.color.red);
                         break;
                     case 3:
-                        d3.setText("N");
-                        d3.setBackgroundResource(R.color.red);
+                        holder.d3.setText("N");
+                        holder.d3.setBackgroundResource(R.color.red);
                         break;
                     case 4:
-                        d4.setText("N");
-                        d4.setBackgroundResource(R.color.red);
+                        holder.d4.setText("N");
+                        holder.d4.setBackgroundResource(R.color.red);
                         break;
                     case 5:
-                        d5.setText("N");
-                        d5.setBackgroundResource(R.color.red);
+                        holder.d5.setText("N");
+                        holder.d5.setBackgroundResource(R.color.red);
                         break;
                     case 6:
-                        d6.setText("N");
-                        d6.setBackgroundResource(R.color.red);
+                        holder.d6.setText("N");
+                        holder.d6.setBackgroundResource(R.color.red);
                         break;
                 }
 
             }
 
-            more.setOnClickListener(view -> {
+            holder.more.setOnClickListener(view -> {
                 Intent browserIntent = null;
                 try {
                     browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -134,7 +127,7 @@ class TrainAdapter extends BaseAdapter {
                 mContext.startActivity(browserIntent);
 
             });
-            book.setOnClickListener(view -> {
+            holder.book.setOnClickListener(view -> {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse("https://www.cleartrip.com/trains/" +
@@ -151,4 +144,36 @@ class TrainAdapter extends BaseAdapter {
         return vi;
     }
 
+    class ViewHolder {
+        @BindView(R.id.train_name)
+        TextView title;
+        @BindView(R.id.traintype)
+        TextView description;
+        @BindView(R.id.arr)
+        TextView atime;
+        @BindView(R.id.dep)
+        TextView dtime;
+        @BindView(R.id.more)
+        Button more;
+        @BindView(R.id.book)
+        Button book;
+        @BindView(R.id.d0)
+        TextView d0;
+        @BindView(R.id.d1)
+        TextView d1;
+        @BindView(R.id.d2)
+        TextView d2;
+        @BindView(R.id.d3)
+        TextView d3;
+        @BindView(R.id.d4)
+        TextView d4;
+        @BindView(R.id.d5)
+        TextView d5;
+        @BindView(R.id.d6)
+        TextView d6;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

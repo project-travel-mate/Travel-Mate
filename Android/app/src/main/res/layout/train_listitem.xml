@@ -19,7 +19,7 @@
 
 
         <TextView
-            android:id="@+id/bus_name"
+            android:id="@+id/train_name"
             android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -43,7 +43,7 @@
                 android:orientation="vertical" />
 
             <TextView
-                android:id="@+id/bustype"
+                android:id="@+id/traintype"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

@@ -21,33 +21,41 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 
 class MyTripsAdapter extends ArrayAdapter<Trip> {
     private final Context mContext;
     private final List<Trip> mTrips;
+    private LayoutInflater mInflater;
 
     MyTripsAdapter(Context context,
                    List<Trip> trips) {
         super(context, R.layout.trip_listitem, trips);
         this.mContext = context;
         this.mTrips = trips;
+        mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
     }
 
     @NonNull
     @Override
-    public View getView(final int position, View view2, @NonNull ViewGroup parent) {
-        LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = Objects.requireNonNull(mInflater).inflate(R.layout.trip_listitem, parent, false);
-        ImageView city = view.findViewById(R.id.profile_image);
-        TextView cityname = view.findViewById(R.id.tv);
-        TextView date = view.findViewById(R.id.date);
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder;
+        View view = convertView;
+        if (view == null) {
+            view = mInflater.inflate(R.layout.trip_listitem, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
+        }
 
         if (position == 0) {
-            city.setImageResource(R.drawable.ic_add_circle_black_24dp);
-            cityname.setText(mContext.getResources().getString(R.string.prompt_add_new_trip));
-            date.setText("");
+            holder.city.setImageResource(R.drawable.ic_add_circle_black_24dp);
+            holder.cityname.setText(mContext.getResources().getString(R.string.prompt_add_new_trip));
+            holder.date.setText("");
 
             view.setOnClickListener(v -> {
                 Intent i = AddNewTripActivity.getStartIntent(mContext);
@@ -56,9 +64,9 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
 
         } else {
             Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.delhi)
-                    .into(city);
-            cityname.setText(mTrips.get(position).getName());
-            date.setText(mTrips.get(position).getStart());
+                    .into(holder.city);
+            holder.cityname.setText(mTrips.get(position).getName());
+            holder.date.setText(mTrips.get(position).getStart());
             Log.v("time", mTrips.get(position).getStart() + " " + mTrips.get(position).getImage());
             final Calendar cal = Calendar.getInstance();
             try {
@@ -68,12 +76,26 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             }
             final String timeString =
                     new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
-            date.setText(timeString);
+            holder.date.setText(timeString);
             view.setOnClickListener(v -> {
                 Intent intent = MyTripInfoActivity.getStartIntent(mContext, mTrips.get(position));
                 mContext.startActivity(intent);
             });
         }
         return view;
+    }
+
+    class ViewHolder {
+
+        @BindView(R.id.profile_image)
+        ImageView city;
+        @BindView(R.id.tv)
+        TextView cityname;
+        @BindView(R.id.date)
+        TextView date;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

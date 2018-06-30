@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 class ShoppingAdapter extends BaseAdapter {
@@ -53,26 +55,27 @@ class ShoppingAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null)
+        ViewHolder holder;
+        if (convertView == null) {
             convertView = mInflater.inflate(R.layout.shop_listitem, parent, false);
-
-        // TODO : use butterknife
-        TextView title = convertView.findViewById(R.id.VideoTitle);
-        TextView description = convertView.findViewById(R.id.VideoDescription);
-        ImageView iv = convertView.findViewById(R.id.VideoThumbnail);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         try {
             String name = mFeedItems.getJSONObject(position).getString("name");
             name = Html.fromHtml(name).toString();
-            title.setText(name);
+            holder.title.setText(name);
 
             String descriptionText = mFeedItems.getJSONObject(position).getString("value");
 
             descriptionText = Html.fromHtml(descriptionText).toString() + " "
                     + mFeedItems.getJSONObject(position).getString("currency");
-            description.setText(descriptionText);
+            holder.description.setText(descriptionText);
 
-            Picasso.with(mContext).load(mFeedItems.getJSONObject(position).getString("image")).into(iv);
+            Picasso.with(mContext).load(mFeedItems.getJSONObject(position).getString("image")).into(holder.iv);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -88,5 +91,18 @@ class ShoppingAdapter extends BaseAdapter {
             mContext.startActivity(browserIntent);
         });
         return convertView;
+    }
+
+    class ViewHolder {
+        @BindView(R.id.VideoTitle)
+        TextView title;
+        @BindView(R.id.VideoDescription)
+        TextView description;
+        @BindView(R.id.VideoThumbnail)
+        ImageView iv;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

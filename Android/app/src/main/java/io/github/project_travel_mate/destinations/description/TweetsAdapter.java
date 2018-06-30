@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Tweet;
 
@@ -33,8 +35,7 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = Objects.requireNonNull(mInflater).inflate(R.layout.tweet_listitem, parent, false);
-            holder = new ViewHolder();
-            holder.name = view.findViewById(R.id.tagmain);
+            holder = new ViewHolder(view);
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
@@ -48,7 +49,12 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
         return view;
     }
 
-    private class ViewHolder {
+    class ViewHolder {
+        @BindView(R.id.tagmain)
         TextView name;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

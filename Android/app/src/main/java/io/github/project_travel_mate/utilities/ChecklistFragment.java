@@ -161,8 +161,7 @@ public class ChecklistFragment extends Fragment {
             ViewHolder holder;
             if (view == null) {
                 view = inflater.inflate(R.layout.checklist_item, parent, false);
-                holder = new ViewHolder();
-                holder.checkBox = view.findViewById(R.id.cb1);
+                holder = new ViewHolder(view);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -202,7 +201,12 @@ public class ChecklistFragment extends Fragment {
         }
 
         class ViewHolder {
+            @BindView(R.id.cb1)
             CheckBox checkBox;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
         }
     }
 }

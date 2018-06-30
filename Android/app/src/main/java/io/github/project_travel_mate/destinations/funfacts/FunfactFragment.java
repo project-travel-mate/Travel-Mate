@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
@@ -68,18 +69,32 @@ public class FunfactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO :: Use butterknife & viewholder
         FunFact fact = (FunFact) getArguments().getSerializable(EXTRA_MESSAGE_FUNFACT_OBJECT);
         View view = inflater.inflate(R.layout.fragment_funfact, container, false);
+        ViewHolder holder = new ViewHolder(view);
         if (fact != null) {
-            ((TextView) view.findViewById(R.id.tv)).setText(fact.getText());
-            ((TextView) view.findViewById(R.id.head)).setText(fact.getTitle());
+            (holder.desc).setText(fact.getText());
+            (holder.title).setText(fact.getTitle());
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
-                    .into((ImageView) view.findViewById(R.id.imag));
+                    .into(holder.image);
         }
-        ButterKnife.bind(this, view);
         return view;
+    }
+
+    class ViewHolder {
+
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.desc)
+        TextView desc;
+        @BindView(R.id.imag)
+        ImageView image;
+
+        ViewHolder (View view) {
+            ButterKnife.bind(this, view);
+        }
+
     }
 
     @OnClick(R.id.fab) void onClick() {
