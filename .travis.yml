@@ -28,7 +28,7 @@ script:
    
 deploy:
   provider: heroku
-  api_key: "secure api key"
+  api_key: "8aa560ab-5f2b-4c48-b327-cb4d2e48b0a1"
   file: Android/app/build/outputs/apk/app-release.apk
   skip_cleanup: true
   on:
