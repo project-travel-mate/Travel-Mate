@@ -32,7 +32,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: project-travel-mate/Travel-Mate
-    tags: true
+    tags: false
 
 notifications:
   email: true
