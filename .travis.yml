@@ -17,9 +17,25 @@ android:
 before_script:
     - cd Android
     - chmod +x gradlew
+    - sudo apt-get update -qq
+    - sudo apt-get install -y python2.7
 
 script:
    - chmod +x ./gradlew
    - ./gradlew clean
-   - ./gradlew assembleDebug assembleRelease
    - ./gradlew checkstyle
+   - ./gradlew build
+   
+deploy:
+  provider: heroku
+  api_key: "8aa560ab-5f2b-4c48-b327-cb4d2e48b0a1"
+  skip_cleanup: true
+  app:project-travel-mate1
+  on:
+    repo: project-travel-mate/Travel-Mate
+    tags: false
+    all_branches: true
+
+notifications:
+  email: true
+  
