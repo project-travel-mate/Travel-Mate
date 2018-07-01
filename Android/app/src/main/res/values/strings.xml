@@ -91,24 +91,6 @@
     <string name="location_enabled">Location enabled</string>
     <string name="location_not_enabled">Location not enabled</string>
 
-    <!-- Car direction strings -->
-    <string name="car1">Hatchback</string>
-    <string name="car2">Sedan</string>
-    <string name="car3">SUV</string>
-    <string name="default_mileage_1">22</string>
-    <string name="default_mileage_2">18</string>
-    <string name="default_mileage_3">16</string>
-
-    <!-- Train direction strings -->
-    <string name="monday">Mon</string>
-    <string name="tuesday">Tue</string>
-    <string name="wednesday">Wed</string>
-    <string name="thursday">Thu</string>
-    <string name="friday">Fri</string>
-    <string name="saturday">Sat</string>
-    <string name="sunday">Sun</string>
-    <string name="yes">Y</string>
-
     <!--Hotel strings-->
     <string name="no_hotels">No hotels to show</string>
 

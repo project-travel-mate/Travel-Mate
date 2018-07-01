@@ -69,6 +69,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private Handler mHandler;
     private City mCity;
     private static final int REQUEST_LOCATION = 199;
+    GPSTracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,18 +197,14 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
         mGoogleMap = map;
 
-        GPSTracker tracker = new GPSTracker(this);
+        tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
             tracker.displayLocationRequest(this);
         } else {
             String curlat = Double.toString(tracker.getLatitude());
             String curlon = Double.toString(tracker.getLongitude());
-            if (curlat.equals("0.0")) {
-                curlat = "28.5952242";
-                curlon = "77.1656782";
-            }
             LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 20);
             map.animateCamera(yourLocation);
         }
     }

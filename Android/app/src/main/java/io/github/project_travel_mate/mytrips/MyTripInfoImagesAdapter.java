@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.travel.mytrips;
+package io.github.project_travel_mate.mytrips;
 
 import android.app.Activity;
 import android.content.Intent;

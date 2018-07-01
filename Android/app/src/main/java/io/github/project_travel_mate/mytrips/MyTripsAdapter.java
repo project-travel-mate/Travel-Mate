@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.travel.mytrips;
+package io.github.project_travel_mate.mytrips;
 
 
 import android.app.Activity;
@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -6,7 +6,6 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.util.Log;
 
 @Database(entities = objects.ChecklistItem.class, version = 4, exportSchema = false)
 public abstract class   DbChecklist extends RoomDatabase {

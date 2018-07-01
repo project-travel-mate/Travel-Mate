@@ -26,7 +26,6 @@ import io.github.project_travel_mate.destinations.description.FinalCityInfoActiv
 import io.github.project_travel_mate.destinations.description.TweetsActivity;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
-import views.FontTextView;
 
 class CityAdapter extends BaseFlipAdapter<City> {
 

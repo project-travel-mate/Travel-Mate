@@ -35,7 +35,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".travel.mytrips.TripImageActivity"
+            android:name=".mytrips.TripImageActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme" />
 
@@ -107,8 +107,8 @@
             android:theme="@style/AppThemeNoBar" />
         <activity android:name=".destinations.description.FinalCityInfoActivity" />
         <activity android:name=".destinations.description.PlacesOnMapActivity" />
-        <activity android:name=".travel.mytrips.AddNewTripActivity" />
-        <activity android:name=".travel.mytrips.MyTripInfoActivity" />
+        <activity android:name=".mytrips.AddNewTripActivity" />
+        <activity android:name=".mytrips.MyTripInfoActivity" />
         <activity android:name=".destinations.description.TweetsActivity" />
 
         <provider

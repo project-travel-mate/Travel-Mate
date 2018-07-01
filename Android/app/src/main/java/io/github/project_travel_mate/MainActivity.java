@@ -26,8 +26,8 @@ import android.widget.TextView;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.TravelFragment;
-import io.github.project_travel_mate.travel.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;

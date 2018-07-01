@@ -1,15 +1,14 @@
 package io.github.project_travel_mate.travel;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,20 +51,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.GPSTracker;
 
-import static utils.Constants.DELHI_LAT;
-import static utils.Constants.DELHI_LON;
-import static utils.Constants.DESTINATION_CITY;
-import static utils.Constants.DESTINATION_CITY_LAT;
-import static utils.Constants.DESTINATION_CITY_LON;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
 import static utils.Constants.HERE_API_MODES;
-import static utils.Constants.MUMBAI_LAT;
-import static utils.Constants.MUMBAI_LON;
-import static utils.Constants.SOURCE_CITY;
-import static utils.Constants.SOURCE_CITY_LAT;
-import static utils.Constants.SOURCE_CITY_LON;
 
 /**
  * Show markers on map around user's current location
@@ -80,6 +69,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     private String mCurlat;
     private String mCurlon;
     private GoogleMap mGoogleMap;
+    private static final int REQUEST_LOCATION = 199;
+    GPSTracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,33 +87,17 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
         mHandler = new Handler(Looper.getMainLooper());
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String sorcelat = sharedPreferences.getString(SOURCE_CITY_LAT, DELHI_LAT);
-        String sorcelon = sharedPreferences.getString(SOURCE_CITY_LON, DELHI_LON);
-        String deslat = sharedPreferences.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
-        String deslon = sharedPreferences.getString(DESTINATION_CITY_LON, MUMBAI_LON);
-        String surce = sharedPreferences.getString(SOURCE_CITY, "Delhi");
-        String dest = sharedPreferences.getString(DESTINATION_CITY, "Mumbai");
-
         scrollView.setVisibility(View.GONE);
-
-        mCurlat = deslat;
-        mCurlon = deslon;
 
         setTitle("Places");
 
         // Get user's current location
-        GPSTracker tracker = new GPSTracker(this);
+        tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
             tracker.displayLocationRequest(this);
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
-            if (mCurlat.equals("0.0")) {
-                mCurlat = "28.5952242";
-                mCurlon = "77.1656782";
-            }
             getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
         }
 
@@ -288,6 +263,9 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
         mGoogleMap = map;
 
+        if (mCurlat == null || mCurlon == null)
+            return;
+
         // Zoom to current location
         LatLng coordinate = new LatLng(Double.parseDouble(mCurlat), Double.parseDouble(mCurlon));
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
@@ -334,5 +312,31 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MapRealTimeActivity.class);
         return intent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_LOCATION:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        //User agreed to make required location settings changes
+                        //startLocationUpdates();
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_enabled, Toast.LENGTH_LONG).show();
+                        mCurlat = Double.toString(tracker.getLatitude());
+                        mCurlon = Double.toString(tracker.getLongitude());
+                        getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
+
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        //User chose not to make required location settings changes
+                        Toast.makeText(getApplicationContext(),
+                                R.string.location_not_enabled, Toast.LENGTH_LONG).show();
+                        break;
+                }
+                break;
+        }
     }
 }
