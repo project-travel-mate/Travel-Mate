@@ -38,3 +38,4 @@ deploy:
 
 notifications:
   email: true
+  
