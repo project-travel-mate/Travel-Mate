@@ -17,9 +17,22 @@ android:
 before_script:
     - cd Android
     - chmod +x gradlew
+    - sudo apt-get update -qq
+    - sudo apt-get install -y python2.7
 
 script:
    - chmod +x ./gradlew
    - ./gradlew clean
-   - ./gradlew assembleDebug assembleRelease
    - ./gradlew checkstyle
+   - ./gradlew build
+
+deploy:
+  provider: releases
+  file: Android/app/build/outputs/apk/app-release.apk
+  skip_cleanup: true
+  on:
+    repo: project-travel-mate/Travel-Mate
+    tags: true
+
+notifications:
+  email: true
