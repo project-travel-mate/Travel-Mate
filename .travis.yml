@@ -29,8 +29,8 @@ script:
 deploy:
   provider: heroku
   api_key: "8aa560ab-5f2b-4c48-b327-cb4d2e48b0a1"
-  file: Android/app/build/outputs/apk/app-release.apk
   skip_cleanup: true
+  app:project-travel-mate1
   on:
     repo: project-travel-mate/Travel-Mate
     tags: false
