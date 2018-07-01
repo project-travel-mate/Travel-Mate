@@ -111,7 +111,7 @@ public class MyTripsFragment extends Fragment {
                             String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                             String tname = arr.getJSONObject(i).getString("trip_name");
                             JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
-                            String image = array.length() > 1 ? array.getString(0) : null;
+                            String image = array.length() > 0 ? array.getString(0) : null;
                             mTrips.add(new Trip(id, name, image, start, end, tname));
                         }
                     } catch (JSONException e) {

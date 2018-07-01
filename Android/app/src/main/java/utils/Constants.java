@@ -12,6 +12,8 @@ public class Constants {
     public static final String USER_NUMBER = "user_number";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_TOKEN = "user_token";
+    public static final String USER_DATE_JOINED = "user_date_joined";
+    public static final String USER_IMAGE = "user_image";
 
     public static final String EVENT_IMG = "event_name";
     public static final String EVENT_NAME = "event_img";

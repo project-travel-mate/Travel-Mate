@@ -18,6 +18,11 @@ public class User {
         this.mDateJoined = mDateJoined;
     }
 
+    public User(String firstName, String image) {
+        this.mFirstName = firstName;
+        this.mImage = image;
+    }
+
     public String getUsername() {
         return mUsername;
     }

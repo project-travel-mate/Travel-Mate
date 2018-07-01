@@ -15,7 +15,7 @@
         android:layout_alignStart="@+id/display_email"
         android:layout_marginBottom="63dp"
         android:paddingTop="6sp"
-        android:text="@string/member_from"
+        android:text="@string/text_joining_date"
         android:textColor="#333434"
         android:textSize="18sp" />
 
@@ -59,32 +59,30 @@
 
     <ImageView
         android:id="@+id/profile_icon"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignTop="@+id/display_name"
-        android:layout_marginStart="45dp"
+        android:layout_toStartOf="@+id/display_image"
         android:contentDescription="@string/profile_icon"
-        app:srcCompat="@drawable/profile_page_profile" />
+        app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <ImageView
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignTop="@+id/display_email"
-        android:layout_marginStart="45dp"
+        android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/mail_icon"
-        app:srcCompat="@drawable/profile_page_email" />
+        app:srcCompat="@drawable/ic_email_black_24dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignStart="@+id/profile_icon"
         android:layout_alignTop="@+id/display_joining_date"
         android:alpha="0.6"
         android:contentDescription="@string/info_icon"
-        app:srcCompat="@drawable/profile_page_info" />
+        app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
     <ImageButton
         android:id="@+id/ib_edit_display_name"

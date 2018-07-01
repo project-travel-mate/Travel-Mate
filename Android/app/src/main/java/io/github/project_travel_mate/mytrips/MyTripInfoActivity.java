@@ -43,6 +43,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
 import objects.Trip;
+import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -73,7 +74,6 @@ public class MyTripInfoActivity extends AppCompatActivity {
     private String mNameYet;
     private String mToken;
     private Trip mTrip;
-    private List<String> mFname;
     private MaterialDialog mDialog;
     private Handler mHandler;
 
@@ -92,7 +92,6 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
         List<File> mediaimages = new ArrayList<>();
         List<File> imagesuri = new ArrayList<>();
-        mFname = new ArrayList<>();
 
         Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
                 .placeholder(R.drawable.delhi).into(iv);
@@ -127,6 +126,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
     }
 
     private void getSingleTrip() {
+
+        List<User> users = new ArrayList<>();
 
         mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
@@ -179,11 +180,12 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
                         JSONArray usersArray = ob.getJSONArray("users");
                         for (int i = 0; i < usersArray.length(); i++) {
-                            mFname.add(usersArray.getJSONObject(i).getString("first_name"));
+                            users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
+                                    usersArray.getJSONObject(i).getString("image")));
                         }
 
                         MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
-                                MyTripInfoActivity.this, mFname);
+                                MyTripInfoActivity.this, users);
                         lv.setAdapter(dataAdapter);
 
                     } catch (JSONException e1) {

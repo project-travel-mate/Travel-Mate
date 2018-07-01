@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -11,15 +12,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:layout_width="74dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="69dp"
         android:layout_height="69dp"
-        android:alpha="1"
+        android:scaleType="centerCrop"
         android:clickable="true"
-        android:contentDescription="@string/empty_description"
+        android:alpha="1"
         android:onClick="onClickProfile"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/icon_profile" />
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <TextView
         android:layout_width="match_parent"

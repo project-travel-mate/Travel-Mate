@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,9 +22,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -31,9 +43,20 @@ import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+import static utils.Constants.API_LINK_V2;
+import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_IMAGE;
+import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
+import static utils.DateUtils.getDate;
+import static utils.DateUtils.rfc3339ToMills;
 
 /**
  * Launcher Activity; Handles fragment changes;
@@ -42,7 +65,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SharedPreferences mSharedPreferences;
     private int mPreviousMenuItemId;
+    private String mToken;
     private DrawerLayout mDrawer;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mPreviousMenuItemId = R.id.nav_city; // This is default item
+
+        mHandler = new Handler(Looper.getMainLooper());
 
         //Initially city fragment
         Fragment fragment;
@@ -73,15 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // Get reference to the navigation view header and email textview
-        View navigationHeader = navigationView.getHeaderView(0);
-        TextView emailTextView = navigationHeader.findViewById(R.id.email);
-        // Fetch the user mail id from SharedPreferences
         String emailId = mSharedPreferences.getString(USER_EMAIL, getString(R.string.app_name));
-        emailTextView.setText(emailId);
+        fillNavigationView(emailId, null);
+
+        getProfileInfo();
     }
 
     @Override
@@ -200,5 +223,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
+    }
+
+    private void fillNavigationView(String emailId, String imageURL) {
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Get reference to the navigation view header and email textview
+        View navigationHeader = navigationView.getHeaderView(0);
+        TextView emailTextView = navigationHeader.findViewById(R.id.email);
+        emailTextView.setText(emailId);
+
+        ImageView imageView = navigationHeader.findViewById(R.id.image);
+        Picasso.with(MainActivity.this).load(imageURL).placeholder(R.drawable.icon_profile)
+                .error(R.drawable.icon_profile).into(imageView);
+    }
+
+    private void getProfileInfo() {
+
+        // to fetch user details
+        String uri = API_LINK_V2 + "get-user";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                mHandler.post(() -> {
+                    try {
+                        JSONObject object = new JSONObject(res);
+                        String userName = object.getString("username");
+                        String firstName = object.getString("first_name");
+                        String lastName = object.getString("last_name");
+                        int id = object.getInt("id");
+                        String imageURL = object.getString("image");
+                        String dateJoined = object.getString("date_joined");
+                        Long dateTime = rfc3339ToMills(dateJoined);
+                        String date = getDate(dateTime);
+
+                        String fullName = firstName + " " + lastName;
+                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                        mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                        mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                        mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        fillNavigationView(fullName, imageURL);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    }
+                });
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillNavigationView(mSharedPreferences.getString(USER_NAME, getString(R.string.app_name)),
+                mSharedPreferences.getString(USER_IMAGE, null));
     }
 }

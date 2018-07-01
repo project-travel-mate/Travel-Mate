@@ -42,6 +42,10 @@ import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.STATUS_CODE_OK;
+import static utils.Constants.USER_DATE_JOINED;
+import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_IMAGE;
+import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
@@ -62,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
     private MaterialDialog mDialog;
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +74,16 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
         mHandler = new Handler(Looper.getMainLooper());
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mToken = preferences.getString(USER_TOKEN, null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
         getUserDetails();
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
+                mSharedPreferences.getString(USER_EMAIL, null),
+                mSharedPreferences.getString(USER_IMAGE, null),
+                mSharedPreferences.getString(USER_DATE_JOINED, null));
 
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
@@ -125,12 +135,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void getUserDetails() {
 
-        mDialog = new MaterialDialog.Builder(ProfileActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
-
         // to fetch user details
         String uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
@@ -163,17 +167,17 @@ public class ProfileActivity extends AppCompatActivity {
                         String imageURL = object.getString("image");
                         String dateJoined = object.getString("date_joined");
                         new User(userName, firstName, lastName, id, imageURL, dateJoined);
-
                         String fullName = firstName + " " + lastName;
-                        displayName.setText(fullName);
-                        emailId.setText(userName);
                         Long dateTime = rfc3339ToMills(dateJoined);
                         String date = getDate(dateTime);
-                        joiningDate.setText(getString(R.string.text_joining_date) + " " + date);
-                        Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
-                                .error(R.drawable.default_user_icon).into(displayImage);
 
-                        mDialog.dismiss();
+                        fillProfileInfo(fullName, userName, imageURL, date);
+
+                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                        mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                        mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                        mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("ERROR : ", "Message : " + e.getMessage());
@@ -230,6 +234,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mHandler.post(() -> {
                     if (responseCode == STATUS_CODE_OK) {
                         Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
                         Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
@@ -242,5 +247,14 @@ public class ProfileActivity extends AppCompatActivity {
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ProfileActivity.class);
         return intent;
+    }
+
+    private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
+        displayName.setText(fullName);
+        emailId.setText(email);
+        joiningDate.setText(getString(R.string.text_joining_date) + " " + dateJoined);
+        Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
+                .error(R.drawable.default_user_icon).into(displayImage);
+
     }
 }

@@ -250,7 +250,8 @@ public class FinalCityInfoActivity extends AppCompatActivity implements View.OnC
                                 final String longitude,
                                 ArrayList<String> imagesArray) {
         mHandler.post(() -> {
-            des.setText(description);
+            if (description != null)
+                des.setText(description);
             mCity.setDescription(description);
             mCity.setLatitude(latitude);
             mCity.setLongitude(longitude);
