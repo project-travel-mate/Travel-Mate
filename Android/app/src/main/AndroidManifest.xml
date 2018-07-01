@@ -121,7 +121,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".ProfileActivity" />
     </application>
 
 </manifest>
