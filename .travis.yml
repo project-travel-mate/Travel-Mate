@@ -33,6 +33,7 @@ deploy:
   on:
     repo: project-travel-mate/Travel-Mate
     tags: false
+    all_branches: true
 
 notifications:
   email: true
