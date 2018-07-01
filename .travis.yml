@@ -25,9 +25,10 @@ script:
    - ./gradlew clean
    - ./gradlew checkstyle
    - ./gradlew build
-
+   
 deploy:
-  provider: releases
+  provider: heroku
+  api_key: "secure api key"
   file: Android/app/build/outputs/apk/app-release.apk
   skip_cleanup: true
   on:
