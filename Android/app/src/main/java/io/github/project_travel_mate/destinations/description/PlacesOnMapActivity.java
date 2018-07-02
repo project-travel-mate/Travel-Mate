@@ -61,6 +61,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
     @BindView(R.id.lv)
     TwoWayView twoWayView;
+    @BindView(R.id.textViewNoItems)
+    TextView textViewNoItems;
 
     private ProgressDialog mProgressDialog;
     private String mMode;
@@ -179,7 +181,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                         JSONArray feedItems = feed.getJSONArray("items");
                         Log.v("response", feedItems.toString());
 
-                        twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+                        setupViewsAsNeeded(feedItems);
 
                         mProgressDialog.dismiss();
                     } catch (JSONException e) {
@@ -190,6 +192,17 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
             }
         });
+    }
+
+    private void setupViewsAsNeeded(JSONArray feedItems) {
+        if (feedItems.length() == 0) {
+            textViewNoItems.setVisibility(View.VISIBLE);
+            twoWayView.setVisibility(View.GONE);
+        } else {
+            twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+            textViewNoItems.setVisibility(View.GONE);
+            twoWayView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

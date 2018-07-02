@@ -86,6 +86,7 @@
     <!-- Errors and messages -->
     <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
     <string name="msg_saved">QR code image was saved as</string>
+    <string name="no_items_available">No items available!</string>
     <string name="internet_connectivity">No Internet Connectivity</string>
     <string name="passwords_check">Passwords do not match!</string>
     <string name="location_enabled">Location enabled</string>
