@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +31,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.PropertyPermission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,9 +45,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.OTHER_USER_ID;
+import static utils.Constants.SHARE_PROFILE_URI;
+import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
 import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
@@ -67,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
+    private Menu mOptionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +85,23 @@ public class ProfileActivity extends AppCompatActivity {
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
-        getUserDetails();
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra(OTHER_USER_ID);
+        getUserDetails(id);
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
-                mSharedPreferences.getString(USER_EMAIL, null),
-                mSharedPreferences.getString(USER_IMAGE, null),
-                mSharedPreferences.getString(USER_DATE_JOINED, null));
+        if (id == null) {
+            fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
+                    mSharedPreferences.getString(USER_EMAIL, null),
+                    mSharedPreferences.getString(USER_IMAGE, null),
+                    mSharedPreferences.getString(USER_DATE_JOINED, null));
+
+        } else {
+            editDisplayName.setVisibility(View.INVISIBLE);
+            updateOptionsMenu();
+        }
 
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
@@ -128,15 +146,21 @@ public class ProfileActivity extends AppCompatActivity {
                 // app icon in action bar clicked; go home
                 finish();
                 return true;
+            case R.id.action_share_profile:
+                shareProfile();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void getUserDetails() {
+    private void getUserDetails(final String userId) {
 
-        // to fetch user details
-        String uri = API_LINK_V2 + "get-user";
+        String uri;
+        if (userId != null)
+            uri = API_LINK_V2 + "get-user/" + userId;
+        else
+            uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
 
         //Set up client
@@ -173,10 +197,15 @@ public class ProfileActivity extends AppCompatActivity {
 
                         fillProfileInfo(fullName, userName, imageURL, date);
 
-                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                        mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
-                        mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
-                        mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        if (userId == null) {
+                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                            mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                            mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                            mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                            mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
+                        } else {
+                            updateOptionsMenu();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -249,6 +278,12 @@ public class ProfileActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent getStartIntent(Context context, String userId) {
+        Intent intent = new Intent(context, ProfileActivity.class);
+        intent.putExtra(OTHER_USER_ID, userId);
+        return intent;
+    }
+
     private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
         displayName.setText(fullName);
         emailId.setText(email);
@@ -257,4 +292,39 @@ public class ProfileActivity extends AppCompatActivity {
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        mOptionsMenu = menu;
+        return true;
+    }
+
+    private void updateOptionsMenu() {
+        if (mOptionsMenu != null) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_share_profile);
+            item.setVisible(false);
+        }
+    }
+
+    private void shareProfile() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        Uri profileURI = Uri.parse(SHARE_PROFILE_URI)
+                .buildUpon()
+                .appendQueryParameter(SHARE_PROFILE_USER_ID_QUERY, mSharedPreferences.getString(USER_ID, null))
+                .build();
+
+        Log.v("profile url", profileURI + "");
+
+        intent.putExtra(Intent.EXTRA_TEXT , getResources().getString(R.string.share_profile_text) + " " + profileURI );
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Snackbar.make(Objects.requireNonNull(ProfileActivity.this).findViewById(android.R.id.content),
+                    R.string.snackbar_no_share_app,
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }

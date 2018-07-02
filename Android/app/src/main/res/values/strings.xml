@@ -148,6 +148,10 @@
 
     <!-- Profile strings -->
     <string name="name_updated">Name has been updated</string>
+    <string name="text_share_profile">Share my profile</string>
+    <string name="snackbar_no_share_app">No application to share.</string>
+    <string name="share_chooser">Select app to send message…</string>
+    <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
 
     <!-- Choose feature type -->
     <array name="bug_types">

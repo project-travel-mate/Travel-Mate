@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
@@ -49,6 +51,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_IMAGE;
@@ -81,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mPreviousMenuItemId = R.id.nav_city; // This is default item
 
         mHandler = new Handler(Looper.getMainLooper());
+
+        String action =  getIntent().getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            showProfile(getIntent().getDataString());
+        }
 
         //Initially city fragment
         Fragment fragment;
@@ -295,5 +303,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         fillNavigationView(mSharedPreferences.getString(USER_NAME, getString(R.string.app_name)),
                 mSharedPreferences.getString(USER_IMAGE, null));
+    }
+
+    void showProfile(String data) {
+        Uri uri = Uri.parse(data);
+
+        String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
+        Log.v("user id", userId + " ");
+        if (userId != null) {
+            Intent intent = ProfileActivity.getStartIntent(MainActivity.this, userId);
+            startActivity(intent);
+        }
+
     }
 }
