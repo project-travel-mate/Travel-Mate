@@ -35,6 +35,13 @@ public class Constants {
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
     public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
+    // TODO:: replace placeholders with actual values
+    //Cloudinary information
+    public static final String CLOUDINARY_CLOUD_NAME = "sample_cloud";
+    public static final String CLOUDINARY_API_KEY = "sample_api_key";
+    public static final String CLOUDINARY_API_SECRET = "sample_api_secret";
+
+
     public static final List<String> BASE_TASKS = new ArrayList<String>() {
         {
             add("Bags");
