@@ -41,7 +41,6 @@ import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
-import io.github.project_travel_mate.utilities.EmergencyFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -88,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = CityFragment.newInstance();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         // Get runtime permissions for Android M
         getRuntimePermissions();
@@ -146,10 +147,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_utility:
                 fragment = UtilitiesFragment.newInstance();
-                break;
-
-            case R.id.nav_emergency:
-                fragment = EmergencyFragment.newInstance();
                 break;
 
             case R.id.nav_signout: {

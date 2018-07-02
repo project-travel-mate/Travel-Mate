@@ -9,7 +9,6 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_extras">Extras</string>
-    <string name="navigation_drawer_emergency_contact">Emergency Contacts</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
 
@@ -99,15 +98,6 @@
     <string name="share_contact_text">Share Contact</string>
     <string name="share_contact">Share My Contact</string>
     <string name="view_contact">View someone Contact</string>
-
-    <!-- Emergency contact strings -->
-    <string name="emergency_call">Call</string>
-    <string name="emergency_police">POLICE</string>
-    <string name="emergency_fire">FIRE</string>
-    <string name="emergency_ambulance">AMBULANCE</string>
-    <string name="emergency_blood_bank">Blood Bank Organisation</string>
-    <string name="emergency_bomb_disposal">Bomb Disposal Squad</string>
-    <string name="emergency_railways">Railways Enquiry</string>
 
     <!-- Constant texts -->
     <string name="text_mileage">Mileage</string>

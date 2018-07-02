@@ -27,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,13 +89,11 @@ public class MyTripInfoActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
-        List<File> mediaimages = new ArrayList<>();
-        List<File> imagesuri = new ArrayList<>();
-
         Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
                 .placeholder(R.drawable.delhi).into(iv);
 
         mHandler = new Handler(Looper.getMainLooper());
+        frendname.clearFocus();
 
         frendname.setThreshold(1);
 

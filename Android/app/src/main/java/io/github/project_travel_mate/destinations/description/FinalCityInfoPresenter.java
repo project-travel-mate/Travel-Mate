@@ -43,6 +43,9 @@ class FinalCityInfoPresenter {
     public void fetchCityWeather(String cityName, String token) {
 
         String uri = API_LINK_V2 + "get-city-weather/" + cityName;
+        uri = uri.replaceAll(" ", "%20");
+
+        Log.v("EXECUTING", uri);
 
         Request request = new Request.Builder()
                 .header("Authorization", "Token " + token)

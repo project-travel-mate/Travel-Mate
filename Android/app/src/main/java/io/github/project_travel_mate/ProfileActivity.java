@@ -255,6 +255,6 @@ public class ProfileActivity extends AppCompatActivity {
         joiningDate.setText(getString(R.string.text_joining_date) + " " + dateJoined);
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
-
+        setTitle(fullName);
     }
 }

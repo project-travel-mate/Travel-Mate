@@ -100,11 +100,11 @@ class FunFactsPresenter {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-
+                Log.v("RESPONSE", res);
                 try {
                     JSONArray array = new JSONArray(res);
                     for (int i = 0; i < array.length(); i++) {
-                        mImages.add(array.getJSONObject(i).getString("image"));
+                        mImages.add(array.getJSONObject(i).getString("image_url"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

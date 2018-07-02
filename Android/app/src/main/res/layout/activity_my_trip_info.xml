@@ -85,6 +85,8 @@
             android:popupBackground="#ffffff"
             android:textColor="#000000"
             android:textColorHint="#000000"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             tools:targetApi="lollipop" />
 
 

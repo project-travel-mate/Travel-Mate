@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -250,7 +251,8 @@ public class FinalCityInfoActivity extends AppCompatActivity implements View.OnC
                                 final String longitude,
                                 ArrayList<String> imagesArray) {
         mHandler.post(() -> {
-            if (description != null)
+            Log.e("description", description + " ");
+            if (description != null && !description.equals("null"))
                 des.setText(description);
             mCity.setDescription(description);
             mCity.setLatitude(latitude);

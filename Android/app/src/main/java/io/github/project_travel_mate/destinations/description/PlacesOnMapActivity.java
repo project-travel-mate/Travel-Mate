@@ -1,7 +1,6 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,9 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -49,7 +47,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.GPSTracker;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
@@ -70,8 +67,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
-    private static final int REQUEST_LOCATION = 199;
-    GPSTracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,19 +202,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
     @Override
     public void onMapReady(GoogleMap map) {
-
         mGoogleMap = map;
-
-        tracker = new GPSTracker(this);
-        if (!tracker.canGetLocation()) {
-            tracker.displayLocationRequest(this);
-        } else {
-            String curlat = Double.toString(tracker.getLatitude());
-            String curlon = Double.toString(tracker.getLongitude());
-            LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 20);
-            map.animateCamera(yourLocation);
-        }
     }
 
     class PlacesOnMapAdapter extends BaseAdapter {
@@ -269,9 +252,24 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
             } else
                 holder = (ViewHolder) view.getTag();
 
+            if (position == 0) {
+                try {
+                    Double latitude = Double.parseDouble(
+                            mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
+                    Double longitude = Double.parseDouble(
+                            mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+                    showMarker(latitude,
+                            longitude,
+                            mFeedItems.getJSONObject(position).getString("title"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
             try {
                 holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                holder.description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
+                String description = mFeedItems.getJSONObject(position).getString("vicinity");
+                holder.description.setText(Html.fromHtml(description).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("ERROR", "Message : " + e.getMessage());
@@ -336,28 +334,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 ButterKnife.bind(this, view);
             }
 
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            // Check for the integer request code originally supplied to startResolutionForResult().
-            case REQUEST_LOCATION:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        //User agreed to make required location settings changes
-                        //startLocationUpdates();
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_enabled, Toast.LENGTH_LONG).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        //User chose not to make required location settings changes
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_not_enabled, Toast.LENGTH_LONG).show();
-                        break;
-                }
-                break;
         }
     }
 

@@ -59,28 +59,30 @@
 
     <ImageView
         android:id="@+id/profile_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/display_name"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/ib_edit_display_name"
         android:layout_toStartOf="@+id/display_image"
+        android:alpha="0.8"
         android:contentDescription="@string/profile_icon"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/display_email"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="131dp"
         android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/mail_icon"
         app:srcCompat="@drawable/ic_email_black_24dp" />
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignStart="@+id/profile_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignTop="@+id/display_joining_date"
-        android:alpha="0.6"
+        android:layout_toStartOf="@+id/display_image"
+        android:alpha="0.8"
         android:contentDescription="@string/info_icon"
         app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
