@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -191,9 +192,9 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                         if (feedItems.length() > 0) {
                             lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
                         } else {
-                            Toast.makeText(HotelsActivity.this,
-                                    getResources().getString(R.string.no_hotels),
-                                    Toast.LENGTH_LONG).show();
+
+                            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.hotellsCoordinatorLayout), R.string.no_hotels, Snackbar.LENGTH_LONG);
+                            mySnackbar.show();
                         }
                     } catch (JSONException e1) {
                         e1.printStackTrace();
