@@ -75,6 +75,16 @@ public class FunfactFragment extends Fragment {
         if (fact != null) {
             (holder.desc).setText(fact.getText());
             (holder.title).setText(fact.getTitle());
+            (holder.source).setText(fact.getSource());
+            (holder.source).setOnClickListener(view1 -> {
+
+                String url = fact.getSourceURL();
+                Uri sourceURI = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
+                if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            });
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
                     .into(holder.image);
@@ -82,19 +92,20 @@ public class FunfactFragment extends Fragment {
         return view;
     }
 
-    class ViewHolder {
-
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.desc)
-        TextView desc;
-        @BindView(R.id.imag)
-        ImageView image;
-
-        ViewHolder (View view) {
-            ButterKnife.bind(this, view);
-        }
-
+    /**
+     * To Share a mFile via mFile sharer
+     *
+     * @param file File location to be shared
+     */
+    private void shareImage(File file) {
+        Uri uri = FileProvider.getUriForFile(Objects.requireNonNull(getActivity()), "io.github.project_travel_mate.shareFile", file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
 
     @OnClick(R.id.fab) void onClick() {
@@ -129,19 +140,20 @@ public class FunfactFragment extends Fragment {
         }
     }
 
-    /**
-     * To Share a mFile via mFile sharer
-     *
-     * @param file File location to be shared
-     */
-    private void shareImage(File file) {
-        Uri uri = FileProvider.getUriForFile(getActivity(), "io.github.project_travel_mate.shareFile", file);
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(Intent.EXTRA_TEXT, "");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(intent, "Share Screenshot"));
+    class ViewHolder {
+
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.desc)
+        TextView desc;
+        @BindView(R.id.imag)
+        ImageView image;
+        @BindView(R.id.source)
+        TextView source;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
     }
 }

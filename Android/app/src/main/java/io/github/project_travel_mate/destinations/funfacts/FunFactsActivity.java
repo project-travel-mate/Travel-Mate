@@ -95,7 +95,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
             for (int i = 0; i < factsArray.size(); i++) {
                 FunFact fact = new FunFact(mCity.getNickname(),
                         factsArray.get(i).getImage(),
-                        factsArray.get(i).getText());
+                        factsArray.get(i).getText(), factsArray.get(i).getSource(), factsArray.get(i).getSourceURL());
                 fList.add(FunfactFragment.newInstance(fact));
             }
             viewPager.setAdapter(new MyPageAdapter(FunFactsActivity.this.getSupportFragmentManager(), fList));
