@@ -9,8 +9,6 @@ public class FunFact implements Serializable {
     private String mImage;
     private String mText;
     private String mSource;
-
-
     private String mSourceURL;
 
     /***
@@ -18,7 +16,8 @@ public class FunFact implements Serializable {
      * @param title fact title
      * @param image fact image
      * @param text  face text
-     * @param source
+     * @param source fact source
+     * @param sourceURL url of fact source
      */
     public FunFact(String title, String image, String text, String source, String sourceURL) {
         this.mTitle = title;
@@ -28,7 +27,8 @@ public class FunFact implements Serializable {
         this.mSourceURL = sourceURL;
     }
 
-    public static ArrayList<FunFact> createFunFactList(ArrayList<String> facts, ArrayList<String> images, ArrayList<String> sources, ArrayList<String> sourceURLs) {
+    public static ArrayList<FunFact> createFunFactList(ArrayList<String> facts, ArrayList<String> images,
+                                                       ArrayList<String> sources, ArrayList<String> sourceURLs) {
         ArrayList<FunFact> factsArray = new ArrayList<>();
         if (facts.size() > 0) {
             String fact, source, sourceURL;

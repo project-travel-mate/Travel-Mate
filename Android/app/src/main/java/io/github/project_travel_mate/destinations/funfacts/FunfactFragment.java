@@ -78,20 +78,9 @@ public class FunfactFragment extends Fragment {
             (holder.title).setText(fact.getTitle());
             if (fact.getSource() != null && !fact.getSource().equals("null")) {
                 (holder.text_source).setVisibility(View.VISIBLE);
+                (holder.text_source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
                 (holder.source).setText(fact.getSource());
-                (holder.source).setOnClickListener(view1 -> {
-
-                    String url = fact.getSourceURL();
-                    Uri sourceURI = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
-                    if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-                        startActivity(intent);
-                    } else {
-                        Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(android.R.id.content),
-                                R.string.no_activity_for_browser,
-                                Snackbar.LENGTH_LONG).show();
-                    }
-                });
+                (holder.source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
             }
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
@@ -106,7 +95,8 @@ public class FunfactFragment extends Fragment {
      * @param file File location to be shared
      */
     private void shareImage(File file) {
-        Uri uri = FileProvider.getUriForFile(Objects.requireNonNull(getActivity()), "io.github.project_travel_mate.shareFile", file);
+        Uri uri = FileProvider.getUriForFile(Objects.requireNonNull(getActivity()),
+                "io.github.project_travel_mate.shareFile", file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
@@ -116,6 +106,23 @@ public class FunfactFragment extends Fragment {
         startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
 
+    /**
+     * To open a url in browser
+     *
+     * @param url URL to be opened
+     */
+
+    private void openURL(String url) {
+        Uri sourceURI = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
+        if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(android.R.id.content),
+                    R.string.no_activity_for_browser,
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
     @OnClick(R.id.fab)
     void onClick() {
         View rootView = Objects.requireNonNull(getActivity())
