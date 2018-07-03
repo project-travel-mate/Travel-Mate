@@ -123,10 +123,10 @@
     <string name="text_my_trips">My Trips</string>
     <string name="unknown_value">…</string>
     <string name="text_joining_date">Joined on</string>
+    <string name="text_source">"Source : "</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
-    <string name="sample_source">service sutra</string>
     <string name="sample_string">Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
     Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>

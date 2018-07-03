@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
@@ -75,16 +76,23 @@ public class FunfactFragment extends Fragment {
         if (fact != null) {
             (holder.desc).setText(fact.getText());
             (holder.title).setText(fact.getTitle());
-            (holder.source).setText(fact.getSource());
-            (holder.source).setOnClickListener(view1 -> {
+            if (fact.getSource() != null && !fact.getSource().equals("null")) {
+                (holder.text_source).setVisibility(View.VISIBLE);
+                (holder.source).setText(fact.getSource());
+                (holder.source).setOnClickListener(view1 -> {
 
-                String url = fact.getSourceURL();
-                Uri sourceURI = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
-                if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-            });
+                    String url = fact.getSourceURL();
+                    Uri sourceURI = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
+                    if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+                        startActivity(intent);
+                    } else {
+                        Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(android.R.id.content),
+                                R.string.no_activity_for_browser,
+                                Snackbar.LENGTH_LONG).show();
+                    }
+                });
+            }
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
                     .into(holder.image);
@@ -108,7 +116,8 @@ public class FunfactFragment extends Fragment {
         startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
 
-    @OnClick(R.id.fab) void onClick() {
+    @OnClick(R.id.fab)
+    void onClick() {
         View rootView = Objects.requireNonNull(getActivity())
                 .getWindow()
                 .getDecorView()
@@ -150,6 +159,8 @@ public class FunfactFragment extends Fragment {
         ImageView image;
         @BindView(R.id.source)
         TextView source;
+        @BindView(R.id.text_source)
+        TextView text_source;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
