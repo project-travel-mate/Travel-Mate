@@ -193,7 +193,8 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                             lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
                         } else {
 
-                            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.hotellsCoordinatorLayout), R.string.no_hotels, Snackbar.LENGTH_LONG);
+                            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.hotelsCoordinatorLayout),
+                                    R.string.no_hotels, Snackbar.LENGTH_LONG);
                             mySnackbar.show();
                         }
                     } catch (JSONException e1) {
