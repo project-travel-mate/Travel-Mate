@@ -12,14 +12,19 @@
         android:orientation="vertical"
         tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
-        <ImageView
-            android:id="@+id/image"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/image_slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:contentDescription="@string/empty_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/delhi" />
+            android:scaleType="centerCrop" />
 
+        <LinearLayout
+            android:id="@+id/SliderDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" />
 
         <TextView
             android:id="@+id/head"
