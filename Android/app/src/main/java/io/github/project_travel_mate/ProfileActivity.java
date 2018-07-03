@@ -10,8 +10,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -35,6 +37,7 @@ import java.util.PropertyPermission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.login.LoginActivity;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -146,12 +149,36 @@ public class ProfileActivity extends AppCompatActivity {
                 // app icon in action bar clicked; go home
                 finish();
                 return true;
+            case R.id.action_sign_out:
+                signOut();
+                return true;
             case R.id.action_share_profile:
                 shareProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void signOut() {
+        //set AlertDialog before signout
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.signout_message)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mSharedPreferences
+                                    .edit()
+                                    .putString(USER_TOKEN, null)
+                                    .apply();
+                            Intent i = LoginActivity.getStartIntent(ProfileActivity.this);
+                            startActivity(i);
+                            finish();
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
     }
 
     private void getUserDetails(final String userId) {
