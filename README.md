@@ -33,7 +33,7 @@ A must-have app for those interested in travel. The app provides users with vari
 ## How Travel Mate Works
 
 While travelling from one place to another, there are a lot of factors to be considered to make the trip a memorable one. Our platform helps the traveller with anything and everything that he or she might need, from the moment he or she plans the journey till the time he or she is back home happy and content.
-The platform includes a wide variety of options - from selection of Mode of Transport, to finding out about the destination city, to provision of best music, novels, depending on the mood of the traveller. Travel Mate basically works in 3 phases. 
+The platform includes a wide variety of options - from selection of Mode of Transport, to finding out about the destination city, to provision of best music, novels, depending on the mood of the traveller. Travel Mate basically works in 3 phases.
 
 ## Select Destination
 A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can also be seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
@@ -52,7 +52,7 @@ This option allows users to view their travel history, including pictures during
 
 
 ### Transport
-This option allows users to book bus and railway tickets, using the Travel Mate app. Users opting to travel by car are informed of the total toll and fuel charges they are likely to incur. 
+This option allows users to book bus and railway tickets, using the Travel Mate app. Users opting to travel by car are informed of the total toll and fuel charges they are likely to incur.
 
 <img src="./screenshots/transport.png" width="200px"> <img src="./screenshots/trains.png" width="200px">
 
@@ -83,13 +83,13 @@ Users can share their contact details with their co-passengers, by simply sharin
 
 
 ### Checklist
-The app also includes an interactive checklist of items users need to carry with them on their trips. 
+The app also includes an interactive checklist of items users need to carry with them on their trips.
 
 <img src="./screenshots/checklist.png" width="200px">
 
 
 ## Push notification
-To prevent users from missing their destination station while travelling by train or bus, the app includes the push notification feature, that sounds an alarm when the users nears their respective destination stations. 
+To prevent users from missing their destination station while travelling by train or bus, the app includes the push notification feature, that sounds an alarm when the users nears their respective destination stations.
 P
 
 <img src="./screenshots/notification.png" width="200px">
@@ -110,6 +110,7 @@ P
 + [android-process-button](https://github.com/dmytrodanylyk/android-process-button)
 + [ExpandableTextView](https://github.com/Manabu-GT/ExpandableTextView)
 + [butterknife](https://github.com/JakeWharton/butterknife)
++ [Zxing](https://github.com/zxing/zxing)
 
 
 ## Contact Us
@@ -120,4 +121,3 @@ Feel free to [open an issue](https://github.com/Swati4star/Travel-Mate/issues) f
 ## Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/Swati4star/Travel-Mate.svg)](https://starcharts.herokuapp.com/Swati4star/Travel-Mate)
-      

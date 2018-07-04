@@ -87,4 +87,9 @@ public class Constants {
     public static final String SHARE_PROFILE_URI = "http://project-travel-mate.github.io/Travel-Mate";
     public static final String SHARE_PROFILE_USER_ID_QUERY = "user";
 
+    //QRCode constants
+    public static final int QR_CODE_WIDTH = 200;
+    public static final int QR_CODE_HEIGHT = 200;
+
+
 }

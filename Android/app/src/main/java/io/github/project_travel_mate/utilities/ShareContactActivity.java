@@ -1,36 +1,46 @@
 package io.github.project_travel_mate.utilities;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
 import java.util.Objects;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import utils.Services;
 
+import static utils.Constants.QR_CODE_HEIGHT;
+import static utils.Constants.QR_CODE_WIDTH;
+import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_NAME;
-import static utils.Constants.USER_NUMBER;
 
 public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
+    private static final int ACTIVITY_INSERT_CONTACT = 2;
     @BindView(R.id.create)
     Button create;
     @BindView(R.id.scan)
@@ -55,62 +65,32 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (ACTIVITY_SCAN == requestCode && null != data && data.getExtras() != null) {
-            //Read result from QR Droid (it's stored in la.droid.qr.result)
-            String result = data.getExtras().getString(Services.RESULT);
-            //Just set result to EditText to be able to view it
-
-            String[] x = Objects.requireNonNull(result).split("---");
-            String r = "My name is " + x[1] + ". My phone number : " + x[0];
-
-            addContact(x[1], x[0]);
-
-            TextView resultTxt = findViewById(R.id.result);
-            resultTxt.setText(r);
-            resultTxt.setVisibility(View.VISIBLE);
-        }
-        if (ACTIVITY_CREATE == requestCode && null != data && data.getExtras() != null) {
-            //Read result from QR Droid (it's stored in la.droid.qr.result)
-            //Result is a string or a bitmap, according what was requested
-            ImageView imgResult = findViewById(R.id.im);
-
-            String qrCode = data.getExtras().getString(Services.RESULT);
-
-            //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
-            if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(ShareContactActivity.this, R.string.msg_qr_not_saved, Toast.LENGTH_LONG).show();
-                return;
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            //if QRcode has nothing in it
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+            } else {
+                //if QRCode contains data
+                //retrieve results
+                String resultContents = result.getContents();
+                String[] values = resultContents.split(":");
+                String userName = values[0];
+                String userEmail = values[1];
+                addContact(userName, userEmail);
             }
 
-            //Show success message
-            Toast.makeText(ShareContactActivity.this, getString(R.string.msg_saved) + " " + qrCode, Toast.LENGTH_LONG)
-                    .show();
-
-            //Load QR code image from given path
-            imgResult.setImageURI(Uri.parse(qrCode));
-
-            imgResult.setVisibility(View.VISIBLE);
-        }
-
-        if (ACTIVITY_INSERT_CONTACT == requestCode) {
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Added Contact", Toast.LENGTH_SHORT).show();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Cancelled Added Contact", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
-    private void addContact(String name, String phone) {
+    private void addContact(String name, String email) {
 
         Intent contactIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
         contactIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
 
         contactIntent
                 .putExtra(ContactsContract.Intents.Insert.NAME, name)
-                .putExtra(ContactsContract.Intents.Insert.PHONE, phone);
+                .putExtra(ContactsContract.Intents.Insert.EMAIL, email);
 
         startActivityForResult(contactIntent, ACTIVITY_INSERT_CONTACT);
     }
@@ -125,53 +105,56 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
 
-        Intent qrDroid;
         switch (view.getId()) {
             case R.id.scan:
-                qrDroid = new Intent(Services.SCAN); //Set action "la.droid.qr.scan"
-
-                //Check whether a complete or displayable result is needed
-                qrDroid.putExtra(Services.COMPLETE, true);
-
-                //Send intent and wait result
-                try {
-                    startActivityForResult(qrDroid, ACTIVITY_SCAN);
-                } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContactActivity.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
-                }
+                IntentIntegrator qrScan = new IntentIntegrator(this);
+                qrScan.initiateScan();
                 break;
+
             case R.id.create:
-                //Create a new Intent to send to QR Droid
-                qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
+                ImageView qrCodeView = findViewById(R.id.im);
+                //getting details to be encoded in qr code
+                String myEmail = mSharedPreferences.getString(USER_EMAIL, null);
+                String myName = mSharedPreferences.getString(USER_NAME, null);
 
-                String mPhoneNumber = mSharedPreferences.getString(USER_NUMBER, "997112322");
-                String name = mSharedPreferences.getString(USER_NAME, "Swati Garg");
-
-                qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
-
-                Log.v("Sharing Contact", "Hey, My contact number is :" + mPhoneNumber);
-
-                //Check whether an URL or an imge is required
-                //First item selected ("Get Bitmap")
-                //Notify we want complete results (default is FALSE)
-                qrDroid.putExtra(Services.IMAGE, true);
-                //Optionally, set requested image size. 0 means "Fit Screen"
-                qrDroid.putExtra(Services.SIZE, 0);
-
-
-                //Send intent and wait result
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 try {
-                    startActivityForResult(qrDroid, ACTIVITY_CREATE);
-                } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContactActivity.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
+                    BitMatrix bitMatrix = multiFormatWriter.encode(myName + " : " + myEmail,
+                            BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT);
+                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                    //Creating bitmap for generated 2D matrix
+                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    //saving the generated qr code in device
+                    String path = Environment.getExternalStorageDirectory().getPath();
+                    File qrCodeFile = new File(path + "/TravelMate/QRCodes");
+                    qrCodeFile.mkdir();
+                    //for providing name to image
+                    Random generator = new Random();
+                    int n = 10000;
+                    n = generator.nextInt(n);
+
+                    String fname = "Image-" + n + ".jpg";
+                    File file = new File(qrCodeFile, fname);
+
+                    if (file.exists())
+                        file.delete();
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                        out.flush();
+                        out.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //displaying QRCode on screen
+                    qrCodeView.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
     }
+
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ShareContactActivity.class);
