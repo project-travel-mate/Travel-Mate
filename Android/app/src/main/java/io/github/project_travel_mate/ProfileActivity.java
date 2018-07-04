@@ -15,6 +15,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,9 +41,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.PropertyPermission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.login.LoginActivity;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -58,9 +62,9 @@ import static utils.Constants.CLOUDINARY_API_SECRET;
 import static utils.Constants.OTHER_USER_ID;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
-import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
@@ -84,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
+    private Menu mOptionsMenu;
 
     //request code for picked image
     private static final int RESULT_PICK_IMAGE = 1;
@@ -101,14 +106,23 @@ public class ProfileActivity extends AppCompatActivity {
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
-        getUserDetails();
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra(OTHER_USER_ID);
+        getUserDetails(id);
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
-                mSharedPreferences.getString(USER_EMAIL, null),
-                mSharedPreferences.getString(USER_IMAGE, null),
-                mSharedPreferences.getString(USER_DATE_JOINED, null));
+        if (id == null) {
+            fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
+                    mSharedPreferences.getString(USER_EMAIL, null),
+                    mSharedPreferences.getString(USER_IMAGE, null),
+                    mSharedPreferences.getString(USER_DATE_JOINED, null));
+
+        } else {
+            editDisplayName.setVisibility(View.INVISIBLE);
+            updateOptionsMenu();
+        }
 
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
@@ -129,10 +143,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         displayImage.setOnClickListener(v -> {
-            Intent intent = new Intent(
+            Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, RESULT_PICK_IMAGE);
+            startActivityForResult(galleryIntent, RESULT_PICK_IMAGE);
         });
     }
 
@@ -179,15 +193,45 @@ public class ProfileActivity extends AppCompatActivity {
                 // app icon in action bar clicked; go home
                 finish();
                 return true;
+            case R.id.action_sign_out:
+                signOut();
+                return true;
+            case R.id.action_share_profile:
+                shareProfile();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+    private void signOut() {
+        //set AlertDialog before signout
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.signout_message)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mSharedPreferences
+                                    .edit()
+                                    .putString(USER_TOKEN, null)
+                                    .apply();
+                            Intent i = LoginActivity.getStartIntent(ProfileActivity.this);
+                            startActivity(i);
+                            finish();
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
 
-    private void getUserDetails() {
+                        });
+        builder.create().show();
+    }
 
-        // to fetch user details
-        String uri = API_LINK_V2 + "get-user";
+    private void getUserDetails(final String userId) {
+
+        String uri;
+        if (userId != null)
+            uri = API_LINK_V2 + "get-user/" + userId;
+        else
+            uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
 
         //Set up client
@@ -224,10 +268,15 @@ public class ProfileActivity extends AppCompatActivity {
 
                         fillProfileInfo(fullName, userName, imageURL, date);
 
-                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                        mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
-                        mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
-                        mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        if (userId == null) {
+                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                            mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                            mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                            mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                            mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
+                        } else {
+                            updateOptionsMenu();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -299,6 +348,12 @@ public class ProfileActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent getStartIntent(Context context, String userId) {
+        Intent intent = new Intent(context, ProfileActivity.class);
+        intent.putExtra(OTHER_USER_ID, userId);
+        return intent;
+    }
+
     private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
         displayName.setText(fullName);
         emailId.setText(email);
@@ -334,7 +389,7 @@ public class ProfileActivity extends AppCompatActivity {
     /**
      * Method to get URL for image using Cloudinary
      * @param croppedImage  Uri of cropped image
-    **/
+     **/
     private void getUrlFromCloudinary (Uri croppedImage) {
 
         Map config = new HashMap();
@@ -379,7 +434,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Method for sending URL to server
      * @param imageUrl - Url of image obtained from
      *                   Cloudinary cloud(passed as string)
-    */
+     */
     private void sendURLtoServer(String imageUrl) {
 
         String uri = API_LINK_V2 + "update-profile-image";
@@ -419,6 +474,42 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        mOptionsMenu = menu;
+        return true;
+    }
+
+    private void updateOptionsMenu() {
+        if (mOptionsMenu != null) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_share_profile);
+            item.setVisible(false);
+        }
+    }
+
+    private void shareProfile() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        Uri profileURI = Uri.parse(SHARE_PROFILE_URI)
+                .buildUpon()
+                .appendQueryParameter(SHARE_PROFILE_USER_ID_QUERY, mSharedPreferences.getString(USER_ID, null))
+                .build();
+
+        Log.v("profile url", profileURI + "");
+
+        intent.putExtra(Intent.EXTRA_TEXT , getResources().getString(R.string.share_profile_text) + " " + profileURI );
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Snackbar.make(Objects.requireNonNull(ProfileActivity.this).findViewById(android.R.id.content),
+                    R.string.snackbar_no_share_app,
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+}
 

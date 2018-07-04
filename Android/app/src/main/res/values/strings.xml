@@ -124,6 +124,8 @@
     <string name="unknown_value">…</string>
     <string name="text_joining_date">Joined on</string>
     <string name="profile_picture_updated">Profile Picture Updated!</string>
+    <string name="text_source">"Source : "</string>
+
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -149,6 +151,10 @@
 
     <!-- Profile strings -->
     <string name="name_updated">Name has been updated</string>
+    <string name="text_share_profile">Share my profile</string>
+    <string name="snackbar_no_share_app">No application to share.</string>
+    <string name="share_chooser">Select app to send message…</string>
+    <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
 
     <!-- Choose feature type -->
     <array name="bug_types">
@@ -166,4 +172,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_out">Sign out</string>
 </resources>
