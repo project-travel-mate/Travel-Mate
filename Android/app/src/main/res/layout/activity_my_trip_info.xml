@@ -54,6 +54,15 @@
             android:textColor="#000000"
             android:textSize="15sp" />
 
+        <com.dd.processbutton.FlatButton
+            android:id="@+id/know_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/know_more_about"
+            android:textColor="#ffffff" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
