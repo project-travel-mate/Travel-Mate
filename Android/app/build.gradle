@@ -76,4 +76,7 @@ dependencies {
 
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
+
 }
