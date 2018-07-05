@@ -237,7 +237,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         mHandler.post(() -> {
             Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
             temp.setText(tempText);
-            humidity.setText(humidityText);
+            humidity.setText(String.format(getString(R.string.humidity), humidityText));
             weatherinfo.setText(weatherDescription);
         });
     }

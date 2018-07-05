@@ -66,7 +66,7 @@ class FinalCityInfoPresenter {
                     JSONObject responseObject = new JSONObject(res);
                     mFinalCityInfoView.parseResult(
                             responseObject.getString("icon"),
-                            responseObject.getString("temp") + " " + responseObject.getString("temp_units"),
+                            responseObject.getString("temp") + (char) 0x00B0 + responseObject.getString("temp_units"),
                             responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
                             responseObject.getString("description"));
                 } catch (JSONException e) {

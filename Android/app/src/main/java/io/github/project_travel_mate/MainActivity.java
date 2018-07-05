@@ -35,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;

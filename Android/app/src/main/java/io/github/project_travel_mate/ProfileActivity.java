@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -42,7 +40,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.PropertyPermission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,10 +53,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.CLOUDINARY_CLOUD_NAME;
+import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
+import static utils.Constants.CLOUDINARY_CLOUD_NAME;
 import static utils.Constants.OTHER_USER_ID;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;

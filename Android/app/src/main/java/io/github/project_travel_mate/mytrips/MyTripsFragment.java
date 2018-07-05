@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -37,8 +38,12 @@ import static utils.Constants.USER_TOKEN;
 
 public class MyTripsFragment extends Fragment {
     private final List<Trip> mTrips = new ArrayList<>();
+
     @BindView(R.id.gv)
     GridView gridView;
+    @BindView(R.id.pb)
+    ProgressBar progressBar;
+
     private MaterialDialog mDialog;
     private String mToken;
     private Handler mHandler;
@@ -70,11 +75,7 @@ public class MyTripsFragment extends Fragment {
     }
     private void mytrip() {
 
-        mDialog = new MaterialDialog.Builder(getContext())
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+        progressBar.setVisibility(View.VISIBLE);
 
         String uri = API_LINK_V2 + "get-all-trips";
 
@@ -120,7 +121,7 @@ public class MyTripsFragment extends Fragment {
                     }
                 }
                 mHandler.post(() -> {
-                    mDialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
                     gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
                 });
             }

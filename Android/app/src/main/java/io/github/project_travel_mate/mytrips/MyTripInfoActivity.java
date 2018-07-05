@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,11 +82,13 @@ public class MyTripInfoActivity extends AppCompatActivity {
     AutoCompleteTextView frendname;
     @BindView(R.id.know_more)
     Button details;
+    @BindView(R.id.pb)
+    ProgressBar progressBar;
+
     private String mFriendid = null;
     private String mNameYet;
     private String mToken;
     private Trip mTrip;
-    private MaterialDialog mDialog;
     private Handler mHandler;
 
     @Override
@@ -137,12 +140,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
     private void getSingleTrip() {
 
         List<User> users = new ArrayList<>();
-
-        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_fetching_trip)
-                .progress(true, 0)
-                .show();
+        progressBar.setVisibility(View.VISIBLE);
 
         // to fetch mCity names
         String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
@@ -197,7 +195,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
-                    mDialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
                     mFriendid = null;
                 });
 
@@ -337,7 +335,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
     private void addfriend() {
 
-        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
+        final MaterialDialog mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
                 .content(R.string.progress_wait)
                 .progress(true, 0)

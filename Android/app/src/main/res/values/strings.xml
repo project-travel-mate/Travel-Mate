@@ -163,14 +163,15 @@
     </array>
 
     <string name="choose_a_type_bugreport">Choose a Type:</string>
-    <string name="hint_edit_text_bugreport">Describe your issue...</string>
+    <string name="hint_edit_text_bugreport">Describe your issue…</string>
     <string name="button_text_bugreport">Report</string>
-    <string name="failure_message_bugreport">Failed to send issue...</string>
-    <string name="success_message_bugreport">Issue Sent Successfully...</string>
+    <string name="failure_message_bugreport">Failed to send issue…</string>
+    <string name="success_message_bugreport">Issue Sent Successfully…</string>
     <string name="my_trip">My Trips</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Weather Strings -->
+    <string name="humidity">%1$s humidity</string>
+
     <string name="sign_out">Sign out</string>
     <string name="know_more_about">Know more about</string>
     <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
