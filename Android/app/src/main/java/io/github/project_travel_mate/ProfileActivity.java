@@ -75,6 +75,8 @@ import static utils.DateUtils.rfc3339ToMills;
 public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.display_image)
     ImageView displayImage;
+    @BindView(R.id.change_image)
+    ImageView changeImage;
     @BindView(R.id.display_name)
     EditText displayName;
     @BindView(R.id.display_email)
@@ -143,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        displayImage.setOnClickListener(v -> {
+        changeImage.setOnClickListener(v -> {
             Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
