@@ -187,17 +187,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
                                 getResources().getString(R.string.text_started_on) +
                                         new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
                         date.setText(timeString);
-
-                        JSONArray usersArray = ob.getJSONArray("users");
-                        for (int i = 0; i < usersArray.length(); i++) {
-                            users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
-                                    usersArray.getJSONObject(i).getString("image")));
-                        }
-
-                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
-                                MyTripInfoActivity.this, users);
-                        lv.setAdapter(dataAdapter);
-
+                        updateFriendList();
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -373,6 +363,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_OK) {
                             Toast.makeText(MyTripInfoActivity.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+                            updateFriendList();
+                            frendname.setText(null);
                         } else {
                             Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
                         }
@@ -381,6 +373,51 @@ public class MyTripInfoActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+    private void updateFriendList() {
+        List<User> users = new ArrayList<>();
+        String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
+
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                final String res = Objects.requireNonNull(response.body()).string();
+                mHandler.post(() -> {
+                    JSONObject ob;
+                    try {
+                        ob = new JSONObject(res);
+                        JSONArray usersArray = ob.getJSONArray("users");
+                        for (int i = 0; i < usersArray.length(); i++) {
+                            users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
+                                    usersArray.getJSONObject(i).getString("image")));
+                        }
+
+                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
+                                MyTripInfoActivity.this, users);
+                        lv.setAdapter(dataAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         });
     }
