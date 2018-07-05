@@ -278,6 +278,9 @@ public class FinalCityInfoActivity extends AppCompatActivity
         imagesSliderView.setAdapter(adapter);
         mDotsCount = adapter.getCount();
         mDots = new ImageView[mDotsCount];
+        if (mDotsCount == 1) {
+            sliderDotspanel.setVisibility(View.INVISIBLE);
+        }
 
         for (int i = 0; i < mDotsCount; i++) {
             mDots[i] = new ImageView(this);
