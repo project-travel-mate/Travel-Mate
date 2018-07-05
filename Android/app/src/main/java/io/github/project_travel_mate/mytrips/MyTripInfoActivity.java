@@ -12,8 +12,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
+import objects.City;
 import objects.Trip;
 import objects.User;
 import okhttp3.Call;
@@ -69,6 +73,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
     NestedListView lv;
     @BindView(R.id.fname)
     AutoCompleteTextView frendname;
+    @BindView(R.id.know_more)
+    Button details;
     private String mFriendid = null;
     private String mNameYet;
     private String mToken;
@@ -165,6 +171,13 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         String end = ob.optString("end_date", null);
                         String city = ob.getJSONObject("city").getString("city_name");
 
+                        details.setText(getString(R.string.know_more_about) + " " + city);
+                        details.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getCity(city);
+                            }
+                        });
                         tite.setText(city);
                         tite = findViewById(R.id.tname);
                         tite.setText(title);
@@ -192,6 +205,60 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     mFriendid = null;
                 });
 
+            }
+
+            private void getCity(String cityname) {
+                // to fetch city names
+                String uri = API_LINK_V2 + "get-city-by-name/" + cityname;
+                Log.v("EXECUTING", uri);
+
+                //Set up client
+                OkHttpClient client = new OkHttpClient();
+                //Execute request
+                Request request = new Request.Builder()
+                        .header("Authorization", "Token " + mToken)
+                        .url(uri)
+                        .build();
+                //Setup callback
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e("Request Failed", "Message : " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) {
+
+                        mHandler.post(() -> {
+                            JSONArray arr;
+                            final ArrayList<String> citynames;
+                            City city = null;
+                            try {
+                                arr = new JSONArray(Objects.requireNonNull(response.body()).string());
+                                Log.v("RESPONSE : ", arr.toString());
+
+                                try {
+                                    city = new City(arr.getJSONObject(0).getString("id"),
+                                            arr.getJSONObject(0).getString("image"),
+                                            arr.getJSONObject(0).getString("city_name"),
+                                            arr.getJSONObject(0).getInt("facts_count"),
+                                            "Know More", "View on Map", "Fun Facts", "City Trends");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
+                                startActivity(intent);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e("ERROR", "Message : " + e.getMessage());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                    }
+                });
             }
         });
     }
