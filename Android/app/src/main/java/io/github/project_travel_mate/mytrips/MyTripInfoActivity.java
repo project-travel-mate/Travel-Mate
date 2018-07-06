@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -69,6 +73,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
     TextView date;
     @BindView(R.id.newfrriend)
     FlatButton add;
+    @BindView(R.id.friend_title)
+    TextView friendTitle;
     @BindView(R.id.friendlist)
     NestedListView lv;
     @BindView(R.id.fname)
@@ -406,14 +412,33 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     try {
                         ob = new JSONObject(res);
                         JSONArray usersArray = ob.getJSONArray("users");
-                        for (int i = 0; i < usersArray.length(); i++) {
-                            users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
-                                    usersArray.getJSONObject(i).getString("image")));
-                        }
+                        if (usersArray.length() == 0) {
+                            add.setVisibility(View.GONE);
+                            frendname.setVisibility(View.GONE);
+                            friendTitle.setTypeface(null, Typeface.NORMAL);
+                            String mystring = getString(R.string.friends_title);
+                            SpannableString content = new SpannableString(mystring);
+                            content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+                            friendTitle.setText(content);
+                            friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
-                        MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
-                                MyTripInfoActivity.this, users);
-                        lv.setAdapter(dataAdapter);
+                            friendTitle.setOnClickListener(view -> {
+                                add.setVisibility(View.VISIBLE);
+                                frendname.setVisibility(View.VISIBLE);
+                                friendTitle.setText(R.string.friends_show_title);
+                                friendTitle.setTypeface(null, Typeface.BOLD);
+                                friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
+                            });
+                        } else {
+                            for (int i = 0; i < usersArray.length(); i++) {
+                                users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
+                                        usersArray.getJSONObject(i).getString("image")));
+                            }
+
+                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
+                                    MyTripInfoActivity.this, users);
+                            lv.setAdapter(dataAdapter);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

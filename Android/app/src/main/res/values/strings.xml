@@ -173,4 +173,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_out">Sign out</string>
     <string name="know_more_about">Know more about</string>
+    <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
+    <string name="friends_show_title">Friends in this Trip</string>
 </resources>
