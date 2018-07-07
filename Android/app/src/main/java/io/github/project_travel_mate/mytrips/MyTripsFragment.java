@@ -1,6 +1,5 @@
 package io.github.project_travel_mate.mytrips;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,9 +40,8 @@ public class MyTripsFragment extends Fragment {
     @BindView(R.id.gv)
     GridView gridView;
     @BindView(R.id.pb)
-    ProgressBar progressBar;
+    LottieAnimationView animationView;
 
-    private MaterialDialog mDialog;
     private String mToken;
     private Handler mHandler;
 
@@ -52,8 +49,7 @@ public class MyTripsFragment extends Fragment {
         // Required empty public constructor
     }
     public static MyTripsFragment newInstance() {
-        MyTripsFragment fragment = new MyTripsFragment();
-        return fragment;
+        return new MyTripsFragment();
     }
 
     @Override
@@ -73,9 +69,8 @@ public class MyTripsFragment extends Fragment {
         return view;
 
     }
-    private void mytrip() {
 
-        progressBar.setVisibility(View.VISIBLE);
+    private void mytrip() {
 
         String uri = API_LINK_V2 + "get-all-trips";
 
@@ -93,40 +88,51 @@ public class MyTripsFragment extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    networkError();
+                });
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                if (response.isSuccessful() && response.body() != null) {
-                    final String res = response.body().string();
-                    Log.v("Response", res);
-                    JSONArray arr;
-                    try {
-                        arr = new JSONArray(res);
-
-                        for (int i = 0; i < arr.length(); i++) {
-                            String id = arr.getJSONObject(i).getString("id");
-                            String start = arr.getJSONObject(i).getString("start_date_tx");
-                            String end = arr.getJSONObject(i).optString("end_date", null);
-                            String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                            String tname = arr.getJSONObject(i).getString("trip_name");
-                            JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
-                            String image = array.length() > 0 ? array.getString(0) : null;
-                            mTrips.add(new Trip(id, name, image, start, end, tname));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
-                    }
-                }
                 mHandler.post(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONArray arr;
+                        try {
+                            final String res = response.body().string();
+                            Log.v("Response", res);
+                            arr = new JSONArray(res);
+                            for (int i = 0; i < arr.length(); i++) {
+                                String id = arr.getJSONObject(i).getString("id");
+                                String start = arr.getJSONObject(i).getString("start_date_tx");
+                                String end = arr.getJSONObject(i).optString("end_date", null);
+                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
+                                String tname = arr.getJSONObject(i).getString("trip_name");
+                                JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
+                                String image = array.length() > 0 ? array.getString(0) : null;
+                                mTrips.add(new Trip(id, name, image, start, end, tname));
+                                animationView.setVisibility(View.GONE);
+                                gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
+                            }
+                        } catch (JSONException | IOException | NullPointerException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                            networkError();
+                        }
+                    } else {
+                        networkError();
+                    }
                 });
             }
         });
     }
 
-
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
 }

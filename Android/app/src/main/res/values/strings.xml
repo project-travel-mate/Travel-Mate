@@ -8,17 +8,14 @@
     <string name="navigation_drawer_destination">Destinations</string>
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
-    <string name="navigation_drawer_extras">Extras</string>
+    <string name="navigation_drawer_medals">Medals</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
     <string name="title_activity_select_city">Select City</string>
-    <string name="title_activity_select__mode_of_transport">Select Mode of Transport</string>
-    <string name="title_activity_car_directions">Car Directions</string>
     <string name="title_activity_shopping_currentcity">Shopping current city</string>
-    <string name="title_activity_train_list">TrainList</string>
     <string name="title_activity_hotels">Hotels</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
@@ -29,16 +26,13 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
-    <string name="name">Name</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
 
 
     <!-- Travel home page strings -->
-    <string name="transport">TRANSPORT</string>
     <string name="hotel">HOTEL BOOKING</string>
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
-    <string name="my_trips">MY TRIPS</string>
     <string name="fun_facts">Fun Facts</string>
 
     <!-- Destinations home page strings -->
@@ -76,17 +70,13 @@
     <string name="friends_of_trip">Friends in this trip </string>
     <string name="text_started_on">Started on :  </string>
     <string name="prompt_add_new_trip">Add New Trip</string>
-    <string name="progress_fetching_trip">Fetching trips…</string>
     <string name="progress_wait">Please wait…</string>
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
     <string name="no_friend_selected">Please select a valid friend to add</string>
 
     <!-- Errors and messages -->
-    <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
-    <string name="msg_saved">QR code image was saved as</string>
     <string name="no_items_available">No items available!</string>
-    <string name="internet_connectivity">No Internet Connectivity</string>
     <string name="passwords_check">Passwords do not match!</string>
     <string name="location_enabled">Location enabled</string>
     <string name="location_not_enabled">Location not enabled</string>
@@ -100,9 +90,6 @@
     <string name="view_contact">View someone Contact</string>
 
     <!-- Constant texts -->
-    <string name="text_mileage">Mileage</string>
-    <string name="text_travel_cost">Travel Cost </string>
-    <string name="text_toll">Toll </string>
     <string name="text_hangout">Hangout</string>
     <string name="text_monuments">Monuments</string>
     <string name="text_shopping">Shopping</string>
@@ -110,19 +97,13 @@
     <string name="text_city_trends">City Trends</string>
     <string name="text_login"><u>Already a member? Login</u></string>
     <string name="text_signup_or"><u>Not registered yet? Create new account</u></string>
-    <string name="text_cart">Car</string>
-    <string name="text_train">Train</string>
-    <string name="text_max">max</string>
-    <string name="text_min">min</string>
     <string name="text_go">Go</string>
     <string name="text_locate">Locate</string>
     <string name="text_more">More</string>
     <string name="text_title">Title</string>
     <string name="text_call">Call</string>
     <string name="text_book">Book</string>
-    <string name="text_my_trips">My Trips</string>
-    <string name="unknown_value">…</string>
-    <string name="text_joining_date">Joined on</string>
+    <string name="text_joining_date">Joined on %1$s</string>
     <string name="profile_picture_updated">Profile Picture Updated!</string>
     <string name="text_source">"Source : "</string>
 
@@ -141,7 +122,6 @@
     <string name="profile_icon">Profile_icon</string>
     <string name="mail_icon">mail_icon</string>
     <string name="info_icon">info_icon</string>
-    <string name="profile">Profile</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="invalid_password">Password must contain at least 1 Capital Alphabet, 1 Number and 1 Special Character.</string>
@@ -173,7 +153,9 @@
     <string name="humidity">%1$s humidity</string>
 
     <string name="sign_out">Sign out</string>
-    <string name="know_more_about">Know more about</string>
+    <string name="know_more_about">Know more about %1$s</string>
     <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
     <string name="friends_show_title">Friends in this Trip</string>
+
+    <string name="coming_soon">Coming Soon!</string>
 </resources>

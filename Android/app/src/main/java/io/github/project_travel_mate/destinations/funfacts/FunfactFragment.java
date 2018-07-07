@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -23,7 +24,6 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import objects.FunFact;
 
@@ -81,6 +81,7 @@ public class FunfactFragment extends Fragment {
                 (holder.text_source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
                 (holder.source).setText(fact.getSource());
                 (holder.source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
+                (holder.share).setOnClickListener(view1 -> shareClicked());
             }
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
@@ -123,8 +124,8 @@ public class FunfactFragment extends Fragment {
                     Snackbar.LENGTH_LONG).show();
         }
     }
-    @OnClick(R.id.fab)
-    void onClick() {
+
+    void shareClicked() {
         View rootView = Objects.requireNonNull(getActivity())
                 .getWindow()
                 .getDecorView()
@@ -168,6 +169,8 @@ public class FunfactFragment extends Fragment {
         TextView source;
         @BindView(R.id.text_source)
         TextView text_source;
+        @BindView(R.id.fab)
+        FloatingActionButton share;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

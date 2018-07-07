@@ -59,6 +59,7 @@
 
         <com.dd.processbutton.FlatButton
             android:id="@+id/know_more"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -68,6 +69,7 @@
 
         <TextView
             android:id="@+id/friend_title"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -90,6 +92,7 @@
             android:id="@+id/fname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="12dp"
             android:backgroundTint="#000000"
             android:ems="10"
@@ -105,6 +108,7 @@
 
         <com.dd.processbutton.FlatButton
             android:id="@+id/newfrriend"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

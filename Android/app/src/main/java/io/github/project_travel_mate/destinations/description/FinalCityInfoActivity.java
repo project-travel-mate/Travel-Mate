@@ -3,7 +3,6 @@ package io.github.project_travel_mate.destinations.description;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +40,11 @@ import static utils.Constants.USER_TOKEN;
  */
 public class FinalCityInfoActivity extends AppCompatActivity
         implements View.OnClickListener, FinalCityInfoView {
+
+    @BindView(R.id.layout_content)
+    LinearLayout content;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
     @BindView(R.id.temp)
     TextView temp;
     @BindView(R.id.humidit)
@@ -71,9 +75,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout sliderDotspanel;
     private int mDotsCount;
     private ImageView[] mDots;
-    private Typeface mCode;
-    private Typeface mCodeBold;
-    private MaterialDialog mDialog;
     private Handler mHandler;
     private City mCity;
     private String mToken;
@@ -89,8 +90,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
         mFinalCityInfoPresenter = new FinalCityInfoPresenter();
 
-        mCode = Typeface.createFromAsset(getAssets(), "fonts/whitney_book.ttf");
-        mCodeBold = Typeface.createFromAsset(getAssets(), "fonts/CODE_Bold.otf");
         mHandler = new Handler(Looper.getMainLooper());
 
         Intent intent = getIntent();
@@ -117,7 +116,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private void initUi() {
 
         setTitle(mCity.getNickname());
-        title.setTypeface(mCodeBold);
         title.setText(mCity.getNickname());
 
         if (mCity.getFunFactsCount() < 1) {
@@ -127,7 +125,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTypeFaces();
         setClickListeners();
     }
 
@@ -138,16 +135,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
         monum.setOnClickListener(this);
         shopp.setOnClickListener(this);
         trend.setOnClickListener(this);
-    }
-
-    private void setTypeFaces() {
-        Integer[] textViewids = new Integer[]{R.id.fftext, R.id.hgtext,
-                R.id.shtext, R.id.mntext, R.id.rstext, R.id.cttext};
-        TextView funFactsTextView;
-        for (Integer id : textViewids) {
-            funFactsTextView = findViewById(id);
-            funFactsTextView.setTypeface(mCode);
-        }
     }
 
     @Override
@@ -207,16 +194,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
-        mDialog = new MaterialDialog.Builder(FinalCityInfoActivity.this)
-                .title(getString(R.string.app_name))
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
     }
 
     @Override
     public void dismissProgress() {
-        mDialog.dismiss();
     }
 
     /**
@@ -235,13 +216,13 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
+            content.setVisibility(View.VISIBLE);
             Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
             temp.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
             weatherinfo.setText(weatherDescription);
         });
     }
-
 
     /**
      * method called by FinalCityInfoPresenter when the network
@@ -260,6 +241,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
                                 ArrayList<String> imagesArray) {
         mHandler.post(() -> {
             Log.e("description", description + " ");
+            animationView.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
             if (description != null && !description.equals("null"))
                 des.setText(description);
             mCity.setDescription(description);
@@ -332,5 +315,13 @@ public class FinalCityInfoActivity extends AppCompatActivity
         Intent intent = new Intent(context, FinalCityInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         return intent;
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
     }
 }

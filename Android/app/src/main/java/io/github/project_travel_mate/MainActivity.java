@@ -39,6 +39,7 @@ import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.medals.MedalsFragment;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
@@ -156,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = UtilitiesFragment.newInstance();
                 break;
 
+            case R.id.nav_medals:
+                fragment = MedalsFragment.newInstance();
+                break;
+
             case R.id.nav_signout: {
 
                 //set AlertDialog before signout
@@ -178,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 });
                 builder.create().show();
                 break;
-
             }
 
             case R.id.nav_report_bug:
@@ -306,13 +310,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showProfile(String data) {
         Uri uri = Uri.parse(data);
-
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
         Log.v("user id", userId + " ");
         if (userId != null) {
             Intent intent = ProfileActivity.getStartIntent(MainActivity.this, userId);
             startActivity(intent);
         }
-
     }
 }

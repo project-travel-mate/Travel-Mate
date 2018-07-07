@@ -86,7 +86,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     @Override
     public int getPagesCount() {
-        return 3;
+        return 5;
     }
 
     private void fillHolder(CitiesHolder holder, CitiesInfoHolder infoHolder, final City city) {

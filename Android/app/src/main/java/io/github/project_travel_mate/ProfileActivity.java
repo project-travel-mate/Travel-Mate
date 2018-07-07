@@ -357,12 +357,11 @@ public class ProfileActivity extends AppCompatActivity {
     private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
         displayName.setText(fullName);
         emailId.setText(email);
-        joiningDate.setText(getString(R.string.text_joining_date) + " " + dateJoined);
+        joiningDate.setText(String.format(getString(R.string.text_joining_date), dateJoined));
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
     }
-
 
     /**
      * Method for starting intent to crop the image

@@ -174,8 +174,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         String start = ob.getString("start_date_tx");
                         String end = ob.optString("end_date", null);
                         String city = ob.getJSONObject("city").getString("city_name");
-
-                        details.setText(getString(R.string.know_more_about) + " " + city);
+                        details.setVisibility(View.VISIBLE);
+                        details.setText(String.format(getString(R.string.know_more_about), city));
                         details.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -380,6 +380,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
             }
         });
     }
+
     private void updateFriendList() {
         List<User> users = new ArrayList<>();
         String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
@@ -413,6 +414,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         if (usersArray.length() == 0) {
                             add.setVisibility(View.GONE);
                             frendname.setVisibility(View.GONE);
+                            friendTitle.setVisibility(View.VISIBLE);
                             friendTitle.setTypeface(null, Typeface.NORMAL);
                             String mystring = getString(R.string.friends_title);
                             SpannableString content = new SpannableString(mystring);
@@ -428,6 +430,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
                                 friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
                             });
                         } else {
+                            friendTitle.setVisibility(View.VISIBLE);
+                            add.setVisibility(View.VISIBLE);
+                            frendname.setVisibility(View.VISIBLE);
                             for (int i = 0; i < usersArray.length(); i++) {
                                 users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
                                         usersArray.getJSONObject(i).getString("image")));

@@ -77,10 +77,13 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
 
+    // Cloudinary : For profile photo upload
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
 
+    // Zxing : creating qr code
     implementation 'com.google.zxing:core:3.2.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 
-
+    // Lottie : animations
+    implementation 'com.airbnb.android:lottie:2.5.5'
 }

@@ -18,6 +18,10 @@
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"
             android:title="@string/navigation_drawer_utilities" />
+        <item
+            android:id="@+id/nav_medals"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/navigation_drawer_medals" />
 
 
     </group>
