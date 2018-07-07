@@ -40,8 +40,6 @@ import static utils.Constants.USER_NAME;
 public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int ACTIVITY_INSERT_CONTACT = 2;
-    @BindView(R.id.create)
-    Button create;
     @BindView(R.id.scan)
     Button scan;
     private SharedPreferences mSharedPreferences;
@@ -54,8 +52,7 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         ButterKnife.bind(this);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        create.setOnClickListener(this);
+        createCode();
         scan.setOnClickListener(this);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -109,52 +106,51 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
                 IntentIntegrator qrScan = new IntentIntegrator(this);
                 qrScan.initiateScan();
                 break;
-
-            case R.id.create:
-                ImageView qrCodeView = findViewById(R.id.im);
-                //getting details to be encoded in qr code
-                String myEmail = mSharedPreferences.getString(USER_EMAIL, null);
-                String myName = mSharedPreferences.getString(USER_NAME, null);
-
-                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                try {
-                    BitMatrix bitMatrix = multiFormatWriter.encode(myName + " : " + myEmail,
-                            BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT);
-                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    //Creating bitmap for generated 2D matrix
-                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                    //saving the generated qr code in device
-                    String path = Environment.getExternalStorageDirectory().getPath();
-                    File qrCodeFile = new File(path + "/TravelMate/QRCodes");
-                    qrCodeFile.mkdir();
-                    //for providing name to image
-                    Random generator = new Random();
-                    int n = 10000;
-                    n = generator.nextInt(n);
-
-                    String fname = "Image-" + n + ".jpg";
-                    File file = new File(qrCodeFile, fname);
-
-                    if (file.exists())
-                        file.delete();
-                    try {
-                        FileOutputStream out = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                        out.flush();
-                        out.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //displaying QRCode on screen
-                    qrCodeView.setImageBitmap(bitmap);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-                break;
         }
     }
 
+    public void createCode() {
 
+        ImageView qrCodeView = findViewById(R.id.im);
+        //getting details to be encoded in qr code
+        String myEmail = mSharedPreferences.getString(USER_EMAIL, null);
+        String myName = mSharedPreferences.getString(USER_NAME, null);
+
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(myName + " : " + myEmail,
+                    BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            //Creating bitmap for generated 2D matrix
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            //saving the generated qr code in device
+            String path = Environment.getExternalStorageDirectory().getPath();
+            File qrCodeFile = new File(path + "/TravelMate/QRCodes");
+            qrCodeFile.mkdir();
+            //for providing name to image
+            Random generator = new Random();
+            int n = 10000;
+            n = generator.nextInt(n);
+
+            String fname = "Image-" + n + ".jpg";
+            File file = new File(qrCodeFile, fname);
+
+            if (file.exists())
+                file.delete();
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //displaying QRCode on screen
+            qrCodeView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+    }
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ShareContactActivity.class);
         return intent;
