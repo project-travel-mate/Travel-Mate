@@ -57,6 +57,15 @@ public class MyTripsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //clear data previous stored data set
+        mTrips.clear();
+        // load new ones
+        mytrip();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
