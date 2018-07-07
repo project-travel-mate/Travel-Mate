@@ -59,10 +59,8 @@ public class MyTripsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //clear data previous stored data set
-        mTrips.clear();
-        // load new ones
-        mytrip();
+
+
     }
 
     @Override
@@ -131,7 +129,7 @@ public class MyTripsFragment extends Fragment {
                 }
                 mHandler.post(() -> {
                     progressBar.setVisibility(View.GONE);
-                    gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
+                    gridView.setAdapter(new MyTripsAdapter(getContext(), mTrips));
                 });
             }
         });
