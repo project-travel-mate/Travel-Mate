@@ -7,7 +7,7 @@
     tools:context=".mytrips.MyTripsFragment">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/pb"
+        android:id="@+id/animation_view"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="300dp"
@@ -25,6 +25,14 @@
         android:numColumns="2"
         android:orientation="horizontal"
         android:verticalSpacing="10dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_trip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add_circle_white_24dp"
+        android:layout_margin="16dp" />
 
 
 </FrameLayout>

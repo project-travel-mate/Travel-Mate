@@ -69,11 +69,15 @@
     <string name="prompt_add_friend">Add New friend</string>
     <string name="friends_of_trip">Friends in this trip </string>
     <string name="text_started_on">Started on :  </string>
-    <string name="prompt_add_new_trip">Add New Trip</string>
     <string name="progress_wait">Please wait…</string>
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
     <string name="no_friend_selected">Please select a valid friend to add</string>
+    <string name="my_trip">My Trips</string>
+    <string name="no_trips">You don\'t have any trips. Click add button to get started</string>
+    <string name="know_more_about">Know more about %1$s</string>
+    <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
+    <string name="friends_show_title">Friends in this Trip</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -147,15 +151,13 @@
     <string name="button_text_bugreport">Report</string>
     <string name="failure_message_bugreport">Failed to send issue…</string>
     <string name="success_message_bugreport">Issue Sent Successfully…</string>
-    <string name="my_trip">My Trips</string>
+
+
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
 
     <string name="sign_out">Sign out</string>
-    <string name="know_more_about">Know more about %1$s</string>
-    <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
-    <string name="friends_show_title">Friends in this Trip</string>
 
     <string name="coming_soon">Coming Soon!</string>
 </resources>

@@ -80,7 +80,27 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
                 Intent intent = MyTripInfoActivity.getStartIntent(mContext, mTrips.get(position));
                 mContext.startActivity(intent);
             });
+          
+        Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.delhi)
+                .into(holder.city);
+        holder.cityname.setText(mTrips.get(position).getName());
+        holder.date.setText(mTrips.get(position).getStart());
+        Log.v("time", mTrips.get(position).getStart() + " " + mTrips.get(position).getImage());
+        final Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTimeInMillis(Long.parseLong(mTrips.get(position).getStart()) * 1000);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+          
         }
+        final String timeString =
+                new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+        holder.date.setText(timeString);
+        view.setOnClickListener(v -> {
+            Intent intent = MyTripInfoActivity.getStartIntent(mContext, mTrips.get(position));
+            mContext.startActivity(intent);
+        });
+
         return view;
     }
 
