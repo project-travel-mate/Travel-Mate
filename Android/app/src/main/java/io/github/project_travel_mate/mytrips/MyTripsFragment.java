@@ -113,7 +113,7 @@ public class MyTripsFragment extends Fragment {
                                 String image = array.length() > 0 ? array.getString(0) : null;
                                 mTrips.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
-                                gridView.setAdapter(new MyTripsAdapter(getContext().getApplicationContext(), mTrips));
+                                gridView.setAdapter(new MyTripsAdapter(getContext(), mTrips));
                             }
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();

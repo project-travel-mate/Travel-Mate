@@ -29,7 +29,7 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
     private final Context mContext;
     private final List<Trip> mTrips;
     private LayoutInflater mInflater;
-
+    static int ADDNEWTRIP_ACTIVITY_RESULT=203;
     MyTripsAdapter(Context context,
                    List<Trip> trips) {
         super(context, R.layout.trip_listitem, trips);
@@ -57,8 +57,8 @@ class MyTripsAdapter extends ArrayAdapter<Trip> {
             holder.date.setText("");
 
             view.setOnClickListener(v -> {
-                Intent i = AddNewTripActivity.getStartIntent(mContext);
-                mContext.startActivity(i);
+                Activity originActivity = (Activity)mContext;
+                originActivity.startActivityForResult(new Intent(mContext,AddNewTripActivity.class), ADDNEWTRIP_ACTIVITY_RESULT);
             });
 
         } else {
