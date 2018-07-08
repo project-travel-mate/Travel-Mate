@@ -63,6 +63,7 @@
         android:ellipsize="end"
         android:focusableInTouchMode="false"
         android:paddingTop="8dp"
+        android:inputType="text"
         android:text="@string/default_name"
         android:textColor="#333434"
         android:textSize="18sp" />

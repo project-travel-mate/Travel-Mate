@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <com.dd.processbutton.FlatButton
@@ -65,7 +65,7 @@
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:text="@string/know_more_about"
-            android:textColor="#ffffff" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/friend_title"
@@ -76,7 +76,7 @@
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
             android:text="@string/friends_of_trip"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -94,13 +94,13 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_marginTop="12dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="@color/black"
             android:ems="10"
             android:hint="@string/prompt_friend_name"
             android:padding="10dp"
-            android:popupBackground="#ffffff"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
+            android:popupBackground="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:focusable="true"
             android:focusableInTouchMode="true"
             tools:targetApi="lollipop" />
@@ -114,7 +114,7 @@
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:text="@string/prompt_add_friend"
-            android:textColor="#ffffff" />
+            android:textColor="@color/white" />
 
 
     </LinearLayout>

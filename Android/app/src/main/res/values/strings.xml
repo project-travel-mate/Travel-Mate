@@ -90,8 +90,8 @@
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
-    <string name="share_contact">Share My Contact</string>
     <string name="view_contact">View someone Contact</string>
+    <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
     <string name="text_hangout">Hangout</string>
@@ -113,9 +113,6 @@
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
-    <string name="sample_string">Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
-    Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi. Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi
-    Also known as Bahai Temple, Lotus Temple is one of the finest crafted structures is in Delhi</string>
     <string name="empty_description">No description available.</string>
 
     <!--AlertDialog sign out-->

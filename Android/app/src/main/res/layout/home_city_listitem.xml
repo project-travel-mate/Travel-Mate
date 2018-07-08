@@ -12,6 +12,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/sample_state"
-        android:textColor="#000000" />
+        android:textColor="@color/black" />
 
 </LinearLayout>

@@ -41,9 +41,6 @@ public class GPSTracker extends Service implements LocationListener {
     private double mLatitude; // mLatitude
     private double mLongitude; // mLongitude
     private static final int REQUEST_LOCATION = 199;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private PendingResult<LocationSettingsResult> mPendingResult;
 
     public GPSTracker() {
         this.mContext = null;
@@ -175,12 +172,12 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to switch GPS on
      */
     public void displayLocationRequest(Context context) {
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
+        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
 
-        mLocationRequest = LocationRequest.create();
+        LocationRequest mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(10000 / 2);
@@ -188,7 +185,8 @@ public class GPSTracker extends Service implements LocationListener {
                 .addLocationRequest(mLocationRequest);
 
         mBuilder.setAlwaysShow(true);
-        mPendingResult = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
+        PendingResult<LocationSettingsResult> mPendingResult =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
         mPendingResult.setResultCallback(locationSettingsResult -> {
             final Status mStatus = locationSettingsResult.getStatus();
             switch (mStatus.getStatusCode()) {

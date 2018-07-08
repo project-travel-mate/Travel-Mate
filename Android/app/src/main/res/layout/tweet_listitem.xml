@@ -12,7 +12,7 @@
         android:layout_margin="5dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/sample_state"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="25sp" />
 
 </LinearLayout>

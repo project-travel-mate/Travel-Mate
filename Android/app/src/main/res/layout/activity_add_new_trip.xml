@@ -18,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="@color/black"
             android:ems="10"
             android:hint="@string/prompt_trip_name"
             android:maxLines="1"
-            android:popupBackground="#ffffff"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
+            android:popupBackground="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:inputType="text"
             tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
@@ -34,13 +34,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@color/black"
         android:ems="10"
         android:hint="@string/prompt_city_name"
-        android:popupBackground="#ffffff"
+        android:popupBackground="@color/white"
         android:singleLine="true"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         tools:targetApi="lollipop" />
 
 
@@ -57,7 +57,7 @@
             android:layout_weight="1.0"
             android:background="@color/colorPrimary"
             android:text="@string/prompt_start_date"
-            android:textColor="#ffffff" />
+            android:textColor="@color/white" />
 
         <com.dd.processbutton.FlatButton
             android:id="@+id/edate"
@@ -67,7 +67,7 @@
             android:layout_weight="1.0"
             android:background="@color/colorPrimary"
             android:text="@string/prompt_end_date"
-            android:textColor="#ffffff" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -80,6 +80,6 @@
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         android:text="@string/prompt_add_trip"
-        android:textColor="#ffffff" />
+        android:textColor="@color/white" />
 
 </LinearLayout>

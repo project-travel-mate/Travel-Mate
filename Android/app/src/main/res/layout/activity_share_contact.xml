@@ -15,21 +15,6 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="io.github.project_travel_mate.utilities.ShareContactActivity">
 
-
-        <Button
-            android:id="@+id/scan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/view_contact"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <ImageView
             android:id="@+id/im"
             android:layout_width="250dp"
@@ -43,9 +28,18 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="5sp"
-            android:text="Share this code with the people to share your contact details."
+            android:text="@string/bottom_info_string"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/view_contact"
+            android:textColor="@color/white" />
 
     </LinearLayout>
+
 </ScrollView>

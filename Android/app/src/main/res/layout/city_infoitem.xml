@@ -25,7 +25,7 @@
             android:layout_height="100dp"
             android:layout_weight="1"
             android:contentDescription="@string/empty_description"
-            android:src="@drawable/shopping" />
+            android:src="@drawable/shopping_icon" />
 
         <LinearLayout
             android:layout_width="200dp"
@@ -69,14 +69,14 @@
                     <Button
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/ic_pin_drop_white_24dp" />
+                        android:background="@drawable/ic_pin_drop_white" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="center_vertical"
                         android:text="@string/text_locate"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -93,14 +93,14 @@
                     <Button
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/ic_explore_white_48dp" />
+                        android:background="@drawable/ic_explore_white" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="center_vertical"
                         android:text="@string/text_more"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 

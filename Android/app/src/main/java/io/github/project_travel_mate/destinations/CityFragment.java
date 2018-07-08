@@ -185,9 +185,7 @@ public class CityFragment extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                mHandler.post(() -> {
-                    networkError();
-                });
+                mHandler.post(() -> networkError());
             }
 
             @Override

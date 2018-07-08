@@ -40,7 +40,7 @@
                     android:layout_weight="100"
                     android:background="@color/colorPrimaryDark"
                     android:text="@string/text_go"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

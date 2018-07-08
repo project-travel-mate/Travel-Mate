@@ -84,12 +84,7 @@ public class ChecklistFragment extends Fragment {
                     EditText e1 = dialogv.findViewById(R.id.task);
                     if (!e1.getText().toString().equals("")) {
                         ChecklistItem checklistItem = new ChecklistItem(e1.getText().toString(), String.valueOf(0));
-                        mAppExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                mChecklistDatabase.checklistItemDAO().insertItems(checklistItem);
-                            }
-                        } );
+                        mAppExecutor.execute(() -> mChecklistDatabase.checklistItemDAO().insertItems(checklistItem));
                         ChecklistFragment.this.refresh();
                     }
                 });
@@ -106,12 +101,7 @@ public class ChecklistFragment extends Fragment {
         if (isAlreadyAdded.equals("null")) {
             for (int i = 0; i < BASE_TASKS.size(); i++) {
                 ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), String.valueOf(0));
-                mAppExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChecklistDatabase.checklistItemDAO().insertItems(checklistItem);
-                    }
-                });
+                mAppExecutor.execute(() -> mChecklistDatabase.checklistItemDAO().insertItems(checklistItem));
             }
             editor.putString(ID_ADDED_INDB, "yes");
             editor.apply();
@@ -122,14 +112,10 @@ public class ChecklistFragment extends Fragment {
         mItems.clear();
         mAdapter.notifyDataSetChanged();
 
-        mAppExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                List<ChecklistItem> checklistItems = mChecklistDatabase.checklistItemDAO().getSortedItems();
-                for (int i = 0; i < checklistItems.size(); i++)
-                    mItems.add(checklistItems.get(i));
-            }
-        } );
+        mAppExecutor.execute(() -> {
+            List<ChecklistItem> checklistItems = mChecklistDatabase.checklistItemDAO().getSortedItems();
+            mItems.addAll(checklistItems);
+        });
 
         mAdapter.notifyDataSetChanged();
     }
@@ -178,22 +164,16 @@ public class ChecklistFragment extends Fragment {
                 CheckBox c2 = (CheckBox) view1;
                 if (c2.isChecked()) {
                     //updating isDone to 1 in database
-                    mAppExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!mItems.isEmpty())
-                             mChecklistDatabase.checklistItemDAO().updateIsDone(mItems.get(position).getId());
-                        }
-                    } );
+                    mAppExecutor.execute(() -> {
+                        if (!mItems.isEmpty())
+                         mChecklistDatabase.checklistItemDAO().updateIsDone(mItems.get(position).getId());
+                    });
                 } else {
                     //updating isDone to 0 in database
-                    mAppExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!mItems.isEmpty())
-                             mChecklistDatabase.checklistItemDAO().updateUndone(mItems.get(position).getId());
-                        }
-                    } );
+                    mAppExecutor.execute(() -> {
+                        if (!mItems.isEmpty())
+                         mChecklistDatabase.checklistItemDAO().updateUndone(mItems.get(position).getId());
+                    });
                 }
 
                 refresh();

@@ -290,7 +290,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/shopping" />
+                        android:src="@drawable/shopping_icon" />
 
                     <TextView
                         android:id="@+id/shtext"
@@ -359,7 +359,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/twitter" />
+                        android:src="@drawable/twitter_icon" />
 
                     <TextView
                         android:id="@+id/cttext"

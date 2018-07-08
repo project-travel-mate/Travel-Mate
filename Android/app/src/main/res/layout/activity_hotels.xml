@@ -27,7 +27,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/white"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="io.github.project_travel_mate.travel.HotelsActivity">
@@ -54,11 +54,11 @@
                 android:id="@+id/city"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#000000"
+                android:background="@color/black"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/prompt_start_date"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <TextView
@@ -66,11 +66,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:background="#000000"
+                android:background="@color/black"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/prompt_start_date"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <ListView

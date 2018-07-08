@@ -105,7 +105,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private void initPresenter() {
         showProgress();
         mFinalCityInfoPresenter.attachView(this);
-        mFinalCityInfoPresenter.fetchCityWeather(mCity.getNickname(), mToken);
+        mFinalCityInfoPresenter.fetchCityWeather(mCity.getId(), mToken);
         mFinalCityInfoPresenter.fetchCityInfo(mCity.getId(), mToken);
     }
 

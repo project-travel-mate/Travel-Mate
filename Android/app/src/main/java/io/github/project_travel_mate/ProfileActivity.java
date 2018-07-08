@@ -398,36 +398,31 @@ public class ProfileActivity extends AppCompatActivity {
         config.put("api_secret", CLOUDINARY_API_SECRET);
         MediaManager.init(this, config);
 
-        mHandler.post(new Runnable() {
+        mHandler.post(() -> MediaManager.get().upload(croppedImage).callback(new UploadCallback() {
             @Override
-            public void run() {
-                MediaManager.get().upload(croppedImage).callback(new UploadCallback() {
-                    @Override
-                    public void onStart(String requestId) {
+            public void onStart(String requestId) {
 
-                    }
-
-                    @Override
-                    public void onSuccess(String requestId, Map resultData) {
-                        mProfileImageUrl =  resultData.get("url").toString();
-                        sendURLtoServer(mProfileImageUrl);
-                    }
-                    @Override
-                    public void onError(String requestId, ErrorInfo error) {
-                        Log.e(LOG_TAG, "error uploading to Cloudinary");
-                    }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-                        Log.e(LOG_TAG, error.toString());
-                    }
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                    }
-                }).dispatch();
             }
-        });
+
+            @Override
+            public void onSuccess(String requestId, Map resultData) {
+                mProfileImageUrl =  resultData.get("url").toString();
+                sendURLtoServer(mProfileImageUrl);
+            }
+            @Override
+            public void onError(String requestId, ErrorInfo error) {
+                Log.e(LOG_TAG, "error uploading to Cloudinary");
+            }
+
+            @Override
+            public void onReschedule(String requestId, ErrorInfo error) {
+                Log.e(LOG_TAG, error.toString());
+            }
+            @Override
+            public void onProgress(String requestId, long bytes, long totalBytes) {
+
+            }
+        }).dispatch());
     }
 
     /**

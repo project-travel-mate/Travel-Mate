@@ -176,12 +176,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         String city = ob.getJSONObject("city").getString("city_name");
                         details.setVisibility(View.VISIBLE);
                         details.setText(String.format(getString(R.string.know_more_about), city));
-                        details.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                getCity(city);
-                            }
-                        });
+                        details.setOnClickListener(view -> getCity(city));
                         tite.setText(city);
                         tite = findViewById(R.id.tname);
                         tite.setText(title);
