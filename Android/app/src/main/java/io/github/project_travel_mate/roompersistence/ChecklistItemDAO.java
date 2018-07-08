@@ -1,18 +1,18 @@
-package utils;
+package io.github.project_travel_mate.roompersistence;
 
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import java.util.List;
-
+import io.reactivex.Flowable;
 import objects.ChecklistItem;
 
-// For various operations to be performed on database
-
+/**
+ * For various operations on database
+ * Contains various queries
+ */
 @Dao
 public interface ChecklistItemDAO {
 
@@ -20,7 +20,7 @@ public interface ChecklistItemDAO {
     void insertItems(ChecklistItem items);
 
     @Query("SELECT * FROM events_new ORDER BY isDone")
-    List<ChecklistItem> getSortedItems();
+    Flowable<List<ChecklistItem>> getSortedItems();
 
     @Query("UPDATE events_new SET isDone = 1 WHERE id IS :id")
     void updateIsDone(int id);
@@ -28,9 +28,4 @@ public interface ChecklistItemDAO {
     @Query("UPDATE events_new SET isDone = 0 WHERE id IS :id")
     void updateUndone(int id);
 
-    @Update
-    void update(ChecklistItem checklistItems);
-
-    @Delete
-    void delete(ChecklistItem checklistItem);
 }

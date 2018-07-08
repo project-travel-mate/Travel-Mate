@@ -15,6 +15,10 @@
             android:icon="@drawable/mytrips"
             android:title="@string/my_trip" />
         <item
+            android:id="@+id/nav_myfriends"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="@string/navigation_drawer_my_friends" />
+        <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"
             android:title="@string/navigation_drawer_utilities" />
@@ -29,12 +33,13 @@
     <group android:checkableBehavior="single" android:id="@+id/nav_grp2">
 
         <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="@string/navigation_drawer_about_us" />
+        <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/navigation_drawer_signout" />
-        <item android:id="@+id/nav_report_bug"
-              android:icon="@drawable/ic_bug_report_black_24dp"
-              android:title="@string/navigation_drawer_nav_report_bug"/>
     </group>
 
 </menu>

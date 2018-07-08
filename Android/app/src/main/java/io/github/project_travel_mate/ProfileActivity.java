@@ -24,23 +24,22 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -52,11 +51,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+import utils.TravelmateSnackbars;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
 import static utils.Constants.CLOUDINARY_CLOUD_NAME;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE_URI;
 import static utils.Constants.OTHER_USER_ID;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
@@ -65,11 +65,12 @@ import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
     @BindView(R.id.display_image)
     ImageView displayImage;
     @BindView(R.id.change_image)
@@ -80,11 +81,24 @@ public class ProfileActivity extends AppCompatActivity {
     TextView emailId;
     @BindView(R.id.display_joining_date)
     TextView joiningDate;
+    @BindView(R.id.display_status)
+    EditText displayStatus;
     @BindView(R.id.ib_edit_display_name)
     ImageButton editDisplayName;
+    @BindView(R.id.ib_edit_display_status)
+    ImageButton editDisplayStatus;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @BindView(R.id.status_progress_bar)
+    ProgressBar statusProgressBar;
+    @BindView(R.id.name_progress_bar)
+    ProgressBar nameProgressBar;
+    @BindView(R.id.layout)
+    RelativeLayout layout;
+
     private String mToken;
     private Handler mHandler;
-    private MaterialDialog mDialog;
+    private String mUserStatus;
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
@@ -103,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        animationView.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
@@ -117,7 +132,8 @@ public class ProfileActivity extends AppCompatActivity {
             fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
                     mSharedPreferences.getString(USER_EMAIL, null),
                     mSharedPreferences.getString(USER_IMAGE, null),
-                    mSharedPreferences.getString(USER_DATE_JOINED, null));
+                    mSharedPreferences.getString(USER_DATE_JOINED, null),
+                    mSharedPreferences.getString(USER_STATUS, getString(R.string.default_status)));
 
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
@@ -142,12 +158,43 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        editDisplayStatus.setOnClickListener(v -> {
+            if (mFlagForDrawable) {
+                mFlagForDrawable = false;
+                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                displayStatus.setFocusableInTouchMode(true);
+                displayStatus.setCursorVisible(true);
+                displayStatus.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(imm).showSoftInput(displayStatus, InputMethodManager.SHOW_IMPLICIT);
+            } else {
+                mFlagForDrawable = true;
+                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                displayStatus.setFocusableInTouchMode(false);
+                displayStatus.setCursorVisible(false);
+                setUserStatus();
+            }
+        });
+
         changeImage.setOnClickListener(v -> {
             Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(galleryIntent, RESULT_PICK_IMAGE);
         });
+
+        //open profile image when clicked on it
+        displayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
+                String fullname = mSharedPreferences.getString(USER_NAME, null);
+                Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
+                        imageUri, fullname);
+                startActivity(fullScreenIntent);
+            }
+        });
+
     }
 
     @Override
@@ -163,7 +210,8 @@ public class ProfileActivity extends AppCompatActivity {
             Uri croppedImage = data.getData();
             Picasso.with(this).load(croppedImage).into(displayImage);
             mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-            Toast.makeText(ProfileActivity.this, R.string.profile_picture_updated, Toast.LENGTH_SHORT).show();
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.profile_picture_updated,
+                    Snackbar.LENGTH_SHORT).show();
             getUrlFromCloudinary(croppedImage);
 
         }
@@ -246,41 +294,53 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-
+            public void onResponse(Call call, final Response response) {
                 mHandler.post(() -> {
-                    try {
-                        JSONObject object = new JSONObject(res);
-                        String userName = object.getString("username");
-                        String firstName = object.getString("first_name");
-                        String lastName = object.getString("last_name");
-                        int id = object.getInt("id");
-                        String imageURL = object.getString("image");
-                        String dateJoined = object.getString("date_joined");
-                        new User(userName, firstName, lastName, id, imageURL, dateJoined);
-                        String fullName = firstName + " " + lastName;
-                        Long dateTime = rfc3339ToMills(dateJoined);
-                        String date = getDate(dateTime);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                        fillProfileInfo(fullName, userName, imageURL, date);
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            JSONObject object = new JSONObject(res);
+                            String userName = object.getString("username");
+                            String firstName = object.getString("first_name");
+                            String lastName = object.getString("last_name");
+                            int id = object.getInt("id");
+                            String imageURL = object.getString("image");
+                            String dateJoined = object.getString("date_joined");
+                            String status = object.getString("status");
+                            new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
+                            String fullName = firstName + " " + lastName;
+                            Long dateTime = rfc3339ToMills(dateJoined);
+                            String date = getDate(dateTime);
 
-                        if (userId == null) {
-                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                            mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
-                            mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
-                            mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
-                            mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
-                        } else {
-                            updateOptionsMenu();
+                            if (status == null || status == "null") {
+
+                                status = getString(R.string.default_status);
+                            }
+                            fillProfileInfo(fullName, userName, imageURL, date, status);
+
+                            if (userId == null) {
+                                mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                                mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                                mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                                mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                                mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
+                                mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                            } else {
+                                updateOptionsMenu();
+                            }
+
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -288,12 +348,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setUserDetails() {
-
-        mDialog = new MaterialDialog.Builder(ProfileActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+        runOnUiThread(() -> {
+            displayName.setVisibility(View.INVISIBLE);
+            nameProgressBar.setVisibility(View.VISIBLE);
+        });
 
         // to update user name
         String uri = API_LINK_V2 + "update-user-details";
@@ -325,6 +383,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -332,16 +391,91 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
+                        networkError();
                     }
                 });
-                mDialog.dismiss();
+                runOnUiThread(() -> {
+                    nameProgressBar.setVisibility(View.GONE);
+                    displayName.setVisibility(View.VISIBLE);
+                });
             }
         });
     }
+
+    private void setUserStatus() {
+        runOnUiThread(() -> {
+            displayStatus.setVisibility(View.INVISIBLE);
+            statusProgressBar.setVisibility(View.VISIBLE);
+        });
+
+        // to update user name
+        String uri;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        Request request;
+
+        mUserStatus = String.valueOf(displayStatus.getText());
+        if (mUserStatus.equals("")) {
+            uri = API_LINK_V2 + "remove-user-status";
+            mUserStatus = getString(R.string.default_status);
+
+            request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .build();
+        } else {
+            uri = API_LINK_V2 + "update-user-status";
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("status", mUserStatus)
+                    .build();
+
+            request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .post(requestBody)
+                    .build();
+        }
+        Log.v("EXECUTING", uri);
+        // Create a new Call object
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.status_updated, Snackbar.LENGTH_SHORT).show();
+                        mSharedPreferences.edit().putString(USER_STATUS, mUserStatus).apply();
+                        displayStatus.setText(mUserStatus);
+                      
+                    } else {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
+                        networkError();
+                    }
+                });
+                runOnUiThread(() -> {
+                    statusProgressBar.setVisibility(View.GONE);
+                    displayStatus.setVisibility(View.VISIBLE);
+                });
+            }
+        });
+    }
+
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ProfileActivity.class);
@@ -354,13 +488,17 @@ public class ProfileActivity extends AppCompatActivity {
         return intent;
     }
 
-    private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
+    private void fillProfileInfo(String fullName, String email, String imageURL,
+                                 String dateJoined, String status) {
         displayName.setText(fullName);
         emailId.setText(email);
         joiningDate.setText(String.format(getString(R.string.text_joining_date), dateJoined));
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
+        if (status.equals("null"))
+            status = getString(R.string.default_status);
+        displayStatus.setText(status);
     }
 
     /**
@@ -411,6 +549,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onError(String requestId, ErrorInfo error) {
+                networkError();
                 Log.e(LOG_TAG, "error uploading to Cloudinary");
             }
 
@@ -453,6 +592,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -462,7 +602,8 @@ public class ProfileActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Log.i(LOG_TAG, "Upload to server successful!");
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                     }
                 });
 
@@ -485,6 +626,15 @@ public class ProfileActivity extends AppCompatActivity {
             item.setVisible(false);
         }
     }
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
 
     private void shareProfile() {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -500,8 +650,7 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
-            Snackbar.make(Objects.requireNonNull(ProfileActivity.this).findViewById(android.R.id.content),
-                    R.string.snackbar_no_share_app,
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.snackbar_no_share_app,
                     Snackbar.LENGTH_LONG).show();
         }
     }

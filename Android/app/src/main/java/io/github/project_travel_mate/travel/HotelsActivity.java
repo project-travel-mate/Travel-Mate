@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,69 +18,57 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.sleepbot.datetimepicker.time.RadialPickerLayout;
-import com.sleepbot.datetimepicker.time.TimePickerDialog;
+import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
+import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
+import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.DESTINATION_CITY;
-import static utils.Constants.DESTINATION_CITY_ID;
-import static utils.Constants.DESTINATION_CITY_LAT;
-import static utils.Constants.DESTINATION_CITY_LON;
+import static utils.Constants.API_LINK_V2;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
-import static utils.Constants.MUMBAI_LAT;
-import static utils.Constants.MUMBAI_LON;
-import static utils.Constants.SOURCE_CITY;
-import static utils.Constants.SOURCE_CITY_ID;
+import static utils.Constants.USER_TOKEN;
 
 /**
  * Display list of hotels in destination city
  */
-public class HotelsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
-        View.OnClickListener {
+public class HotelsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String DATEPICKER_TAG = "datepicker";
-    @BindView(R.id.pb)
-    ProgressBar pb;
-    @BindView(R.id.music_list)
+    @BindView(R.id.hotel_list)
     ListView lv;
-    @BindView(R.id.seldate)
-    TextView selectdate;
-    @BindView(R.id.city)
-    TextView city;
-    private String mSource;
-    private String mDestination;
-    private String mSourceText;
-    private String mDestinationText;
-    private String mDeslat;
-    private String mDeslon;
-    private String mDate = "17-October-2015";
-    private SharedPreferences mSharedPreferences;
+    @BindView(R.id.select_city)
+    TextView selectCity;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @BindView(R.id.text_view)
+    TextView textView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
+
     private Handler mHandler;
-    private DatePickerDialog mDatePickerDialog;
+    private String mToken;
+
+    private ArrayList<CitySearchModel> mSearchCities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,72 +81,33 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         ButterKnife.bind(this);
 
         mHandler = new Handler(Looper.getMainLooper());
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mSource = mSharedPreferences.getString(SOURCE_CITY_ID, "1");
-        mDestination = mSharedPreferences.getString(DESTINATION_CITY_ID, "1");
-        mSourceText = mSharedPreferences.getString(SOURCE_CITY, "Delhi");
-        mDestinationText = mSharedPreferences.getString(DESTINATION_CITY, "Mumbai");
-        mDeslat = mSharedPreferences.getString(DESTINATION_CITY_LAT, MUMBAI_LAT);
-        mDeslon = mSharedPreferences.getString(DESTINATION_CITY_LON, MUMBAI_LON);
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
 
-        String cityText = "Showing " + mDestinationText + " hotels";
-        String selectDateText = "Check In : " + mDate;
-        city.setText(cityText);
-        selectdate.setText(selectDateText);
-
-        final Calendar calendar = Calendar.getInstance();
-        mDatePickerDialog = DatePickerDialog.newInstance(this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH),
-                isVibrate());
-
-        getHotellist();
+        fetchCitiesList();
 
         setTitle("Hotels");
 
-        selectdate.setOnClickListener(this);
-        city.setOnClickListener(this);
+        selectCity.setOnClickListener(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        mDate = day + "-";
-        String monthString = new DateFormatSymbols().getMonths()[month];
-        mDate = mDate + monthString;
-        mDate = mDate + "-" + year;
-        String selectDateText = "Check In : " + mDate;
-        selectdate.setText(selectDateText);
-
-        getHotellist();
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
     }
 
     /**
      * Calls API to get hotel list
      */
-    private void getHotellist() {
+    private void getHotelList(String latitude, String longitude) {
 
-        pb.setVisibility(View.VISIBLE);
-        String uri = HERE_API_LINK + "?at=" + mDeslat + "," + mDeslon + "&cat=accomodation&app_id=" +
+        String uri = HERE_API_LINK + "?at=" + latitude + "," + longitude + "&cat=accommodation&app_id=" +
                 HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
-
 
         Log.v("EXECUTING", uri);
 
@@ -174,72 +122,154 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
+                Log.v("RESPONSE", res + " ");
                 mHandler.post(() -> {
-                    try {
-                        JSONObject json = new JSONObject(res);
-                        Log.v("Response", res);
-                        json = json.getJSONObject("results");
-                        JSONArray feedItems = json.getJSONArray("items");
-
-                        Log.v("response", feedItems + " ");
-                        pb.setVisibility(View.GONE);
-                        if (feedItems.length() > 0) {
-                            lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
-                        } else {
-
-                            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.hotelsCoordinatorLayout),
-                                    R.string.no_hotels, Snackbar.LENGTH_LONG);
-                            mySnackbar.show();
+                    if (response.isSuccessful() && response.body() != null) {
+                        try {
+                            JSONObject json = new JSONObject(res);
+                            Log.v("Response", res);
+                            json = json.getJSONObject("results");
+                            JSONArray feedItems = json.getJSONArray("items");
+                            Log.v("response", feedItems + " ");
+                            layout.setVisibility(View.VISIBLE);
+                            animationView.setVisibility(View.GONE);
+                            textView.setVisibility(View.GONE);
+                            if (feedItems.length() > 0) {
+                                lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
+                            } else {
+                                noResults();
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            networkError();
                         }
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    } else {
+                        networkError();
                     }
-                    pb.setVisibility(View.GONE);
-
                 });
             }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSource = mSharedPreferences.getString(SOURCE_CITY_ID, "1");
-        mDestination = mSharedPreferences.getString(DESTINATION_CITY_ID, "1");
-        mSourceText = mSharedPreferences.getString(SOURCE_CITY, "Delhi");
-        mDestinationText = mSharedPreferences.getString(DESTINATION_CITY, "Mumbai");
-        String cityText = "Showing " + mDestinationText + " hotels";
-        city.setText(cityText);
-        getHotellist();
+    /**
+     * Fetches the list cities from server
+     */
+    private void fetchCitiesList() {
+
+        String uri = API_LINK_V2 + "get-all-cities/10";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) {
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        try {
+                            String res = response.body().string();
+                            Log.v("RESULT", res);
+                            JSONArray ar = new JSONArray(res);
+                            for (int i = 0; i < ar.length(); i++) {
+                                mSearchCities.add(new CitySearchModel(
+                                        ar.getJSONObject(i).getString("city_name"),
+                                        ar.getJSONObject(i).optString("image"),
+                                        ar.getJSONObject(i).getString("id")));
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                        }
+                    } else {
+                        Log.e("ERROR", "Network error");
+                        networkError();
+                    }
+                });
+            }
+        });
+
     }
 
-    private boolean isVibrate() {
-        return false;
-    }
+    /**
+     * Calls the API & fetch details of city with given id
+     *
+     * @param cityId the city id
+     */
+    public void getCityInfo(String cityId) {
 
-    private boolean isCloseOnSingleTapDay() {
-        return false;
+        animationView.setVisibility(View.VISIBLE);
+
+        String uri = API_LINK_V2 + "get-city/" + cityId;
+        Log.v("EXECUTING", uri);
+        OkHttpClient client = new OkHttpClient();
+
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(() -> networkError());
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    try {
+                        Log.v("Response", res);
+                        JSONObject responseObject = new JSONObject(res);
+                        String latitude = responseObject.getString("latitude");
+                        String longitude = responseObject.getString("longitude");
+                        getHotelList(latitude, longitude);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        networkError();
+                    }
+                } else {
+                    networkError();
+                }
+            }
+        });
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.city:
-                //TODO :: show a dialog with list of cities
-                break;
-            case R.id.seldate:
-                mDatePickerDialog.setVibrate(isVibrate());
-                mDatePickerDialog.setYearRange(1985, 2028);
-                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
-                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+            case R.id.select_city:
+                new CitySearchDialogCompat(HotelsActivity.this, getString(R.string.search_title),
+                        getString(R.string.search_hint), null, mSearchCities,
+                        (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
+                            String selectedCity = item.getId();
+                            selectCity.setText(String.format(getString(R.string.showing_hotels), item.getName()));
+                            dialog.dismiss();
+                            getCityInfo(selectedCity);
+                        }).show();
                 break;
         }
     }
 
+    // TODO :: Move adapter to a new class
     class HotelsAdapter extends BaseAdapter {
 
         final Context mContext;
@@ -298,6 +328,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                         mContext.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
                 });
                 holder.map.setOnClickListener(view -> {
@@ -316,6 +347,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                         mContext.startActivity(browserIntent);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
 
                 });
@@ -326,6 +358,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                                 Uri.parse(mFeedItems.getJSONObject(position).getString("href")));
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
                     mContext.startActivity(browserIntent);
 
@@ -337,6 +370,27 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
             }
             return convertView;
         }
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.GONE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
+
+    /**
+     * Plays the no results animation in the view
+     */
+    private void noResults() {
+        layout.setVisibility(View.GONE);
+        animationView.setVisibility(View.VISIBLE);
+        Toast.makeText(HotelsActivity.this, R.string.no_trips, Toast.LENGTH_LONG).show();
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
     }
 
     class ViewHolder {

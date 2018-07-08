@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/citylist_fragemnt_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,22 +30,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <AutoCompleteTextView
-            android:id="@+id/cityname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/black"
-            android:ems="10"
-            android:hint="@string/search_a_city"
-            android:popupBackground="@color/white"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            tools:targetApi="lollipop" />
-
-
         <views.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,4 +52,17 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
 </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

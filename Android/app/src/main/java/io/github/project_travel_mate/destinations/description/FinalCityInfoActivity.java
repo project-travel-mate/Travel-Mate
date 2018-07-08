@@ -31,6 +31,7 @@ import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 
+import static utils.Constants.CURRENT_TEMP;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
@@ -46,39 +47,43 @@ public class FinalCityInfoActivity extends AppCompatActivity
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.temp)
-    TextView temp;
+    TextView temperature;
     @BindView(R.id.humidit)
     TextView humidity;
     @BindView(R.id.weatherinfo)
-    TextView weatherinfo;
+    TextView weatherInfo;
     @BindView(R.id.head)
     TextView title;
     @BindView(R.id.image_slider)
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
-    ImageView ico;
+    ImageView icon;
     @BindView(R.id.expand_text_view)
-    ExpandableTextView des;
+    ExpandableTextView cityDescription;
     @BindView(R.id.funfact)
     LinearLayout funfact;
     @BindView(R.id.restau)
-    LinearLayout restau;
+    LinearLayout restaurant;
     @BindView(R.id.hangout)
     LinearLayout hangout;
     @BindView(R.id.monu)
-    LinearLayout monum;
+    LinearLayout monument;
     @BindView(R.id.shoppp)
-    LinearLayout shopp;
+    LinearLayout shopping;
     @BindView(R.id.trends)
     LinearLayout trend;
+    @BindView(R.id.weather)
+    LinearLayout weather;
     @BindView(R.id.SliderDots)
-    LinearLayout sliderDotspanel;
+    LinearLayout sliderDotsPanel;
+
     private int mDotsCount;
     private ImageView[] mDots;
     private Handler mHandler;
     private City mCity;
     private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
+    private String mCurrentTemp;
     int currentPage = 0;
     Timer timer;
 
@@ -130,11 +135,12 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
     private void setClickListeners() {
         funfact.setOnClickListener(this);
-        restau.setOnClickListener(this);
+        restaurant.setOnClickListener(this);
         hangout.setOnClickListener(this);
-        monum.setOnClickListener(this);
-        shopp.setOnClickListener(this);
+        monument.setOnClickListener(this);
+        shopping.setOnClickListener(this);
         trend.setOnClickListener(this);
+        weather.setOnClickListener(this);
     }
 
     @Override
@@ -143,7 +149,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
             finish();
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -167,6 +172,12 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 break;
             case R.id.trends:
                 intent = TweetsActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
+                startActivity(intent);
+                break;
+            case R.id.weather:
+                intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
+                //pass current temperature to weather activity
+                intent.putExtra(CURRENT_TEMP, mCurrentTemp);
                 startActivity(intent);
                 break;
         }
@@ -196,10 +207,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     public void showProgress() {
     }
 
-    @Override
-    public void dismissProgress() {
-    }
-
     /**
      * method called by FinalCityInfoPresenter when the network
      * request to fetch city weather information comes back successfully
@@ -216,11 +223,12 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
+            mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
-            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
-            temp.setText(tempText);
+            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
-            weatherinfo.setText(weatherDescription);
+            weatherInfo.setText(weatherDescription);
         });
     }
 
@@ -229,10 +237,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
      *
-     * @param description               city description
-     * @param latitude                  city latitude
-     * @param longitude                 city longitude
-     * @param imagesArray               images array for the city
+     * @param description city description
+     * @param latitude    city latitude
+     * @param longitude   city longitude
+     * @param imagesArray images array for the city
      */
     @Override
     public void parseInfoResult(final String description,
@@ -244,11 +252,12 @@ public class FinalCityInfoActivity extends AppCompatActivity
             animationView.setVisibility(View.GONE);
             content.setVisibility(View.VISIBLE);
             if (description != null && !description.equals("null"))
-                des.setText(description);
+                cityDescription.setText(description);
             mCity.setDescription(description);
             mCity.setLatitude(latitude);
             mCity.setLongitude(longitude);
-            slideImages(imagesArray);
+            if (imagesArray.size() > 0)
+                slideImages(imagesArray);
         });
     }
 
@@ -262,7 +271,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         mDotsCount = adapter.getCount();
         mDots = new ImageView[mDotsCount];
         if (mDotsCount == 1) {
-            sliderDotspanel.setVisibility(View.INVISIBLE);
+            sliderDotsPanel.setVisibility(View.INVISIBLE);
         }
 
         for (int i = 0; i < mDotsCount; i++) {
@@ -273,7 +282,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                     .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             params.setMargins(8, 0, 8, 0);
-            sliderDotspanel.addView(mDots[i], params);
+            sliderDotsPanel.addView(mDots[i], params);
         }
         mDots[0].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
 
@@ -289,14 +298,33 @@ public class FinalCityInfoActivity extends AppCompatActivity
             imagesSliderView.setCurrentItem(currentPage++, true);
         };
 
+
+        //for activating dots on manual swapping of images
+        imagesSliderView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //required method
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < mDotsCount; i++)
+                    mDots[i].setImageDrawable(getResources().getDrawable(R.drawable.non_active_dot));
+                mDots[position].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //required method
+            }
+        });
         timer = new Timer();
         timer.schedule(new TimerTask() {
-
             @Override
             public void run() {
                 handler.post(Update);
             }
-        }, 500, 2000);
+        }, 500, 3000);
     }
 
     /**
@@ -320,7 +348,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     /**
      * Plays the network lost animation in the view
      */
-    private void networkError() {
+    public void networkError() {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }

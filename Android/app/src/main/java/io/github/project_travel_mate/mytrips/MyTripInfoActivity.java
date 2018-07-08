@@ -10,30 +10,37 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
 import com.gun0912.tedpicker.ImagePickerActivity;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +48,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import adapters.NestedListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,39 +63,58 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
-import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripInfoActivity extends AppCompatActivity {
+public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
 
     public static final int INTENT_REQUEST_GET_IMAGES = 13;
-    @BindView(R.id.image)
-    ImageView iv;
-    @BindView(R.id.head)
-    TextView tite;
-    @BindView(R.id.time)
-    TextView date;
-    @BindView(R.id.newfrriend)
-    FlatButton add;
+    @BindView(R.id.city_image)
+    ImageView cityImageView;
+    @BindView(R.id.city_name)
+    TextView cityName;
+    @BindView(R.id.trip_start_date)
+    TextView tripDate;
+    @BindView(R.id.add_new_friend)
+    FlatButton addNewFriend;
+    @BindView(R.id.friend_list)
+    NestedListView listView;
+    @BindView(R.id.friend_email)
+    AutoCompleteTextView friendEmail;
+    @BindView(R.id.trip_name)
+    EditText tripName;
     @BindView(R.id.friend_title)
     TextView friendTitle;
-    @BindView(R.id.friendlist)
-    NestedListView lv;
-    @BindView(R.id.fname)
-    AutoCompleteTextView frendname;
+    @BindView(R.id.plus_icon)
+    ImageView showIcon;
+    @BindView(R.id.edit_trip_icon)
+    ImageView editTrip;
     @BindView(R.id.know_more)
     Button details;
-    @BindView(R.id.pb)
+    @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
+    @BindView(R.id.no_friend_title)
+    TextView noFriendTitle;
 
-    private String mFriendid = null;
+    private String mFriendId = null;
+    private String mFriendDeleteId = null;
     private String mNameYet;
     private String mToken;
     private Trip mTrip;
     private Handler mHandler;
+    private boolean mIsClicked = false;
+    private boolean mIsTripNameEdited = false;
+    private MaterialDialog mDialog;
+    private MyTripFriendNameAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,43 +128,80 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
-
-        Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
-                .placeholder(R.drawable.delhi).into(iv);
-
+        if (mTrip.getImage() != null && !mTrip.getImage().isEmpty())
+            Picasso.with(this).load(mTrip.getImage()).error(R.drawable.placeholder_image)
+               .placeholder(R.drawable.placeholder_image).into(cityImageView);
+        showIcon.setVisibility(GONE);
+        editTrip.setVisibility(GONE);
         mHandler = new Handler(Looper.getMainLooper());
-        frendname.clearFocus();
-
-        frendname.setThreshold(1);
+        friendEmail.clearFocus();
+        friendEmail.setThreshold(1);
 
         getSingleTrip();
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        editTrip.setOnClickListener(v -> {
+            if (!mIsTripNameEdited) {
+                //if edit trip is clicked before editing the name
+                editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                tripName.setFocusableInTouchMode(true);
+                tripName.setCursorVisible(true);
+                tripName.requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(inputMethodManager)
+                        .showSoftInput(tripName, InputMethodManager.SHOW_IMPLICIT);
+                mIsTripNameEdited = true;
+            } else {
+                //clicking edit trip after editing the trip name
+                if (tripName.getText().length() != 0 ) {
+                    editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                    tripName.setFocusableInTouchMode(false);
+                    tripName.setCursorVisible(false);
+                    mIsTripNameEdited = false;
+                    updateTripName();
+                } else {
+                    //clicking edit trip after editing the trip name
+                    if (tripName.getText().length() != 0 ) {
+                        editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                        tripName.setFocusableInTouchMode(false);
+                        tripName.setCursorVisible(false);
+                        mIsTripNameEdited = false;
+                        updateTripName();
+                    } else {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
+                                Snackbar.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
     }
 
-    @OnTextChanged(R.id.fname)
+    @OnTextChanged(R.id.friend_email)
     void onTextChanged() {
-        mNameYet = frendname.getText().toString();
+        mNameYet = friendEmail.getText().toString();
         if (!mNameYet.contains(" ") && mNameYet.length() % 3 == 0) {
-            friendautocomplete();
+            friendAutoComplete();
         }
     }
 
-    @OnClick(R.id.newfrriend)
+    @OnClick(R.id.add_new_friend)
     void onClick() {
-        if (mFriendid == null) {
-            Toast.makeText(MyTripInfoActivity.this,
-                    getResources().getString(R.string.no_friend_selected),
-                    Toast.LENGTH_LONG).show();
+        if (mFriendId == null) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                    getString(R.string.no_friend_selected),
+                    Snackbar.LENGTH_LONG).show();
+
         } else {
-            addfriend();
+            addFriend();
         }
     }
 
     private void getSingleTrip() {
 
-        List<User> users = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
 
         // to fetch mCity names
@@ -160,115 +222,192 @@ public class MyTripInfoActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    JSONObject ob;
-                    try {
-                        ob = new JSONObject(res);
-                        String title = ob.getString("trip_name");
-                        String start = ob.getString("start_date_tx");
-                        String end = ob.optString("end_date", null);
-                        String city = ob.getJSONObject("city").getString("city_name");
-                        details.setVisibility(View.VISIBLE);
-                        details.setText(String.format(getString(R.string.know_more_about), city));
-                        details.setOnClickListener(view -> getCity(city));
-                        tite.setText(city);
-                        tite = findViewById(R.id.tname);
-                        tite.setText(title);
-                        final Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                        final String timeString =
-                                getResources().getString(R.string.text_started_on) +
-                                        new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
-                        date.setText(timeString);
-                        updateFriendList();
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONObject ob;
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            ob = new JSONObject(res);
+                            String title = ob.getString("trip_name");
+                            String start = ob.getString("start_date_tx");
+                            String end = ob.optString("end_date", null);
+                            String city = ob.getJSONObject("city").getString("city_name");
+                            details.setVisibility(View.VISIBLE);
+                            details.setText(String.format(getString(R.string.know_more_about), city));
+                            details.setOnClickListener(view -> getCity(city));
+                            cityName.setText(city);
+                            tripName.setText(title);
+                            final Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                            final String timeString =
+                                    getResources().getString(R.string.text_started_on) +
+                                            new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                            tripDate.setText(timeString);
+                            editTrip.setVisibility(View.VISIBLE);
+                            updateFriendList();
+                        } catch (JSONException | IOException | NullPointerException e) {
+                            e.printStackTrace();
+                            networkError();
+                        }
+                    } else {
+                        networkError();
                     }
-                    progressBar.setVisibility(View.GONE);
-                    mFriendid = null;
+                    tripName.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(GONE);
+                    mFriendId = null;
                 });
+            }
+        });
+    }
+    private void getCity(String cityname) {
+        // to fetch city names
+        String uri = API_LINK_V2 + "get-city-by-name/" + cityname;
+        Log.v("EXECUTING", uri);
 
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
-            private void getCity(String cityname) {
-                // to fetch city names
-                String uri = API_LINK_V2 + "get-city-by-name/" + cityname;
-                Log.v("EXECUTING", uri);
+            @Override
+            public void onResponse(Call call, final Response response) {
 
-                //Set up client
-                OkHttpClient client = new OkHttpClient();
-                //Execute request
-                Request request = new Request.Builder()
-                        .header("Authorization", "Token " + mToken)
-                        .url(uri)
-                        .build();
-                //Setup callback
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.e("Request Failed", "Message : " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(Call call, final Response response) {
-
-                        mHandler.post(() -> {
-                            JSONArray arr;
-                            final ArrayList<String> citynames;
-                            City city = null;
+                mHandler.post(() -> {
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONArray arr;
+                        City city = null;
+                        try {
+                            arr = new JSONArray(Objects.requireNonNull(response.body()).string());
+                            Log.v("RESPONSE : ", arr.toString());
                             try {
-                                arr = new JSONArray(Objects.requireNonNull(response.body()).string());
-                                Log.v("RESPONSE : ", arr.toString());
-
-                                try {
-                                    city = new City(arr.getJSONObject(0).getString("id"),
-                                            arr.getJSONObject(0).getString("image"),
-                                            arr.getJSONObject(0).getString("city_name"),
-                                            arr.getJSONObject(0).getInt("facts_count"),
-                                            "Know More", "View on Map", "Fun Facts", "City Trends");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
-                                startActivity(intent);
-
+                                city = new City(arr.getJSONObject(0).getString("id"),
+                                        arr.getJSONObject(0).getString("image"),
+                                        arr.getJSONObject(0).getString("city_name"),
+                                        arr.getJSONObject(0).getInt("facts_count"),
+                                        "Know More", "View on Map", "Fun Facts", "City Trends");
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.e("ERROR", "Message : " + e.getMessage());
-                            } catch (IOException e) {
-                                e.printStackTrace();
                             }
-                        });
+                            Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
+                            startActivity(intent);
 
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                        }
                     }
                 });
             }
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            Toast.makeText(MyTripInfoActivity.this, "Images added", Toast.LENGTH_LONG).show();
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), getString(R.string.images_added),
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.trip_info_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void friendautocomplete() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                finish();
+                return true;
+            case R.id.action_remove_trip:
+                removeTrip();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void removeTrip() {
+        //set AlertDialog before removing trip
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.remove_trip_message)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
+                                    .title(R.string.app_name)
+                                    .content(R.string.progress_wait)
+                                    .progress(true, 0)
+                                    .show();
+
+                            String uri;
+                            uri = API_LINK_V2 + "remove-user-from-trip/" + mTrip.getId();
+                            Log.v("EXECUTING", uri);
+
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+                            //Execute request
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+                            //Setup callback
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            finish();
+                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mDialog.dismiss();
+                                }
+                            });
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
+    }
+
+
+    private void friendAutoComplete() {
+
+        if (mNameYet.trim().equals(""))
+            return;
 
         String uri = API_LINK_V2 + "get-user/" + mNameYet.trim();
         Log.v("EXECUTING", uri);
@@ -285,42 +424,47 @@ public class MyTripInfoActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
-                    JSONArray arr;
-                    final ArrayList<String> id, email;
-                    try {
-                        String result = response.body().string();
-                        Log.e("RES", result);
-                        if (response.body() == null)
-                            return;
-                        arr = new JSONArray(result);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                        id = new ArrayList<>();
-                        email = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                id.add(arr.getJSONObject(i).getString("id"));
-                                email.add(arr.getJSONObject(i).getString("username"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("ERROR ", "Message : " + e.getMessage());
+                        JSONArray arr;
+                        final ArrayList<String> id, email;
+                        try {
+                            String result = response.body().string();
+                            Log.e("RES", result);
+                            if (response.body() == null)
+                                return;
+                            arr = new JSONArray(result);
+
+                            id = new ArrayList<>();
+                            email = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    id.add(arr.getJSONObject(i).getString("id"));
+                                    email.add(arr.getJSONObject(i).getString("username"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("ERROR ", "Message : " + e.getMessage());
+                                }
                             }
+                            ArrayAdapter<String> dataAdapter =
+                                    new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            friendEmail.setAdapter(dataAdapter);
+                            friendEmail.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mFriendId = id.get(arg2));
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR", "Message : " + e.getMessage());
                         }
-                        ArrayAdapter<String> dataAdapter =
-                                new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        frendname.setAdapter(dataAdapter);
-                        frendname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mFriendid = id.get(arg2));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        networkError();
                     }
                 });
 
@@ -328,7 +472,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void addfriend() {
+    private void addFriend() {
 
         final MaterialDialog mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
                 .title(R.string.app_name)
@@ -336,7 +480,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
                 .progress(true, 0)
                 .show();
 
-        String uri = API_LINK_V2 + "add-friend-to-trip/" + mTrip.getId() + "/" + mFriendid;
+        String uri = API_LINK_V2 + "add-friend-to-trip/" + mTrip.getId() + "/" + mFriendId;
 
         Log.v("EXECUTING", uri);
 
@@ -352,24 +496,27 @@ public class MyTripInfoActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) {
                 try {
                     final String res = response.body().string();
-                    final int responseCode = response.code();
                     mHandler.post(() -> {
-                        if (responseCode == STATUS_CODE_OK) {
-                            Toast.makeText(MyTripInfoActivity.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+
+                        if (response.isSuccessful()) {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                    getString(R.string.friend_added), Snackbar.LENGTH_LONG).show();
                             updateFriendList();
-                            frendname.setText(null);
+                            friendEmail.setText(null);
                         } else {
-                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                            networkError();
                         }
                         mDialog.dismiss();
                     });
                 } catch (IOException e) {
+                    networkError();
                     e.printStackTrace();
                 }
             }
@@ -377,7 +524,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
     }
 
     private void updateFriendList() {
-        List<User> users = new ArrayList<>();
+        List<User> tripFriends = new ArrayList<>();
         String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
 
         Log.v("EXECUTING", uri);
@@ -395,6 +542,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -402,49 +550,146 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    JSONObject ob;
-                    try {
-                        ob = new JSONObject(res);
-                        JSONArray usersArray = ob.getJSONArray("users");
-                        if (usersArray.length() == 0) {
-                            add.setVisibility(View.GONE);
-                            frendname.setVisibility(View.GONE);
-                            friendTitle.setVisibility(View.VISIBLE);
-                            friendTitle.setTypeface(null, Typeface.NORMAL);
-                            String mystring = getString(R.string.friends_title);
-                            SpannableString content = new SpannableString(mystring);
-                            content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-                            friendTitle.setText(content);
-                            friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                            friendTitle.setOnClickListener(view -> {
-                                add.setVisibility(View.VISIBLE);
-                                frendname.setVisibility(View.VISIBLE);
+                        JSONObject ob;
+                        try {
+                            ob = new JSONObject(res);
+                            JSONArray usersArray = ob.getJSONArray("users");
+                            if (usersArray.length() == 0) {
+                                addNewFriend.setVisibility(GONE);
+                                friendEmail.setVisibility(GONE);
+                                noFriendTitle.setVisibility(View.VISIBLE);
+                                noFriendTitle.setTypeface(null, Typeface.BOLD);
+                                String mystring = getString(R.string.friends_title);
+                                SpannableString content = new SpannableString(mystring);
+                                content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+                                noFriendTitle.setText(content);
+                                noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+
+                                noFriendTitle.setOnClickListener(view -> {
+                                    noFriendTitle.setVisibility(GONE);
+                                    addNewFriend.setVisibility(View.VISIBLE);
+                                    friendEmail.setVisibility(View.VISIBLE);
+                                    friendTitle.setText(R.string.friends_show_title);
+                                    friendTitle.setTypeface(null, Typeface.BOLD);
+                                    friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
+                                });
+                            } else {
                                 friendTitle.setText(R.string.friends_show_title);
-                                friendTitle.setTypeface(null, Typeface.BOLD);
-                                friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
-                            });
-                        } else {
-                            friendTitle.setVisibility(View.VISIBLE);
-                            add.setVisibility(View.VISIBLE);
-                            frendname.setVisibility(View.VISIBLE);
-                            for (int i = 0; i < usersArray.length(); i++) {
-                                users.add(new User(usersArray.getJSONObject(i).getString("first_name"),
-                                        usersArray.getJSONObject(i).getString("image")));
-                            }
+                                friendTitle.setVisibility(View.VISIBLE);
+                                showIcon.setVisibility(View.VISIBLE);
+                                addNewFriend.setVisibility(View.VISIBLE);
+                                friendEmail.setVisibility(View.VISIBLE);
+                                for (int i = 0; i < usersArray.length(); i++) {
 
-                            MyTripFriendnameAdapter dataAdapter = new MyTripFriendnameAdapter(
-                                    MyTripInfoActivity.this, users);
-                            lv.setAdapter(dataAdapter);
+                                    JSONObject jsonObject = usersArray.getJSONObject(i);
+                                    String friendFirstName = jsonObject.getString("first_name");
+                                    String friendLastName = jsonObject.getString("last_name");
+                                    String friendImage = jsonObject.getString("image");
+                                    String friendJoinedOn = jsonObject.getString("date_joined");
+                                    String friendUserName = jsonObject.getString("username");
+                                    String friendStatus = jsonObject.getString("status");
+                                    int friendId = jsonObject.getInt("id");
+
+                                    mFriendDeleteId = String.valueOf(friendId);
+                                    tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
+                                            friendImage, friendJoinedOn, friendStatus));
+                                }
+                                showIcon.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        mAdapter = new MyTripFriendNameAdapter(
+                                                MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
+                                        if (!mIsClicked) {
+                                            listView.setAdapter(mAdapter);
+                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+                                            mIsClicked = true;
+                                        } else {
+                                            listView.setAdapter(null);
+                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+                                            mIsClicked = false;
+                                        }
+                                    }
+                                });
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent = new Intent(MyTripInfoActivity.this,
+                                                FriendsProfileActivity.class);
+                                        intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
+                                        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            networkError();
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        networkError();
                     }
                 });
             }
         });
     }
 
+    private void updateTripName() {
+
+        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
+                .title(R.string.app_name)
+                .content(R.string.progress_wait)
+                .progress(true, 0)
+                .show();
+
+        String editedTripName = String.valueOf(tripName.getText());
+        String uri = API_LINK_V2 + "update-trip-name/" + mTrip.getId() + "/" + editedTripName;
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    mHandler.post(() -> {
+                        if (response.isSuccessful()) {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            res, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    networkError();
+                }
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
     public static Intent getStartIntent(Context context, Trip trip) {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);

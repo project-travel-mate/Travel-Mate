@@ -24,11 +24,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.juanlabrador.badgecounter.BadgeCounter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -40,10 +42,14 @@ import java.util.Objects;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.medals.MedalsFragment;
+import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
+import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
-import io.github.project_travel_mate.utilities.BugReportFragment;
+import io.github.project_travel_mate.utilities.AboutUsFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
+import io.github.tonnyl.whatsnew.WhatsNew;
+import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -54,11 +60,15 @@ import static utils.Constants.API_LINK_V2;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
+import static utils.WhatsNewStrings.WHATS_NEW1_TEXT;
+import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
 
 /**
  * Launcher Activity; Handles fragment changes;
@@ -70,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mToken;
     private DrawerLayout mDrawer;
     private Handler mHandler;
+    private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
+    private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
+    private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +95,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mPreviousMenuItemId = R.id.nav_city; // This is default item
-
         mHandler = new Handler(Looper.getMainLooper());
 
+        // To show what's new in our application
+        WhatsNew whatsNew = WhatsNew.newInstance(
+                new WhatsNewItem(WHATS_NEW1_TITLE, WHATS_NEW1_TEXT));
+        whatsNew.setButtonBackground(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        whatsNew.setButtonTextColor(ContextCompat.getColor(this, R.color.white));
+        whatsNew.presentAutomatically(this);
+
+        // To check for shared profile intents
         String action =  getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             showProfile(getIntent().getDataString());
@@ -114,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fillNavigationView(emailId, null);
 
         getProfileInfo();
+        if (travelShortcut.equals(getIntent().getAction())) {
+            fragment = TravelFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        } else if (myTripsShortcut.equals(getIntent().getAction())) {
+            fragment = MyTripsFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        } else if (utilitiesShortcut.equals(getIntent().getAction())) {
+            fragment = UtilitiesFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
     }
 
     @Override
@@ -161,6 +191,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = MedalsFragment.newInstance();
                 break;
 
+            case R.id.nav_about_us:
+                fragment = AboutUsFragment.newInstance();
+                break;
+
             case R.id.nav_signout: {
 
                 //set AlertDialog before signout
@@ -185,9 +219,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
-            case R.id.nav_report_bug:
-                fragment = BugReportFragment.newInstance();
+            case R.id.nav_myfriends : {
+                fragment = MyFriendsFragment.newInstance();
                 break;
+            }
         }
 
         if (fragment != null) {
@@ -278,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String userName = object.getString("username");
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
+                        String status = object.getString("status");
                         int id = object.getInt("id");
                         String imageURL = object.getString("image");
                         String dateJoined = object.getString("date_joined");
@@ -289,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
                         mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
                         mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                        mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
                         fillNavigationView(fullName, imageURL);
 
                     } catch (JSONException e) {
@@ -306,15 +344,84 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         fillNavigationView(mSharedPreferences.getString(USER_NAME, getString(R.string.app_name)),
                 mSharedPreferences.getString(USER_IMAGE, null));
+        invalidateOptionsMenu();
     }
 
     void showProfile(String data) {
         Uri uri = Uri.parse(data);
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
-        Log.v("user id", userId + " ");
+        String myId = mSharedPreferences.getString(USER_ID, null);
+        Log.v("user id", userId + " " + myId);
         if (userId != null) {
-            Intent intent = ProfileActivity.getStartIntent(MainActivity.this, userId);
-            startActivity(intent);
+            int id = Integer.parseInt(userId);
+            if (!userId.equals(myId)) {
+                Intent intent = FriendsProfileActivity.getStartIntent(MainActivity.this, id);
+                startActivity(intent);
+            } else {
+                Intent intent = ProfileActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+            }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.notification_menu, menu);
+        updateNotificationsCount(menu);
+        return true;
+    }
+
+    public void updateNotificationsCount(Menu menu) {
+        String uri;
+        uri = API_LINK_V2 + "number-of-unread-notifications";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                mHandler.post(() -> {
+                    try {
+                        JSONObject object = new JSONObject(res);
+                        int mNotificationCount = object.getInt("number_of_unread_notifications");
+                        if (mNotificationCount > 0) {
+                            BadgeCounter.update(MainActivity.this,
+                                    menu.findItem(R.id.action_notification),
+                                    R.drawable.ic_notifications_white,
+                                    BadgeCounter.BadgeColor.RED,
+                                    mNotificationCount);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_notification :
+                Intent intent = NotificationsActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

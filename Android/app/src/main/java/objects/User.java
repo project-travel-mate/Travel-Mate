@@ -8,14 +8,17 @@ public class User {
     private int mId;
     private String mImage;
     private String mDateJoined;
+    private String mStatus;
 
-    public User(String mUsername, String mFirstName, String mLastName, int mId, String mImage, String mDateJoined) {
+    public User(String mUsername, String mFirstName, String mLastName,
+                int mId, String mImage, String mDateJoined, String mStatus) {
         this.mUsername = mUsername;
         this.mFirstName = mFirstName;
         this.mLastName = mLastName;
         this.mId = mId;
         this.mImage = mImage;
         this.mDateJoined = mDateJoined;
+        this.mStatus = mStatus;
     }
 
     public User(String firstName, String image) {
@@ -45,5 +48,9 @@ public class User {
 
     public String getDateJoined() {
         return mDateJoined;
+    }
+
+    public String getStatus() {
+        return mStatus;
     }
 }

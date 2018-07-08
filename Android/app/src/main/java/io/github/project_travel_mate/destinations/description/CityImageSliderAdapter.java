@@ -34,8 +34,13 @@ public class CityImageSliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(mContext);
+        //display default city image if no image is present in array
+        if (mImagesArray.size() == 0) {
+            Picasso.with(mContext).load(R.drawable.placeholder_image)
+                    .error(R.drawable.placeholder_image).fit().centerCrop().into(imageView);
+        }
         Picasso.with(mContext).load(mImagesArray.get(position))
-                .error(R.drawable.delhi).fit().centerCrop().into(imageView);
+                .error(R.drawable.placeholder_image).fit().centerCrop().into(imageView);
         container.addView(imageView);
         return imageView;
 

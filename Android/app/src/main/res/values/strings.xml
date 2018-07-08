@@ -9,8 +9,10 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_medals">Medals</string>
+    <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
+    <string name="navigation_drawer_my_friends">My Friends</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
@@ -34,6 +36,8 @@
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
     <string name="fun_facts">Fun Facts</string>
+    <string name="search_hint">What are you looking for...?</string>
+    <string name="search_title">Cities</string>
 
     <!-- Destinations home page strings -->
     <string name="search_a_city">Search a city…</string>
@@ -60,10 +64,11 @@
     <string name="enter_task_name">Enter task name</string>
 
     <!-- My Trip Strings -->
+    <string name="trip_city">Trip City :</string>
+    <string name="trip_date">Trip Date :</string>
     <string name="prompt_trip_name">Enter trip Name</string>
-    <string name="prompt_city_name">Enter city name</string>
-    <string name="prompt_start_date">Enter start date</string>
-    <string name="prompt_end_date">Enter end date</string>
+    <string name="prompt_city_name">Select City</string>
+    <string name="prompt_start_date">Select Trip Date</string>
     <string name="prompt_add_trip">Add trip</string>
     <string name="prompt_friend_name">Enter friend name</string>
     <string name="prompt_add_friend">Add New friend</string>
@@ -73,11 +78,22 @@
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
     <string name="no_friend_selected">Please select a valid friend to add</string>
+    <string name="images_added">Images added</string>
     <string name="my_trip">My Trips</string>
     <string name="no_trips">You don\'t have any trips. Click add button to get started</string>
     <string name="know_more_about">Know more about %1$s</string>
     <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
     <string name="friends_show_title">Friends in this Trip</string>
+    <string name="trip_name_updated">Trip name has been updated</string>
+    <string name="cannot_edit">Trip name can\'t remain empty!</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="remove_friend_message">Are you sure you want to remove %1$s from this trip?</string>
+    <string name="removed_friend_message">Successfully removed friend</string>
+    <string name="trip_name_blank">Trip name can\'t be left blank</string>
+    <string name="trip_city_blank">Trip city can\`t be left blank</string>
+    <string name="trip_date_blank">Trip start date can\'t be left blank</string>
+    <string name="remove_me_from_trip">Remove me from trip</string>
+    <string name="remove_trip_message">Are you sure want to remove the trip?</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -87,10 +103,17 @@
 
     <!--Hotel strings-->
     <string name="no_hotels">No hotels to show</string>
+    <string name="showing_hotels">Showing %1$s Hotels</string>
 
     <!-- Share contact strings -->
+    <string name="share_intent_text">Share Contact Details</string>
+    <string name="share_menu">Share</string>
     <string name="share_contact_text">Share Contact</string>
-    <string name="view_contact">View someone Contact</string>
+    <string name="cant_generate">Can\'t be generated. Need to download QR services</string>
+    <string name="add_contact">Added Contact</string>
+    <string name="cancel_contact">Cancelled Added Contact</string>
+    <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
+    <string name="view_contact">View someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
@@ -110,6 +133,7 @@
     <string name="text_joining_date">Joined on %1$s</string>
     <string name="profile_picture_updated">Profile Picture Updated!</string>
     <string name="text_source">"Source : "</string>
+    <string name="no_friends_message">You haven\'t added any trip with friends yet</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -130,11 +154,25 @@
     <string name="invalid_email">Invalid Email</string>
 
     <!-- Profile strings -->
+    <string name="my_profile">My Profile</string>
     <string name="name_updated">Name has been updated</string>
     <string name="text_share_profile">Share my profile</string>
     <string name="snackbar_no_share_app">No application to share.</string>
     <string name="share_chooser">Select app to send message…</string>
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
+    <string name="status_updated">Status has been updated</string>
+
+    <!-- About Us String-->
+    <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
+    <string name="version_code">Version Code :</string>
+    <string name="fork_on_github">Fork on GitHub</string>
+    <string name="view_contributors">View Contributors</string>
+    <string name="report_a_bug">Report a Bug</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="join_slack">Join Slack</string>
+    <string name="share_app">Share app</string>
+    <string name="website">Website</string>
 
     <!-- Choose feature type -->
     <array name="bug_types">
@@ -143,18 +181,45 @@
         <item>Other</item>
     </array>
 
+    <!-- Bug report strings -->
     <string name="choose_a_type_bugreport">Choose a Type:</string>
     <string name="hint_edit_text_bugreport">Describe your issue…</string>
     <string name="button_text_bugreport">Report</string>
     <string name="failure_message_bugreport">Failed to send issue…</string>
     <string name="success_message_bugreport">Issue Sent Successfully…</string>
 
-
-
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
+    <string name="degree_symbol">&#176;</string>
 
     <string name="sign_out">Sign out</string>
 
     <string name="coming_soon">Coming Soon!</string>
+    <string name="default_status">Write something about yourself...</string>
+
+    <!-- Notifications -->
+    <string name="no_notifications">You don\'t have any notifications.</string>
+    <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
+
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
+    <string name="no_results">No results found</string>
+    <string name="hotels_text">Tell us where are you travelling to? We will search hotels for you.</string>
+
+    <!-- Declare days of week -->
+    <string name="dayOfWeek_monday">Monday</string>
+    <string name="dayOfWeek_tuesday">Tuesday</string>
+    <string name="dayOfWeek_wednesday">Wednesday</string>
+    <string name="dayOfWeek_thursday">Thursday</string>
+    <string name="dayOfWeek_friday">Friday</string>
+    <string name="dayOfWeek_saturday">Saturday</string>
+    <string name="dayOfWeek_sunday">Sunday</string>
+
+    <!-- handle responses from Weather API -->
+    <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
+    <string name="today">Today</string>
 </resources>

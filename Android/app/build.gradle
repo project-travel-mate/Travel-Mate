@@ -8,8 +8,8 @@ android {
         applicationId "io.github.project_travel_mate"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 13
-        versionName "2.8.3"
+        versionCode 17
+        versionName "3.9.2"
     }
 
     buildTypes {
@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
 
-    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -76,6 +76,7 @@ dependencies {
 
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    implementation 'com.github.juanlabrador:badgecounter:1.0.2@aar'
 
     // Cloudinary : For profile photo upload
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
@@ -86,4 +87,24 @@ dependencies {
 
     // Lottie : animations
     implementation 'com.airbnb.android:lottie:2.5.5'
+
+    // To show what's new in the application
+    implementation 'io.github.tonnyl:whatsnew:0.1.1'
+
+    //To display search dialog
+    implementation 'com.github.mirrajabi:search-dialog:1.2.2'
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
+    implementation 'android.arch.persistence.room:rxjava2:1.0.0'
+
+    //Lifecycle Components
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+
 }
+
+preBuild.dependsOn('checkstyle')
+assemble.dependsOn('lint')
+check.dependsOn('checkstyle')

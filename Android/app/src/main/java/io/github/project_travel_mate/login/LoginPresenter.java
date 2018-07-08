@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -17,8 +19,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.STATUS_CODE_CREATED;
-import static utils.Constants.STATUS_CODE_OK;
 
 /**
  * Created by el on 5/4/17.
@@ -77,7 +77,10 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showError();
+                mhandler.post(() -> {
+                    mView.showError();
+                    mView.dismissLoadingDialog();
+                });
             }
 
             @Override
@@ -88,7 +91,7 @@ class LoginPresenter {
                 mhandler.post(() -> {
                     try {
                         String successfulMessage = "\"Successfully registered\"";
-                        if (responseCode == STATUS_CODE_CREATED && res.equals(successfulMessage)) {
+                        if (responseCode == HttpsURLConnection.HTTP_CREATED && res.equals(successfulMessage)) {
                             //if successful redirect to login
                             mView.openLogin();
                             mView.setLoginEmail(email);
@@ -142,16 +145,18 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showError();
+                mhandler.post(() -> {
+                    mView.showError();
+                    mView.dismissLoadingDialog();
+                });
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
-                final int responseCode = response.code();
                 mhandler.post(() -> {
                             try {
-                                if (responseCode == STATUS_CODE_OK) {
+                                if (response.isSuccessful()) {
                                     JSONObject responeJsonObject = new JSONObject(res);
                                     String token = responeJsonObject.getString("token");
                                     mView.rememberUserInfo(token, email);

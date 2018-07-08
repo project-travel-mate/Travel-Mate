@@ -9,23 +9,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,11 +33,13 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
+import static android.app.Activity.RESULT_OK;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripsFragment extends Fragment {
+public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TravelmateSnackbars {
 
     private final List<Trip> mTrips = new ArrayList<>();
 
@@ -48,10 +47,14 @@ public class MyTripsFragment extends Fragment {
     GridView gridView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
+    private MyTripsAdapter mMyTripsAdapter;
+    static int ADDNEWTRIP_ACTIVITY = 203;
+    private View mTripsView;
 
     public MyTripsFragment() {
         // Required empty public constructor
@@ -64,15 +67,15 @@ public class MyTripsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_trips, container, false);
-        ButterKnife.bind(this, view);
+        mTripsView = inflater.inflate(R.layout.fragment_my_trips, container, false);
+        ButterKnife.bind(this, mTripsView);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         mytrip();
-        return view;
+        return mTripsView;
 
     }
 
@@ -93,6 +96,7 @@ public class MyTripsFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
                 Log.e("Request Failed", "Message : " + e.getMessage());
                 mHandler.post(() -> networkError());
             }
@@ -123,7 +127,8 @@ public class MyTripsFragment extends Fragment {
                                 String image = array.length() > 0 ? array.getString(0) : null;
                                 mTrips.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
-                                gridView.setAdapter(new MyTripsAdapter(mActivity.getApplicationContext(), mTrips));
+                                mMyTripsAdapter = new MyTripsAdapter(mActivity.getApplicationContext(), mTrips);
+                                gridView.setAdapter(mMyTripsAdapter);
                             }
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
@@ -140,8 +145,9 @@ public class MyTripsFragment extends Fragment {
 
     @OnClick(R.id.add_trip)
     void addTrip() {
-        Intent intent = AddNewTripActivity.getStartIntent(mActivity);
-        mActivity.startActivity(intent);
+        Intent intent = new Intent(getContext() , AddNewTripActivity.class);
+        startActivityForResult(intent , ADDNEWTRIP_ACTIVITY);
+
     }
 
     /**
@@ -156,7 +162,8 @@ public class MyTripsFragment extends Fragment {
      * Plays the no results animation in the view
      */
     private void noResults() {
-        Toast.makeText(mActivity, R.string.no_trips, Toast.LENGTH_LONG).show();
+        TravelmateSnackbars.createSnackBar(mTripsView.findViewById(R.id.my_trips_frag), R.string.no_trips,
+                Snackbar.LENGTH_LONG).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
     }
@@ -165,5 +172,29 @@ public class MyTripsFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         this.mActivity = (Activity) activity;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADDNEWTRIP_ACTIVITY && resultCode == RESULT_OK) {
+            mTrips.clear();
+            mMyTripsAdapter.notifyDataSetChanged();
+            mytrip();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTrips.clear();
+        mytrip();
+    }
+
+    @Override
+    public void onRefresh() {
+        mTrips.clear();
+        mMyTripsAdapter.notifyDataSetChanged();
+        mytrip();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

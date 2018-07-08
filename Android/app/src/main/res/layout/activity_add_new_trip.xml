@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/activityAddNewTrip"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +11,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".mytrips.AddNewTripActivity">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -29,48 +37,33 @@
             tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
 
-    <AutoCompleteTextView
-        android:id="@+id/cityname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/black"
-        android:ems="10"
-        android:hint="@string/prompt_city_name"
-        android:popupBackground="@color/white"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        tools:targetApi="lollipop" />
-
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <com.dd.processbutton.FlatButton
             android:id="@+id/sdate"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1.0"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
             android:text="@string/prompt_start_date"
             android:textColor="@color/white" />
 
-        <com.dd.processbutton.FlatButton
-            android:id="@+id/edate"
-            android:layout_width="0dp"
+    <com.dd.processbutton.FlatButton
+            android:layout_weight="1"
+            android:id="@+id/select_city_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1.0"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
-            android:text="@string/prompt_end_date"
+            android:text="@string/prompt_city_name"
             android:textColor="@color/white" />
-
     </LinearLayout>
-
 
     <com.dd.processbutton.FlatButton
         android:id="@+id/ok"
@@ -81,5 +74,49 @@
         android:background="@color/colorPrimary"
         android:text="@string/prompt_add_trip"
         android:textColor="@color/white" />
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/trip_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@string/trip_date"/>
+        <TextView
+            android:id="@+id/trip_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/trip_city_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@string/trip_city"/>
+        <TextView
+            android:id="@+id/trip_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
 </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

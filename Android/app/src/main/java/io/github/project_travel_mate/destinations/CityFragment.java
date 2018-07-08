@@ -9,29 +9,29 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
-
+import android.widget.ProgressBar;
 import com.airbnb.lottie.LottieAnimationView;
-
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
@@ -41,18 +41,19 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class CityFragment extends Fragment {
+public class CityFragment extends Fragment implements TravelmateSnackbars {
 
-    @BindView(R.id.cityname)
-    AutoCompleteTextView cityname;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.music_list)
     ListView lv;
+
+    private MaterialSearchView mMaterialSearchView;
 
     private String mNameyet;
     private Activity mActivity;
@@ -82,22 +83,44 @@ public class CityFragment extends Fragment {
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         mHandler = new Handler(Looper.getMainLooper());
-        cityname.setThreshold(1);
 
+        mMaterialSearchView = view.findViewById(R.id.search_view);
+        mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.v("QUERY ITEM : ", query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mNameyet = newText;
+                if (!mNameyet.contains(" ") && mNameyet.length() % 3 == 0) {
+                    cityAutoComplete();
+                }
+                return true;
+            }
+        });
         fetchCitiesList();
-
         return view;
     }
 
-    @OnTextChanged(R.id.cityname)
-    void onTextChanged() {
-        mNameyet = cityname.getText().toString();
-        if (!mNameyet.contains(" ") && mNameyet.length() % 3 == 0) {
-            cityAutoComplete();
-        }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        mMaterialSearchView.setMenuItem(item);
     }
 
     private void cityAutoComplete() {
+
+        if (mNameyet.trim().equals(""))
+            return;
 
         // to fetch city names
         String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
@@ -146,9 +169,8 @@ public class CityFragment extends Fragment {
                                 new ArrayAdapter<>(
                                         mActivity.getApplicationContext(), R.layout.spinner_layout, citynames);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        cityname.setThreshold(1);
-                        cityname.setAdapter(dataAdapter);
-                        cityname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                        mMaterialSearchView.setAdapter(dataAdapter);
+                        mMaterialSearchView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
                             Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, cities.get(arg2));
                             startActivity(intent);
                         });

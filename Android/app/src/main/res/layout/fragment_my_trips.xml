@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/my_trips_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,16 +21,20 @@
         app:lottie_fileName="loading.json"
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
-
-    <GridView
-        android:id="@+id/gv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:orientation="horizontal"
-        android:verticalSpacing="10dp" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <GridView
+            android:id="@+id/gv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:orientation="horizontal"
+            android:verticalSpacing="10dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_trip"
@@ -36,3 +46,4 @@
 
 
 </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

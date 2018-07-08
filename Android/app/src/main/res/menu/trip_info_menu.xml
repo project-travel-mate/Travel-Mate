@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".mytrips.MyTripInfoActivity">
+    <item
+        android:id="@+id/action_remove_trip"
+        android:title="@string/remove_me_from_trip" />
+</menu>

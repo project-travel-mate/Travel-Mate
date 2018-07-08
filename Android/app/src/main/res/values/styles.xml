@@ -72,5 +72,9 @@
         <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
+    <!-- Full Profile Image Theme-->
+    <style name="FullProfileImageTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="android:colorPrimary">@color/black</item>
+    </style>
 
 </resources>

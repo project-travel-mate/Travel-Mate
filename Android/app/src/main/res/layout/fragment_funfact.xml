@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
-            android:src="@drawable/delhi" />
+            android:src="@drawable/placeholder_image" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

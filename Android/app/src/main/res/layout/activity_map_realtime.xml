@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/map_real_time"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -93,7 +95,6 @@
                             android:id="@+id/item_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="10dp"
                             android:maxLines="10"
@@ -110,8 +111,8 @@
 
 
                             <Button
-                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/call"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
@@ -121,8 +122,8 @@
                                 android:textColor="#ffffff" />
 
                             <Button
-                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/book"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
