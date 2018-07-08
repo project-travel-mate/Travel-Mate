@@ -52,6 +52,7 @@ public class MyTripsFragment extends Fragment {
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
+    static int ADDNEWTRIP_ACTIVITY=203;
 
     public MyTripsFragment() {
         // Required empty public constructor
@@ -140,8 +141,8 @@ public class MyTripsFragment extends Fragment {
 
     @OnClick(R.id.add_trip)
     void addTrip() {
-        Intent intent = AddNewTripActivity.getStartIntent(mActivity);
-        mActivity.startActivity(intent);
+       mActivity.startActivityForResult(new Intent(getContext().getApplicationContext(),AddNewTripActivity.class),ADDNEWTRIP_ACTIVITY);
+
     }
 
     /**
