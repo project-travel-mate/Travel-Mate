@@ -239,7 +239,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_CREATED) {
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
-
+                            //Call back to MytripsFragment
                             setResult(Activity.RESULT_OK,new Intent());
                             finish();
                         } else {

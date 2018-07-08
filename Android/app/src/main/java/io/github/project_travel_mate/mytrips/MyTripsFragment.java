@@ -141,7 +141,8 @@ public class MyTripsFragment extends Fragment {
 
     @OnClick(R.id.add_trip)
     void addTrip() {
-       mActivity.startActivityForResult(new Intent(getContext().getApplicationContext(),AddNewTripActivity.class),ADDNEWTRIP_ACTIVITY);
+        Intent intent = new Intent(getContext(),AddNewTripActivity.class);
+       mActivity.startActivityForResult(intent,ADDNEWTRIP_ACTIVITY);
 
     }
 
