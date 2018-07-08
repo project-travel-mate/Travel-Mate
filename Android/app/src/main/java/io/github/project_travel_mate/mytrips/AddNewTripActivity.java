@@ -241,7 +241,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_OK,returnIntent);
+                            setResult(Activity.RESULT_OK , returnIntent);
                             finish();
                         } else {
                             Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
