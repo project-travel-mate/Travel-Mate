@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/activityMyTripInfo"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +28,6 @@
             android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
             android:src="@drawable/delhi" />
-
 
         <TextView
             android:id="@+id/head"
@@ -65,7 +71,6 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-
         <adapters.NestedListView
             android:id="@+id/friendlist"
             android:layout_width="match_parent"
@@ -89,7 +94,6 @@
             android:focusableInTouchMode="true"
             tools:targetApi="lollipop" />
 
-
         <com.dd.processbutton.FlatButton
             android:id="@+id/newfrriend"
             android:layout_width="match_parent"
@@ -99,6 +103,6 @@
             android:text="@string/prompt_add_friend"
             android:textColor="#ffffff" />
 
-
     </LinearLayout>
 </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -20,15 +20,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
@@ -42,11 +39,12 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class CityFragment extends Fragment {
+public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     @BindView(R.id.cityname)
     AutoCompleteTextView cityname;
@@ -90,10 +88,9 @@ public class CityFragment extends Fragment {
             pb.setVisibility(View.VISIBLE);
             getCity();
         } else {
-            final Snackbar snackbar = Snackbar.make(view, R.string.internet_connectivity, Snackbar.LENGTH_LONG);
-            snackbar.show();
+            TravelmateSnackbars.createSnackBar(view.findViewById(R.id.citylist_fragemnt_id),
+                    R.string.internet_connectivity, Snackbar.LENGTH_LONG).show();
         }
-
         return view;
     }
 
@@ -238,5 +235,4 @@ public class CityFragment extends Fragment {
         super.onAttach(activity);
         this.mActivity = (Activity) activity;
     }
-
 }

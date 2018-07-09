@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,19 +17,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.Services;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_NUMBER;
 
-public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener, TravelmateSnackbars {
 
     private static final int ACTIVITY_CREATE = 0, ACTIVITY_SCAN = 1, ACTIVITY_INSERT_CONTACT = 2;
     @BindView(R.id.create)
@@ -79,26 +78,25 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
 
             //If image path was not returned, it could not be saved. Check SD card is mounted and is writable
             if (null == qrCode || 0 == qrCode.trim().length()) {
-                Toast.makeText(ShareContactActivity.this, R.string.msg_qr_not_saved, Toast.LENGTH_LONG).show();
+                TravelmateSnackbars.createSnackBar(findViewById(R.id.activityShareContact),
+                        R.string.msg_qr_not_saved, Snackbar.LENGTH_LONG).show();
                 return;
             }
 
             //Show success message
-            Toast.makeText(ShareContactActivity.this, getString(R.string.msg_saved) + " " + qrCode, Toast.LENGTH_LONG)
-                    .show();
+            displaySnackbar(getString(R.string.msg_saved)+ " " + qrCode, Snackbar.LENGTH_LONG);
 
             //Load QR code image from given path
             imgResult.setImageURI(Uri.parse(qrCode));
-
             imgResult.setVisibility(View.VISIBLE);
         }
 
         if (ACTIVITY_INSERT_CONTACT == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Added Contact", Toast.LENGTH_SHORT).show();
+                displaySnackbar(getString(R.string.add_contact), Snackbar.LENGTH_SHORT);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Cancelled Added Contact", Toast.LENGTH_SHORT).show();
+                displaySnackbar(getString(R.string.cancel_contact), Snackbar.LENGTH_SHORT);
             }
         }
     }
@@ -137,9 +135,7 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_SCAN);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContactActivity.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
+                    displaySnackbar(getString(R.string.cant_generate), Snackbar.LENGTH_SHORT);
                 }
                 break;
             case R.id.create:
@@ -165,9 +161,7 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
                 try {
                     startActivityForResult(qrDroid, ACTIVITY_CREATE);
                 } catch (ActivityNotFoundException activity) {
-                    Toast.makeText(ShareContactActivity.this,
-                            "can't be generated. Need to download QR services",
-                            Toast.LENGTH_SHORT).show();
+                    displaySnackbar(getString(R.string.cant_generate), Snackbar.LENGTH_SHORT);
                 }
                 break;
         }
@@ -176,5 +170,11 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ShareContactActivity.class);
         return intent;
+    }
+
+    private void displaySnackbar(final String message, int length) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityShareContact),
+                message, length);
+        snackbar.show();
     }
 }

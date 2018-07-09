@@ -81,6 +81,7 @@
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
     <string name="no_friend_selected">Please select a valid friend to add</string>
+    <string name="images_added">Images added</string>
 
     <!-- Errors and messages -->
     <string name="msg_qr_not_saved">QR code image could not be saved. Check your SD card is available</string>
@@ -98,6 +99,9 @@
     <string name="share_contact_text">Share Contact</string>
     <string name="share_contact">Share My Contact</string>
     <string name="view_contact">View someone Contact</string>
+    <string name="cant_generate">Can\'t be generated. Need to download QR services</string>
+    <string name="add_contact">Added Contact</string>
+    <string name="cancel_contact">Cancelled Added Contact</string>
 
     <!-- Constant texts -->
     <string name="text_mileage">Mileage</string>
@@ -160,6 +164,7 @@
         <item>Other</item>
     </array>
 
+    <!-- Bug report strings -->
     <string name="choose_a_type_bugreport">Choose a Type:</string>
     <string name="hint_edit_text_bugreport">Describe your issue...</string>
     <string name="button_text_bugreport">Report</string>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,23 +15,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
@@ -237,9 +233,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_CREATED) {
-                            Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
+                            displaySnackbar(getString(R.string.trip_added), Snackbar.LENGTH_LONG);
                         } else {
-                            Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
+                            displaySnackbar(res, Snackbar.LENGTH_LONG);
                         }
                     });
 
@@ -295,5 +291,11 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, AddNewTripActivity.class);
         return intent;
+    }
+
+    private void displaySnackbar(final String message, int length) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityAddNewTrip),
+                message, length);
+        snackbar.show();
     }
 }

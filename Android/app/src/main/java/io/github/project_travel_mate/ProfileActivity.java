@@ -21,18 +21,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Objects;
-import java.util.PropertyPermission;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import objects.User;
@@ -43,6 +37,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.OTHER_USER_ID;
@@ -262,10 +257,12 @@ public class ProfileActivity extends AppCompatActivity {
                 final int responseCode = response.code();
                 mHandler.post(() -> {
                     if (responseCode == STATUS_CODE_OK) {
-                        Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        displaySnackbar(res);
                     }
                 });
                 mDialog.dismiss();
@@ -327,4 +324,10 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void displaySnackbar(final String message) {
+
+        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.activity_profile_id),
+                message, Snackbar.LENGTH_LONG);
+        mySnackbar.show();
+    }
 }

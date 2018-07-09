@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,6 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -42,7 +40,7 @@ import static utils.Constants.USER_TOKEN;
  * Use the {@link BugReportFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BugReportFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class BugReportFragment extends Fragment implements AdapterView.OnItemSelectedListener, TravelmateSnackbars {
 
     @BindView(R.id.spinner_bug_type)
     Spinner mBugTypeSpinner;
@@ -56,6 +54,7 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
     private String mAuthToken = null;
 
     private Handler mHandler;
+    private View bugReportView;
 
     public BugReportFragment() {
         // Required empty public constructor
@@ -75,15 +74,15 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bug_report, container, false);
-        ButterKnife.bind(this, view);
+        bugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
+        ButterKnife.bind(this, bugReportView);
 
         mHandler = new Handler(Looper.getMainLooper());
 
         setupSpinner();
         mAuthToken = getAuthToken();
 
-        return view;
+        return bugReportView;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "message : " + e.getMessage());
                 hideProgressDialog();
-                displayToast(getString(R.string.failure_message_bugreport));
+                displaySnackbar(getString(R.string.failure_message_bugreport));
             }
 
             @Override
@@ -146,10 +145,10 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
                     // will be true only if the status code is in the range of [200..300)
                     Log.d("RESPONSE : ", "success" + response.toString());
                     hideProgressDialog();
-                    displayToast(getString(R.string.success_message_bugreport));
+                    displaySnackbar(getString(R.string.success_message_bugreport));
                     resetEdittextAndSpinner();
                 } else {
-                    displayToast(getString(R.string.failure_message_bugreport));
+                    displaySnackbar(getString(R.string.failure_message_bugreport));
                 }
             }
         });
@@ -173,8 +172,18 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
         mHandler.post(() -> mDialog.dismiss());
     }
 
+    /*
+    Old method for Toast messages. All should be replaced with Snackbar.
     private void displayToast(final String message) {
         mHandler.post(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
+    }
+    */
+
+    private void displaySnackbar(final String message) {
+
+        Snackbar mySnackbar = Snackbar.make(bugReportView.findViewById(R.id.fragmentBugReport),
+                message, Snackbar.LENGTH_LONG);
+        mHandler.post(() ->  mySnackbar.show());
     }
 
     private void resetEdittextAndSpinner() {

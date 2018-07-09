@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,17 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.gun0912.tedpicker.ImagePickerActivity;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +31,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import adapters.NestedListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,9 +110,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
     @OnClick(R.id.newfrriend)
     void onClick() {
         if (mFriendid == null) {
-            Toast.makeText(MyTripInfoActivity.this,
-                    getResources().getString(R.string.no_friend_selected),
-                    Toast.LENGTH_LONG).show();
+            displaySnackbar(getString(R.string.no_friend_selected),
+                    Snackbar.LENGTH_LONG);
         } else {
             addfriend();
         }
@@ -201,7 +196,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            Toast.makeText(MyTripInfoActivity.this, "Images added", Toast.LENGTH_LONG).show();
+            displaySnackbar(getString(R.string.images_added), Snackbar.LENGTH_LONG);
         }
     }
 
@@ -305,9 +300,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_OK) {
-                            Toast.makeText(MyTripInfoActivity.this, R.string.friend_added, Toast.LENGTH_LONG).show();
+                            displaySnackbar(getString(R.string.friend_added), Snackbar.LENGTH_LONG);
                         } else {
-                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                            displaySnackbar(res, Snackbar.LENGTH_LONG);
                         }
                         mDialog.dismiss();
                     });
@@ -322,5 +317,11 @@ public class MyTripInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
         return intent;
+    }
+
+    private void displaySnackbar(final String message, int length) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityMyTripInfo),
+                message, length);
+        snackbar.show();
     }
 }
