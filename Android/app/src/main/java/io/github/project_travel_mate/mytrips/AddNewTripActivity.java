@@ -56,13 +56,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         View.OnClickListener {
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
-    private static final String DATEPICKER_TAG2 = "datepicker2";
     @BindView(R.id.cityname)
     AutoCompleteTextView cityname;
     @BindView(R.id.sdate)
-    FlatButton sdate;
-    @BindView(R.id.edate)
-    FlatButton edate;
+    EditText tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
@@ -96,8 +93,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 calendar.get(Calendar.DAY_OF_MONTH),
                 isVibrate());
 
-        sdate.setOnClickListener(this);
-        edate.setOnClickListener(this);
+        tripStartDate.setOnClickListener(this);
         ok.setOnClickListener(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -117,10 +113,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
             mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-        }
-        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG2)) {
-            Calendar calendar = new GregorianCalendar(year, month, day);
-            String enddate = Long.toString(calendar.getTimeInMillis() / 1000);
+            tripStartDate.setText(day + "/" + month + "/" + year);
         }
     }
 
@@ -281,13 +274,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 mDatePickerDialog.setYearRange(1985, 2028);
                 mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
                 mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG1);
-                break;
-            // Set end date
-            case R.id.edate:
-                mDatePickerDialog.setVibrate(isVibrate());
-                mDatePickerDialog.setYearRange(1985, 2028);
-                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
-                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG2);
                 break;
             // Add a new trip
             case R.id.ok:
