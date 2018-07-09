@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ import okhttp3.Response;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripsFragment extends Fragment {
+public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private final List<Trip> mTrips = new ArrayList<>();
 
@@ -48,7 +49,8 @@ public class MyTripsFragment extends Fragment {
     GridView gridView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
@@ -71,7 +73,7 @@ public class MyTripsFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         mytrip();
         return view;
 
@@ -94,6 +96,7 @@ public class MyTripsFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
                 Log.e("Request Failed", "Message : " + e.getMessage());
                 mHandler.post(() -> networkError());
             }
@@ -177,5 +180,13 @@ public class MyTripsFragment extends Fragment {
             mTrips.clear();
             mytrip();
         }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        mTrips.clear();
+        mytrip();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

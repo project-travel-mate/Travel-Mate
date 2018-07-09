@@ -15,7 +15,10 @@
         app:lottie_fileName="loading.json"
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
-
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <GridView
         android:id="@+id/gv"
         android:layout_width="wrap_content"
@@ -25,6 +28,7 @@
         android:numColumns="2"
         android:orientation="horizontal"
         android:verticalSpacing="10dp" />
+</android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_trip"
