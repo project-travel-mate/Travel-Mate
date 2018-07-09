@@ -13,7 +13,7 @@
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/display_email"
-        android:layout_marginBottom="63dp"
+        android:layout_marginBottom="13dp"
         android:paddingTop="6sp"
         android:text="@string/text_joining_date"
         android:textColor="#333434"
@@ -25,7 +25,7 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/display_name"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="71dp"
         android:paddingTop="8sp"
         android:text="@string/email"
         android:textColor="#333434"
@@ -56,14 +56,14 @@
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="185dp"
+        android:layout_marginBottom="135dp"
         android:layout_marginStart="110dp"
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ellipsize="end"
         android:focusableInTouchMode="false"
-        android:paddingTop="8dp"
         android:inputType="text"
+        android:paddingTop="8dp"
         android:text="@string/default_name"
         android:textColor="#333434"
         android:textSize="18sp" />
@@ -72,26 +72,38 @@
         android:id="@+id/profile_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/ib_edit_display_name"
+        android:layout_alignBottom="@+id/ib_edit_display_name"
         android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/profile_icon"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <ImageView
+        android:id="@+id/email_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="131dp"
+        android:layout_marginBottom="78dp"
         android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/mail_icon"
         app:srcCompat="@drawable/ic_email_black_24dp" />
 
     <ImageView
+        android:id="@+id/date_joined_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/display_joining_date"
+        android:layout_toStartOf="@+id/display_image"
+        android:alpha="0.8"
+        android:contentDescription="@string/info_icon"
+        app:srcCompat="@drawable/baseline_date_range_black" />
+
+    <ImageView
+        android:id="@+id/status_icon"
+        android:layout_width="30dp"
+        android:layout_height="38dp"
+        android:layout_alignBottom="@+id/display_status"
         android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/info_icon"
@@ -99,12 +111,37 @@
 
     <ImageButton
         android:id="@+id/ib_edit_display_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_alignBottom="@+id/display_name"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="180dp"
-        android:layout_marginEnd="27dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/ib_edit_display_status"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_alignStart="@+id/ib_edit_display_name"
+        android:layout_alignTop="@+id/status_icon"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+    <EditText
+        android:id="@+id/display_status"
+        android:layout_width="217dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/display_joining_date"
+        android:layout_marginBottom="191dp"
+        android:background="@android:color/transparent"
+        android:cursorVisible="false"
+        android:ellipsize="end"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine"
+        android:text="@string/default_status"
+        android:textColor="#333434"
+        android:textSize="18sp" />
 
 </RelativeLayout>
