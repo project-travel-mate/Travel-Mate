@@ -290,7 +290,7 @@ public class ProfileActivity extends AppCompatActivity {
                         String fullName = firstName + " " + lastName;
                         Long dateTime = rfc3339ToMills(dateJoined);
                         String date = getDate(dateTime);
-                        if (status == null) {
+                        if (status == null || status == "null") {
                             status = getString(R.string.default_status);
                         }
                         fillProfileInfo(fullName, userName, imageURL, date, status);
