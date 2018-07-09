@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.mytrips;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -231,6 +232,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     mHandler.post(() -> {
                         if (responseCode == STATUS_CODE_CREATED) {
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
+                            //Call back to MytripsFragment
+                            Intent returnIntent = new Intent();
+                            setResult(Activity.RESULT_CANCELED , returnIntent);
+                            finish();
                         } else {
                             Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
                         }

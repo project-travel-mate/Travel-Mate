@@ -52,6 +52,7 @@ public class MyTripsFragment extends Fragment {
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
+    static int ADDNEWTRIP_ACTIVITY = 203;
 
     public MyTripsFragment() {
         // Required empty public constructor
@@ -140,8 +141,9 @@ public class MyTripsFragment extends Fragment {
 
     @OnClick(R.id.add_trip)
     void addTrip() {
-        Intent intent = AddNewTripActivity.getStartIntent(mActivity);
-        mActivity.startActivity(intent);
+        Intent intent = new Intent(getContext() , AddNewTripActivity.class);
+        startActivityForResult(intent , ADDNEWTRIP_ACTIVITY);
+
     }
 
     /**
@@ -165,5 +167,15 @@ public class MyTripsFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         this.mActivity = (Activity) activity;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADDNEWTRIP_ACTIVITY) {
+
+            mTrips.clear();
+            mytrip();
+        }
     }
 }
