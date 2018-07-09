@@ -56,6 +56,7 @@ import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
@@ -278,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String userName = object.getString("username");
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
+                        String status = object.getString("status");
                         int id = object.getInt("id");
                         String imageURL = object.getString("image");
                         String dateJoined = object.getString("date_joined");
@@ -289,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
                         mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
                         mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                         fillNavigationView(fullName, imageURL);
 
                     } catch (JSONException e) {
