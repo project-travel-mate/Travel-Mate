@@ -89,7 +89,7 @@
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
-    <string name="view_contact">View someone Contact</string>
+    <string name="view_contact">View Someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
@@ -134,6 +134,7 @@
     <string name="snackbar_no_share_app">No application to share.</string>
     <string name="share_chooser">Select app to send message…</string>
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
+    <string name="status_updated">Status has been updated</string>
 
     <!-- Choose feature type -->
     <array name="bug_types">
@@ -156,4 +157,5 @@
     <string name="sign_out">Sign out</string>
 
     <string name="coming_soon">Coming Soon!</string>
+    <string name="default_status">Write something about yourself...</string>
 </resources>

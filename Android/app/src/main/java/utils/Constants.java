@@ -11,6 +11,7 @@ public class Constants {
     public static final String USER_NAME = "user_name";
     public static final String USER_NUMBER = "user_number";
     public static final String USER_EMAIL = "user_email";
+    public static final String USER_STATUS = "user_status";
     public static final String USER_TOKEN = "user_token";
     public static final String USER_DATE_JOINED = "user_date_joined";
     public static final String USER_IMAGE = "user_image";
@@ -59,6 +60,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_OBJECT = "cityobject_";
     public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
     public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
+    public static final String EXTRA_MESSAGE_FRIEND_ID = "tripfriendid_";
 
 
     // HTTP STATUS CODES

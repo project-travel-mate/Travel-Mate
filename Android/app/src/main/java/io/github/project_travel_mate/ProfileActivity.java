@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -65,6 +66,7 @@ import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
@@ -80,8 +82,14 @@ public class ProfileActivity extends AppCompatActivity {
     TextView emailId;
     @BindView(R.id.display_joining_date)
     TextView joiningDate;
+    @BindView(R.id.display_status)
+    EditText displayStatus;
     @BindView(R.id.ib_edit_display_name)
     ImageButton editDisplayName;
+    @BindView(R.id.ib_edit_display_status)
+    ImageButton editDisplayStatus;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
     private String mToken;
     private Handler mHandler;
     private MaterialDialog mDialog;
@@ -103,6 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        animationView.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
@@ -117,7 +126,8 @@ public class ProfileActivity extends AppCompatActivity {
             fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
                     mSharedPreferences.getString(USER_EMAIL, null),
                     mSharedPreferences.getString(USER_IMAGE, null),
-                    mSharedPreferences.getString(USER_DATE_JOINED, null));
+                    mSharedPreferences.getString(USER_DATE_JOINED, null),
+                    mSharedPreferences.getString(USER_STATUS, null));
 
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
@@ -139,6 +149,24 @@ public class ProfileActivity extends AppCompatActivity {
                 displayName.setFocusableInTouchMode(false);
                 displayName.setCursorVisible(false);
                 setUserDetails();
+            }
+        });
+
+        editDisplayStatus.setOnClickListener(v -> {
+            if (mFlagForDrawable) {
+                mFlagForDrawable = false;
+                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                displayStatus.setFocusableInTouchMode(true);
+                displayStatus.setCursorVisible(true);
+                displayStatus.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(imm).showSoftInput(displayStatus, InputMethodManager.SHOW_IMPLICIT);
+            } else {
+                mFlagForDrawable = true;
+                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                displayStatus.setFocusableInTouchMode(false);
+                displayStatus.setCursorVisible(false);
+                setUserStatus();
             }
         });
 
@@ -261,12 +289,15 @@ public class ProfileActivity extends AppCompatActivity {
                         int id = object.getInt("id");
                         String imageURL = object.getString("image");
                         String dateJoined = object.getString("date_joined");
-                        new User(userName, firstName, lastName, id, imageURL, dateJoined);
+                        String status = object.getString("status");
+                        new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
                         String fullName = firstName + " " + lastName;
                         Long dateTime = rfc3339ToMills(dateJoined);
                         String date = getDate(dateTime);
-
-                        fillProfileInfo(fullName, userName, imageURL, date);
+                        if (status == null) {
+                            status = getString(R.string.default_status);
+                        }
+                        fillProfileInfo(fullName, userName, imageURL, date, status);
 
                         if (userId == null) {
                             mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
@@ -274,6 +305,7 @@ public class ProfileActivity extends AppCompatActivity {
                             mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
                             mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
                             mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
+                            mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                         } else {
                             updateOptionsMenu();
                         }
@@ -343,6 +375,60 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void setUserStatus() {
+
+        mDialog = new MaterialDialog.Builder(ProfileActivity.this)
+                .title(R.string.app_name)
+                .content(R.string.progress_wait)
+                .progress(true, 0)
+                .show();
+
+        // to update user name
+        String uri = API_LINK_V2 + "update-user-status";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+
+        // Add form parameters
+        String status = String.valueOf(displayStatus.getText());
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("status", status)
+                .build();
+
+        // Create a http request object.
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .post(requestBody)
+                .build();
+
+        // Create a new Call object with post method.
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(ProfileActivity.this, R.string.status_updated, Toast.LENGTH_SHORT).show();
+                        mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                    } else {
+                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                    }
+                });
+                mDialog.dismiss();
+            }
+        });
+    }
+
+
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ProfileActivity.class);
         return intent;
@@ -354,13 +440,15 @@ public class ProfileActivity extends AppCompatActivity {
         return intent;
     }
 
-    private void fillProfileInfo(String fullName, String email, String imageURL, String dateJoined) {
+    private void fillProfileInfo(String fullName, String email, String imageURL,
+                                 String dateJoined, String status) {
         displayName.setText(fullName);
         emailId.setText(email);
         joiningDate.setText(String.format(getString(R.string.text_joining_date), dateJoined));
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
+        displayStatus.setText(status);
     }
 
     /**

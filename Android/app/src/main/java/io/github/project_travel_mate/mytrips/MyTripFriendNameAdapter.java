@@ -1,6 +1,8 @@
 package io.github.project_travel_mate.mytrips;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,11 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.User;
 
-class MyTripFriendnameAdapter extends ArrayAdapter<User> {
+class MyTripFriendNameAdapter extends ArrayAdapter<User> {
     private final Activity mContext;
     private final List<User> mUsers;
 
-    MyTripFriendnameAdapter(Activity context, List<User> users) {
+    MyTripFriendNameAdapter(Activity context, List<User> users) {
         super(context, R.layout.home_city_listitem, users);
         this.mContext = context;
         this.mUsers = users;
@@ -47,10 +49,13 @@ class MyTripFriendnameAdapter extends ArrayAdapter<User> {
     }
 
     class ViewHolder {
-        @BindView(R.id.name)
+
+        @BindView(R.id.friend_name)
         TextView name;
-        @BindView(R.id.image)
+        @BindView(R.id.friend_profile_picture)
         ImageView imageView;
+        @BindView(R.id.next_arrow)
+        ImageView nextArrow;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
