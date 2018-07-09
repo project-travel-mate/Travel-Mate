@@ -142,7 +142,7 @@ public class MyTripsFragment extends Fragment {
     @OnClick(R.id.add_trip)
     void addTrip() {
         Intent intent = new Intent(getContext() , AddNewTripActivity.class);
-        mActivity.startActivityForResult(intent , ADDNEWTRIP_ACTIVITY);
+        startActivityForResult(intent , ADDNEWTRIP_ACTIVITY);
 
     }
 
@@ -167,5 +167,15 @@ public class MyTripsFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         this.mActivity = (Activity) activity;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADDNEWTRIP_ACTIVITY) {
+            Toast.makeText(getContext(),"Activity callback",Toast.LENGTH_LONG).show();
+            mTrips.clear();
+            mytrip();
+        }
     }
 }
