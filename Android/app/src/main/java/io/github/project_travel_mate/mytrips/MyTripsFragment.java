@@ -173,7 +173,7 @@ public class MyTripsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADDNEWTRIP_ACTIVITY) {
-            Toast.makeText(getContext(),"Activity callback",Toast.LENGTH_LONG).show();
+
             mTrips.clear();
             mytrip();
         }
