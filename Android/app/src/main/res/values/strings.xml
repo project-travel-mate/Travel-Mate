@@ -89,7 +89,7 @@
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
-    <string name="view_contact">View someone Contact</string>
+    <string name="view_contact">View Someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
