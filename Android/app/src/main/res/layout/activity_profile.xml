@@ -7,6 +7,16 @@
     android:background="@color/white"
     tools:context=".ProfileActivity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="load.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true" />
+
     <TextView
         android:id="@+id/display_joining_date"
         android:layout_width="wrap_content"
@@ -48,7 +58,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="98dp"
         android:src="@drawable/change_pic" />
-
 
     <EditText
         android:id="@+id/display_name"
@@ -94,6 +103,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/display_joining_date"
+        android:layout_marginTop="4dp"
         android:layout_toStartOf="@+id/display_image"
         android:alpha="0.8"
         android:contentDescription="@string/info_icon"

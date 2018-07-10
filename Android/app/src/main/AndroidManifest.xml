@@ -125,6 +125,7 @@
         </provider>
 
         <activity android:name=".ProfileActivity" />
+        <activity android:name=".mytrips.FriendsProfileActivity"/>
     </application>
 
 </manifest>
