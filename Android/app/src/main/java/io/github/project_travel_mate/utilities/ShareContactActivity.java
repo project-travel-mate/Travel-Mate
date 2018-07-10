@@ -64,9 +64,7 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             //if QRcode has nothing in it
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
-            } else {
+            if (result.getContents() != null) {
                 //if QRCode contains data
                 //retrieve results
                 String resultContents = result.getContents();
@@ -75,7 +73,6 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
                 String userEmail = values[1];
                 addContact(userName, userEmail);
             }
-
         }
     }
 

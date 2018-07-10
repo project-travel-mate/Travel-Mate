@@ -8,8 +8,8 @@ android {
         applicationId "io.github.project_travel_mate"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 13
-        versionName "2.8.3"
+        versionCode 16
+        versionName "2.9.0"
     }
 
     buildTypes {
@@ -86,4 +86,7 @@ dependencies {
 
     // Lottie : animations
     implementation 'com.airbnb.android:lottie:2.5.5'
+
+    // To show what's new in the application
+    implementation 'io.github.tonnyl:whatsnew:0.1.1'
 }

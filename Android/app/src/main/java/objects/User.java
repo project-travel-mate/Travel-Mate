@@ -49,6 +49,7 @@ public class User {
     public String getDateJoined() {
         return mDateJoined;
     }
+
     public String getStatus() {
         return mStatus;
     }
