@@ -42,13 +42,19 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
             holder = (NotificationsAdapter.ViewHolder) view.getTag();
 
         holder.name.setText(mNotifications.get(position).getText());
-
+        if (mNotifications.get(position).isRead()) {
+            holder.readStatus.setVisibility(View.INVISIBLE);
+        }
+        view.setOnClickListener(view1 -> mNotifications.get(position).setRead(true));
+        view.setFocusable(false);
         return view;
     }
 
     class ViewHolder {
         @BindView(R.id.text)
         TextView name;
+        @BindView(R.id.read_status)
+        View readStatus;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
