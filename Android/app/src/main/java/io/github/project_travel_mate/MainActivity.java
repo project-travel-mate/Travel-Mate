@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
+import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.medals.MedalsFragment;
@@ -56,20 +59,15 @@ import static utils.Constants.API_LINK_V2;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
-import static utils.Constants.WHATS_NEW1_TEXT;
-import static utils.Constants.WHATS_NEW1_TITLE;
-import static utils.Constants.WHATS_NEW2_TEXT;
-import static utils.Constants.WHATS_NEW2_TITLE;
-import static utils.Constants.WHATS_NEW3_TEXT;
-import static utils.Constants.WHATS_NEW3_TITLE;
-import static utils.Constants.WHATS_NEW4_TEXT;
-import static utils.Constants.WHATS_NEW4_TITLE;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
+import static utils.WhatsNewStrings.WHATS_NEW1_TEXT;
+import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
 
 /**
  * Launcher Activity; Handles fragment changes;
@@ -97,10 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // To show what's new in our application
         WhatsNew whatsNew = WhatsNew.newInstance(
-                new WhatsNewItem(WHATS_NEW1_TITLE, WHATS_NEW1_TEXT),
-                new WhatsNewItem(WHATS_NEW2_TITLE, WHATS_NEW2_TEXT),
-                new WhatsNewItem(WHATS_NEW3_TITLE, WHATS_NEW3_TEXT),
-                new WhatsNewItem(WHATS_NEW4_TITLE, WHATS_NEW4_TEXT));
+                new WhatsNewItem(WHATS_NEW1_TITLE, WHATS_NEW1_TEXT));
         whatsNew.setButtonBackground(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         whatsNew.setButtonTextColor(ContextCompat.getColor(this, R.color.white));
         whatsNew.presentAutomatically(this);
@@ -312,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
                         mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
                         mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                        mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
                         fillNavigationView(fullName, imageURL);
 
                     } catch (JSONException e) {
@@ -334,10 +330,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void showProfile(String data) {
         Uri uri = Uri.parse(data);
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
-        Log.v("user id", userId + " ");
+        String myId = mSharedPreferences.getString(USER_ID, null);
+        Log.v("user id", userId + " " + myId);
         if (userId != null) {
-            Intent intent = ProfileActivity.getStartIntent(MainActivity.this, userId);
-            startActivity(intent);
+            int id = Integer.parseInt(userId);
+            if (!userId.equals(myId)) {
+                Intent intent = FriendsProfileActivity.getStartIntent(MainActivity.this, id);
+                startActivity(intent);
+            } else {
+                Intent intent = ProfileActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+            }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.notification_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_notification :
+                Intent intent = NotificationsActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
