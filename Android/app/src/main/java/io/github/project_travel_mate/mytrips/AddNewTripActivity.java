@@ -32,6 +32,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
@@ -45,7 +47,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.STATUS_CODE_CREATED;
 import static utils.Constants.USER_TOKEN;
 
 /**
@@ -230,7 +231,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     final String res = Objects.requireNonNull(response.body()).string();
                     final int responseCode = response.code();
                     mHandler.post(() -> {
-                        if (responseCode == STATUS_CODE_CREATED) {
+                        if (responseCode == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();

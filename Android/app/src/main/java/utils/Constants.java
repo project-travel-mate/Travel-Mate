@@ -3,6 +3,8 @@ package utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.project_travel_mate.R;
+
 /**
  * Created by swati on 11/10/15.
  */
@@ -61,12 +63,6 @@ public class Constants {
     public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
     public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
 
-
-    // HTTP STATUS CODES
-    public static final int STATUS_CODE_OK = 200;
-    public static final int STATUS_CODE_CREATED = 201;
-    public static final int STATUS_CODE_UNAUTHORIZED = 403;
-
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
     public static final String HERE_API_APP_ID = "7xQMJiIPsG3ptIohUobu";
@@ -92,5 +88,15 @@ public class Constants {
     public static final int QR_CODE_WIDTH = 200;
     public static final int QR_CODE_HEIGHT = 200;
 
+    // What's new in version code 16
+    public static final String WHATS_NEW1_TITLE = "Share Contact";
+    public static final String WHATS_NEW1_TEXT =
+            "Share your contact more easily with friends. Checkout Share Contact in Utilities section";
+    public static final String WHATS_NEW2_TITLE = "Search More places to visit";
+    public static final String WHATS_NEW2_TEXT = "Search the destinations to visit more easily on home page.";
+    public static final String WHATS_NEW3_TITLE = "My Profile";
+    public static final String WHATS_NEW3_TEXT = "Add a status to your profile.";
+    public static final String WHATS_NEW4_TITLE = "My Trips";
+    public static final String WHATS_NEW4_TEXT = "Improved User interface.";
 
 }

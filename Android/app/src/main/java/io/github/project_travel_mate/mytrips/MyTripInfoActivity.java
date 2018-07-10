@@ -60,7 +60,6 @@ import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
-import static utils.Constants.STATUS_CODE_OK;
 import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfoActivity extends AppCompatActivity {
@@ -358,9 +357,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
             public void onResponse(Call call, final Response response) {
                 try {
                     final String res = response.body().string();
-                    final int responseCode = response.code();
                     mHandler.post(() -> {
-                        if (responseCode == STATUS_CODE_OK) {
+                        if (response.isSuccessful()) {
                             Toast.makeText(MyTripInfoActivity.this, R.string.friend_added, Toast.LENGTH_LONG).show();
                             updateFriendList();
                             frendname.setText(null);
