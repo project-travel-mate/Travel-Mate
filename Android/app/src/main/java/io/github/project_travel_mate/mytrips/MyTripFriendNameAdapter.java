@@ -1,8 +1,6 @@
 package io.github.project_travel_mate.mytrips;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;

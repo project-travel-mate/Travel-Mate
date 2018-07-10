@@ -163,4 +163,8 @@
 
     <string name="coming_soon">Coming Soon!</string>
     <string name="default_status">Write something about yourself...</string>
+
+    <!-- Notifications -->
+    <string name="no_notifications">You don\'t have any notifications.</string>
+
 </resources>

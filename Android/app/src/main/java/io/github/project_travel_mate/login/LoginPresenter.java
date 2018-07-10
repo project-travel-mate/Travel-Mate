@@ -77,7 +77,10 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showError();
+                mhandler.post(() -> {
+                    mView.showError();
+                    mView.dismissLoadingDialog();
+                });
             }
 
             @Override
@@ -142,7 +145,10 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showError();
+                mhandler.post(() -> {
+                    mView.showError();
+                    mView.dismissLoadingDialog();
+                });
             }
 
             @Override
