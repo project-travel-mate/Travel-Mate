@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -65,6 +67,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     FlatButton ok;
     @BindView(R.id.tname)
     EditText tname;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
     private String mNameyet;
     private String mCityid = "2";
     private String mStartdate;
@@ -279,6 +283,17 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             // Add a new trip
             case R.id.ok:
                 mTripname = tname.getText().toString();
+                Log.d("TRIP INFO" , "tripname" + mTripname);
+                Log.d("TRIP INFO" , "tripcity" + cityname.getText());
+                Log.d("TRIP INFO" , "tripdate" + tripStartDate.getText());
+
+                if (mTripname.equals("")) {
+                    Snackbar.make(mLinearLayout , "Trip name can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                } else if (cityname.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout , "City name can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                } else if (tripStartDate.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout , "Trip Start date can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                } else
                 addTrip();
                 break;
         }
