@@ -283,16 +283,14 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             // Add a new trip
             case R.id.ok:
                 mTripname = tname.getText().toString();
-                Log.d("TRIP INFO" , "tripname" + mTripname);
-                Log.d("TRIP INFO" , "tripcity" + cityname.getText());
-                Log.d("TRIP INFO" , "tripdate" + tripStartDate.getText());
+
 
                 if (mTripname.equals("")) {
-                    Snackbar.make(mLinearLayout , "Trip name can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLinearLayout , R.string.trip_name_left_blank , Snackbar.LENGTH_LONG).show();
                 } else if (cityname.getText().toString().equals("")) {
-                    Snackbar.make(mLinearLayout , "City name can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLinearLayout , R.string.trip_city_left_blank , Snackbar.LENGTH_LONG).show();
                 } else if (tripStartDate.getText().toString().equals("")) {
-                    Snackbar.make(mLinearLayout , "Trip Start date can't be left Blank" , Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLinearLayout , R.string.trip_date_left_blank , Snackbar.LENGTH_LONG).show();
                 } else
                 addTrip();
                 break;

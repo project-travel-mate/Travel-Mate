@@ -77,6 +77,9 @@
     <string name="know_more_about">Know more about %1$s</string>
     <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
     <string name="friends_show_title">Friends in this Trip</string>
+    <string name="trip_name_left_blank">Trip name can not be left blank</string>
+    <string name="trip_city_left_blank">Trip city can not be left blank</string>
+    <string name="trip_date_left_blank">Trip start date can not be left blank</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
