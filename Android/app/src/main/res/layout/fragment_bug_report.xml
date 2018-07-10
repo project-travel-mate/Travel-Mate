@@ -33,7 +33,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/edittext_background_bugreport"
-        android:gravity="top|left"
+        android:gravity="top|start"
         android:hint="@string/hint_edit_text_bugreport"
         android:inputType="textMultiLine"
         android:lines="8"

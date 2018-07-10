@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
@@ -22,7 +24,6 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import objects.FunFact;
 
@@ -75,6 +76,13 @@ public class FunfactFragment extends Fragment {
         if (fact != null) {
             (holder.desc).setText(fact.getText());
             (holder.title).setText(fact.getTitle());
+            if (fact.getSource() != null && !fact.getSource().equals("null")) {
+                (holder.text_source).setVisibility(View.VISIBLE);
+                (holder.text_source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
+                (holder.source).setText(fact.getSource());
+                (holder.source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
+                (holder.share).setOnClickListener(view1 -> shareClicked());
+            }
             Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
                     .placeholder(R.drawable.delhi)
                     .into(holder.image);
@@ -82,22 +90,42 @@ public class FunfactFragment extends Fragment {
         return view;
     }
 
-    class ViewHolder {
-
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.desc)
-        TextView desc;
-        @BindView(R.id.imag)
-        ImageView image;
-
-        ViewHolder (View view) {
-            ButterKnife.bind(this, view);
-        }
-
+    /**
+     * To Share a mFile via mFile sharer
+     *
+     * @param file File location to be shared
+     */
+    private void shareImage(File file) {
+        Uri uri = FileProvider.getUriForFile(Objects.requireNonNull(getActivity()),
+                "io.github.project_travel_mate.shareFile", file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
 
-    @OnClick(R.id.fab) void onClick() {
+    /**
+     * To open a url in browser
+     *
+     * @param url URL to be opened
+     */
+
+    private void openURL(String url) {
+        Uri sourceURI = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, sourceURI);
+        if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(android.R.id.content),
+                    R.string.no_activity_for_browser,
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    void shareClicked() {
         View rootView = Objects.requireNonNull(getActivity())
                 .getWindow()
                 .getDecorView()
@@ -129,19 +157,24 @@ public class FunfactFragment extends Fragment {
         }
     }
 
-    /**
-     * To Share a mFile via mFile sharer
-     *
-     * @param file File location to be shared
-     */
-    private void shareImage(File file) {
-        Uri uri = FileProvider.getUriForFile(getActivity(), "io.github.project_travel_mate.shareFile", file);
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(Intent.EXTRA_TEXT, "");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(intent, "Share Screenshot"));
+    class ViewHolder {
+
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.desc)
+        TextView desc;
+        @BindView(R.id.imag)
+        ImageView image;
+        @BindView(R.id.source)
+        TextView source;
+        @BindView(R.id.text_source)
+        TextView text_source;
+        @BindView(R.id.fab)
+        FloatingActionButton share;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
     }
 }

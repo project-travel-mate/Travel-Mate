@@ -36,7 +36,7 @@
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff">
+                    android:textColorHint="@color/white">
 
                     <EditText
                         android:id="@+id/input_email_login"
@@ -73,15 +73,15 @@
                         android:hint="@string/email_id"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff"
+                    android:textColorHint="@color/white"
                     app:passwordToggleDrawable="@drawable/icon_selector"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/white">
@@ -93,8 +93,8 @@
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -128,7 +128,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColorHint="#ffffff">
+                    android:textColorHint="@color/white">
 
                     <EditText
                         android:id="@+id/input_firstname_signup"
@@ -137,14 +137,14 @@
                         android:hint="@string/first_name"
                         android:inputType="text"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff">
+                    android:textColorHint="@color/white">
 
                     <EditText
                         android:id="@+id/input_lastname_signup"
@@ -153,15 +153,15 @@
                         android:hint="@string/last_name"
                         android:inputType="text"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff">
+                    android:textColorHint="@color/white">
 
                     <EditText
                         android:id="@+id/input_email_signup"
@@ -170,15 +170,15 @@
                         android:hint="@string/email_id"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff"
+                    android:textColorHint="@color/white"
                     app:passwordToggleDrawable="@drawable/icon_selector"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/white">
@@ -190,14 +190,14 @@
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#ffffff"
+                    android:textColorHint="@color/white"
                     app:passwordToggleDrawable="@drawable/icon_selector"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/white">
@@ -209,8 +209,8 @@
                         android:hint="@string/confirm_password"
                         android:inputType="textPassword"
                         android:singleLine="true"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -242,7 +242,7 @@
                     android:gravity="end"
                     android:text="@string/text_signup_or"
                     android:textAlignment="center"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/login"
@@ -253,7 +253,7 @@
                     android:text="@string/text_login"
                     android:visibility="gone"
                     android:textAlignment="center"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>

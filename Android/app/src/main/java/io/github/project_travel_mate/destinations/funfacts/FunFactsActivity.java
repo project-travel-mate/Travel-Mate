@@ -15,11 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,10 +36,11 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
 
     @BindView(R.id.vp)
     ViewPager viewPager;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
 
     private City mCity;
     private String mToken;
-    private MaterialDialog mDialog;
     private Handler mHandler;
 
     @Override
@@ -61,7 +61,6 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         initPresenter();
-        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
     private void initPresenter() {
@@ -71,16 +70,11 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
 
     @Override
     public void showProgressDialog() {
-        mDialog = new MaterialDialog.Builder(FunFactsActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+        animationView.playAnimation();
     }
 
     @Override
     public void hideProgressDialog() {
-        mDialog.dismiss();
     }
 
     /**
@@ -95,7 +89,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
             for (int i = 0; i < factsArray.size(); i++) {
                 FunFact fact = new FunFact(mCity.getNickname(),
                         factsArray.get(i).getImage(),
-                        factsArray.get(i).getText());
+                        factsArray.get(i).getText(), factsArray.get(i).getSource(), factsArray.get(i).getSourceURL());
                 fList.add(FunfactFragment.newInstance(fact));
             }
             viewPager.setAdapter(new MyPageAdapter(FunFactsActivity.this.getSupportFragmentManager(), fList));
@@ -130,4 +124,5 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         return intent;
     }
+
 }

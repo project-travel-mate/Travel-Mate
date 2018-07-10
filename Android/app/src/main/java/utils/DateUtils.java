@@ -21,8 +21,8 @@ public class DateUtils {
 
     /**
      * Convert rfc3339 format received from the server to time in millis
-     * @param dateInString
-     * @return
+     * @param dateInString - input date in string
+     * @return date in milliseconds
      */
     public static Long rfc3339ToMills(String dateInString) {
         Calendar cal = Calendar.getInstance();
@@ -40,8 +40,8 @@ public class DateUtils {
 
     /**
      * Convert time in millis to date
-     * @param timeMills
-     * @return
+     * @param timeMills - input time in milliseconds
+     * @return input date in date format
      */
     public static String getDate(Long timeMills) {
         long duration = System.currentTimeMillis() - timeMills;

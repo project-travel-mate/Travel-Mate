@@ -35,15 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.medals.MedalsFragment;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
+import io.github.tonnyl.whatsnew.WhatsNew;
+import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -56,7 +58,16 @@ import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
+import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
+import static utils.Constants.WHATS_NEW1_TEXT;
+import static utils.Constants.WHATS_NEW1_TITLE;
+import static utils.Constants.WHATS_NEW2_TEXT;
+import static utils.Constants.WHATS_NEW2_TITLE;
+import static utils.Constants.WHATS_NEW3_TEXT;
+import static utils.Constants.WHATS_NEW3_TITLE;
+import static utils.Constants.WHATS_NEW4_TEXT;
+import static utils.Constants.WHATS_NEW4_TITLE;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
@@ -82,9 +93,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mPreviousMenuItemId = R.id.nav_city; // This is default item
-
         mHandler = new Handler(Looper.getMainLooper());
 
+        // To show what's new in our application
+        WhatsNew whatsNew = WhatsNew.newInstance(
+                new WhatsNewItem(WHATS_NEW1_TITLE, WHATS_NEW1_TEXT),
+                new WhatsNewItem(WHATS_NEW2_TITLE, WHATS_NEW2_TEXT),
+                new WhatsNewItem(WHATS_NEW3_TITLE, WHATS_NEW3_TEXT),
+                new WhatsNewItem(WHATS_NEW4_TITLE, WHATS_NEW4_TEXT));
+        whatsNew.setButtonBackground(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        whatsNew.setButtonTextColor(ContextCompat.getColor(this, R.color.white));
+        whatsNew.presentAutomatically(this);
+
+        // To check for shared profile intents
         String action =  getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             showProfile(getIntent().getDataString());
@@ -157,6 +178,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = UtilitiesFragment.newInstance();
                 break;
 
+            case R.id.nav_medals:
+                fragment = MedalsFragment.newInstance();
+                break;
+
             case R.id.nav_signout: {
 
                 //set AlertDialog before signout
@@ -179,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 });
                 builder.create().show();
                 break;
-
             }
 
             case R.id.nav_report_bug:
@@ -275,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String userName = object.getString("username");
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
+                        String status = object.getString("status");
                         int id = object.getInt("id");
                         String imageURL = object.getString("image");
                         String dateJoined = object.getString("date_joined");
@@ -286,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
                         mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
                         mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                        mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                         fillNavigationView(fullName, imageURL);
 
                     } catch (JSONException e) {
@@ -307,13 +333,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showProfile(String data) {
         Uri uri = Uri.parse(data);
-
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
         Log.v("user id", userId + " ");
         if (userId != null) {
             Intent intent = ProfileActivity.getStartIntent(MainActivity.this, userId);
             startActivity(intent);
         }
-
     }
 }

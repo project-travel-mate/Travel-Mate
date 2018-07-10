@@ -10,9 +10,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,10 +40,12 @@ import static utils.Constants.USER_TOKEN;
 
 public class TweetsActivity extends AppCompatActivity {
 
-    private final List<Tweet> mTweets = new ArrayList<>();
     @BindView(R.id.list)
     ListView lv;
-    private MaterialDialog mDialog;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+
+    private final List<Tweet> mTweets = new ArrayList<>();
     private TweetsAdapter mAdapter;
     private Handler mHandler;
     private String mToken;
@@ -65,20 +68,15 @@ public class TweetsActivity extends AppCompatActivity {
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         setTitle(mCity.getNickname());
-        getTweets();
+        fetchTweets();
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
-
-    private void getTweets() {
-
-        mDialog = new MaterialDialog.Builder(TweetsActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+    /***
+     * Fetch tweets of a given city from server
+     */
+    private void fetchTweets() {
 
         // to fetch city names
         String uri = API_LINK_V2 + "get-city-trends/" + mCity.getId();
@@ -100,23 +98,27 @@ public class TweetsActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    try {
-                        JSONArray array = new JSONArray(res);
-                        for (int i = 0; i < array.length(); i++) {
-                            String nam = array.getJSONObject(i).getString("name");
-                            String link = array.getJSONObject(i).getString("url");
-                            String count = array.getJSONObject(i).getString("tweet_volume");
-                            mTweets.add(new Tweet(nam, link, count));
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONArray array = new JSONArray(res);
+                            for (int i = 0; i < array.length(); i++) {
+                                String nam = array.getJSONObject(i).getString("name");
+                                String link = array.getJSONObject(i).getString("url");
+                                String count = array.getJSONObject(i).getString("tweet_volume");
+                                mTweets.add(new Tweet(nam, link, count));
+                            }
+                            mAdapter = new TweetsAdapter(TweetsActivity.this, mTweets);
+                            lv.setAdapter(mAdapter);
+                            animationView.setVisibility(View.GONE);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
+                            networkError();
                         }
-                        mAdapter = new TweetsAdapter(TweetsActivity.this, mTweets);
-                        lv.setAdapter(mAdapter);
-                        mDialog.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -128,6 +130,14 @@ public class TweetsActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
     }
 
     public static Intent getStartIntent(Context context, City city) {

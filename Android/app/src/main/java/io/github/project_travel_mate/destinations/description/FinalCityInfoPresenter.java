@@ -37,12 +37,12 @@ class FinalCityInfoPresenter {
     /**
      * Calls the API & fetch details of the weather of city with given name
      *
-     * @param cityName the city id
+     * @param cityid the city id
      * @param token    authentication token
      */
-    public void fetchCityWeather(String cityName, String token) {
+    public void fetchCityWeather(String cityid, String token) {
 
-        String uri = API_LINK_V2 + "get-city-weather/" + cityName;
+        String uri = API_LINK_V2 + "get-city-weather/" + cityid;
         uri = uri.replaceAll(" ", "%20");
 
         Log.v("EXECUTING", uri);
@@ -66,7 +66,7 @@ class FinalCityInfoPresenter {
                     JSONObject responseObject = new JSONObject(res);
                     mFinalCityInfoView.parseResult(
                             responseObject.getString("icon"),
-                            responseObject.getString("temp") + " " + responseObject.getString("temp_units"),
+                            responseObject.getString("temp") + (char) 0x00B0 + responseObject.getString("temp_units"),
                             responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
                             responseObject.getString("description"));
                 } catch (JSONException e) {

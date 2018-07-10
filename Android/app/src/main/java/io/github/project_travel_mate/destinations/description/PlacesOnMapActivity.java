@@ -97,7 +97,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 break;
             default:
                 mMode = "shopping";
-                mIcon = R.drawable.shopping;
+                mIcon = R.drawable.shopping_icon;
                 break;
         }
 
@@ -132,7 +132,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 MarkerOptions markerOptions = temp
                         .title(locationName)
                         .position(coord)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black));
                 mGoogleMap.addMarker(markerOptions);
             }
         }

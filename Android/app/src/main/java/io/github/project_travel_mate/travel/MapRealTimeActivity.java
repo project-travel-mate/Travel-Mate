@@ -95,7 +95,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
-            getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
+            getMarkers("eat-drink", R.drawable.ic_local_pizza_black);
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -180,31 +180,31 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                             Integer icon;
                             switch (which[0]) {
                                 case 0:
-                                    icon = R.drawable.ic_local_pizza_black_24dp;
+                                    icon = R.drawable.ic_local_pizza_black;
                                     break;
                                 case 1:
-                                    icon = R.drawable.ic_local_bar_black_24dp;
+                                    icon = R.drawable.ic_local_bar_black;
                                     break;
                                 case 2:
-                                    icon = R.drawable.ic_camera_alt_black_24dp;
+                                    icon = R.drawable.ic_camera_alt_black;
                                     break;
                                 case 3:
-                                    icon = R.drawable.ic_directions_bus_black_24dp;
+                                    icon = R.drawable.ic_directions_bus_black;
                                     break;
                                 case 4:
-                                    icon = R.drawable.ic_local_mall_black_24dp;
+                                    icon = R.drawable.ic_local_mall_black;
                                     break;
                                 case 5:
-                                    icon = R.drawable.ic_local_gas_station_black_24dp;
+                                    icon = R.drawable.ic_local_gas_station_black;
                                     break;
                                 case 6:
-                                    icon = R.drawable.ic_local_atm_black_24dp;
+                                    icon = R.drawable.ic_local_atm_black;
                                     break;
                                 case 7:
-                                    icon = R.drawable.ic_local_hospital_black_24dp;
+                                    icon = R.drawable.ic_local_hospital_black;
                                     break;
                                 default:
-                                    icon = R.drawable.ic_attach_money_black_24dp;
+                                    icon = R.drawable.ic_attach_money_black;
                                     break;
                             }
                             MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
@@ -324,7 +324,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                                 R.string.location_enabled, Snackbar.LENGTH_LONG).show();
                         mCurlat = Double.toString(tracker.getLatitude());
                         mCurlon = Double.toString(tracker.getLongitude());
-                        getMarkers("eat-drink", R.drawable.ic_local_pizza_black_24dp);
+                        getMarkers("eat-drink", R.drawable.ic_local_pizza_black);
 
                         break;
                     case Activity.RESULT_CANCELED:

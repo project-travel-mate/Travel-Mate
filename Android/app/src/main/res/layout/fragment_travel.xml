@@ -5,7 +5,7 @@
     android:id="@+id/inc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/white"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="io.github.project_travel_mate.utilities.ChecklistActivity">

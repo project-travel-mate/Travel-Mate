@@ -2,27 +2,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="5dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tagmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffffff"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-
-        <TextView
-            android:id="@+id/tagmain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/sample_state"
-            android:textColor="#000000"
-            android:textSize="25sp" />
-
-
-    </LinearLayout>
+        android:layout_margin="5dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/sample_state"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 
 </LinearLayout>

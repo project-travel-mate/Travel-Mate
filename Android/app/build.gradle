@@ -8,8 +8,8 @@ android {
         applicationId "io.github.project_travel_mate"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 13
-        versionName "2.8.3"
+        versionCode 16
+        versionName "2.9.0"
     }
 
     buildTypes {
@@ -76,4 +76,17 @@ dependencies {
 
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+
+    // Cloudinary : For profile photo upload
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
+
+    // Zxing : creating qr code
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+
+    // Lottie : animations
+    implementation 'com.airbnb.android:lottie:2.5.5'
+
+    // To show what's new in the application
+    implementation 'io.github.tonnyl:whatsnew:0.1.1'
 }

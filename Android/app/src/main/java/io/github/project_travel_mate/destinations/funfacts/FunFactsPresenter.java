@@ -26,6 +26,9 @@ import static utils.Constants.API_LINK_V2;
 class FunFactsPresenter {
     private final FunFactsView mFunFactsView;
     private ArrayList<String> mFactsText;
+    private ArrayList<String> mFactsSourceText;
+    private ArrayList<String> mFactsSourceURL;
+
     private ArrayList<String> mImages;
     FunFactsPresenter(FunFactsView funFactsView) {
         mFunFactsView = funFactsView;
@@ -34,6 +37,8 @@ class FunFactsPresenter {
     public void initPresenter(String id, String token) {
         mFunFactsView.showProgressDialog();
         mFactsText = new ArrayList<>();
+        mFactsSourceText = new ArrayList<>();
+        mFactsSourceURL = new ArrayList<>();
         mImages = new ArrayList<>();
         getCityFacts(id, token);
     }
@@ -66,6 +71,8 @@ class FunFactsPresenter {
                     JSONArray array = new JSONArray(res);
                     for (int i = 0; i < array.length(); i++) {
                         mFactsText.add(array.getJSONObject(i).getString("fact"));
+                        mFactsSourceText.add(array.getJSONObject(i).getString("source_text"));
+                        mFactsSourceURL.add(array.getJSONObject(i).getString("source_url"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -110,7 +117,7 @@ class FunFactsPresenter {
                     e.printStackTrace();
                 }
 
-                ArrayList<FunFact> funFacts = createFunFactList(mFactsText, mImages);
+                ArrayList<FunFact> funFacts = createFunFactList(mFactsText, mImages, mFactsSourceText, mFactsSourceURL);
                 mFunFactsView.setupViewPager(funFacts);
                 mFunFactsView.hideProgressDialog();
             }

@@ -29,14 +29,20 @@
             android:scaleType="centerCrop"
             android:src="@drawable/delhi" />
 
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:text="@string/sample_state"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -46,8 +52,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:text="@string/sample_state"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
@@ -56,18 +61,29 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
-            android:text="@string/sample_state"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
+        <com.dd.processbutton.FlatButton
+            android:id="@+id/know_more"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/know_more_about"
+            android:textColor="@color/white" />
+
         <TextView
+            android:id="@+id/friend_title"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-bold"
             android:padding="10dp"
             android:text="@string/friends_of_trip"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -82,26 +98,28 @@
             android:id="@+id/fname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="12dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="@color/black"
             android:ems="10"
             android:hint="@string/prompt_friend_name"
             android:padding="10dp"
-            android:popupBackground="#ffffff"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
+            android:popupBackground="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:focusable="true"
             android:focusableInTouchMode="true"
             tools:targetApi="lollipop" />
 
         <com.dd.processbutton.FlatButton
             android:id="@+id/newfrriend"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:text="@string/prompt_add_friend"
-            android:textColor="#ffffff" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </ScrollView>
