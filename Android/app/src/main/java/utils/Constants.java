@@ -62,6 +62,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_OBJECT = "cityobject_";
     public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
     public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
+    public static final String EXTRA_MESSAGE_FRIEND_ID = "tripfriendid_";
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";

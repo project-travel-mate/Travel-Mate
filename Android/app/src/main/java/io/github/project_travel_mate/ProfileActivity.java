@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -82,6 +83,9 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton editDisplayName;
     @BindView(R.id.ib_edit_display_status)
     ImageButton editDisplayStatus;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+
     private String mToken;
     private Handler mHandler;
     private MaterialDialog mDialog;
@@ -103,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        animationView.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
@@ -285,7 +290,9 @@ public class ProfileActivity extends AppCompatActivity {
                         String fullName = firstName + " " + lastName;
                         Long dateTime = rfc3339ToMills(dateJoined);
                         String date = getDate(dateTime);
+
                         if (status == null || status == "null") {
+
                             status = getString(R.string.default_status);
                         }
                         fillProfileInfo(fullName, userName, imageURL, date, status);
