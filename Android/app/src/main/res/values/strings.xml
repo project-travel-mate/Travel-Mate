@@ -161,5 +161,6 @@
 
     <!-- Notifications -->
     <string name="no_notifications">You don\'t have any notifications.</string>
+    <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
 
 </resources>

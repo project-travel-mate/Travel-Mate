@@ -20,6 +20,7 @@
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
