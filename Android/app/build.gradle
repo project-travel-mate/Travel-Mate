@@ -76,6 +76,7 @@ dependencies {
 
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    implementation 'com.github.juanlabrador:badgecounter:1.0.2@aar'
 
     // Cloudinary : For profile photo upload
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
