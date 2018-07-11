@@ -17,10 +17,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -80,11 +82,13 @@ public class MyTripInfoActivity extends AppCompatActivity {
     @BindView(R.id.friend_email)
     AutoCompleteTextView friendEmail;
     @BindView(R.id.trip_name)
-    TextView tripName;
+    EditText tripName;
     @BindView(R.id.friend_title)
     TextView friendTitle;
     @BindView(R.id.plus_icon)
     ImageView showIcon;
+    @BindView(R.id.edit_trip_icon)
+    ImageView editTrip;
     @BindView(R.id.know_more)
     Button details;
     @BindView(R.id.progress_bar)
@@ -96,6 +100,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
     private Trip mTrip;
     private Handler mHandler;
     private boolean mIsClicked = false;
+    private boolean mIsTripNameEdited = false;
+    private MaterialDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +118,7 @@ public class MyTripInfoActivity extends AppCompatActivity {
         Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
                .placeholder(R.drawable.delhi).into(cityImageView);
         showIcon.setVisibility(View.GONE);
+        editTrip.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
         friendEmail.clearFocus();
         friendEmail.setThreshold(1);
@@ -120,6 +127,35 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        editTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mIsTripNameEdited) {
+                    //if edit trip is clicked before editing the name
+                    editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                    tripName.setFocusableInTouchMode(true);
+                    tripName.setCursorVisible(true);
+                    tripName.requestFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(inputMethodManager)
+                            .showSoftInput(tripName, InputMethodManager.SHOW_IMPLICIT);
+                    mIsTripNameEdited = true;
+                } else {
+                    //clicking edit trip after editing the trip name
+                    if (tripName.getText().length() != 0 ) {
+                        editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                        tripName.setFocusableInTouchMode(false);
+                        tripName.setCursorVisible(false);
+                        mIsTripNameEdited = false;
+                        updateTripName();
+                    } else {
+                        Toast.makeText(MyTripInfoActivity.this, R.string.cannot_edit, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     @OnTextChanged(R.id.friend_email)
@@ -189,10 +225,12 @@ public class MyTripInfoActivity extends AppCompatActivity {
                                 getResources().getString(R.string.text_started_on) +
                                         new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
                         tripDate.setText(timeString);
+                        editTrip.setVisibility(View.VISIBLE);
                         updateFriendList();
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
+                    tripName.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     mFriendId = null;
                 });
@@ -473,6 +511,44 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 });
+            }
+        });
+    }
+
+    private void updateTripName() {
+
+        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
+                .title(R.string.app_name)
+                .content(R.string.progress_wait)
+                .progress(true, 0)
+                .show();
+
+        String editedTripName = String.valueOf(tripName.getText());
+        String uri = API_LINK_V2 + "update-trip-name/" + mTrip.getId() + "/" + editedTripName;
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(MyTripInfoActivity.this, R.string.trip_name_updated, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                    }
+                });
+                mDialog.dismiss();
             }
         });
     }
