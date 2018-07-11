@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.juanlabrador.badgecounter.BadgeCounter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -49,6 +50,7 @@ import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
+import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -347,7 +349,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.notification_menu, menu);
+        updateNotificationsCount(menu);
         return true;
+    }
+
+    public void updateNotificationsCount(Menu menu) {
+        String uri;
+        uri = API_LINK_V2 + "number-of-unread-notifications";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                mHandler.post(() -> {
+                    try {
+                        JSONObject object = new JSONObject(res);
+                        int mNotificationCount = object.getInt("number_of_unread_notifications");
+                        if (mNotificationCount > 0) {
+                            BadgeCounter.update(MainActivity.this,
+                                    menu.findItem(R.id.action_notification),
+                                    R.drawable.ic_notifications_white,
+                                    BadgeCounter.BadgeColor.RED,
+                                    mNotificationCount);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override
