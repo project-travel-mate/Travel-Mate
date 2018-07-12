@@ -90,4 +90,7 @@ dependencies {
 
     // To show what's new in the application
     implementation 'io.github.tonnyl:whatsnew:0.1.1'
+
+    //To display search dialog
+    implementation 'com.github.mirrajabi:search-dialog:1.2.2'
 }
