@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
-import com.github.juanlabrador.badgecounter.BadgeCounter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,10 +31,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.project_travel_mate.MainActivity;
-import io.github.project_travel_mate.ProfileActivity;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.login.LoginActivity;
 import objects.Notification;
 import objects.User;
 import okhttp3.Call;
@@ -46,7 +41,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
 
 public class NotificationsActivity extends AppCompatActivity {

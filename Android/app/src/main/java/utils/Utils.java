@@ -2,11 +2,18 @@ package utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,7 +59,6 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-
     //hide soft keyboard
     public static void hideKeyboard(Activity th) {
         View view = th.getCurrentFocus();
@@ -63,7 +69,6 @@ public class Utils {
         }
     }
 
-
     public static String encrypt(String myData) throws UnsupportedEncodingException {
         byte[] data = myData.getBytes("UTF-8");
         return Base64.encodeToString(data, Base64.DEFAULT);
@@ -72,6 +77,16 @@ public class Utils {
     public static String decryt(String d) throws UnsupportedEncodingException {
         byte[] data = Base64.decode(d, Base64.DEFAULT);
         return new String(data, "UTF-8");
+    }
+
+    public static BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap
+                (vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 }

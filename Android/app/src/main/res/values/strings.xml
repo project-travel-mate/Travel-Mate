@@ -163,4 +163,6 @@
     <string name="no_notifications">You don\'t have any notifications.</string>
     <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
 
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from plastore :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
 </resources>

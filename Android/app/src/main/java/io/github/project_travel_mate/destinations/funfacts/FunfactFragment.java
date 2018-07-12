@@ -102,7 +102,7 @@ public class FunfactFragment extends Fragment {
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_fun_fact));
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
