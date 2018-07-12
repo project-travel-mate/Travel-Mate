@@ -34,6 +34,8 @@
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
     <string name="fun_facts">Fun Facts</string>
+    <string name="search_hint">What are you looking for...?</string>
+    <string name="search_title">Cities</string>
 
     <!-- Destinations home page strings -->
     <string name="search_a_city">Search a city…</string>
@@ -61,8 +63,8 @@
 
     <!-- My Trip Strings -->
     <string name="prompt_trip_name">Enter trip Name</string>
-    <string name="prompt_city_name">Enter city name</string>
-    <string name="prompt_start_date">Enter start date</string>
+    <string name="prompt_city_name">Select City</string>
+    <string name="prompt_start_date">Select Check In Date</string>
     <string name="prompt_add_trip">Add trip</string>
     <string name="prompt_friend_name">Enter friend name</string>
     <string name="prompt_add_friend">Add New friend</string>
@@ -88,6 +90,7 @@
 
     <!--Hotel strings-->
     <string name="no_hotels">No hotels to show</string>
+    <string name="showing_hotels">Showing %1$s Hotels</string>
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
