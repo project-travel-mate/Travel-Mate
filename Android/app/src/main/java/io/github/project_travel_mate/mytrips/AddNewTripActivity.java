@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -45,6 +47,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.Utils;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -54,7 +57,7 @@ import static utils.Constants.USER_TOKEN;
  */
 public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
-        View.OnClickListener {
+        View.OnClickListener{
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     @BindView(R.id.cityname)
@@ -65,6 +68,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     FlatButton ok;
     @BindView(R.id.tname)
     EditText tname;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
     private String mNameyet;
     private String mCityid = "2";
     private String mStartdate;
@@ -279,7 +284,17 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             // Add a new trip
             case R.id.ok:
                 mTripname = tname.getText().toString();
-                addTrip();
+                Utils.hideKeyboard(this);
+
+                if (mTripname.equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
+                } else if (cityname.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_city_blank , Snackbar.LENGTH_LONG).show();
+                } else if (tripStartDate.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_date_blank , Snackbar.LENGTH_LONG).show();
+                } else
+                    addTrip();
+
                 break;
         }
     }
