@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.Utils;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -69,6 +72,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     EditText tripName;
     @BindView(R.id.pb)
     ProgressBar pb;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
     private String mCityid;
     private String mStartdate;
     private String mTripname;
@@ -262,8 +267,17 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 break;
             // Add a new trip
             case R.id.ok:
+                Utils.hideKeyboard(this);
+
+                if (mTripname.equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
+                } else if (tripStartDate.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_date_blank , Snackbar.LENGTH_LONG).show();
+                } else
+                    addTrip();
                 mTripname = tripName.getText().toString();
                 addTrip();
+            
                 break;
             case R.id.select_city_name :
                 new CitySearchDialogCompat(AddNewTripActivity.this, getString(R.string.search_title),
