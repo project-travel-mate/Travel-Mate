@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.travel;
+package io.github.project_travel_mate.searchcitydialog;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -20,14 +20,14 @@ import ir.mirrajabi.searchdialog.core.Searchable;
 /**
  * To implement search feature in cities list
  */
-public class HotelSearchDialogCompat<T extends Searchable> extends BaseSearchDialogCompat<T> {
+public class CitySearchDialogCompat<T extends Searchable> extends BaseSearchDialogCompat<T> {
     private String mTitle;
     private String mSearchHint;
     private SearchResultListener<T> mSearchResultListener;
 
-    public HotelSearchDialogCompat(Context context, String title, String searchHint,
-                                     @Nullable Filter filter, ArrayList<T> items,
-                                     SearchResultListener<T> searchResultListener) {
+    public CitySearchDialogCompat(Context context, String title, String searchHint,
+                                   @Nullable Filter filter, ArrayList<T> items,
+                                   SearchResultListener<T> searchResultListener) {
         super(context, items, filter, null, null);
         init(title, searchHint, searchResultListener);
     }
@@ -57,14 +57,14 @@ public class HotelSearchDialogCompat<T extends Searchable> extends BaseSearchDia
                     }
                 });
 
-        final HotelSearchModelAdapter adapter = new HotelSearchModelAdapter<>(getContext(),
+        final CitySearchModelAdapter adapter = new CitySearchModelAdapter(getContext(),
                 R.layout.search_list_item, getItems());
         adapter.setSearchResultListener(mSearchResultListener);
         adapter.setSearchDialog(this);
         setFilterResultListener(new FilterResultListener<T>() {
             @Override
             public void onFilter(ArrayList<T> items) {
-                ((HotelSearchModelAdapter) getAdapter())
+                ((CitySearchModelAdapter<T>) getAdapter())
                         .setSearchTag(searchBox.getText().toString())
                         .setItems(items);
             }
@@ -72,7 +72,7 @@ public class HotelSearchDialogCompat<T extends Searchable> extends BaseSearchDia
         setAdapter(adapter);
     }
 
-    public HotelSearchDialogCompat setTitle(String title) {
+    public CitySearchDialogCompat<T> setTitle(String title) {
         mTitle = title;
         return this;
     }
