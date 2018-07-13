@@ -81,9 +81,9 @@
     <string name="friends_show_title">Friends in this Trip</string>
     <string name="trip_name_updated">Trip name has been updated</string>
     <string name="cannot_edit">Trip name can\'t remain empty!</string>
-    <string name="trip_name_blank">Trip nam can not be left blank</string>
-    <string name="trip_city_blank">Trip city can not be left blank</string>
-    <string name="trip_date_blank">Trip start date can not be left blank</string>
+    <string name="trip_name_blank">Trip name can\'t be left blank</string>
+    <string name="trip_city_blank">Trip city can\`t be left blank</string>
+    <string name="trip_date_blank">Trip start date can\'t be left blank</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
