@@ -174,7 +174,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_CANCELED , returnIntent);
+                            setResult(Activity.RESULT_OK , returnIntent);
                             finish();
                         } else {
                             Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
@@ -268,15 +268,16 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             // Add a new trip
             case R.id.ok:
                 Utils.hideKeyboard(this);
+                mTripname = tripName.getText().toString();
 
-                if (mTripname.equals("")) {
+                if (mTripname.trim().equals("")) {
                     Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
-                } else if (tripStartDate.getText().toString().equals("")) {
-                    Snackbar.make(mLinearLayout , R.string.trip_date_blank , Snackbar.LENGTH_LONG).show();
+                } else if (tripStartDate == null || tripStartDate.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout, R.string.trip_date_blank, Snackbar.LENGTH_LONG).show();
+                } else if (mCityid == null) {
+                    Snackbar.make(mLinearLayout, R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
                 } else
                     addTrip();
-                mTripname = tripName.getText().toString();
-                addTrip();
             
                 break;
             case R.id.select_city_name :

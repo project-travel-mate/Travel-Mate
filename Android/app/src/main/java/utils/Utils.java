@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.View;
@@ -49,14 +47,6 @@ public class Utils {
             e.printStackTrace();
         }
         return sb.toString();
-    }
-
-    //is network available?
-    public static boolean isNetworkAvailable(Activity a) {
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                a.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     //hide soft keyboard

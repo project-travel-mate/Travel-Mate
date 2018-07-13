@@ -107,6 +107,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                     if (response.isSuccessful()) {
                         try {
                             JSONArray array = new JSONArray(res);
+                            Log.v("Response", res + " ");
 
                             if (array.length() == 0) {
                                 emptyList();
@@ -129,7 +130,9 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     String status = object.getString("status");
                                     User user =
                                             new User(userName, firstName, lastName, ids, imageURL, dateJoined, status);
-                                    if (array.getJSONObject(i).getString("trip") != "null") {
+                                    if ( array.getJSONObject(i).getString("trip") != "null" &&
+                                            array.getJSONObject(i).getString("notification_type").equals("Trip")) {
+
                                         JSONObject obj = array.getJSONObject(i).getJSONObject("trip");
                                         String tripId = obj.getString("id");
                                         JSONObject subObject = obj.getJSONObject("city");

@@ -115,8 +115,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
-        Picasso.with(this).load(mTrip.getImage()).error(R.drawable.delhi)
-               .placeholder(R.drawable.delhi).into(cityImageView);
+        if (!mTrip.getImage().isEmpty())
+            Picasso.with(this).load(mTrip.getImage()).error(R.drawable.placeholder_image)
+               .placeholder(R.drawable.placeholder_image).into(cityImageView);
         showIcon.setVisibility(View.GONE);
         editTrip.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
@@ -309,6 +310,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
     }
 
     private void friendAutoComplete() {
+
+        if (mNameYet.trim().equals(""))
+            return;
 
         String uri = API_LINK_V2 + "get-user/" + mNameYet.trim();
         Log.v("EXECUTING", uri);

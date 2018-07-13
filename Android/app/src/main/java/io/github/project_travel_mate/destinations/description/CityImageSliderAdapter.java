@@ -35,7 +35,7 @@ public class CityImageSliderAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(mContext);
         Picasso.with(mContext).load(mImagesArray.get(position))
-                .error(R.drawable.delhi).fit().centerCrop().into(imageView);
+                .error(R.drawable.placeholder_image).fit().centerCrop().into(imageView);
         container.addView(imageView);
         return imageView;
 
