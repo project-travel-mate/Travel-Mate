@@ -83,8 +83,8 @@ public class FunfactFragment extends Fragment {
                 (holder.source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
                 (holder.share).setOnClickListener(view1 -> shareClicked());
             }
-            Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.delhi)
-                    .placeholder(R.drawable.delhi)
+            Picasso.with(getContext()).load(fact.getImage()).error(R.drawable.placeholder_image)
+                    .placeholder(R.drawable.placeholder_image)
                     .into(holder.image);
         }
         return view;

@@ -19,7 +19,7 @@
             android:layout_height="200dp"
             android:contentDescription="@string/empty_description"
             android:scaleType="centerCrop"
-            android:src="@drawable/delhi" />
+            android:src="@drawable/placeholder_image" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

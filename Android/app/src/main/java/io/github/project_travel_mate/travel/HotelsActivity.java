@@ -39,6 +39,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
+import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
 import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
@@ -76,7 +78,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
     private Handler mHandler;
     private String mToken;
     private DatePickerDialog mDatePickerDialog;
-    private ArrayList<HotelSearchModel> mSearchCities = new ArrayList<>();
+    private ArrayList<CitySearchModel> mSearchCities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +221,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                             Log.v("RESULT", res);
                             JSONArray ar = new JSONArray(res);
                             for (int i = 0; i < ar.length(); i++) {
-                                mSearchCities.add(new HotelSearchModel(
+                                mSearchCities.add(new CitySearchModel(
                                         ar.getJSONObject(i).getString("city_name"),
                                         ar.getJSONObject(i).optString("image"),
                                         ar.getJSONObject(i).getString("id")));
@@ -286,12 +288,12 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.select_city:
-                new HotelSearchDialogCompat(HotelsActivity.this, getString(R.string.search_title),
+                new CitySearchDialogCompat(HotelsActivity.this, getString(R.string.search_title),
                         getString(R.string.search_hint), null, mSearchCities,
-                        new SearchResultListener<HotelSearchModel>() {
+                        new SearchResultListener<CitySearchModel>() {
                             @Override
                             public void onSelected(BaseSearchDialogCompat dialog,
-                                                   HotelSearchModel item, int position) {
+                                                   CitySearchModel item, int position) {
                                 String selectedCity = item.getId();
                                 selectCity.setText(String.format(getString(R.string.showing_hotels), item.getName()));
                                 dialog.dismiss();

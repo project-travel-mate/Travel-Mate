@@ -8,13 +8,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,8 +37,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
+import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -45,6 +49,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.Utils;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -57,22 +62,26 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         View.OnClickListener {
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
-    @BindView(R.id.cityname)
-    AutoCompleteTextView cityname;
+    @BindView(R.id.select_city_name)
+    FlatButton cityName;
     @BindView(R.id.sdate)
     EditText tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
-    EditText tname;
-    private String mNameyet;
-    private String mCityid = "2";
+    EditText tripName;
+    @BindView(R.id.pb)
+    ProgressBar pb;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
+    private String mCityid;
     private String mStartdate;
     private String mTripname;
     private String mToken;
     private MaterialDialog mDialog;
     private Handler mHandler;
     private DatePickerDialog mDatePickerDialog;
+    private ArrayList<CitySearchModel> mSearchCities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +94,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
-        cityname.setThreshold(1);
-
         final Calendar calendar = Calendar.getInstance();
         mDatePickerDialog = DatePickerDialog.newInstance(this,
                 calendar.get(Calendar.YEAR),
@@ -94,19 +101,14 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 calendar.get(Calendar.DAY_OF_MONTH),
                 isVibrate());
 
+        fetchCitiesList();
+
         tripStartDate.setOnClickListener(this);
         ok.setOnClickListener(this);
+        cityName.setOnClickListener(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @OnTextChanged(R.id.cityname)
-    void onTextChanged() {
-        mNameyet = cityname.getText().toString();
-        if (!mNameyet.contains(" ") && mNameyet.length() % 3 == 0) {
-            cityNameAutoComplete();     // Calls API to autocomplete cityname
-        }
     }
 
     @Override
@@ -120,69 +122,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-    }
-
-    /**
-     * Calls city name autocomplete API
-     */
-    private void cityNameAutoComplete() {
-
-        // to fetch city names
-        String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
-        Log.v("EXECUTING", uri);
-
-        //Set up client
-        OkHttpClient client = new OkHttpClient();
-
-        //Execute request
-        Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
-                .url(uri)
-                .build();
-
-        //Setup callback
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-
-                final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(() -> {
-                    JSONArray arr;
-                    final ArrayList<String> names, ids;
-                    try {
-                        arr = new JSONArray(res);
-                        Log.v("RESPONSE : ", res);
-
-                        names = new ArrayList<>();
-                        ids = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                names.add(arr.getJSONObject(i).getString("city_name"));
-                                ids.add(arr.getJSONObject(i).getString("id"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("ERROR", "Message : " + e.getMessage());
-                            }
-                        }
-                        ArrayAdapter<String> dataAdapter =
-                                new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, names);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        cityname.setThreshold(1);
-                        cityname.setAdapter(dataAdapter);
-                        cityname.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mCityid = ids.get(arg2));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("EXCEPTION : ", "Message : " + e.getMessage());
-                    }
-                });
-
-            }
-        });
     }
 
     /**
@@ -235,7 +174,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             Toast.makeText(AddNewTripActivity.this, R.string.trip_added, Toast.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_CANCELED , returnIntent);
+                            setResult(Activity.RESULT_OK , returnIntent);
                             finish();
                         } else {
                             Toast.makeText(AddNewTripActivity.this, res, Toast.LENGTH_LONG).show();
@@ -249,6 +188,56 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
             }
         });
+    }
+
+    /**
+     * Fetches the list cities from server
+     */
+    private void fetchCitiesList() {
+
+        String uri = API_LINK_V2 + "get-all-cities/10";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) {
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        try {
+                            String res = response.body().string();
+                            Log.v("RESULT", res);
+                            JSONArray ar = new JSONArray(res);
+                            for (int i = 0; i < ar.length(); i++) {
+                                mSearchCities.add(new CitySearchModel(
+                                        ar.getJSONObject(i).getString("city_name"),
+                                        ar.getJSONObject(i).optString("image"),
+                                        ar.getJSONObject(i).getString("id")));
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                        }
+                    } else {
+                        Log.e("ERROR", "Network error");
+                    }
+                    pb.setVisibility(View.GONE);
+                });
+            }
+        });
+
     }
 
     private boolean isVibrate() {
@@ -278,9 +267,32 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 break;
             // Add a new trip
             case R.id.ok:
-                mTripname = tname.getText().toString();
-                addTrip();
+                Utils.hideKeyboard(this);
+                mTripname = tripName.getText().toString();
+
+                if (mTripname.trim().equals("")) {
+                    Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
+                } else if (tripStartDate == null || tripStartDate.getText().toString().equals("")) {
+                    Snackbar.make(mLinearLayout, R.string.trip_date_blank, Snackbar.LENGTH_LONG).show();
+                } else if (mCityid == null) {
+                    Snackbar.make(mLinearLayout, R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
+                } else
+                    addTrip();
+            
                 break;
+            case R.id.select_city_name :
+                new CitySearchDialogCompat(AddNewTripActivity.this, getString(R.string.search_title),
+                        getString(R.string.search_hint), null, mSearchCities,
+                        new SearchResultListener<CitySearchModel>() {
+                            @Override
+                            public void onSelected(BaseSearchDialogCompat dialog,
+                                                   CitySearchModel item, int position) {
+                                mCityid = item.getId();
+                                dialog.dismiss();
+                            }
+                        }).show();
+                break;
+
         }
     }
 

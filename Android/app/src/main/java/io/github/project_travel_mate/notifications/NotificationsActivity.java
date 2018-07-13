@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Notification;
+import objects.Trip;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -43,12 +45,14 @@ import okhttp3.Response;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class NotificationsActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.notification_list)
     ListView listView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private String mToken;
     private Handler mHandler;
@@ -67,7 +71,7 @@ public class NotificationsActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         notifications = new ArrayList<>();
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         getNotifications();
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -103,6 +107,7 @@ public class NotificationsActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         try {
                             JSONArray array = new JSONArray(res);
+                            Log.v("Response", res + " ");
 
                             if (array.length() == 0) {
                                 emptyList();
@@ -125,8 +130,22 @@ public class NotificationsActivity extends AppCompatActivity {
                                     String status = object.getString("status");
                                     User user =
                                             new User(userName, firstName, lastName, ids, imageURL, dateJoined, status);
+                                    if ( array.getJSONObject(i).getString("trip") != "null" &&
+                                            array.getJSONObject(i).getString("notification_type").equals("Trip")) {
 
-                                    notifications.add(new Notification(id, type, text, read, user));
+                                        JSONObject obj = array.getJSONObject(i).getJSONObject("trip");
+                                        String tripId = obj.getString("id");
+                                        JSONObject subObject = obj.getJSONObject("city");
+                                        String name = subObject.getString("city_name");
+                                        String image = subObject.getString("images");
+                                        String start = obj.getString("start_date_tx");
+                                        String tname = obj.getString("trip_name");
+                                        Trip trip = new Trip(tripId, name, image, start, "", tname);
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    } else {
+                                        Trip trip = new Trip("", "", "", "", "", "");
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    }
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                 listView.setAdapter(mAdapter);
@@ -249,5 +268,14 @@ public class NotificationsActivity extends AppCompatActivity {
         snackbar.show();
         animationView.setAnimation(R.raw.no_notifications);
         animationView.playAnimation();
+    }
+
+    @Override
+    public void onRefresh() {
+        listView.setAdapter(null);
+        swipeRefreshLayout.setRefreshing(false);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
+        getNotifications();
     }
 }
