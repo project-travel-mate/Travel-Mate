@@ -179,7 +179,6 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
     private void getSingleTrip() {
 
-        List<User> tripFriends = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
 
         // to fetch mCity names
@@ -261,7 +260,6 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
                 mHandler.post(() -> {
                     JSONArray arr;
-                    final ArrayList<String> citynames;
                     City city = null;
                     try {
                         arr = new JSONArray(Objects.requireNonNull(response.body()).string());
@@ -503,7 +501,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     Intent intent = new Intent(MyTripInfoActivity.this, FriendsProfileActivity.class);
                                     intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
+                                    intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                         }

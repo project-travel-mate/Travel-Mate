@@ -81,6 +81,9 @@
     <string name="friends_show_title">Friends in this Trip</string>
     <string name="trip_name_updated">Trip name has been updated</string>
     <string name="cannot_edit">Trip name can\'t remain empty!</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="remove_friend_message">Are you sure you want to remove your friend?</string>
+    <string name="removed_friend_message">Successfully removed friend</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
