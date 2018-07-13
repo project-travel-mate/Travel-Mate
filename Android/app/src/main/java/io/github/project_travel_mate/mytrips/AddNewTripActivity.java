@@ -72,6 +72,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     EditText tripName;
     @BindView(R.id.pb)
     ProgressBar pb;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
     private String mCityid;
     private String mStartdate;
     private String mTripname;
