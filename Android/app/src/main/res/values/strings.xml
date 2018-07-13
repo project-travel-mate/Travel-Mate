@@ -137,6 +137,7 @@
     <string name="invalid_email">Invalid Email</string>
 
     <!-- Profile strings -->
+    <string name="my_profile">My Profile</string>
     <string name="name_updated">Name has been updated</string>
     <string name="text_share_profile">Share my profile</string>
     <string name="snackbar_no_share_app">No application to share.</string>
