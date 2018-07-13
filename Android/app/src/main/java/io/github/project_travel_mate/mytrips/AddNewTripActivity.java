@@ -271,8 +271,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
                 if (mTripname.equals("")) {
                     Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
-                } else if (cityname.getText().toString().equals("")) {
-                    Snackbar.make(mLinearLayout , R.string.trip_city_blank , Snackbar.LENGTH_LONG).show();
                 } else if (tripStartDate.getText().toString().equals("")) {
                     Snackbar.make(mLinearLayout , R.string.trip_date_blank , Snackbar.LENGTH_LONG).show();
                 } else
