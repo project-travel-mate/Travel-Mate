@@ -9,6 +9,7 @@ public class Notification implements Serializable {
     private String mText;
     private boolean mIsRead;
     private User mCreatedBy;
+    private Trip mTrip;
 
     /**
      * Object to store notification
@@ -18,17 +19,24 @@ public class Notification implements Serializable {
      * @param mText - notification text
      * @param mIsRead - if notfication is read
      * @param mCreatedBy - user who created this notification
+     * @param mTrip - trip to which user belongs
      */
-    public Notification(int mId, String mType, String mText, boolean mIsRead, User mCreatedBy) {
+    public Notification(int mId, String mType, String mText, boolean mIsRead,
+                        User mCreatedBy, Trip mTrip) {
         this.mId = mId;
         this.mType = mType;
         this.mText = mText;
         this.mIsRead = mIsRead;
         this.mCreatedBy = mCreatedBy;
+        this.mTrip = mTrip;
     }
 
     public User getCreatedBy() {
         return mCreatedBy;
+    }
+
+    public Trip getTrip() {
+        return mTrip;
     }
 
     public void setCreatedBy(User createdBy) {
