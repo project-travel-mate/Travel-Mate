@@ -29,21 +29,6 @@
             tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
 
-    <AutoCompleteTextView
-        android:id="@+id/cityname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/black"
-        android:ems="10"
-        android:hint="@string/prompt_city_name"
-        android:popupBackground="@color/white"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/ampm_text_color"
-        tools:targetApi="lollipop" />
-
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -64,6 +49,15 @@
             tools:targetApi="lollipop" />
     </android.support.design.widget.TextInputLayout>
 
+    <com.dd.processbutton.FlatButton
+        android:id="@+id/select_city_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/prompt_city_name"
+        android:textColor="@color/white" />
 
     <com.dd.processbutton.FlatButton
         android:id="@+id/ok"
@@ -75,4 +69,9 @@
         android:text="@string/prompt_add_trip"
         android:textColor="@color/white" />
 
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </LinearLayout>
