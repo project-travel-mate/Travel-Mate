@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Notification;
+import objects.Trip;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -125,8 +126,20 @@ public class NotificationsActivity extends AppCompatActivity {
                                     String status = object.getString("status");
                                     User user =
                                             new User(userName, firstName, lastName, ids, imageURL, dateJoined, status);
-
-                                    notifications.add(new Notification(id, type, text, read, user));
+                                    if (array.getJSONObject(i).getString("trip") != "null") {
+                                        JSONObject obj = array.getJSONObject(i).getJSONObject("trip");
+                                        String tripId = obj.getString("id");
+                                        JSONObject subObject = obj.getJSONObject("city");
+                                        String name = subObject.getString("city_name");
+                                        String image = subObject.getString("images");
+                                        String start = obj.getString("start_date_tx");
+                                        String tname = obj.getString("trip_name");
+                                        Trip trip = new Trip(tripId, name, image, start, "", tname);
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    } else {
+                                        Trip trip = new Trip("", "", "", "", "", "");
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    }
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                 listView.setAdapter(mAdapter);

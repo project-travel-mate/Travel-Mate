@@ -1,17 +1,17 @@
-package io.github.project_travel_mate.travel;
+package io.github.project_travel_mate.searchcitydialog;
 
 import ir.mirrajabi.searchdialog.core.Searchable;
 
 /*
  * Items to be displayed in search list
  */
-public class HotelSearchModel implements Searchable {
+public class CitySearchModel implements Searchable {
 
     private String mName;
     private String mImageUrl;
     private String mId;
 
-    public HotelSearchModel(String name, String imageUrl, String id) {
+    public CitySearchModel(String name, String imageUrl, String id) {
         mName = name;
         mImageUrl = imageUrl;
         mId = id;
@@ -26,7 +26,7 @@ public class HotelSearchModel implements Searchable {
         return mName;
     }
 
-    public HotelSearchModel setName(String name) {
+    public CitySearchModel setName(String name) {
         mName = name;
         return this;
     }

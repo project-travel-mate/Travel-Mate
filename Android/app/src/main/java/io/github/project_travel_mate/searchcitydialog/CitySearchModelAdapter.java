@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.travel;
+package io.github.project_travel_mate.searchcitydialog;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,10 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,8 +26,8 @@ import ir.mirrajabi.searchdialog.core.Searchable;
 /**
  * Adapter fo the list (implemented as recycler view)
  */
-public class HotelSearchModelAdapter<T extends Searchable>
-        extends RecyclerView.Adapter<HotelSearchModelAdapter.ViewHolder> {
+public class CitySearchModelAdapter<T extends Searchable>
+        extends RecyclerView.Adapter<CitySearchModelAdapter.ViewHolder> {
 
     protected Context mContext;
     private List<T> mItems = new ArrayList<>();
@@ -41,13 +39,13 @@ public class HotelSearchModelAdapter<T extends Searchable>
     private boolean mHighlightPartsInCommon = true;
     private BaseSearchDialogCompat mSearchDialog;
 
-    public HotelSearchModelAdapter(Context context, @LayoutRes int layout, List<T> items) {
+    public CitySearchModelAdapter(Context context, @LayoutRes int layout, List<T> items) {
         this(context, layout, null, items);
     }
 
-    public HotelSearchModelAdapter(Context context, @LayoutRes int layout,
-                               @Nullable AdapterViewBinder<T> viewBinder,
-                               List<T> items) {
+    public CitySearchModelAdapter(Context context, @LayoutRes int layout,
+                                   @Nullable AdapterViewBinder<T> viewBinder,
+                                   List<T> items) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mItems = items;
@@ -87,23 +85,23 @@ public class HotelSearchModelAdapter<T extends Searchable>
     }
 
     @Override
-    public void onBindViewHolder(HotelSearchModelAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CitySearchModelAdapter.ViewHolder holder, int position) {
         initializeViews(getItem(position), holder, position);
     }
-    private void initializeViews(final T object, final HotelSearchModelAdapter.ViewHolder holder,
+    private void initializeViews(final T object, final CitySearchModelAdapter.ViewHolder holder,
                                  final int position) {
         if (mViewBinder != null)
             mViewBinder.bind(holder, object, position);
 
         TextView text = holder.getViewById(R.id.hotel_city_name);
         CircleImageView image = holder.getViewById(R.id.hotel_city_image);
-        Picasso.with(mContext).load(((HotelSearchModel) object).getImageUrl())
+        Picasso.with(mContext).load(((CitySearchModel) object).getImageUrl())
                 .into(image);
 
         //highlight the letter(s) user has searched for
         if (mSearchTag != null && mHighlightPartsInCommon)
             text.setText(StringsHelper.highlightLCS(object.getTitle(), getSearchTag(),
-                 Color.RED ));
+                    Color.RED ));
         else text.setText(object.getTitle());
 
         if (mSearchResultListener != null)
@@ -119,7 +117,7 @@ public class HotelSearchModelAdapter<T extends Searchable>
         this.mSearchResultListener = searchResultListener;
     }
 
-    public HotelSearchModelAdapter setSearchTag(String searchTag) {
+    public CitySearchModelAdapter<T> setSearchTag(String searchTag) {
         mSearchTag = searchTag;
         return this;
     }
@@ -128,7 +126,7 @@ public class HotelSearchModelAdapter<T extends Searchable>
         return mSearchTag;
     }
 
-    public HotelSearchModelAdapter setSearchDialog(BaseSearchDialogCompat searchDialog) {
+    public CitySearchModelAdapter<T> setSearchDialog(BaseSearchDialogCompat searchDialog) {
         mSearchDialog = searchDialog;
         return this;
     }
