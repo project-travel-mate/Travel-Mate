@@ -248,7 +248,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
             mCity.setDescription(description);
             mCity.setLatitude(latitude);
             mCity.setLongitude(longitude);
-            slideImages(imagesArray);
+            if (imagesArray.size() > 0)
+                slideImages(imagesArray);
         });
     }
 
