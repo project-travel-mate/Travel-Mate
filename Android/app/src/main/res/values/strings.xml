@@ -62,9 +62,10 @@
     <string name="enter_task_name">Enter task name</string>
 
     <!-- My Trip Strings -->
+    <string name="trip_date">Trip Date :</string>
     <string name="prompt_trip_name">Enter trip Name</string>
     <string name="prompt_city_name">Select City</string>
-    <string name="prompt_start_date">Select Check In Date</string>
+    <string name="prompt_start_date">Select Trip Date</string>
     <string name="prompt_add_trip">Add trip</string>
     <string name="prompt_friend_name">Enter friend name</string>
     <string name="prompt_add_friend">Add New friend</string>
@@ -100,12 +101,15 @@
     <string name="showing_hotels">Showing %1$s Hotels</string>
 
     <!-- Share contact strings -->
+    <string name="share_intent_text">Share Contact Details</string>
+    <string name="share_menu">Share</string>
     <string name="share_contact_text">Share Contact</string>
     <string name="share_contact">Share My Contact</string>
     <string name="cant_generate">Can\'t be generated. Need to download QR services</string>
     <string name="add_contact">Added Contact</string>
     <string name="cancel_contact">Cancelled Added Contact</string>
-    <string name="view_contact">View Someone\'s Contact</string>
+    <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
+    <string name="view_contact">View someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
@@ -179,6 +183,6 @@
     <string name="no_notifications">You don\'t have any notifications.</string>
     <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
 
-    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from plastore :
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
 </resources>

@@ -112,7 +112,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
-        if (!mTrip.getImage().isEmpty())
+        if (mTrip.getImage() != null && !mTrip.getImage().isEmpty())
             Picasso.with(this).load(mTrip.getImage()).error(R.drawable.placeholder_image)
                .placeholder(R.drawable.placeholder_image).into(cityImageView);
         showIcon.setVisibility(View.GONE);
