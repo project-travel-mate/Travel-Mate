@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
@@ -59,7 +61,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     @BindView(R.id.select_city_name)
     FlatButton cityName;
     @BindView(R.id.sdate)
-    EditText tripStartDate;
+    FlatButton tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
@@ -68,6 +70,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     ProgressBar pb;
     @BindView(R.id.linear_layout)
     LinearLayout mLinearLayout;
+    @BindView(R.id.trip_date)
+    TextView tripdate;
+    @BindView(R.id.trip_date_text)
+    TextView tripdateText;
     private String mCityid;
     private String mStartdate;
     private String mTripname;
@@ -83,7 +89,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_add_new_trip);
 
         ButterKnife.bind(this);
-
+        tripdateText.setVisibility(View.INVISIBLE);
+        tripdate.setVisibility(View.INVISIBLE);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
@@ -110,7 +117,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
             mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-            tripStartDate.setText(day + "/" + month + "/" + year);
+            tripdate.setText(day + "/" + month + "/" + year);
+            tripdateText.setVisibility(View.VISIBLE);
+            tripdate.setVisibility(View.VISIBLE);
         }
     }
 
