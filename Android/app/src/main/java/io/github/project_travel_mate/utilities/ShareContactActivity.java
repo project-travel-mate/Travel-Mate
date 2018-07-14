@@ -31,13 +31,14 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.QR_CODE_HEIGHT;
 import static utils.Constants.QR_CODE_WIDTH;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_NAME;
 
-public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener, TravelmateSnackbars {
+public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int ACTIVITY_INSERT_CONTACT = 2;
     @BindView(R.id.scan)
@@ -190,9 +191,4 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         startActivity(Intent.createChooser(intent , getString(R.string.share_intent_text)));
     }
 }
-    private void displaySnackbar(final String message, int length) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityShareContact),
-                message, length);
-        snackbar.show();
-    }
-}
+
