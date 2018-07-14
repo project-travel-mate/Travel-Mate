@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +43,8 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.scan)
     Button scan;
     private SharedPreferences mSharedPreferences;
+    @BindView(R.id.im)
+    ImageView qrCodeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,8 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
+        if (item.getItemId() == R.id.share_contact)
+            shareContact();
         return super.onOptionsItemSelected(item);
     }
 
@@ -100,6 +107,12 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
                 qrScan.initiateScan();
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.share_contact_menu, menu);
+        return  true;
     }
 
     public void createCode() {
@@ -149,6 +162,34 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         return intent;
     }
 
+    public void shareContact() {
+        qrCodeView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(qrCodeView.getDrawingCache());
+        qrCodeView.setDrawingCacheEnabled(false);
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyScreenshots";
+        File dr = new File(dir);
+        if (!dr.exists())
+            dr.mkdirs();
+        File mFile = new File(dr, "contact_qr.png");
+        try {
+            FileOutputStream fOut = new FileOutputStream(mFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG , 100 , fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Uri uri = FileProvider.getUriForFile(Objects.requireNonNull(this) ,
+                "io.github.project_travel_mate.shareFile" , mFile);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT , getString(R.string.share_contact_qr));
+        intent.putExtra(Intent.EXTRA_STREAM , uri);
+        startActivity(Intent.createChooser(intent , getString(R.string.share_intent_text)));
+    }
+}
     private void displaySnackbar(final String message, int length) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.activityShareContact),
                 message, length);

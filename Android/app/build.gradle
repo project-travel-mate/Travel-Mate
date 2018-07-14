@@ -8,8 +8,8 @@ android {
         applicationId "io.github.project_travel_mate"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 16
-        versionName "2.9.0"
+        versionCode 17
+        versionName "3.9.2"
     }
 
     buildTypes {

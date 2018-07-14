@@ -61,6 +61,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     private NotificationsAdapter mAdapter;
     private MaterialDialog mDialog;
     private Menu mOptionsMenu;
+    boolean allRead = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     }
 
     private void getNotifications() {
-
+        allRead = false;
         String uri = API_LINK_V2 + "get-notifications";
         Log.v("EXECUTING", uri);
 
@@ -119,7 +120,9 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     String type = array.getJSONObject(i).getString("notification_type");
                                     String text = array.getJSONObject(i).getString("text");
                                     boolean read = array.getJSONObject(i).getBoolean("is_read");
-
+                                    if (read == false) {
+                                        allRead = true;
+                                    }
                                     JSONObject object = array.getJSONObject(i).getJSONObject("initiator_user");
                                     String userName = object.getString("username");
                                     String firstName = object.getString("first_name");
@@ -149,6 +152,10 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                 listView.setAdapter(mAdapter);
+                                if (allRead == false) {
+                                    MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
+                                    item.setVisible(false);
+                                }
                                 animationView.setVisibility(View.GONE);
                             }
 
@@ -241,6 +248,8 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                         }
                                     });
                                     mDialog.dismiss();
+                                    MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
+                                    item.setVisible(false);
                                 }
                             });
 
@@ -276,6 +285,11 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         swipeRefreshLayout.setRefreshing(false);
         animationView.setVisibility(View.VISIBLE);
         animationView.playAnimation();
+        getNotifications();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
         getNotifications();
     }
 }
