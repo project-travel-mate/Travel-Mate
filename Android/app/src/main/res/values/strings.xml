@@ -99,6 +99,8 @@
     <string name="showing_hotels">Showing %1$s Hotels</string>
 
     <!-- Share contact strings -->
+    <string name="share_intent_text">Share Contact Details</string>
+    <string name="share_menu">Share</string>
     <string name="share_contact_text">Share Contact</string>
     <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
     <string name="view_contact">View Someone\'s Contact</string>
@@ -174,6 +176,6 @@
     <string name="no_notifications">You don\'t have any notifications.</string>
     <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
 
-    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from plastore :
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
 </resources>

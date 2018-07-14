@@ -190,6 +190,6 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra(Intent.EXTRA_SUBJECT, "");
         intent.putExtra(Intent.EXTRA_TEXT , getString(R.string.share_contact_qr));
         intent.putExtra(Intent.EXTRA_STREAM , uri);
-        startActivity(Intent.createChooser(intent , "Share Contact Details"));
+        startActivity(Intent.createChooser(intent , getString(R.string.share_intent_text)));
     }
 }
