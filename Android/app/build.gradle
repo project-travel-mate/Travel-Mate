@@ -93,4 +93,14 @@ dependencies {
 
     //To display search dialog
     implementation 'com.github.mirrajabi:search-dialog:1.2.2'
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
+    implementation 'android.arch.persistence.room:rxjava2:1.0.0'
+
+    //Lifecycle Components
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+
 }

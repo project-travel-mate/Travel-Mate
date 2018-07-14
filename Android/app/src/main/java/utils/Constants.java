@@ -7,7 +7,7 @@ import java.util.List;
  * Created by swati on 11/10/15.
  */
 public class Constants {
-    public static final String ID_ADDED_INDB = "is_added_in_db";
+    public static final String IS_ADDED_INDB = "is_added_in_db";
     public static final String USER_NAME = "user_name";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_STATUS = "user_status";

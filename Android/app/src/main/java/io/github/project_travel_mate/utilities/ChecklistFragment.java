@@ -1,48 +1,47 @@
 package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import com.rey.material.widget.CheckBox;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.roompersistence.Injection;
+import io.github.project_travel_mate.roompersistence.ViewModelFactory;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 import objects.ChecklistItem;
-import utils.AppExecutors;
-import utils.DbChecklist;
 
+import io.github.project_travel_mate.roompersistence.ChecklistViewModel;
+
+import static utils.Constants.IS_ADDED_INDB;
 import static utils.Constants.BASE_TASKS;
-import static utils.Constants.ID_ADDED_INDB;
-
 
 public class ChecklistFragment extends Fragment {
 
-    private final ArrayList<ChecklistItem> mItems = new ArrayList<>();
     @BindView(R.id.listview)
     ListView listview;
-    private CheckListAdapter mAdapter;
-    private DbChecklist mChecklistDatabase;
     private Activity mActivity;
-    private Executor mAppExecutor = AppExecutors.getInstance().getDiskIO();
+    private ChecklistViewModel mViewModel;
+    private ViewModelFactory mViewModelFactory;
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     public ChecklistFragment() {
     }
@@ -55,19 +54,14 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_check_list, container, false);
-
-        mChecklistDatabase = DbChecklist.getsInstance(mActivity);
 
         ButterKnife.bind(this, view);
 
-        addDefaultItems();
+        mViewModelFactory = Injection.provideViewModelFactory(mActivity);
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ChecklistViewModel.class);
 
-        mAdapter = new CheckListAdapter(mActivity, mItems);
-        listview.setAdapter(mAdapter);
-
-        refresh();
+        attachAdapter();
 
         return view;
     }
@@ -84,114 +78,45 @@ public class ChecklistFragment extends Fragment {
                     EditText e1 = dialogv.findViewById(R.id.task);
                     if (!e1.getText().toString().equals("")) {
                         ChecklistItem checklistItem = new ChecklistItem(e1.getText().toString(), String.valueOf(0));
-                        mAppExecutor.execute(() -> mChecklistDatabase.checklistItemDAO().insertItems(checklistItem));
-                        ChecklistFragment.this.refresh();
+                        mDisposable.add(mViewModel.insertItem(checklistItem)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe());
                     }
                 });
         builder.create();
         builder.show();
     }
 
-    private void addDefaultItems() {
+    private void attachAdapter() {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //First time users
-        String isAlreadyAdded = sharedPreferences.getString(ID_ADDED_INDB, "null");
+        String isAlreadyAdded = sharedPreferences.getString(IS_ADDED_INDB, "null");
         if (isAlreadyAdded.equals("null")) {
             for (int i = 0; i < BASE_TASKS.size(); i++) {
                 ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), String.valueOf(0));
-                mAppExecutor.execute(() -> mChecklistDatabase.checklistItemDAO().insertItems(checklistItem));
+                mDisposable.add(mViewModel.insertItem(checklistItem)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe());
             }
-            editor.putString(ID_ADDED_INDB, "yes");
+            editor.putString(IS_ADDED_INDB, "yes");
             editor.apply();
         }
-    }
-
-    private void refresh() {
-        mItems.clear();
-        mAdapter.notifyDataSetChanged();
-
-        mAppExecutor.execute(() -> {
-            List<ChecklistItem> checklistItems = mChecklistDatabase.checklistItemDAO().getSortedItems();
-            mItems.addAll(checklistItems);
-        });
-
-        mAdapter.notifyDataSetChanged();
+        mDisposable.add(mViewModel.getSortedItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> listview.setAdapter(new ChecklistAdapter(mActivity, items, mViewModel))));
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach (Context context) {
         super.onAttach(context);
         mActivity = (Activity) context;
     }
-
-    // TODO :: Move CheckListAdapter to another file
-    class CheckListAdapter extends ArrayAdapter<ChecklistItem> {
-
-        private final Activity mContext;
-        private final List<ChecklistItem> mItems;
-
-        CheckListAdapter(Activity context, List<ChecklistItem> items) {
-            super(context, R.layout.checklist_item, items);
-            this.mContext = context;
-            this.mItems = items;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View view, @NonNull ViewGroup parent) {
-            LayoutInflater inflater = mContext.getLayoutInflater();
-            ViewHolder holder;
-            if (view == null) {
-                view = inflater.inflate(R.layout.checklist_item, parent, false);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else {
-                holder = (ViewHolder) view.getTag();
-            }
-
-            if (mItems.get(position).getIsDone().equals("1")) {
-                holder.checkBox.setPaintFlags(holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.checkBox.setChecked(true);
-            } else {
-                holder.checkBox.setPaintFlags(holder.checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.checkBox.setChecked(false);
-            }
-            holder.checkBox.setText(mItems.get(position).getName());
-
-            holder.checkBox.setOnClickListener(view1 -> {
-                CheckBox c2 = (CheckBox) view1;
-                if (c2.isChecked()) {
-                    //updating isDone to 1 in database
-                    mAppExecutor.execute(() -> {
-                        if (!mItems.isEmpty())
-                         mChecklistDatabase.checklistItemDAO().updateIsDone(mItems.get(position).getId());
-                    });
-                } else {
-                    //updating isDone to 0 in database
-                    mAppExecutor.execute(() -> {
-                        if (!mItems.isEmpty())
-                         mChecklistDatabase.checklistItemDAO().updateUndone(mItems.get(position).getId());
-                    });
-                }
-
-                refresh();
-            });
-            return view;
-        }
-
-        class ViewHolder {
-            @BindView(R.id.cb1)
-            CheckBox checkBox;
-
-            ViewHolder(View view) {
-                ButterKnife.bind(this, view);
-            }
-        }
-    }
 }
-
 
 
 
