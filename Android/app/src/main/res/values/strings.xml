@@ -102,7 +102,6 @@
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
     <string name="share_contact">Share My Contact</string>
-    <string name="view_contact">View someone Contact</string>
     <string name="cant_generate">Can\'t be generated. Need to download QR services</string>
     <string name="add_contact">Added Contact</string>
     <string name="cancel_contact">Cancelled Added Contact</string>
