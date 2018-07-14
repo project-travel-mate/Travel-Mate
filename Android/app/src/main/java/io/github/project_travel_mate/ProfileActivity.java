@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
@@ -85,6 +86,10 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton editDisplayStatus;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.status_progress_bar)
+    ProgressBar statusProgressBar;
+    @BindView(R.id.name_progress_bar)
+    ProgressBar nameProgressBar;
 
     private String mToken;
     private Handler mHandler;
@@ -318,12 +323,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setUserDetails() {
-
-        mDialog = new MaterialDialog.Builder(ProfileActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+        runOnUiThread(() -> {
+            displayName.setVisibility(View.INVISIBLE);
+            nameProgressBar.setVisibility(View.VISIBLE);
+        });
 
         // to update user name
         String uri = API_LINK_V2 + "update-user-details";
@@ -369,18 +372,19 @@ public class ProfileActivity extends AppCompatActivity {
                   ckbar(res);
                     }
                 });
-                mDialog.dismiss();
+                runOnUiThread(() -> {
+                    nameProgressBar.setVisibility(View.GONE);
+                    displayName.setVisibility(View.VISIBLE);
+                });
             }
         });
     }
 
     private void setUserStatus() {
-
-        mDialog = new MaterialDialog.Builder(ProfileActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+        runOnUiThread(() -> {
+            displayStatus.setVisibility(View.INVISIBLE);
+            statusProgressBar.setVisibility(View.VISIBLE);
+        });
 
         // to update user name
         String uri = API_LINK_V2 + "update-user-status";
@@ -422,7 +426,10 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
                 });
-                mDialog.dismiss();
+                runOnUiThread(() -> {
+                    statusProgressBar.setVisibility(View.GONE);
+                    displayStatus.setVisibility(View.VISIBLE);
+                });
             }
         });
     }

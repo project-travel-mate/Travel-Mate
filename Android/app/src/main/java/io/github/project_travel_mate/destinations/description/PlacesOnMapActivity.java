@@ -26,7 +26,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -53,6 +52,7 @@ import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
+import static utils.Utils.bitmapDescriptorFromVector;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -132,7 +132,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 MarkerOptions markerOptions = temp
                         .title(locationName)
                         .position(coord)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black));
+                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this, R.drawable.ic_pin_drop_black));
                 mGoogleMap.addMarker(markerOptions);
             }
         }

@@ -38,6 +38,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
@@ -54,6 +55,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
+    private MyTripsAdapter mMyTripsAdapter;
     static int ADDNEWTRIP_ACTIVITY = 203;
 
     public MyTripsFragment() {
@@ -127,7 +129,8 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 String image = array.length() > 0 ? array.getString(0) : null;
                                 mTrips.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
-                                gridView.setAdapter(new MyTripsAdapter(mActivity.getApplicationContext(), mTrips));
+                                mMyTripsAdapter = new MyTripsAdapter(mActivity.getApplicationContext(), mTrips);
+                                gridView.setAdapter(mMyTripsAdapter);
                             }
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
@@ -175,9 +178,9 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADDNEWTRIP_ACTIVITY) {
-
+        if (requestCode == ADDNEWTRIP_ACTIVITY && resultCode == RESULT_OK) {
             mTrips.clear();
+            mMyTripsAdapter.notifyDataSetChanged();
             mytrip();
         }
     }
@@ -186,6 +189,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onRefresh() {
         mTrips.clear();
+        mMyTripsAdapter.notifyDataSetChanged();
         mytrip();
         swipeRefreshLayout.setRefreshing(false);
     }

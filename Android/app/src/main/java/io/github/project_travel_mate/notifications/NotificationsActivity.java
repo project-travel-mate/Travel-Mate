@@ -8,12 +8,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
@@ -28,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Notification;
+import objects.Trip;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,18 +45,22 @@ import okhttp3.Response;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class NotificationsActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.notification_list)
     ListView listView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private String mToken;
     private Handler mHandler;
     private SharedPreferences mSharedPreferences;
     ArrayList<Notification> notifications;
     private NotificationsAdapter mAdapter;
+    private MaterialDialog mDialog;
+    private Menu mOptionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +71,12 @@ public class NotificationsActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         notifications = new ArrayList<>();
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         getNotifications();
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        updateOptionsMenu();
     }
 
     private void getNotifications() {
@@ -95,6 +107,7 @@ public class NotificationsActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         try {
                             JSONArray array = new JSONArray(res);
+                            Log.v("Response", res + " ");
 
                             if (array.length() == 0) {
                                 emptyList();
@@ -117,8 +130,22 @@ public class NotificationsActivity extends AppCompatActivity {
                                     String status = object.getString("status");
                                     User user =
                                             new User(userName, firstName, lastName, ids, imageURL, dateJoined, status);
+                                    if ( array.getJSONObject(i).getString("trip") != "null" &&
+                                            array.getJSONObject(i).getString("notification_type").equals("Trip")) {
 
-                                    notifications.add(new Notification(id, type, text, read, user));
+                                        JSONObject obj = array.getJSONObject(i).getJSONObject("trip");
+                                        String tripId = obj.getString("id");
+                                        JSONObject subObject = obj.getJSONObject("city");
+                                        String name = subObject.getString("city_name");
+                                        String image = subObject.getString("images");
+                                        String start = obj.getString("start_date_tx");
+                                        String tname = obj.getString("trip_name");
+                                        Trip trip = new Trip(tripId, name, image, start, "", tname);
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    } else {
+                                        Trip trip = new Trip("", "", "", "", "", "");
+                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                    }
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                 listView.setAdapter(mAdapter);
@@ -137,6 +164,19 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.read_notification_menu, menu);
+        mOptionsMenu = menu;
+        return true;
+    }
+
+    private void updateOptionsMenu() {
+        if (mOptionsMenu != null) {
+            MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
+            item.setVisible(false);
+        }
+    }
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, NotificationsActivity.class);
@@ -150,10 +190,68 @@ public class NotificationsActivity extends AppCompatActivity {
                 // app icon in action bar clicked; go home
                 finish();
                 return true;
+            case R.id.action_sort:
+                markAllAsRead();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void markAllAsRead() {
+        //set AlertDialog before marking All as read
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.mark_all_read_notifications)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mDialog = new MaterialDialog.Builder(NotificationsActivity.this)
+                                    .title(R.string.app_name)
+                                    .content(R.string.progress_wait)
+                                    .progress(true, 0)
+                                    .show();
+
+                            String uri;
+                            uri = API_LINK_V2 + "mark-all-notification";
+                            Log.v("EXECUTING", uri);
+
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+                            //Execute request
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+                            //Setup callback
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            getNotifications();
+                                            Toast.makeText(NotificationsActivity.this, res, Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(NotificationsActivity.this, res, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mDialog.dismiss();
+                                }
+                            });
+
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
+    }
+
 
     /**
      * Plays the network lost animation in the view
@@ -170,5 +268,14 @@ public class NotificationsActivity extends AppCompatActivity {
         snackbar.show();
         animationView.setAnimation(R.raw.no_notifications);
         animationView.playAnimation();
+    }
+
+    @Override
+    public void onRefresh() {
+        listView.setAdapter(null);
+        swipeRefreshLayout.setRefreshing(false);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
+        getNotifications();
     }
 }

@@ -105,6 +105,8 @@ P
 + [butterknife](https://github.com/JakeWharton/butterknife)
 + [Zxing](https://github.com/zxing/zxing)
 + [What's new](https://github.com/TonnyL/WhatsNew)
++ [Notification Badge](https://github.com/nex3z/NotificationBadge)
++ [Search Dialog](https://github.com/mirrajabi/search-dialog)
 
 
 ## Contact Us

@@ -34,6 +34,8 @@
     <string name="online_Shopping">ONLINE SHOPPING</string>
     <string name="real_time_locator">REAL TIME LOCATOR</string>
     <string name="fun_facts">Fun Facts</string>
+    <string name="search_hint">What are you looking for...?</string>
+    <string name="search_title">Cities</string>
 
     <!-- Destinations home page strings -->
     <string name="search_a_city">Search a city…</string>
@@ -61,8 +63,8 @@
 
     <!-- My Trip Strings -->
     <string name="prompt_trip_name">Enter trip Name</string>
-    <string name="prompt_city_name">Enter city name</string>
-    <string name="prompt_start_date">Enter start date</string>
+    <string name="prompt_city_name">Select City</string>
+    <string name="prompt_start_date">Select Check In Date</string>
     <string name="prompt_add_trip">Add trip</string>
     <string name="prompt_friend_name">Enter friend name</string>
     <string name="prompt_add_friend">Add New friend</string>
@@ -78,6 +80,14 @@
     <string name="know_more_about">Know more about %1$s</string>
     <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
     <string name="friends_show_title">Friends in this Trip</string>
+    <string name="trip_name_updated">Trip name has been updated</string>
+    <string name="cannot_edit">Trip name can\'t remain empty!</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="remove_friend_message">Are you sure you want to remove your friend?</string>
+    <string name="removed_friend_message">Successfully removed friend</string>
+    <string name="trip_name_blank">Trip name can\'t be left blank</string>
+    <string name="trip_city_blank">Trip city can\`t be left blank</string>
+    <string name="trip_date_blank">Trip start date can\'t be left blank</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -87,6 +97,7 @@
 
     <!--Hotel strings-->
     <string name="no_hotels">No hotels to show</string>
+    <string name="showing_hotels">Showing %1$s Hotels</string>
 
     <!-- Share contact strings -->
     <string name="share_contact_text">Share Contact</string>
@@ -135,6 +146,7 @@
     <string name="invalid_email">Invalid Email</string>
 
     <!-- Profile strings -->
+    <string name="my_profile">My Profile</string>
     <string name="name_updated">Name has been updated</string>
     <string name="text_share_profile">Share my profile</string>
     <string name="snackbar_no_share_app">No application to share.</string>
@@ -166,5 +178,8 @@
 
     <!-- Notifications -->
     <string name="no_notifications">You don\'t have any notifications.</string>
+    <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
 
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from plastore :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
 </resources>

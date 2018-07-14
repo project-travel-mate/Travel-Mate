@@ -119,6 +119,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     private void cityAutoComplete() {
 
+        if (mNameyet.trim().equals(""))
+            return;
+
         // to fetch city names
         String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
         Log.v("EXECUTING", uri);
