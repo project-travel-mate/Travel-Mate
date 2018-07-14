@@ -43,6 +43,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 import utils.Utils;
 
 import static utils.Constants.API_LINK_V2;
@@ -53,7 +54,7 @@ import static utils.Constants.USER_TOKEN;
  */
 public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
-        View.OnClickListener {
+        View.OnClickListener, TravelmateSnackbars {
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     @BindView(R.id.select_city_name)
@@ -67,7 +68,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     @BindView(R.id.pb)
     ProgressBar pb;
     @BindView(R.id.linear_layout)
-    LinearLayout mLinearLayout;
     private String mCityid;
     private String mStartdate;
     private String mTripname;
@@ -165,15 +165,16 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == HttpsURLConnection.HTTP_CREATED) {
-
-                            displaySnackbar(getString(R.string.trip_added), Snackbar.LENGTH_LONG);
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                                    R.string.trip_added, Snackbar.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
                             setResult(Activity.RESULT_OK , returnIntent);
                             finish();
 
                         } else {
-                            displaySnackbar(res, Snackbar.LENGTH_LONG);
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                                    res, Snackbar.LENGTH_LONG).show();
                         }
                     });
 
@@ -267,11 +268,14 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 mTripname = tripName.getText().toString();
 
                 if (mTripname.trim().equals("")) {
-                    Snackbar.make(mLinearLayout , R.string.trip_name_blank , Snackbar.LENGTH_LONG).show();
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                            R.string.trip_name_blank, Snackbar.LENGTH_LONG).show();
                 } else if (tripStartDate == null || tripStartDate.getText().toString().equals("")) {
-                    Snackbar.make(mLinearLayout, R.string.trip_date_blank, Snackbar.LENGTH_LONG).show();
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                            R.string.trip_date_blank, Snackbar.LENGTH_LONG).show();
                 } else if (mCityid == null) {
-                    Snackbar.make(mLinearLayout, R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                            R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
                 } else
                     addTrip();
             
@@ -295,11 +299,5 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, AddNewTripActivity.class);
         return intent;
-    }
-
-    private void displaySnackbar(final String message, int length) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityAddNewTrip),
-                message, length);
-        snackbar.show();
     }
 }

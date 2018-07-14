@@ -1,3 +1,4 @@
+
 package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
@@ -34,7 +35,7 @@ import static utils.Constants.QR_CODE_WIDTH;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_NAME;
 
-public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener, TravelmateSnackbars {
+public class ShareContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int ACTIVITY_INSERT_CONTACT = 2;
     @BindView(R.id.scan)
@@ -147,11 +148,5 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ShareContactActivity.class);
         return intent;
-    }
-
-    private void displaySnackbar(final String message, int length) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityShareContact),
-                message, length);
-        snackbar.show();
     }
 }

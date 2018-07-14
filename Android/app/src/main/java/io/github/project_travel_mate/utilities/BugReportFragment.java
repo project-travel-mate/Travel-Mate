@@ -136,7 +136,8 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "message : " + e.getMessage());
                 hideProgressDialog();
-                displaySnackbar(getString(R.string.failure_message_bugreport));
+                TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
+                        R.string.failure_message_bugreport, Snackbar.LENGTH_LONG).show();
             }
 
             @Override
@@ -145,10 +146,12 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
                     // will be true only if the status code is in the range of [200..300)
                     Log.d("RESPONSE : ", "success" + response.toString());
                     hideProgressDialog();
-                    displaySnackbar(getString(R.string.success_message_bugreport));
+                    TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
+                            R.string.success_message_bugreport, Snackbar.LENGTH_LONG).show();
                     resetEdittextAndSpinner();
                 } else {
-                    displaySnackbar(getString(R.string.failure_message_bugreport));
+                    TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
+                            getString(R.string.failure_message_bugreport), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -170,20 +173,6 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
 
     private void hideProgressDialog() {
         mHandler.post(() -> mDialog.dismiss());
-    }
-
-    /*
-    Old method for Toast messages. All should be replaced with Snackbar.
-    private void displayToast(final String message) {
-        mHandler.post(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
-    }
-    */
-
-    private void displaySnackbar(final String message) {
-
-        Snackbar mySnackbar = Snackbar.make(mBugReportView.findViewById(R.id.fragmentBugReport),
-                message, Snackbar.LENGTH_LONG);
-        mHandler.post(() ->  mySnackbar.show());
     }
 
     private void resetEdittextAndSpinner() {

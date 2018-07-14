@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,17 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -39,6 +35,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
@@ -48,7 +45,7 @@ import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
 
-public class FriendsProfileActivity extends AppCompatActivity {
+public class FriendsProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
 
     @BindView(R.id.display_image)
     ImageView friendDisplayImage;
@@ -260,14 +257,15 @@ public class FriendsProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(FriendsProfileActivity.this, R.string.removed_friend_message,
-                                Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.removed_friend_message, Snackbar.LENGTH_LONG).show();
                         Intent intent = new Intent(FriendsProfileActivity.this, MyTripInfoActivity.class);
                         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
                         startActivity(intent);
                         finish();
                     } else
-                        Toast.makeText(FriendsProfileActivity.this, res, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                            Snackbar.LENGTH_SHORT).show();
                 });
             }
         });

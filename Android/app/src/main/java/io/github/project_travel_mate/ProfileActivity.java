@@ -67,7 +67,7 @@ import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
     @BindView(R.id.display_image)
     ImageView displayImage;
     @BindView(R.id.change_image)
@@ -192,7 +192,8 @@ public class ProfileActivity extends AppCompatActivity {
             Uri croppedImage = data.getData();
             Picasso.with(this).load(croppedImage).into(displayImage);
             mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-            Toast.makeText(ProfileActivity.this, R.string.profile_picture_updated, Toast.LENGTH_SHORT).show();
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.profile_picture_updated,
+                    Snackbar.LENGTH_SHORT).show();
             getUrlFromCloudinary(croppedImage);
 
         }
@@ -365,11 +366,12 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
-                        ckbar(res);
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                     }
                 });
                 runOnUiThread(() -> {
@@ -420,10 +422,12 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, R.string.status_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.status_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                     }
                 });
                 runOnUiThread(() -> {
@@ -556,7 +560,8 @@ public class ProfileActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Log.i(LOG_TAG, "Upload to server successful!");
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                     }
                 });
 
@@ -594,16 +599,8 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
-            Snackbar.make(Objects.requireNonNull(ProfileActivity.this).findViewById(android.R.id.content),
-                    R.string.snackbar_no_share_app,
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.snackbar_no_share_app,
                     Snackbar.LENGTH_LONG).show();
         }
-    }
-  
-    private void displaySnackbar(final String message) {
-
-        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.activity_profile_id),
-                message, Snackbar.LENGTH_LONG);
-        mySnackbar.show();
     }
 }

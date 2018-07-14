@@ -56,13 +56,14 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripInfoActivity extends AppCompatActivity {
+public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
 
     public static final int INTENT_REQUEST_GET_IMAGES = 13;
     @BindView(R.id.city_image)
@@ -148,7 +149,9 @@ public class MyTripInfoActivity extends AppCompatActivity {
                         mIsTripNameEdited = false;
                         updateTripName();
                     } else {
-                        Toast.makeText(MyTripInfoActivity.this, R.string.cannot_edit, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
+                                Snackbar.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -165,9 +168,10 @@ public class MyTripInfoActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_new_friend)
     void onClick() {
-        if (mFriendid == null) {
-            displaySnackbar(getString(R.string.no_friend_selected),
-                    Snackbar.LENGTH_LONG);
+        if (mFriendId == null) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                    getString(R.string.no_friend_selected),
+                    Snackbar.LENGTH_LONG).show();
 
         } else {
             addFriend();
@@ -292,7 +296,8 @@ public class MyTripInfoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
             ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            displaySnackbar(getString(R.string.images_added), Snackbar.LENGTH_LONG);
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), getString(R.string.images_added),
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -399,11 +404,13 @@ public class MyTripInfoActivity extends AppCompatActivity {
                     mHandler.post(() -> {
 
                         if (response.isSuccessful()) {
-                            displaySnackbar(getString(R.string.friend_added), Snackbar.LENGTH_LONG);
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                    getString(R.string.friend_added), Snackbar.LENGTH_LONG).show();
                             updateFriendList();
                             friendEmail.setText(null);
                         } else {
-                            displaySnackbar(res, Snackbar.LENGTH_LONG);
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                    res, Snackbar.LENGTH_LONG).show();
                         }
                         mDialog.dismiss();
                     });
@@ -544,9 +551,11 @@ public class MyTripInfoActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(MyTripInfoActivity.this, R.string.trip_name_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                res, Snackbar.LENGTH_LONG).show();
                     }
                 });
                 mDialog.dismiss();
@@ -558,11 +567,5 @@ public class MyTripInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
         return intent;
-    }
-
-    private void displaySnackbar(final String message, int length) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.activityMyTripInfo),
-                message, length);
-        snackbar.show();
     }
 }
