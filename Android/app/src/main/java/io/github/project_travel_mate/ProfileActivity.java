@@ -365,11 +365,11 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                      Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
-                      Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
-                  ckbar(res);
+                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        ckbar(res);
                     }
                 });
                 runOnUiThread(() -> {

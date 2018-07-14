@@ -54,7 +54,7 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
     private String mAuthToken = null;
 
     private Handler mHandler;
-    private View bugReportView;
+    private View mbugReportView;
 
     public BugReportFragment() {
         // Required empty public constructor
@@ -74,15 +74,15 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        bugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
-        ButterKnife.bind(this, bugReportView);
+        mbugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
+        ButterKnife.bind(this, mbugReportView);
 
         mHandler = new Handler(Looper.getMainLooper());
 
         setupSpinner();
         mAuthToken = getAuthToken();
 
-        return bugReportView;
+        return mbugReportView;
     }
 
     @Override
@@ -181,7 +181,7 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
 
     private void displaySnackbar(final String message) {
 
-        Snackbar mySnackbar = Snackbar.make(bugReportView.findViewById(R.id.fragmentBugReport),
+        Snackbar mySnackbar = Snackbar.make(mbugReportView.findViewById(R.id.fragmentBugReport),
                 message, Snackbar.LENGTH_LONG);
         mHandler.post(() ->  mySnackbar.show());
     }
