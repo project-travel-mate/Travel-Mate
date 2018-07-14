@@ -278,4 +278,9 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         animationView.playAnimation();
         getNotifications();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNotifications();
+    }
 }

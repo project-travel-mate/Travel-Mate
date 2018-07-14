@@ -339,6 +339,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         fillNavigationView(mSharedPreferences.getString(USER_NAME, getString(R.string.app_name)),
                 mSharedPreferences.getString(USER_IMAGE, null));
+        invalidateOptionsMenu();
     }
 
     void showProfile(String data) {
