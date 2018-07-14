@@ -71,8 +71,6 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
     TextView selectDate;
     @BindView(R.id.select_city)
     TextView selectCity;
-    private String mDeslat;
-    private String mDeslon;
     private String mDate;
     private SharedPreferences mSharedPreferences;
     private Handler mHandler;
@@ -103,7 +101,6 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                 calendar.get(Calendar.DAY_OF_MONTH),
                 isVibrate());
 
-        pb.setVisibility(View.VISIBLE);
         setTitle("Hotels");
 
         selectDate.setOnClickListener(this);
@@ -140,10 +137,10 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
     /**
      * Calls API to get hotel list
      */
-    private void getHotelList() {
+    private void getHotelList(String latitude, String longitude) {
 
         pb.setVisibility(View.VISIBLE);
-        String uri = HERE_API_LINK + "?at=" + mDeslat + "," + mDeslon + "&cat=accomodation&app_id=" +
+        String uri = HERE_API_LINK + "?at=" + latitude + "," + longitude + "&cat=accomodation&app_id=" +
                 HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
 
         Log.v("EXECUTING", uri);
@@ -164,6 +161,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
+                Log.v("RESPONSE", res + " ");
                 mHandler.post(() -> {
                     try {
                         JSONObject json = new JSONObject(res);
@@ -249,6 +247,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         pb.setVisibility(View.VISIBLE);
 
         String uri = API_LINK_V2 + "get-city/" + cityId;
+        Log.v("EXECUTING", uri);
         OkHttpClient client = new OkHttpClient();
 
         final Request request = new Request.Builder()
@@ -267,14 +266,14 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
                 try {
                     Log.v("Response", res);
                     JSONObject responseObject = new JSONObject(res);
-                    mDeslat = responseObject.getString("latitude");
-                    mDeslon = responseObject.getString("longitude");
+                    String latitude = responseObject.getString("latitude");
+                    String longitude = responseObject.getString("longitude");
+                    getHotelList(latitude, longitude);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        getHotelList();
     }
 
     private boolean isVibrate() {
