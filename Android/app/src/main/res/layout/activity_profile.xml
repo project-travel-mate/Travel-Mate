@@ -87,6 +87,25 @@
         android:contentDescription="@string/profile_icon"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
+    <ProgressBar
+        android:id="@+id/status_progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/status_icon"
+        android:layout_centerHorizontal="true"
+        android:indeterminateDrawable="@drawable/progress_bar"
+        android:visibility="gone"></ProgressBar>
+
+    <ProgressBar
+        android:id="@+id/name_progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/display_name"
+        android:layout_centerHorizontal="true"
+        android:indeterminateDrawable="@drawable/progress_bar"
+        android:visibility="gone"></ProgressBar>
     <ImageView
         android:id="@+id/email_icon"
         android:layout_width="30dp"
