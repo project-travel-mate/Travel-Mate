@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mToken;
     private DrawerLayout mDrawer;
     private Handler mHandler;
+    private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
+    private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
+    private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fillNavigationView(emailId, null);
 
         getProfileInfo();
+        if (travelShortcut.equals(getIntent().getAction())) {
+            fragment = TravelFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        } else if (myTripsShortcut.equals(getIntent().getAction())) {
+            fragment = MyTripsFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        } else if (utilitiesShortcut.equals(getIntent().getAction())) {
+            fragment = UtilitiesFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
     }
 
     @Override
