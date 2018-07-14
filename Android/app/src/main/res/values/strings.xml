@@ -62,6 +62,7 @@
     <string name="enter_task_name">Enter task name</string>
 
     <!-- My Trip Strings -->
+    <string name="trip_city">Trip City :</string>
     <string name="trip_date">Trip Date :</string>
     <string name="prompt_trip_name">Enter trip Name</string>
     <string name="prompt_city_name">Select City</string>

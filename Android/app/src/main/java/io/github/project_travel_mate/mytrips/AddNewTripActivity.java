@@ -79,6 +79,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     TextView tripdate;
     @BindView(R.id.trip_date_text)
     TextView tripdateText;
+    @BindView(R.id.trip_city_text)
+    TextView tripcityText;
+    @BindView(R.id.trip_city)
+    TextView tripcity;
     private String mCityid;
     private String mStartdate;
     private String mTripname;
@@ -96,6 +100,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         ButterKnife.bind(this);
         tripdateText.setVisibility(View.INVISIBLE);
         tripdate.setVisibility(View.INVISIBLE);
+
+        tripcity.setVisibility(View.INVISIBLE);
+        tripcityText.setVisibility(View.INVISIBLE);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
@@ -296,6 +303,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             public void onSelected(BaseSearchDialogCompat dialog,
                                                    CitySearchModel item, int position) {
                                 mCityid = item.getId();
+                                tripcity.setText(item.getTitle().toString());
+                                tripcity.setVisibility(View.VISIBLE);
+                                tripcityText.setVisibility(View.VISIBLE);
                                 dialog.dismiss();
                             }
                         }).show();
