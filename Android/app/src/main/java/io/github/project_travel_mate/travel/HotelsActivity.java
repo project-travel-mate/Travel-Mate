@@ -92,6 +92,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+
         if (!isNetworkAvailable()) {
             pb.setVisibility(View.INVISIBLE);
             selectCity.setVisibility(View.INVISIBLE);
@@ -100,7 +101,7 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
             animationView.playAnimation();
 
         }
-
+        animationView.setVisibility(View.GONE);
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
