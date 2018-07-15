@@ -3,6 +3,8 @@ package io.github.project_travel_mate.travel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -63,6 +66,8 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         View.OnClickListener {
 
     private static final String DATEPICKER_TAG = "datepicker";
+    @BindView(R.id.animation)
+    LottieAnimationView animationView;
     @BindView(R.id.pb)
     ProgressBar pb;
     @BindView(R.id.hotel_list)
@@ -87,6 +92,14 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+        if (!isNetworkAvailable()) {
+            pb.setVisibility(View.INVISIBLE);
+            selectCity.setVisibility(View.INVISIBLE);
+            selectDate.setVisibility(View.INVISIBLE);
+            animationView.setAnimation(R.raw.network_lost);
+            animationView.playAnimation();
+
+        }
 
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -429,4 +442,11 @@ public class HotelsActivity extends AppCompatActivity implements DatePickerDialo
         Intent intent = new Intent(context, HotelsActivity.class);
         return intent;
     }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }
