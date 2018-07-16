@@ -45,6 +45,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
 import utils.Utils;
+import android.widget.TextView;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -97,7 +98,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         tripdate.setVisibility(View.INVISIBLE);
         tripcity.setVisibility(View.INVISIBLE);
         tripcityText.setVisibility(View.INVISIBLE);
-      
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
