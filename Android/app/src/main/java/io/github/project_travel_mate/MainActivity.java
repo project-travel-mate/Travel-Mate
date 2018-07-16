@@ -47,7 +47,6 @@ import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.AboutUsFragment;
-import io.github.project_travel_mate.utilities.BugReportFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
