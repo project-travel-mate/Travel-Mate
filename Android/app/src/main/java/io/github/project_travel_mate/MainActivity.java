@@ -46,7 +46,7 @@ import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
-import io.github.project_travel_mate.utilities.BugReportFragment;
+import io.github.project_travel_mate.utilities.AboutUsFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
@@ -191,6 +191,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = MedalsFragment.newInstance();
                 break;
 
+            case R.id.nav_about_us:
+                fragment = AboutUsFragment.newInstance();
+                break;
+
             case R.id.nav_signout: {
 
                 //set AlertDialog before signout
@@ -214,10 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 builder.create().show();
                 break;
             }
-
-            case R.id.nav_report_bug:
-                fragment = BugReportFragment.newInstance();
-                break;
         }
 
         if (fragment != null) {

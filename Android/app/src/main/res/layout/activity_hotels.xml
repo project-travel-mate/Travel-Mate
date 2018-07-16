@@ -61,18 +61,6 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/select_date"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@color/black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/prompt_start_date"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
             <ListView
                 android:id="@+id/hotel_list"
                 android:layout_width="fill_parent"
