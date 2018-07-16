@@ -9,6 +9,7 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_medals">Medals</string>
+    <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
 
@@ -158,6 +159,18 @@
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
     <string name="status_updated">Status has been updated</string>
 
+    <!-- About Us String-->
+    <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
+    <string name="version_code">Version Code :</string>
+    <string name="fork_on_github">Fork on GitHub</string>
+    <string name="view_contributors">View Contributors</string>
+    <string name="report_a_bug">Report a Bug</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="join_slack">Join Slack</string>
+    <string name="share_app">Share app</string>
+    <string name="website">Website</string>
+
     <!-- Choose feature type -->
     <array name="bug_types">
         <item>Crash</item>
@@ -186,4 +199,7 @@
 
     <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
