@@ -196,10 +196,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     public void showProgress() {
     }
 
-    @Override
-    public void dismissProgress() {
-    }
-
     /**
      * method called by FinalCityInfoPresenter when the network
      * request to fetch city weather information comes back successfully
@@ -321,7 +317,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     /**
      * Plays the network lost animation in the view
      */
-    private void networkError() {
+    public void networkError() {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
