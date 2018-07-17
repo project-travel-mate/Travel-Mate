@@ -25,9 +25,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
 import com.gun0912.tedpicker.ImagePickerActivity;
 import com.squareup.picasso.Picasso;
@@ -90,6 +92,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     Button details;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
 
     private String mFriendId = null;
     private String mNameYet;
@@ -200,35 +206,41 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
-                final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    JSONObject ob;
-                    try {
-                        ob = new JSONObject(res);
-                        String title = ob.getString("trip_name");
-                        String start = ob.getString("start_date_tx");
-                        String end = ob.optString("end_date", null);
-                        String city = ob.getJSONObject("city").getString("city_name");
-                        details.setVisibility(View.VISIBLE);
-                        details.setText(String.format(getString(R.string.know_more_about), city));
-                        details.setOnClickListener(view -> getCity(city));
-                        cityName.setText(city);
-                        tripName.setText(title);
-                        final Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.parseLong(start) * 1000);
-                        final String timeString =
-                                getResources().getString(R.string.text_started_on) +
-                                        new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
-                        tripDate.setText(timeString);
-                        editTrip.setVisibility(View.VISIBLE);
-                        updateFriendList();
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONObject ob;
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            ob = new JSONObject(res);
+                            String title = ob.getString("trip_name");
+                            String start = ob.getString("start_date_tx");
+                            String end = ob.optString("end_date", null);
+                            String city = ob.getJSONObject("city").getString("city_name");
+                            details.setVisibility(View.VISIBLE);
+                            details.setText(String.format(getString(R.string.know_more_about), city));
+                            details.setOnClickListener(view -> getCity(city));
+                            cityName.setText(city);
+                            tripName.setText(title);
+                            final Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(Long.parseLong(start) * 1000);
+                            final String timeString =
+                                    getResources().getString(R.string.text_started_on) +
+                                            new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                            tripDate.setText(timeString);
+                            editTrip.setVisibility(View.VISIBLE);
+                            updateFriendList();
+                        } catch (JSONException | IOException | NullPointerException e) {
+                            e.printStackTrace();
+                            networkError();
+                        }
+                    } else {
+                        networkError();
                     }
                     tripName.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -254,35 +266,37 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
-                    JSONArray arr;
-                    City city = null;
-                    try {
-                        arr = new JSONArray(Objects.requireNonNull(response.body()).string());
-                        Log.v("RESPONSE : ", arr.toString());
-
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONArray arr;
+                        City city = null;
                         try {
-                            city = new City(arr.getJSONObject(0).getString("id"),
-                                    arr.getJSONObject(0).getString("image"),
-                                    arr.getJSONObject(0).getString("city_name"),
-                                    arr.getJSONObject(0).getInt("facts_count"),
-                                    "Know More", "View on Map", "Fun Facts", "City Trends");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
-                        startActivity(intent);
+                            arr = new JSONArray(Objects.requireNonNull(response.body()).string());
+                            Log.v("RESPONSE : ", arr.toString());
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            try {
+                                city = new City(arr.getJSONObject(0).getString("id"),
+                                        arr.getJSONObject(0).getString("image"),
+                                        arr.getJSONObject(0).getString("city_name"),
+                                        arr.getJSONObject(0).getInt("facts_count"),
+                                        "Know More", "View on Map", "Fun Facts", "City Trends");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
+                            startActivity(intent);
+
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                        }
                     }
                 });
 
@@ -328,42 +342,47 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
-                    JSONArray arr;
-                    final ArrayList<String> id, email;
-                    try {
-                        String result = response.body().string();
-                        Log.e("RES", result);
-                        if (response.body() == null)
-                            return;
-                        arr = new JSONArray(result);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                        id = new ArrayList<>();
-                        email = new ArrayList<>();
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                id.add(arr.getJSONObject(i).getString("id"));
-                                email.add(arr.getJSONObject(i).getString("username"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("ERROR ", "Message : " + e.getMessage());
+                        JSONArray arr;
+                        final ArrayList<String> id, email;
+                        try {
+                            String result = response.body().string();
+                            Log.e("RES", result);
+                            if (response.body() == null)
+                                return;
+                            arr = new JSONArray(result);
+
+                            id = new ArrayList<>();
+                            email = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                try {
+                                    id.add(arr.getJSONObject(i).getString("id"));
+                                    email.add(arr.getJSONObject(i).getString("username"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("ERROR ", "Message : " + e.getMessage());
+                                }
                             }
+                            ArrayAdapter<String> dataAdapter =
+                                    new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            friendEmail.setAdapter(dataAdapter);
+                            friendEmail.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mFriendId = id.get(arg2));
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR", "Message : " + e.getMessage());
                         }
-                        ArrayAdapter<String> dataAdapter =
-                                new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_layout, email);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        friendEmail.setAdapter(dataAdapter);
-                        friendEmail.setOnItemClickListener((arg0, arg1, arg2, arg3) -> mFriendId = id.get(arg2));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        networkError();
                     }
                 });
 
@@ -395,6 +414,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -409,12 +429,12 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             updateFriendList();
                             friendEmail.setText(null);
                         } else {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                                    res, Snackbar.LENGTH_LONG).show();
+                            networkError();
                         }
                         mDialog.dismiss();
                     });
                 } catch (IOException e) {
+                    networkError();
                     e.printStackTrace();
                 }
             }
@@ -440,6 +460,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -447,76 +468,83 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    JSONObject ob;
-                    try {
-                        ob = new JSONObject(res);
-                        JSONArray usersArray = ob.getJSONArray("users");
-                        if (usersArray.length() == 0) {
-                            addNewFriend.setVisibility(View.GONE);
-                            friendEmail.setVisibility(View.GONE);
-                            friendTitle.setVisibility(View.VISIBLE);
-                            friendTitle.setTypeface(null, Typeface.NORMAL);
-                            String mystring = getString(R.string.friends_title);
-                            SpannableString content = new SpannableString(mystring);
-                            content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-                            friendTitle.setText(content);
-                            friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                            friendTitle.setOnClickListener(view -> {
+                        JSONObject ob;
+                        try {
+                            ob = new JSONObject(res);
+                            JSONArray usersArray = ob.getJSONArray("users");
+                            if (usersArray.length() == 0) {
+                                addNewFriend.setVisibility(View.GONE);
+                                friendEmail.setVisibility(View.GONE);
+                                friendTitle.setVisibility(View.VISIBLE);
+                                friendTitle.setTypeface(null, Typeface.NORMAL);
+                                String mystring = getString(R.string.friends_title);
+                                SpannableString content = new SpannableString(mystring);
+                                content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+                                friendTitle.setText(content);
+                                friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+
+                                friendTitle.setOnClickListener(view -> {
+                                    addNewFriend.setVisibility(View.VISIBLE);
+                                    friendEmail.setVisibility(View.VISIBLE);
+                                    friendTitle.setText(R.string.friends_show_title);
+                                    friendTitle.setTypeface(null, Typeface.BOLD);
+                                    friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
+                                });
+                            } else {
+                                friendTitle.setText(R.string.friends_show_title);
+                                friendTitle.setVisibility(View.VISIBLE);
+                                showIcon.setVisibility(View.VISIBLE);
                                 addNewFriend.setVisibility(View.VISIBLE);
                                 friendEmail.setVisibility(View.VISIBLE);
-                                friendTitle.setText(R.string.friends_show_title);
-                                friendTitle.setTypeface(null, Typeface.BOLD);
-                                friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
-                            });
-                        } else {
-                            friendTitle.setText(R.string.friends_show_title);
-                            friendTitle.setVisibility(View.VISIBLE);
-                            showIcon.setVisibility(View.VISIBLE);
-                            addNewFriend.setVisibility(View.VISIBLE);
-                            friendEmail.setVisibility(View.VISIBLE);
-                            for (int i = 0; i < usersArray.length(); i++) {
+                                for (int i = 0; i < usersArray.length(); i++) {
 
-                                JSONObject jsonObject = usersArray.getJSONObject(i);
-                                String friendFirstName = jsonObject.getString("first_name");
-                                String friendLastName = jsonObject.getString("last_name");
-                                String friendImage = jsonObject.getString("image");
-                                String friendJoinedOn = jsonObject.getString("date_joined");
-                                String friendUserName = jsonObject.getString("username");
-                                String friendStatus = jsonObject.getString("status");
-                                int friendId = jsonObject.getInt("id");
-                                tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
-                                        friendImage, friendJoinedOn, friendStatus));
-                            }
-                            showIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    MyTripFriendNameAdapter dataAdapter = new MyTripFriendNameAdapter(
-                                            MyTripInfoActivity.this, tripFriends);
-                                    if (!mIsClicked) {
-                                        listView.setAdapter(dataAdapter);
-                                        showIcon.setImageResource(R.drawable.ic_remove_circle_black_24dp);
-                                        mIsClicked = true;
-                                    } else {
-                                        listView.setAdapter(null);
-                                        showIcon.setImageResource(R.drawable.ic_add_circle_black_24dp);
-                                        mIsClicked = false;
+                                    JSONObject jsonObject = usersArray.getJSONObject(i);
+                                    String friendFirstName = jsonObject.getString("first_name");
+                                    String friendLastName = jsonObject.getString("last_name");
+                                    String friendImage = jsonObject.getString("image");
+                                    String friendJoinedOn = jsonObject.getString("date_joined");
+                                    String friendUserName = jsonObject.getString("username");
+                                    String friendStatus = jsonObject.getString("status");
+                                    int friendId = jsonObject.getInt("id");
+                                    tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
+                                            friendImage, friendJoinedOn, friendStatus));
+                                }
+                                showIcon.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        MyTripFriendNameAdapter dataAdapter = new MyTripFriendNameAdapter(
+                                                MyTripInfoActivity.this, tripFriends);
+                                        if (!mIsClicked) {
+                                            listView.setAdapter(dataAdapter);
+                                            showIcon.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                                            mIsClicked = true;
+                                        } else {
+                                            listView.setAdapter(null);
+                                            showIcon.setImageResource(R.drawable.ic_add_circle_black_24dp);
+                                            mIsClicked = false;
+                                        }
                                     }
-                                }
-                            });
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Intent intent = new Intent(MyTripInfoActivity.this, FriendsProfileActivity.class);
-                                    intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
-                                    intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
+                                });
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent = new Intent(MyTripInfoActivity.this,
+                                                FriendsProfileActivity.class);
+                                        intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
+                                        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            networkError();
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -544,25 +572,40 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(() -> {
-                    if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                                R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                                res, Snackbar.LENGTH_LONG).show();
-                    }
-                });
+                if (response.isSuccessful() && response.body() != null) {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    mHandler.post(() -> {
+                        if (response.isSuccessful()) {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            res, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    networkError();
+                }
+
                 mDialog.dismiss();
             }
         });
     }
 
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
     public static Intent getStartIntent(Context context, Trip trip) {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);

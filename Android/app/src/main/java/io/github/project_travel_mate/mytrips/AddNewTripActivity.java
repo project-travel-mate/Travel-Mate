@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
@@ -66,8 +66,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     FlatButton ok;
     @BindView(R.id.tname)
     EditText tripName;
-    @BindView(R.id.pb)
-    ProgressBar pb;
     @BindView(R.id.linear_layout)
     LinearLayout mLinearLayout;
     @BindView(R.id.trip_date)
@@ -245,7 +243,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     } else {
                         Log.e("ERROR", "Network error");
                     }
-                    pb.setVisibility(View.GONE);
                 });
             }
         });

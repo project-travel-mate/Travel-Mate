@@ -1,12 +1,12 @@
 package io.github.project_travel_mate.travel;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +19,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.json.JSONArray;
@@ -45,14 +47,16 @@ import static utils.Constants.USER_TOKEN;
 
 public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
-    @BindView(R.id.pb)
-    ProgressBar pb;
     @BindView(R.id.shopping_list)
     ListView lv;
     @BindView(R.id.query)
     EditText q;
     @BindView(R.id.go)
     Button ok;
+    @BindView(R.id.text_view)
+    TextView textView;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
 
     private MaterialSearchView mSearchView;
     private String mToken;
@@ -72,9 +76,10 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        setTitle(getResources().getString(R.string.text_shopping));
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-        getShoppingItems("bags");
+        setTitle(getResources().getString(R.string.text_shopping));
 
         mSearchView = findViewById(R.id.search_view);
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -82,16 +87,10 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
                 Log.v("QUERY ITEM : ", query);
-                pb.setVisibility(View.VISIBLE);
                 try {
                     getShoppingItems(query);
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
-                    alertDialog.setTitle("Can't connect.");
-                    alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
+                    networkError();
                 }
                 return false;
             }
@@ -126,17 +125,11 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
     @OnClick(R.id.go)
     void onClick() {
-        pb.setVisibility(View.VISIBLE);
         try {
             String item = q.getText().toString();
             getShoppingItems(item);
         } catch (Exception e) {
-            AlertDialog alertDialog = new AlertDialog.Builder(ShoppingCurrentCityActivity.this).create();
-            alertDialog.setTitle("Can't connect.");
-            alertDialog.setMessage("We cannot connect to the internet right now. Please try again later.");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    (dialog, which) -> dialog.dismiss());
-            alertDialog.show();
+            networkError();
         }
     }
 
@@ -181,29 +174,35 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         Log.v("EXECUTING : ", uri);
 
         //Setup callback
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-                Log.v("RESULT", res);
-                final int responseCode = response.code();
+            public void onResponse(Call call, final Response response) {
                 mHandler.post(() -> {
-                    try {
-                        JSONArray feedItems = new JSONArray(res);
-                        Log.v("response", feedItems + " ");
-                        if (feedItems.length() == 0) {
-                            Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
-                            Snackbar.make(pb, "No results found",
-                                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    if (response.isSuccessful()) {
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            JSONArray feedItems = new JSONArray(res);
+                            Log.v("response", feedItems + " ");
+
+                            if (feedItems.length() == 0) {
+                                Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
+                            }
+                            animationView.setVisibility(View.GONE);
+                            textView.setVisibility(View.GONE);
+                            lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, feedItems));
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
                         }
-                        pb.setVisibility(View.GONE);
-                        lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, feedItems));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -214,4 +213,20 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         Intent intent = new Intent(context, ShoppingCurrentCityActivity.class);
         return intent;
     }
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
+    /**
+     * Plays the no results animation in the view
+     */
+    private void noResults() {
+        Toast.makeText(ShoppingCurrentCityActivity.this,  R.string.no_results, Toast.LENGTH_LONG).show();
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
+    }
+
 }

@@ -12,6 +12,7 @@
     <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
+    <string name="navigation_drawer_my_friends">My Friends</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
@@ -130,6 +131,7 @@
     <string name="text_joining_date">Joined on %1$s</string>
     <string name="profile_picture_updated">Profile Picture Updated!</string>
     <string name="text_source">"Source : "</string>
+    <string name="no_friends_message">You haven\'t added any trip with friends yet</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -201,4 +203,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
+    <string name="no_results">No results found</string>
 </resources>

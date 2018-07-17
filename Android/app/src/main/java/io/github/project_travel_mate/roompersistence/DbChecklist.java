@@ -1,4 +1,4 @@
-package utils;
+package io.github.project_travel_mate.roompersistence;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
@@ -15,18 +15,19 @@ public abstract class   DbChecklist extends RoomDatabase {
     private static DbChecklist sInstance;
 
     public static DbChecklist getsInstance(Context context) {
-
         //to make sure that Singleton Pattern is followed
         //i.e. only one object of the class is created.
         if (sInstance == null) {
             synchronized (LOCK) {
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         DbChecklist.class, DbChecklist.DATABASE_NAME)
-                        .addMigrations(MIGRATION_3_4).build();
+                        .addMigrations(MIGRATION_3_4)
+                        .build();
             }
         }
         return sInstance;
     }
+
 
     //migration from database version 3 to 4
     static final Migration MIGRATION_3_4 = new Migration(3, 4) {

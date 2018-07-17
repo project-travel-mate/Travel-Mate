@@ -118,12 +118,5 @@
             android:textSize="18sp"
             android:textColor="@color/black"/>
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
 </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
