@@ -15,6 +15,10 @@
             android:icon="@drawable/mytrips"
             android:title="@string/my_trip" />
         <item
+            android:id="@+id/nav_myfriends"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="@string/navigation_drawer_my_friends" />
+        <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"
             android:title="@string/navigation_drawer_utilities" />

@@ -103,7 +103,9 @@ public class FriendsProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
         mTrip = (Trip) intent.getSerializableExtra(EXTRA_MESSAGE_TRIP_OBJECT);
-        mTripId = mTrip.getId();
+        //Check if called from TripActivity
+        if (mTrip != null)
+            mTripId = mTrip.getId();
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
@@ -115,6 +117,11 @@ public class FriendsProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.friend_profile_menu, menu);
+        //If called from MyFriendFragment, remove
+        //the option to remove friend
+        if (mTrip == null ) {
+            menu.removeItem(R.id.action_remove_friend);
+        }
         return true;
     }
 
@@ -262,9 +269,11 @@ public class FriendsProfileActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Toast.makeText(FriendsProfileActivity.this, R.string.removed_friend_message,
                                 Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(FriendsProfileActivity.this, MyTripInfoActivity.class);
-                        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
-                        startActivity(intent);
+                        if (mTrip != null) {
+                            Intent intent = new Intent(FriendsProfileActivity.this, MyTripInfoActivity.class);
+                            intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
+                            startActivity(intent);
+                        }
                         finish();
                     } else
                         Toast.makeText(FriendsProfileActivity.this, res, Toast.LENGTH_SHORT).show();

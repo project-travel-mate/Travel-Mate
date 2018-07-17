@@ -218,6 +218,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 builder.create().show();
                 break;
             }
+
+            case R.id.nav_myfriends : {
+                fragment = MyFriendsFragment.newInstance();
+                break;
+            }
         }
 
         if (fragment != null) {
