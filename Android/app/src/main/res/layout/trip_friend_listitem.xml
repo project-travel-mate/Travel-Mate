@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/friend_name"
-        android:layout_width="254dp"
+        android:layout_width="259dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
@@ -30,10 +30,11 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/next_arrow"
-        android:layout_width="37dp"
-        android:layout_height="43dp"
-        android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:id="@+id/remove_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/ic_close_black_24dp"
         android:maxHeight="2dp"
         android:maxWidth="2dp"
         android:scaleType="fitEnd" />

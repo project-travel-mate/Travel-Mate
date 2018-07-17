@@ -85,7 +85,7 @@
     <string name="trip_name_updated">Trip name has been updated</string>
     <string name="cannot_edit">Trip name can\'t remain empty!</string>
     <string name="remove_friend">Remove Friend</string>
-    <string name="remove_friend_message">Are you sure you want to remove your friend?</string>
+    <string name="remove_friend_message">Are you sure you want to remove %1$s from this trip?</string>
     <string name="removed_friend_message">Successfully removed friend</string>
     <string name="trip_name_blank">Trip name can\'t be left blank</string>
     <string name="trip_city_blank">Trip city can\`t be left blank</string>
