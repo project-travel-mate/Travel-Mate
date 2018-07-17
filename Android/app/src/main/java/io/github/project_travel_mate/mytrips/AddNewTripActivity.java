@@ -45,8 +45,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
 import utils.Utils;
-import android.widget.TextView;
-
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
