@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -55,24 +56,29 @@ class FinalCityInfoPresenter {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mFinalCityInfoView.dismissProgress();
+                mFinalCityInfoView.networkError();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
+                if (response.isSuccessful() && response.body() != null) {
 
-                try {
-                    JSONObject responseObject = new JSONObject(res);
-                    mFinalCityInfoView.parseResult(
-                            responseObject.getString("icon"),
-                            responseObject.getString("temp") + (char) 0x00B0 + responseObject.getString("temp_units"),
-                            responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
-                            responseObject.getString("description"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    try {
+                        JSONObject responseObject = new JSONObject(res);
+                        mFinalCityInfoView.parseResult(
+                                responseObject.getString("icon"),
+                                responseObject.getString("temp") +
+                                        (char) 0x00B0 + responseObject.getString("temp_units"),
+                                responseObject.getString("humidity") + " " + responseObject.getString("humidity_units"),
+                                responseObject.getString("description"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        mFinalCityInfoView.networkError();
+                    }
+                } else {
+                    mFinalCityInfoView.networkError();
                 }
-                mFinalCityInfoView.dismissProgress();
             }
         });
     }
@@ -96,30 +102,33 @@ class FinalCityInfoPresenter {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mFinalCityInfoView.dismissProgress();
+                mFinalCityInfoView.networkError();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-
-                try {
-                    Log.v("Response", res);
-                    JSONObject responseObject = new JSONObject(res);
-                    JSONArray arr = responseObject.getJSONArray("images");
-                    ArrayList<String> imagesArray = new ArrayList<>();
-                    for ( int i = 0; i < arr.length(); i++ ) {
-                        imagesArray.add(arr.getString(i));
+                if (response.isSuccessful() && response.body() != null) {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    try {
+                        Log.v("Response", res);
+                        JSONObject responseObject = new JSONObject(res);
+                        JSONArray arr = responseObject.getJSONArray("images");
+                        ArrayList<String> imagesArray = new ArrayList<>();
+                        for (int i = 0; i < arr.length(); i++) {
+                            imagesArray.add(arr.getString(i));
+                        }
+                        mFinalCityInfoView.parseInfoResult(
+                                responseObject.getString("description"),
+                                responseObject.getString("latitude"),
+                                responseObject.getString("longitude"),
+                                imagesArray);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        mFinalCityInfoView.networkError();
                     }
-                    mFinalCityInfoView.parseInfoResult(
-                            responseObject.getString("description"),
-                            responseObject.getString("latitude"),
-                            responseObject.getString("longitude"),
-                            imagesArray);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    mFinalCityInfoView.networkError();
                 }
-                mFinalCityInfoView.dismissProgress();
             }
         });
     }

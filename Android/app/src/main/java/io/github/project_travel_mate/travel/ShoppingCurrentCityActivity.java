@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -188,8 +189,6 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
                             if (feedItems.length() == 0) {
                                 Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
-                                Snackbar.make(findViewById(android.R.id.content), "No results found",
-                                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
                             }
                             animationView.setVisibility(View.GONE);
                             textView.setVisibility(View.GONE);
@@ -217,4 +216,13 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
+    /**
+     * Plays the no results animation in the view
+     */
+    private void noResults() {
+        Toast.makeText(ShoppingCurrentCityActivity.this,  R.string.no_results, Toast.LENGTH_LONG).show();
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
+    }
+
 }

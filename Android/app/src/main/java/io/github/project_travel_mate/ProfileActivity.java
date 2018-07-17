@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,10 +96,11 @@ public class ProfileActivity extends AppCompatActivity {
     ProgressBar statusProgressBar;
     @BindView(R.id.name_progress_bar)
     ProgressBar nameProgressBar;
+    @BindView(R.id.layout)
+    RelativeLayout layout;
 
     private String mToken;
     private Handler mHandler;
-    private MaterialDialog mDialog;
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
@@ -280,47 +282,53 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-
+            public void onResponse(Call call, final Response response) {
                 mHandler.post(() -> {
-                    try {
-                        JSONObject object = new JSONObject(res);
-                        String userName = object.getString("username");
-                        String firstName = object.getString("first_name");
-                        String lastName = object.getString("last_name");
-                        int id = object.getInt("id");
-                        String imageURL = object.getString("image");
-                        String dateJoined = object.getString("date_joined");
-                        String status = object.getString("status");
-                        new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
-                        String fullName = firstName + " " + lastName;
-                        Long dateTime = rfc3339ToMills(dateJoined);
-                        String date = getDate(dateTime);
+                    if (response.isSuccessful() && response.body() != null) {
 
-                        if (status == null || status == "null") {
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            JSONObject object = new JSONObject(res);
+                            String userName = object.getString("username");
+                            String firstName = object.getString("first_name");
+                            String lastName = object.getString("last_name");
+                            int id = object.getInt("id");
+                            String imageURL = object.getString("image");
+                            String dateJoined = object.getString("date_joined");
+                            String status = object.getString("status");
+                            new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
+                            String fullName = firstName + " " + lastName;
+                            Long dateTime = rfc3339ToMills(dateJoined);
+                            String date = getDate(dateTime);
 
-                            status = getString(R.string.default_status);
+                            if (status == null || status == "null") {
+
+                                status = getString(R.string.default_status);
+                            }
+                            fillProfileInfo(fullName, userName, imageURL, date, status);
+
+                            if (userId == null) {
+                                mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                                mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
+                                mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
+                                mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
+                                mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
+                                mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                            } else {
+                                updateOptionsMenu();
+                            }
+
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                            networkError();
+                            Log.e("ERROR : ", "Message : " + e.getMessage());
                         }
-                        fillProfileInfo(fullName, userName, imageURL, date, status);
-
-                        if (userId == null) {
-                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                            mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
-                            mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
-                            mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
-                            mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
-                            mSharedPreferences.edit().putString(USER_STATUS, status).apply();
-                        } else {
-                            updateOptionsMenu();
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -363,6 +371,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -373,6 +382,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
+                        networkError();
                         Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -417,6 +427,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -427,6 +438,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, R.string.status_updated, Toast.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                     } else {
+                        networkError();
                         Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -509,6 +521,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onError(String requestId, ErrorInfo error) {
+                networkError();
                 Log.e(LOG_TAG, "error uploading to Cloudinary");
             }
 
@@ -551,6 +564,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -582,6 +596,15 @@ public class ProfileActivity extends AppCompatActivity {
             MenuItem item = mOptionsMenu.findItem(R.id.action_share_profile);
             item.setVisible(false);
         }
+    }
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
     }
 
     private void shareProfile() {
