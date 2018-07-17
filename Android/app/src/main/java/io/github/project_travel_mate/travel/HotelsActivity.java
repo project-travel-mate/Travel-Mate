@@ -180,7 +180,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                pb.setVisibility(View.GONE);
                 mHandler.post(() -> networkError());
             }
 
@@ -235,7 +234,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                pb.setVisibility(View.GONE);
                 mHandler.post(() -> networkError());
             }
             @Override
@@ -382,6 +380,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      * Plays the network lost animation in the view
      */
     private void networkError() {
+        pb.setVisibility(View.GONE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
