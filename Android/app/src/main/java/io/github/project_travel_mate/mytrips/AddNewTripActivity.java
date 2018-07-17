@@ -59,7 +59,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     @BindView(R.id.select_city_name)
     FlatButton cityName;
     @BindView(R.id.sdate)
-    EditText tripStartDate;
+    FlatButton tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
@@ -121,7 +121,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
             mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-            tripStartDate.setText(day + "/" + month + "/" + year);
+            tripdate.setText(day + "/" + month + "/" + year);
+            tripdateText.setVisibility(View.VISIBLE);
+            tripdate.setVisibility(View.VISIBLE);
         }
     }
 

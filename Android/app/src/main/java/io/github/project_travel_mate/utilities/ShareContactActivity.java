@@ -31,7 +31,6 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import utils.TravelmateSnackbars;
 
 import static utils.Constants.QR_CODE_HEIGHT;
 import static utils.Constants.QR_CODE_WIDTH;
