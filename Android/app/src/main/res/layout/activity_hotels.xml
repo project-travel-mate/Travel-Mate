@@ -38,21 +38,13 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             app:lottie_autoPlay="true"
+            app:lottie_fileName="loading.json"
+            app:lottie_imageAssetsFolder="images"
             app:lottie_loop="true" />
-        <ProgressBar
-            android:id="@+id/pb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:alpha=".20"
-            android:contentDescription="@string/empty_description" />
 
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -78,6 +70,15 @@
                 android:scrollingCache="false" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="222dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:text="@string/hotels_text" />
     </FrameLayout>
 
 
