@@ -11,11 +11,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
@@ -134,20 +139,26 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mIsTripNameEdited) {
-                    //if edit trip is clicked before editing the name
-                    editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
-                    tripName.setFocusableInTouchMode(true);
-                    tripName.setCursorVisible(true);
-                    tripName.requestFocus();
-                    InputMethodManager inputMethodManager = (InputMethodManager)
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Objects.requireNonNull(inputMethodManager)
-                            .showSoftInput(tripName, InputMethodManager.SHOW_IMPLICIT);
-                    mIsTripNameEdited = true;
+        editTrip.setOnClickListener(v -> {
+            if (!mIsTripNameEdited) {
+                //if edit trip is clicked before editing the name
+                editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                tripName.setFocusableInTouchMode(true);
+                tripName.setCursorVisible(true);
+                tripName.requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(inputMethodManager)
+                        .showSoftInput(tripName, InputMethodManager.SHOW_IMPLICIT);
+                mIsTripNameEdited = true;
+            } else {
+                //clicking edit trip after editing the trip name
+                if (tripName.getText().length() != 0 ) {
+                    editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                    tripName.setFocusableInTouchMode(false);
+                    tripName.setCursorVisible(false);
+                    mIsTripNameEdited = false;
+                    updateTripName();
                 } else {
                     //clicking edit trip after editing the trip name
                     if (tripName.getText().length() != 0 ) {
@@ -316,11 +327,79 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.trip_info_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                finish();
+                return true;
+            case R.id.action_remove_trip:
+                removeTrip();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void removeTrip() {
+        //set AlertDialog before removing trip
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.remove_trip_message)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
+                                    .title(R.string.app_name)
+                                    .content(R.string.progress_wait)
+                                    .progress(true, 0)
+                                    .show();
+
+                            String uri;
+                            uri = API_LINK_V2 + "remove-user-from-trip/" + mTrip.getId();
+                            Log.v("EXECUTING", uri);
+
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+                            //Execute request
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+                            //Setup callback
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            finish();
+                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mDialog.dismiss();
+                                }
+                            });
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
+    }
+
 
     private void friendAutoComplete() {
 
