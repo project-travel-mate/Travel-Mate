@@ -95,7 +95,6 @@
                             android:id="@+id/item_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="10dp"
                             android:maxLines="10"
@@ -112,8 +111,8 @@
 
 
                             <Button
-                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/call"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
@@ -123,8 +122,8 @@
                                 android:textColor="#ffffff" />
 
                             <Button
-                                style="?android:attr/buttonBarButtonStyle"
                                 android:id="@+id/book"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
