@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     TextView textView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
 
     private MaterialSearchView mSearchView;
     private String mToken;
@@ -195,6 +198,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
                                 Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
                             }
                             animationView.setVisibility(View.GONE);
+                            layout.setVisibility(View.VISIBLE);
                             textView.setVisibility(View.GONE);
                             lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, feedItems));
                         } catch (JSONException | IOException e) {
@@ -202,7 +206,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
                             networkError();
                         }
                     } else {
-                        networkError();
+                        noResults();
                     }
                 });
             }
@@ -217,6 +221,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
      * Plays the network lost animation in the view
      */
     private void networkError() {
+        animationView.setVisibility(View.VISIBLE);
+        layout.setVisibility(View.GONE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
@@ -224,6 +230,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
      * Plays the no results animation in the view
      */
     private void noResults() {
+        animationView.setVisibility(View.VISIBLE);
+        layout.setVisibility(View.GONE);
         Toast.makeText(ShoppingCurrentCityActivity.this,  R.string.no_results, Toast.LENGTH_LONG).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();

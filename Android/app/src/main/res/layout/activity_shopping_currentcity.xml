@@ -34,6 +34,7 @@
             android:text="@string/shopping_text" />
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
