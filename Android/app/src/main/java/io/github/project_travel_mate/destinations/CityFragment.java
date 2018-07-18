@@ -21,18 +21,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
+import android.widget.ProgressBar;
 import com.airbnb.lottie.LottieAnimationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import flipviewpager.utils.FlipSettings;
@@ -44,11 +41,12 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class CityFragment extends Fragment {
+public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
@@ -102,9 +100,7 @@ public class CityFragment extends Fragment {
                 return true;
             }
         });
-
         fetchCitiesList();
-
         return view;
     }
 

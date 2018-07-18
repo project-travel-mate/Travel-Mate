@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -24,12 +24,10 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Objects;
 import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -103,7 +101,6 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.scan:
                 IntentIntegrator qrScan = new IntentIntegrator(this);
@@ -193,3 +190,4 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
         startActivity(Intent.createChooser(intent , getString(R.string.share_intent_text)));
     }
 }
+
