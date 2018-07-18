@@ -445,7 +445,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     if (response.isSuccessful()) {
                         TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
                                 R.string.status_updated, Snackbar.LENGTH_SHORT).show();
-                        mSharedPreferences.edit().putString(USER_STATUS, mUserstatus).apply();
+                        mSharedPreferences.edit().putString(USER_STATUS, mUserStatus).apply();
                         displayStatus.setText(mUserStatus);
                       
                     } else {
