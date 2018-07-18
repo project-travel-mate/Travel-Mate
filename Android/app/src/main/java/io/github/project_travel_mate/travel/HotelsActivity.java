@@ -22,17 +22,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;

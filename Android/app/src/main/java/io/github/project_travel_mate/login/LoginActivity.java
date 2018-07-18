@@ -31,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
@@ -38,7 +39,7 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Initiates login
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView, TravelmateSnackbars {
 
     private final LoginPresenter mLoginPresenter = new LoginPresenter();
     @BindView(R.id.signup)
@@ -170,10 +171,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void showError() {
-        Snackbar snackbar = Snackbar
-                .make(findViewById(android.R.id.content), 
-                      R.string.toast_invalid_username_or_password, Snackbar.LENGTH_LONG);
-        snackbar.show();
+        TravelmateSnackbars.createSnackBar(findViewById(R.id.login_activity),
+                R.string.toast_invalid_username_or_password, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

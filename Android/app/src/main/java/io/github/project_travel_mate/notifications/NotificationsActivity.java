@@ -17,19 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -41,11 +36,13 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class NotificationsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class NotificationsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
+        TravelmateSnackbars {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
@@ -242,9 +239,13 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     mHandler.post(() -> {
                                         if (response.isSuccessful()) {
                                             getNotifications();
-                                            Toast.makeText(NotificationsActivity.this, res, Toast.LENGTH_SHORT).show();
+                                            TravelmateSnackbars.createSnackBar(findViewById
+                                                            (R.id.notifications_id_layout), res,
+                                                    Snackbar.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(NotificationsActivity.this, res, Toast.LENGTH_LONG).show();
+                                            TravelmateSnackbars.createSnackBar(findViewById
+                                                            (R.id.notifications_id_layout), res,
+                                                    Snackbar.LENGTH_LONG).show();
                                         }
                                     });
                                     mDialog.dismiss();
@@ -272,9 +273,10 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
 
     private void emptyList() {
         Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.content),
+                .make(findViewById(R.id.notifications_id_layout),
                         R.string.no_notifications, Snackbar.LENGTH_LONG);
         snackbar.show();
+
         animationView.setAnimation(R.raw.no_notifications);
         animationView.playAnimation();
     }
