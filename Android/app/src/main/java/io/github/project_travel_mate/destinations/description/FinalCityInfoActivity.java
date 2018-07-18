@@ -46,33 +46,33 @@ public class FinalCityInfoActivity extends AppCompatActivity
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.temp)
-    TextView temp;
+    TextView temperature;
     @BindView(R.id.humidit)
     TextView humidity;
     @BindView(R.id.weatherinfo)
-    TextView weatherinfo;
+    TextView weatherInfo;
     @BindView(R.id.head)
     TextView title;
     @BindView(R.id.image_slider)
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
-    ImageView ico;
+    ImageView icon;
     @BindView(R.id.expand_text_view)
-    ExpandableTextView des;
+    ExpandableTextView cityDescription;
     @BindView(R.id.funfact)
     LinearLayout funfact;
     @BindView(R.id.restau)
-    LinearLayout restau;
+    LinearLayout restaurant;
     @BindView(R.id.hangout)
     LinearLayout hangout;
     @BindView(R.id.monu)
-    LinearLayout monum;
+    LinearLayout monument;
     @BindView(R.id.shoppp)
-    LinearLayout shopp;
+    LinearLayout shopping;
     @BindView(R.id.trends)
     LinearLayout trend;
     @BindView(R.id.SliderDots)
-    LinearLayout sliderDotspanel;
+    LinearLayout sliderDotsPanel;
     private int mDotsCount;
     private ImageView[] mDots;
     private Handler mHandler;
@@ -130,10 +130,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
     private void setClickListeners() {
         funfact.setOnClickListener(this);
-        restau.setOnClickListener(this);
+        restaurant.setOnClickListener(this);
         hangout.setOnClickListener(this);
-        monum.setOnClickListener(this);
-        shopp.setOnClickListener(this);
+        monument.setOnClickListener(this);
+        shopping.setOnClickListener(this);
         trend.setOnClickListener(this);
     }
 
@@ -213,10 +213,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String weatherDescription) {
         mHandler.post(() -> {
             content.setVisibility(View.VISIBLE);
-            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(ico);
-            temp.setText(tempText);
+            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
-            weatherinfo.setText(weatherDescription);
+            weatherInfo.setText(weatherDescription);
         });
     }
 
@@ -240,7 +240,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
             animationView.setVisibility(View.GONE);
             content.setVisibility(View.VISIBLE);
             if (description != null && !description.equals("null"))
-                des.setText(description);
+                cityDescription.setText(description);
             mCity.setDescription(description);
             mCity.setLatitude(latitude);
             mCity.setLongitude(longitude);
@@ -259,7 +259,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         mDotsCount = adapter.getCount();
         mDots = new ImageView[mDotsCount];
         if (mDotsCount == 1) {
-            sliderDotspanel.setVisibility(View.INVISIBLE);
+            sliderDotsPanel.setVisibility(View.INVISIBLE);
         }
 
         for (int i = 0; i < mDotsCount; i++) {
@@ -270,7 +270,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                     .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             params.setMargins(8, 0, 8, 0);
-            sliderDotspanel.addView(mDots[i], params);
+            sliderDotsPanel.addView(mDots[i], params);
         }
         mDots[0].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
 
@@ -286,15 +286,36 @@ public class FinalCityInfoActivity extends AppCompatActivity
             imagesSliderView.setCurrentItem(currentPage++, true);
         };
 
+
+        //for activating dots on manual swapping of images
+        imagesSliderView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+               //required method
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < mDotsCount; i++)
+                    mDots[i].setImageDrawable(getResources().getDrawable(R.drawable.non_active_dot));
+                mDots[position].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //required method
+            }
+        });
         timer = new Timer();
         timer.schedule(new TimerTask() {
-
             @Override
             public void run() {
                 handler.post(Update);
             }
-        }, 500, 2000);
+        }, 500, 3000);
     }
+
+
 
     /**
      * Fires an Intent with given parameters
