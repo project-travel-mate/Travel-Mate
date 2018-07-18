@@ -407,7 +407,7 @@ public class ProfileActivity extends AppCompatActivity {
         Request request;
 
         mUserStatus = String.valueOf(displayStatus.getText());
-        if(mUserStatus.equals("")) {
+        if (mUserStatus.equals("")) {
             uri = API_LINK_V2 + "remove-user-status";
             mUserStatus = getString(R.string.default_status);
 
@@ -479,7 +479,7 @@ public class ProfileActivity extends AppCompatActivity {
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
-        if(status.equals("null"))
+        if (status.equals("null"))
             status = getString(R.string.default_status);
         displayStatus.setText(status);
     }
