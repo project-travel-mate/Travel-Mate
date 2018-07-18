@@ -183,7 +183,12 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
             mytrip();
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTrips.clear();
+        mytrip();
+    }
 
     @Override
     public void onRefresh() {
