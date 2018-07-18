@@ -12,6 +12,7 @@
     <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_nav_report_bug">Report A Bug</string>
+    <string name="navigation_drawer_my_friends">My Friends</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
@@ -77,6 +78,7 @@
     <string name="trip_added">Trip added</string>
     <string name="friend_added">Friend added to trip</string>
     <string name="no_friend_selected">Please select a valid friend to add</string>
+    <string name="images_added">Images added</string>
     <string name="my_trip">My Trips</string>
     <string name="no_trips">You don\'t have any trips. Click add button to get started</string>
     <string name="know_more_about">Know more about %1$s</string>
@@ -105,8 +107,11 @@
     <string name="share_intent_text">Share Contact Details</string>
     <string name="share_menu">Share</string>
     <string name="share_contact_text">Share Contact</string>
+    <string name="cant_generate">Can\'t be generated. Need to download QR services</string>
+    <string name="add_contact">Added Contact</string>
+    <string name="cancel_contact">Cancelled Added Contact</string>
     <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
-    <string name="view_contact">View Someone\'s Contact</string>
+    <string name="view_contact">View someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
 
     <!-- Constant texts -->
@@ -126,6 +131,7 @@
     <string name="text_joining_date">Joined on %1$s</string>
     <string name="profile_picture_updated">Profile Picture Updated!</string>
     <string name="text_source">"Source : "</string>
+    <string name="no_friends_message">You haven\'t added any trip with friends yet</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -173,6 +179,7 @@
         <item>Other</item>
     </array>
 
+    <!-- Bug report strings -->
     <string name="choose_a_type_bugreport">Choose a Type:</string>
     <string name="hint_edit_text_bugreport">Describe your issue…</string>
     <string name="button_text_bugreport">Report</string>
@@ -197,4 +204,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
+    <string name="no_results">No results found</string>
 </resources>

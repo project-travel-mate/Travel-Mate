@@ -17,8 +17,6 @@ interface FinalCityInfoView {
 
     void showProgress();
 
-    void dismissProgress();
-
     void parseResult(String iconUrl,
                      String temp,
                      String humidity,
@@ -28,4 +26,6 @@ interface FinalCityInfoView {
                          String latitude,
                          String longitude,
                          ArrayList<String> imagesArray);
+
+    void networkError();
 }

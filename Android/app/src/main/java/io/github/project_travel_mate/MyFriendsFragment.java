@@ -1,87 +1,84 @@
-package io.github.project_travel_mate.mytrips;
+package io.github.project_travel_mate;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import com.airbnb.lottie.LottieAnimationView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import io.github.project_travel_mate.R;
-import objects.Trip;
+import android.support.v4.app.Fragment;
+
+import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.TravelmateSnackbars;
 
-import static android.app.Activity.RESULT_OK;
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TravelmateSnackbars {
+public class MyFriendsFragment extends Fragment {
 
-    private final List<Trip> mTrips = new ArrayList<>();
+    private final List<User> mFriends = new ArrayList<>();
 
     @BindView(R.id.gv)
     GridView gridView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
-    private MyTripsAdapter mMyTripsAdapter;
-    static int ADDNEWTRIP_ACTIVITY = 203;
-    private View mTripsView;
+    private MyFriendsAdapter mAdapter;
 
-    public MyTripsFragment() {
+    public MyFriendsFragment() {
         // Required empty public constructor
     }
-    public static MyTripsFragment newInstance() {
-        return new MyTripsFragment();
+    public static MyFriendsFragment newInstance() {
+        return new MyFriendsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mTripsView = inflater.inflate(R.layout.fragment_my_trips, container, false);
-        ButterKnife.bind(this, mTripsView);
+        View view = inflater.inflate(R.layout.fragment_my_friends, container, false);
+        ButterKnife.bind(this, view);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
-        swipeRefreshLayout.setOnRefreshListener(this);
-        mytrip();
-        return mTripsView;
+        myFriends();
+        return view;
 
     }
 
-    private void mytrip() {
+    private void myFriends() {
 
-        String uri = API_LINK_V2 + "get-all-trips";
+        String uri = API_LINK_V2 + "trip-friends-all";
 
         Log.v("EXECUTING", uri);
 
@@ -112,23 +109,24 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             Log.v("Response", res);
                             arr = new JSONArray(res);
 
-                            if (arr.length() < 1) {
+                            if (arr.length() <= 1) {
                                 noResults();
                                 return;
                             }
 
-                            for (int i = 0; i < arr.length(); i++) {
-                                String id = arr.getJSONObject(i).getString("id");
-                                String start = arr.getJSONObject(i).getString("start_date_tx");
-                                String end = arr.getJSONObject(i).optString("end_date", null);
-                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                                String tname = arr.getJSONObject(i).getString("trip_name");
-                                JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
-                                String image = array.length() > 0 ? array.getString(0) : null;
-                                mTrips.add(new Trip(id, name, image, start, end, tname));
-                                animationView.setVisibility(View.GONE);
-                                mMyTripsAdapter = new MyTripsAdapter(mActivity.getApplicationContext(), mTrips);
-                                gridView.setAdapter(mMyTripsAdapter);
+                            for (int i = 0; i < arr.length() - 1; i++) {
+                                JSONObject object = arr.getJSONObject(i);
+                                String userName = object.getString("username");
+                                String firstName = object.getString("first_name");
+                                String lastName = object.getString("last_name");
+                                int id = object.getInt("id");
+                                String imageURL = object.getString("image");
+                                String dateJoined = object.getString("date_joined");
+                                String status = object.getString("status");
+                                mFriends.add(new User(userName, firstName, lastName, id, imageURL, dateJoined, status));
+                                animationView.setVisibility(GONE);
+                                mAdapter = new MyFriendsAdapter(mActivity.getApplicationContext(), mFriends);
+                                gridView.setAdapter(mAdapter);
                             }
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
@@ -143,12 +141,6 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         });
     }
 
-    @OnClick(R.id.add_trip)
-    void addTrip() {
-        Intent intent = new Intent(getContext() , AddNewTripActivity.class);
-        startActivityForResult(intent , ADDNEWTRIP_ACTIVITY);
-
-    }
 
     /**
      * Plays the network lost animation in the view
@@ -162,8 +154,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
      * Plays the no results animation in the view
      */
     private void noResults() {
-        TravelmateSnackbars.createSnackBar(mTripsView.findViewById(R.id.my_trips_frag), R.string.no_trips,
-                Snackbar.LENGTH_LONG).show();
+        Toast.makeText(mActivity, R.string.no_friends_message, Toast.LENGTH_LONG).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
     }
@@ -174,22 +165,4 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         this.mActivity = (Activity) activity;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADDNEWTRIP_ACTIVITY && resultCode == RESULT_OK) {
-            mTrips.clear();
-            mMyTripsAdapter.notifyDataSetChanged();
-            mytrip();
-        }
-    }
-
-
-    @Override
-    public void onRefresh() {
-        mTrips.clear();
-        mMyTripsAdapter.notifyDataSetChanged();
-        mytrip();
-        swipeRefreshLayout.setRefreshing(false);
-    }
 }

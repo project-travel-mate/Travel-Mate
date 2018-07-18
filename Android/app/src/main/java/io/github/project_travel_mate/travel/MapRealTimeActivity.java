@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,16 +28,13 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -49,6 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import utils.GPSTracker;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
@@ -59,7 +56,7 @@ import static utils.Utils.bitmapDescriptorFromVector;
 /**
  * Show markers on map around user's current location
  */
-public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback, TravelmateSnackbars {
 
     private final List<MapItem> mMapItems = new ArrayList<>();
     @BindView(R.id.data)
@@ -301,8 +298,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                             Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
                     MapRealTimeActivity.this.startActivity(browserIntent);
                 } catch (Exception e) {
-                    Toast.makeText(MapRealTimeActivity.this,
-                            R.string.no_activity_for_browser, Toast.LENGTH_LONG).show();
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
+                            R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
                 }
             });
             return false;
@@ -323,8 +320,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                     case Activity.RESULT_OK:
                         //User agreed to make required location settings changes
                         //startLocationUpdates();
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_enabled, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
+                                R.string.location_enabled, Snackbar.LENGTH_LONG).show();
                         mCurlat = Double.toString(tracker.getLatitude());
                         mCurlon = Double.toString(tracker.getLongitude());
                         getMarkers("eat-drink", R.drawable.ic_local_pizza_black);
@@ -332,8 +329,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                         break;
                     case Activity.RESULT_CANCELED:
                         //User chose not to make required location settings changes
-                        Toast.makeText(getApplicationContext(),
-                                R.string.location_not_enabled, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
+                                R.string.location_not_enabled, Snackbar.LENGTH_LONG).show();
                         break;
                 }
                 break;

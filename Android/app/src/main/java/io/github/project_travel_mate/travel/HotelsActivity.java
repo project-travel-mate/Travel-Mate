@@ -21,15 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import com.airbnb.lottie.LottieAnimationView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -60,6 +59,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     ListView lv;
     @BindView(R.id.select_city)
     TextView selectCity;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
 
     private Handler mHandler;
     private String mToken;
@@ -119,6 +120,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                pb.setVisibility(View.GONE);
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -126,24 +129,28 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 final String res = Objects.requireNonNull(response.body()).string();
                 Log.v("RESPONSE", res + " ");
                 mHandler.post(() -> {
-                    try {
-                        JSONObject json = new JSONObject(res);
-                        Log.v("Response", res);
-                        json = json.getJSONObject("results");
-                        JSONArray feedItems = json.getJSONArray("items");
-                        Log.v("response", feedItems + " ");
-                        pb.setVisibility(View.GONE);
-                        if (feedItems.length() > 0) {
-                            lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
-                        } else {
-                            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.hotelsCoordinatorLayout),
-                                    R.string.no_hotels, Snackbar.LENGTH_LONG);
-                            mySnackbar.show();
+                    if (response.isSuccessful() && response.body() != null) {
+                        try {
+                            JSONObject json = new JSONObject(res);
+                            Log.v("Response", res);
+                            json = json.getJSONObject("results");
+                            JSONArray feedItems = json.getJSONArray("items");
+                            Log.v("response", feedItems + " ");
+                            pb.setVisibility(View.GONE);
+                            if (feedItems.length() > 0) {
+                                lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
+                            } else {
+                                noResults();
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            pb.setVisibility(View.GONE);
+                            networkError();
                         }
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    } else {
+                        pb.setVisibility(View.GONE);
+                        networkError();
                     }
-                    pb.setVisibility(View.GONE);
                 });
             }
         });
@@ -169,6 +176,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -187,10 +195,12 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
+                            networkError();
                             Log.e("ERROR", "Message : " + e.getMessage());
                         }
                     } else {
                         Log.e("ERROR", "Network error");
+                        networkError();
                     }
                     pb.setVisibility(View.GONE);
                 });
@@ -220,19 +230,25 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                mHandler.post(() -> networkError());
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-                try {
-                    Log.v("Response", res);
-                    JSONObject responseObject = new JSONObject(res);
-                    String latitude = responseObject.getString("latitude");
-                    String longitude = responseObject.getString("longitude");
-                    getHotelList(latitude, longitude);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    try {
+                        Log.v("Response", res);
+                        JSONObject responseObject = new JSONObject(res);
+                        String latitude = responseObject.getString("latitude");
+                        String longitude = responseObject.getString("longitude");
+                        getHotelList(latitude, longitude);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        networkError();
+                    }
+                } else {
+                    networkError();
                 }
             }
         });
@@ -312,6 +328,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                         mContext.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
                 });
                 holder.map.setOnClickListener(view -> {
@@ -330,6 +347,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                         mContext.startActivity(browserIntent);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
 
                 });
@@ -340,6 +358,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                                 Uri.parse(mFeedItems.getJSONObject(position).getString("href")));
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                     }
                     mContext.startActivity(browserIntent);
 
@@ -351,6 +370,24 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             }
             return convertView;
         }
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        pb.setVisibility(View.GONE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
+
+    /**
+     * Plays the no results animation in the view
+     */
+    private void noResults() {
+        Toast.makeText(HotelsActivity.this, R.string.no_trips, Toast.LENGTH_LONG).show();
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
     }
 
     class ViewHolder {

@@ -19,13 +19,10 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -34,6 +31,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
@@ -42,7 +40,7 @@ import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
 
-public class FriendsProfileActivity extends AppCompatActivity {
+public class FriendsProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
 
     @BindView(R.id.display_image)
     ImageView friendDisplayImage;
