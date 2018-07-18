@@ -27,23 +27,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -55,7 +50,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+import utils.TravelmateSnackbars;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
@@ -73,7 +68,7 @@ import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
     @BindView(R.id.display_image)
     ImageView displayImage;
     @BindView(R.id.change_image)
@@ -199,7 +194,8 @@ public class ProfileActivity extends AppCompatActivity {
             Uri croppedImage = data.getData();
             Picasso.with(this).load(croppedImage).into(displayImage);
             mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-            Toast.makeText(ProfileActivity.this, R.string.profile_picture_updated, Toast.LENGTH_SHORT).show();
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.profile_picture_updated,
+                    Snackbar.LENGTH_SHORT).show();
             getUrlFromCloudinary(croppedImage);
 
         }
@@ -379,11 +375,13 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, R.string.name_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                         networkError();
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
                 });
                 runOnUiThread(() -> {
@@ -435,11 +433,13 @@ public class ProfileActivity extends AppCompatActivity {
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, R.string.status_updated, Toast.LENGTH_SHORT).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                                R.string.status_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_STATUS, status).apply();
                     } else {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                         networkError();
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
                     }
                 });
                 runOnUiThread(() -> {
@@ -574,7 +574,8 @@ public class ProfileActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Log.i(LOG_TAG, "Upload to server successful!");
                     } else {
-                        Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                                Snackbar.LENGTH_LONG).show();
                     }
                 });
 
@@ -621,8 +622,7 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
-            Snackbar.make(Objects.requireNonNull(ProfileActivity.this).findViewById(android.R.id.content),
-                    R.string.snackbar_no_share_app,
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.snackbar_no_share_app,
                     Snackbar.LENGTH_LONG).show();
         }
     }
