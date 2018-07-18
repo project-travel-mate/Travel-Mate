@@ -98,6 +98,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     LinearLayout layout;
 
     private String mFriendId = null;
+    private String mFriendDeleteId = null;
     private String mNameYet;
     private String mToken;
     private Trip mTrip;
@@ -105,6 +106,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     private boolean mIsClicked = false;
     private boolean mIsTripNameEdited = false;
     private MaterialDialog mDialog;
+    private MyTripFriendNameAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,7 +281,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         try {
                             arr = new JSONArray(Objects.requireNonNull(response.body()).string());
                             Log.v("RESPONSE : ", arr.toString());
-
                             try {
                                 city = new City(arr.getJSONObject(0).getString("id"),
                                         arr.getJSONObject(0).getString("image"),
@@ -299,7 +300,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         }
                     }
                 });
-
             }
         });
     }
@@ -508,16 +508,19 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     String friendUserName = jsonObject.getString("username");
                                     String friendStatus = jsonObject.getString("status");
                                     int friendId = jsonObject.getInt("id");
+
+                                    mFriendDeleteId = String.valueOf(friendId);
                                     tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
                                             friendImage, friendJoinedOn, friendStatus));
                                 }
                                 showIcon.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        MyTripFriendNameAdapter dataAdapter = new MyTripFriendNameAdapter(
-                                                MyTripInfoActivity.this, tripFriends);
+
+                                        mAdapter = new MyTripFriendNameAdapter(
+                                                MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
                                         if (!mIsClicked) {
-                                            listView.setAdapter(dataAdapter);
+                                            listView.setAdapter(mAdapter);
                                             showIcon.setImageResource(R.drawable.ic_remove_circle_black_24dp);
                                             mIsClicked = true;
                                         } else {
@@ -535,7 +538,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                         intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
                                         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
                                         startActivity(intent);
-                                        finish();
                                     }
                                 });
                             }
@@ -591,7 +593,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                 } else {
                     networkError();
                 }
-
                 mDialog.dismiss();
             }
         });

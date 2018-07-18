@@ -8,18 +8,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
@@ -29,7 +26,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -39,7 +35,6 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
-import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
@@ -78,8 +73,6 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     private String mToken;
     private Handler mHandler;
     private int mFriendId;
-    private Trip mTrip;
-    private String mTripId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,27 +92,12 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         
         Intent intent = getIntent();
         mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
-        mTrip = (Trip) intent.getSerializableExtra(EXTRA_MESSAGE_TRIP_OBJECT);
-        //Check if called from TripActivity
-        if (mTrip != null)
-            mTripId = mTrip.getId();
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         getFriendDetails(String.valueOf(mFriendId));
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.friend_profile_menu, menu);
-        //If called from MyFriendFragment, remove
-        //the option to remove friend
-        if (mTrip == null ) {
-            menu.removeItem(R.id.action_remove_friend);
-        }
-        return true;
     }
 
     public static Intent getStartIntent(Context context, int id) {
@@ -221,64 +199,9 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                 // return back to trip activity
                 finish();
                 return true;
-            case R.id.action_remove_friend:
-                ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
-                AlertDialog.Builder builder = new AlertDialog.Builder(crt);
-                builder.setMessage(R.string.remove_friend_message)
-                        .setPositiveButton(R.string.positive_button,
-                                (dialog, which) -> {
-                                    removeFriend();
-                                })
-                        .setNegativeButton(android.R.string.cancel,
-                                (dialog, which) -> {
-
-                                });
-                builder.create().show();
-            default:
+            default :
                 return super.onOptionsItemSelected(item);
 
         }
     }
-
-    private void removeFriend() {
-
-        String uri = API_LINK_V2 + "remove-friend-from-trip/" + mTripId + "/" + mFriendId;
-        Log.v("EXECUTING", uri);
-        //Set up client
-        OkHttpClient client = new OkHttpClient();
-        //Execute request
-        Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
-                .url(uri)
-                .build();
-        //Setup callback
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-
-                final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(() -> {
-                    if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
-                                R.string.removed_friend_message, Snackbar.LENGTH_SHORT).show();
-
-                        if (mTrip != null) {
-                            Intent intent = new Intent(FriendsProfileActivity.this, MyTripInfoActivity.class);
-                            intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
-                            startActivity(intent);
-                        }
-                        finish();
-                    } else
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
-                            Snackbar.LENGTH_SHORT).show();
-                });
-            }
-        });
-    }
-
 }
