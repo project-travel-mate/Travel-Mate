@@ -29,7 +29,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -101,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private String mToken;
     private Handler mHandler;
+    private String mUserStatus;
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
@@ -135,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity {
                     mSharedPreferences.getString(USER_EMAIL, null),
                     mSharedPreferences.getString(USER_IMAGE, null),
                     mSharedPreferences.getString(USER_DATE_JOINED, null),
-                    mSharedPreferences.getString(USER_STATUS, null));
+                    mSharedPreferences.getString(USER_STATUS, getString(R.string.default_status)));
 
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
@@ -401,28 +401,36 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         // to update user name
-        String uri = API_LINK_V2 + "update-user-status";
-        Log.v("EXECUTING", uri);
-
+        String uri;
         //Set up client
         OkHttpClient client = new OkHttpClient();
+        Request request;
 
-        // Add form parameters
-        String status = String.valueOf(displayStatus.getText());
+        mUserStatus = String.valueOf(displayStatus.getText());
+        if(mUserStatus.equals("")) {
+            uri = API_LINK_V2 + "remove-user-status";
+            mUserStatus = getString(R.string.default_status);
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("status", status)
-                .build();
+            request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .build();
+        } else {
+            uri = API_LINK_V2 + "update-user-status";
 
-        // Create a http request object.
-        Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
-                .url(uri)
-                .post(requestBody)
-                .build();
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("status", mUserStatus)
+                    .build();
 
-        // Create a new Call object with post method.
+            request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .post(requestBody)
+                    .build();
+        }
+        Log.v("EXECUTING", uri);
+        // Create a new Call object
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -436,7 +444,8 @@ public class ProfileActivity extends AppCompatActivity {
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
                         Toast.makeText(ProfileActivity.this, R.string.status_updated, Toast.LENGTH_SHORT).show();
-                        mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                        mSharedPreferences.edit().putString(USER_STATUS, mUserStatus).apply();
+                        displayStatus.setText(mUserStatus);
                     } else {
                         networkError();
                         Toast.makeText(ProfileActivity.this, res, Toast.LENGTH_LONG).show();
@@ -470,6 +479,8 @@ public class ProfileActivity extends AppCompatActivity {
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
+        if(status.equals("null"))
+            status = getString(R.string.default_status);
         displayStatus.setText(status);
     }
 
