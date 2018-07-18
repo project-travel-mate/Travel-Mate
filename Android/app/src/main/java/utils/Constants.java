@@ -52,6 +52,8 @@ public class Constants {
     public static final String EXTRA_MESSAGE_FUNFACT_OBJECT = "funfactobject_";
     public static final String EXTRA_MESSAGE_TRIP_OBJECT = "tripobject_";
     public static final String EXTRA_MESSAGE_FRIEND_ID = "tripfriendid_";
+    public static final String EXTRA_MESSAGE_IMAGE_URI = "profileimageuri_";
+    public static final String EXTRA_MESSAGE_USER_FULLNAME = "userfullname_";
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
