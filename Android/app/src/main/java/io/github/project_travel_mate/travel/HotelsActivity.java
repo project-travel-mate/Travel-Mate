@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,22 +18,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.airbnb.lottie.LottieAnimationView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
 import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
-import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,14 +54,16 @@ import static utils.Constants.USER_TOKEN;
  */
 public class HotelsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.pb)
-    ProgressBar pb;
     @BindView(R.id.hotel_list)
     ListView lv;
     @BindView(R.id.select_city)
     TextView selectCity;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.text_view)
+    TextView textView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
 
     private Handler mHandler;
     private String mToken;
@@ -103,7 +106,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      */
     private void getHotelList(String latitude, String longitude) {
 
-        pb.setVisibility(View.VISIBLE);
         String uri = HERE_API_LINK + "?at=" + latitude + "," + longitude + "&cat=accommodation&app_id=" +
                 HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
 
@@ -120,7 +122,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                pb.setVisibility(View.GONE);
                 mHandler.post(() -> networkError());
             }
 
@@ -136,7 +137,9 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             json = json.getJSONObject("results");
                             JSONArray feedItems = json.getJSONArray("items");
                             Log.v("response", feedItems + " ");
-                            pb.setVisibility(View.GONE);
+                            layout.setVisibility(View.VISIBLE);
+                            animationView.setVisibility(View.GONE);
+                            textView.setVisibility(View.GONE);
                             if (feedItems.length() > 0) {
                                 lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
                             } else {
@@ -144,11 +147,9 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             }
                         } catch (JSONException e1) {
                             e1.printStackTrace();
-                            pb.setVisibility(View.GONE);
                             networkError();
                         }
                     } else {
-                        pb.setVisibility(View.GONE);
                         networkError();
                     }
                 });
@@ -202,7 +203,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("ERROR", "Network error");
                         networkError();
                     }
-                    pb.setVisibility(View.GONE);
                 });
             }
         });
@@ -216,7 +216,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      */
     public void getCityInfo(String cityId) {
 
-        pb.setVisibility(View.VISIBLE);
+        animationView.setVisibility(View.VISIBLE);
 
         String uri = API_LINK_V2 + "get-city/" + cityId;
         Log.v("EXECUTING", uri);
@@ -376,7 +376,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      * Plays the network lost animation in the view
      */
     private void networkError() {
-        pb.setVisibility(View.GONE);
+        layout.setVisibility(View.GONE);
+        animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
@@ -385,6 +386,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      * Plays the no results animation in the view
      */
     private void noResults() {
+        layout.setVisibility(View.GONE);
+        animationView.setVisibility(View.VISIBLE);
         Toast.makeText(HotelsActivity.this, R.string.no_trips, Toast.LENGTH_LONG).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
