@@ -284,7 +284,8 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             book = MapRealTimeActivity.this.findViewById(R.id.book);
 
             title.setText(mMapItems.get(mIndex).getName());
-            description.setText(mMapItems.get(mIndex).getAddress());
+
+            description.setText(android.text.Html.fromHtml(mMapItems.get(mIndex).getAddress()).toString());
             calls.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
