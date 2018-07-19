@@ -66,8 +66,8 @@ class MyTripFriendNameAdapter extends ArrayAdapter<User> {
         } else
             holder = (ViewHolder) view.getTag();
         holder.name.setText(mUsers.get(position).getFirstName());
-        Picasso.with(mContext).load(mUsers.get(position).getImage()).placeholder(R.drawable.ic_person_black_24dp)
-                .error(R.drawable.ic_person_black_24dp).into(holder.imageView);
+        Picasso.with(mContext).load(mUsers.get(position).getImage()).placeholder(R.drawable.icon_profile)
+                .error(R.drawable.icon_profile).into(holder.imageView);
         holder.removeFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
