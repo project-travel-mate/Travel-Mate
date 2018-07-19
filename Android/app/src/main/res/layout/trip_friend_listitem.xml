@@ -15,12 +15,11 @@
         android:alpha="1"
         android:background="@drawable/ic_person_black_24dp"
         android:scaleType="centerCrop"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="2dp" />
+        app:civ_border_width="0dp" />
 
     <TextView
         android:id="@+id/friend_name"
-        android:layout_width="259dp"
+        android:layout_width="268dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
