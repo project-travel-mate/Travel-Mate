@@ -187,6 +187,9 @@
     <string name="button_text_bugreport">Report</string>
     <string name="failure_message_bugreport">Failed to send issue…</string>
     <string name="success_message_bugreport">Issue Sent Successfully…</string>
+    <string name="no_feedback_message">We would love to hear from you!Click on add button to send us feedback.</string>
+    <string name="feedback_title">Reported Feedbacks</string>
+    <string name="sample_date">20-Jul</string>
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>

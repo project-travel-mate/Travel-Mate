@@ -104,7 +104,9 @@ public class AboutUsFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         fragment = BugReportFragment.newInstance();
         if (fragment != null) {
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+            fragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.inc, fragment).commit();
         }
     }
 }
