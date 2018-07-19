@@ -56,6 +56,7 @@ import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
 import static utils.Constants.CLOUDINARY_CLOUD_NAME;
+import static utils.Constants.EXTRA_MESSAGE_IMAGE_URI;
 import static utils.Constants.OTHER_USER_ID;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
@@ -181,6 +182,19 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(galleryIntent, RESULT_PICK_IMAGE);
         });
+
+        //open profile image when clicked on it
+        displayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
+                String fullname = mSharedPreferences.getString(USER_NAME, null);
+                Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
+                        imageUri, fullname);
+                startActivity(fullScreenIntent);
+            }
+        });
+
     }
 
     @Override
