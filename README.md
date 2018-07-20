@@ -22,7 +22,7 @@ A must-have app for those interested in travel. The app provides users with vari
 + **[Utilities](#utilities)**
   + [Share contact](#share-contact)
   + [Checklist](#checklist)
-+ **[Push notification](#push-notification)**
++ **[Getting Started](#getting-started)**
 + **[Dependencies](#dependencies)**
 + **[Contact Us](#contact-us)**
 
@@ -80,13 +80,8 @@ The app also includes an interactive checklist of items users need to carry with
 
 <img src="./screenshots/checklist.png" width="200px">
 
-
-## Push notification
-To prevent users from missing their destination station while travelling by train or bus, the app includes the push notification feature, that sounds an alarm when the users nears their respective destination stations.
-P
-
-<img src="./screenshots/notification.png" width="200px">
-
+### Getting started
+Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) page to get started with the project.
 
 ## Dependencies
 + [okhttp](https://github.com/square/okhttp)
