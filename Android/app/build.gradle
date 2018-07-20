@@ -104,3 +104,7 @@ dependencies {
     implementation "android.arch.lifecycle:viewmodel:1.1.0"
 
 }
+
+preBuild.dependsOn('checkstyle')
+assemble.dependsOn('lint')
+check.dependsOn('checkstyle')
