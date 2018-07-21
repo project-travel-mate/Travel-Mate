@@ -22,13 +22,10 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -75,6 +72,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private City mCity;
     private String mToken;
+    private String mCurrentTemp;
     private Handler mHandler;
     private ArrayList<Weather> mWeatherList = new ArrayList<>();
 
@@ -94,24 +92,30 @@ public class WeatherActivity extends AppCompatActivity {
         //get reference to current City
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         //get current temperature from FinalCityInfo
-        String currentTemp = intent.getStringExtra(CURRENT_TEMP);
-
+        mCurrentTemp = intent.getStringExtra(CURRENT_TEMP);
         //set text for empty view when no weather forecast data is returned
         emptyView.setText(String.format(getString(R.string.city_not_found), mCity.getNickname()));
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(mCity.getNickname());
 
-        fetchWeatherForecast(currentTemp);
+        if (mCurrentTemp != null) {
+            //if called from within a FinalCityInfo activity
+            //directly fetch weather info
+            fetchWeatherForecast();
+        } else {
+            //if called directly from cities list then
+            //first fetch current temp here
+            fetchCurrentTemp();
+        }
 
     }
 
     /**
      * called to fetch the weather forecast for the current city
      * for a given number of days
-     * @param currentTemp current temperature of the city to be displayed along with the weekly forecast
      */
-    private void fetchWeatherForecast(String currentTemp) {
+    private void fetchWeatherForecast() {
         // to fetch weather forecast by city name
         String uri = API_LINK_V2 + "get-multiple-days-weather/" + NUM_DAYS + "/" + mCity.getNickname();
         Log.v("EXECUTING", uri);
@@ -164,7 +168,7 @@ public class WeatherActivity extends AppCompatActivity {
                                 if (i == 0) {
                                     //current day's weather stats to be displayed
                                     condition.setText(weatherCondition);
-                                    temp.setText(currentTemp);
+                                    temp.setText(mCurrentTemp);
 
                                     //set the temperatures, add vectors icons for min/max textviews
                                     maxTemp.setText(String.valueOf(maxTemperature));
@@ -218,6 +222,57 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
 
+        });
+    }
+
+    /**
+     * Fetches current temp of city
+     */
+    private void fetchCurrentTemp() {
+
+        String uri = API_LINK_V2 + "get-city-weather/" + mCity.getId();
+        uri = uri.replaceAll(" ", "%20");
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+
+        Log.v("EXECUTING", uri);
+
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(() -> {
+                    networkError();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    try {
+                        JSONObject responseObject = new JSONObject(res);
+                        mCurrentTemp = responseObject.getString("temp") +
+                                        (char) 0x00B0 + responseObject.getString("temp_units");
+                        fetchWeatherForecast();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        mHandler.post(() -> {
+                            networkError();
+                        });
+                    }
+                } else {
+                    mHandler.post(() -> {
+                        emptyListAnimation();
+                    });
+                }
+            }
         });
     }
 
