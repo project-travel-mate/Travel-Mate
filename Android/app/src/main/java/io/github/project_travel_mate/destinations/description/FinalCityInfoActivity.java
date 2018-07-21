@@ -174,9 +174,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.weather:
-                intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 //pass current temperature to weather activity
-                intent.putExtra(CURRENT_TEMP, mCurrentTemp);
+                intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity, mCurrentTemp);
                 startActivity(intent);
                 break;
         }

@@ -41,11 +41,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherH
     public void onBindViewHolder(@NonNull WeatherHolder holder, int position) {
         Weather weather = mWeatherForecast.get(position);
 
-        holder.dayOfWeek.setText(weather.getmDayOfWeek());
-        holder.minTemp.setText(String.valueOf(weather.getmMinTemp()));
-        holder.maxTemp.setText(String.valueOf(weather.getmMaxTemp()));
-        holder.date.setText(weather.getmDate());
-        holder.icon.setImageResource(weather.getmImageId());
+        holder.dayOfWeek.setText(weather.getDayOfWeek());
+        holder.minTemp.setText(String.valueOf(weather.getMinTemp()));
+        holder.maxTemp.setText(String.valueOf(weather.getMaxTemp()));
+        holder.date.setText(weather.getDate());
+        holder.icon.setImageResource(weather.getImageId());
         DrawableCompat.setTint(holder.icon.getDrawable(), ContextCompat.getColor(mContext, android.R.color.white));
 
         setAnimation(holder.itemView, position);

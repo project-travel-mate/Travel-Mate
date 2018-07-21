@@ -190,7 +190,6 @@
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
-    <string name="degree_symbol">&#176;</string>
 
     <string name="sign_out">Sign out</string>
 
@@ -209,15 +208,6 @@
     <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
     <string name="no_results">No results found</string>
     <string name="hotels_text">Tell us where are you travelling to? We will search hotels for you.</string>
-
-    <!-- Declare days of week -->
-    <string name="dayOfWeek_monday">Monday</string>
-    <string name="dayOfWeek_tuesday">Tuesday</string>
-    <string name="dayOfWeek_wednesday">Wednesday</string>
-    <string name="dayOfWeek_thursday">Thursday</string>
-    <string name="dayOfWeek_friday">Friday</string>
-    <string name="dayOfWeek_saturday">Saturday</string>
-    <string name="dayOfWeek_sunday">Sunday</string>
 
     <!-- handle responses from Weather API -->
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>

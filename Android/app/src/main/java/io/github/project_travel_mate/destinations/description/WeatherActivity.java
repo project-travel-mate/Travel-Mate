@@ -22,10 +22,8 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +47,8 @@ import static utils.Constants.CURRENT_TEMP;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.NUM_DAYS;
 import static utils.Constants.USER_TOKEN;
+import static utils.WeatherUtils.fetchDrawableFileResource;
+import static utils.WeatherUtils.getDayOfWeek;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -69,7 +69,7 @@ public class WeatherActivity extends AppCompatActivity {
     @BindView(R.id.day_of_week)
     TextView dayOfweek;
     @BindView(R.id.forecast_list)
-    RecyclerView forecast_list;
+    RecyclerView forecastList;
     @BindView(R.id.empty_textview)
     TextView emptyView;
 
@@ -77,12 +77,6 @@ public class WeatherActivity extends AppCompatActivity {
     private String mToken;
     private Handler mHandler;
     private ArrayList<Weather> mWeatherList = new ArrayList<>();
-
-    public static Intent getStartIntent(Context context, City city) {
-        Intent intent = new Intent(context, WeatherActivity.class);
-        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +106,11 @@ public class WeatherActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * called to fetch the weather forecast for the current city
+     * for a given number of days
+     * @param currentTemp current temperature of the city to be displayed along with the weekly forecast
+     */
     private void fetchWeatherForecast(String currentTemp) {
         // to fetch weather forecast by city name
         String uri = API_LINK_V2 + "get-multiple-days-weather/" + NUM_DAYS + "/" + mCity.getNickname();
@@ -128,13 +127,16 @@ public class WeatherActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                cancelAnimation();
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    Log.e("Request Failed", "Message : " + e.getMessage());
+                    cancelAnimation();
+                    networkError();
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String jsonResponse = Objects.requireNonNull(response.body()).string();
+                final String jsonResponse = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
                         try {
@@ -151,47 +153,51 @@ public class WeatherActivity extends AppCompatActivity {
                                 int minTemperature = (int) Math.rint(minT);
 
                                 //get the current day of the week for each day
-                                String dayOfWeek = getDayOfWeek(i);
+                                String dayOfWeek = getDayOfWeek(i, "EEEE");
 
                                 //obtain the weather icon url and the weather condition code
                                 String iconUrl = array.getJSONObject(i).getString("icon");
                                 int code = array.getJSONObject(i).getInt("code");
                                 //get the vector drawable resource id for the weather icon
-                                int id = fetchDrawableFileResource(iconUrl, code);
+                                int id = fetchDrawableFileResource(WeatherActivity.this, iconUrl, code);
 
                                 if (i == 0) {
                                     //current day's weather stats to be displayed
                                     condition.setText(weatherCondition);
                                     temp.setText(currentTemp);
+
+                                    //set the temperatures, add vectors icons for min/max textviews
                                     maxTemp.setText(String.valueOf(maxTemperature));
                                     maxTemp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_upward,
                                             0, 0, 0);
                                     minTemp.setText(String.valueOf(minTemperature));
                                     minTemp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward,
                                             0, 0, 0);
+
                                     dayOfweek.setText(dayOfWeek);
+
                                     icon.setImageResource(id);
+                                    //change the color of weather icon vector from default black to white
                                     DrawableCompat.setTint(icon.getDrawable(),
                                             ContextCompat.getColor(WeatherActivity.this, android.R.color.white));
                                     today.setText(R.string.today);
 
                                 } else {
                                     //remaining days stats to be displayed in the horizontal RecyclerView
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
-                                    Calendar calendar = new GregorianCalendar();
-                                    calendar.add(Calendar.DATE, i);
-                                    String day = dateFormat.format(calendar.getTime());
-
+                                    String day = getDayOfWeek(i, "dd MMM");
                                     Weather weather = new Weather(id, maxTemperature,
                                             minTemperature, dayOfWeek.substring(0, 3), day);
                                     mWeatherList.add(weather);
-                                    forecast_list.addItemDecoration(new DividerItemDecoration(WeatherActivity.this,
+
+                                    //add divider between individual items
+                                    forecastList.addItemDecoration(new DividerItemDecoration(WeatherActivity.this,
                                             DividerItemDecoration.HORIZONTAL));
-                                    forecast_list.setLayoutManager(new LinearLayoutManager(WeatherActivity.this,
+                                    forecastList.setLayoutManager(new LinearLayoutManager(WeatherActivity.this,
                                             LinearLayoutManager.HORIZONTAL, false));
 
+                                    //set the adapter for the recycler view displaying the forecast
                                     WeatherAdapter adapter = new WeatherAdapter(WeatherActivity.this, mWeatherList);
-                                    forecast_list.setAdapter(adapter);
+                                    forecastList.setAdapter(adapter);
                                 }
                             }
                             //cancel the loading animation once the data is fetched
@@ -199,6 +205,9 @@ public class WeatherActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            //display no data error animation
+                            emptyListAnimation();
+                        } catch (IOException e) {
                             //display no internet connection error
                             networkError();
                         }
@@ -212,90 +221,8 @@ public class WeatherActivity extends AppCompatActivity {
         });
     }
 
-    private int fetchDrawableFileResource(String iconUrl, int code) {
-        //formulate the vector drawable file name from the local json file using the icon url & code from the API call
-        String imageDrawable = "wi_";
-        String time = iconUrl.substring(iconUrl.lastIndexOf("/") + 1);
-        imageDrawable += time.contains("d") ? "day" : "night";
-        String suffix = getSuffix(code);
-        imageDrawable += "_" + suffix;
-
-        //return the vector drawable resource id
-        return getResources().getIdentifier(imageDrawable, "drawable", "io.github.project_travel_mate");
-    }
-
-    /**
-     * parses the icons.json file which contains the weather condition codes and descriptions
-     * required to fetch the right weather icon to display
-     *
-     * @param code weather condition code
-     * @return weather condition description
-     */
-    private String getSuffix(int code) {
-        String json;
-        String cond = "";
-        try {
-            InputStream is = getAssets().open("icons.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-            JSONObject jsonObject = new JSONObject(json);
-            if (jsonObject.has(String.valueOf(code))) {
-                JSONObject object = jsonObject.getJSONObject(String.valueOf(code));
-                cond = object.getString("icon");
-            }
-
-        } catch (JSONException ex) {
-            emptyListAnimation();
-        } catch (IOException e) {
-            networkError();
-        }
-        return cond;
-    }
-
-    /**
-     * called to get the days of the week needed to display the forecast
-     *
-     * @param index day's index
-     * @return current day of the week as a String
-     */
-    private String getDayOfWeek(int index) {
-        String today = "";
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        int dayIndex = (day + index - 1) % 7 + 1;
-        switch (dayIndex) {
-            case Calendar.MONDAY:
-                today = getString(R.string.dayOfWeek_monday);
-                break;
-            case Calendar.TUESDAY:
-                today = getString(R.string.dayOfWeek_tuesday);
-                break;
-            case Calendar.WEDNESDAY:
-                today = getString(R.string.dayOfWeek_wednesday);
-                break;
-            case Calendar.THURSDAY:
-                today = getString(R.string.dayOfWeek_thursday);
-                break;
-            case Calendar.FRIDAY:
-                today = getString(R.string.dayOfWeek_friday);
-                break;
-            case Calendar.SATURDAY:
-                today = getString(R.string.dayOfWeek_saturday);
-                break;
-            case Calendar.SUNDAY:
-                today = getString(R.string.dayOfWeek_sunday);
-                break;
-        }
-        return today;
-    }
-
     /**
      * provide back navigation on the action bar
-     *
      * @return boolean stating Up Navigation has been handled
      */
     @Override
@@ -305,9 +232,24 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     /**
+     * called to start the WeatherActivity via an intent
+     * @param context context to access application resources
+     * @param city City object containing the details of the current city
+     * @param currentTemp current temperature of the current city
+     * @return reference to intent object to start the activity
+     */
+    public static Intent getStartIntent(Context context, City city, String currentTemp) {
+        Intent intent = new Intent(context, WeatherActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
+        intent.putExtra(CURRENT_TEMP, currentTemp);
+        return intent;
+    }
+
+    /**
      * Plays the network lost animation in the view
      */
     private void networkError() {
+        animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
