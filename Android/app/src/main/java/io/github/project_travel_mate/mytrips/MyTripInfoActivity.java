@@ -588,32 +588,33 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
                                             friendImage, friendJoinedOn, friendStatus));
                                 }
-                                showIcon.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
 
-                                        mAdapter = new MyTripFriendNameAdapter(
-                                                MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
-                                        if (!mIsClicked) {
-                                            listView.setAdapter(mAdapter);
-                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-                                            mIsClicked = true;
-                                        } else {
-                                            listView.setAdapter(null);
-                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
-                                            mIsClicked = false;
-                                        }
+                                if (mIsClicked == true) {
+                                    mAdapter = new MyTripFriendNameAdapter(
+                                            MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
+                                    listView.setAdapter(null);
+                                    listView.setAdapter(mAdapter);
+                                }
+                                showIcon.setOnClickListener(v -> {
+
+                                    mAdapter = new MyTripFriendNameAdapter(
+                                            MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
+                                    if (mIsClicked == false) {
+                                        listView.setAdapter(mAdapter);
+                                        showIcon.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+                                        mIsClicked = true;
+                                    } else {
+                                        listView.setAdapter(null);
+                                        showIcon.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+                                        mIsClicked = false;
                                     }
                                 });
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Intent intent = new Intent(MyTripInfoActivity.this,
-                                                FriendsProfileActivity.class);
-                                        intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
-                                        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
-                                        startActivity(intent);
-                                    }
+                                listView.setOnItemClickListener((parent, view, position, id) -> {
+                                    Intent intent = new Intent(MyTripInfoActivity.this,
+                                            FriendsProfileActivity.class);
+                                    intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, tripFriends.get(position).getId());
+                                    intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, mTrip);
+                                    startActivity(intent);
                                 });
                             }
                         } catch (JSONException e) {
