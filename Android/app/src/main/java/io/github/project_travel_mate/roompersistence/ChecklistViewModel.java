@@ -1,7 +1,9 @@
 package io.github.project_travel_mate.roompersistence;
 
 import android.arch.lifecycle.ViewModel;
+
 import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import objects.ChecklistItem;

@@ -28,18 +28,20 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -52,11 +54,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
+
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
 import static utils.Constants.CLOUDINARY_CLOUD_NAME;
-import static utils.Constants.EXTRA_MESSAGE_IMAGE_URI;
 import static utils.Constants.OTHER_USER_ID;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;

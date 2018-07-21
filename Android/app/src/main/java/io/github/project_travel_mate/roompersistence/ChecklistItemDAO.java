@@ -6,6 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
+
 import io.reactivex.Flowable;
 import objects.ChecklistItem;
 

@@ -86,7 +86,6 @@ Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) pa
 ## Dependencies
 + [okhttp](https://github.com/square/okhttp)
 + [CircleImageView](https://github.com/hdodenhof/CircleImageView)
-+ [TedPicker](https://github.com/ParkSangGwon/TedPicker)
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
 + [material](https://github.com/rey5137/material)

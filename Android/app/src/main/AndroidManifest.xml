@@ -57,10 +57,6 @@
                 <data android:pathPattern=".*" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.gun0912.tedpicker.ImagePickerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_picker" />
 
         <service android:name=".LocationService" android:enabled="true" />
         <service android:name="utils.GPSTracker" android:enabled="true" />

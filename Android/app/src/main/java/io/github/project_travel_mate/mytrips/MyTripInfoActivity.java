@@ -1,11 +1,9 @@
 package io.github.project_travel_mate.mytrips;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,11 +34,12 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
-import com.gun0912.tedpicker.ImagePickerActivity;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
 import adapters.NestedListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +73,6 @@ import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
 
-    public static final int INTENT_REQUEST_GET_IMAGES = 13;
     @BindView(R.id.city_image)
     ImageView cityImageView;
     @BindView(R.id.city_name)
@@ -316,17 +315,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                 });
             }
         });
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == INTENT_REQUEST_GET_IMAGES && resultCode == Activity.RESULT_OK) {
-            ArrayList<Uri> imageUris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), getString(R.string.images_added),
-                    Snackbar.LENGTH_LONG).show();
-        }
     }
 
     @Override

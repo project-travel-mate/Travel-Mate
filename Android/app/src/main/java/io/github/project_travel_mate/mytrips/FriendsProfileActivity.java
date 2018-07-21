@@ -19,10 +19,13 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.FullScreenProfileImage;
@@ -36,7 +39,6 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
-import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;

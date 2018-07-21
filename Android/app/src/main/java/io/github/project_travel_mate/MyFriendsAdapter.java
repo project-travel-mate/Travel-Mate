@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
-
 import objects.User;
 
 public class MyFriendsAdapter extends ArrayAdapter<User> {

@@ -18,21 +18,17 @@ import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.roompersistence.ChecklistViewModel;
 import io.github.project_travel_mate.roompersistence.Injection;
 import io.github.project_travel_mate.roompersistence.ViewModelFactory;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-
 import objects.ChecklistItem;
 
-import io.github.project_travel_mate.roompersistence.ChecklistViewModel;
-
-import static utils.Constants.IS_ADDED_INDB;
 import static utils.Constants.BASE_TASKS;
+import static utils.Constants.IS_ADDED_INDB;
 
 public class ChecklistFragment extends Fragment {
 

@@ -16,19 +16,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
+
 import javax.net.ssl.HttpsURLConnection;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -45,6 +50,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
 import utils.Utils;
+
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
