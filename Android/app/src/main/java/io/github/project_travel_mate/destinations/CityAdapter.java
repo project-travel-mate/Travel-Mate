@@ -24,6 +24,7 @@ import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import io.github.project_travel_mate.destinations.description.TweetsActivity;
+import io.github.project_travel_mate.destinations.description.WeatherActivity;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 
@@ -119,10 +120,8 @@ class CityAdapter extends BaseFlipAdapter<City> {
         });
 
         infoHolder.fv2.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/?ie=UTF8&hq=&ll=" +
-                    city.getLatitude() + "," + city.getLongitude() +
-                    "&z=13")); // zoom level
-            mContext.startActivity(browserIntent);
+            Intent intent = WeatherActivity.getStartIntent(mContext, city, null);
+            mContext.startActivity(intent);
         });
 
         infoHolder.fv4.setOnClickListener(v -> {
