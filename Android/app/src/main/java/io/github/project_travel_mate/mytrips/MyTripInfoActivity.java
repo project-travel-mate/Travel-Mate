@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -135,6 +136,9 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         mHandler = new Handler(Looper.getMainLooper());
         friendEmail.clearFocus();
         friendEmail.setThreshold(1);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         getSingleTrip();
 
