@@ -82,6 +82,7 @@
 
 
             <LinearLayout
+                android:id="@+id/weather"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shadow_1"

@@ -80,4 +80,7 @@ public class Constants {
     public static final int QR_CODE_WIDTH = 200;
     public static final int QR_CODE_HEIGHT = 200;
 
+    //Weather forecast constants
+    public static final String CURRENT_TEMP = "TEMP";
+    public static final int NUM_DAYS = 7;
 }

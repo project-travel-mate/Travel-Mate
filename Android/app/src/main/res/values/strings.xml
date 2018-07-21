@@ -211,4 +211,8 @@
     <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
     <string name="no_results">No results found</string>
     <string name="hotels_text">Tell us where are you travelling to? We will search hotels for you.</string>
+
+    <!-- handle responses from Weather API -->
+    <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
+    <string name="today">Today</string>
 </resources>

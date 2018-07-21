@@ -31,6 +31,7 @@ import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
 
+import static utils.Constants.CURRENT_TEMP;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
@@ -71,6 +72,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout shopping;
     @BindView(R.id.trends)
     LinearLayout trend;
+    @BindView(R.id.weather)
+    LinearLayout weather;
     @BindView(R.id.SliderDots)
     LinearLayout sliderDotsPanel;
     private int mDotsCount;
@@ -79,6 +82,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private City mCity;
     private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
+    private String mCurrentTemp;
     int currentPage = 0;
     Timer timer;
 
@@ -135,6 +139,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         monument.setOnClickListener(this);
         shopping.setOnClickListener(this);
         trend.setOnClickListener(this);
+        weather.setOnClickListener(this);
     }
 
     @Override
@@ -143,7 +148,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
             finish();
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -167,6 +171,11 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 break;
             case R.id.trends:
                 intent = TweetsActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
+                startActivity(intent);
+                break;
+            case R.id.weather:
+                //pass current temperature to weather activity
+                intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity, mCurrentTemp);
                 startActivity(intent);
                 break;
         }
@@ -212,6 +221,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
+            mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
             Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
             temperature.setText(tempText);
@@ -225,10 +235,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
      *
-     * @param description               city description
-     * @param latitude                  city latitude
-     * @param longitude                 city longitude
-     * @param imagesArray               images array for the city
+     * @param description city description
+     * @param latitude    city latitude
+     * @param longitude   city longitude
+     * @param imagesArray images array for the city
      */
     @Override
     public void parseInfoResult(final String description,
@@ -285,7 +295,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
             mDots[currentPage].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
             imagesSliderView.setCurrentItem(currentPage++, true);
         };
-
 
         //for activating dots on manual swapping of images
         imagesSliderView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
