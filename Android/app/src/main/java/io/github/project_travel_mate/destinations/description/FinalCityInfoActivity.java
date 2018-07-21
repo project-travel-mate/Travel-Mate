@@ -76,7 +76,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout weather;
     @BindView(R.id.SliderDots)
     LinearLayout sliderDotsPanel;
-
     private int mDotsCount;
     private ImageView[] mDots;
     private Handler mHandler;
@@ -298,12 +297,11 @@ public class FinalCityInfoActivity extends AppCompatActivity
             imagesSliderView.setCurrentItem(currentPage++, true);
         };
 
-
         //for activating dots on manual swapping of images
         imagesSliderView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //required method
+               //required method
             }
 
             @Override
@@ -326,6 +324,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
             }
         }, 500, 3000);
     }
+
+
 
     /**
      * Fires an Intent with given parameters

@@ -83,5 +83,4 @@ public class Constants {
     //Weather forecast constants
     public static final String CURRENT_TEMP = "TEMP";
     public static final int NUM_DAYS = 7;
-
 }
