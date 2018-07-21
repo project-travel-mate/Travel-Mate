@@ -113,7 +113,7 @@ public class MyFriendsFragment extends Fragment {
                                 return;
                             }
 
-                            for (int i = 0; i < arr.length() - 1; i++) {
+                            for (int i = 0; i < arr.length(); i++) {
                                 JSONObject object = arr.getJSONObject(i);
                                 String userName = object.getString("username");
                                 String firstName = object.getString("first_name");
