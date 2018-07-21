@@ -18,10 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -65,6 +67,10 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     private final List<MapItem> mMapItems = new ArrayList<>();
     @BindView(R.id.data)
     ScrollView scrollView;
+    @BindView(R.id.animation)
+    LottieAnimationView animationView;
+    @BindView(R.id.layout)
+    LinearLayout layout;
     private int mIndex = 0;
     private Handler mHandler;
     private String mCurlat;
@@ -131,6 +137,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -157,8 +164,11 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                             showMarker(latitude, longitude, name, icon);
                             mMapItems.add(new MapItem(name, nums, web, addr));
                         }
+                        animationView.setVisibility(View.GONE);
+                        layout.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        networkError();
                         Log.e("ERROR : ", e.getMessage() + " ");
                     }
                 });
@@ -346,5 +356,15 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 }
                 break;
         }
+    }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        layout.setVisibility(View.GONE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
     }
 }
