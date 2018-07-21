@@ -68,6 +68,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     private GoogleMap mGoogleMap;
     private static final int REQUEST_LOCATION = 199;
     GPSTracker tracker;
+    public ArrayList<Integer> mSelectedIndices = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,19 +167,25 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
         if (item.getItemId() == android.R.id.home)
             finish();
         if (item.getItemId() == R.id.action_sort) {
+            Integer[] selectedItems = new Integer[mSelectedIndices.size()];
 
+            for (int i = 0; i < mSelectedIndices.size(); i++) {
+                selectedItems[i] = Integer.valueOf(mSelectedIndices.get(i));
+            }
+            mSelectedIndices.clear();
             new MaterialDialog.Builder(this)
                     .title(R.string.title)
                     .items(R.array.items)
-                    .itemsCallbackMultiChoice(null, (dialog, which, text) -> {
+                    .itemsCallbackMultiChoice(selectedItems, (dialog, which, text) -> {
 
                         mGoogleMap.clear();
                         mMapItems.clear();
 
                         for (int i = 0; i < which.length; i++) {
                             Log.v("selected", which[i] + " " + text[i]);
+                            mSelectedIndices.add(which[i]);
                             Integer icon;
-                            switch (which[0]) {
+                            switch (which[i]) {
                                 case 0:
                                     icon = R.drawable.ic_local_pizza_black;
                                     break;
@@ -207,8 +214,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                                     icon = R.drawable.ic_attach_money_black;
                                     break;
                             }
-                            MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[0]), icon);
-
+                            MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[i]), icon);
                         }
                         return true;
                     })

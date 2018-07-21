@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.FullScreenProfileImage;
 import io.github.project_travel_mate.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,6 +36,7 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
+import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_TOKEN;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
@@ -73,6 +75,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     private String mToken;
     private Handler mHandler;
     private int mFriendId;
+    private String mFriendImageUri;
+    private String mFriendName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +102,16 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         getFriendDetails(String.valueOf(mFriendId));
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //open friend's profile image in full screen
+        friendDisplayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(FriendsProfileActivity.this,
+                        mFriendImageUri, mFriendName);
+                startActivity(fullScreenIntent);
+            }
+        });
     }
 
     public static Intent getStartIntent(Context context, int id) {
@@ -147,25 +161,25 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                         String userName = object.getString("username");
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
-                        String fullname = firstName + " " + lastName;
-                        String imageURL = object.getString("image");
+                        mFriendName = firstName + " " + lastName;
+                        mFriendImageUri = object.getString("image");
                         String dateJoined = object.getString("date_joined");
                         String status = object.getString("status");
                         Long dateTime = rfc3339ToMills(dateJoined);
                         String date = getDate(dateTime);
-                        Picasso.with(FriendsProfileActivity.this).load(imageURL)
+                        Picasso.with(FriendsProfileActivity.this).load(mFriendImageUri)
                                 .placeholder(R.drawable.default_user_icon)
                                 .error(R.drawable.default_user_icon).into(friendDisplayImage);
                         if (!status.equals("null")) {
                             displayStatus.setText(status);
-                            friendUserName.setText(fullname);
+                            friendUserName.setText(mFriendName);
                             friendJoiningDate.setText(String.format(getString(R.string.text_joining_date), date));
                             friendsEmail.setText(userName);
                             dateJoinedIcon.setVisibility(View.VISIBLE);
                             friendJoiningDate.setVisibility(View.VISIBLE);
 
                         } else {
-                            displayStatus.setText(fullname);
+                            displayStatus.setText(mFriendName);
                             friendsEmail.setText(String.format(getString(R.string.text_joining_date), date));
                             friendUserName.setText(userName);
                             dateJoinedIcon.setVisibility(View.GONE);
@@ -174,7 +188,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                             profileIcon.setImageResource(R.drawable.ic_email_black_24dp);
                             emailIcon.setImageResource(R.drawable.baseline_date_range_black);
                         }
-                        setTitle(fullname);
+                        setTitle(mFriendName);
                         statusIcon.setVisibility(View.VISIBLE);
                         friendsEmail.setVisibility(View.VISIBLE);
                         friendDisplayImage.setVisibility(View.VISIBLE);

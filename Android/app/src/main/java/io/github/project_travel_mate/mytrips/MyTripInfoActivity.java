@@ -65,6 +65,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
@@ -101,6 +102,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     LottieAnimationView animationView;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.no_friend_title)
+    TextView noFriendTitle;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -128,8 +131,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         if (mTrip.getImage() != null && !mTrip.getImage().isEmpty())
             Picasso.with(this).load(mTrip.getImage()).error(R.drawable.placeholder_image)
                .placeholder(R.drawable.placeholder_image).into(cityImageView);
-        showIcon.setVisibility(View.GONE);
-        editTrip.setVisibility(View.GONE);
+        showIcon.setVisibility(GONE);
+        editTrip.setVisibility(GONE);
         mHandler = new Handler(Looper.getMainLooper());
         friendEmail.clearFocus();
         friendEmail.setThreshold(1);
@@ -256,7 +259,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         networkError();
                     }
                     tripName.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     mFriendId = null;
                 });
             }
@@ -554,17 +557,18 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             ob = new JSONObject(res);
                             JSONArray usersArray = ob.getJSONArray("users");
                             if (usersArray.length() == 0) {
-                                addNewFriend.setVisibility(View.GONE);
-                                friendEmail.setVisibility(View.GONE);
-                                friendTitle.setVisibility(View.VISIBLE);
-                                friendTitle.setTypeface(null, Typeface.NORMAL);
+                                addNewFriend.setVisibility(GONE);
+                                friendEmail.setVisibility(GONE);
+                                noFriendTitle.setVisibility(View.VISIBLE);
+                                noFriendTitle.setTypeface(null, Typeface.BOLD);
                                 String mystring = getString(R.string.friends_title);
                                 SpannableString content = new SpannableString(mystring);
                                 content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-                                friendTitle.setText(content);
-                                friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                                noFriendTitle.setText(content);
+                                noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
-                                friendTitle.setOnClickListener(view -> {
+                                noFriendTitle.setOnClickListener(view -> {
+                                    noFriendTitle.setVisibility(GONE);
                                     addNewFriend.setVisibility(View.VISIBLE);
                                     friendEmail.setVisibility(View.VISIBLE);
                                     friendTitle.setText(R.string.friends_show_title);
@@ -600,11 +604,11 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                                 MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
                                         if (!mIsClicked) {
                                             listView.setAdapter(mAdapter);
-                                            showIcon.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
                                             mIsClicked = true;
                                         } else {
                                             listView.setAdapter(null);
-                                            showIcon.setImageResource(R.drawable.ic_add_circle_black_24dp);
+                                            showIcon.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
                                             mIsClicked = false;
                                         }
                                     }

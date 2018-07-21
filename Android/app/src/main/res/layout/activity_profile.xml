@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@id/layout">
+
         <TextView
             android:id="@+id/display_joining_date"
             android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/display_email"
             android:layout_marginBottom="13dp"
+            android:paddingLeft="10dp"
             android:paddingTop="6sp"
             android:text="@string/text_joining_date"
             android:textColor="#333434"
@@ -47,6 +49,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/display_name"
             android:layout_marginBottom="71dp"
+            android:paddingLeft="10dp"
             android:paddingTop="8sp"
             android:text="@string/email"
             android:textColor="#333434"
@@ -78,6 +81,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="135dp"
             android:layout_marginStart="95dp"
+            android:paddingLeft="10dp"
             android:background="@android:color/transparent"
             android:cursorVisible="false"
             android:ellipsize="end"
@@ -182,6 +186,7 @@
             android:inputType="textMultiLine"
             android:text="@string/default_status"
             android:textColor="#333434"
+            android:layout_marginLeft="10dp"
             android:textSize="18sp" />
     </RelativeLayout>
 </RelativeLayout>

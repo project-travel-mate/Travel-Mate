@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.airbnb.lottie.LottieAnimationView;
@@ -42,6 +44,10 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
     private City mCity;
     private String mToken;
     private Handler mHandler;
+    Boolean isFirstVisitEnd = true;
+    public int scrollState;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,36 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
             }
             viewPager.setAdapter(new MyPageAdapter(FunFactsActivity.this.getSupportFragmentManager(), fList));
             viewPager.setPageTransformer(true, new AccordionTransformer());
+            animationView.setVisibility(View.GONE);
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    try {
+                        if (position == factsArray.size() - 1 & scrollState == 1 & isFirstVisitEnd == false) {
+                            viewPager.setCurrentItem(0, false);
+                        }
+                        if (position == 0 & scrollState == 1) {
+                            viewPager.setCurrentItem(factsArray.size() - 1, false);
+                        }
+                    } catch (Exception e) {
+                        Log.e("Message :", e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == factsArray.size() - 1) {
+                        isFirstVisitEnd = false;
+                    } else {
+                        isFirstVisitEnd = true;
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    scrollState = state;
+                }
+            });
         });
     }
 
