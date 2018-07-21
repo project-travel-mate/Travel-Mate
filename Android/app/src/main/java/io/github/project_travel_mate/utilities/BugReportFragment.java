@@ -1,60 +1,67 @@
 package io.github.project_travel_mate.utilities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import com.afollestad.materialdialogs.MaterialDialog;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.github.project_travel_mate.R;
+import objects.Feedback;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import utils.TravelmateSnackbars;
 
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BugReportFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class BugReportFragment extends Fragment implements AdapterView.OnItemSelectedListener, TravelmateSnackbars {
+public class BugReportFragment extends Fragment {
 
-    @BindView(R.id.spinner_bug_type)
-    Spinner mBugTypeSpinner;
-    @BindView(R.id.edit_text_bugreport)
-    EditText mDescriptionEditText;
-    @BindView(R.id.button_report)
-    Button mReportButton;
-    private MaterialDialog mDialog;
+    @BindView(R.id.issues_list)
+    ListView issuesList;
+    @BindView(R.id.add_feedback)
+    FloatingActionButton addButton;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @BindView(R.id.text_view)
+    TextView textView;
+    @BindView(R.id.listview_title)
+    TextView listViewTitle;
 
-    private String mType = null;
     private String mAuthToken = null;
-
-    private Handler mHandler;
+    private final List<Feedback> mFeedbacks = new ArrayList<>();
+    private BugReportAdapter mAdapter;
     private View mBugReportView;
+    private Activity mActivity;
 
     public BugReportFragment() {
         // Required empty public constructor
@@ -70,115 +77,126 @@ public class BugReportFragment extends Fragment implements AdapterView.OnItemSel
         BugReportFragment fragment = new BugReportFragment();
         return fragment;
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
         ButterKnife.bind(this, mBugReportView);
 
-        mHandler = new Handler(Looper.getMainLooper());
-
-        setupSpinner();
         mAuthToken = getAuthToken();
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment;
+                FragmentManager fragmentManager = getFragmentManager();
+                fragment = AddBugFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.inc, fragment).commit();
+            }
+        });
         return mBugReportView;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mType = parent.getItemAtPosition(position).toString();
+    public String getAuthToken() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        return sharedPreferences.getString(USER_TOKEN, null);
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    /**
+     * fetches a list of feedbacks reported by user from
+     * server
+     */
+    private void getAllUserFeedback() {
 
-    }
+        Handler handler = new Handler(Looper.getMainLooper());
 
-    private void setupSpinner() {
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.bug_types, android.R.layout.simple_spinner_item);
-        mBugTypeSpinner.setOnItemSelectedListener(this);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mBugTypeSpinner.setAdapter(spinnerAdapter);
-    }
-
-    @OnClick(R.id.button_report)
-    public void onReportClicked() {
-        String description = mDescriptionEditText.getText().toString();
-
-        if (!description.trim().isEmpty()) {
-            sendIssue(description);
-        }
-    }
-
-    private void sendIssue(String description) {
-        showProgressDialog();
-
-        String url = API_LINK_V2 + "add-feedback";
+        String url = API_LINK_V2 + "get-all-user-feedback";
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
-        // post request params
-        RequestBody formBody = new FormBody.Builder()
-                .add("text", description)
-                .add("type", mType)
-                .build();
         //Execute request
         Request request = new Request.Builder()
                 .header("Authorization", "Token " + mAuthToken)
                 .url(url)
-                .post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "message : " + e.getMessage());
-                hideProgressDialog();
-                TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
-                        R.string.failure_message_bugreport, Snackbar.LENGTH_LONG).show();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        networkError();
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    // will be true only if the status code is in the range of [200..300)
-                    Log.d("RESPONSE : ", "success" + response.toString());
-                    hideProgressDialog();
-                    TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
-                            R.string.success_message_bugreport, Snackbar.LENGTH_LONG).show();
-                    resetEdittextAndSpinner();
-                } else {
-                    TravelmateSnackbars.createSnackBar(mBugReportView.findViewById(R.id.fragmentBugReport),
-                            getString(R.string.failure_message_bugreport), Snackbar.LENGTH_LONG).show();
-                }
+                handler.post(() -> {
+                    if (response.isSuccessful()) {
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            JSONArray arr;
+                            arr = new JSONArray(res);
+                            if (arr.length() < 1) {
+                                noResult();
+                                return;
+                            }
+                            for (int i = 0; i < arr.length(); i++) {
+                                String type = arr.getJSONObject(i).getString("type");
+                                String text = arr.getJSONObject(i).getString("text");
+                                String dateCreated = arr.getJSONObject(i).getString("created");
+                                mFeedbacks.add(new Feedback(type, text, dateCreated));
+                                listViewTitle.setVisibility(View.VISIBLE);
+                                issuesList.setVisibility(View.VISIBLE);
+                                mAdapter = new BugReportAdapter(mActivity, mFeedbacks);
+                                issuesList.setAdapter(mAdapter);
+                                animationView.setVisibility(GONE);
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                noResult();
+                            }
+                        });
+                    }
+                });
             }
         });
-
     }
 
-    public String getAuthToken() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        return sharedPreferences.getString(USER_TOKEN, null);
+    private void noResult() {
+        textView.setVisibility(View.VISIBLE);
+        listViewTitle.setVisibility(GONE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.no_feedback);
+        animationView.playAnimation();
     }
 
-    private void showProgressDialog() {
-        mDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
+    private void networkError() {
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
     }
 
-    private void hideProgressDialog() {
-        mHandler.post(() -> mDialog.dismiss());
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (Activity) context;
     }
 
-    private void resetEdittextAndSpinner() {
-        mHandler.post(() -> {
-            mDescriptionEditText.getText().clear();
-            mBugTypeSpinner.setSelection(0); // reset to the first item
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFeedbacks.clear();
+        getAllUserFeedback();
     }
 }

@@ -40,7 +40,6 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
 
     @Override
     public int getCount() {
-        Log.e("Adapter", "size of list is " + mItems.size());
         return mItems.size();
     }
 
@@ -48,7 +47,6 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
     @Override
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
 
-        Log.e("adapter", "inside get view");
         LayoutInflater inflater = mContext.getLayoutInflater();
         ViewHolder holder;
         if (view == null) {
