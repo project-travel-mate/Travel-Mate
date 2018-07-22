@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
 import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
-import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -301,16 +300,12 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             case R.id.select_city_name :
                 new CitySearchDialogCompat(AddNewTripActivity.this, getString(R.string.search_title),
                         getString(R.string.search_hint), null, mSearchCities,
-                        new SearchResultListener<CitySearchModel>() {
-                            @Override
-                            public void onSelected(BaseSearchDialogCompat dialog,
-                                                   CitySearchModel item, int position) {
-                                mCityid = item.getId();
-                                tripcity.setText(item.getTitle().toString());
-                                tripcity.setVisibility(View.VISIBLE);
-                                tripcityText.setVisibility(View.VISIBLE);
-                                dialog.dismiss();
-                            }
+                        (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
+                            mCityid = item.getId();
+                            tripcity.setText(item.getTitle());
+                            tripcity.setVisibility(View.VISIBLE);
+                            tripcityText.setVisibility(View.VISIBLE);
+                            dialog.dismiss();
                         }).show();
                 break;
 

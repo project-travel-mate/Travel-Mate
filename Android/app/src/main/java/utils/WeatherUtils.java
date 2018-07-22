@@ -69,7 +69,7 @@ public class WeatherUtils {
     /**
      * called to get the days of the week needed to display the forecast
      * @param index day's index
-     * @param pattern
+     * @param pattern pattern of output day of week
      * @return current day of the week as a String
      */
     public static String getDayOfWeek(int index, String pattern) {

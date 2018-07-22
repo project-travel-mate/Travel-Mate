@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import io.github.project_travel_mate.R;
 import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
-import ir.mirrajabi.searchdialog.core.FilterResultListener;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import ir.mirrajabi.searchdialog.core.Searchable;
 
@@ -44,31 +43,21 @@ public class CitySearchDialogCompat<T extends Searchable> extends BaseSearchDial
         setContentView(view);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         setCancelable(true);
-        TextView txtTitle = (TextView) view.findViewById(ir.mirrajabi.searchdialog.R.id.txt_title);
-        final EditText searchBox = (EditText) view.findViewById(getSearchBoxId());
+        TextView txtTitle = view.findViewById(ir.mirrajabi.searchdialog.R.id.txt_title);
+        final EditText searchBox = view.findViewById(getSearchBoxId());
         txtTitle.setText(mTitle);
         searchBox.setHint(mSearchHint);
 
         view.findViewById(ir.mirrajabi.searchdialog.R.id.dummy_background)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dismiss();
-                    }
-                });
+                .setOnClickListener(view1 -> dismiss());
 
         final CitySearchModelAdapter adapter = new CitySearchModelAdapter(getContext(),
                 R.layout.search_list_item, getItems());
         adapter.setSearchResultListener(mSearchResultListener);
         adapter.setSearchDialog(this);
-        setFilterResultListener(new FilterResultListener<T>() {
-            @Override
-            public void onFilter(ArrayList<T> items) {
-                ((CitySearchModelAdapter<T>) getAdapter())
-                        .setSearchTag(searchBox.getText().toString())
-                        .setItems(items);
-            }
-        });
+        setFilterResultListener(items -> ((CitySearchModelAdapter<T>) getAdapter())
+                .setSearchTag(searchBox.getText().toString())
+                .setItems(items));
         setAdapter(adapter);
     }
 

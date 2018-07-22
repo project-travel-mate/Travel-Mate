@@ -25,20 +25,14 @@ public class ChecklistViewModel extends ViewModel {
     }
 
     public Completable updateIsDone(final int id) {
-        return Completable.fromAction(() -> {
-            mDataSource.updateIsDone(id);
-        });
+        return Completable.fromAction(() -> mDataSource.updateIsDone(id));
     }
 
     public Completable updateUndone(final int id) {
-        return Completable.fromAction(() -> {
-            mDataSource.updateUndone(id);
-        });
+        return Completable.fromAction(() -> mDataSource.updateUndone(id));
     }
 
     public Completable insertItem(ChecklistItem item) {
-        return Completable.fromAction(() -> {
-            mDataSource.insertItem(item);
-        });
+        return Completable.fromAction(() -> mDataSource.insertItem(item));
     }
 }

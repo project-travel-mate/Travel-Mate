@@ -105,7 +105,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     try {
-                        if (position == factsArray.size() - 1 & scrollState == 1 & isFirstVisitEnd == false) {
+                        if (position == factsArray.size() - 1 & scrollState == 1 & !isFirstVisitEnd) {
                             viewPager.setCurrentItem(0, false);
                         }
                         if (position == 0 & scrollState == 1) {
@@ -118,11 +118,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
 
                 @Override
                 public void onPageSelected(int position) {
-                    if (position == factsArray.size() - 1) {
-                        isFirstVisitEnd = false;
-                    } else {
-                        isFirstVisitEnd = true;
-                    }
+                    isFirstVisitEnd = position != factsArray.size() - 1;
                 }
 
                 @Override

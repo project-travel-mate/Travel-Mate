@@ -21,11 +21,7 @@ public class Constants {
     public static final String EVENT_NAME = "event_img";
     public static final String IMAGE_NO = "number";
 
-    public static final String DESTINATION_CITY_LAT = "destination_city_lat";
-    public static final String DESTINATION_CITY_LON = "destination_city_lon";
-
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
-    public static final String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
     // TODO:: replace placeholders with actual values
     //Cloudinary information

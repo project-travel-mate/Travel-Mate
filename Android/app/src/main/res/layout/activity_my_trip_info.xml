@@ -77,6 +77,7 @@
                    android:focusableInTouchMode="false"
                    android:fontFamily="sans-serif-bold"
                    android:padding="10dp"
+                   android:inputType="text"
                    android:textColor="@color/black"
                    android:textSize="15sp"
                    android:visibility="invisible" />

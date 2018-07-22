@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".utilities.AboutUsFragment">
 
@@ -15,22 +14,23 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/google_travel_logo" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="25dp"
-            android:text="@string/app_name" />
+            android:text="@string/app_name"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Small"
             android:padding="8dp"
-            android:text="@string/app_description"/>
+            android:text="@string/app_description" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cv_version_code"
@@ -47,8 +47,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_version" />
+                    android:src="@drawable/ic_version"
+                    android:tint="@color/grey" />
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Medium"
@@ -75,27 +75,16 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_github_circle" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/fork_on_github" />
-
-            </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_github_circle"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/fork_on_github" />
 
         </android.support.v7.widget.CardView>
 
@@ -104,27 +93,16 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_contributors" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/view_contributors" />
-
-            </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_contributors"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/view_contributors" />
 
         </android.support.v7.widget.CardView>
 
@@ -134,27 +112,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_bug_report_black_24dp"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/report_a_bug" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_bug_report_black_24dp" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/report_a_bug" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -164,27 +132,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_privacy"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/privacy_policy" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_privacy" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/privacy_policy" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -194,27 +152,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_contact_us"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/contact_us" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_contact_us" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/contact_us" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -223,27 +171,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_slack"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/join_slack" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_slack" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/join_slack" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -253,27 +191,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_share_black_24dp"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/share_app" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_share_black_24dp" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/share_app" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -283,27 +211,17 @@
             android:layout_height="50dp"
             android:layout_margin="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_web"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/website" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:tint="@color/grey"
-                    android:src="@drawable/ic_web" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="@string/website" />
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 

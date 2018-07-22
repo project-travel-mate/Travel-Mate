@@ -246,9 +246,7 @@ public class WeatherActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.post(() -> {
-                    networkError();
-                });
+                mHandler.post(() -> networkError());
             }
 
             @Override
@@ -263,14 +261,10 @@ public class WeatherActivity extends AppCompatActivity {
                         fetchWeatherForecast();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        mHandler.post(() -> {
-                            networkError();
-                        });
+                        mHandler.post(() -> networkError());
                     }
                 } else {
-                    mHandler.post(() -> {
-                        emptyListAnimation();
-                    });
+                    mHandler.post(() -> emptyListAnimation());
                 }
             }
         });

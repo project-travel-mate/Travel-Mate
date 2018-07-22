@@ -38,7 +38,6 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
 
     private final Activity mContext;
     private final List<Notification> mNotifications;
-    private SharedPreferences mSharedPreferences;
     private String mToken;
     private Handler mHandler;
 
@@ -54,7 +53,7 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
         NotificationsAdapter.ViewHolder holder;
         mHandler = new Handler(Looper.getMainLooper());
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
 
         LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);

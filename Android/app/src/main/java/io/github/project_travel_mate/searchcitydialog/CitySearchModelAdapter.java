@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +37,6 @@ public class CitySearchModelAdapter<T extends Searchable>
     private SearchResultListener mSearchResultListener;
     private AdapterViewBinder<T> mViewBinder;
     private String mSearchTag;
-    private boolean mHighlightPartsInCommon = true;
     private BaseSearchDialogCompat mSearchDialog;
 
     public CitySearchModelAdapter(Context context, @LayoutRes int layout, List<T> items) {
@@ -76,8 +76,9 @@ public class CitySearchModelAdapter<T extends Searchable>
         return position;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View convertView = mLayoutInflater.inflate(mLayout, parent, false);
         convertView.setTag(new ViewHolder(convertView));
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
@@ -85,7 +86,7 @@ public class CitySearchModelAdapter<T extends Searchable>
     }
 
     @Override
-    public void onBindViewHolder(CitySearchModelAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CitySearchModelAdapter.ViewHolder holder, int position) {
         initializeViews(getItem(position), holder, position);
     }
     private void initializeViews(final T object, final CitySearchModelAdapter.ViewHolder holder,
@@ -99,18 +100,15 @@ public class CitySearchModelAdapter<T extends Searchable>
                 .into(image);
 
         //highlight the letter(s) user has searched for
+        boolean mHighlightPartsInCommon = true;
         if (mSearchTag != null && mHighlightPartsInCommon)
             text.setText(StringsHelper.highlightLCS(object.getTitle(), getSearchTag(),
                     Color.RED ));
         else text.setText(object.getTitle());
 
         if (mSearchResultListener != null)
-            holder.getBaseView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mSearchResultListener.onSelected(mSearchDialog, object, position);
-                }
-            });
+            holder.getBaseView().setOnClickListener(
+                    view -> mSearchResultListener.onSelected(mSearchDialog, object, position));
     }
 
     public void setSearchResultListener(SearchResultListener searchResultListener) {

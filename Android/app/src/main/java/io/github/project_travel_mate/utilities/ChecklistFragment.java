@@ -36,7 +36,6 @@ public class ChecklistFragment extends Fragment {
     ListView listview;
     private Activity mActivity;
     private ChecklistViewModel mViewModel;
-    private ViewModelFactory mViewModelFactory;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     public ChecklistFragment() {
@@ -54,7 +53,7 @@ public class ChecklistFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        mViewModelFactory = Injection.provideViewModelFactory(mActivity);
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(mActivity);
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ChecklistViewModel.class);
 
         attachAdapter();

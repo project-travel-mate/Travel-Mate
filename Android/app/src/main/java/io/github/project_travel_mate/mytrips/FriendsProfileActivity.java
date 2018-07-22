@@ -73,10 +73,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
-    private SharedPreferences mSharedPreferences;
     private String mToken;
     private Handler mHandler;
-    private int mFriendId;
     private String mFriendImageUri;
     private String mFriendName;
 
@@ -97,22 +95,19 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         displayStatus.setText(" ");
         
         Intent intent = getIntent();
-        mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
+        int mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
         mHandler = new Handler(Looper.getMainLooper());
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         getFriendDetails(String.valueOf(mFriendId));
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //open friend's profile image in full screen
-        friendDisplayImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(FriendsProfileActivity.this,
-                        mFriendImageUri, mFriendName);
-                startActivity(fullScreenIntent);
-            }
+        friendDisplayImage.setOnClickListener(v -> {
+            Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(FriendsProfileActivity.this,
+                    mFriendImageUri, mFriendName);
+            startActivity(fullScreenIntent);
         });
     }
 

@@ -2,6 +2,7 @@ package io.github.project_travel_mate.roompersistence;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
 
 /**
  * Factory for ViewModels
@@ -12,8 +13,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public ViewModelFactory(ChecklistDataSource dataSource) {
         mDataSource = dataSource;
     }
+    @NonNull
     @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(ChecklistViewModel.class)) {
             return (T) new ChecklistViewModel(mDataSource);
         }

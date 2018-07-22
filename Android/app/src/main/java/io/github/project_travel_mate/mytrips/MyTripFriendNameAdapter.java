@@ -68,12 +68,7 @@ class MyTripFriendNameAdapter extends ArrayAdapter<User> {
         holder.name.setText(mUsers.get(position).getFirstName());
         Picasso.with(mContext).load(mUsers.get(position).getImage()).placeholder(R.drawable.icon_profile)
                 .error(R.drawable.icon_profile).into(holder.imageView);
-        holder.removeFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFriendRemoveDialog(mUsers.get(position).getFirstName());
-            }
-        });
+        holder.removeFriend.setOnClickListener(v -> showFriendRemoveDialog(mUsers.get(position).getFirstName()));
         return view;
     }
 
@@ -86,9 +81,7 @@ class MyTripFriendNameAdapter extends ArrayAdapter<User> {
         AlertDialog.Builder builder = new AlertDialog.Builder(crt);
         builder.setMessage(String.format(mContext.getString(R.string.remove_friend_message), friendFirstName))
                 .setPositiveButton(R.string.positive_button,
-                        (dialog, which) -> {
-                            removeFriend();
-                        })
+                        (dialog, which) -> removeFriend())
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
 

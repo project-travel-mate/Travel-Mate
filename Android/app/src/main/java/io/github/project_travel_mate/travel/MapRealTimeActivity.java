@@ -184,7 +184,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             Integer[] selectedItems = new Integer[mSelectedIndices.size()];
 
             for (int i = 0; i < mSelectedIndices.size(); i++) {
-                selectedItems[i] = Integer.valueOf(mSelectedIndices.get(i));
+                selectedItems[i] = mSelectedIndices.get(i);
             }
             mSelectedIndices.clear();
             new MaterialDialog.Builder(this)

@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
 import objects.User;
 
-public class MyFriendsAdapter extends ArrayAdapter<User> {
+class MyFriendsAdapter extends ArrayAdapter<User> {
 
     private final Context mContext;
     private final List<User> mFriends;

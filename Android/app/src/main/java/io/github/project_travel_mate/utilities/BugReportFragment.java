@@ -57,7 +57,6 @@ public class BugReportFragment extends Fragment {
     private String mAuthToken = null;
     private final List<Feedback> mFeedbacks = new ArrayList<>();
     private BugReportAdapter mAdapter;
-    private View mBugReportView;
     private Activity mActivity;
 
     public BugReportFragment() {
@@ -77,21 +76,18 @@ public class BugReportFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
+        View mBugReportView = inflater.inflate(R.layout.fragment_bug_report, container, false);
         ButterKnife.bind(this, mBugReportView);
 
         mAuthToken = getAuthToken();
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-                FragmentManager fragmentManager = getFragmentManager();
-                fragment = AddBugFragment.newInstance();
-                fragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.inc, fragment).commit();
-            }
+        addButton.setOnClickListener(v -> {
+            Fragment fragment;
+            FragmentManager fragmentManager = getFragmentManager();
+            fragment = AddBugFragment.newInstance();
+            fragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.inc, fragment).commit();
         });
         return mBugReportView;
     }
@@ -122,12 +118,7 @@ public class BugReportFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        networkError();
-                    }
-                });
+                handler.post(() -> networkError());
             }
 
             @Override
@@ -158,12 +149,7 @@ public class BugReportFragment extends Fragment {
                         }
 
                     } else {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                noResult();
-                            }
-                        });
+                        handler.post(() -> noResult());
                     }
                 });
             }

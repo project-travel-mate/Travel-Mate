@@ -50,7 +50,7 @@ public class BugReportAdapter extends ArrayAdapter<Feedback> {
         String[] parts = mFeedbacks.get(position).getDateCreated().split("T");
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat outputFormat = new SimpleDateFormat("dd-MMM");
-        Date date = null;
+        Date date;
         String outputDate = null;
         try {
             date = inputFormat.parse(parts[0]);

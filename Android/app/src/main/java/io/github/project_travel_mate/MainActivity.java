@@ -41,7 +41,6 @@ import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.login.LoginActivity;
-import io.github.project_travel_mate.medals.MedalsFragment;
 import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
@@ -134,15 +133,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fillNavigationView(emailId, null);
 
         getProfileInfo();
-        if (travelShortcut.equals(getIntent().getAction())) {
-            fragment = TravelFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        } else if (myTripsShortcut.equals(getIntent().getAction())) {
-            fragment = MyTripsFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        } else if (utilitiesShortcut.equals(getIntent().getAction())) {
-            fragment = UtilitiesFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        if (getIntent() != null && getIntent().getAction() != null) {
+            switch (getIntent().getAction()) {
+                case travelShortcut:
+                    fragment = TravelFragment.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    break;
+                case myTripsShortcut:
+                    fragment = MyTripsFragment.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    break;
+                case utilitiesShortcut:
+                    fragment = UtilitiesFragment.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    break;
+            }
         }
     }
 
@@ -185,10 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_utility:
                 fragment = UtilitiesFragment.newInstance();
-                break;
-
-            case R.id.nav_medals:
-                fragment = MedalsFragment.newInstance();
                 break;
 
             case R.id.nav_about_us:

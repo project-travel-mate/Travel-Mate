@@ -57,7 +57,6 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
 
     private String mToken;
     private Handler mHandler;
-    private SharedPreferences mSharedPreferences;
     ArrayList<Notification> notifications;
     private NotificationsAdapter mAdapter;
     private MaterialDialog mDialog;
@@ -70,7 +69,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         setContentView(R.layout.activity_notifications);
         ButterKnife.bind(this);
         mHandler = new Handler(Looper.getMainLooper());
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         notifications = new ArrayList<>();
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -121,7 +120,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     String type = array.getJSONObject(i).getString("notification_type");
                                     String text = array.getJSONObject(i).getString("text");
                                     boolean read = array.getJSONObject(i).getBoolean("is_read");
-                                    if (read == false) {
+                                    if (!read) {
                                         allRead = true;
                                     }
                                     JSONObject object = array.getJSONObject(i).getJSONObject("initiator_user");
@@ -134,7 +133,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     String status = object.getString("status");
                                     User user =
                                             new User(userName, firstName, lastName, ids, imageURL, dateJoined, status);
-                                    if ( array.getJSONObject(i).getString("trip") != "null" &&
+                                    if (!Objects.equals(array.getJSONObject(i).getString("trip"), "null") &&
                                             array.getJSONObject(i).getString("notification_type").equals("Trip")) {
 
                                         JSONObject obj = array.getJSONObject(i).getJSONObject("trip");
@@ -153,7 +152,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                 listView.setAdapter(mAdapter);
-                                if (allRead == false) {
+                                if (!allRead) {
                                     MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
                                     item.setVisible(false);
                                 }

@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -591,7 +590,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                             friendImage, friendJoinedOn, friendStatus));
                                 }
 
-                                if (mIsClicked == true) {
+                                if (mIsClicked) {
                                     mAdapter = new MyTripFriendNameAdapter(
                                             MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
                                     listView.setAdapter(null);
@@ -601,7 +600,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
                                     mAdapter = new MyTripFriendNameAdapter(
                                             MyTripInfoActivity.this, tripFriends, mTrip, mFriendDeleteId);
-                                    if (mIsClicked == false) {
+                                    if (!mIsClicked) {
                                         listView.setAdapter(mAdapter);
                                         showIcon.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
                                         mIsClicked = true;

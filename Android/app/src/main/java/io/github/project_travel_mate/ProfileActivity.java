@@ -186,15 +186,12 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         });
 
         //open profile image when clicked on it
-        displayImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
-                String fullname = mSharedPreferences.getString(USER_NAME, null);
-                Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
-                        imageUri, fullname);
-                startActivity(fullScreenIntent);
-            }
+        displayImage.setOnClickListener(v -> {
+            String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
+            String fullname = mSharedPreferences.getString(USER_NAME, null);
+            Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
+                    imageUri, fullname);
+            startActivity(fullScreenIntent);
         });
 
     }
@@ -319,7 +316,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             Long dateTime = rfc3339ToMills(dateJoined);
                             String date = getDate(dateTime);
 
-                            if (status == null || status == "null") {
+                            if (status == null || Objects.equals(status, "null")) {
 
                                 status = getString(R.string.default_status);
                             }
