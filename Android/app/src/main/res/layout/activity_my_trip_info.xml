@@ -29,7 +29,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+       <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/layout"
             android:layout_width="match_parent"
@@ -63,34 +63,43 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/trip_name"
-                    android:layout_width="315dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:cursorVisible="false"
-                    android:ellipsize="end"
-                    android:focusableInTouchMode="false"
-                    android:fontFamily="sans-serif-bold"
-                    android:padding="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:visibility="invisible" />
+               <EditText
+                   android:id="@+id/trip_name"
+                   android:layout_width="318dp"
+                   android:layout_height="match_parent"
+                   android:background="@android:color/transparent"
+                   android:cursorVisible="false"
+                   android:ellipsize="end"
+                   android:focusableInTouchMode="false"
+                   android:fontFamily="sans-serif-bold"
+                   android:padding="10dp"
+                   android:textColor="@color/black"
+                   android:textSize="15sp"
+                   android:visibility="invisible" />
 
-                <ImageView
-                    android:id="@+id/edit_trip_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:padding="10dp"
-                    android:paddingBottom="13dp"
-                    android:src="@drawable/ic_edit_black_24dp" />
-            </LinearLayout>
+               <ProgressBar
+                   android:id="@+id/trip_name_progress_bar"
+                   style="?android:attr/progressBarStyleSmall"
+                   android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:layout_centerHorizontal="true"
+                   android:indeterminateDrawable="@drawable/progress_bar"
+                   android:visibility="gone"/>
+
+               <ImageView
+                   android:id="@+id/edit_trip_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentTop="true"
+                   android:padding="10dp"
+                   android:paddingBottom="13dp"
+                   android:src="@drawable/ic_edit_black_24dp" />
+           </RelativeLayout>
 
             <TextView
                 android:id="@+id/trip_start_date"

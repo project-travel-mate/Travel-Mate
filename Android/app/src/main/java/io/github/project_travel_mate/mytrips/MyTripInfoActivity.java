@@ -104,6 +104,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     LinearLayout layout;
     @BindView(R.id.no_friend_title)
     TextView noFriendTitle;
+    @BindView(R.id.trip_name_progress_bar)
+    ProgressBar tripNameProgressBar;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -631,12 +633,11 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
     private void updateTripName() {
 
-        mDialog = new MaterialDialog.Builder(MyTripInfoActivity.this)
-                .title(R.string.app_name)
-                .content(R.string.progress_wait)
-                .progress(true, 0)
-                .show();
-
+        runOnUiThread(() -> {
+            tripName.setVisibility(View.INVISIBLE);
+            tripNameProgressBar.setVisibility(View.VISIBLE);
+            editTrip.setVisibility(GONE);
+        });
         String editedTripName = String.valueOf(tripName.getText());
         String uri = API_LINK_V2 + "update-trip-name/" + mTrip.getId() + "/" + editedTripName;
 
@@ -669,7 +670,11 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                 } else {
                     networkError();
                 }
-                mDialog.dismiss();
+                runOnUiThread(() -> {
+                    tripName.setVisibility(View.VISIBLE);
+                    tripNameProgressBar.setVisibility(View.GONE);
+                    editTrip.setVisibility(View.VISIBLE);
+                });
             }
         });
     }
