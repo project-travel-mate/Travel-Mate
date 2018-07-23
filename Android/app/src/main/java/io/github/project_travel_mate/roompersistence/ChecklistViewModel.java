@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import objects.ChecklistItem;
 
 /**
@@ -34,5 +35,14 @@ public class ChecklistViewModel extends ViewModel {
 
     public Completable insertItem(ChecklistItem item) {
         return Completable.fromAction(() -> mDataSource.insertItem(item));
+    }
+
+    public Completable deleteCompletedTasks() {
+        return Completable.fromAction(() -> mDataSource.deleteCompletedTasks());
+    }
+
+    public Single<List<ChecklistItem>> getCompletedItems() {
+        return mDataSource.getCompletedItems();
+
     }
 }

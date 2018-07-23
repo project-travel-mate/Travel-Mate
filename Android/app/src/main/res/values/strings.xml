@@ -58,6 +58,9 @@
     <!-- Checklist strings -->
     <string name="text_checklist">Checklist</string>
     <string name="enter_task_name">Enter task name</string>
+    <string name="delete_tasks">Are you sure you want to delete all completed tasks?</string>
+    <string name="undo">Undo</string>
+    <string name="deleted_task_message">Deleted all completed tasks</string>
 
     <!-- My Trip Strings -->
     <string name="trip_city">Trip City :</string>
