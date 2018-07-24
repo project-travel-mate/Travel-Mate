@@ -107,6 +107,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
             getMarkers("eat-drink", R.drawable.ic_local_pizza_black);
+            mSelectedIndices.add(0);
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
