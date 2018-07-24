@@ -7,7 +7,8 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="io.github.project_travel_mate.utilities.ChecklistActivity"
-    tools:showIn="@layout/activity_check_list">
+    tools:showIn="@layout/activity_check_list"
+    android:id="@+id/fragment_checklist">
 
     <LinearLayout
         android:layout_width="match_parent"

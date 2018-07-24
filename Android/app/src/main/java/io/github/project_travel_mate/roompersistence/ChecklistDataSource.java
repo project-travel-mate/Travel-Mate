@@ -3,6 +3,7 @@ package io.github.project_travel_mate.roompersistence;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import objects.ChecklistItem;
 
 /**
@@ -31,5 +32,13 @@ public class ChecklistDataSource {
 
     void insertItem(ChecklistItem item) {
         mDao.insertItems(item);
+    }
+
+    void deleteCompletedTasks() {
+        mDao.deleteCompletedTasks();
+    }
+
+    Single<List<ChecklistItem>> getCompletedItems() {
+        return  mDao.getCompletedItems();
     }
 }

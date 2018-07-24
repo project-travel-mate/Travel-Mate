@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import objects.ChecklistItem;
 
 /**
@@ -28,5 +29,11 @@ public interface ChecklistItemDAO {
 
     @Query("UPDATE events_new SET isDone = 0 WHERE id IS :id")
     void updateUndone(int id);
+
+    @Query("DELETE FROM events_new WHERE isDone = 1")
+    void deleteCompletedTasks();
+
+    @Query("SELECT * FROM events_new WHERE isDone = 1")
+    Single<List<ChecklistItem>> getCompletedItems();
 
 }

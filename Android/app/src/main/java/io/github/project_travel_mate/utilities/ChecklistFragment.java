@@ -7,13 +7,22 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,17 +35,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import objects.ChecklistItem;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.BASE_TASKS;
 import static utils.Constants.IS_ADDED_INDB;
 
-public class ChecklistFragment extends Fragment {
+public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
 
     @BindView(R.id.listview)
     ListView listview;
     private Activity mActivity;
     private ChecklistViewModel mViewModel;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private View mChecklistView;
+    private List<ChecklistItem> mItems = new ArrayList<>();
 
     public ChecklistFragment() {
     }
@@ -49,16 +61,16 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_check_list, container, false);
+        mChecklistView = inflater.inflate(R.layout.fragment_check_list, container, false);
 
-        ButterKnife.bind(this, view);
+        ButterKnife.bind(this, mChecklistView);
 
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(mActivity);
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ChecklistViewModel.class);
 
         attachAdapter();
 
-        return view;
+        return mChecklistView;
     }
 
     @OnClick(R.id.add)
@@ -81,6 +93,29 @@ public class ChecklistFragment extends Fragment {
                 });
         builder.create();
         builder.show();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.checklist_menu, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete :
+                initiateDeletion();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void attachAdapter() {
@@ -110,6 +145,67 @@ public class ChecklistFragment extends Fragment {
     public void onAttach (Context context) {
         super.onAttach(context);
         mActivity = (Activity) context;
+    }
+
+    /**
+     * Initiates deletion of completed tasks by showing
+     * an alert dialog asking the user to confirm deletion
+     */
+    public void initiateDeletion() {
+
+        //First add all completed tasks in mItems
+        //so that on clicking undo,tasks can added again
+        mDisposable.add(mViewModel.getCompletedItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> {
+                    mItems.clear();
+                    mItems.addAll(items);
+                }));
+        //set AlertDialog before deleting all tasks
+        ContextThemeWrapper crt = new ContextThemeWrapper(mActivity, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.delete_tasks)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            deleteCompletedTasks(); })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+                            //do nothing on clicking cancel
+                    });
+        builder.create().show();
+    }
+
+    /**
+     * Deletes completed tasks from database and provides user
+     * the option to undo this task.
+     */
+    private void deleteCompletedTasks() {
+
+        //deletes all completed task from database
+        mDisposable.add(mViewModel.deleteCompletedTasks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe());
+        //creates a snackbar with undo option
+        TravelmateSnackbars.createSnackBar(mChecklistView.findViewById(R.id.fragment_checklist),
+                R.string.deleted_task_message,
+                Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 0; i < mItems.size(); i++) {
+                            //adds all completed task in database again
+                            ChecklistItem checklistItem = new ChecklistItem(mItems.get(i).getName(), String.valueOf(1));
+                            mDisposable.add(mViewModel.insertItem(checklistItem)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe());
+                        }
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary))
+                .show();
     }
 }
 
