@@ -205,5 +205,6 @@
     <!-- handle responses from Weather API -->
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
     <string name="today">Today</string>
+    <string name="showing_shopping_item">Searching for: %1$s</string>
 
 </resources>

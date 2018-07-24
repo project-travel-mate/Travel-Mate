@@ -64,6 +64,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/show_city_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
 
             <ListView
                 android:id="@+id/shopping_list"
