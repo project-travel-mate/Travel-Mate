@@ -59,6 +59,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     LottieAnimationView animationView;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.show_city_name)
+    TextView showCityName;
 
     private MaterialSearchView mSearchView;
     private String mToken;
@@ -161,7 +163,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     }
 
     private void getShoppingItems(final String item) {
-
+        showCityName.setText(String.format(getString(R.string.showing_shopping_item), item));
+        showCityName.setVisibility(View.VISIBLE);
         String uri = API_LINK_V2 + "get-shopping-info/" + item;
         uri = uri.replace(" ", "+");
 
@@ -220,6 +223,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
      * Plays the network lost animation in the view
      */
     private void networkError() {
+        showCityName.setVisibility(View.GONE);
         animationView.setVisibility(View.VISIBLE);
         layout.setVisibility(View.GONE);
         animationView.setAnimation(R.raw.network_lost);
