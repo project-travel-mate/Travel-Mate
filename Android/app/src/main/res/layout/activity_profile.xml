@@ -86,7 +86,7 @@
             android:cursorVisible="false"
             android:ellipsize="end"
             android:focusableInTouchMode="false"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:paddingTop="8dp"
             android:text="@string/default_name"
             android:textColor="#333434"
