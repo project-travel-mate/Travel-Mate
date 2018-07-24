@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
@@ -79,6 +80,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     TextView tripcityText;
     @BindView(R.id.trip_city)
     TextView tripcity;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+
     private String mCityid;
     private String mStartdate;
     private String mTripname;
@@ -173,7 +177,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    mDialog.dismiss();
+                    networkError();
+                });
             }
 
             @Override
@@ -198,6 +205,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    networkError();
+                    mDialog.dismiss();
                 }
                 mDialog.dismiss();
 
@@ -316,4 +325,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         Intent intent = new Intent(context, AddNewTripActivity.class);
         return intent;
     }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        mLinearLayout.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
+
 }
