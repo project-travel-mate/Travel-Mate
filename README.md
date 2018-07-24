@@ -88,7 +88,6 @@ Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) pa
 + [CircleImageView](https://github.com/hdodenhof/CircleImageView)
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
-+ [material](https://github.com/rey5137/material)
 + [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
 + [twoway-view](https://github.com/lucasr/twoway-view)
 + [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
