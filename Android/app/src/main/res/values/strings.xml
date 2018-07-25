@@ -11,6 +11,7 @@
     <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_my_friends">My Friends</string>
+    <string name="navigation_drawer_settings">Settings</string>
 
     <!-- Activity Title strings -->
     <string name="title_activity_login">Login</string>
@@ -209,5 +210,14 @@
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
     <string name="today">Today</string>
     <string name="showing_shopping_item">Searching for: %1$s</string>
+
+    <!-- Settings Strings -->
+    <string name="change_password_heading">Change Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="read_notifications_message">Show my read notifications</string>
+    <string name="required_error">Required!</string>
+    <string name="password_updated">Password Updated!</string>
+
 
 </resources>
