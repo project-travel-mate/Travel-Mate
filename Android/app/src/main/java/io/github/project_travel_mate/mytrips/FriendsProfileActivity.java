@@ -9,27 +9,32 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.FullScreenProfileImage;
 import io.github.project_travel_mate.R;
+import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -37,6 +42,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.USER_TOKEN;
@@ -54,12 +60,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     TextView friendUserName;
     @BindView(R.id.display_joining_date)
     TextView friendJoiningDate;
-    @BindView(R.id.ib_edit_display_name)
-    ImageView changeUserName;
-    @BindView(R.id.change_image)
-    ImageView changeProfileImage;
     @BindView(R.id.display_status)
-    EditText displayStatus;
+    TextView displayStatus;
     @BindView(R.id.status_icon)
     ImageView statusIcon;
     @BindView(R.id.profile_icon)
@@ -68,38 +70,39 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     ImageView dateJoinedIcon;
     @BindView(R.id.email_icon)
     ImageView emailIcon;
-    @BindView(R.id.ib_edit_display_status)
-    ImageButton changeStatus;
+    @BindView(R.id.trips_together_layout)
+    LinearLayout tripsTogetherLayout;
+    @BindView(R.id.date_joined_layout)
+    LinearLayout dateJoinedLayout;
+    @BindView(R.id.display_mutual_trips)
+    TextView mutualTripsText;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     private String mToken;
     private Handler mHandler;
     private String mFriendImageUri;
     private String mFriendName;
+    private List<Trip> mTrips = new ArrayList<>();
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mMutualTripsAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_friends_profile);
         ButterKnife.bind(this);
 
-        //disabling option to edit username
-        changeUserName.setVisibility(View.INVISIBLE);
-        //disabling option to edit profile picture
-        changeProfileImage.setVisibility(View.INVISIBLE);
-        //disabling option to edit status
-        changeStatus.setVisibility(View.INVISIBLE);
-        //displaying no status so that default status is not displayed
-        displayStatus.setText(" ");
-        
         Intent intent = getIntent();
         int mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         getFriendDetails(String.valueOf(mFriendId));
+        getMutualTrips(String.valueOf(mFriendId));
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -118,14 +121,10 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     }
 
     private void getFriendDetails(final String friendId) {
-        friendDisplayImage.setVisibility(View.GONE);
-        friendJoiningDate.setVisibility(View.GONE);
-        friendsEmail.setVisibility(View.GONE);
-        friendUserName.setVisibility(View.GONE);
-        profileIcon.setVisibility(View.GONE);
-        emailIcon.setVisibility(View.GONE);
-        dateJoinedIcon.setVisibility(View.GONE);
-        statusIcon.setVisibility(View.GONE);
+
+        friendDisplayImage.setVisibility(View.INVISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
 
         String uri;
         if (friendId != null)
@@ -172,31 +171,97 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                             friendUserName.setText(mFriendName);
                             friendJoiningDate.setText(String.format(getString(R.string.text_joining_date), date));
                             friendsEmail.setText(userName);
-                            dateJoinedIcon.setVisibility(View.VISIBLE);
-                            friendJoiningDate.setVisibility(View.VISIBLE);
-
                         } else {
                             displayStatus.setText(mFriendName);
                             friendsEmail.setText(String.format(getString(R.string.text_joining_date), date));
                             friendUserName.setText(userName);
-                            dateJoinedIcon.setVisibility(View.GONE);
-                            friendJoiningDate.setVisibility(View.GONE);
                             statusIcon.setImageResource(R.drawable.ic_person_black_24dp);
                             profileIcon.setImageResource(R.drawable.ic_email_black_24dp);
                             emailIcon.setImageResource(R.drawable.baseline_date_range_black);
+                            dateJoinedLayout.setVisibility(GONE);
                         }
-                        setTitle(mFriendName);
-                        statusIcon.setVisibility(View.VISIBLE);
-                        friendsEmail.setVisibility(View.VISIBLE);
-                        friendDisplayImage.setVisibility(View.VISIBLE);
-                        profileIcon.setVisibility(View.VISIBLE);
-                        emailIcon.setVisibility(View.VISIBLE);
-                        friendUserName.setVisibility(View.VISIBLE);
-                        animationView.setVisibility(View.GONE);
 
+                        setTitle(mFriendName);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("ERROR : ", "Message : " + e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Fetches list of all trips user has travelled with given friend
+     */
+    private void getMutualTrips(String friendId) {
+
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        String uri = API_LINK_V2 + "get-common-trips/" + friendId;
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                handler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                handler.post(() -> {
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONArray arr;
+                        try {
+                            final String res = response.body().string();
+                            Log.v("Response", res);
+                            arr = new JSONArray(res);
+
+                            for (int i = 0; i < arr.length(); i++) {
+                                String id = arr.getJSONObject(i).getString("id");
+                                String start = arr.getJSONObject(i).getString("start_date_tx");
+                                String end = arr.getJSONObject(i).optString("end_date", null);
+                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
+                                String tname = arr.getJSONObject(i).getString("trip_name");
+                                JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
+                                String image = array.length() > 0 ? array.getString(0) : null;
+                                mTrips.add(new Trip(id, name, image, start, end, tname));
+                            }
+                            //display trips only if there exists at least one trip
+                            //else hide the view
+                            if (!mTrips.isEmpty()) {
+                                // Specify a layout for RecyclerView
+                                // Create a horizontal RecyclerView
+                                mLayoutManager = new LinearLayoutManager(FriendsProfileActivity.this,
+                                        LinearLayoutManager.HORIZONTAL,
+                                        false
+                                );
+                                recyclerView.setLayoutManager(mLayoutManager);
+                                mMutualTripsAdapter = new MutualTripsAdapter(FriendsProfileActivity.this, mTrips);
+                                recyclerView.setAdapter(mMutualTripsAdapter);
+                            } else {
+                                mutualTripsText.setVisibility(GONE);
+                            }
+                            animationView.setVisibility(View.GONE);
+                            friendDisplayImage.setVisibility(View.VISIBLE);
+                        } catch (JSONException | IOException | NullPointerException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                            networkError();
+                        }
+                    } else {
+                        networkError();
                     }
                 });
             }
@@ -215,4 +280,13 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
 
         }
     }
+
+    /**
+     * Plays the network lost animation in the view
+     */
+    private void networkError() {
+        animationView.setAnimation(R.raw.network_lost);
+        animationView.playAnimation();
+    }
+
 }

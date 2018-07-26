@@ -129,7 +129,6 @@
         <activity
             android:name=".FullScreenProfileImage"
             android:theme="@style/FullProfileImageTheme"/>
-
         <activity android:name=".destinations.description.WeatherActivity" />
     </application>
 
