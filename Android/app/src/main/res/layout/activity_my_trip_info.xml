@@ -6,6 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,15 +31,6 @@
         android:orientation="vertical"
         tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true" />
-
        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/layout"
@@ -37,21 +39,14 @@
             android:orientation="vertical"
             tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
-
-            <ImageView
+           <ImageView
                 android:id="@+id/city_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="@string/empty_description"
                 android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_image" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                android:src="@drawable/placeholder_image"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/city_name"
