@@ -41,6 +41,9 @@ import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CURRENT_TEMP;
+import static utils.Constants.EXTRA_MESSAGE_CALLED_FROM_UTILITIES;
+import static utils.Constants.EXTRA_MESSAGE_CITY_ID;
+import static utils.Constants.EXTRA_MESSAGE_CITY_NAME;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.NUM_DAYS;
 import static utils.Constants.USER_TOKEN;
@@ -89,26 +92,37 @@ public class WeatherActivity extends AppCompatActivity {
         mHandler = new Handler(Looper.getMainLooper());
 
         Intent intent = getIntent();
-        //get reference to current City
-        mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
-        //get current temperature from FinalCityInfo
-        mCurrentTemp = intent.getStringExtra(CURRENT_TEMP);
+
+        //check if it's called after searching for a city in utilities
+        boolean isCalledFromUtilities = intent.getBooleanExtra(EXTRA_MESSAGE_CALLED_FROM_UTILITIES,
+                false);
+        if (isCalledFromUtilities) {
+            //create a new city object by getting values from received intent
+            String cityNickname = intent.getStringExtra(EXTRA_MESSAGE_CITY_NAME);
+            String cityID = intent.getStringExtra(EXTRA_MESSAGE_CITY_ID);
+            mCity = new City(cityNickname, cityID);
+            fetchCurrentTemp();
+        } else {
+            //get reference to current City
+            mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
+            //get current temperature from FinalCityInfo
+            mCurrentTemp = intent.getStringExtra(CURRENT_TEMP);
+            if (mCurrentTemp != null) {
+                //if called from within a FinalCityInfo activity
+                //directly fetch weather info
+                fetchWeatherForecast();
+            } else {
+                //if called directly from cities list then
+                //first fetch current temp here
+                fetchCurrentTemp();
+            }
+
+        }
         //set text for empty view when no weather forecast data is returned
         emptyView.setText(String.format(getString(R.string.city_not_found), mCity.getNickname()));
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(mCity.getNickname());
-
-        if (mCurrentTemp != null) {
-            //if called from within a FinalCityInfo activity
-            //directly fetch weather info
-            fetchWeatherForecast();
-        } else {
-            //if called directly from cities list then
-            //first fetch current temp here
-            fetchCurrentTemp();
-        }
-
     }
 
     /**
@@ -291,6 +305,24 @@ public class WeatherActivity extends AppCompatActivity {
         Intent intent = new Intent(context, WeatherActivity.class);
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         intent.putExtra(CURRENT_TEMP, currentTemp);
+        return intent;
+    }
+
+    /**
+     * called to start WeatherActivity from Utilities after user
+     * has searched for a city
+     * @param context context to access application resources
+     * @param cityName name of he city for which weather is to be displayed
+     * @param cityId id of the city for which weather is to be displayed
+     * @param calledFromUtilities to check if it's called from Utilities or not
+     * @return
+     */
+    public static Intent getStartIntent(Context context, String cityName,
+                                        String cityId, boolean calledFromUtilities) {
+        Intent intent = new Intent(context, WeatherActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_CITY_NAME, cityName);
+        intent.putExtra(EXTRA_MESSAGE_CITY_ID, cityId);
+        intent.putExtra(EXTRA_MESSAGE_CALLED_FROM_UTILITIES, calledFromUtilities);
         return intent;
     }
 

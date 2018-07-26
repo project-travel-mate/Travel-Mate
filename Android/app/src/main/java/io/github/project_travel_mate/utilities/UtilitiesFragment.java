@@ -20,6 +20,7 @@ import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import objects.Weather;
 import utils.CardItemEntity;
 
 public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapter.OnItemClickListener {
@@ -73,6 +74,9 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 intent = ChecklistActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
+            case 2 :
+                intent = WeatherForecastActivity.getStartIntent(mActivity);
+                startActivity(intent);
         }
     }
 
@@ -86,6 +90,10 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.checklist),
                         getResources().getString(R.string.text_checklist)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.weather),
+                        getResources().getString(R.string.text_weather)));
         return cardEntities;
     }
 }
