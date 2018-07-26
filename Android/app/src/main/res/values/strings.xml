@@ -189,6 +189,8 @@
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
+    <string name="text_weather">Weather Forecast</string>
+    <string name="weather_forecast_message">Check weather forecast of the city you wish to travel to!</string>
 
     <string name="sign_out">Sign out</string>
 
