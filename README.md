@@ -89,7 +89,6 @@ Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) pa
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
 + [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
-+ [twoway-view](https://github.com/lucasr/twoway-view)
 + [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
 + [datetimepicker](https://github.com/flavienlaurent/datetimepicker)
 + [MaterialSearchView](https://github.com/MiguelCatalan/MaterialSearchView)
