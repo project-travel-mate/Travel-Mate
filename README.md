@@ -84,8 +84,7 @@ The app also includes an interactive checklist of items users need to carry with
 Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) page to get started with the project.
 
 ## Dependencies
-+ [okhttp](https://github.com/square/okhttp)
-+ [CircleImageView](https://github.com/hdodenhof/CircleImageView)
++ [okhttp](https://github.com/square/okhttp) 
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
 + [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
