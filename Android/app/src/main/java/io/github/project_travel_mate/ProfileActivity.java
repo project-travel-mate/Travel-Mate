@@ -45,6 +45,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.utilities.ShareContactActivity;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -245,6 +246,11 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 return true;
             case R.id.action_share_profile:
                 shareProfile();
+                return true;
+            case R.id.action_qrcode_scan:
+                Intent intent;
+                intent = ShareContactActivity.getStartIntent(ProfileActivity.this);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -623,6 +629,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         if (mOptionsMenu != null) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_share_profile);
             item.setVisible(false);
+            MenuItem qrItem = mOptionsMenu.findItem(R.id.action_qrcode_scan);
+            qrItem.setVisible(false);
         }
     }
     /**

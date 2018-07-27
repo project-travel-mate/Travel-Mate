@@ -190,6 +190,8 @@
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
+    <string name="text_weather">Weather Forecast</string>
+    <string name="weather_forecast_message">Check weather forecast of the city you wish to travel to!</string>
 
     <string name="sign_out">Sign out</string>
 
@@ -210,5 +212,6 @@
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
     <string name="today">Today</string>
     <string name="showing_shopping_item">Searching for: %1$s</string>
+    <string name="share_my_qr_code">Share my QR code</string>
 
 </resources>
