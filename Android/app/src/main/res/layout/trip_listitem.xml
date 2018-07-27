@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:id="@+id/trip_linear_layout">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
