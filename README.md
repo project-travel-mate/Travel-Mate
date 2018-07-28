@@ -84,7 +84,7 @@ The app also includes an interactive checklist of items users need to carry with
 Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) page to get started with the project.
 
 ## Dependencies
-+ [okhttp](https://github.com/square/okhttp) 
++ [okhttp](https://github.com/square/okhttp)
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
 + [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
@@ -92,7 +92,6 @@ Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) pa
 + [datetimepicker](https://github.com/flavienlaurent/datetimepicker)
 + [MaterialSearchView](https://github.com/MiguelCatalan/MaterialSearchView)
 + [android-process-button](https://github.com/dmytrodanylyk/android-process-button)
-+ [ExpandableTextView](https://github.com/Manabu-GT/ExpandableTextView)
 + [butterknife](https://github.com/JakeWharton/butterknife)
 + [Zxing](https://github.com/zxing/zxing)
 + [What's new](https://github.com/TonnyL/WhatsNew)
