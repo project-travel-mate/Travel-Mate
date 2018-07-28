@@ -21,6 +21,9 @@ import com.airbnb.lottie.LottieAnimationView;
 import utils.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Timer;
@@ -35,6 +38,7 @@ import objects.City;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
+import static utils.WeatherUtils.fetchDrawableFileResource;
 
 /**
  * Fetch city information for given city mId
@@ -227,13 +231,22 @@ public class FinalCityInfoActivity extends AppCompatActivity
      */
     @Override
     public void parseResult(final String iconUrl,
+                            final int code,
                             final String tempText,
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
             mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
-            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            int id = 0;
+            try {
+                id = fetchDrawableFileResource(FinalCityInfoActivity.this, iconUrl, code);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            icon.setImageResource(id);
             temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
             weatherInfo.setText(weatherDescription);
