@@ -9,15 +9,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +35,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lucasr.twowayview.TwoWayView;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -57,7 +59,7 @@ import static utils.Utils.bitmapDescriptorFromVector;
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.lv)
-    TwoWayView twoWayView;
+    RecyclerView recyclerView;
     @BindView(R.id.textViewNoItems)
     TextView textViewNoItems;
 
@@ -67,6 +69,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,11 +195,18 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private void setupViewsAsNeeded(JSONArray feedItems) {
         if (feedItems.length() == 0) {
             textViewNoItems.setVisibility(View.VISIBLE);
-            twoWayView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         } else {
-            twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+            // Specify a layout for RecyclerView
+            // Create a horizontal RecyclerView
+            mLayoutManager = new LinearLayoutManager(PlacesOnMapActivity.this,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+            );
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
             textViewNoItems.setVisibility(View.GONE);
-            twoWayView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -205,53 +215,28 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         mGoogleMap = map;
     }
 
-    class PlacesOnMapAdapter extends BaseAdapter {
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, PlacesOnMapActivity.class);
+        return intent;
+    }
+
+    /**
+     * Adapter for horizontal recycler view for displaying each cityInfoItem
+     */
+    class PlacesOnMapAdapter extends RecyclerView.Adapter<PlacesOnMapAdapter.ViewHolder> {
 
         final Context mContext;
         final JSONArray mFeedItems;
         final int mRd;
-        private final LayoutInflater mInflater;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
             this.mContext = context;
             this.mFeedItems = feedItems;
             mRd = r;
-            mInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public int getCount() {
-            return mFeedItems.length();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            try {
-                return mFeedItems.getJSONObject(position);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            View view = convertView;
-            if (view == null) {
-                view = mInflater.inflate(R.layout.city_infoitem, parent, false);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (position == 0) {
                 try {
                     Double latitude = Double.parseDouble(
@@ -275,9 +260,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 Log.e("ERROR", "Message : " + e.getMessage());
             }
 
-            holder.iv.setImageResource(mRd);
+            holder.imageView.setImageResource(mRd);
 
-            holder.onmap.setOnClickListener(view12 -> {
+            holder.onMap.setOnClickListener(view12 -> {
 
                 Intent browserIntent;
                 try {
@@ -301,7 +286,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 mContext.startActivity(browserIntent);
             });
 
-            view.setOnClickListener(v -> {
+            holder.completeLayout.setOnClickListener(v -> {
                 mGoogleMap.clear();
                 try {
                     Double latitude = Double.parseDouble(
@@ -315,30 +300,45 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                     e.printStackTrace();
                 }
             });
-            return view;
         }
 
-        class ViewHolder {
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.city_infoitem, parent, false);
+            ViewHolder holder = new ViewHolder(view);
+            return  holder;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mFeedItems.length();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.item_name)
             TextView title;
             @BindView(R.id.item_address)
             TextView description;
             @BindView(R.id.image)
-            ImageView iv;
+            ImageView imageView;
             @BindView(R.id.map)
-            LinearLayout onmap;
-            @BindView(R.id.b2)
+            LinearLayout onMap;
+            @BindView(R.id.know_more_layout)
             LinearLayout linearLayout;
+            @BindView(R.id.city_info_item_layout)
+            CardView completeLayout;
 
             public ViewHolder(View view) {
+                super(view);
                 ButterKnife.bind(this, view);
             }
 
         }
-    }
-
-    public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, PlacesOnMapActivity.class);
-        return intent;
     }
 }
