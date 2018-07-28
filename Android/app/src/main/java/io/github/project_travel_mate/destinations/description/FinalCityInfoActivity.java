@@ -12,12 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
+import utils.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
     ImageView icon;
+    @BindView(R.id.expand_collapse)
+    ImageButton expandCollapseImage;
     @BindView(R.id.expand_text_view)
     ExpandableTextView cityDescription;
     @BindView(R.id.funfact)
@@ -75,6 +78,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout weather;
     @BindView(R.id.SliderDots)
     LinearLayout sliderDotsPanel;
+
     private int mDotsCount;
     private ImageView[] mDots;
     private Handler mHandler;
@@ -82,6 +86,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
     private String mCurrentTemp;
+    private boolean mIsExpandClicked = false;
     int currentPage = 0;
     Timer timer;
 
@@ -139,6 +144,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         shopping.setOnClickListener(this);
         trend.setOnClickListener(this);
         weather.setOnClickListener(this);
+        expandCollapseImage.setOnClickListener(this);
     }
 
     @Override
@@ -176,6 +182,11 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 //pass current temperature to weather activity
                 intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity, mCurrentTemp);
                 startActivity(intent);
+                break;
+            case R.id.expand_collapse :
+                cityDescription.handleExpansion(mIsExpandClicked);
+                mIsExpandClicked = !mIsExpandClicked;
+                changeIcon();
                 break;
         }
     }
@@ -323,7 +334,15 @@ public class FinalCityInfoActivity extends AppCompatActivity
         }, 500, 3000);
     }
 
-
+    /**
+     * Changes icon of up/down arrow based on its clicking
+     */
+    private void changeIcon() {
+        if (mIsExpandClicked)
+            expandCollapseImage.setImageDrawable(getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+        else
+            expandCollapseImage.setImageDrawable(getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+    }
 
     /**
      * Fires an Intent with given parameters

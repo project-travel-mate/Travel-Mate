@@ -53,23 +53,19 @@
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-
-            <com.ms.square.android.expandabletextview.ExpandableTextView
-                android:id="@+id/expand_text_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                expandableTextView:animDuration="200"
-                expandableTextView:maxCollapsedLines="4">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@id/expandable_text"
+                <utils.ExpandableTextView
+                    android:id="@+id/expand_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textColor="#666666"
-                    android:textSize="16sp" />
-
+                    android:textSize="16sp"/>
                 <ImageButton
                     android:id="@id/expand_collapse"
                     android:layout_width="wrap_content"
@@ -77,9 +73,9 @@
                     android:layout_gravity="end|bottom"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/empty_description"
-                    android:padding="16dp" />
-            </com.ms.square.android.expandabletextview.ExpandableTextView>
-
+                    android:padding="12dp"
+                    android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/weather"
@@ -204,7 +200,6 @@
 
 
                 <LinearLayout
-
                     android:id="@+id/hangout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -214,7 +209,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"
@@ -235,7 +229,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-
                     android:id="@+id/monu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -245,7 +238,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"
@@ -273,7 +265,6 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
-
 
                 <LinearLayout
                     android:id="@+id/shoppp"
@@ -316,7 +307,6 @@
                     android:padding="20dp"
                     tools:targetApi="lollipop">
 
-
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -354,7 +344,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"
