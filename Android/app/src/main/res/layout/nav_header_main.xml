@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <utils.CircleImageView
         android:id="@+id/image"
         android:layout_width="69dp"
         android:layout_height="69dp"

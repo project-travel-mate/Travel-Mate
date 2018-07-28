@@ -48,9 +48,6 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
 
-    // TODO :: Remove this dependency
-    implementation 'de.hdodenhof:circleimageview:2.0.0'
-
     implementation 'com.eftimoff:android-pathview:1.0.8@aar'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 

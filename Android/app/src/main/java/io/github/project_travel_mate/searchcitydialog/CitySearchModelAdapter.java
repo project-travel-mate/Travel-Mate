@@ -17,12 +17,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.project_travel_mate.R;
 import ir.mirrajabi.searchdialog.StringsHelper;
 import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import ir.mirrajabi.searchdialog.core.Searchable;
+import utils.CircleImageView;
 
 /**
  * Adapter fo the list (implemented as recycler view)
