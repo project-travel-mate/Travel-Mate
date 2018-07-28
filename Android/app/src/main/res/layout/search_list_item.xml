@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="12dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <utils.CircleImageView
         android:id="@+id/hotel_city_image"
         android:layout_width="48dp"
         android:layout_height="48dp"

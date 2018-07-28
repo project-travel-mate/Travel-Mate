@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +53,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.CircleImageView;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
@@ -75,9 +75,9 @@ import static utils.DateUtils.rfc3339ToMills;
 
 public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
     @BindView(R.id.display_image)
-    ImageView displayImage;
+    CircleImageView displayImage;
     @BindView(R.id.change_image)
-    ImageView changeImage;
+    CircleImageView changeImage;
     @BindView(R.id.display_name)
     EditText displayName;
     @BindView(R.id.display_email)
