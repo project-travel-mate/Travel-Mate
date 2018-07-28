@@ -102,7 +102,8 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/empty_description" />
+                        android:contentDescription="@string/empty_description"
+                        android:tint="@color/black" />
 
 
                     <LinearLayout
