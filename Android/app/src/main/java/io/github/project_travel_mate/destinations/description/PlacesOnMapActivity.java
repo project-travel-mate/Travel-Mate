@@ -25,11 +25,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -37,6 +40,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -54,7 +59,6 @@ import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
-import static utils.Utils.bitmapDescriptorFromVector;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -62,6 +66,12 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     RecyclerView recyclerView;
     @BindView(R.id.textViewNoItems)
     TextView textViewNoItems;
+    @BindView(R.id.place_name)
+    TextView selectedItemName;
+    @BindView(R.id.place_address)
+    TextView selectedItemAddress;
+    @BindView(R.id.item_info)
+    LinearLayout linearLayout;
 
     private ProgressDialog mProgressDialog;
     private String mMode;
@@ -70,6 +80,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private Handler mHandler;
     private City mCity;
     private RecyclerView.LayoutManager mLayoutManager;
+    private JSONArray mFeedItems;
+    private List<Marker> mMarkerList = new ArrayList<>();
+    private Marker mPreviousMarker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +142,15 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 == PackageManager.PERMISSION_GRANTED) {
             if (mGoogleMap != null) {
                 mGoogleMap.setMyLocationEnabled(true);
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
+                //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
 
                 MarkerOptions temp = new MarkerOptions();
                 MarkerOptions markerOptions = temp
                         .title(locationName)
                         .position(coord)
-                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this, R.drawable.ic_pin_drop_black));
-                mGoogleMap.addMarker(markerOptions);
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                Marker marker = mGoogleMap.addMarker(markerOptions);
+                mMarkerList.add(marker);
             }
         }
     }
@@ -176,10 +190,17 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                         JSONObject feed = new JSONObject(res);
                         feed = feed.getJSONObject("results");
 
-                        JSONArray feedItems = feed.getJSONArray("items");
-                        Log.v("response", feedItems.toString());
+                        mFeedItems = feed.getJSONArray("items");
+                        for (int i = 0; i < mFeedItems.length(); i++ ) {
+                            Double latitude = Double.parseDouble(
+                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(0).toString());
+                            Double longitude = Double.parseDouble(
+                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(1).toString());
+                            String name = mFeedItems.getJSONObject(i).getString("title");
 
-                        setupViewsAsNeeded(feedItems);
+                            showMarker(latitude, longitude, name);
+                        }
+                        setupViewsAsNeeded(mFeedItems);
 
                         mProgressDialog.dismiss();
                     } catch (JSONException e) {
@@ -198,9 +219,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
             recyclerView.setVisibility(View.GONE);
         } else {
             // Specify a layout for RecyclerView
-            // Create a horizontal RecyclerView
+            // Create a vertical RecyclerView
             mLayoutManager = new LinearLayoutManager(PlacesOnMapActivity.this,
-                    LinearLayoutManager.HORIZONTAL,
+                    LinearLayoutManager.VERTICAL,
                     false
             );
             recyclerView.setLayoutManager(mLayoutManager);
@@ -210,9 +231,49 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
+    /**
+     * Highlights the marker whose card is clicked
+     * @param position position of the marker in
+     *                 mMarkerList whose card is clicked
+     */
+    private void higlightMarker(int position) {
+        if (mPreviousMarker != null) {
+            mPreviousMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
+        Marker currentMarker = mMarkerList.get(position);
+        currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mPreviousMarker = currentMarker;
+    }
+
+    /**
+     * Zooms in towards the marker whose card is clicked
+     * @param position position of the item in
+     *                 mFeedItems whose card is clicked
+     */
+    private void zoomToMarker(int position) {
+        Double latitude = null, longitude = null;
+        try {
+            latitude = Double.parseDouble(
+                    mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
+            longitude = Double.parseDouble(
+                    mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LatLng coordinate = new LatLng(latitude, longitude);
+        CameraUpdate selectedPosition = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+        mGoogleMap.animateCamera(selectedPosition);
+
+    }
+
     @Override
     public void onMapReady(GoogleMap map) {
         mGoogleMap = map;
+        LatLng coordinate = new LatLng(Double.parseDouble(mCity.getLatitude()),
+                Double.parseDouble(mCity.getLongitude()));
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 12);
+        map.animateCamera(yourLocation);
     }
 
     public static Intent getStartIntent(Context context) {
@@ -287,15 +348,17 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
             });
 
             holder.completeLayout.setOnClickListener(v -> {
-                mGoogleMap.clear();
                 try {
-                    Double latitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                    Double longitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
-                    showMarker(latitude,
-                            longitude,
-                            mFeedItems.getJSONObject(position).getString("title"));
+                    higlightMarker(position);
+                    String[] address = mFeedItems.getJSONObject(position).getString("vicinity").split("<br/>");
+                    if (address.length > 1) {
+                        selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                    } else {
+                        selectedItemAddress.setText(address[0]);
+                    }
+                    zoomToMarker(position);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    selectedItemName.setText(mFeedItems.getJSONObject(position).getString("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
