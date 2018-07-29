@@ -80,7 +80,7 @@
             android:label="@string/title_activity_hotels"
             android:theme="@style/AppTheme_picker" />
         <activity
-            android:name=".travel.MapRealTimeActivity"
+            android:name=".travel.MapViewRealTimeActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme_picker" />
         <activity
@@ -132,6 +132,7 @@
 
         <activity android:name=".utilities.WeatherForecastActivity"/>
         <activity android:name=".destinations.description.WeatherActivity" />
+        <activity android:name=".travel.ListViewRealTimeActivity"/>
     </application>
 
 </manifest>
