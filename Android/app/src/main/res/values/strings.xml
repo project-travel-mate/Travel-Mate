@@ -213,5 +213,8 @@
     <string name="today">Today</string>
     <string name="showing_shopping_item">Searching for: %1$s</string>
     <string name="share_my_qr_code">Share my QR code</string>
+    <string name="currency">Rs.</string>
+    <string name="approx_cost">/- for 2 approx.</string>
+    <string name="votes">votes</string>
 
 </resources>

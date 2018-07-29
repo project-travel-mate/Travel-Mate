@@ -167,7 +167,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.restau:
-                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "restaurant");
+                fireIntent(RestaurantsActivity.getStartIntent(FinalCityInfoActivity.this), "restaurant");
                 break;
             case R.id.hangout:
                 fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "hangout");
