@@ -38,7 +38,7 @@ public class ChecklistViewModel extends ViewModel {
     }
 
     public Completable deleteCompletedTasks() {
-        return Completable.fromAction(() -> mDataSource.deleteCompletedTasks());
+        return Completable.fromAction(mDataSource::deleteCompletedTasks);
     }
 
     public Single<List<ChecklistItem>> getCompletedItems() {

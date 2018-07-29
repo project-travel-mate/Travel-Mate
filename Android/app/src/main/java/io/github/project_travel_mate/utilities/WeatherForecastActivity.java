@@ -63,12 +63,7 @@ public class WeatherForecastActivity extends AppCompatActivity {
 
         fetchCitiesList();
 
-        selectCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSearchDialog();
-            }
-        });
+        selectCity.setOnClickListener(v -> showSearchDialog());
 
         setTitle("Weather Forecast");
 

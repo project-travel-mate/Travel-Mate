@@ -92,7 +92,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
@@ -125,14 +127,13 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".mytrips.FriendsProfileActivity" />
         <activity android:name=".notifications.NotificationsActivity" />
-
         <activity
             android:name=".FullScreenProfileImage"
-            android:theme="@style/FullProfileImageTheme"/>
-
-        <activity android:name=".utilities.WeatherForecastActivity"/>
+            android:theme="@style/FullProfileImageTheme" />
+        <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />
         <activity android:name=".travel.ListViewRealTimeActivity"/>
+        <activity android:name=".destinations.description.RestaurantsActivity"/>
     </application>
 
 </manifest>
