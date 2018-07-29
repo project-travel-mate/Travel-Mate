@@ -216,4 +216,13 @@
     <string name="approx_cost">/- for 2 approx.</string>
     <string name="votes">votes</string>
 
+    <!--ListView Real Time acitivy -->
+    <string name="food">Food</string>
+    <string name="hangout">Hangout Spots</string>
+    <string name="hospital">Hospitals</string>
+    <string name="petrol">Petrol Pumps</string>
+    <string name="travelling">Bus Stops</string>
+    <string name="atm">ATM</string>
+
+
 </resources>

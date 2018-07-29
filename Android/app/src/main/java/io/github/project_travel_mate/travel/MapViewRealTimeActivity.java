@@ -58,11 +58,12 @@ import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
 import static utils.Constants.HERE_API_MODES;
 import static utils.Utils.bitmapDescriptorFromVector;
+import static utils.Utils.readStream;
 
 /**
  * Show markers on map around user's current location
  */
-public class MapRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback, TravelmateSnackbars {
+public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback, TravelmateSnackbars {
 
     private final List<MapItem> mMapItems = new ArrayList<>();
     @BindView(R.id.data)
@@ -97,7 +98,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
         scrollView.setVisibility(View.GONE);
 
-        setTitle("Places");
+        setTitle("Map View");
 
         // Get user's current location
         tracker = new GPSTracker(this);
@@ -179,66 +180,81 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        if (item.getItemId() == R.id.action_sort) {
-            Integer[] selectedItems = new Integer[mSelectedIndices.size()];
-
-            for (int i = 0; i < mSelectedIndices.size(); i++) {
-                selectedItems[i] = mSelectedIndices.get(i);
-            }
-            mSelectedIndices.clear();
-            new MaterialDialog.Builder(this)
-                    .title(R.string.title)
-                    .items(R.array.items)
-                    .itemsCallbackMultiChoice(selectedItems, (dialog, which, text) -> {
-
-                        mGoogleMap.clear();
-                        mMapItems.clear();
-
-                        for (int i = 0; i < which.length; i++) {
-                            Log.v("selected", which[i] + " " + text[i]);
-                            mSelectedIndices.add(which[i]);
-                            Integer icon;
-                            switch (which[i]) {
-                                case 0:
-                                    icon = R.drawable.ic_local_pizza_black;
-                                    break;
-                                case 1:
-                                    icon = R.drawable.ic_local_bar_black;
-                                    break;
-                                case 2:
-                                    icon = R.drawable.ic_camera_alt_black;
-                                    break;
-                                case 3:
-                                    icon = R.drawable.ic_directions_bus_black;
-                                    break;
-                                case 4:
-                                    icon = R.drawable.ic_local_mall_black;
-                                    break;
-                                case 5:
-                                    icon = R.drawable.ic_local_gas_station_black;
-                                    break;
-                                case 6:
-                                    icon = R.drawable.ic_local_atm_black;
-                                    break;
-                                case 7:
-                                    icon = R.drawable.ic_local_hospital_black;
-                                    break;
-                                default:
-                                    icon = R.drawable.ic_attach_money_black;
-                                    break;
-                            }
-                            MapRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[i]), icon);
-                        }
-                        return true;
-                    })
-                    .positiveText(R.string.choose)
-                    .show();
-
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_sort:
+                showDialogToSelectitems();
+                return true;
+            case R.id.action_list_view :
+                finish();
+                Intent intent = ListViewRealTimeActivity.getStartIntent(MapViewRealTimeActivity.this);
+                startActivity(intent);
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    /**
+     * Shows a dialog to allow user to select items to be displayed
+     * on map
+     */
+    private void showDialogToSelectitems() {
+        Integer[] selectedItems = new Integer[mSelectedIndices.size()];
+
+        for (int i = 0; i < mSelectedIndices.size(); i++) {
+            selectedItems[i] = mSelectedIndices.get(i);
+        }
+        mSelectedIndices.clear();
+        new MaterialDialog.Builder(this)
+                .title(R.string.title)
+                .items(R.array.items)
+                .itemsCallbackMultiChoice(selectedItems, (dialog, which, text) -> {
+
+                    mGoogleMap.clear();
+                    mMapItems.clear();
+
+                    for (int i = 0; i < which.length; i++) {
+                        Log.v("selected", which[i] + " " + text[i]);
+                        mSelectedIndices.add(which[i]);
+                        Integer icon;
+                        switch (which[i]) {
+                            case 0:
+                                icon = R.drawable.ic_local_pizza_black;
+                                break;
+                            case 1:
+                                icon = R.drawable.ic_local_bar_black;
+                                break;
+                            case 2:
+                                icon = R.drawable.ic_camera_alt_black;
+                                break;
+                            case 3:
+                                icon = R.drawable.ic_directions_bus_black;
+                                break;
+                            case 4:
+                                icon = R.drawable.ic_local_mall_black;
+                                break;
+                            case 5:
+                                icon = R.drawable.ic_local_gas_station_black;
+                                break;
+                            case 6:
+                                icon = R.drawable.ic_local_atm_black;
+                                break;
+                            case 7:
+                                icon = R.drawable.ic_local_hospital_black;
+                                break;
+                            default:
+                                icon = R.drawable.ic_attach_money_black;
+                                break;
+                        }
+                        MapViewRealTimeActivity.this.getMarkers(HERE_API_MODES.get(which[i]), icon);
+                    }
+                    return true;
+                })
+                .positiveText(R.string.choose)
+                .show();
     }
 
     /**
@@ -252,7 +268,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     private void showMarker(Double locationLat, Double locationLong, String locationName, Integer locationIcon) {
         LatLng coord = new LatLng(locationLat, locationLong);
 
-        if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,
+        if (ContextCompat.checkSelfPermission(MapViewRealTimeActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (mGoogleMap != null) {
@@ -263,7 +279,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 MarkerOptions x = abc
                         .title(locationName)
                         .position(coord)
-                        .icon(bitmapDescriptorFromVector(MapRealTimeActivity.this, locationIcon));
+                        .icon(bitmapDescriptorFromVector(MapViewRealTimeActivity.this, locationIcon));
                 mGoogleMap.addMarker(x);
 
             }
@@ -298,11 +314,11 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 }
             }
 
-            TextView title = MapRealTimeActivity.this.findViewById(R.id.item_title);
-            TextView description = MapRealTimeActivity.this.findViewById(R.id.item_description);
+            TextView title = MapViewRealTimeActivity.this.findViewById(R.id.item_title);
+            TextView description = MapViewRealTimeActivity.this.findViewById(R.id.item_description);
             final Button calls, book;
-            calls = MapRealTimeActivity.this.findViewById(R.id.call);
-            book = MapRealTimeActivity.this.findViewById(R.id.book);
+            calls = MapViewRealTimeActivity.this.findViewById(R.id.call);
+            book = MapViewRealTimeActivity.this.findViewById(R.id.book);
 
             title.setText(mMapItems.get(mIndex).getName());
 
@@ -310,7 +326,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
             calls.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
-                MapRealTimeActivity.this.startActivity(intent);
+                MapViewRealTimeActivity.this.startActivity(intent);
 
             });
             book.setOnClickListener(view -> {
@@ -318,7 +334,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
                 try {
                     browserIntent = new Intent(
                             Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
-                    MapRealTimeActivity.this.startActivity(browserIntent);
+                    MapViewRealTimeActivity.this.startActivity(browserIntent);
                 } catch (Exception e) {
                     TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
                             R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
@@ -329,7 +345,7 @@ public class MapRealTimeActivity extends AppCompatActivity implements OnMapReady
     }
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, MapRealTimeActivity.class);
+        Intent intent = new Intent(context, MapViewRealTimeActivity.class);
         return intent;
     }
 
