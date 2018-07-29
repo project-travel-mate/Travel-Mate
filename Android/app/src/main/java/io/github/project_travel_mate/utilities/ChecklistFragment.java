@@ -167,8 +167,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
         AlertDialog.Builder builder = new AlertDialog.Builder(crt);
         builder.setMessage(R.string.delete_tasks)
                 .setPositiveButton(R.string.positive_button,
-                        (dialog, which) -> {
-                            deleteCompletedTasks(); })
+                        (dialog, which) -> deleteCompletedTasks())
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
                             //do nothing on clicking cancel
@@ -191,17 +190,14 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
         TravelmateSnackbars.createSnackBar(mChecklistView.findViewById(R.id.fragment_checklist),
                 R.string.deleted_task_message,
                 Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (int i = 0; i < mItems.size(); i++) {
-                            //adds all completed task in database again
-                            ChecklistItem checklistItem = new ChecklistItem(mItems.get(i).getName(), String.valueOf(1));
-                            mDisposable.add(mViewModel.insertItem(checklistItem)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe());
-                        }
+                .setAction(R.string.undo, v -> {
+                    for (int i = 0; i < mItems.size(); i++) {
+                        //adds all completed task in database again
+                        ChecklistItem checklistItem = new ChecklistItem(mItems.get(i).getName(), String.valueOf(1));
+                        mDisposable.add(mViewModel.insertItem(checklistItem)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe());
                     }
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorPrimary))

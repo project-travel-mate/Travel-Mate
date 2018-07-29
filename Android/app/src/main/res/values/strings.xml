@@ -90,7 +90,7 @@
     <string name="trip_date_blank">Trip start date can\'t be left blank</string>
     <string name="remove_me_from_trip">Remove me from trip</string>
     <string name="remove_trip_message">Are you sure want to remove the trip?</string>
-    <string name="trips_together_message">Your trips together...</string>
+    <string name="trips_together_message">Your trips together…</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -104,7 +104,6 @@
     <!-- Share contact strings -->
     <string name="share_intent_text">Share Contact Details</string>
     <string name="share_menu">Share</string>
-    <string name="share_contact_text">Share Contact</string>
     <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
     <string name="view_contact">View someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>

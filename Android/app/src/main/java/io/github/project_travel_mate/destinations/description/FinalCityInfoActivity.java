@@ -18,8 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import utils.ExpandableTextView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -34,6 +32,7 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
+import utils.ExpandableTextView;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
@@ -241,9 +240,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
             int id = 0;
             try {
                 id = fetchDrawableFileResource(FinalCityInfoActivity.this, iconUrl, code);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
             icon.setImageResource(id);

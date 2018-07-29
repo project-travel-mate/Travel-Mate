@@ -315,7 +315,7 @@ public class WeatherActivity extends AppCompatActivity {
      * @param cityName name of he city for which weather is to be displayed
      * @param cityId id of the city for which weather is to be displayed
      * @param calledFromUtilities to check if it's called from Utilities or not
-     * @return
+     * @return intent object
      */
     public static Intent getStartIntent(Context context, String cityName,
                                         String cityId, boolean calledFromUtilities) {
