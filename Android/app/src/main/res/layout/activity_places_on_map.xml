@@ -13,6 +13,53 @@
         android:layout_height="0dp"
         android:layout_weight="0.7" />
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:id="@+id/item_info"
+       android:visibility="gone">
+       <ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_vertical"
+           android:id="@+id/location_icon"
+           android:src="@drawable/ic_location_on_blue_24dp"
+           android:padding="10dp"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:padding="10dp">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/black"
+               android:text="@string/default_name"
+               android:textSize="18sp"
+               android:textStyle="bold"
+               android:id="@+id/place_name" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/black"
+               android:textSize="14sp"
+               android:text="@string/default_name"
+               android:id="@+id/place_address"/>
+
+       </LinearLayout>
+   </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nearby Places"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"/>
+
     <TextView
         android:id="@+id/textViewNoItems"
         android:layout_width="match_parent"
@@ -31,6 +78,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.3"
         android:drawSelectorOnTop="false"
-        android:orientation="horizontal" />
-
-</LinearLayout>
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:layout_marginTop="5dp"/>
+    </LinearLayout>
