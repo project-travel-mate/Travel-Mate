@@ -59,6 +59,7 @@ import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.HERE_API_APP_CODE;
 import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
+import static utils.Utils.bitmapDescriptorFromVector;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -148,7 +149,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 MarkerOptions markerOptions = temp
                         .title(locationName)
                         .position(coord)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
+                                R.drawable.ic_radio_button_checked_blue_24dp));
                 Marker marker = mGoogleMap.addMarker(markerOptions);
                 mMarkerList.add(marker);
             }
@@ -238,7 +240,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
      */
     private void higlightMarker(int position) {
         if (mPreviousMarker != null) {
-            mPreviousMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mPreviousMarker.setIcon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
+                    R.drawable.ic_radio_button_checked_blue_24dp));
         }
         Marker currentMarker = mMarkerList.get(position);
         currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -260,11 +263,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         LatLng coordinate = new LatLng(latitude, longitude);
-        CameraUpdate selectedPosition = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+        CameraUpdate selectedPosition = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
         mGoogleMap.animateCamera(selectedPosition);
-
     }
 
     @Override
@@ -272,7 +273,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         mGoogleMap = map;
         LatLng coordinate = new LatLng(Double.parseDouble(mCity.getLatitude()),
                 Double.parseDouble(mCity.getLongitude()));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 12);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
         map.animateCamera(yourLocation);
     }
 
