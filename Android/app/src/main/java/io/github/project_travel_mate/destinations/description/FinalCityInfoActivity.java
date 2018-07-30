@@ -148,6 +148,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         trend.setOnClickListener(this);
         weather.setOnClickListener(this);
         expandCollapseImage.setOnClickListener(this);
+        cityDescription.setOnClickListener(this);
     }
 
     @Override
@@ -187,6 +188,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.expand_collapse :
+            case R.id.expand_text_view :
                 cityDescription.handleExpansion(mIsExpandClicked);
                 mIsExpandClicked = !mIsExpandClicked;
                 changeIcon();
