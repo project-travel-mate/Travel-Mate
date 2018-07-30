@@ -33,6 +33,12 @@ public class City implements Serializable {
         this.mId = id;
     }
 
+    public City(String id, String nickname, String avatar) {
+        this.mId = id;
+        this.mNickname = nickname;
+        this.mAvatar = avatar;
+    }
+
     public String getAvatar() {
         return mAvatar;
     }

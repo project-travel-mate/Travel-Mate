@@ -157,6 +157,7 @@
     <string name="share_chooser">Select app to send message…</string>
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
     <string name="status_updated">Status has been updated</string>
+    <string name="cities_travelled">Cities visited </string>
 
     <!-- About Us String-->
     <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
