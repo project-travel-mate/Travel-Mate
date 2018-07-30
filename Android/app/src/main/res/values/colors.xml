@@ -3,11 +3,14 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorAccent">#ff5722</color>
-    <color name="green">#5cb85c</color>
+    <color name="green">#5cb85c</color>/
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="grey">#616161</color>
     <color name="silver">#969696</color>
+    <color name="flamingo">#fc8eac</color>
+    <color name="lavander">#8eacfc</color>
+    <color name="mango">#fcde8e</color>
 
 
     <color name="saffron">#F4B63E</color>
