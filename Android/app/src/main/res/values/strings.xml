@@ -224,6 +224,8 @@
     <string name="petrol">Petrol Pumps</string>
     <string name="travelling">Bus Stops</string>
     <string name="atm">ATM</string>
+    <string name="more">More...</string>
+    <string name="tap_for_more_details">Tap for more details</string>
 
 
 </resources>
