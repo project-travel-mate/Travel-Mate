@@ -26,8 +26,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +66,12 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     private MaterialDialog mDialog;
     private Menu mOptionsMenu;
     boolean allRead = false;
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
+    private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
+    private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +130,17 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     String type = array.getJSONObject(i).getString("notification_type");
                                     String text = array.getJSONObject(i).getString("text");
                                     boolean read = array.getJSONObject(i).getBoolean("is_read");
+                                    SimpleDateFormat dateFormat =
+                                            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+                                    dateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+                                    Date date = null;
+                                    try {
+                                        date = dateFormat.parse(array
+                                                .getJSONObject(i).getString("created_at"));
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    String createdAt = getTimeAgo(date.getTime());
                                     if (!read) {
                                         allRead = true;
                                     }
@@ -144,10 +165,12 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                         String start = obj.getString("start_date_tx");
                                         String tname = obj.getString("trip_name");
                                         Trip trip = new Trip(tripId, name, image, start, "", tname);
-                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                        notifications.add(new Notification(id, type, text, read, user,
+                                                trip, createdAt));
                                     } else {
                                         Trip trip = new Trip("", "", "", "", "", "");
-                                        notifications.add(new Notification(id, type, text, read, user, trip));
+                                        notifications.add(new Notification(id, type, text, read, user,
+                                                trip, createdAt));
                                     }
                                 }
                                 mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
@@ -203,6 +226,33 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public static String getTimeAgo(long time) {
+        long now = new Date().getTime();
+        if (time > now || time <= 0) {
+            return null;
+        }
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return "Just now";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return "a minute ago";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + " minutes ago";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "an hour ago";
+        } else if (diff < DAY_MILLIS) {
+            return diff / HOUR_MILLIS + " hours ago";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "yesterday";
+        } else if (diff < MONTH_MILLIS) {
+            return diff / DAY_MILLIS + " days ago";
+        } else if (diff < YEAR_MILLIS) {
+            return diff / MONTH_MILLIS + " months ago";
+        } else if (diff < 12 * YEAR_MILLIS) {
+            return diff / YEAR_MILLIS + " months ago";
+        }
+        return null;
     }
 
     private void markAllAsRead() {
