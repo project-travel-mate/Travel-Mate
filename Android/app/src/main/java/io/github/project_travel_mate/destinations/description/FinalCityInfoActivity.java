@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -243,7 +244,11 @@ public class FinalCityInfoActivity extends AppCompatActivity
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
-            icon.setImageResource(id);
+            if (id == 0) {
+                Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            } else {
+                icon.setImageResource(id);
+            }
             temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
             weatherInfo.setText(weatherDescription);
