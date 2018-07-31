@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Notification implements Serializable {
 
     private int mId;
+    private String mCreatedAt;
     private String mType;
     private String mText;
     private boolean mIsRead;
@@ -20,15 +21,17 @@ public class Notification implements Serializable {
      * @param mIsRead - if notfication is read
      * @param mCreatedBy - user who created this notification
      * @param mTrip - trip to which user belongs
+     * @param mCreatedAt - time at which user was added to trip
      */
     public Notification(int mId, String mType, String mText, boolean mIsRead,
-                        User mCreatedBy, Trip mTrip) {
+                        User mCreatedBy, Trip mTrip, String mCreatedAt) {
         this.mId = mId;
         this.mType = mType;
         this.mText = mText;
         this.mIsRead = mIsRead;
         this.mCreatedBy = mCreatedBy;
         this.mTrip = mTrip;
+        this.mCreatedAt = mCreatedAt;
     }
 
     public User getCreatedBy() {
@@ -73,5 +76,9 @@ public class Notification implements Serializable {
 
     public void setId(int mId) {
         this.mId = mId;
+    }
+
+    public String getCreatedAt() {
+        return mCreatedAt;
     }
 }
