@@ -134,6 +134,7 @@
         <activity android:name=".destinations.description.WeatherActivity" />
         <activity android:name=".travel.ListViewRealTimeActivity"/>
         <activity android:name=".destinations.description.RestaurantsActivity"/>
+        <activity android:name=".destinations.description.CityHistoryActivity"/>
     </application>
 
 </manifest>

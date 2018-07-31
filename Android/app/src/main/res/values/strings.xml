@@ -19,6 +19,7 @@
     <string name="title_activity_hotels">Hotels</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
+    <string name="title_activity_city_history">City History</string>
 
     <!-- login/signup strings -->
     <string name="email_id">Email id</string>
@@ -224,6 +225,5 @@
     <string name="petrol">Petrol Pumps</string>
     <string name="travelling">Bus Stops</string>
     <string name="atm">ATM</string>
-
-
+    
 </resources>
