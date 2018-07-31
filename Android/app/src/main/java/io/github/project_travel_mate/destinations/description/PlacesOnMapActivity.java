@@ -77,6 +77,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
+    private int mIndex;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
@@ -238,12 +239,16 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
      * @param position position of the marker in
      *                 mMarkerList whose card is clicked
      */
-    private void higlightMarker(int position) {
+    private void highlightMarker(int position) {
         if (mPreviousMarker != null) {
             mPreviousMarker.setIcon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
                     R.drawable.ic_radio_button_checked_blue_24dp));
+            //hide info about previous marker
+            mPreviousMarker.hideInfoWindow();
         }
         Marker currentMarker = mMarkerList.get(position);
+        //show info about current marker
+        currentMarker.showInfoWindow();
         currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mPreviousMarker = currentMarker;
     }
@@ -275,6 +280,31 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 Double.parseDouble(mCity.getLongitude()));
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
         map.animateCamera(yourLocation);
+
+        map.setOnMarkerClickListener(marker -> {
+            try {
+                for (int i = 0; i < mFeedItems.length(); i++) {
+                    //get index of the clicked marker
+                    if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
+                        mIndex = i;
+                        break;
+                    }
+                }
+                linearLayout.setVisibility(View.VISIBLE);
+                highlightMarker(mIndex);
+                //set info about clicked marker
+                selectedItemName.setText(marker.getTitle());
+                String[] address = mFeedItems.getJSONObject(mIndex).getString("vicinity").split("<br/>");
+                if (address.length > 1) {
+                    selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                } else {
+                    selectedItemAddress.setText(address[0]);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
     }
 
     public static Intent getStartIntent(Context context) {
@@ -350,7 +380,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
             holder.completeLayout.setOnClickListener(v -> {
                 try {
-                    higlightMarker(position);
+                    highlightMarker(position);
                     String[] address = mFeedItems.getJSONObject(position).getString("vicinity").split("<br/>");
                     if (address.length > 1) {
                         selectedItemAddress.setText(address[0] + ", " +  address[1]);
