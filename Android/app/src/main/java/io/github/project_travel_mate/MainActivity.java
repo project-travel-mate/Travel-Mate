@@ -220,10 +220,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
-            case R.id.nav_myfriends : {
+            case R.id.nav_myfriends :
                 fragment = MyFriendsFragment.newInstance();
                 break;
-            }
+            case R.id.nav_settings :
+                fragment = SettingsFragment.newInstance();
+                break;
         }
 
         if (fragment != null) {

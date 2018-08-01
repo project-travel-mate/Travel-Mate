@@ -16,6 +16,7 @@ public class Constants {
     public static final String USER_IMAGE = "user_image";
     public static final String USER_ID = "user_id";
     public static final String OTHER_USER_ID = "other_user_id";
+    public static final String READ_NOTIF_STATUS = "read_notificatons_status";
 
     public static final String EVENT_IMG = "event_name";
     public static final String EVENT_NAME = "event_img";
