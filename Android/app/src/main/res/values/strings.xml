@@ -226,6 +226,7 @@
     <string name="atm">ATM</string>
     <string name="more">More...</string>
     <string name="tap_for_more_details">Tap for more details</string>
+    <string name="trip_info_city_date_separater">|</string>
 
 
 </resources>
