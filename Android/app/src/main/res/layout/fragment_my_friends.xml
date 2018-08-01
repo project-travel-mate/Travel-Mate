@@ -15,14 +15,15 @@
         app:lottie_fileName="loading.json"
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
-        <GridView
-            android:id="@+id/gv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:horizontalSpacing="10dp"
-            android:numColumns="2"
-            android:orientation="horizontal"
-            android:verticalSpacing="10dp" />
+
+    <GridView
+        android:id="@+id/gv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:orientation="horizontal"
+        android:verticalSpacing="10dp" />
 
 </FrameLayout>

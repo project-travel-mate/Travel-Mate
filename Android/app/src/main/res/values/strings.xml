@@ -91,6 +91,7 @@
     <string name="trip_date_blank">Trip start date can\'t be left blank</string>
     <string name="remove_me_from_trip">Remove me from trip</string>
     <string name="remove_trip_message">Are you sure want to remove the trip?</string>
+    <string name="trips_together_message">Your trips together…</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -104,7 +105,6 @@
     <!-- Share contact strings -->
     <string name="share_intent_text">Share Contact Details</string>
     <string name="share_menu">Share</string>
-    <string name="share_contact_text">Share Contact</string>
     <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
     <string name="view_contact">View someone\'s Contact</string>
     <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
@@ -158,6 +158,7 @@
     <string name="share_chooser">Select app to send message…</string>
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
     <string name="status_updated">Status has been updated</string>
+    <string name="cities_travelled">Cities visited </string>
 
     <!-- About Us String-->
     <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
@@ -190,6 +191,8 @@
 
     <!-- Weather Strings -->
     <string name="humidity">%1$s humidity</string>
+    <string name="text_weather">Weather Forecast</string>
+    <string name="weather_forecast_message">Check weather forecast of the city you wish to travel to!</string>
 
     <string name="sign_out">Sign out</string>
 
@@ -210,6 +213,25 @@
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
     <string name="today">Today</string>
     <string name="showing_shopping_item">Searching for: %1$s</string>
+    <string name="share_my_qr_code">Share my QR code</string>
+    <string name="currency">Rs.</string>
+    <string name="approx_cost">/- for 2 approx.</string>
+    <string name="votes">votes</string>
+
+    <!--ListView Real Time acitivy -->
+    <string name="food">Food</string>
+    <string name="hangout">Hangout Spots</string>
+    <string name="hospital">Hospitals</string>
+    <string name="petrol">Petrol Pumps</string>
+    <string name="travelling">Bus Stops</string>
+    <string name="atm">ATM</string>
+    <string name="more">More...</string>
+    <string name="tap_for_more_details">Tap for more details</string>
+    <string name="trip_info_city_date_separater">|</string>
+
+    <!--Tweets Strings -->
+    <string name="username">\@%1$s </string>
+    <string name="hashtag_title">#%1$s</string>
 
     <!-- Settings Strings -->
     <string name="change_password_heading">Change Password</string>

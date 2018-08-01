@@ -18,6 +18,7 @@ interface FinalCityInfoView {
     void showProgress();
 
     void parseResult(String iconUrl,
+                     int code,
                      String temp,
                      String humidity,
                      String weatherInfo);

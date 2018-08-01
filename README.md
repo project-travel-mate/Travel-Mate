@@ -85,17 +85,13 @@ Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) pa
 
 ## Dependencies
 + [okhttp](https://github.com/square/okhttp)
-+ [CircleImageView](https://github.com/hdodenhof/CircleImageView)
 + [android-pathview](https://github.com/geftimov/android-pathview)
 + [picasso](https://github.com/square/picasso)
-+ [material](https://github.com/rey5137/material)
 + [RippleEffect](https://github.com/patrickpissurno/RippleEffect)
-+ [twoway-view](https://github.com/lucasr/twoway-view)
 + [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
 + [datetimepicker](https://github.com/flavienlaurent/datetimepicker)
 + [MaterialSearchView](https://github.com/MiguelCatalan/MaterialSearchView)
 + [android-process-button](https://github.com/dmytrodanylyk/android-process-button)
-+ [ExpandableTextView](https://github.com/Manabu-GT/ExpandableTextView)
 + [butterknife](https://github.com/JakeWharton/butterknife)
 + [Zxing](https://github.com/zxing/zxing)
 + [What's new](https://github.com/TonnyL/WhatsNew)

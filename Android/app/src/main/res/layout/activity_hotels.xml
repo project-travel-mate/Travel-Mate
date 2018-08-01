@@ -60,14 +60,16 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-            <ListView
+            <GridView
                 android:id="@+id/hotel_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="false"
                 android:cacheColorHint="@android:color/transparent"
                 android:fastScrollEnabled="true"
-                android:persistentDrawingCache="scrolling"
-                android:scrollingCache="false" />
+                android:numColumns="2"
+                android:orientation="horizontal"
+                android:verticalSpacing="5dp" />
 
         </LinearLayout>
 

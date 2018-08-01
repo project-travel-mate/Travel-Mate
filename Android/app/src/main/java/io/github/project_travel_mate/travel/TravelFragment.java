@@ -76,7 +76,7 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
                 startActivity(i);
                 break;
             case 2:
-                i = MapRealTimeActivity.getStartIntent(mActivity);
+                i = MapViewRealTimeActivity.getStartIntent(mActivity);
                 startActivity(i);
                 break;
         }

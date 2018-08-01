@@ -12,14 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Timer;
@@ -30,10 +33,12 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
+import utils.ExpandableTextView;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
+import static utils.WeatherUtils.fetchDrawableFileResource;
 
 /**
  * Fetch city information for given city mId
@@ -57,6 +62,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
     ImageView icon;
+    @BindView(R.id.expand_collapse)
+    ImageButton expandCollapseImage;
     @BindView(R.id.expand_text_view)
     ExpandableTextView cityDescription;
     @BindView(R.id.funfact)
@@ -75,6 +82,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout weather;
     @BindView(R.id.SliderDots)
     LinearLayout sliderDotsPanel;
+
     private int mDotsCount;
     private ImageView[] mDots;
     private Handler mHandler;
@@ -82,6 +90,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
     private String mCurrentTemp;
+    private boolean mIsExpandClicked = false;
     int currentPage = 0;
     Timer timer;
 
@@ -139,6 +148,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
         shopping.setOnClickListener(this);
         trend.setOnClickListener(this);
         weather.setOnClickListener(this);
+        expandCollapseImage.setOnClickListener(this);
+        cityDescription.setOnClickListener(this);
     }
 
     @Override
@@ -157,7 +168,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.restau:
-                fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "restaurant");
+                fireIntent(RestaurantsActivity.getStartIntent(FinalCityInfoActivity.this), "restaurant");
                 break;
             case R.id.hangout:
                 fireIntent(PlacesOnMapActivity.getStartIntent(FinalCityInfoActivity.this), "hangout");
@@ -176,6 +187,12 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 //pass current temperature to weather activity
                 intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity, mCurrentTemp);
                 startActivity(intent);
+                break;
+            case R.id.expand_collapse :
+            case R.id.expand_text_view :
+                cityDescription.handleExpansion(mIsExpandClicked);
+                mIsExpandClicked = !mIsExpandClicked;
+                changeIcon();
                 break;
         }
     }
@@ -216,13 +233,24 @@ public class FinalCityInfoActivity extends AppCompatActivity
      */
     @Override
     public void parseResult(final String iconUrl,
+                            final int code,
                             final String tempText,
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
             mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
-            Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            int id = 0;
+            try {
+                id = fetchDrawableFileResource(FinalCityInfoActivity.this, iconUrl, code);
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+            if (id == 0) {
+                Picasso.with(FinalCityInfoActivity.this).load(iconUrl).into(icon);
+            } else {
+                icon.setImageResource(id);
+            }
             temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
             weatherInfo.setText(weatherDescription);
@@ -323,7 +351,15 @@ public class FinalCityInfoActivity extends AppCompatActivity
         }, 500, 3000);
     }
 
-
+    /**
+     * Changes icon of up/down arrow based on its clicking
+     */
+    private void changeIcon() {
+        if (mIsExpandClicked)
+            expandCollapseImage.setImageDrawable(getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+        else
+            expandCollapseImage.setImageDrawable(getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+    }
 
     /**
      * Fires an Intent with given parameters

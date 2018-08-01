@@ -6,6 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,15 +31,6 @@
         android:orientation="vertical"
         tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true" />
-
        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/layout"
@@ -37,31 +39,51 @@
             android:orientation="vertical"
             tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity">
 
-
-            <ImageView
+           <ImageView
                 android:id="@+id/city_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="@string/empty_description"
                 android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_image" />
+                android:src="@drawable/placeholder_image"
+                android:visibility="gone"/>
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/city_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-bold"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+               <TextView
+                   android:id="@+id/city_name"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentStart="true"
+                   android:layout_weight="1"
+                   android:fontFamily="sans-serif-bold"
+                   android:padding="10dp"
+                   android:textColor="@color/black"
+                   android:textSize="25sp"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:id="@+id/trip_start_date"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignBottom="@+id/city_name"
+                   android:layout_alignParentBottom="false"
+                   android:layout_alignParentStart="false"
+                   android:layout_alignParentTop="false"
+                   android:layout_toRightOf="@+id/city_name"
+                   android:layout_weight="1"
+                   android:fontFamily="sans-serif-bold"
+                   android:gravity="top"
+                   android:paddingBottom="10dp"
+                   android:paddingEnd="10dp"
+                   android:paddingTop="10dp"
+                   android:textColor="@color/black"
+                   android:textSize="20sp"
+                   android:textStyle="bold" />
+           </RelativeLayout>
 
            <RelativeLayout
                android:layout_width="match_parent"
@@ -102,16 +124,7 @@
                    android:src="@drawable/ic_edit_black_24dp" />
            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/trip_start_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-bold"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-            <com.dd.processbutton.FlatButton
+           <com.dd.processbutton.FlatButton
                 android:id="@+id/know_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +143,7 @@
                 android:id="@+id/no_friend_title"
                 android:visibility="gone"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/friend_whole_layout">
@@ -150,10 +163,11 @@
                     android:id="@+id/plus_icon"
                     android:layout_width="38dp"
                     android:layout_height="53dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <adapters.NestedListView
                 android:id="@+id/friend_list"

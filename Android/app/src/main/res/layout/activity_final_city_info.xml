@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,10 +23,10 @@
 
         <LinearLayout
             android:id="@+id/layout_content"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_slider"
@@ -54,15 +53,13 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <com.ms.square.android.expandabletextview.ExpandableTextView
-                android:id="@+id/expand_text_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                expandableTextView:animDuration="200"
-                expandableTextView:maxCollapsedLines="4">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@id/expandable_text"
+                <utils.ExpandableTextView
+                    android:id="@+id/expand_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -77,9 +74,9 @@
                     android:layout_gravity="end|bottom"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/empty_description"
-                    android:padding="16dp" />
-            </com.ms.square.android.expandabletextview.ExpandableTextView>
-
+                    android:padding="12dp"
+                    android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/weather"
@@ -102,7 +99,8 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/empty_description" />
+                        android:contentDescription="@string/empty_description"
+                        android:tint="@color/black" />
 
 
                     <LinearLayout
@@ -204,7 +202,6 @@
 
 
                 <LinearLayout
-
                     android:id="@+id/hangout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -214,7 +211,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"
@@ -235,7 +231,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-
                     android:id="@+id/monu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -245,7 +240,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"
@@ -273,7 +267,6 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
-
 
                 <LinearLayout
                     android:id="@+id/shoppp"
@@ -316,7 +309,6 @@
                     android:padding="20dp"
                     tools:targetApi="lollipop">
 
-
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -354,7 +346,6 @@
                     android:orientation="horizontal"
                     android:padding="20dp"
                     tools:targetApi="lollipop">
-
 
                     <ImageView
                         android:layout_width="30dp"

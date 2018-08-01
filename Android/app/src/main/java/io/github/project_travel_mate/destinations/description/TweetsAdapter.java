@@ -2,7 +2,6 @@ package io.github.project_travel_mate.destinations.description;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,8 @@ class TweetsAdapter extends ArrayAdapter<Tweet> {
         holder.name.setText(mTweetsList.get(position).getName());
 
         view.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTweetsList.get(position).getUrl()));
-            mContext.startActivity(browserIntent);
+            Intent intent = TweetsDescriptionActivity.getStartIntent(mContext, mTweetsList.get(position).getName());
+            mContext.startActivity(intent);
         });
         return view;
     }

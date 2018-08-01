@@ -66,13 +66,12 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         Intent intent;
         switch (position) {
             case 0:
-                intent = ShareContactActivity.getStartIntent(mActivity);
-                startActivity(intent);
-                break;
-            case 1:
                 intent = ChecklistActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
+            case 1 :
+                intent = WeatherForecastActivity.getStartIntent(mActivity);
+                startActivity(intent);
         }
     }
 
@@ -80,12 +79,12 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         List<CardItemEntity> cardEntities = new ArrayList<>();
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.contact),
-                        getResources().getString(R.string.share_contact_text)));
-        cardEntities.add(
-                new CardItemEntity(
                         getResources().getDrawable(R.drawable.checklist),
                         getResources().getString(R.string.text_checklist)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.weather),
+                        getResources().getString(R.string.text_weather)));
         return cardEntities;
     }
 }

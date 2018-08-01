@@ -14,6 +14,8 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
@@ -23,9 +25,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -34,17 +35,22 @@ import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.utilities.ShareContactActivity;
+import objects.City;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,8 +59,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.CircleImageView;
 import utils.TravelmateSnackbars;
 
+import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
@@ -74,9 +82,9 @@ import static utils.DateUtils.rfc3339ToMills;
 
 public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
     @BindView(R.id.display_image)
-    ImageView displayImage;
+    CircleImageView displayImage;
     @BindView(R.id.change_image)
-    ImageView changeImage;
+    CircleImageView changeImage;
     @BindView(R.id.display_name)
     EditText displayName;
     @BindView(R.id.display_email)
@@ -96,22 +104,30 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     @BindView(R.id.name_progress_bar)
     ProgressBar nameProgressBar;
     @BindView(R.id.layout)
-    RelativeLayout layout;
+    LinearLayout layout;
+    @BindView(R.id.layout_cities_travelled)
+    LinearLayout linearLayout;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.citie_travelled_text)
+    TextView citiesTravelledHeading;
 
     private String mToken;
     private Handler mHandler;
     private String mUserStatus;
+    private List<City> mCities = new ArrayList<>();
     // Flag for checking the current drawable of the ImageButton
     private boolean mFlagForDrawable = true;
     private SharedPreferences mSharedPreferences;
     private Menu mOptionsMenu;
-
     //request code for picked image
     private static final int RESULT_PICK_IMAGE = 1;
     //request code for cropped image
     private static final int RESULT_CROP_IMAGE = 2;
     private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
     private String mProfileImageUrl;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private CitiesTravelledAdapter mCitiesAdapter;
 
 
     @Override
@@ -126,6 +142,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         Intent intent = getIntent();
         String id = intent.getStringExtra(OTHER_USER_ID);
+        getTravelledCities();
         getUserDetails(id);
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -209,7 +226,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             Uri croppedImage = data.getData();
             Picasso.with(this).load(croppedImage).into(displayImage);
             mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.profile_picture_updated,
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
                     Snackbar.LENGTH_SHORT).show();
             getUrlFromCloudinary(croppedImage);
 
@@ -245,6 +262,11 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 return true;
             case R.id.action_share_profile:
                 shareProfile();
+                return true;
+            case R.id.action_qrcode_scan:
+                Intent intent;
+                intent = ShareContactActivity.getStartIntent(ProfileActivity.this);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -390,11 +412,11 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
                                 R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                     } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
                                 Snackbar.LENGTH_LONG).show();
                         networkError();
                     }
@@ -456,13 +478,13 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id),
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
                                 R.string.status_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_STATUS, mUserStatus).apply();
                         displayStatus.setText(mUserStatus);
-                      
+
                     } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
                                 Snackbar.LENGTH_LONG).show();
                         networkError();
                     }
@@ -601,11 +623,86 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     if (response.isSuccessful()) {
                         Log.i(LOG_TAG, "Upload to server successful!");
                     } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), res,
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
                                 Snackbar.LENGTH_LONG).show();
                     }
                 });
 
+            }
+        });
+    }
+
+
+    /**
+     * Fetches list of all cities user has travelled
+     */
+    private void getTravelledCities() {
+
+        animationView.setVisibility(View.VISIBLE);
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        String uri = API_LINK_V2 + "get-city-visits";
+        Log.v("EXECUTING", uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                // handler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                handler.post(() -> {
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONArray arr;
+                        try {
+                            final String res = response.body().string();
+                            Log.e("Response for cities is ", res);
+                            arr = new JSONArray(res);
+                            for (int i = 0; i < arr.length(); i++) {
+                                String id = arr.getJSONObject(i).getJSONObject("city").getString("id");
+                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
+                                String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
+                                mCities.add(new City(id, name, image));
+                            }
+                            //display trips only if there exists at least one trip
+                            //else hide the view
+                            if (!mCities.isEmpty()) {
+                                // Specify a layout for RecyclerView
+                                // Create a horizontal RecyclerView
+                                mLayoutManager = new LinearLayoutManager(ProfileActivity.this,
+                                        LinearLayoutManager.HORIZONTAL,
+                                        false
+                                );
+                                recyclerView.setLayoutManager(mLayoutManager);
+                                mCitiesAdapter = new CitiesTravelledAdapter(ProfileActivity.this, mCities);
+                                recyclerView.setAdapter(mCitiesAdapter);
+                            } else {
+                                citiesTravelledHeading.setVisibility(GONE);
+                            }
+                            displayImage.setVisibility(View.VISIBLE);
+                            animationView.setVisibility(View.GONE);
+                        } catch (JSONException | IOException | NullPointerException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR", "Message : " + e.getMessage());
+                            networkError();
+                        }
+                    } else {
+                        networkError();
+                    }
+
+                });
             }
         });
     }
@@ -623,6 +720,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         if (mOptionsMenu != null) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_share_profile);
             item.setVisible(false);
+            MenuItem qrItem = mOptionsMenu.findItem(R.id.action_qrcode_scan);
+            qrItem.setVisible(false);
         }
     }
     /**
@@ -649,7 +748,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activity_profile_id), R.string.snackbar_no_share_app,
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.snackbar_no_share_app,
                     Snackbar.LENGTH_LONG).show();
         }
     }

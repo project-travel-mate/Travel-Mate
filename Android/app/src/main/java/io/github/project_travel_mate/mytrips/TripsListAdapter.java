@@ -25,12 +25,12 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 
-class MyTripsAdapter extends ArrayAdapter<Trip> {
+class TripsListAdapter extends ArrayAdapter<Trip> {
     private final Context mContext;
     private final List<Trip> mTrips;
     private LayoutInflater mInflater;
 
-    MyTripsAdapter(Context context,
+    TripsListAdapter(Context context,
                    List<Trip> trips) {
         super(context, R.layout.trip_listitem, trips);
         this.mContext = context;

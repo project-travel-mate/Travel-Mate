@@ -7,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-
-import com.rey.material.widget.CheckBox;
+import android.widget.CheckBox;
 
 import java.util.List;
 

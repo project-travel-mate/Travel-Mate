@@ -95,8 +95,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     ImageView editTrip;
     @BindView(R.id.know_more)
     Button details;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.layout)
@@ -165,20 +163,13 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     tripName.setFocusableInTouchMode(false);
                     tripName.setCursorVisible(false);
                     mIsTripNameEdited = false;
+                    View view = getCurrentFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
                     updateTripName();
                 } else {
-                    //clicking edit trip after editing the trip name
-                    if (tripName.getText().length() != 0 ) {
-                        editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
-                        tripName.setFocusableInTouchMode(false);
-                        tripName.setCursorVisible(false);
-                        mIsTripNameEdited = false;
-                        updateTripName();
-                    } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
-                                Snackbar.LENGTH_SHORT).show();
-
-                    }
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
+                            Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -206,7 +197,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
     private void getSingleTrip() {
 
-        progressBar.setVisibility(View.VISIBLE);
+        animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
 
         // to fetch mCity names
         String uri = API_LINK_V2 + "get-trip/" + mTrip.getId();
@@ -244,17 +236,20 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             String city = ob.getJSONObject("city").getString("city_name");
                             details.setVisibility(View.VISIBLE);
                             details.setText(String.format(getString(R.string.know_more_about), city));
-                            details.setOnClickListener(view -> getCity(city));
-                            cityName.setText(city);
+                            details.setOnClickListener(view -> {
+                                details.setEnabled(false);
+                                getCity(city);
+                            });
+                            cityName.setText(city + " " + getString(R.string.trip_info_city_date_separater));
                             tripName.setText(title);
                             final Calendar cal = Calendar.getInstance();
                             cal.setTimeInMillis(Long.parseLong(start) * 1000);
                             final String timeString =
-                                    getResources().getString(R.string.text_started_on) +
-                                            new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                                    new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
                             editTrip.setVisibility(View.VISIBLE);
                             updateFriendList();
+                            animationView.setVisibility(GONE);
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
                             networkError();
@@ -263,7 +258,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         networkError();
                     }
                     tripName.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(GONE);
+                    cityImageView.setVisibility(View.VISIBLE);
                     mFriendId = null;
                 });
             }
@@ -310,6 +305,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             }
                             Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
                             startActivity(intent);
+                            details.setEnabled(true);
 
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();

@@ -9,32 +9,39 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lucasr.twowayview.TwoWayView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -57,16 +64,27 @@ import static utils.Utils.bitmapDescriptorFromVector;
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @BindView(R.id.lv)
-    TwoWayView twoWayView;
+    RecyclerView recyclerView;
     @BindView(R.id.textViewNoItems)
     TextView textViewNoItems;
+    @BindView(R.id.place_name)
+    TextView selectedItemName;
+    @BindView(R.id.place_address)
+    TextView selectedItemAddress;
+    @BindView(R.id.item_info)
+    LinearLayout linearLayout;
 
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
+    private int mIndex;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private City mCity;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private JSONArray mFeedItems;
+    private List<Marker> mMarkerList = new ArrayList<>();
+    private Marker mPreviousMarker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,14 +144,16 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 == PackageManager.PERMISSION_GRANTED) {
             if (mGoogleMap != null) {
                 mGoogleMap.setMyLocationEnabled(true);
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
+                //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
 
                 MarkerOptions temp = new MarkerOptions();
                 MarkerOptions markerOptions = temp
                         .title(locationName)
                         .position(coord)
-                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this, R.drawable.ic_pin_drop_black));
-                mGoogleMap.addMarker(markerOptions);
+                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
+                                R.drawable.ic_radio_button_checked_orange_24dp));
+                Marker marker = mGoogleMap.addMarker(markerOptions);
+                mMarkerList.add(marker);
             }
         }
     }
@@ -173,10 +193,17 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                         JSONObject feed = new JSONObject(res);
                         feed = feed.getJSONObject("results");
 
-                        JSONArray feedItems = feed.getJSONArray("items");
-                        Log.v("response", feedItems.toString());
+                        mFeedItems = feed.getJSONArray("items");
+                        for (int i = 0; i < mFeedItems.length(); i++ ) {
+                            Double latitude = Double.parseDouble(
+                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(0).toString());
+                            Double longitude = Double.parseDouble(
+                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(1).toString());
+                            String name = mFeedItems.getJSONObject(i).getString("title");
 
-                        setupViewsAsNeeded(feedItems);
+                            showMarker(latitude, longitude, name);
+                        }
+                        setupViewsAsNeeded(mFeedItems);
 
                         mProgressDialog.dismiss();
                     } catch (JSONException e) {
@@ -192,66 +219,116 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private void setupViewsAsNeeded(JSONArray feedItems) {
         if (feedItems.length() == 0) {
             textViewNoItems.setVisibility(View.VISIBLE);
-            twoWayView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         } else {
-            twoWayView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+            // Specify a layout for RecyclerView
+            // Create a vertical RecyclerView
+            mLayoutManager = new LinearLayoutManager(PlacesOnMapActivity.this,
+                    LinearLayoutManager.VERTICAL,
+                    false
+            );
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
             textViewNoItems.setVisibility(View.GONE);
-            twoWayView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * Highlights the marker whose card is clicked
+     * @param position position of the marker in
+     *                 mMarkerList whose card is clicked
+     */
+    private void highlightMarker(int position) {
+        if (mPreviousMarker != null) {
+            mPreviousMarker.setIcon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
+                    R.drawable.ic_radio_button_checked_orange_24dp));
+            //hide info about previous marker
+            mPreviousMarker.hideInfoWindow();
+        }
+        Marker currentMarker = mMarkerList.get(position);
+        //show info about current marker
+        currentMarker.showInfoWindow();
+        currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mPreviousMarker = currentMarker;
+    }
+
+    /**
+     * Zooms in towards the marker whose card is clicked
+     * @param position position of the item in
+     *                 mFeedItems whose card is clicked
+     */
+    private void zoomToMarker(int position) {
+        Double latitude = null, longitude = null;
+        try {
+            latitude = Double.parseDouble(
+                    mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
+            longitude = Double.parseDouble(
+                    mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LatLng coordinate = new LatLng(latitude, longitude);
+        CameraUpdate selectedPosition = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+        mGoogleMap.animateCamera(selectedPosition);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         mGoogleMap = map;
+        LatLng coordinate = new LatLng(Double.parseDouble(mCity.getLatitude()),
+                Double.parseDouble(mCity.getLongitude()));
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+        map.animateCamera(yourLocation);
+
+        map.setOnMarkerClickListener(marker -> {
+            try {
+                for (int i = 0; i < mFeedItems.length(); i++) {
+                    //get index of the clicked marker
+                    if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
+                        mIndex = i;
+                        break;
+                    }
+                }
+                linearLayout.setVisibility(View.VISIBLE);
+                highlightMarker(mIndex);
+                //set info about clicked marker
+                selectedItemName.setText(marker.getTitle());
+                String[] address = mFeedItems.getJSONObject(mIndex).getString("vicinity").split("<br/>");
+                if (address.length > 1) {
+                    selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                } else {
+                    selectedItemAddress.setText(address[0]);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
     }
 
-    class PlacesOnMapAdapter extends BaseAdapter {
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, PlacesOnMapActivity.class);
+        return intent;
+    }
+
+    /**
+     * Adapter for horizontal recycler view for displaying each cityInfoItem
+     */
+    class PlacesOnMapAdapter extends RecyclerView.Adapter<PlacesOnMapAdapter.ViewHolder> {
 
         final Context mContext;
         final JSONArray mFeedItems;
         final int mRd;
-        private final LayoutInflater mInflater;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
             this.mContext = context;
             this.mFeedItems = feedItems;
             mRd = r;
-            mInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public int getCount() {
-            return mFeedItems.length();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            try {
-                return mFeedItems.getJSONObject(position);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            View view = convertView;
-            if (view == null) {
-                view = mInflater.inflate(R.layout.city_infoitem, parent, false);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (position == 0) {
                 try {
                     Double latitude = Double.parseDouble(
@@ -275,9 +352,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 Log.e("ERROR", "Message : " + e.getMessage());
             }
 
-            holder.iv.setImageResource(mRd);
+            holder.imageView.setImageResource(mRd);
 
-            holder.onmap.setOnClickListener(view12 -> {
+            holder.onMap.setOnClickListener(view12 -> {
 
                 Intent browserIntent;
                 try {
@@ -301,44 +378,61 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 mContext.startActivity(browserIntent);
             });
 
-            view.setOnClickListener(v -> {
-                mGoogleMap.clear();
+            holder.completeLayout.setOnClickListener(v -> {
                 try {
-                    Double latitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                    Double longitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
-                    showMarker(latitude,
-                            longitude,
-                            mFeedItems.getJSONObject(position).getString("title"));
+                    highlightMarker(position);
+                    String[] address = mFeedItems.getJSONObject(position).getString("vicinity").split("<br/>");
+                    if (address.length > 1) {
+                        selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                    } else {
+                        selectedItemAddress.setText(address[0]);
+                    }
+                    zoomToMarker(position);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    selectedItemName.setText(mFeedItems.getJSONObject(position).getString("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             });
-            return view;
         }
 
-        class ViewHolder {
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.city_infoitem, parent, false);
+            ViewHolder holder = new ViewHolder(view);
+            return  holder;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mFeedItems.length();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.item_name)
             TextView title;
             @BindView(R.id.item_address)
             TextView description;
             @BindView(R.id.image)
-            ImageView iv;
+            ImageView imageView;
             @BindView(R.id.map)
-            LinearLayout onmap;
-            @BindView(R.id.b2)
+            LinearLayout onMap;
+            @BindView(R.id.know_more_layout)
             LinearLayout linearLayout;
+            @BindView(R.id.city_info_item_layout)
+            CardView completeLayout;
 
             public ViewHolder(View view) {
+                super(view);
                 ButterKnife.bind(this, view);
             }
 
         }
-    }
-
-    public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, PlacesOnMapActivity.class);
-        return intent;
     }
 }

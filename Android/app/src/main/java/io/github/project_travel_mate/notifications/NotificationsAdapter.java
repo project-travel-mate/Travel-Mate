@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,7 +42,6 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
     private String mToken;
     private Handler mHandler;
 
-
     NotificationsAdapter(Context context, List<Notification> items) {
         super(context, R.layout.notification_listitem, items);
         mNotifications = items;
@@ -65,6 +65,8 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
             holder = (NotificationsAdapter.ViewHolder) view.getTag();
 
         holder.name.setText(mNotifications.get(position).getText());
+        holder.notificationTime
+                .setText(mNotifications.get(position).getCreatedAt());
         if (mNotifications.get(position).isRead()) {
             holder.readStatus.setVisibility(View.INVISIBLE);
         } else {
@@ -79,6 +81,7 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
         });
         return view;
     }
+
     public void markAsRead(final int position) {
         String uri;
         uri = API_LINK_V2 + "mark-notification/" + mNotifications.get(position).getId();
@@ -117,6 +120,8 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
         TextView name;
         @BindView(R.id.read_status)
         View readStatus;
+        @BindView(R.id.notification_time)
+        TextView notificationTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
