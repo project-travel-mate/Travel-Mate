@@ -92,6 +92,7 @@
     <string name="remove_me_from_trip">Remove me from trip</string>
     <string name="remove_trip_message">Are you sure want to remove the trip?</string>
     <string name="trips_together_message">Your trips together…</string>
+    <string name="remove_trip_success">Removed trip successfully!</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
