@@ -375,10 +375,13 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     final String res = Objects.requireNonNull(response.body()).string();
                                     mHandler.post(() -> {
                                         if (response.isSuccessful()) {
+                                            Toast.makeText(MyTripInfoActivity.this,
+                                                    R.string.remove_trip_success, Toast.LENGTH_SHORT).show();
                                             finish();
-                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+
                                         } else {
-                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(MyTripInfoActivity.this,
+                                                    res, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     mDialog.dismiss();
