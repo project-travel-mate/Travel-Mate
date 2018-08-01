@@ -53,6 +53,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_NAME = "citynickname_";
     public static final String EXTRA_MESSAGE_CITY_ID = "cityid_";
     public static final String EXTRA_MESSAGE_CALLED_FROM_UTILITIES = "iscalledfromutilties_";
+    public static final String EXTRA_MESSAGE_HASHTAG_NAME = "hashtagname_";
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";

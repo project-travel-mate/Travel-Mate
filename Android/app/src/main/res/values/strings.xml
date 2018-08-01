@@ -228,5 +228,8 @@
     <string name="tap_for_more_details">Tap for more details</string>
     <string name="trip_info_city_date_separater">|</string>
 
+    <!--Tweets Strings -->
+    <string name="username">\@%1$s </string>
+    <string name="hashtag_title">#%1$s</string>
 
 </resources>
