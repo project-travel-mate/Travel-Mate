@@ -38,136 +38,146 @@
                 android:layout_marginTop="10dp"
                 android:src="@drawable/default_user_icon" />
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
             <ImageView
                 android:id="@+id/status_icon"
-                android:layout_width="30dp"
-                android:layout_height="38dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@+id/display_status"
+                android:layout_toStartOf="@+id/display_image"
                 android:alpha="0.8"
                 android:contentDescription="@string/info_icon"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
             <TextView
                 android:id="@+id/display_status"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_width="217dp"
+                android:layout_height="52dp"
+                android:layout_alignParentBottom="false"
+                android:layout_alignStart="@+id/status_icon"
+                android:layout_below="@+id/display_image"
+                android:layout_centerHorizontal="false"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:ellipsize="end"
+                android:focusableInTouchMode="false"
+                android:inputType="textMultiLine"
                 android:paddingLeft="30dp"
-                android:paddingTop="8sp"
+                android:paddingTop="7dp"
                 android:text="@string/default_status"
                 android:textColor="#333434"
                 android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
             <ImageView
                 android:id="@+id/profile_icon"
-                android:layout_width="30dp"
-                android:layout_height="38dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/display_name"
+                android:layout_toStartOf="@+id/display_image"
                 android:alpha="0.8"
                 android:contentDescription="@string/info_icon"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_person_black_24dp" />
 
             <TextView
                 android:id="@+id/display_name"
-                android:layout_width="wrap_content"
+                android:layout_width="217dp"
                 android:layout_height="45dp"
+                android:layout_alignStart="@+id/profile_icon"
+                android:layout_below="@+id/display_status"
+                android:layout_centerHorizontal="false"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:ellipsize="end"
+                android:focusableInTouchMode="false"
+                android:inputType="textMultiLine"
                 android:paddingLeft="30dp"
-                android:paddingTop="8sp"
                 android:text="@string/default_name"
                 android:textColor="#333434"
                 android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/email_icon"
-                android:layout_width="30dp"
-                android:layout_height="38dp"
-                android:alpha="0.8"
-                android:contentDescription="@string/info_icon"
-                app:srcCompat="@drawable/ic_email_black_24dp" />
-
             <TextView
                 android:id="@+id/display_email"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
+                android:layout_alignStart="@+id/email_icon"
+                android:layout_below="@+id/profile_icon"
+                android:layout_centerHorizontal="false"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="5dp"
                 android:paddingStart="30dp"
                 android:paddingTop="8sp"
                 android:text="@string/email"
                 android:textColor="#333434"
                 android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/date_joined_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/date_joined_icon"
-                android:layout_width="30dp"
-                android:layout_height="38dp"
+                android:id="@+id/email_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/display_email"
+                android:layout_toStartOf="@+id/display_image"
                 android:alpha="0.8"
-                app:srcCompat="@drawable/baseline_date_range_black" />
+                android:contentDescription="@string/info_icon"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_email_black_24dp" />
 
-            <TextView
-                android:id="@+id/display_joining_date"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:paddingLeft="30dp"
-                android:paddingTop="8sp"
-                android:text="@string/text_joining_date"
-                android:textColor="#333434"
-                android:textSize="18sp" />
-        </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/date_joined_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="false"
+                android:layout_alignStart="@+id/status_icon"
+                android:layout_below="@+id/display_email"
+                android:layout_marginTop="5dp">
 
-        <LinearLayout
-            android:id="@+id/trips_together_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/date_joined_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/baseline_date_range_black" />
 
-            <TextView
-                android:id="@+id/display_mutual_trips"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:paddingTop="8sp"
-                android:text="@string/trips_together_message"
-                android:textColor="#333434"
-                android:textSize="18sp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/display_joining_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_alignStart="@+id/date_joined_icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="8sp"
+                    android:text="@string/text_joining_date"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/trips_together_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/status_icon"
+                android:layout_below="@+id/date_joined_layout"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/display_mutual_trips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:paddingTop="8sp"
+                    android:text="@string/trips_together_message"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

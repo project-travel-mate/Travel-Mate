@@ -105,8 +105,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     ProgressBar nameProgressBar;
     @BindView(R.id.layout)
     LinearLayout layout;
-    @BindView(R.id.layout_cities_travelled)
-    LinearLayout linearLayout;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.citie_travelled_text)
