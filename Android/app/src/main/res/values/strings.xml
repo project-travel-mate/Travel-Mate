@@ -241,6 +241,7 @@
     <string name="read_notifications_message">Show my read notifications</string>
     <string name="required_error">Required!</string>
     <string name="password_updated">Password Updated!</string>
+    <string name="status_character_limit">/100</string>
 
 
 </resources>

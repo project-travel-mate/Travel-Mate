@@ -16,6 +16,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
@@ -105,6 +107,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     ProgressBar nameProgressBar;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.status_character_count)
+    TextView characterCount;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.citie_travelled_text)
@@ -184,15 +188,17 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 displayStatus.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 Objects.requireNonNull(imm).showSoftInput(displayStatus, InputMethodManager.SHOW_IMPLICIT);
+                characterCount.setVisibility(View.VISIBLE);
             } else {
                 mFlagForDrawable = true;
                 editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
                 displayStatus.setFocusableInTouchMode(false);
                 displayStatus.setCursorVisible(false);
                 setUserStatus();
+                characterCount.setVisibility(View.GONE);
             }
         });
-
+        displayStatus.addTextChangedListener(mCountCharacters);
         changeImage.setOnClickListener(v -> {
             Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
@@ -210,6 +216,19 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         });
 
     }
+    private final TextWatcher mCountCharacters = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            characterCount.setText(String.valueOf(s.length()) + getString(R.string.status_character_limit));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
