@@ -36,6 +36,7 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -236,17 +237,20 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         //After user has picked the image
         if (requestCode == RESULT_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            startCropIntent(selectedImage);
+            //startCropIntent(selectedImage);
+            CropImage.activity(selectedImage).start(this);
         }
         //After user has cropped the image
-        if (requestCode == RESULT_CROP_IMAGE && resultCode == Activity.RESULT_OK) {
-            Uri croppedImage = data.getData();
-            Picasso.with(this).load(croppedImage).into(displayImage);
-            mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
-                    Snackbar.LENGTH_SHORT).show();
-            getUrlFromCloudinary(croppedImage);
-
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri croppedImage = result.getUri();
+                Picasso.with(this).load(croppedImage).into(displayImage);
+                mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
+                TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
+                        Snackbar.LENGTH_SHORT).show();
+                getUrlFromCloudinary(croppedImage);
+            }
         }
     }
 
@@ -540,34 +544,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     }
 
     /**
-     * Method for starting intent to crop the image
-     * @param uri - Uri of picked image
-     **/
-    private void startCropIntent(Uri uri) {
-
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        cropIntent.setDataAndType(uri, "image/*");
-        //set crop properties
-        cropIntent.putExtra("crop", "true");
-        //indicate aspect of desired crop
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        //indicate output X and Y
-        cropIntent.putExtra("outputX", 256);
-        cropIntent.putExtra("outputY", 256);
-        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-        //start the activity
-        startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
-
-    }
-
-    /**
      * Method to get URL for image using Cloudinary
      * @param croppedImage  Uri of cropped image
      **/
     private void getUrlFromCloudinary (Uri croppedImage) {
-
         Map config = new HashMap();
         config.put("cloud_name", CLOUDINARY_CLOUD_NAME);
         config.put("api_key", CLOUDINARY_API_KEY);
