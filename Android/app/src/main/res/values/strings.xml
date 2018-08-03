@@ -242,6 +242,9 @@
     <string name="required_error">Required!</string>
     <string name="password_updated">Password Updated!</string>
     <string name="status_character_limit">/100</string>
+    <string name="remove_photo">Remove photo</string>
+    <string name="choose_an_option">Choose an option</string>
+    <string name="remove_profile_picture">Do you want to remove profile picture?</string>
 
 
 </resources>

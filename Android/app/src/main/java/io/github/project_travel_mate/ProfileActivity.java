@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -52,6 +53,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.utilities.ShareContactActivity;
 import objects.City;
 import objects.User;
@@ -131,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private String mProfileImageUrl;
     private RecyclerView.LayoutManager mLayoutManager;
     private CitiesTravelledAdapter mCitiesAdapter;
+    private MaterialDialog mDialog;
 
 
     @Override
@@ -204,7 +207,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, RESULT_PICK_IMAGE);
+            Intent removeIntent = new Intent(Intent.ACTION_DELETE);
+            Intent chooserIntent = Intent.createChooser(removeIntent, getString(R.string.choose_an_option));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {galleryIntent});
+            startActivityForResult(chooserIntent, RESULT_PICK_IMAGE);
         });
 
         //open profile image when clicked on it
@@ -235,7 +241,9 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //After user has picked the image
-        if (requestCode == RESULT_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RESULT_PICK_IMAGE && data.hasExtra("remove_image")) {
+            deleteProfilePicture();
+        } else if (requestCode == RESULT_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             //startCropIntent(selectedImage);
             CropImage.activity(selectedImage).start(this);
@@ -314,6 +322,64 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                         });
         builder.create().show();
     }
+
+    private void deleteProfilePicture() {
+        //set AlertDialog before marking All as read
+        ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.remove_profile_picture)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+                            mDialog = new MaterialDialog.Builder(ProfileActivity.this)
+                                    .title(R.string.app_name)
+                                    .content(R.string.progress_wait)
+                                    .progress(true, 0)
+                                    .show();
+
+                            String uri;
+                            uri = API_LINK_V2 + "remove-profile-image";
+                            Log.v("EXECUTING", uri);
+
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+                            //Execute request
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+                            //Setup callback
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                                    Snackbar.LENGTH_SHORT).show();
+                                            Picasso.with(ProfileActivity.this).load(R.drawable.default_user_icon)
+                                                    .into(displayImage);
+                                        } else {
+                                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                                    Snackbar.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mDialog.dismiss();
+                                }
+                            });
+
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
+    }
+
 
     private void getUserDetails(final String userId) {
 
