@@ -135,6 +135,7 @@
         <activity android:name=".travel.ListViewRealTimeActivity"/>
         <activity android:name=".destinations.description.RestaurantsActivity"/>
         <activity android:name=".destinations.description.TweetsDescriptionActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
     </application>
 
 </manifest>

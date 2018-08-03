@@ -98,6 +98,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation "android.arch.lifecycle:viewmodel:1.1.0"
 
+    //Image Crop
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
 }
 
 preBuild.dependsOn('checkstyle')
