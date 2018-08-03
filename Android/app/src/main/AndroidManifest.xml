@@ -132,9 +132,19 @@
             android:theme="@style/FullProfileImageTheme" />
         <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />
-        <activity android:name=".travel.ListViewRealTimeActivity"/>
-        <activity android:name=".destinations.description.RestaurantsActivity"/>
-        <activity android:name=".destinations.description.TweetsDescriptionActivity"/>
+        <activity android:name=".travel.ListViewRealTimeActivity" />
+        <activity android:name=".destinations.description.RestaurantsActivity" />
+        <activity android:name=".destinations.description.TweetsDescriptionActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".DeleteProfilePictureActivity"
+            android:icon="@drawable/ic_delete_round"
+            android:label="@string/remove_photo"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.DELETE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
