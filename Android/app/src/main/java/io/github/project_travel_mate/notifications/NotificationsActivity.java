@@ -47,6 +47,7 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.READ_NOTIF_STATUS;
 import static utils.Constants.USER_TOKEN;
 
 public class NotificationsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
@@ -72,6 +73,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
     private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
     private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
+    private boolean mShowReadNotif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
+        mShowReadNotif = mSharedPreferences.getBoolean(READ_NOTIF_STATUS, true);
         notifications = new ArrayList<>();
         swipeRefreshLayout.setOnRefreshListener(this);
         getNotifications();
@@ -144,6 +147,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     if (!read) {
                                         allRead = true;
                                     }
+
                                     JSONObject object = array.getJSONObject(i).getJSONObject("initiator_user");
                                     String userName = object.getString("username");
                                     String firstName = object.getString("first_name");
@@ -165,21 +169,31 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                         String start = obj.getString("start_date_tx");
                                         String tname = obj.getString("trip_name");
                                         Trip trip = new Trip(tripId, name, image, start, "", tname);
-                                        notifications.add(new Notification(id, type, text, read, user,
-                                                trip, createdAt));
+                                        //add only if notif is unread and
+                                        //showReadNotif is true
+                                        if (!read || mShowReadNotif) {
+                                            notifications.add(new Notification(id, type, text, read, user,
+                                                    trip, createdAt));
+                                        }
                                     } else {
                                         Trip trip = new Trip("", "", "", "", "", "");
-                                        notifications.add(new Notification(id, type, text, read, user,
-                                                trip, createdAt));
+                                        if (!read || mShowReadNotif) {
+                                            notifications.add(new Notification(id, type, text, read, user,
+                                                    trip, createdAt));
+                                        }
                                     }
                                 }
-                                mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
-                                listView.setAdapter(mAdapter);
+                                if (!notifications.isEmpty()) {
+                                    mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
+                                    listView.setAdapter(mAdapter);
+                                    animationView.setVisibility(View.GONE);
+                                } else {
+                                    emptyList();
+                                }
                                 if (!allRead) {
                                     MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
                                     item.setVisible(false);
                                 }
-                                animationView.setVisibility(View.GONE);
                             }
 
                         } catch (JSONException e) {

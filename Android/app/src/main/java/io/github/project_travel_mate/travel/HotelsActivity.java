@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -55,7 +58,7 @@ import static utils.Constants.USER_TOKEN;
 public class HotelsActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.hotel_list)
-    ListView lv;
+    GridView gridView;
     @BindView(R.id.select_city)
     TextView selectCity;
     @BindView(R.id.animation_view)
@@ -141,7 +144,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             animationView.setVisibility(View.GONE);
                             textView.setVisibility(View.GONE);
                             if (feedItems.length() > 0) {
-                                lv.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
+                                gridView.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
                             } else {
                                 noResults();
                             }
@@ -265,6 +268,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             dialog.dismiss();
                             getCityInfo(selectedCity);
                         }).show();
+                gridView.setAdapter(null);
                 break;
         }
     }
@@ -318,8 +322,10 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
             try {
                 holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                holder.description.setText(mFeedItems.getJSONObject(position).getString("vicinity"));
-
+                holder.description.setText(android.text.Html.fromHtml(mFeedItems
+                        .getJSONObject(position).getString("vicinity")).toString());
+                holder.distance.setText(new DecimalFormat("##.##").format((float) mFeedItems
+                        .getJSONObject(position).getInt("distance") / 1000));
                 holder.call.setOnClickListener(view -> {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     try {
@@ -363,6 +369,24 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                     mContext.startActivity(browserIntent);
 
                 });
+                holder.expandText.setOnClickListener((View view) -> {
+                    if (holder.detailsLayout.getVisibility() == View.GONE) {
+                        holder.detailsLayout.setVisibility(View.VISIBLE);
+                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    } else {
+                        holder.detailsLayout.setVisibility(View.GONE);
+                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }
+                });
+                holder.expandCollapse.setOnClickListener((View view) -> {
+                    if (holder.detailsLayout.getVisibility() == View.GONE) {
+                        holder.detailsLayout.setVisibility(View.VISIBLE);
+                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    } else {
+                        holder.detailsLayout.setVisibility(View.GONE);
+                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -399,12 +423,19 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         @BindView(R.id.hotel_address)
         TextView description;
         @BindView(R.id.call)
-        LinearLayout call;
+        RelativeLayout call;
         @BindView(R.id.map)
-        LinearLayout map;
+        RelativeLayout map;
         @BindView(R.id.book)
-        LinearLayout book;
-
+        RelativeLayout book;
+        @BindView(R.id.more_details)
+        LinearLayout detailsLayout;
+        @BindView(R.id.expand_text_view)
+        TextView expandText;
+        @BindView(R.id.expand_collapse)
+        ImageView expandCollapse;
+        @BindView(R.id.distance)
+        TextView distance;
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

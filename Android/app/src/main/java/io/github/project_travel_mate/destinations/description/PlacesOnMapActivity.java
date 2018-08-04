@@ -151,7 +151,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                         .title(locationName)
                         .position(coord)
                         .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
-                                R.drawable.ic_radio_button_checked_blue_24dp));
+                                R.drawable.ic_radio_button_checked_orange_24dp));
                 Marker marker = mGoogleMap.addMarker(markerOptions);
                 mMarkerList.add(marker);
             }
@@ -242,7 +242,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private void highlightMarker(int position) {
         if (mPreviousMarker != null) {
             mPreviousMarker.setIcon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
-                    R.drawable.ic_radio_button_checked_blue_24dp));
+                    R.drawable.ic_radio_button_checked_orange_24dp));
             //hide info about previous marker
             mPreviousMarker.hideInfoWindow();
         }

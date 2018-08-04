@@ -163,20 +163,13 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     tripName.setFocusableInTouchMode(false);
                     tripName.setCursorVisible(false);
                     mIsTripNameEdited = false;
+                    View view = getCurrentFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
                     updateTripName();
                 } else {
-                    //clicking edit trip after editing the trip name
-                    if (tripName.getText().length() != 0 ) {
-                        editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
-                        tripName.setFocusableInTouchMode(false);
-                        tripName.setCursorVisible(false);
-                        mIsTripNameEdited = false;
-                        updateTripName();
-                    } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
-                                Snackbar.LENGTH_SHORT).show();
-
-                    }
+                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
+                            Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -243,14 +236,16 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             String city = ob.getJSONObject("city").getString("city_name");
                             details.setVisibility(View.VISIBLE);
                             details.setText(String.format(getString(R.string.know_more_about), city));
-                            details.setOnClickListener(view -> getCity(city));
-                            cityName.setText(city);
+                            details.setOnClickListener(view -> {
+                                details.setEnabled(false);
+                                getCity(city);
+                            });
+                            cityName.setText(city + " " + getString(R.string.trip_info_city_date_separater));
                             tripName.setText(title);
                             final Calendar cal = Calendar.getInstance();
                             cal.setTimeInMillis(Long.parseLong(start) * 1000);
                             final String timeString =
-                                    getResources().getString(R.string.text_started_on) +
-                                            new SimpleDateFormat("dd-MMM", Locale.US).format(cal.getTime());
+                                    new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
                             editTrip.setVisibility(View.VISIBLE);
                             updateFriendList();
@@ -310,6 +305,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             }
                             Intent intent = FinalCityInfoActivity.getStartIntent(MyTripInfoActivity.this, city);
                             startActivity(intent);
+                            details.setEnabled(true);
 
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -379,10 +375,13 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     final String res = Objects.requireNonNull(response.body()).string();
                                     mHandler.post(() -> {
                                         if (response.isSuccessful()) {
+                                            Toast.makeText(MyTripInfoActivity.this,
+                                                    R.string.remove_trip_success, Toast.LENGTH_SHORT).show();
                                             finish();
-                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+
                                         } else {
-                                            Toast.makeText(MyTripInfoActivity.this, res, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(MyTripInfoActivity.this,
+                                                    res, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     mDialog.dismiss();

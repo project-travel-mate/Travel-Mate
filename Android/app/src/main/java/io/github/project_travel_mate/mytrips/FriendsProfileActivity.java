@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -71,9 +72,9 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     @BindView(R.id.email_icon)
     ImageView emailIcon;
     @BindView(R.id.trips_together_layout)
-    LinearLayout tripsTogetherLayout;
+    RelativeLayout tripsTogetherLayout;
     @BindView(R.id.date_joined_layout)
-    LinearLayout dateJoinedLayout;
+    RelativeLayout dateJoinedLayout;
     @BindView(R.id.display_mutual_trips)
     TextView mutualTripsText;
     @BindView(R.id.animation_view)

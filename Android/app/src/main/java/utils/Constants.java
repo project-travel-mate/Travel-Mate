@@ -16,6 +16,7 @@ public class Constants {
     public static final String USER_IMAGE = "user_image";
     public static final String USER_ID = "user_id";
     public static final String OTHER_USER_ID = "other_user_id";
+    public static final String READ_NOTIF_STATUS = "read_notificatons_status";
 
     public static final String EVENT_IMG = "event_name";
     public static final String EVENT_NAME = "event_img";
@@ -53,6 +54,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_NAME = "citynickname_";
     public static final String EXTRA_MESSAGE_CITY_ID = "cityid_";
     public static final String EXTRA_MESSAGE_CALLED_FROM_UTILITIES = "iscalledfromutilties_";
+    public static final String EXTRA_MESSAGE_HASHTAG_NAME = "hashtagname_";
 
     // Here API
     public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
