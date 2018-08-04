@@ -107,10 +107,8 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
-            getMarkers("eat-drink", R.drawable.ic_local_pizza_black);
-            mSelectedIndices.add(0);
+            showDialogToSelectitems();
         }
-
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
