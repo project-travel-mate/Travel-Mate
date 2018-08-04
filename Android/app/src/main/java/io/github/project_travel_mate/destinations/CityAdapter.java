@@ -165,8 +165,14 @@ class CityAdapter extends BaseFlipAdapter<City> {
     }
 
     private int getRandomColor() {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i=0; i<10; i++) {
+            list.add(new Integer(i));
+        }
+        Collections.shuffle(list);
+
         double random = Math.random();
-        int randomNum8 = (int) (random * 100) % 8;
+        int randomNum8 = list.get((int) (random * 100) % 10);
         int color;
         switch (randomNum8) {
             case 0:
@@ -193,6 +199,16 @@ class CityAdapter extends BaseFlipAdapter<City> {
             case 7:
                 color = R.color.blue;
                 break;
+            case 8:
+                color = R.color.flamingo;
+                break;
+            case 9:
+                color = R.color.lavander;
+                break;
+            case 10:
+                color: R.color.mango;
+                break;
+
             default:
                 color = R.color.blue;
                 break;
