@@ -58,7 +58,6 @@ import static utils.Constants.HERE_API_APP_ID;
 import static utils.Constants.HERE_API_LINK;
 import static utils.Constants.HERE_API_MODES;
 import static utils.Utils.bitmapDescriptorFromVector;
-import static utils.Utils.readStream;
 
 /**
  * Show markers on map around user's current location

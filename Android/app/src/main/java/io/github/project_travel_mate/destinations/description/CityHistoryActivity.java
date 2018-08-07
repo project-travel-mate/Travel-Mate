@@ -91,9 +91,7 @@ public class CityHistoryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                handler.post(() -> {
-                    networkError();
-                });
+                handler.post(() -> networkError());
             }
 
             @Override

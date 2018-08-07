@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -88,25 +87,19 @@ public class SettingsFragment extends Fragment {
         mToken = mSharedPrefrences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkEmptyText())
-                    checkPasswordMatch();
-            }
+        doneButton.setOnClickListener(v -> {
+            if (checkEmptyText())
+                checkPasswordMatch();
         });
 
         if (readNotifStatus) {
             notificationSwitch.setChecked(true);
         }
-        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
-                } else {
-                    mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
-                }
+        notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
+            } else {
+                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
             }
         });
         return view;

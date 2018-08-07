@@ -55,6 +55,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
+import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import objects.City;
 import objects.Trip;
 import objects.User;

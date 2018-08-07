@@ -54,7 +54,7 @@
             android:layout_width="20dp"
             android:layout_height="13dp"
             android:layout_alignParentEnd="false"
-            android:layout_toLeftOf="@+id/notification_time"
+            android:layout_toStartOf="@+id/notification_time"
             android:layout_weight="1"
             android:paddingTop="1dp"
             app:srcCompat="@drawable/ic_notification_black_24dp" />

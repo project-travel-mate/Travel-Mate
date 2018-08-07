@@ -125,7 +125,7 @@
         </provider>
 
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".mytrips.FriendsProfileActivity" />
+        <activity android:name=".friend.FriendsProfileActivity" />
         <activity android:name=".notifications.NotificationsActivity" />
         <activity
             android:name=".FullScreenProfileImage"
