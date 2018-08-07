@@ -1,0 +1,791 @@
+0266 (3.4.1 or 3.5)
+
+
+data
+_ Dict.remove() should return value, not index (for consistency w/ others)
+_ check again whether element 0,0 in a Table is working
+_   https://github.com/processing/processing/issues/3011
+
+
+3.5+
+_ add circle() and square()
+_ add push() and pop()
+_ requestSize() and xxxxTitle() (to diminish use of 'surface')
+_ make setting the window icon automatic, based on files in local dirs
+X   https://github.com/processing/processing/issues/5123
+X   https://github.com/processing/processing/pull/5202
+_   need to make this work behind the scenes instead
+_   create icon.png or have an 'icons' folder with multiple sizes
+
+
+contribs
+_ extended SVG support
+_   https://github.com/processing/processing/pull/4168
+_ show a warning when a font isn't what the user expected
+_   https://github.com/processing/processing/issues/5481
+
+
+_ Implement blendMode() for PDF
+_   https://github.com/processing/processing/issues/5438
+
+_ many shift- keys not working properly in FX2D (added a test sketch)
+_   https://github.com/processing/processing/issues/5317
+
+_ Switch to getModifiersEx() and fix the AWT modifiers used in PSurfaceAWT
+_   this is an easy fix, but need to check impact elsewhere
+_   does anything else rely on these modifiers?
+
+_ Fix Java 9 incompatibilities inside PSurfaceFX
+_   https://github.com/processing/processing/issues/5286
+
+_ Hitting ESC in FX2D app on macOS throws IllegalStateException
+_   https://github.com/processing/processing/issues/5249
+
+_ when doing createFont, can we add it to the os fonts available?
+
+_ add separator option to loadTable() 
+_   https://github.com/processing/processing/issues/5068
+
+_ WARNING: GL pipe is running in software mode (Renderer ID=0x1020400)
+_   is this coming from us? if so, need to provide actions
+
+_ implement sketch scaling into PApplet
+_   https://github.com/processing/processing/issues/4897
+_ Sketches on Windows don't take UI sizing into account
+_   https://github.com/processing/processing/issues/4894
+_ Sketches on Linux don't take UI scaling into account
+_   https://github.com/processing/processing/issues/4895
+_   gohai says "xrdb -query" or "xdpyinfo" might work
+
+_ TRIANGLE_STRIP not working correctly with createShape() and default renderer
+_   https://github.com/processing/processing/issues/4678
+
+_ should we drop the 'default' prefix from the ex handler so it's not static?
+_   http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html
+
+_ option to disable OpenGL ES on Linux? 
+_   https://github.com/processing/processing/issues/4584
+
+_ textAlign(CENTER) and pixelDensity(2) aligning incorrectly with Java2D
+_   https://github.com/processing/processing/issues/4020
+_   calling textSize() fixes it, only hpapens with the default font
+
+_ should fullScreen() set width and height to displayWidth/Height
+_   or is that being set/unset used for any state info?
+_ when calling exit(), if sketch has halted w/ exception, force the quit
+_   otherwise have to double-quit with cmd-q on OS X
+_   simple test case: using size() inside setup() from Eclipse
+
+
+discussion
+_ how to handle the touch api
+_ figure our size(img.width, img.height) situation
+X   just make loadImage() work in settings
+_   update the wiki and reference
+_ size() function that scales to screen, keeps aspect, re-scales mouse coords
+
+
+known
+_ window must close when using file dialogs with OpenGL on Windows
+_   https://github.com/processing/processing/issues/3831
+_ window loses focus after maximizing
+_   https://github.com/processing/processing/issues/3339
+
+
+misc
+_ move blending calculations from PImage into PGraphics
+_   tricky because that means moving blend_resize() as well
+_   and should that live in PGraphics or be its own class or ??
+_ try using Frame instead of JFrame
+_   default sketch location using insets incorrectly
+_   use the BufferStrategy directly from the Frame object?
+_     might fix performance issues w/ Presentation mode
+_ sketch placement (window insets) not properly set on Linux
+_   https://github.com/processing/processing/issues/2063
+_ note in docs that full screen and present are now different
+_   on Export to Application, this has an impact
+_ update wiki/docs to say "don't override sketchXxxx() methods"
+_ SVG only exports last frame
+_   possibly because Java2D is disposing the Graphics2D in between?
+_   https://github.com/processing/processing/issues/3753
+
+
+javafx
+_ wrong window size with fullScreen()
+_   https://github.com/processing/processing/issues/4737
+_ menu bar not hiding properly in exported applications with FX2D
+_   https://github.com/processing/processing/issues/4527
+_   hideMenuBar() called from setup() works fine
+_   just call it around setup time? 
+_ the --hide-stop option not working (FX only? traces?)
+_ make wiki about quirks
+_   starving the thread makes things really slow down
+_   keyPressed() is always uppercase, keyTyped() will be correct
+_ do we really need setTextFont/Size when we already have Impl? 
+_ need keyPressed() to do lower and upper case
+_ static mode sketches (draw once and halt w/o closing window)
+_ fix display handling, line up the device order with AWT
+_   https://docs.oracle.com/javafx/2/api/javafx/stage/Screen.html
+_ noLoop()
+_ present mode not working at all
+_   stage in the center, clear the rest of the screen
+_ createGraphics() should probably create PGraphicsJava2D
+_   or is Canvas specific to the PGraphics, and we get another Context2D?
+_   http://docs.oracle.com/javafx/2/api/javafx/scene/canvas/Canvas.html
+_ loadPixels() (also 2x)
+_ text and fonts?
+_   maybe helpful: https://wiki.openjdk.java.net/display/OpenJFX/Font+Setup
+_ updatePixels()
+_ save() and saveFrame()
+_ get() and set()
+_ clip/noClip
+_   https://github.com/processing/processing/issues/3274
+_ getNative() in PImage problematic because it gives back a BufferedImage
+_   move loadImage() into PGraphics, with AWT version the default
+_   or pass createImage() through to renderer?
+_ implement external messages (moving the window)
+_ implement PSurfaceFX.setIcon()
+_ javafx not supported with ARM (so we're screwed on raspberry pi)
+_   https://www.linkedin.com/pulse/oracle-just-removed-javafx-support-arm-jan-snelders
+
+
+opengl questions
+_ exitCalled() and exitActual made public by Andres, breaks Python
+_   also not API we want to expose, so sort this out
+_   or maybe we're fine b/c now FX2D needs it as well
+_ when did setPath() sneak into PShape? API is nothing like anything else
+_   probably from the material stuff, but we need to fix that
+_ why is createShape() implemented 4x (for P2D, P3D, and 2x versions)? 
+_   shouldn't be static, run it from the renderer, that's point of createXxx()
+_ public createShape() method that takes another shape as param?
+_   should just be the constructor doing this, or copy()
+
+
+full screen
+_ present window draws in stages (OS X)
+_ crash on startup when "Mirror Displays" selected (cantfix?)
+_   suspect that this is a specific chipset since Oracle didn't reproduce
+_   AMD Radeon HD 6770M was in the Oracle bug report
+_   https://github.com/processing/processing/issues/2186
+_   https://bugs.openjdk.java.net/browse/JDK-8027391
+_   test with JG's 13" retina laptop
+
+
+graphics
+_ need to be able to call pixelDensity(2) before beginDraw()
+_   add pixelDensity() method to PImage/PGraphics
+_   pixelDensity(2) does: pixelWidth = width; width /= 2; pixelDensity = 2;
+_   this works for both PGraphics and images (though they're a little backwards)
+_   for PGraphics it comes early enough
+_ should the re-alloc of the drawing surface happen in beginDraw()
+_   that way it won't blit to the screen until we have a fresh redraw?
+_   otherwise it'll also be resizing on another thread.. badness
+_   how to allocation image object w/ createGraphics() (since no surface)
+_ createGraphics() currently broken in Java2D
+_ size() command not working to do a resize
+_   need a programmatic way to set size
+_ deal with applySettings() change (maybe not a problem?)
+_ check on performance of the new EDT setup
+_ present mode is 30-40% slower than windowed
+_   w/ this example: https://github.com/processing/processing/issues/2423
+
+
+data
+_ implement strip(), lstrip(), rstrip?
+_ handling of 'missing' values in Table needs serious work
+_   if missing int is zero, can't just remove those values from saving a table
+_   but for NaN values, it's a necessity
+_ get() methods in List/Dict shouldn't allow you to get bad values
+_   but set() methods can automatically resize the arrays
+_   though that means insert() should allow you to insert past the end
+_   and should add/div/mult let you work on non-existent elements?
+_ addRow() is not efficient, probably need to do the doubling
+o   or have a setIncrement() function?
+_   it would default to 1 on tables loaded from a file
+_   and default to doubling when created with "new Table"
+_   row count and array size are combined.. need to break apart
+_ match and iterators
+_   add match version that returns table that's only a pointer to original
+_   save the constructor for the version that actually copies data
+_   the table pointer version will be speedy and allow chaining 
+
+
+high
+_ point() rendering differently in 2.0.3 and 2.1
+_   https://github.com/processing/processing/issues/2278
+_   internally, we probably have to call set() if it's a 1 pixel point
+_     but that's going to be a mess.. need to first check the CTM
+_ tint() not working in PDF (regression between 2.0.3 and 2.1)
+_   https://github.com/processing/processing/issues/2428
+_ finish PFont.getShape() implementation
+_   needs to have a way to set width/height properly
+_   draw(s) doesn't work on the returned PShape
+_ y-location of frame might be negative, but that might be ok 
+_   right now, on Windows it moves it on-screen (b/c of previous bug reports)
+_   may be cause of some of the display placement issues w/ multiple displays
+_   seem to recall one of the bugs mentioning stacked displays
+_   need to change to iterate through display rectangles
+_   may be related to full-screen bug filed recently
+_ closing a sketch window manually (not hitting Stop) not killing sketch
+_   at least with the Java2D renderer
+_ don't override the window icon w/ p5 logo if already set
+
+
+decisions/misc
+_ Separately, if we wanted, we could add a method that can safely do drawing calls, but that won't be any faster or make use of more processors the way that `thread()` does. 
+_ need reference update for createShape()
+_   though we need to verify the behavior here
+_   createShape(RECT) uses x/y/w/h, and optionally adds a mode param
+_     and optionally the corner radii
+_   createShape(ELLIPSE) is x/y/w/h, and optionally adds a mode param
+_ async requests
+_   https://github.com/processing/processing/issues/3165
+_   Request r = createRequest("http://p5.org/feed/13134.jpg");
+_   Request r = createRequest("http://p5.org/feed/13134.jpg", "callbackName");
+_   Request r = createRequest("http://p5.org/feed/13134, "callbackName", "jpg");
+_   implement callbacks for images and other loadXxxx() functions
+_     remove requestImage() and friends
+_   callback for requestImage()
+_     https://github.com/processing/processing/issues/680
+_   remove/update requestImage example
+_   check into promise api
+_     http://www.html5rocks.com/en/tutorials/es6/promises/
+_     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+_ fix the registered methods doc, stop/dispose working
+_   Casey needs to nudge people about libraries, so we need to fix this
+_ pause(), resume(), start(), stop() clarifications
+_ dispose/stop not great w/ libraries yet
+_ PShape complete refactoring
+_ proper touch events
+_   touch event doesn't make sense for mouseMove on desktop, hover on Android
+_   probably go with pointer: more universal for touch/mouse
+_ high-level touch events (swipe, et al)
+_   if Andres is done, they go in, if not then 3.0
+_ move away from loadPixels
+_ add options for image.save() (or saveImage?)
+_   add quality=[0,1] for jpeg images
+_   add dpi=[0,n] for for png images
+_   implemented internally, just needs the wrapper for the args
+_ should map() actually constrain to the low and high values?
+_   or have an alternate version that does that? (or boolean param at end?)
+_ decide whether to keep:
+_   public float textWidth(char[] chars, int start, int length)
+_ add version of math functions that use doubles?
+_   what other methods should work with doubles? all math functions?
+_   seems like internal (mostly static) things, but not graphics api
+_ new PGraphics(... OutputStream) 
+_   https://github.com/processing/processing/issues/285
+_   already added for PDF, just need to work out the API
+_ if save() returns boolean, does saveFrame()?
+_   also need to copy this over to android
+_ "translate, or this variation of it" when using text(s, x, y, z) accidentally
+_   change to be the text command
+_ size() and resize() and whatever? 
+_   should be setSize(), but that's odd for image files
+_   -> resize() is fine with PImage and PGraphics... 
+_   we may be inheriting the resize() from Java -> make it final?
+_   add resize().. make it call setSize().
+_     also needs to do a redraw if noLoop() has been called
+_   the registered method for size() also needs to be called
+_ get() or copy()? for vectors, image, etc.
+_ toArray(), toArray(float[]), toVectorArray(), toVectorArray(PVector[])
+_   toColorArray(), toColorArray(float[])...
+_ make sure that loadXxxx() methods are used after init()
+_   nasty errors when loadImage/Font/createFont/etc used outside
+_   decision: add error messages where possible
+_   idea: set frameCount to -1 when setup not run yet?
+_     then set frameCount to 0 when setup() starts?
+_ need to clean up the hints in the reference/source
+_ exactly how should pixel filling work with single pixel strokes?
+_   http://dev.processing.org/bugs/show_bug.cgi?id=1025 (no gcode)
+_ y2 position of rectangles not same as y2 position of lines
+_   happens when the rectangle is flipped on the x or y axis
+_   probably a hack that draws the "last" point differently
+_ add inputPath() and outputPath() -> sketch folder or sd card
+_   or should this just be a change to sketchPath() on Android?
+_   also because input/output won't be different (since not data folder)
+_   or should this be storagePath() etc?
+_ PUtil -> move match(), lots of other non-gui functions into own class
+_   and merge it in statically via the methods code
+_ check for what else inside PApplet should be static
+_   maybe catch RuntimeExceptions in the called sub-functions
+_   that way more stuff can be static w/o losing useful error handling
+_   (emitting errors when closest to source.. i.e. w/ the filename)
+_ change how beginRecord() works.. passing around PApplet vs PGraphics is gross
+_   have to pass PApplet just to make the rendering work to both renderers
+_   should instead be a renderer that splits things out
+_ wrap exceptions with die() and warn() methods
+_   this way, people can make use of exceptions if they would rather
+_   or shut them off if they don't want to 
+_   also need to explain exception handling in general
+_   https://github.com/processing/processing/issues/222
+_ bring PConstants back in line w/ previous 1.5 (can't renumber)
+_ finish adding loadStrings(BufferedReader)
+_   decide if we want to keep this (and/or others?)
+_   port to android
+_ deprecate the older splice() etc API inside PApplet?
+_ add notes about the new shader setup
+_ add reference/docs for urlEncode() and urlDecode()
+_ add explanation to the reference about using beginRecord() with fonts
+_   pdf.textMode(SHAPE)
+_   also set the font *after* the record has started
+_   maybe should instead make textMode(SHAPE) the norm? 
+_   and people can change it to textMode(MODEL) if they want?
+_   http://dev.processing.org/bugs/show_bug.cgi?id=1535 (no gcode)
+_ explain the new PGL interface
+_ decide how disconnectEvent should actually be handled (and name?)
+_   was disconnect always there? 
+_   will need documentation
+_ negative indices so that we can work relative to the end in data classes?
+_ add requestFocus() method to PApplet (or surface?)
+
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+
+CORE / rendering/performance/threading
+
+_ hint(DISABLE_LOAD_PIXELS) -> faster rendering in Java2D
+_ problems with 2D rendering speed
+_   volatile images
+_   http://www.javalobby.org/forums/thread.jspa?threadID=16840&tstart=0
+_   http://www.javalobby.org/forums/thread.jspa?threadID=16867&tstart=0
+_   http://www.gamedev.net/page/resources/_/technical/general-programming/java-games-active-rendering-r2418
+
+
+CORE / stop() 
+
+_ in PApplet.main(), windowClosing() should probably be calling 'exit()'
+_   or rather, we should never call System.exit(0), ja?
+_ dispose() method in PApplet should be empty so ppl can override
+_   move that stuff to destroy()
+_ pause()/resume() need to work on the desktop side as well
+_   notify ddf when pause/resume implemented
+_ stop() not called in 1.5
+_   https://github.com/processing/processing/issues/675
+_   noticed that dispose() is getting called. stop() isn't.
+_   http://java.sun.com/docs/books/tutorial/deployment/applet/lifeCycle.html
+_ static mode sketches seem to break ESC... noLoop() problem?
+_   need to find another way to get ESC on static mode
+_   b/c static mode sketches *do* finish because they have no draw()
+_ sort out destroy(), stop(), pause() et al
+_   ColorSelector should stop/pause when not visible
+_     right now it's doing a low-level looping
+_   start()/stop() perform like onPause()/onResume()
+_     all of which call pause() and resume()
+_   destroy() (from Applet) calls (our) dispose()
+_ destroy() shouldn't call exit()... change from lonnen
+_   calls ((PApplet)this).exit() instead of stop() (since stop is pause)
+_ notes
+_   exit() should do the actual exit
+_   if inside draw, let it finish the loop
+_   if not looping, need to do it immediately
+_   does stop() unwind the thread, or does the thread unwind call stop?
+_   browser will call start() and stop() methods
+_ need to figure out start/stop signals coming from the browser
+_   is it dispose/destroy? 
+_ when closing a sketch via the close box, make sure stop() getting called
+_   test to see if it's working
+_ what's up with stop() vs exit()?
+_   need to get this straightened for p5 (i.e. bc has this problem)
+_   make sure the main() doesn't exit until the applet has finished
+_   i.e. problem with main calling itself multiple times in Alpheus
+_   if exit() (or stop) is called, then System.exit() gets called,
+_   even though the main() wants to keep going
+_ hitting ESC in a running noLoop()ed sketch won't close the sketch?
+_ noloop ref even says that redraw will be called on resize, make sure it is
+_ focus not coming through, ESC no longer working(?)
+_ hitting cmd-q when an applet is running quits p5 (on macosx)
+_   but cmd-q when running externally is ok because it just quits
+_   is there a way to catch cmd-q when running a sketch? 
+_     so that it could avoid quitting if the sketch hasn't been stopped
+_     or if the sketch window is foremost
+_     maybe a hack where a new menubar is added? 
+o destroy() removed, but bring back? is that better than dispose()?
+_   destroy() only called dispose(), so no difference
+_   Python Mode has a hook for when it's called
+
+
+CORE / PFont and text()
+
+_ font rotation (native font problem?) with natives?
+_   https://github.com/processing/processing/issues/731
+_ Text rotation, placement and font metrics incorrect when scaled
+_   https://github.com/processing/processing/issues/2167
+
+_ remove subsetting stuff from PFont?
+_   or use hint(ENABLE_FONT_SUBSETTING)? 
+_ what's the difference with ascent on loadFont vs. createFont?
+_ svg fonts
+_   would be nifty if we could convert on the fly to ttf for speed...
+_   https://github.com/processing/processing/issues/787
+_ text position is quantized in JAVA2D
+_   text placement is ugly, seems like fractional metrics problem
+_   https://github.com/processing/processing/issues/138
+_ text(char c) with char 0 and undefined should print nothing
+_   perhaps also DEL or other nonprintables?
+_   book example 25-03
+_ accessors inside PFont need a lot of work
+_ improve font metrics
+_   http://java.sun.com/products/java-media/2D/reference/faqs/index.html#Q_How_do_I_obtain_font_metrics
+_ font encoding issues 
+_   java seems to force straight windows encoding.. (problem for pi fonts)
+_   opentype/cff fonts don't work with live loading from the app
+_   many (all?) opentype fonts won't show up or aren't supported
+_     this may be only cff fonts that have trouble
+_   when encoding is not the standard encoding, problematic
+_     so sonata otf and sonata don't seem to have any chars at all
+_ text() with a z coordinate is now using translate, very slow
+X   also puts up a weird error message about translate() in 2D mode
+_ make screen space fonts use get/set as well?
+_   too much to debug on their own
+_   unfortunately tint not set with setImpl, but...
+_ not having kerning really blows
+_   could this be pulled from the OpenType font stuff? 
+_   it could be placed at the end of the file
+_ not having fractional widths on small fonts really blows
+_   screen space text looks crappy
+_ working with vector fonts? 
+_   need to be able to handle shapes within shapes (reverse winding)
+_   ftgl: main code is in FTVectoriser
+_   uses gluTessBeginContour and gluTessEndContour
+_   and then does 5 step sizes for each curveto
+_ show an error when using a font character that isn't available
+_   maybe fall back on other characters instead?
+_ some font weights cannot be specified/selected on OS X
+_   https://github.com/processing/processing/issues/1727
+
+
+CORE / PImage
+
+_ TGA files writing strangely
+_   https://github.com/processing/processing/issues/2096
+
+_ loadPixels() implementation needs to be in PApplet, not PGraphics
+_ this is a tricky thing to implement because of how OpenGL is handled
+
+_ loadImage() should use the faster loading methods
+_   hint(DISABLE_IMAGE_CACHING)
+_   add a note to the loadImage() reference page
+_ figure out why 1024x768 image takes 3.5 seconds to load
+_   would using a BufferedImage work better?
+_   is the image actually a BufferedImage so PixelGrabber is a waste?
+
+_ deprecate the blend() function
+
+_ implement unified means to specify smoothing level for image scaling
+_   https://github.com/processing/processing/issues/204
+
+
+CORE / PShape
+
+_ major refactoring for PShape/PShapeOpenGL
+_   https://github.com/processing/processing/issues/1623
+_ PShape should be cached as well
+_ major surgery to put loadShape() back into PApplet/PGraphics
+_   then have the OpenGL or Java2D versions as cached objects
+_ PShape s = createShape(); / s.beginShape(QUADS);
+_ keeping these public for now
+_   get/setNormal
+_   get/setTextureUV
+_   get/setFill
+_   get/setStroke
+_   -> perhaps these go into their own section?
+_   -> or have their own accessor that returns all params?
+_ trying to remember why primitive was changed to kind? (better name?)
+_ these aren't per-vertex:
+_   get/setStrokeWeight
+_   get/setAmbient
+_   get/setEmissive 
+_   get/setShininess
+_ boolean isGL() -> now removed
+_ unapproved (made protected)
+_   static shape copying methods
+_   getTop, getBottom, etc
+_   void solid(boolean)
+_   void setParams()
+_   void setPath()
+_ colorCalc() methods added to PShape.. should just be used from PGraphics
+_ loadShape() needs to live in PApplet
+_ make PShapeOpenGL a cache object
+_ don't allow things inside begin/endShape() that aren't possible
+_   better lockout inside beginShape() to keep other things from happening
+_   don't allow you to draw stroked items unless stroke() is called
+_   don't allow beginShape() if shape is already set
+_     (otherwise will cause some very strange errors)
+_   https://github.com/processing/processing/issues/174
+_ make determination on shape(x,y,z,w,h,d) or no
+_ PShape API to handle internal vertex stuff
+_   add deconstruct() method for paths
+_   toArray() and toVector()
+_   setVertex(0, x, y), setVertex(0, x, y, z)
+_ if PShape3D, then is it PShape2D? or do you handle both the same?
+_ add methods to PShape to apply all transformations in the tree
+_ we can do hit testing (at least in 2D) now that we rely on java2d
+_ for subclasses, make it easy to grab the structure of vertices
+_   actually, just use PShape internally and this will be easier
+_ for PShape, need to be able to set the origin (flash people)
+
+
+CORE / PShapeSVG
+
+_ implement support for SVG gradients from Inkscape
+_   https://github.com/processing/processing/issues/1180
+_ need to handle <!ENTITY tags in XML for SVG documents
+_   get entity tags working in xml library for SVG
+_ cover the svg changes in a future release
+_ breaking up classes / figure out how to handle fonts subclass
+_ when using get(), reset the bounds for the objects
+_   otherwise it's always relative to the original document
+_ support for text (shouldn't be too bad, use createFont)
+_   implement text spans for svg output
+_ add better support for attributes buried in styles (support ai9/10/11)
+_ test what happens when transparency is used with gradient fill
+_ look into transformation issues... guessing this is probably wrong
+_   this may be what's throwing off the radial radius transform
+_ check for any other pieces of missing path api
+_   multiple sets of coordinates after a command not supported
+_   i.e. M with several coords means moveto followed by many linetos
+_   also curveto with multiple sets of points is ignored
+_ document somehow.. svg viewer will be discontinued
+_   http://www.adobe.com/svg/eol.html
+_ PShape getVertex() not implemented properly for SVG files
+_   https://github.com/processing/processing/issues/1596
+
+
+CORE / PVector
+
+_ add screen(PVector), model(PVector) and world(PVector)?
+_   maybe screenVec()? or screenXYZ()?
+
+
+CORE / OpenGL (Andres)
+
+_ textureWrap(CLAMP / REPEAT)
+_ simple NPE in OpenGL causes really large, not useful, stack trace
+_ why is initPrimarySurface() public?
+_ why is setFramerate() public? (also should be setFrameRate or just frameRate)
+_ where did hintEnabled() come from?
+_ remove 'params' from createImage (is it on loadImage too?)
+_ remove matrixMode(), add a projection() method
+_ shared intf for 3D view data across PGraphicsOpenGL and PGraphicsAndroid3D
+_   libraries have to do a lot of casting
+_ opengl isn't drawing rectangles out to raw properly with fonts
+_   when not in textMode(SHAPE) should have rects
+_ InvScreenX, Y, Z to convert screen (mouse) coordinates to model coordinates
+_   https://github.com/processing/processing/issues/1609
+
+
+CORE / Events
+
+_ touch events.. can't do MouseEvent et al with Android
+_   http://dvcs.w3.org/hg/webevents/raw-file/tip/touchevents.html
+_   http://www.html5rocks.com/en/mobile/touch.html
+_   decision: go with what looks like javascript/ios
+_   touchEvent(), gestureEvent()?
+
+
+LIBRARIES / PDF
+
+_ beginRecord() doesn't use current settings of the sketch
+_   sometimes reported as a bug, but probably not a good way to 
+_   consistently carry these over
+_ pdf sketches exiting before writing has finished
+_   people have to call exit() (so that dispose() is called in particular)
+_ when using noLoop() and the PDF renderer, sketch should exit gracefully
+_   because isDisplayable() returns false, there's no coming back from noLoop
+
+
+LIBRARIES / Video 
+
+_ remove dispose() being used in the Movie and Capture
+_   added warning notes, but shouldn't be necessary
+_ buffer sink methods in Movie and Capture
+_   added warning to JavaDoc, but need proper API for it
+_ 'newFrame' is 'available', and ready() is part of that
+
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+DATA / Misc
+
+_ add indent= as option for XML save
+_ add indent= as option for JSON save
+_ not doing print() methods, since alternatives are more descriptive
+_   println(obj) and obj.write(System.out) are both better
+_ can we use String... for options? or does it screw up the method signature?
+_   and would we have to always concatenate arrays to prepend extensions, etc
+_ include Instant and Interval? (or just Time and TimeSpan)
+_ it's going to be File or Reader (mostly BufferedReader) everywhere
+_   though TableODS needs an InputStream... 
+_   and XML could use InputStream if we hope to be able to reflect doc encoding
+_   ok, so File, Reader, and InputStream (where needed)
+_ setMissingXxxx() -> should this live in PApplet? be static?
+_   cons: static stinks, diff tables might use diff values
+_ will also need an iterator for the Dict class ala Map.Entry
+_ using Iterable for rows(), keys(), etc
+_   generally more efficient for Table, but slower for FloatHash and IntHash
+_   could use an int array instead, but a bit hokey in places
+_ Iterable, Iterator, or [] returned for keys(), rows(), etc.
+_   list, dict, json, table are each more efficient at different things
+_   keys(), rows(), etc. should return something Iterable
+_     whether that means an array or an actual Iterator or even a Set
+_     that way we can do what's most efficient
+_   then we add keyIterator() and others to handle the other case (deletion)
+_   blogs.oracle.com/CoreJavaTechTips/entry/using_enhanced_for_loops_with
+_ means that JSON.keys() -> JSON.keyIterator(), JSON.keySet() -> JSON.keys()
+_ what should they all return? 
+_   remove -> true/false based on whether it found something?
+_   remove all -> the number removed?
+_ List: remove(), append(), index(), etc all use values
+_   removeIndex(index) is the other
+_   otherwise remove() would be the only one that dealt with indices
+_   Dict will use remove(key), so using remove(index) as default
+_     and removeValue(value) is probably used less
+_ introduce remap() instead of map() (if not deprecate?)
+_ key/valueIterator to get a version that can be removed in a loop
+_   in Table, added an Iterator function
+_ should keys() returns cropped internal array after all?
+_   right now it's making a copy (which is safer, so folks don't modify)
+_   but this means that we don't have a fast method for access
+_ methods for max, min, index of max/min entries? valueIndex?
+
+
+DATA / Table
+
+_ function that will convert awful CSV to TSV.. or something else?
+_   maybe to write binary instead? then read the binary file once it's ok?
+_ if loading from a File object
+_   (or PApplet is passed in and we can check online)
+_   then check the (probable) size of the file before loading
+_ no column max/min functions since it needs to be per-datatype
+_   better to use float mx = max(float(getColumn(3)));
+_   but what to do with null entries?
+_ need a method to reset the row/column indices after add/remove
+_   or just make sure that it's covered for all cases
+_ prefixes like # as comments? easy to remove?
+_ naming for these (or whether to include hash)
+_   Table createSubset() -> leave out?
+_   String[] getUnique(col) (SQL DISTINCT, sort --unique)
+_   HashMap<String,Integer> getUniqueCount(col)
+_ really need to get an option to grab matches based on a col
+_   i.e. get unique tables based on a particular column
+_   or, get uniques, then grab rows that match a name in a particular col
+_ create table from TableRow iterator...allows for subset and find
+_   downside is types are not included
+_ getMaxFloat() (whole table) or getMaxFloat(col) 
+_   that's max(getFloatColumn(n))
+_   also important b/c can leave out missing values
+_ dictionary support
+_ join tables together (static is kinda gross)
+_   table.append(anotherTable)?
+_   table.join(anotherTable)
+_ getInt() on categorial to return index?
+_   getCategories() and getCategory() methods to query names?
+
+
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+LATER / Optimize
+
+_ put a wrapper around InputStream returned by createInput
+_   that actually has some notion of the length of its input
+_   that way, methods could use the information when reading
+_ loadBytes() needs optimization
+_   don't bother using a buffering stream, just handle internally. gah!
+_ can loadBytes() be improved by querying file size first?
+_   background 
+_     this would require a new version of createInput(), which would query
+_     the URL (or file) for an actual file size. the size is not always
+_     available, so it can't be relied upon, but would help in some cases.
+_   loadBytes() is used for images.. ouch
+_   might be worth doing a test to see if it actually would help at all 
+_     before rewriting all of createInput()
+
+
+LATER (post 2.0)
+
+_ fillMode(NONZERO) and fillMode(ODD) to replace solid(boolean)?
+_ create PVec2D and PVec3D as separate classes
+_ gui priorities
+_   + Label
+_   + Button
+_   + Scrollbar/Slider
+_   - Checkbox
+_   - Radio
+_   . List
+_   . Textblock
+_   \ Knob
+_   \ Progress bar
+_   \ Toggle
+_ add shader support
+_ createColor() instead of color()?
+_ route all exceptions through PException and catch method
+_   advanced users can override the method if they want
+_   or you can set an option to have PExceptions be raised
+_   decision: just copy & paste the serial/net code.. 
+_     until we can find a more compelling example
+_ actual shape api for things like rectangles and whatnot?
+_ should we kill import xxxx syntax for libraries? 
+_   just give up and use a gui for it
+_   cons: copy & paste breaks
+_   pro: there's no guaranteed 1:1 between packages and single libraries
+_ method of threading but queue an event to be run when safe
+_   e.g. queueing items like mouse/keybd, but generic fxns
+_ for begin/endRecord, use a piggyback mechanism
+_   that way won't have to pass a PApplet around
+_   this has a big impact on the SVG library
+_   in fact, this maybe should be a library that does it
+_     so that the file size can be much smaller
+_ add setOutput() method across other renderers?
+_ introduce calc()
+_   semantics of this are just too tricky, especially when it's not clear
+_   what's actually gained by the split--would have to do weird hacks
+_   to get the accum buffer, etc. to work anyway
+_ add some sort of unprojectX/Y/Z method (based on glu fxn)
+_   http://processing.org/discourse/yabb_beta/YaBB.cgi?board=OpenGL;action=display;num=1176483247
+_ add a timer(obj, "functionname", 45) method
+_   this can be used to schedule something to happen at a specific time
+_   or import the swing timer (for actionPerformed)
+_   also add interval("functionname", 40)
+_ should fill(c) instead be fillColor(c)?
+_ should color(123, 4, 99) instead be createColor()?
+_ rounding errors on color conversion
+_   colorMode(RGB, 1.0); colorMode(255); println(red(color(0.5,1,1)));
+_   will return 127, instead of 128.
+_ gray that's greater than the colorMode() can produce strange colors
+_   http://dev.processing.org/bugs/show_bug.cgi?id=432 (no gcode)
+_   http://processing.org/discourse/yabb/YaBB.cgi?board=Syntax;action=display;num=1083650609
+_   http://processing.org/discourse/yabb/YaBB.cgi?board=Syntax;action=display;num=1082481891
+_ add stroke() to type
+_   more for doing outlines-only and that sort of business
+_ gradients
+_   use gradients in a class for the svg lib for now
+_   don't add api to main p5 stuff (though maybe setPaint/noPaint api?)
+_   gradient-painted lines and fills
+_     java2d will do both line and fill, illusfarter only does fills
+_   gradients not supported in java2d
+_     http://dev.processing.org/bugs/show_bug.cgi?id=371 (no gcode)
+_ bspline or nurbs (later, want to do the 3D/arch stuff correctly)
+_ non-homogenous coloring for curve vertices
+_ consider bringing back text/image using cache/names
+_ exactly how pixel-filling works for strokes
+_   http://processing.org/bugs/bugzilla/1025.html
+_ deprecate loadPixels for 2.0? need to move away from it
+_   mostly just change the examples to not use loadPixels() anymore
+_ put a Hash<Something> class in there
+_   will this work to sort by the values?
+_   there was another concern as well..
+_ save() should probably come out of image, ja?

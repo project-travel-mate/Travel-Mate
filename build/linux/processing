@@ -1,0 +1,119 @@
+#!/bin/sh
+
+# This script runs Processing, using the JRE in the Processing 
+# installation directory.
+
+# If your system needs a different version of Java than what's included
+# in the download, replace the 'java' folder with the contents of a new
+# Oracle JRE (Java 8 only), or create a symlink named "java" in the 
+# Processing installation directory that points to the JRE home directory.
+# This must be a Sun/Oracle JDK. For more details, see here:
+# https://github.com/processing/processing/wiki/Supported-Platforms
+
+# Thanks to Ferdinand Kasper for this build script. [fry]
+
+
+# JARs required from JDK (anywhere in/below the JDK home directory)
+JDKLIBS="rt.jar"
+
+# Set this to non-zero for logging
+LOGGING=0
+
+# Logs name and value of a variable to stdout if LOGGING is non-zero.
+# Expects the variable name as parameter $1.
+log() {
+  if [ $LOGGING -ne 0 ]; then
+    eval echo $1=\$$1
+  fi
+}
+
+
+# Locates JDKLIBS in a directory and its subdirectories and saves their
+# absolute paths as list to JDKCP. Expects the directory as parameter $1.
+# Sets SUCCESS to 1 if all libraries were found, to 0 otherwise.
+make_jdkcp() {
+  # Back out of JRE directory if apparently located inside a JDK
+  if [ -f "$1/../bin/java" ]; then
+    DIR="$1/.."
+  else
+    DIR="$1"
+  fi
+  log DIR
+
+  JDKCP=
+  SUCCESS=1
+
+  # Locate JDKLIBS
+  for L in $JDKLIBS; do
+    # Locate only the first library with a matching name
+    LIB=`find "$DIR" -name $L 2>/dev/null | head -n 1`
+    log L
+    log LIB
+
+    # Library found?
+    if [ -n "$LIB" ]; then
+      JDKCP="$JDKCP"${JDKCP:+:}"$LIB"
+    else
+      SUCCESS=0
+    fi
+  done
+
+  log JDKCP
+}
+
+
+# Get absolute path of directory where this script is located
+APPDIR=`readlink -f "$0"`
+APPDIR=`dirname "$APPDIR"`
+log APPDIR
+
+# Try using a local JDK from the same directory as this script
+JDKDIR=`readlink -f "$APPDIR/java"`
+make_jdkcp "$JDKDIR"
+log SUCCESS
+
+# Don't use the installed JDK, because it's not supported.
+# Local JDK found?
+#if [ $SUCCESS -ne 1 ]; then
+#  # No, try using the preferred system JRE/JDK (if any)
+#  JDKDIR=`which java` && JDKDIR=`readlink -e "$JDKDIR"` && JDKDIR=`dirname "$JDKDIR"`/..
+#  make_jdkcp "$JDKDIR"
+#  log SUCCESS
+#fi
+
+# Add all required JARs to CLASSPATH
+CLASSPATH="$CLASSPATH"${CLASSPATH:+:}"$JDKCP"
+for LIB in "$APPDIR"/lib/*.jar; do
+  CLASSPATH="$CLASSPATH"${CLASSPATH:+:}"$LIB"
+done
+for LIB in "$APPDIR"/core/library/*.jar; do
+  CLASSPATH="$CLASSPATH"${CLASSPATH:+:}"$LIB"
+done
+for LIB in "$APPDIR"/modes/java/mode/*.jar; do
+  CLASSPATH="$CLASSPATH"${CLASSPATH:+:}"$LIB"
+done
+export CLASSPATH
+log CLASSPATH
+
+# Make all JDK binaries available in PATH
+export PATH="$JDKDIR/bin":"$PATH"
+log PATH
+
+current_name=`basename $0`
+cmd_name='processing-java'
+
+if [ $current_name = $cmd_name ]
+then
+    java -Djna.nosys=true -Djava.ext.dirs="$APPDIR"/java/lib/ext -Xmx256m processing.mode.java.Commander "$@"
+    exit $?
+else
+  # Start Processing in the same directory as this script
+  if [ "$1" ]; then
+    SKETCH=`readlink -f "$1"`
+  else
+    SKETCH=
+  fi
+  cd "$APPDIR"
+
+  java -splash:lib/about-1x.png -Djna.nosys=true -Djava.ext.dirs="$APPDIR"/java/lib/ext -Xmx256m processing.app.Base "$SKETCH" &
+fi
