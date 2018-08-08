@@ -23,6 +23,7 @@ import android.widget.Switch;
 import com.airbnb.lottie.LottieAnimationView;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +31,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.READ_NOTIF_STATUS;
+import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
 
 public class SettingsFragment extends Fragment {
@@ -185,28 +190,36 @@ public class SettingsFragment extends Fragment {
         Log.v("EXECUTING", uri);
         //Set up client
         OkHttpClient client = new OkHttpClient();
-        //Execute request
-        final Request request = new Request.Builder()
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("old_password", oldPassword)
+                .addFormDataPart("new_password", newPassword)
+                .build();
+
+        // Create a http request object.
+        Request request = new Request.Builder()
                 .header("Authorization", "Token " + mToken)
                 .url(uri)
+                .post(requestBody)
                 .build();
-        //Setup callback
+
+        // Create a new Call object with post method.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                //mHandler.post(() ->// networkError());
+                mHandler.post(() -> networkError());
             }
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
-                    if (response.isSuccessful() && response.body() != null) {
-                        Snackbar snackbar = Snackbar.make(mActivity.findViewById(android.R.id.content),
-                                getString(R.string.password_updated), Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                    if (response.isSuccessful()) {
+                        TravelmateSnackbars.createSnackBar(mActivity.findViewById(android.R.id.content)
+                                , res, Snackbar.LENGTH_LONG).show();
                     } else {
-                        networkError();
+                        TravelmateSnackbars.createSnackBar(mActivity.findViewById(android.R.id.content)
+                                , res, Snackbar.LENGTH_LONG).show();
                     }
                 });
             }
