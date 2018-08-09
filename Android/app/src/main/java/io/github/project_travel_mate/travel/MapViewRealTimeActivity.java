@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +36,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,10 +54,9 @@ import okhttp3.Response;
 import utils.GPSTracker;
 import utils.TravelmateSnackbars;
 
-import static utils.Constants.HERE_API_APP_CODE;
-import static utils.Constants.HERE_API_APP_ID;
-import static utils.Constants.HERE_API_LINK;
+import static utils.Constants.API_LINK_V2;
 import static utils.Constants.HERE_API_MODES;
+import static utils.Constants.USER_TOKEN;
 import static utils.Utils.bitmapDescriptorFromVector;
 
 /**
@@ -73,6 +73,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
     LinearLayout layout;
     private int mIndex = 0;
     private Handler mHandler;
+    private String mToken;
     private String mCurlat;
     private String mCurlon;
     private GoogleMap mGoogleMap;
@@ -96,6 +97,8 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
         mHandler = new Handler(Looper.getMainLooper());
 
         scrollView.setVisibility(View.GONE);
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
 
         setTitle("Map View");
 
@@ -120,8 +123,8 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
      */
     private void getMarkers(String mode, final int icon) {
 
-        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&cat=" + mode
-                + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
+        String uri = API_LINK_V2 + "get-places/" + mCurlat + "/" + mCurlon
+                + "/" + mode;
 
         Log.v("EXECUTING", uri);
 
@@ -129,6 +132,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -145,20 +149,18 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     try {
-                        JSONObject json = new JSONObject(res);
-                        json = json.getJSONObject("results");
-                        JSONArray routeArray = json.getJSONArray("items");
+                        JSONArray routeArray = new JSONArray(res);
 
                         for (int i = 0; i < routeArray.length(); i++) {
                             String name = routeArray.getJSONObject(i).getString("title");
-                            String web = routeArray.getJSONObject(i).getString("href");
+                            String web = routeArray.getJSONObject(i).getString("icon");
                             String nums = routeArray.getJSONObject(i).getString("distance");
-                            String addr = routeArray.getJSONObject(i).getString("vicinity");
+                            String addr = routeArray.getJSONObject(i).getString("address");
 
-                            Double latitude = Double.parseDouble(
-                                    routeArray.getJSONObject(i).getJSONArray("position").get(0).toString());
-                            Double longitude = Double.parseDouble(
-                                    routeArray.getJSONObject(i).getJSONArray("position").get(1).toString());
+                            Double latitude =
+                                    routeArray.getJSONObject(i).getDouble("latitude");
+                            Double longitude =
+                                    routeArray.getJSONObject(i).getDouble("longitude");
 
                             showMarker(latitude, longitude, name, icon);
                             mMapItems.add(new MapItem(name, nums, web, addr));

@@ -16,7 +16,6 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,9 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static utils.Constants.HERE_API_APP_CODE;
-import static utils.Constants.HERE_API_APP_ID;
-import static utils.Constants.HERE_API_LINK;
+import static utils.Constants.API_LINK_V2;
 import static utils.Constants.HERE_API_MODES;
 
 public class BusStopModeFragment extends Fragment {
@@ -48,6 +45,7 @@ public class BusStopModeFragment extends Fragment {
     private static String mCurlat;
     private static String mCurlon;
     private Context mContext;
+    private static String mToken;
 
     @Override
     public void onAttach(Context context) {
@@ -61,9 +59,10 @@ public class BusStopModeFragment extends Fragment {
         //required public constructor
     }
 
-    public static BusStopModeFragment newInstance(String currentLat, String currentLon) {
+    public static BusStopModeFragment newInstance(String currentLat, String currentLon, String token) {
         mCurlat = currentLat;
         mCurlon = currentLon;
+        mToken = token;
         return new BusStopModeFragment();
     }
 
@@ -82,8 +81,8 @@ public class BusStopModeFragment extends Fragment {
     private void getPlaces() {
         Handler handler = new Handler(Looper.getMainLooper());
 
-        String uri = HERE_API_LINK + "?at=" + mCurlat + "," + mCurlon + "&cat=" + HERE_API_MODES.get(3)
-                + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
+        String uri = API_LINK_V2 + "get-places/" + mCurlat + "/" + mCurlon
+                + "/" + HERE_API_MODES.get(3);
 
         Log.v("EXECUTING", uri);
 
@@ -91,6 +90,7 @@ public class BusStopModeFragment extends Fragment {
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -107,15 +107,13 @@ public class BusStopModeFragment extends Fragment {
                 final String res = Objects.requireNonNull(response.body()).string();
                 handler.post(() -> {
                     try {
-                        JSONObject json = new JSONObject(res);
-                        json = json.getJSONObject("results");
-                        JSONArray routeArray = json.getJSONArray("items");
+                        JSONArray routeArray = new JSONArray(res);
 
                         for (int i = 0; i < routeArray.length(); i++) {
                             String name = routeArray.getJSONObject(i).getString("title");
-                            String web = routeArray.getJSONObject(i).getString("href");
+                            String web = routeArray.getJSONObject(i).getString("icon");
                             String number = routeArray.getJSONObject(i).getString("distance");
-                            String address = routeArray.getJSONObject(i).getString("vicinity");
+                            String address = routeArray.getJSONObject(i).getString("address");
 
                             mMapItems.add(new MapItem(name, number, web, address));
                         }

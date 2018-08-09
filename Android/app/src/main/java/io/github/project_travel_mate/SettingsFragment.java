@@ -40,7 +40,6 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.READ_NOTIF_STATUS;
-import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_TOKEN;
 
 public class SettingsFragment extends Fragment {
