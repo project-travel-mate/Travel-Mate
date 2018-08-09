@@ -80,6 +80,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout trend;
     @BindView(R.id.weather)
     LinearLayout weather;
+    @BindView(R.id.city_history)
+    LinearLayout cityHistory;
     @BindView(R.id.SliderDots)
     LinearLayout sliderDotsPanel;
 
@@ -150,6 +152,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         weather.setOnClickListener(this);
         expandCollapseImage.setOnClickListener(this);
         cityDescription.setOnClickListener(this);
+        cityHistory.setOnClickListener(this);
     }
 
     @Override
@@ -193,6 +196,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 cityDescription.handleExpansion(mIsExpandClicked);
                 mIsExpandClicked = !mIsExpandClicked;
                 changeIcon();
+                break;
+            case R.id.city_history :
+                intent = CityHistoryActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
+                startActivity(intent);
                 break;
         }
     }

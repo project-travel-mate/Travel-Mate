@@ -57,9 +57,6 @@ public class Constants {
     public static final String EXTRA_MESSAGE_HASHTAG_NAME = "hashtagname_";
 
     // Here API
-    public static final String HERE_API_LINK = "https://places.api.here.com/places/v1/discover/explore";
-    public static final String HERE_API_APP_ID = "7xQMJiIPsG3ptIohUobu";
-    public static final String HERE_API_APP_CODE = "iPNVovxnQdkSvsRPjPct3w";
     public static final List<String> HERE_API_MODES = new ArrayList<String>() {
         {
             add("eat-drink");

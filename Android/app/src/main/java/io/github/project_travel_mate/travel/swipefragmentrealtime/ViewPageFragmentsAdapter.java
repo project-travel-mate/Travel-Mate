@@ -1,6 +1,8 @@
 package io.github.project_travel_mate.travel.swipefragmentrealtime;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,6 +17,8 @@ import io.github.project_travel_mate.travel.swipefragmentrealtime.modefragments.
 import io.github.project_travel_mate.travel.swipefragmentrealtime.modefragments.PetrolModeFragment;
 import io.github.project_travel_mate.travel.swipefragmentrealtime.modefragments.ShoppingModeFragment;
 
+import static utils.Constants.USER_TOKEN;
+
 /**
  *  An adapter that knows which fragment should be shown on each page
  */
@@ -24,6 +28,7 @@ public class ViewPageFragmentsAdapter extends FragmentPagerAdapter {
     private int mPagesCount;
     private String mCurrentLat;
     private String mCurrentLon;
+    private String mToken;
 
 
     public ViewPageFragmentsAdapter(Context context, FragmentManager fm, int pagesCount,
@@ -33,6 +38,9 @@ public class ViewPageFragmentsAdapter extends FragmentPagerAdapter {
         mPagesCount = pagesCount;
         mCurrentLat = currentLat;
         mCurrentLon = currentLon;
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
+
     }
 
     @Override
@@ -40,23 +48,23 @@ public class ViewPageFragmentsAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return EatModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return EatModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 1:
-                return HangoutSpotFragment.newInstance(mCurrentLat, mCurrentLon);
+                return HangoutSpotFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 2:
-                return MonumentsModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return MonumentsModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 3:
-                return BusStopModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return BusStopModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 4:
-                return ShoppingModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return ShoppingModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 5:
-                return PetrolModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return PetrolModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 6:
-                return AtmModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return AtmModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             case 7:
-                return HospitalModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return HospitalModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
             default:
-                return EatModeFragment.newInstance(mCurrentLat, mCurrentLon);
+                return EatModeFragment.newInstance(mCurrentLat, mCurrentLon, mToken);
 
         }
     }

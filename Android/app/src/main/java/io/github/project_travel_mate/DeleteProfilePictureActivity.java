@@ -2,9 +2,8 @@ package io.github.project_travel_mate;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 
 public class DeleteProfilePictureActivity extends AppCompatActivity {
 

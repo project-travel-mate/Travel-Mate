@@ -20,6 +20,7 @@
     <string name="title_activity_hotels">Hotels</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
+    <string name="title_activity_city_history">City History</string>
 
     <!-- login/signup strings -->
     <string name="email_id">Email id</string>
@@ -55,6 +56,8 @@
         <item>Hospital</item>
     </array>
     <string name="no_activity_for_browser">No app found to open this website</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="kms">kms</string>
 
     <!-- Checklist strings -->
     <string name="text_checklist">Checklist</string>
@@ -226,7 +229,7 @@
     <string name="petrol">Petrol Pumps</string>
     <string name="travelling">Bus Stops</string>
     <string name="atm">ATM</string>
-    <string name="more">More...</string>
+    <string name="more">More…</string>
     <string name="tap_for_more_details">Tap for more details</string>
     <string name="trip_info_city_date_separater">|</string>
 
@@ -246,5 +249,10 @@
     <string name="choose_an_option">Choose an option</string>
     <string name="remove_profile_picture">Do you want to remove profile picture?</string>
 
+    <string name="done_label">Done</string>
+    <!-- About us strings -->
+    <string name="email_hello">Hello</string>
+    <string name="email_send">Send Email</string>
+    <string name="share_text">Hi! I found out this app for the travellers. Do download it : https://play.google.com/store/apps/details?id=io.github.project_travel_mate</string>
 
 </resources>

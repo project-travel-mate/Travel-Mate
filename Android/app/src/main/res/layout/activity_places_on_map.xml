@@ -13,64 +13,67 @@
         android:layout_height="0dp"
         android:layout_weight="0.7" />
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:id="@+id/item_info"
-       android:visibility="gone">
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center_vertical"
-           android:id="@+id/location_icon"
-           android:src="@drawable/ic_location_on_blue_24dp"
-           android:padding="10dp"/>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="vertical"
-           android:padding="10dp">
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:text="@string/default_name"
-               android:textSize="18sp"
-               android:textStyle="bold"
-               android:id="@+id/place_name" />
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:textSize="14sp"
-               android:text="@string/default_name"
-               android:id="@+id/place_address"/>
+    <LinearLayout
+        android:id="@+id/item_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-       </LinearLayout>
-   </LinearLayout>
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:src="@drawable/ic_location_on_blue_24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/place_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_name"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/place_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_name"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nearby Places"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/nearby_places"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewNoItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.3"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
-        android:layout_weight="0.3"
         android:text="@string/no_items_available"
         android:textSize="16sp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lv"
@@ -81,4 +84,5 @@
         android:drawSelectorOnTop="false"
         android:orientation="vertical"
         android:scrollbars="vertical" />
-    </LinearLayout>
+
+</LinearLayout>

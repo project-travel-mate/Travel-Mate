@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.mytrips;
+package io.github.project_travel_mate.friend;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
