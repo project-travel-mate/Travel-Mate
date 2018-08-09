@@ -233,6 +233,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         ar.getJSONObject(i).getInt("facts_count"),
                                         mActivity.getApplicationContext().getString(R.string.interest_know_more), mActivity.getApplicationContext().getString(R.string.interest_weather),
                                         mActivity.getApplicationContext().getString(R.string.interest_fun_facts), mActivity.getApplicationContext().getString(R.string.interest_trends)));
+
                             }
 
                             lv.setAdapter(new CityAdapter(mActivity, cities, settings));

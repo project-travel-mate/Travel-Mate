@@ -49,29 +49,23 @@ public class MapListItemAdapter extends BaseAdapter {
         holder.title.setText(android.text.Html.fromHtml(mMapItems.get(position).getName()).toString());
         holder.description.setText(android.text.Html.fromHtml(mMapItems.get(position).getAddress()).toString());
         //when Call is clicked
-        holder.call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + mMapItems.get(position).getNumber()));
-                mContext.startActivity(intent);
-            }
+        holder.call.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + mMapItems.get(position).getNumber()));
+            mContext.startActivity(intent);
         });
         //when Book is clicked
-        holder.book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent;
-                try {
-                    browserIntent = new Intent(
-                            Intent.ACTION_VIEW, Uri.parse(mMapItems.get(position).getAddress()));
-                    mContext.startActivity(browserIntent);
-                } catch (Exception e) {
-                    Activity activity = (Activity) mContext;
-                    TravelmateSnackbars.createSnackBar(activity.findViewById(R.id.list_view_realtime),
-                            R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
+        holder.book.setOnClickListener(v -> {
+            Intent browserIntent;
+            try {
+                browserIntent = new Intent(
+                        Intent.ACTION_VIEW, Uri.parse(mMapItems.get(position).getAddress()));
+                mContext.startActivity(browserIntent);
+            } catch (Exception e) {
+                Activity activity = (Activity) mContext;
+                TravelmateSnackbars.createSnackBar(activity.findViewById(R.id.list_view_realtime),
+                        R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
 
-                }
             }
         });
         return convertView;

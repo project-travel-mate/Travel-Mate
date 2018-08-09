@@ -57,17 +57,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
 
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
-    implementation 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 
-    implementation 'com.ms-square:expandableTextView:0.1.4'
-
-    implementation 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
@@ -99,7 +96,7 @@ dependencies {
     implementation "android.arch.lifecycle:viewmodel:1.1.0"
 
     //Image Crop
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
 }
 
 preBuild.dependsOn('checkstyle')

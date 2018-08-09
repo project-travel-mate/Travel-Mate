@@ -72,7 +72,7 @@ public class AddBugFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBugReportView = inflater.inflate(R.layout.fragmen_add_bug, container, false);
+        mBugReportView = inflater.inflate(R.layout.fragment_add_bug, container, false);
         ButterKnife.bind(this, mBugReportView);
 
         mHandler = new Handler(Looper.getMainLooper());
