@@ -217,7 +217,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         displayImage.setOnClickListener(v -> {
             String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
             String fullname = mSharedPreferences.getString(USER_NAME, null);
-            Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
+            Intent fullScreenIntent = FullScreenImage.getStartIntent(ProfileActivity.this,
                     imageUri, fullname);
             startActivity(fullScreenIntent);
         });

@@ -128,7 +128,7 @@
         <activity android:name=".mytrips.FriendsProfileActivity" />
         <activity android:name=".notifications.NotificationsActivity" />
         <activity
-            android:name=".FullScreenProfileImage"
+            android:name=".FullScreenImage"
             android:theme="@style/FullProfileImageTheme" />
         <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />

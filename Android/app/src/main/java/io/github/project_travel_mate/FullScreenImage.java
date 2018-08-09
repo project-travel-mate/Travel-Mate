@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
 import utils.TouchImageView;
 
 import static utils.Constants.EXTRA_MESSAGE_IMAGE_URI;
-import static utils.Constants.EXTRA_MESSAGE_USER_FULLNAME;
+import static utils.Constants.EXTRA_MESSAGE_TITLE;
 
-public class FullScreenProfileImage extends AppCompatActivity {
+public class FullScreenImage extends AppCompatActivity {
 
     @BindView(R.id.full_profile_image)
     TouchImageView fullProfileImage;
@@ -32,12 +32,12 @@ public class FullScreenProfileImage extends AppCompatActivity {
 
         Intent intent = getIntent();
         String imageUri = (String) intent.getSerializableExtra(EXTRA_MESSAGE_IMAGE_URI);
-        String fullname = (String) intent.getSerializableExtra(EXTRA_MESSAGE_USER_FULLNAME);
+        String title = (String) intent.getSerializableExtra(EXTRA_MESSAGE_TITLE);
         Picasso.with(this).load(imageUri).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon)
                 .into(fullProfileImage);
 
-        setTitle(fullname);
+        setTitle(title);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
@@ -54,10 +54,10 @@ public class FullScreenProfileImage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent getStartIntent(Context context, String uri, String fullname) {
-        Intent intent = new Intent(context, FullScreenProfileImage.class);
+    public static Intent getStartIntent(Context context, String uri, String titile) {
+        Intent intent = new Intent(context, FullScreenImage.class);
         intent.putExtra(EXTRA_MESSAGE_IMAGE_URI, uri);
-        intent.putExtra(EXTRA_MESSAGE_USER_FULLNAME, fullname);
+        intent.putExtra(EXTRA_MESSAGE_TITLE, titile);
         return intent;
     }
 }
