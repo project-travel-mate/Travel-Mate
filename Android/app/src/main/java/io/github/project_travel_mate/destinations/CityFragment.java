@@ -62,7 +62,6 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
-    private Context mCityContext;
 
     public CityFragment() {
     }
@@ -76,7 +75,6 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_citylist, container, false);
-        mCityContext = getActivity().getApplicationContext();
 
         ButterKnife.bind(this, view);
 
@@ -233,8 +231,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         ar.getJSONObject(i).optString("image"),
                                         ar.getJSONObject(i).getString("city_name"),
                                         ar.getJSONObject(i).getInt("facts_count"),
-                                        mCityContext.getString(R.string.interest_know_more), mCityContext.getString(R.string.interest_weather),
-                                        mCityContext.getString(R.string.interest_fun_facts), mCityContext.getString(R.string.interest_trends)));
+                                        mActivity.getApplicationContext().getString(R.string.interest_know_more), mActivity.getApplicationContext().getString(R.string.interest_weather),
+                                        mActivity.getApplicationContext().getString(R.string.interest_fun_facts), mActivity.getApplicationContext().getString(R.string.interest_trends)));
                             }
 
                             lv.setAdapter(new CityAdapter(mActivity, cities, settings));
