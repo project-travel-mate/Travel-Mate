@@ -298,7 +298,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
      * @param imagesArray array of images url
      */
     public void slideImages(ArrayList<String> imagesArray) {
-        CityImageSliderAdapter adapter = new CityImageSliderAdapter(this, imagesArray);
+        CityImageSliderAdapter adapter = new CityImageSliderAdapter(this, imagesArray, mCity.getNickname());
         imagesSliderView.setAdapter(adapter);
         mDotsCount = adapter.getCount();
         mDots = new ImageView[mDotsCount];
