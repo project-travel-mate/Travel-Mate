@@ -124,7 +124,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             for (int i = 0; i < arr.length(); i++) {
                                 String id = arr.getJSONObject(i).getString("id");
                                 String start = arr.getJSONObject(i).getString("start_date_tx");
-                                String end = arr.getJSONObject(i).optString("end_date_tx", null);
+                                String end = arr.getJSONObject(i).optString("end_date", null);
                                 String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                 String tname = arr.getJSONObject(i).getString("trip_name");
                                 JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
