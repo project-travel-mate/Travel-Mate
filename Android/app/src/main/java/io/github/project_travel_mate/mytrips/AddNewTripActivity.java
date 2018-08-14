@@ -121,10 +121,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-    }
-
     /**
      * Calls API to add  new trip
      */
