@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,9 @@ public class CityHistoryAdapter extends ArrayAdapter<CityHistoryListItem> {
         return mCityHistory.size();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
         mInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,12 +52,9 @@ public class CityHistoryAdapter extends ArrayAdapter<CityHistoryListItem> {
         holder.text.setText(mCityHistory.get(position).getText());
         //expand text when it is clicked and collapse
         //when clicked again
-        holder.text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.text.handleExpansion(mIsClicked);
-                mIsClicked = !mIsClicked;
-            }
+        holder.text.setOnClickListener(v -> {
+            holder.text.handleExpansion(mIsClicked);
+            mIsClicked = !mIsClicked;
         });
         return convertView;
     }

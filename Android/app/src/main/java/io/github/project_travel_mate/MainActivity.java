@@ -40,8 +40,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 import io.github.project_travel_mate.destinations.CityFragment;
+import io.github.project_travel_mate.friend.FriendsProfileActivity;
+import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.login.LoginActivity;
-import io.github.project_travel_mate.mytrips.FriendsProfileActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;

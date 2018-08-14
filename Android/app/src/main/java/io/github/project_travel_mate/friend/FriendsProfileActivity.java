@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.mytrips;
+package io.github.project_travel_mate.friend;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +32,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.project_travel_mate.FullScreenProfileImage;
+import io.github.project_travel_mate.FullScreenImage;
 import io.github.project_travel_mate.R;
 import objects.Trip;
 import okhttp3.Call;
@@ -109,7 +108,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
 
         //open friend's profile image in full screen
         friendDisplayImage.setOnClickListener(v -> {
-            Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(FriendsProfileActivity.this,
+            Intent fullScreenIntent = FullScreenImage.getStartIntent(FriendsProfileActivity.this,
                     mFriendImageUri, mFriendName);
             startActivity(fullScreenIntent);
         });

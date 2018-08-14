@@ -53,8 +53,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.github.project_travel_mate.FullScreenImage;
+import io.github.project_travel_mate.ProfileActivity;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
+import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import objects.City;
 import objects.Trip;
 import objects.User;
@@ -172,6 +175,11 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             Snackbar.LENGTH_SHORT).show();
                 }
             }
+        });
+        cityImageView.setOnClickListener(v -> {
+            Intent fullScreenIntent = FullScreenImage.getStartIntent(MyTripInfoActivity.this,
+                    mTrip.getImage(), mTrip.getName());
+            startActivity(fullScreenIntent);
         });
     }
 

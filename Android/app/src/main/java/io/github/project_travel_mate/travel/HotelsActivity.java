@@ -47,9 +47,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.HERE_API_APP_CODE;
-import static utils.Constants.HERE_API_APP_ID;
-import static utils.Constants.HERE_API_LINK;
 import static utils.Constants.USER_TOKEN;
 
 /**
@@ -109,8 +106,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
      */
     private void getHotelList(String latitude, String longitude) {
 
-        String uri = HERE_API_LINK + "?at=" + latitude + "," + longitude + "&cat=accommodation&app_id=" +
-                HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
+        String uri = API_LINK_V2 + "get-places/" + latitude + "/" + longitude + "/accommodation";
 
         Log.v("EXECUTING", uri);
 
@@ -118,6 +114,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -135,10 +132,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 mHandler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {
                         try {
-                            JSONObject json = new JSONObject(res);
-                            Log.v("Response", res);
-                            json = json.getJSONObject("results");
-                            JSONArray feedItems = json.getJSONArray("items");
+                            JSONArray feedItems = new JSONArray(res);
                             Log.v("response", feedItems + " ");
                             layout.setVisibility(View.VISIBLE);
                             animationView.setVisibility(View.GONE);
@@ -323,7 +317,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
                 holder.description.setText(android.text.Html.fromHtml(mFeedItems
-                        .getJSONObject(position).getString("vicinity")).toString());
+                        .getJSONObject(position).getString("address")).toString());
                 holder.distance.setText(new DecimalFormat("##.##").format((float) mFeedItems
                         .getJSONObject(position).getInt("distance") / 1000));
                 holder.call.setOnClickListener(view -> {
@@ -340,10 +334,10 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 holder.map.setOnClickListener(view -> {
                     Intent browserIntent;
                     try {
-                        Double latitude = Double.parseDouble(
-                                mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                        Double longitude = Double.parseDouble(
-                                mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+                        Double latitude =
+                                mFeedItems.getJSONObject(position).getDouble("latitude");
+                        Double longitude =
+                                mFeedItems.getJSONObject(position).getDouble("longitude");
 
                         browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
                                 mFeedItems.getJSONObject(position).getString("title") +

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -53,7 +52,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
-import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.utilities.ShareContactActivity;
 import objects.City;
 import objects.User;
@@ -217,7 +215,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         displayImage.setOnClickListener(v -> {
             String imageUri = mSharedPreferences.getString(USER_IMAGE, null);
             String fullname = mSharedPreferences.getString(USER_NAME, null);
-            Intent fullScreenIntent = FullScreenProfileImage.getStartIntent(ProfileActivity.this,
+            Intent fullScreenIntent = FullScreenImage.getStartIntent(ProfileActivity.this,
                     imageUri, fullname);
             startActivity(fullScreenIntent);
         });

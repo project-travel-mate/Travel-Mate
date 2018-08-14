@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.utilities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -25,11 +26,17 @@ import io.github.project_travel_mate.R;
  */
 public class AboutUsFragment extends Fragment {
 
+    private static final String EMAIL = "projecttravelmate.github.io@gmail.com";
+    private static final String WEBSITE = "http://project-travel-mate.github.io/Travel-Mate/";
+    private static final String PRIVACY_POLICY = "https://sites.google.com/view/privacy-policy-travel-mate/home";
+    private static final String GITHUB_REPO = "https://github.com/project-travel-mate/Travel-Mate/";
+
+    private Context mContext;
+
     @BindView(R.id.tv_version_code)
     TextView mVersionCode;
 
     public AboutUsFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -37,7 +44,6 @@ public class AboutUsFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment AboutUsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AboutUsFragment newInstance() {
         AboutUsFragment fragment = new AboutUsFragment();
         return fragment;
@@ -49,45 +55,43 @@ public class AboutUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about_us, container, false);
         ButterKnife.bind(this, view);
-
-        PackageInfo pInfo = null;
         try {
-            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+            String version = pInfo.versionName;
+            mVersionCode.setText(version);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        String version = pInfo.versionName;
-        mVersionCode.setText(version);
         return view;
     }
 
     @OnClick(R.id.cv_fork)
     public void onForkClicked() {
         Intent viewIntent =
-                new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/project-travel-mate/Travel-Mate/"));
+                new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_REPO));
         startActivity(viewIntent);
     }
 
     @OnClick(R.id.cv_privacy_policy)
     public void onPrivacyPolicyClicked() {
         Intent viewIntent =
-                new Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/privacy-policy-travel-mate/home"));
+                new Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY));
         startActivity(viewIntent);
     }
 
     @OnClick(R.id.cv_website)
     public void onWebsiteClicked() {
         Intent viewIntent =
-                new Intent(Intent.ACTION_VIEW, Uri.parse("http://project-travel-mate.github.io/Travel-Mate/"));
+                new Intent(Intent.ACTION_VIEW, Uri.parse(WEBSITE));
         startActivity(viewIntent);
     }
 
     @OnClick(R.id.cv_contact_us)
     public void onContactUsClicked() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", "projecttravelmate.github.io@gmail.com", null));
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Hello");
-        startActivity(Intent.createChooser(intent, "Send Email"));
+                "mailto", EMAIL, null));
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_hello));
+        startActivity(Intent.createChooser(intent, getString(R.string.email_send)));
     }
 
     @OnClick(R.id.cv_share)
@@ -95,7 +99,7 @@ public class AboutUsFragment extends Fragment {
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
         sendIntent.putExtra(Intent.EXTRA_TEXT,
-                "Hi! I found out this app for the travellers. Do download it : https://play.google.com/store/apps/details?id=io.github.project_travel_mate");
+                getString(R.string.share_text));
         startActivity(sendIntent);
     }
 
@@ -104,8 +108,14 @@ public class AboutUsFragment extends Fragment {
         Fragment fragment;
         FragmentManager fragmentManager = getFragmentManager();
         fragment = BugReportFragment.newInstance();
-        if (fragment != null) {
+        if (fragment != null && fragmentManager != null) {
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.inc, fragment).commit();
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 }
