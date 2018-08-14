@@ -63,23 +63,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     @BindView(R.id.select_city_name)
-    FlatButton cityName;
+    TextView cityName;
     @BindView(R.id.sdate)
-    FlatButton tripStartDate;
+    TextView tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
     EditText tripName;
     @BindView(R.id.linear_layout)
     LinearLayout mLinearLayout;
-    @BindView(R.id.trip_date)
-    TextView tripdate;
-    @BindView(R.id.trip_date_text)
-    TextView tripdateText;
-    @BindView(R.id.trip_city_text)
-    TextView tripcityText;
-    @BindView(R.id.trip_city)
-    TextView tripcity;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
@@ -98,11 +90,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_add_new_trip);
 
         ButterKnife.bind(this);
-      
-        tripdateText.setVisibility(View.INVISIBLE);
-        tripdate.setVisibility(View.INVISIBLE);
-        tripcity.setVisibility(View.INVISIBLE);
-        tripcityText.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler(Looper.getMainLooper());
@@ -130,9 +117,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
             Calendar calendar = new GregorianCalendar(year, month, day);
             mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-            tripdate.setText(day + "/" + month + "/" + year);
-            tripdateText.setVisibility(View.VISIBLE);
-            tripdate.setVisibility(View.VISIBLE);
+            tripStartDate.setText(day + "/" + month + "/" + year);
         }
     }
 
@@ -311,9 +296,11 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                         getString(R.string.search_hint), null, mSearchCities,
                         (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
                             mCityid = item.getId();
-                            tripcity.setText(item.getTitle());
+                            cityName.setText(item.getTitle());
+                            /*
                             tripcity.setVisibility(View.VISIBLE);
                             tripcityText.setVisibility(View.VISIBLE);
+                            */
                             dialog.dismiss();
                         }).show();
                 break;
