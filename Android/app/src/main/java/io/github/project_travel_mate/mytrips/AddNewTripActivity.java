@@ -298,7 +298,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
+        Log.d("Month", String.valueOf(month));
         mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-        tripStartDate.setText(dayOfMonth + "/" + month + "/" + year);
+        tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
     }
 }
