@@ -111,6 +111,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+                
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
+            Calendar calendar = new GregorianCalendar(year, month, day);
+            mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
+            tripStartDate.setText(day + "/" + month + "/" + year);
+        }
+    }
           
     /**
      * Calls API to add  new trip
@@ -293,14 +302,5 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
-            Calendar calendar = new GregorianCalendar(year, month, day);
-            mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-            tripStartDate.setText(day + "/" + month + "/" + year);
-        }
     }
 }
