@@ -292,10 +292,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                         (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
                             mCityid = item.getId();
                             cityName.setText(item.getTitle());
-                            /*
-                            tripcity.setVisibility(View.VISIBLE);
-                            tripcityText.setVisibility(View.VISIBLE);
-                            */
                             dialog.dismiss();
                         }).show();
                 break;
