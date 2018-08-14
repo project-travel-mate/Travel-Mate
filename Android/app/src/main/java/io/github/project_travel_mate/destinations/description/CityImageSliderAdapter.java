@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -11,14 +12,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import io.github.project_travel_mate.FullScreenImage;
 import io.github.project_travel_mate.R;
 
 public class CityImageSliderAdapter extends PagerAdapter {
     private Context mContext;
     private ArrayList<String> mImagesArray;
-    CityImageSliderAdapter(Context context, ArrayList<String> imagesArray) {
+    private String mCityName;
+    CityImageSliderAdapter(Context context, ArrayList<String> imagesArray, String cityName) {
         this.mContext = context;
         this.mImagesArray = imagesArray;
+        this.mCityName = cityName;
     }
     @Override
     public int getCount() {
@@ -42,6 +46,11 @@ public class CityImageSliderAdapter extends PagerAdapter {
         Picasso.with(mContext).load(mImagesArray.get(position))
                 .error(R.drawable.placeholder_image).fit().centerCrop().into(imageView);
         container.addView(imageView);
+        imageView.setOnClickListener(v -> {
+            Intent fullScreenIntent = FullScreenImage.getStartIntent(mContext,
+                    mImagesArray.get(position), mCityName);
+            mContext.startActivity(fullScreenIntent);
+        });
         return imageView;
 
     }

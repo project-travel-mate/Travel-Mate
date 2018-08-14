@@ -1,4 +1,4 @@
-package io.github.project_travel_mate;
+package io.github.project_travel_mate.friend;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.R;
 import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;

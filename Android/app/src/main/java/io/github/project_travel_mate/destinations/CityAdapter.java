@@ -1,10 +1,8 @@
 package io.github.project_travel_mate.destinations;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,14 +28,11 @@ import objects.City;
 class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;
-    private final Typeface mTypefaceTex;
     private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
-
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
         super(context, items, settings);
         this.mContext = (Activity) context;
-        mTypefaceTex = Typeface.createFromAsset(context.getAssets(), "fonts/texgyreadventor-bold.otf");
     }
 
     @Override
@@ -64,12 +59,10 @@ class CityAdapter extends BaseFlipAdapter<City> {
                         load(city1.getAvatar()).
                         placeholder(R.drawable.placeholder_image).
                         into(holder.leftAvatar);
-                holder.left.setTypeface(mTypefaceTex);
                 holder.left.setText(city1.getNickname());
 
                 if (city2 != null) {
                     holder.right.setText(city2.getNickname());
-                    holder.right.setTypeface(mTypefaceTex);
                     Picasso.with(mContext).
                             load(city2.getAvatar()).
                             placeholder(R.drawable.placeholder_image).

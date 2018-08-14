@@ -1,4 +1,4 @@
-package io.github.project_travel_mate.mytrips;
+package io.github.project_travel_mate.friend;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.mytrips.MyTripInfoActivity;
 import objects.Trip;
 
 public class MutualTripsAdapter extends RecyclerView.Adapter<MutualTripsAdapter.ViewHolder> {
@@ -29,7 +30,7 @@ public class MutualTripsAdapter extends RecyclerView.Adapter<MutualTripsAdapter.
     private Context mContext;
     private List<Trip>  mTrips;
 
-    public MutualTripsAdapter(Context context, List<Trip> trips) {
+    MutualTripsAdapter(Context context, List<Trip> trips) {
         mContext = context;
         mTrips = trips;
     }
@@ -63,7 +64,7 @@ public class MutualTripsAdapter extends RecyclerView.Adapter<MutualTripsAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         //changing width so that more than one trip list item is displayed on screen
-        holder.linearLayout.getLayoutParams().width = 350;
+        holder.linearLayout.getLayoutParams().width = 500;
         holder.linearLayout.requestLayout();
 
         Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.placeholder_image)
