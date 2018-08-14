@@ -1,7 +1,6 @@
 package io.github.project_travel_mate.mytrips;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,23 +60,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
     @BindView(R.id.select_city_name)
-    FlatButton cityName;
+    TextView cityName;
     @BindView(R.id.sdate)
-    FlatButton tripStartDate;
+    TextView tripStartDate;
     @BindView(R.id.ok)
     FlatButton ok;
     @BindView(R.id.tname)
     EditText tripName;
     @BindView(R.id.linear_layout)
     LinearLayout mLinearLayout;
-    @BindView(R.id.trip_date)
-    TextView tripdate;
-    @BindView(R.id.trip_date_text)
-    TextView tripdateText;
-    @BindView(R.id.trip_city_text)
-    TextView tripcityText;
-    @BindView(R.id.trip_city)
-    TextView tripcity;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
@@ -96,24 +87,17 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_add_new_trip);
 
         ButterKnife.bind(this);
-      
-        tripdateText.setVisibility(View.INVISIBLE);
-        tripdate.setVisibility(View.INVISIBLE);
-        tripcity.setVisibility(View.INVISIBLE);
-        tripcityText.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
         final Calendar calendar = Calendar.getInstance();
-
-        mDatePickerDialog = new DatePickerDialog(
-                AddNewTripActivity.this,
-                AddNewTripActivity.this,
+        mDatePickerDialog = DatePickerDialog.newInstance(this,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
+                calendar.get(Calendar.DAY_OF_MONTH),
+                isVibrate());
 
         fetchCitiesList();
 
@@ -123,6 +107,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+        if (Objects.equals(datePickerDialog.getTag(), DATEPICKER_TAG1)) {
+            Calendar calendar = new GregorianCalendar(year, month, day);
+            mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
+            tripStartDate.setText(day + "/" + month + "/" + year);
+        }
     }
 
     /**
@@ -248,6 +241,14 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+    private boolean isVibrate() {
+        return false;
+    }
+
+    private boolean isCloseOnSingleTapDay() {
+        return false;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
@@ -260,7 +261,10 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         switch (view.getId()) {
             // Set Start date
             case R.id.sdate:
-                mDatePickerDialog.show();
+                mDatePickerDialog.setVibrate(isVibrate());
+                mDatePickerDialog.setYearRange(1985, 2028);
+                mDatePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
+                mDatePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG1);
                 break;
             // Add a new trip
             case R.id.ok:
@@ -285,9 +289,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                         getString(R.string.search_hint), null, mSearchCities,
                         (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
                             mCityid = item.getId();
-                            tripcity.setText(item.getTitle());
-                            tripcity.setVisibility(View.VISIBLE);
-                            tripcityText.setVisibility(View.VISIBLE);
+                            cityName.setText(item.getTitle());
                             dialog.dismiss();
                         }).show();
                 break;
@@ -308,14 +310,5 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
-        mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-        tripdate.setText(dayOfMonth + "/" + month + "/" + year);
-        tripdateText.setVisibility(View.VISIBLE);
-        tripdate.setVisibility(View.VISIBLE);
     }
 }
