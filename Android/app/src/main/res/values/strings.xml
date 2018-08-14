@@ -71,7 +71,8 @@
     <string name="trip_date">Trip Date :</string>
     <string name="prompt_trip_name">Enter trip Name</string>
     <string name="prompt_city_name">Select City</string>
-    <string name="prompt_start_date">Select Trip Date</string>
+    <string name="prompt_start_date">Select Start Date</string>
+    <string name="prompt_end_date">Select End Date</string>
     <string name="prompt_add_trip">Add trip</string>
     <string name="prompt_friend_name">Enter friend name</string>
     <string name="prompt_add_friend">Add New friend</string>
