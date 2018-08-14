@@ -67,7 +67,7 @@
                     android:textSize="16sp" />
 
                 <ImageButton
-                    android:id="@id/expand_collapse"
+                    android:id="@+id/expand_collapse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"

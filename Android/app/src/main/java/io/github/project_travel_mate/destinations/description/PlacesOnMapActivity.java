@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +39,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,11 +55,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
-import static utils.Constants.HERE_API_APP_CODE;
-import static utils.Constants.HERE_API_APP_ID;
-import static utils.Constants.HERE_API_LINK;
+import static utils.Constants.USER_TOKEN;
 import static utils.Utils.bitmapDescriptorFromVector;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -80,6 +80,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private int mIndex;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
+    private String mToken;
     private City mCity;
     private RecyclerView.LayoutManager mLayoutManager;
     private JSONArray mFeedItems;
@@ -97,6 +98,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         String type = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
         mHandler = new Handler(Looper.getMainLooper());
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
 
         setTitle(mCity.getNickname());
 
@@ -165,15 +168,16 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
 
-        // to fetch city names
-        String uri = HERE_API_LINK + "?at=" + mCity.getLatitude() + "," + mCity.getLongitude() + "&mode=" + mMode
-                + "&app_id=" + HERE_API_APP_ID + "&app_code=" + HERE_API_APP_CODE;
-        Log.v("executing", "URI : " + uri);
+        String uri = API_LINK_V2 + "get-places/" + mCity.getLatitude() + "/" + mCity.getLongitude()
+                + "/" + mMode;
+
+        Log.v("executing", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -190,15 +194,12 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
                 mHandler.post(() -> {
                     try {
-                        JSONObject feed = new JSONObject(res);
-                        feed = feed.getJSONObject("results");
-
-                        mFeedItems = feed.getJSONArray("items");
+                        mFeedItems = new JSONArray(res);
                         for (int i = 0; i < mFeedItems.length(); i++ ) {
-                            Double latitude = Double.parseDouble(
-                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(0).toString());
-                            Double longitude = Double.parseDouble(
-                                    mFeedItems.getJSONObject(i).getJSONArray("position").get(1).toString());
+                            Double latitude =
+                                    mFeedItems.getJSONObject(i).getDouble("latitude");
+                            Double longitude =
+                                    mFeedItems.getJSONObject(i).getDouble("longitude");
                             String name = mFeedItems.getJSONObject(i).getString("title");
 
                             showMarker(latitude, longitude, name);
@@ -261,10 +262,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private void zoomToMarker(int position) {
         Double latitude = null, longitude = null;
         try {
-            latitude = Double.parseDouble(
-                    mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-            longitude = Double.parseDouble(
-                    mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+            latitude =
+                    mFeedItems.getJSONObject(position).getDouble("latitude");
+            longitude =
+                    mFeedItems.getJSONObject(position).getDouble("longitude");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -294,7 +295,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 highlightMarker(mIndex);
                 //set info about clicked marker
                 selectedItemName.setText(marker.getTitle());
-                String[] address = mFeedItems.getJSONObject(mIndex).getString("vicinity").split("<br/>");
+                String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
                 if (address.length > 1) {
                     selectedItemAddress.setText(address[0] + ", " +  address[1]);
                 } else {
@@ -331,10 +332,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (position == 0) {
                 try {
-                    Double latitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(0).toString());
-                    Double longitude = Double.parseDouble(
-                            mFeedItems.getJSONObject(position).getJSONArray("position").get(1).toString());
+                    Double latitude =
+                            mFeedItems.getJSONObject(position).getDouble("latitude");
+                    Double longitude =
+                            mFeedItems.getJSONObject(position).getDouble("longitude");
                     showMarker(latitude,
                             longitude,
                             mFeedItems.getJSONObject(position).getString("title"));
@@ -345,7 +346,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
             try {
                 holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                String description = mFeedItems.getJSONObject(position).getString("vicinity");
+                String description = mFeedItems.getJSONObject(position).getString("address");
                 holder.description.setText(Html.fromHtml(description).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -359,11 +360,11 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                 Intent browserIntent;
                 try {
                     browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
-                            mFeedItems.getJSONObject(position).getString("name") +
+                            mFeedItems.getJSONObject(position).getString("title") +
                             "+(name)+@" +
-                            mFeedItems.getJSONObject(position).getString("lat") +
+                            mFeedItems.getJSONObject(position).getString("latitude") +
                             "," +
-                            mFeedItems.getJSONObject(position).getString("lng")
+                            mFeedItems.getJSONObject(position).getString("longitude")
                     ));
                     mContext.startActivity(browserIntent);
                 } catch (JSONException e) {
@@ -381,7 +382,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
             holder.completeLayout.setOnClickListener(v -> {
                 try {
                     highlightMarker(position);
-                    String[] address = mFeedItems.getJSONObject(position).getString("vicinity").split("<br/>");
+                    String[] address = mFeedItems.getJSONObject(position).getString("address").split("<br/>");
                     if (address.length > 1) {
                         selectedItemAddress.setText(address[0] + ", " +  address[1]);
                     } else {
