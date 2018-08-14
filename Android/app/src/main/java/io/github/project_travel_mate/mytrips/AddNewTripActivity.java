@@ -58,7 +58,6 @@ import static utils.Constants.USER_TOKEN;
  * Activity to add new trip
  */
 public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
         View.OnClickListener, TravelmateSnackbars {
 
     private static final String DATEPICKER_TAG1 = "datepicker1";
@@ -119,10 +118,6 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
             tripStartDate.setText(day + "/" + month + "/" + year);
         }
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
     }
 
     /**
@@ -322,5 +317,4 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
-
 }
