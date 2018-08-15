@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -175,6 +176,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                             displayStatus.setText(mFriendName);
                             friendsEmail.setText(String.format(getString(R.string.text_joining_date), date));
                             friendUserName.setText(userName);
+                            friendUserName.getLayoutParams().width = RelativeLayout.LayoutParams.WRAP_CONTENT;
+                            friendUserName.setSingleLine(true);
                             statusIcon.setImageResource(R.drawable.ic_person_black_24dp);
                             profileIcon.setImageResource(R.drawable.ic_email_black_24dp);
                             emailIcon.setImageResource(R.drawable.baseline_date_range_black);
