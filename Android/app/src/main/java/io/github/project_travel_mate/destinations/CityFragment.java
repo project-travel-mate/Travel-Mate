@@ -57,6 +57,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     ListView lv;
 
     private MaterialSearchView mMaterialSearchView;
+    private final int[] mColors = {R.color.sienna, R.color.saffron, R.color.green, R.color.pink,
+            R.color.orange, R.color.blue, R.color.grey, R.color.yellow, R.color.purple, R.color.peach};
 
     private String mNameyet;
     private Activity mActivity;
@@ -162,6 +164,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         arr.getJSONObject(i).getString("image"),
                                         arr.getJSONObject(i).getString("city_name"),
                                         arr.getJSONObject(i).getInt("facts_count"),
+                                        R.color.sienna,
                                         getString(R.string.interest_know_more), getString(R.string.interest_weather),
                                         getString(R.string.interest_fun_facts), getString(R.string.interest_trends)));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
@@ -231,6 +234,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         ar.getJSONObject(i).optString("image"),
                                         ar.getJSONObject(i).getString("city_name"),
                                         ar.getJSONObject(i).getInt("facts_count"),
+                                        mColors[i],
                                         mActivity.getApplicationContext().getString(R.string.interest_know_more),
                                         mActivity.getApplicationContext().getString(R.string.interest_weather),
                                         mActivity.getApplicationContext().getString(R.string.interest_fun_facts),
@@ -271,4 +275,5 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
+
 }

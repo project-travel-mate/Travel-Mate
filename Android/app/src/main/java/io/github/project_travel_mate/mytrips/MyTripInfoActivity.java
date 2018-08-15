@@ -307,6 +307,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                         arr.getJSONObject(0).getString("image"),
                                         arr.getJSONObject(0).getString("city_name"),
                                         arr.getJSONObject(0).getInt("facts_count"),
+                                        R.color.sienna,
                                         "Know More", "View on Map", "Fun Facts", "City Trends");
                             } catch (JSONException e) {
                                 e.printStackTrace();
