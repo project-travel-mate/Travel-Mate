@@ -30,6 +30,8 @@ public class AboutUsFragment extends Fragment {
     private static final String WEBSITE = "http://project-travel-mate.github.io/Travel-Mate/";
     private static final String PRIVACY_POLICY = "https://sites.google.com/view/privacy-policy-travel-mate/home";
     private static final String GITHUB_REPO = "https://github.com/project-travel-mate/Travel-Mate/";
+    private static final String SLACK_LINK = "https://join.slack.com/t/project-travel-mate/shared_invite/enQtNDE2MjgyOTA5ODg5LT" +
+            "gwZGQ3NmY3Y2JjZTIxMWYwMTdkYzZiZmFjMjQ1ZDc1ZmM5NTNkYzQ3M2EwNjVmMzIyYTE4YzRiNjA4ZWRhZDc";
 
     private Context mContext;
 
@@ -111,6 +113,13 @@ public class AboutUsFragment extends Fragment {
         if (fragment != null && fragmentManager != null) {
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.inc, fragment).commit();
         }
+    }
+
+    @OnClick(R.id.cv_slack)
+    public void onSlackClicked() {
+        Intent viewIntent =
+                new Intent(Intent.ACTION_VIEW, Uri.parse(SLACK_LINK));
+        startActivity(viewIntent);
     }
 
     @Override

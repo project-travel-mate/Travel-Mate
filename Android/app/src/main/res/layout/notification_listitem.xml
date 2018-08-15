@@ -57,7 +57,7 @@
             android:layout_toStartOf="@+id/notification_time"
             android:layout_weight="1"
             android:paddingTop="1dp"
-            app:srcCompat="@drawable/ic_notification_black_24dp" />
+            app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
         <TextView
             android:id="@+id/notification_time"
