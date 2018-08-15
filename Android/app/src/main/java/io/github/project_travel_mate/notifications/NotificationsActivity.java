@@ -262,9 +262,17 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         } else if (diff < MONTH_MILLIS) {
             return diff / DAY_MILLIS + " days ago";
         } else if (diff < YEAR_MILLIS) {
-            return diff / MONTH_MILLIS + " months ago";
+            if (diff / MONTH_MILLIS == 1) {
+                return "1 month ago";
+            } else {
+                return diff / MONTH_MILLIS + " months ago";
+            }
         } else if (diff < 12 * YEAR_MILLIS) {
-            return diff / YEAR_MILLIS + " months ago";
+            if (diff / YEAR_MILLIS == 1) {
+                return "1 year ago";
+            } else {
+                return diff / MONTH_MILLIS + " years ago";
+            }
         }
         return null;
     }
