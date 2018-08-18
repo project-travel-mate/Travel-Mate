@@ -127,8 +127,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 String end = arr.getJSONObject(i).optString("end_date", null);
                                 String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                 String tname = arr.getJSONObject(i).getString("trip_name");
-                                JSONArray array = arr.getJSONObject(i).getJSONObject("city").getJSONArray("images");
-                                String image = array.length() > 0 ? array.getString(0) : null;
+                                String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
                                 mTrips.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
                                 mMyTripsAdapter = new TripsListAdapter(mActivity.getApplicationContext(), mTrips);

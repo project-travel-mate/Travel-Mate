@@ -51,6 +51,9 @@ class TripsListAdapter extends ArrayAdapter<Trip> {
             holder = (ViewHolder) view.getTag();
         }
 
+        if (mTrips.size() < position)
+            return view;
+
         Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.placeholder_image)
                 .into(holder.city);
         holder.cityname.setText(mTrips.get(position).getName());

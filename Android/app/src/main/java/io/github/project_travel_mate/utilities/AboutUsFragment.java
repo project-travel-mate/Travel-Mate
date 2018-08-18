@@ -32,7 +32,7 @@ public class AboutUsFragment extends Fragment {
     private static final String GITHUB_REPO = "https://github.com/project-travel-mate/Travel-Mate/";
     private static final String SLACK_LINK = "https://join.slack.com/t/project-travel-mate/shared_invite/enQtNDE2MjgyOTA5ODg5LT" +
             "gwZGQ3NmY3Y2JjZTIxMWYwMTdkYzZiZmFjMjQ1ZDc1ZmM5NTNkYzQ3M2EwNjVmMzIyYTE4YzRiNjA4ZWRhZDc";
-    private static final String BUY_ME_A_COFFEE = "buymeacoff.ee/qITGMWB";
+    private static final String BUY_ME_A_COFFEE = "https://www.buymeacoffee.com/qITGMWB";
 
     private Context mContext;
 
