@@ -2,11 +2,12 @@
 
 [![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate) [![Uplabs](https://img.shields.io/badge/Uplabs-PhotoEditor-orange.svg)](https://www.uplabs.com/posts/travel-mate) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/project-travel-mate/Travel-Mate.svg?columns=all)](https://waffle.io/project-travel-mate/Travel-Mate)
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height=
 "80">](https://goo.gl/1iAq94)
+
+<a href="https://www.buymeacoffee.com/qITGMWB" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 
 A must-have app for those interested in travel. The app provides users with various features from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for every possible problem a traveller might face during the course of his or her entire journey.
@@ -22,6 +23,7 @@ A must-have app for those interested in travel. The app provides users with vari
 + **[Utilities](#utilities)**
   + [Share contact](#share-contact)
   + [Checklist](#checklist)
++ **[Join us on slack](https://join.slack.com/t/project-travel-mate/shared_invite/enQtNDE2MjgyOTA5ODg5LTgwZGQ3NmY3Y2JjZTIxMWYwMTdkYzZiZmFjMjQ1ZDc1ZmM5NTNkYzQ3M2EwNjVmMzIyYTE4YzRiNjA4ZWRhZDc)**
 + **[Getting Started](#getting-started)**
 + **[Dependencies](#dependencies)**
 + **[Contact Us](#contact-us)**
