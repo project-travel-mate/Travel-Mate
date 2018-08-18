@@ -238,6 +238,9 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (data == null)
+            return;
+
         //After user has picked the image
         if (requestCode == RESULT_PICK_IMAGE && data.hasExtra("remove_image")) {
             deleteProfilePicture();
@@ -702,7 +705,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         animationView.setVisibility(View.VISIBLE);
         Handler handler = new Handler(Looper.getMainLooper());
 
-        String uri = API_LINK_V2 + "get-city-visits";
+        String uri = API_LINK_V2 + "get-visited-city";
         Log.v("EXECUTING", uri);
 
         //Set up client
@@ -732,9 +735,9 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             Log.e("Response for cities is ", res);
                             arr = new JSONArray(res);
                             for (int i = 0; i < arr.length(); i++) {
-                                String id = arr.getJSONObject(i).getJSONObject("city").getString("id");
-                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                                String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
+                                String id = arr.getJSONObject(i).getString("id");
+                                String name = arr.getJSONObject(i).getString("city_name");
+                                String image = arr.getJSONObject(i).getString("image");
                                 mCities.add(new City(id, name, image));
                             }
                             //display trips only if there exists at least one trip
@@ -762,13 +765,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     } else {
                         networkError();
                     }
-
                 });
             }
         });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

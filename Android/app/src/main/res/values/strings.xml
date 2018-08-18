@@ -175,6 +175,7 @@
     <string name="join_slack">Join Slack</string>
     <string name="share_app">Share app</string>
     <string name="website">Website</string>
+    <string name="buy_me_a_coffee">Buy us a coffee</string>
 
     <!-- Choose feature type -->
     <array name="bug_types">

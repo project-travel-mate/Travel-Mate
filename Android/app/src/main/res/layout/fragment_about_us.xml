@@ -226,6 +226,27 @@
 
         </android.support.v7.widget.CardView>
 
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_bmc"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_local_drink_black_24dp"
+                android:drawableTint="@color/grey"
+                android:padding="8dp"
+                android:text="@string/buy_me_a_coffee" />
+
+
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
 
 </ScrollView>
