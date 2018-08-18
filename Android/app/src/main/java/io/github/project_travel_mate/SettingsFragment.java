@@ -15,12 +15,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.dd.processbutton.FlatButton;
+import com.dd.processbutton.iml.ActionProcessButton;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -53,7 +56,7 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.connfirm_password)
     EditText confirmPasswordText;
     @BindView(R.id.done_button)
-    Button doneButton;
+    ActionProcessButton doneButton;
     @BindView(R.id.layout)
     LinearLayout layout;
     @BindView(R.id.animation_view)
@@ -63,6 +66,7 @@ public class SettingsFragment extends Fragment {
     private Handler mHandler;
     private Activity mActivity;
     private SharedPreferences mSharedPrefrences;
+    private View mView;
 
     public SettingsFragment() {
         //required public constructor
@@ -83,14 +87,15 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ButterKnife.bind(this, view);
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        ButterKnife.bind(this, mView);
 
         mSharedPrefrences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean readNotifStatus = mSharedPrefrences.getBoolean(READ_NOTIF_STATUS, true);
         mToken = mSharedPrefrences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
+        doneButton.setMode(ActionProcessButton.Mode.ENDLESS);
         doneButton.setOnClickListener(v -> {
             if (checkEmptyText())
                 checkPasswordMatch();
@@ -106,7 +111,7 @@ public class SettingsFragment extends Fragment {
                 mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
             }
         });
-        return view;
+        return mView;
     }
 
     /**
@@ -146,6 +151,7 @@ public class SettingsFragment extends Fragment {
                 Snackbar snackbar = Snackbar
                         .make(mActivity.findViewById(android.R.id.content),
                                 R.string.passwords_check, Snackbar.LENGTH_LONG);
+                hideKeyboard();
                 snackbar.show();
             }
         }
@@ -170,6 +176,7 @@ public class SettingsFragment extends Fragment {
                 Snackbar snackbar = Snackbar
                         .make(mActivity.findViewById(android.R.id.content),
                                 R.string.invalid_password, Snackbar.LENGTH_LONG);
+                hideKeyboard();
                 snackbar.show();
                 return false;
             }
@@ -177,6 +184,7 @@ public class SettingsFragment extends Fragment {
             Snackbar snackbar = Snackbar
                     .make(mActivity.findViewById(android.R.id.content),
                             R.string.password_length, Snackbar.LENGTH_LONG);
+            hideKeyboard();
             snackbar.show();
             return false;
         }
@@ -185,6 +193,8 @@ public class SettingsFragment extends Fragment {
     //TODO :: Update API and check its functionality
     public void changePassword(String newPassword, String oldPassword) {
 
+        hideKeyboard();
+        doneButton.setProgress(1);
         String uri = API_LINK_V2 + "update-password";
         Log.v("EXECUTING", uri);
         //Set up client
@@ -212,8 +222,10 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String res = Objects.requireNonNull(response.body()).string();
+                doneButton.setProgress(0);
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
+                        clearText();
                         TravelmateSnackbars.createSnackBar(mActivity.findViewById(android.R.id.content)
                                 , res, Snackbar.LENGTH_LONG).show();
                     } else {
@@ -233,6 +245,18 @@ public class SettingsFragment extends Fragment {
         animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+    }
+
+    private void clearText() {
+        oldPasswordText.setText("");
+        newPasswordText.setText("");
+        confirmPasswordText.setText("");
     }
 
 }
