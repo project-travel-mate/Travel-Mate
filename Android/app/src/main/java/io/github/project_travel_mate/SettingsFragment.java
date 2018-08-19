@@ -97,6 +97,7 @@ public class SettingsFragment extends Fragment {
 
         doneButton.setMode(ActionProcessButton.Mode.ENDLESS);
         doneButton.setOnClickListener(v -> {
+            hideKeyboard(); 
             if (checkEmptyText())
                 checkPasswordMatch();
         });
@@ -151,7 +152,7 @@ public class SettingsFragment extends Fragment {
                 Snackbar snackbar = Snackbar
                         .make(mActivity.findViewById(android.R.id.content),
                                 R.string.passwords_check, Snackbar.LENGTH_LONG);
-                hideKeyboard();
+
                 snackbar.show();
             }
         }
@@ -184,7 +185,6 @@ public class SettingsFragment extends Fragment {
             Snackbar snackbar = Snackbar
                     .make(mActivity.findViewById(android.R.id.content),
                             R.string.password_length, Snackbar.LENGTH_LONG);
-            hideKeyboard();
             snackbar.show();
             return false;
         }
@@ -193,7 +193,6 @@ public class SettingsFragment extends Fragment {
     //TODO :: Update API and check its functionality
     public void changePassword(String newPassword, String oldPassword) {
 
-        hideKeyboard();
         doneButton.setProgress(1);
         String uri = API_LINK_V2 + "update-password";
         Log.v("EXECUTING", uri);
