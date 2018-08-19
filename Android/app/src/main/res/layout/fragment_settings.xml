@@ -84,27 +84,44 @@
             android:layout_marginTop="12dp"
             android:ems="10"
             android:hint="@string/old_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/grey"/>
 
-        <EditText
-            android:id="@+id/new_password"
-            android:layout_width="353dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:hint="@string/new_password"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/connfirm_password"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="2dp"
-            android:ems="10"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword" />
+            android:textColorHint="@color/grey"
+            app:passwordToggleDrawable="@drawable/icon_selector"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black"
+            android:layout_marginTop="12dp">
+            <EditText
+                android:id="@+id/new_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:singleLine="true"
+                android:hint="@string/new_password"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/grey"
+            app:passwordToggleDrawable="@drawable/icon_selector"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black"
+            android:layout_marginTop="12dp">
+            <EditText
+                android:id="@+id/connfirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ems="10"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
 
         <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/done_button"
