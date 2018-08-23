@@ -98,7 +98,7 @@
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/empty_description"
-                        android:tint="@color/black" />
+                        android:tint="@color/grey" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -120,8 +120,15 @@
                                 android:layout_margin="5dp"
                                 android:layout_weight="1.0"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:contentDescription="@string/empty_description"
+                                android:src="@drawable/umbrella"
+                                android:tint="@color/grey" />
 
                             <TextView
                                 android:id="@+id/humidit"
@@ -130,8 +137,7 @@
                                 android:layout_margin="5dp"
                                 android:layout_weight="1.0"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <TextView

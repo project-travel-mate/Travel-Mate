@@ -9,7 +9,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -130,7 +129,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private void initUi() {
 
         setTitle(mCity.getNickname());
-        title.setText(mCity.getNickname());
 
         if (mCity.getFunFactsCount() < 1) {
             funfact.setVisibility(View.GONE);
@@ -245,6 +243,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
+            title.setText(mCity.getNickname());
             mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
             int id = 0;
@@ -258,9 +257,11 @@ public class FinalCityInfoActivity extends AppCompatActivity
             } else {
                 icon.setImageResource(id);
             }
+            String text = weatherDescription.substring(0, 1).toUpperCase() +
+                    weatherDescription.substring(1);
             temperature.setText(tempText);
             humidity.setText(String.format(getString(R.string.humidity), humidityText));
-            weatherInfo.setText(weatherDescription);
+            weatherInfo.setText(text);
         });
     }
 
@@ -280,7 +281,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
                                 final String longitude,
                                 ArrayList<String> imagesArray) {
         mHandler.post(() -> {
-            Log.e("description", description + " ");
+            title.setText(mCity.getNickname());
             animationView.setVisibility(View.GONE);
             content.setVisibility(View.VISIBLE);
             if (description != null && !description.equals("null"))

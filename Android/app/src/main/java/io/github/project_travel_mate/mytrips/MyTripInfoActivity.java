@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +32,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
-import com.dd.processbutton.FlatButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -82,7 +80,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     @BindView(R.id.trip_start_date)
     TextView tripDate;
     @BindView(R.id.add_new_friend)
-    FlatButton addNewFriend;
+    TextView addNewFriend;
     @BindView(R.id.friend_list)
     NestedListView listView;
     @BindView(R.id.friend_email)
@@ -96,7 +94,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     @BindView(R.id.edit_trip_icon)
     ImageView editTrip;
     @BindView(R.id.know_more)
-    Button details;
+    TextView details;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.layout)

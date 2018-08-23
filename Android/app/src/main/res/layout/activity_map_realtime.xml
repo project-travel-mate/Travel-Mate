@@ -109,13 +109,11 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp" />
 
-
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
 
                             <Button
                                 android:id="@+id/call"
@@ -124,7 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
                                 android:layout_weight="1.0"
-                                android:background="@color/colorPrimary"
+                                android:background="@drawable/round_shape"
                                 android:text="@string/text_call"
                                 android:textColor="#ffffff" />
 
@@ -135,10 +133,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
                                 android:layout_weight="1.0"
-                                android:background="@color/colorPrimary"
+                                android:background="@drawable/round_shape"
                                 android:text="@string/text_book"
                                 android:textColor="@color/white" />
-
 
                         </LinearLayout>
 

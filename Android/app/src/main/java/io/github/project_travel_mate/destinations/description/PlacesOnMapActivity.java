@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -86,6 +87,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private JSONArray mFeedItems;
     private List<Marker> mMarkerList = new ArrayList<>();
     private Marker mPreviousMarker = null;
+    BottomSheetBehavior sheetBehavior;
+    @BindView(R.id.bottom_sheet)
+    LinearLayout layoutBottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
+        sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
 
         setTitle(mCity.getNickname());
 
@@ -390,6 +395,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
                     }
                     zoomToMarker(position);
                     linearLayout.setVisibility(View.VISIBLE);
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     selectedItemName.setText(mFeedItems.getJSONObject(position).getString("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
