@@ -9,9 +9,11 @@ public class TweetDescription {
     private String mCreatedAt;
     private String mTweetText;
     private String mUserAvatar;
+    private String mUrl;
 
     public TweetDescription(String username, String userScreenName, String createdAt,
-                            String avatar, String favCount, String retweetsCount, String text) {
+                            String avatar, String favCount, String retweetsCount, String text,
+                            String url) {
         mUsername = username;
         mUserScreenName = userScreenName;
         mCreatedAt = createdAt;
@@ -19,6 +21,7 @@ public class TweetDescription {
         mRetweetsCount = retweetsCount;
         mUserAvatar = avatar;
         mTweetText = text;
+        mUrl = url;
     }
 
     public String getUsername() {
@@ -47,5 +50,9 @@ public class TweetDescription {
 
     public String getUserScreenName() {
         return mUserScreenName;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 }

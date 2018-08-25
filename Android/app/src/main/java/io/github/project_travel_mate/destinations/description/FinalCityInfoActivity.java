@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,7 +24,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,8 +55,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
     TextView humidity;
     @BindView(R.id.weatherinfo)
     TextView weatherInfo;
-    @BindView(R.id.head)
-    TextView title;
     @BindView(R.id.image_slider)
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
@@ -98,7 +96,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_city_info);
+        setContentView(R.layout.activity_city_info);
         ButterKnife.bind(this);
 
         mFinalCityInfoPresenter = new FinalCityInfoPresenter();
@@ -134,8 +132,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
             funfact.setVisibility(View.GONE);
         }
 
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        content.setVisibility(View.GONE);
 
         setClickListeners();
     }
@@ -243,9 +243,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
                             final String humidityText,
                             final String weatherDescription) {
         mHandler.post(() -> {
-            title.setText(mCity.getNickname());
-            mCurrentTemp = tempText;
             content.setVisibility(View.VISIBLE);
+            mCurrentTemp = tempText;
             int id = 0;
             try {
                 id = fetchDrawableFileResource(FinalCityInfoActivity.this, iconUrl, code);
@@ -281,9 +280,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
                                 final String longitude,
                                 ArrayList<String> imagesArray) {
         mHandler.post(() -> {
-            title.setText(mCity.getNickname());
-            animationView.setVisibility(View.GONE);
             content.setVisibility(View.VISIBLE);
+            animationView.setVisibility(View.GONE);
             if (description != null && !description.equals("null"))
                 cityDescription.setText(description);
             mCity.setDescription(description);

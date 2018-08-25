@@ -126,8 +126,9 @@ public class TweetsDescriptionActivity extends AppCompatActivity {
                                 String createdAt = array.getJSONObject(i).getString("created_at");
                                 String avatar = array.getJSONObject(i).getString("user_profile_image");
                                 String userScreenName = array.getJSONObject(i).getString("user_screen_name");
+                                String url = array.getJSONObject(i).getString("tweet_url");
                                 mTweets.add(new TweetDescription(username, userScreenName,
-                                        createdAt, avatar, favCount, retweetsCount, text));
+                                        createdAt, avatar, favCount, retweetsCount, text, url));
                             }
                             RecyclerView.LayoutManager layoutManager = new
                                     LinearLayoutManager(TweetsDescriptionActivity.this);

@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -94,7 +96,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     @BindView(R.id.edit_trip_icon)
     ImageView editTrip;
     @BindView(R.id.know_more)
-    TextView details;
+    FloatingActionButton details;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.layout)
@@ -135,14 +137,15 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         mHandler = new Handler(Looper.getMainLooper());
         friendEmail.clearFocus();
         friendEmail.setThreshold(1);
+        setTitle(mTrip.getName());
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         getSingleTrip();
 
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         editTrip.setOnClickListener(v -> {
             if (!mIsTripNameEdited) {
@@ -173,6 +176,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                 }
             }
         });
+
         cityImageView.setOnClickListener(v -> {
             Intent fullScreenIntent = FullScreenImage.getStartIntent(MyTripInfoActivity.this,
                     mTrip.getImage(), mTrip.getName());
@@ -194,7 +198,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
                     getString(R.string.no_friend_selected),
                     Snackbar.LENGTH_LONG).show();
-
         } else {
             addFriend();
         }
@@ -240,7 +243,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             String end = ob.optString("end_date", null);
                             String city = ob.getJSONObject("city").getString("city_name");
                             details.setVisibility(View.VISIBLE);
-                            details.setText(String.format(getString(R.string.know_more_about), city));
                             details.setOnClickListener(view -> {
                                 details.setEnabled(false);
                                 getCity(city);
@@ -396,7 +398,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
-
                         });
         builder.create().show();
     }
@@ -499,24 +500,17 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
             @Override
             public void onResponse(Call call, final Response response) {
-                try {
-                    final String res = response.body().string();
-                    mHandler.post(() -> {
-
-                        if (response.isSuccessful()) {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                                    getString(R.string.friend_added), Snackbar.LENGTH_LONG).show();
-                            updateFriendList();
-                            friendEmail.setText(null);
-                        } else {
-                            networkError();
-                        }
-                        mDialog.dismiss();
-                    });
-                } catch (IOException e) {
-                    networkError();
-                    e.printStackTrace();
-                }
+                mHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                                getString(R.string.friend_added), Snackbar.LENGTH_LONG).show();
+                        updateFriendList();
+                        friendEmail.setText(null);
+                    } else {
+                        networkError();
+                    }
+                    mDialog.dismiss();
+                });
             }
         });
     }

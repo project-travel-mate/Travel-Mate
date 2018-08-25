@@ -16,7 +16,6 @@
     </style>
 
 
-
     <style name="AppTheme_picker" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -73,7 +72,7 @@
     </style>
 
     <!-- Full Profile Image Theme-->
-    <style name="FullProfileImageTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+    <style name="FullProfileImageTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/black</item>
     </style>
 

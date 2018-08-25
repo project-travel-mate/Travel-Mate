@@ -107,11 +107,15 @@
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppThemeNoBar" />
-        <activity android:name=".destinations.description.FinalCityInfoActivity" />
+        <activity
+            android:name=".destinations.description.FinalCityInfoActivity"
+            android:theme="@style/AppThemeNoBar"/>
+
         <activity android:name=".destinations.description.PlacesOnMapActivity" />
         <activity android:name=".mytrips.AddNewTripActivity" />
         <activity
             android:name=".mytrips.MyTripInfoActivity"
+            android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".destinations.description.TweetsActivity" />
 
@@ -133,19 +137,19 @@
             android:theme="@style/FullProfileImageTheme" />
         <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />
-    
-       
-        <activity android:name=".destinations.description.CityHistoryActivity"/>
+        <activity android:name=".destinations.description.CityHistoryActivity" />
         <activity android:name=".travel.ListViewRealTimeActivity" />
         <activity android:name=".destinations.description.RestaurantsActivity" />
         <activity android:name=".destinations.description.TweetsDescriptionActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
-        <activity android:name=".DeleteProfilePictureActivity"
+        <activity
+            android:name=".DeleteProfilePictureActivity"
             android:icon="@drawable/ic_delete_round"
             android:label="@string/remove_photo"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.DELETE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

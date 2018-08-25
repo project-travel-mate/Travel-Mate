@@ -1,6 +1,8 @@
 package io.github.project_travel_mate.destinations.description;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +28,7 @@ public class TweetsDescriptionAdapter extends RecyclerView.Adapter<TweetsDescrip
     private Context mContext;
     private List<TweetDescription> mTweets;
 
-    public TweetsDescriptionAdapter(Context context, List<TweetDescription> tweets) {
+    TweetsDescriptionAdapter(Context context, List<TweetDescription> tweets) {
         mContext = context;
         mTweets = tweets;
     }
@@ -67,6 +69,11 @@ public class TweetsDescriptionAdapter extends RecyclerView.Adapter<TweetsDescrip
         holder.tweetText.setText(tweet.getTweetText());
         holder.username.setText(tweet.getUserScreenName());
         holder.userScreenName.setText(String.format(mContext.getString(R.string.username), tweet.getUsername()));
+        holder.itemView.setOnClickListener(v -> {
+            Intent viewIntent =
+                    new Intent(Intent.ACTION_VIEW, Uri.parse(tweet.getUrl()));
+            mContext.startActivity(viewIntent);
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
