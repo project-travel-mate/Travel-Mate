@@ -97,6 +97,8 @@ dependencies {
 
     //Image Crop
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
+
+    implementation 'com.google.android:flexbox:1.0.0'
 }
 
 preBuild.dependsOn('checkstyle')

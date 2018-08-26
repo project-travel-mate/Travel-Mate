@@ -30,7 +30,6 @@
     <string name="signup">Signup</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
 
-
     <!-- Travel home page strings -->
     <string name="hotel">HOTEL BOOKING</string>
     <string name="online_Shopping">ONLINE SHOPPING</string>
@@ -41,6 +40,7 @@
 
     <!-- Destinations home page strings -->
     <string name="popular_cities">Most Popular Cities</string>
+    <string name="city_visited">You have visited this city!</string>
 
     <!-- Map strings -->
     <string name="title">Select items to display in map</string>
@@ -215,6 +215,7 @@
     <string name="hotels_text">Tell us where are you travelling to? We will search hotels for you.</string>
 
     <!-- handle responses from Weather API -->
+    <string name="view_forecast">View weather forecast</string>
     <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
     <string name="today">Today</string>
     <string name="showing_shopping_item">Searching for: %1$s</string>

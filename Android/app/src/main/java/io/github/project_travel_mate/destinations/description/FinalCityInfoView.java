@@ -23,9 +23,9 @@ interface FinalCityInfoView {
                      String humidity,
                      String weatherInfo);
 
-    void parseInfoResult(String description,
-                         String latitude,
+    void parseInfoResult(String latitude,
                          String longitude,
+                         Boolean isCityVisited,
                          ArrayList<String> imagesArray);
 
     void networkError();
