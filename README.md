@@ -85,6 +85,9 @@ The app also includes an interactive checklist of items users need to carry with
 ### Getting started
 Check out the [wiki](https://github.com/project-travel-mate/Travel-Mate/wiki) page to get started with the project.
 
+##Contributing
+If you're new to open-source, we recommend you to checkout our [_Contributing Guidelines_](https://github.com/project-travel-mate/Travel-Mate/blob/master/CONTRIBUTING.md). Feel free to fork the project and send us a pull request.
+
 ## Dependencies
 + [okhttp](https://github.com/square/okhttp)
 + [android-pathview](https://github.com/geftimov/android-pathview)
