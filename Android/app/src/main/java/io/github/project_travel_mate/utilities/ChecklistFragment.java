@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,8 +71,10 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
 
         attachAdapter();
 
+
         return mChecklistView;
     }
+
 
     @OnClick(R.id.add)
     void onClick() {
@@ -99,13 +102,34 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
+    //get called every time whenever invalidateMenuoptions get called
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        hideShowMenuItem();
+        MenuItem item = menu.findItem(R.id.action_delete);
+
+        if (mItems.size() > 0)
+            item.setVisible(true);
+        else
+            item.setVisible(false);
+
+
+    }
+
+    //get called only once
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.checklist_menu, menu);
+        getActivity().invalidateOptionsMenu();
+
 
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -139,7 +163,21 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> listview.setAdapter(new ChecklistAdapter(mActivity, items, mViewModel))));
+
+
+
     }
+
+    private void hideShowMenuItem() {
+        mDisposable.add(mViewModel.getCompletedItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> {
+                    mItems.clear();
+                    mItems.addAll(items);
+                }));
+    }
+
 
     @Override
     public void onAttach (Context context) {
@@ -152,26 +190,27 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
      * an alert dialog asking the user to confirm deletion
      */
     public void initiateDeletion() {
-
         //First add all completed tasks in mItems
         //so that on clicking undo,tasks can added again
-        mDisposable.add(mViewModel.getCompletedItems()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> {
-                    mItems.clear();
-                    mItems.addAll(items);
-                }));
+
+        //Log.i("After getCompleted1", "Total disposable " + mDisposable.size());
+
+        hideShowMenuItem();
+        Log.i("ChecklistFragment", "Total items " + mItems.size());
+        //Log.i("After getCompleted2", "Total disposable " + mDisposable.size());
+
         //set AlertDialog before deleting all tasks
         ContextThemeWrapper crt = new ContextThemeWrapper(mActivity, R.style.AlertDialog);
         AlertDialog.Builder builder = new AlertDialog.Builder(crt);
         builder.setMessage(R.string.delete_tasks)
                 .setPositiveButton(R.string.positive_button,
-                        (dialog, which) -> deleteCompletedTasks())
+                        (dialog, which) ->
+                                deleteCompletedTasks()
+                )
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
                             //do nothing on clicking cancel
-                    });
+                        });
         builder.create().show();
     }
 
@@ -182,27 +221,43 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
     private void deleteCompletedTasks() {
 
         //deletes all completed task from database
+        Log.i("ChecklistFragment", "Total items " + mItems.size());
         mDisposable.add(mViewModel.deleteCompletedTasks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
+
+        Log.i("ChecklistFragment", "Total items " + mItems.size());
+        //Log.i("ChecklistFragment", "Total items " + mItems.size());
         //creates a snackbar with undo option
         TravelmateSnackbars.createSnackBar(mChecklistView.findViewById(R.id.fragment_checklist),
                 R.string.deleted_task_message,
                 Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v -> {
+                    //v.getRootView();
+//                    getActivity().invalidateOptionsMenu();
+//                    hideShowMenuItem();
                     for (int i = 0; i < mItems.size(); i++) {
                         //adds all completed task in database again
                         ChecklistItem checklistItem = new ChecklistItem(mItems.get(i).getName(), String.valueOf(1));
+                        Log.i("CheckListItem ", "checklistItem " + checklistItem.getName());
                         mDisposable.add(mViewModel.insertItem(checklistItem)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe());
+
                     }
+
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorPrimary))
                 .show();
+
+
+
+
+
     }
+
 }
 
 
