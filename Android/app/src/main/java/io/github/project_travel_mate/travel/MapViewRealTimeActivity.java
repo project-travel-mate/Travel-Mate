@@ -26,16 +26,14 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,12 +55,12 @@ import utils.TravelmateSnackbars;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.HERE_API_MODES;
 import static utils.Constants.USER_TOKEN;
-import static utils.Utils.bitmapDescriptorFromVector;
 
 /**
  * Show markers on map around user's current location
  */
-public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapReadyCallback, TravelmateSnackbars {
+public class MapViewRealTimeActivity extends AppCompatActivity implements
+        TravelmateSnackbars, Marker.OnMarkerClickListener {
 
     private final List<MapItem> mMapItems = new ArrayList<>();
     @BindView(R.id.data)
@@ -76,7 +74,8 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
     private String mToken;
     private String mCurlat;
     private String mCurlon;
-    private GoogleMap mGoogleMap;
+    private MapView mMap;
+    private IMapController mController;
     private static final int REQUEST_LOCATION = 199;
     GPSTracker tracker;
     public ArrayList<Integer> mSelectedIndices = new ArrayList<>();
@@ -91,14 +90,13 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
 
         ButterKnife.bind(this);
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         mHandler = new Handler(Looper.getMainLooper());
-
+        mMap = (MapView) findViewById(R.id.map);
         scrollView.setVisibility(View.GONE);
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
+
+        initMap();
 
         setTitle("Map View");
 
@@ -113,6 +111,22 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
         }
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    /**
+     * On open street map initialize
+     */
+    private void initMap() {
+        mMap.setBuiltInZoomControls(false);
+        mMap.setMultiTouchControls(true);
+        mMap.setTilesScaledToDpi(true);
+        mController = mMap.getController();
+
+        MyLocationNewOverlay mLocationoverlay = new MyLocationNewOverlay(mMap);
+        mLocationoverlay.enableFollowLocation();
+        mLocationoverlay.enableMyLocation();
+        mMap.getOverlays().add(mLocationoverlay);
+        mController.setZoom(14);
     }
 
     /**
@@ -212,7 +226,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
                 .items(R.array.items)
                 .itemsCallbackMultiChoice(selectedItems, (dialog, which, text) -> {
 
-                    mGoogleMap.clear();
+                //    mGoogleMap.clear();
                     mMapItems.clear();
 
                     for (int i = 0; i < which.length; i++) {
@@ -265,23 +279,19 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
      * @param locationIcon icon
      */
     private void showMarker(Double locationLat, Double locationLong, String locationName, Integer locationIcon) {
-        LatLng coord = new LatLng(locationLat, locationLong);
+        GeoPoint coord = new GeoPoint(locationLat, locationLong);
+        Marker marker = new Marker(mMap);
 
         if (ContextCompat.checkSelfPermission(MapViewRealTimeActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            if (mGoogleMap != null) {
-                mGoogleMap.setMyLocationEnabled(true);
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 10));
+            marker.setPosition(coord);
+            marker.setIcon(this.getResources().getDrawable(locationIcon));
+            marker.setTitle(locationName);
+            marker.setOnMarkerClickListener(this);
 
-                MarkerOptions abc = new MarkerOptions();
-                MarkerOptions x = abc
-                        .title(locationName)
-                        .position(coord)
-                        .icon(bitmapDescriptorFromVector(MapViewRealTimeActivity.this, locationIcon));
-                mGoogleMap.addMarker(x);
-
-            }
+            mMap.getOverlays().add(marker);
+            mMap.invalidate();
         }
     }
 
@@ -291,61 +301,58 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
         return true;
     }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-
-        mGoogleMap = map;
-
-        if (mCurlat == null || mCurlon == null)
-            return;
-
-        // Zoom to current location
-        LatLng coordinate = new LatLng(Double.parseDouble(mCurlat), Double.parseDouble(mCurlon));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
-        map.animateCamera(yourLocation);
-
-        map.setOnMarkerClickListener(marker -> {
-            scrollView.setVisibility(View.VISIBLE);
-            for (int i = 0; i < mMapItems.size(); i++) {
-                if (mMapItems.get(i).getName().equals(marker.getTitle())) {
-                    mIndex = i;
-                    break;
-                }
-            }
-
-            TextView title = MapViewRealTimeActivity.this.findViewById(R.id.item_title);
-            TextView description = MapViewRealTimeActivity.this.findViewById(R.id.item_description);
-            final Button calls, book;
-            calls = MapViewRealTimeActivity.this.findViewById(R.id.call);
-            book = MapViewRealTimeActivity.this.findViewById(R.id.book);
-
-            title.setText(mMapItems.get(mIndex).getName());
-
-            description.setText(android.text.Html.fromHtml(mMapItems.get(mIndex).getAddress()).toString());
-            calls.setOnClickListener(view -> {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
-                MapViewRealTimeActivity.this.startActivity(intent);
-
-            });
-            book.setOnClickListener(view -> {
-                Intent browserIntent;
-                try {
-                    browserIntent = new Intent(
-                            Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
-                    MapViewRealTimeActivity.this.startActivity(browserIntent);
-                } catch (Exception e) {
-                    TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
-                            R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
-                }
-            });
-            return false;
-        });
-    }
-
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MapViewRealTimeActivity.class);
         return intent;
+    }
+
+    /**
+     * On marker selected
+     *
+     * @param marker  marker
+     */
+    private void onMarkerSelected(Marker marker) {
+        // Zoom to current location
+        GeoPoint coordinate = new GeoPoint(Double.parseDouble(mCurlat), Double.parseDouble(mCurlon));
+        mController.setZoom(14);
+        mController.animateTo(coordinate);
+
+        marker.showInfoWindow();
+
+        scrollView.setVisibility(View.VISIBLE);
+        for (int i = 0; i < mMapItems.size(); i++) {
+            if (mMapItems.get(i).getName().equals(marker.getTitle())) {
+                mIndex = i;
+                break;
+            }
+        }
+
+        TextView title = MapViewRealTimeActivity.this.findViewById(R.id.item_title);
+        TextView description = MapViewRealTimeActivity.this.findViewById(R.id.item_description);
+        final Button calls, book;
+        calls = MapViewRealTimeActivity.this.findViewById(R.id.call);
+        book = MapViewRealTimeActivity.this.findViewById(R.id.book);
+
+        title.setText(mMapItems.get(mIndex).getName());
+
+        description.setText(android.text.Html.fromHtml(mMapItems.get(mIndex).getAddress()).toString());
+        calls.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + mMapItems.get(mIndex).getNumber()));
+            MapViewRealTimeActivity.this.startActivity(intent);
+
+        });
+        book.setOnClickListener(view -> {
+            Intent browserIntent;
+            try {
+                browserIntent = new Intent(
+                        Intent.ACTION_VIEW, Uri.parse(mMapItems.get(mIndex).getAddress()));
+                MapViewRealTimeActivity.this.startActivity(browserIntent);
+            } catch (Exception e) {
+                TravelmateSnackbars.createSnackBar(findViewById(R.id.map_real_time),
+                        R.string.no_activity_for_browser, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -372,6 +379,18 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements OnMapR
                 }
                 break;
         }
+    }
+
+    /**
+     * On marker item click
+     *
+     * @param marker  marker
+     * @param mapView mapView
+     */
+    @Override
+    public boolean onMarkerClick(Marker marker, MapView mapView) {
+        onMarkerSelected(marker);
+        return false;
     }
 
     /**

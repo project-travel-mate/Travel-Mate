@@ -12,12 +12,11 @@
         android:orientation="vertical"
         tools:context="io.github.project_travel_mate.destinations.description.PlacesOnMapActivity">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        <org.osmdroid.views.MapView
             android:id="@+id/map"
-            android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7" />
+            android:layout_weight="0.7"/>
 
         <LinearLayout
             android:id="@+id/item_info"
