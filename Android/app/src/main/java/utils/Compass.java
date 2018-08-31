@@ -33,7 +33,7 @@ public class Compass implements SensorEventListener {
     public Compass(Context context) {
         mSensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
-        if(mSensorManager != null){
+        if (mSensorManager != null) {
             mGsensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         }
