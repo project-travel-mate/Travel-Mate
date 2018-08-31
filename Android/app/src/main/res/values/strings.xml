@@ -199,6 +199,11 @@
     <string name="text_weather">Weather Forecast</string>
     <string name="weather_forecast_message">Check weather forecast of the city you wish to travel to!</string>
 
+    <!-- Compass Strings -->
+    <string name="text_Compass">Compass</string>
+    <string name="compass_dial">Compass Dial</string>
+    <string name="compass_hands">Compass Hands</string>
+
     <string name="sign_out">Sign out</string>
 
     <string name="default_status">Write something about yourself…</string>
