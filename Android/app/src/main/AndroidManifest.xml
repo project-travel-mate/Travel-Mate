@@ -65,13 +65,6 @@
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme_picker" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDay6Qbk3MQD4Z80MH_HnR36TJGTrd2Ddc" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
         <activity
             android:name=".travel.ShoppingCurrentCityActivity"
             android:label="@string/title_activity_shopping_currentcity"
