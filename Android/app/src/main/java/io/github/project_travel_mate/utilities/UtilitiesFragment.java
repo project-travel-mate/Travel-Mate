@@ -72,9 +72,15 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
             case 1 :
                 intent = WeatherForecastActivity.getStartIntent(mActivity);
                 startActivity(intent);
+                break;
             case 2 :
                 intent = CompassActivity.getStartIntent(mActivity);
                 startActivity(intent);
+                break;
+            case 3 :
+                intent = CurrencyActivity.getStartIntent(mActivity);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -92,6 +98,10 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.compass),
                         getResources().getString(R.string.text_Compass)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.currency),
+                        getResources().getString(R.string.text_currency)));
         return cardEntities;
     }
 }
