@@ -23,7 +23,7 @@ public class RestaurantsCardViewAdapter
 
     private final OnItemClickListener mOnItemClickListener;
     private final List<RestaurantItemEntity> mOptionsEntityList;
-    Context mContext;
+    private Context mContext;
     /**
      * Initializes new CardViewoptions adapter
      *

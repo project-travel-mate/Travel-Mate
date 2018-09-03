@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -43,6 +44,8 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static android.view.View.GONE;
+import static com.google.android.flexbox.FlexDirection.ROW;
+import static com.google.android.flexbox.JustifyContent.FLEX_START;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.USER_TOKEN;
@@ -248,8 +251,13 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                                         LinearLayoutManager.HORIZONTAL,
                                         false
                                 );
-                                recyclerView.setLayoutManager(mLayoutManager);
-                                mMutualTripsAdapter = new MutualTripsAdapter(FriendsProfileActivity.this, mTrips);
+                                FlexboxLayoutManager layoutManager =
+                                        new FlexboxLayoutManager(FriendsProfileActivity.this);
+                                layoutManager.setFlexDirection(ROW);
+                                layoutManager.setJustifyContent(FLEX_START);
+                                recyclerView.setLayoutManager(layoutManager);
+                                mMutualTripsAdapter =
+                                        new MutualTripsAdapter(FriendsProfileActivity.this, mTrips);
                                 recyclerView.setAdapter(mMutualTripsAdapter);
                             } else {
                                 mutualTripsText.setVisibility(GONE);

@@ -2,7 +2,6 @@ package io.github.project_travel_mate.utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,26 +9,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,34 +29,23 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.destinations.description.WeatherActivity;
-import io.github.project_travel_mate.destinations.description.WeatherAdapter;
 import objects.CurrencyName;
-import objects.Weather;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import utils.Compass;
 import utils.CurrencyConverterGlobal;
 
 import static utils.Constants.API_LINK_V2;
-import static utils.Constants.NUM_DAYS;
 import static utils.Constants.USER_TOKEN;
-import static utils.WeatherUtils.fetchDrawableFileResource;
-import static utils.WeatherUtils.getDayOfWeek;
 
 public class CurrencyActivity extends AppCompatActivity {
-    private static final String TAG = "CurrencyActivity";
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-    @BindView(R.id.from_field)
-    RelativeLayout from_layout;
-    @BindView(R.id.to_field)
-    RelativeLayout to_layout;
     @BindView(R.id.first_country_image)
     ImageView from_image;
     @BindView(R.id.second_country_flag)
@@ -80,14 +58,12 @@ public class CurrencyActivity extends AppCompatActivity {
     TextView from_country_name;
     @BindView(R.id.second_country_name)
     TextView to_country_name;
-    @BindView(R.id.button_convert)
-    Button button_convert;
 
     Boolean flag_check_first_item = false;
     Boolean flag_check_second_item = false;
-    String from_amount = null;
-    String first_country_short;
-    String second_country_short;
+    int from_amount = 1;
+    String first_country_short = "USD";
+    String second_country_short = "INR";
 
     private ProgressDialog mDialog;
     public static ArrayList<CurrencyName> currences_names;
@@ -102,63 +78,50 @@ public class CurrencyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_utilities_currency_converter);
         ButterKnife.bind(this);
-        setTitle("Currency Converter");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        setTitle(R.string.text_currency);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mDialog = new ProgressDialog(this);
+        mDialog.setTitle(R.string.progress_wait);
 
         sDefSystemLanguage = Locale.getDefault().getLanguage();
 
-        currences_names = new ArrayList<CurrencyName>();
+        currences_names = new ArrayList<>();
         mHandler = new Handler(Looper.getMainLooper());
         mContext = this;
 
-        mDialog = new ProgressDialog(this);
-
-        first_country_short = "USD";
-        second_country_short = "INR";
-
-        from_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag_check_first_item = true;
-                flag_check_second_item = false;
-                result_textview.setText(String.valueOf(0.0));
-                Intent intent = new Intent(mContext, ActivityConversionListview.class);
-                startActivity(intent);
-            }
-        });
-
-
-        to_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag_check_second_item = true;
-                flag_check_first_item = false;
-                result_textview.setText(String.valueOf(0.0));
-                Intent intent = new Intent(mContext, ActivityConversionListview.class);
-                startActivity(intent);
-            }
-        });
-
-
-        button_convert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                from_amount = from_edittext.getText().toString();
-                convertCurrency();
-            }
-        });
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    /*
-     *
+    @OnClick(R.id.from_field)
+    void fromSelected() {
+        flag_check_first_item = true;
+        flag_check_second_item = false;
+        result_textview.setText(String.valueOf(0.0));
+        Intent intent = new Intent(mContext, ConversionListviewActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.to_field)
+    void toSelected() {
+        flag_check_second_item = true;
+        flag_check_first_item = false;
+        result_textview.setText(String.valueOf(0.0));
+        Intent intent = new Intent(mContext, ConversionListviewActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.button_convert)
+    void onConvertclicked() {
+        from_amount = Integer.parseInt(from_edittext.getText().toString());
+        convertCurrency();
+    }
+
+    /**
      * Convert currency
      * and set result to result_textview
-     * 
      */
     private void convertCurrency() {
         // to fetch weather forecast by city name
@@ -195,7 +158,8 @@ public class CurrencyActivity extends AppCompatActivity {
                         try {
                             JSONObject result = new JSONObject(jsonResponse);
                             if (result.getString("result") != null) {
-                                result_textview.setText(result.getString("result"));
+                                Double conversion = Double.parseDouble(result.getString("result"));
+                                result_textview.setText(Double.toString(conversion * from_amount));
                             }
                             //cancel the loading animation once the data is fetched
                             cancelAnimation();
@@ -268,5 +232,12 @@ public class CurrencyActivity extends AppCompatActivity {
             animationView.cancelAnimation();
             animationView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 }

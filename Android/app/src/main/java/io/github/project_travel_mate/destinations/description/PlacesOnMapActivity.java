@@ -31,14 +31,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.osmdroid.views.overlay.Marker;
 
 import java.io.IOException;
@@ -82,7 +80,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     private Handler mHandler;
     private String mToken;
     private City mCity;
-    private RecyclerView.LayoutManager mLayoutManager;
     private JSONArray mFeedItems;
     private List<Marker> mMarkerList = new ArrayList<>();
     private Marker mPreviousMarker = null;
@@ -311,12 +308,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         } else {
             // Specify a layout for RecyclerView
             // Create a vertical RecyclerView
-            mLayoutManager = new LinearLayoutManager(PlacesOnMapActivity.this,
-                    LinearLayoutManager.VERTICAL,
-                    false
-            );
+            RecyclerView.LayoutManager mLayoutManager =
+                    new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+            recyclerView.setAdapter(new PlacesOnMapAdapter(this, feedItems, mIcon));
             textViewNoItems.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }

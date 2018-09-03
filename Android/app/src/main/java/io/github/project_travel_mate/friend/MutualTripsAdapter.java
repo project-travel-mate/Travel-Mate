@@ -62,11 +62,6 @@ public class MutualTripsAdapter extends RecyclerView.Adapter<MutualTripsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        //changing width so that more than one trip list item is displayed on screen
-        holder.linearLayout.getLayoutParams().width = 500;
-        holder.linearLayout.requestLayout();
-
         Picasso.with(mContext).load(mTrips.get(position).getImage()).placeholder(R.drawable.placeholder_image)
                 .into(holder.cityImage);
         holder.cityName.setText(mTrips.get(position).getName());

@@ -131,7 +131,7 @@
         <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".utilities.CompassActivity" />
         <activity android:name=".utilities.CurrencyActivity" />
-        <activity android:name=".utilities.ActivityConversionListview" />
+        <activity android:name=".utilities.ConversionListviewActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />
         <activity android:name=".destinations.description.CityHistoryActivity" />
         <activity android:name=".travel.ListViewRealTimeActivity" />

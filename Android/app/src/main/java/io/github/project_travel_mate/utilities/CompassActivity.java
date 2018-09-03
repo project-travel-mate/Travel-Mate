@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -37,12 +39,7 @@ public class CompassActivity extends AppCompatActivity {
      */
     private void setupCompass() {
         mCompass = new Compass(this);
-        Compass.CompassListener cl = new Compass.CompassListener() {
-            @Override
-            public void onNewAzimuth(float azimuth) {
-                adjustArrow(azimuth);
-            }
-        };
+        Compass.CompassListener cl = azimuth -> adjustArrow(azimuth);
         mCompass.setListener(cl);
     }
     /**

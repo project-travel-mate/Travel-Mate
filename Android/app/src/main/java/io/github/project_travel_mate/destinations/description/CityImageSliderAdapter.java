@@ -52,7 +52,6 @@ public class CityImageSliderAdapter extends PagerAdapter {
             mContext.startActivity(fullScreenIntent);
         });
         return imageView;
-
     }
 
     @Override
