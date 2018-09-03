@@ -154,6 +154,12 @@ public class CurrencyActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     *
+     * Convert currency
+     * and set result to result_textview
+     * 
+     */
     private void convertCurrency() {
         // to fetch weather forecast by city name
         String uri = API_LINK_V2 + "get-currency-conversion-rate/" + first_country_short + "/" + second_country_short;

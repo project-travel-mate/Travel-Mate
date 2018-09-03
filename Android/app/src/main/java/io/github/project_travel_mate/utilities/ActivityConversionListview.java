@@ -24,8 +24,8 @@ import objects.CurrencyName;
 public class ActivityConversionListview extends Activity {
 
     @BindView(R.id.listView)
-    ListView listview;
-    CurrencyConverterAdapter adaptr_listview;
+    ListView mListview;
+    CurrencyConverterAdapter mAdaptorListView;
     String temp = null;
 
     public static ArrayList<CurrencyName> currences_names;
@@ -40,7 +40,7 @@ public class ActivityConversionListview extends Activity {
         setContentView(R.layout.activity_conversion_listview);
 
         currences_names = new ArrayList<CurrencyName>();
-        listview = (ListView) findViewById(R.id.listView);
+        mListview = (ListView) findViewById(R.id.listView);
 
         mContext = this;
         addCurrencies();
@@ -88,8 +88,8 @@ public class ActivityConversionListview extends Activity {
             }
         });
 
-        adaptr_listview = new CurrencyConverterAdapter(ActivityConversionListview.this, currences_names);
-        listview.setAdapter(adaptr_listview);
+        mAdaptorListView = new CurrencyConverterAdapter(ActivityConversionListview.this, currences_names);
+        mListview.setAdapter(mAdaptorListView);
     }
 }
 
