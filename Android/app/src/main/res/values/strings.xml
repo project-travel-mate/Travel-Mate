@@ -204,6 +204,10 @@
     <string name="compass_dial">Compass Dial</string>
     <string name="compass_hands">Compass Hands</string>
 
+
+    <!-- Currency Convertor Strings -->
+    <string name="text_currency">Currency Converter</string>
+
     <string name="sign_out">Sign out</string>
 
     <string name="default_status">Write something about yourself…</string>
