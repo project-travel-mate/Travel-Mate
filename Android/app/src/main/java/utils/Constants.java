@@ -30,6 +30,10 @@ public class Constants {
     public static final String CLOUDINARY_API_KEY = "sample_api_key";
     public static final String CLOUDINARY_API_SECRET = "sample_api_secret";
 
+    //Compass Constants
+    public static final String COMPASS_DIALOG_HEADER = "Info";
+    public static final String COMPASS_DIALOG_DESCRIPTION = "Your mobile doesn't support Compass";
+    public static final String COMPASS_DIALOG_CONFIRM = "OK";
 
     public static final List<String> BASE_TASKS = new ArrayList<String>() {
         {

@@ -20,6 +20,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.Compass;
+
+import static utils.Constants.COMPASS_DIALOG_CONFIRM;
+import static utils.Constants.COMPASS_DIALOG_DESCRIPTION;
+import static utils.Constants.COMPASS_DIALOG_HEADER;
+
 public class CompassActivity extends AppCompatActivity {
     private static final String TAG = "CompassActivity";
     @BindView(R.id.compass_image_hands)
@@ -52,9 +57,9 @@ public class CompassActivity extends AppCompatActivity {
         boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
         if (!hasAccelerometer || !hasMagneticSensor) {
             AlertDialog alertDialog = new AlertDialog.Builder(CompassActivity.this).create();
-            alertDialog.setTitle("Info");
-            alertDialog.setMessage("Your mobile doesn't support Compass");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            alertDialog.setTitle(COMPASS_DIALOG_HEADER);
+            alertDialog.setMessage(COMPASS_DIALOG_DESCRIPTION);
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, COMPASS_DIALOG_CONFIRM,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
