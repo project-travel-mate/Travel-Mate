@@ -29,12 +29,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
@@ -47,6 +52,7 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.LAST_CACHE_TIME;
 import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment implements TravelmateSnackbars {
@@ -64,6 +70,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
+    private AppDataBase mDatabase;
+    private SharedPreferences mSharedPreferences;
+    private SimpleDateFormat mFormat;
 
     public CityFragment() {
     }
@@ -86,6 +95,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -105,8 +116,55 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                 return true;
             }
         });
-        fetchCitiesList();
+
+        mDatabase = AppDataBase.getAppDatabase(getActivity());
+        List<City> mCities = Arrays.asList(mDatabase.cityDao().loadAll());
+        if (checkCachedCities(mCities)) {
+            fetchCitiesList();
+        } else {
+            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
+            lv.setAdapter(new CityAdapter(mActivity, mCities, settings));
+            lv.setOnItemClickListener((parent, mView, position, id1) -> {
+                City city = (City) lv.getAdapter().getItem(position);
+                Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
+                startActivity(intent);
+            });
+        }
         return view;
+    }
+
+    /*
+     * Check cached cities with expiration time 24 hours
+     */
+    private boolean checkCachedCities(List<City> mCities) {
+        if (mCities.size() == 0 || is24Hours()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * Check time more than 24 hours
+     */
+    private boolean is24Hours() {
+        long mMillisPerDay = 24 * 60 * 60 * 1000L;
+        boolean mMoreThanDay = false;
+        Date mCurrentDate = new Date();
+        try {
+            String mDateString = mSharedPreferences.getString(LAST_CACHE_TIME, "");
+            if (!mDateString.isEmpty()) {
+                Date mExpiry = mFormat.parse(mDateString);
+                mMoreThanDay = Math.abs(mCurrentDate.getTime() - mExpiry.getTime()) > mMillisPerDay;
+                //Delete record cached before 24 hours
+                if (mMoreThanDay) {
+                    mDatabase.cityDao().deleteAll();
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return mMoreThanDay;
     }
 
     @Override
@@ -168,6 +226,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         getString(R.string.interest_know_more), getString(R.string.interest_weather),
                                         getString(R.string.interest_fun_facts), getString(R.string.interest_trends)));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -229,7 +288,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                             FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
                             List<City> cities = new ArrayList<>();
                             for (int i = 0; i < ar.length(); i++) {
-                                cities.add(new City(
+                                City city = new City(
                                         ar.getJSONObject(i).getString("id"),
                                         ar.getJSONObject(i).optString("image"),
                                         ar.getJSONObject(i).getString("city_name"),
@@ -238,7 +297,14 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         mActivity.getApplicationContext().getString(R.string.interest_know_more),
                                         mActivity.getApplicationContext().getString(R.string.interest_weather),
                                         mActivity.getApplicationContext().getString(R.string.interest_fun_facts),
-                                        mActivity.getApplicationContext().getString(R.string.interest_trends)));
+                                        mActivity.getApplicationContext().getString(R.string.interest_trends));
+                                cities.add(city);
+
+                                //Inset into local DB
+                                mDatabase.cityDao().insert(city);
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString(LAST_CACHE_TIME, mFormat.format(new Date()).toString());
+                                editor.apply();
 
                             }
 
