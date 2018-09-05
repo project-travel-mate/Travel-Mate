@@ -49,7 +49,8 @@ public class CompassActivity extends AppCompatActivity {
     private void getAccelerometerSensor() {
         PackageManager mManager = getPackageManager();
         boolean hasAccelerometer = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER);
-        if (!hasAccelerometer) {
+        boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
+        if (!hasAccelerometer || !hasMagneticSensor) {
             AlertDialog alertDialog = new AlertDialog.Builder(CompassActivity.this).create();
             alertDialog.setTitle("Info");
             alertDialog.setMessage("Your mobile doesn't support Compass");
