@@ -1,9 +1,14 @@
 package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +26,7 @@ public class CompassActivity extends AppCompatActivity {
     ImageView mArrowView;
     private Compass mCompass;
     private float mCurrentAzimuth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +35,34 @@ public class CompassActivity extends AppCompatActivity {
         setTitle("Compass");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        //Check accelerometer sensor for device
+        getAccelerometerSensor();
         //Setup compass
         setupCompass();
     }
+
+
+    /**
+     * Check AccelerometerSensor in device
+     **/
+    private void getAccelerometerSensor() {
+        PackageManager mManager = getPackageManager();
+        boolean hasAccelerometer = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER);
+        if (!hasAccelerometer) {
+            AlertDialog alertDialog = new AlertDialog.Builder(CompassActivity.this).create();
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Your mobile doesn't support Compass");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
+
     /**
      * setup compass
      */
