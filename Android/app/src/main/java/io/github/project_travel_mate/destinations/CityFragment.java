@@ -95,7 +95,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
         mHandler = new Handler(Looper.getMainLooper());
@@ -117,7 +117,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             }
         });
 
-        mDatabase = AppDataBase.getAppDatabase(getActivity());
+        mDatabase = AppDataBase.getAppDatabase(mActivity);
         List<City> mCities = Arrays.asList(mDatabase.cityDao().loadAll());
         if (checkCachedCities(mCities)) {
             fetchCitiesList();
@@ -133,9 +133,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         return view;
     }
 
-    /*
+    /**
      * Check cached cities with expiration time 24 hours
-     */
+     * @param mCities
+     **/
     private boolean checkCachedCities(List<City> mCities) {
         if (mCities.size() == 0 || is24Hours()) {
             return true;
@@ -144,9 +145,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         }
     }
 
-    /*
+    /**
      * Check time more than 24 hours
-     */
+     **/
     private boolean is24Hours() {
         long mMillisPerDay = 24 * 60 * 60 * 1000L;
         boolean mMoreThanDay = false;
@@ -175,7 +176,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
+        mActivity.getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         mMaterialSearchView.setMenuItem(item);
     }
