@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -20,10 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.Compass;
-
-import static utils.Constants.COMPASS_DIALOG_CONFIRM;
-import static utils.Constants.COMPASS_DIALOG_DESCRIPTION;
-import static utils.Constants.COMPASS_DIALOG_HEADER;
 
 public class CompassActivity extends AppCompatActivity {
     private static final String TAG = "CompassActivity";
@@ -57,9 +51,9 @@ public class CompassActivity extends AppCompatActivity {
         boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
         if (!hasAccelerometer || !hasMagneticSensor) {
             AlertDialog alertDialog = new AlertDialog.Builder(CompassActivity.this).create();
-            alertDialog.setTitle(COMPASS_DIALOG_HEADER);
-            alertDialog.setMessage(COMPASS_DIALOG_DESCRIPTION);
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, COMPASS_DIALOG_CONFIRM,
+            alertDialog.setTitle(getResources().getString(R.string.compass_dialog_header));
+            alertDialog.setMessage(getResources().getString(R.string.compass_dialog_description));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.compass_dialog_confirm),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

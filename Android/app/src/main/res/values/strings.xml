@@ -203,6 +203,9 @@
     <string name="text_Compass">Compass</string>
     <string name="compass_dial">Compass Dial</string>
     <string name="compass_hands">Compass Hands</string>
+    <string name="compass_dialog_header">Info</string>
+    <string name="compass_dialog_description">Your mobile does not support Compass</string>
+    <string name="compass_dialog_confirm">OK</string>
 
     <string name="sign_out">Sign out</string>
 
