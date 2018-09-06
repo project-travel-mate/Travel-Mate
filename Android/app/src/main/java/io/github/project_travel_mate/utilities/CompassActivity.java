@@ -1,9 +1,12 @@
 package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,12 +20,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import utils.Compass;
+
 public class CompassActivity extends AppCompatActivity {
     private static final String TAG = "CompassActivity";
     @BindView(R.id.compass_image_hands)
     ImageView mArrowView;
     private Compass mCompass;
     private float mCurrentAzimuth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +36,35 @@ public class CompassActivity extends AppCompatActivity {
         setTitle("Compass");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        //Check accelerometer sensor for device
+        getAccelerometerSensor();
         //Setup compass
         setupCompass();
     }
+
+
+    /**
+     * Check AccelerometerSensor in device
+     **/
+    private void getAccelerometerSensor() {
+        PackageManager mManager = getPackageManager();
+        boolean hasAccelerometer = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER);
+        boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
+        if (!hasAccelerometer || !hasMagneticSensor) {
+            AlertDialog alertDialog = new AlertDialog.Builder(CompassActivity.this).create();
+            alertDialog.setTitle(getResources().getString(R.string.compass_dialog_header));
+            alertDialog.setMessage(getResources().getString(R.string.compass_dialog_description));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.compass_dialog_confirm),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
+
     /**
      * setup compass
      */
