@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="always"
+        android:title="@string/sort">
+        <menu>
+            <item
+                android:id="@+id/restaurantSortPricesLow"
+                android:title="@string/prices_lowest" />
+            <item
+                android:id="@+id/restaurantSortPricesHigh"
+                android:title="@string/prices_highest" />
+            <item
+                android:id="@+id/restaurantSortRating"
+                android:title="@string/rating" />
+            <item
+                android:id="@+id/restaurantSortVotes"
+                android:title="@string/votes" />
+            <item
+                android:id="@+id/restaurantSortAlphabet"
+                android:title="@string/alphabetically" />
+        </menu>
+    </item>
+
+</menu>

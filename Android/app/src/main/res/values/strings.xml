@@ -269,4 +269,11 @@
     <string name="email_send">Send Email</string>
     <string name="share_text">Hi! I found out this app for the travellers. Do download it : https://play.google.com/store/apps/details?id=io.github.project_travel_mate</string>
 
+    <!-- Restaurants strings -->
+    <string name="sort">Sort</string>
+    <string name="prices_lowest">prices lowest</string>
+    <string name="prices_highest">prices highest</string>
+    <string name="rating">rating</string>
+    <string name="alphabetically">alphabetically</string>
+
 </resources>
