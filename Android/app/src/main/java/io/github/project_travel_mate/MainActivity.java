@@ -262,11 +262,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void onClickProfile(View view) {
-        Intent in = ProfileActivity.getStartIntent(MainActivity.this);
-        startActivity(in);
-    }
-
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
@@ -285,6 +280,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageView = navigationHeader.findViewById(R.id.image);
         Picasso.with(MainActivity.this).load(imageURL).placeholder(R.drawable.icon_profile)
                 .error(R.drawable.icon_profile).into(imageView);
+        imageView.setOnClickListener(v -> {
+            startActivity(ProfileActivity.getStartIntent(MainActivity.this));
+        });
     }
 
     private void getProfileInfo() {
