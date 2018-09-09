@@ -13,6 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +58,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     private String mToken;
     private SharedPreferences mSharedPreferences;
     public List<RestaurantItemEntity> restaurantItemEntities = new ArrayList<>();
+    private RestaurantsCardViewAdapter mRestaurantsCardViewAdapter;
 
 
     @Override
@@ -73,11 +77,54 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(mCity.getNickname());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!restaurantItemEntities.isEmpty())
+            getMenuInflater().inflate(R.menu.restaurants_sort_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                sortRestaurants(item.getItemId());
+                break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sortRestaurants(int sortType) {
+        Comparator<RestaurantItemEntity> comparator = null;
+        switch (sortType) {
+            case R.id.restaurantSortPricesLow:
+                comparator = (r1, r2) -> r1.getAvgCost() - r2.getAvgCost();
+                break;
+            case R.id.restaurantSortPricesHigh:
+                comparator = (r1, r2) -> r2.getAvgCost() - r1.getAvgCost();
+                break;
+            case R.id.restaurantSortRating:
+                comparator = (r1, r2) -> Float.compare(r2.getRatings(), r1.getRatings());
+                break;
+            case R.id.restaurantSortVotes:
+                comparator = (r1, r2) -> r2.getVotes() - r1.getVotes();
+                break;
+            case R.id.restaurantSortAlphabet:
+                comparator = (r1, r2) -> r1.getName().compareTo(r2.getName());
+                break;
+        }
+
+        if (comparator != null) {
+            Collections.sort(restaurantItemEntities, comparator);
+            if (mRestaurantsCardViewAdapter != null) {
+                mRestaurantsCardViewAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 
 
@@ -126,8 +173,8 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
                             String imageUrl = object.getString("restaurant_image");
                             String name = object.getString("restaurant_name");
                             String address = object.getString("address");
-                            String ratings = object.getString("aggregate_rating");
-                            String votes = object.getString("votes");
+                            float ratings = (float) object.getDouble("aggregate_rating");
+                            int votes = object.getInt("votes");
                             String restaurantURL = object.getString("restaurant_url");
                             int avgCost = object.getInt("avg_cost_2");
                             restaurantItemEntities.add(
@@ -135,13 +182,13 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
                                             votes, avgCost, restaurantURL));
                         }
                         animationView.setVisibility(View.GONE);
-                        RestaurantsCardViewAdapter restaurantsCardViewAdapter
-                                = new RestaurantsCardViewAdapter(RestaurantsActivity.this,
+                        mRestaurantsCardViewAdapter = new RestaurantsCardViewAdapter(RestaurantsActivity.this,
                                 restaurantItemEntities, RestaurantsActivity.this);
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RestaurantsActivity.this);
                         mRestaurantsOptionsRecycleView.setLayoutManager(mLayoutManager);
                         mRestaurantsOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
-                        mRestaurantsOptionsRecycleView.setAdapter(restaurantsCardViewAdapter);
+                        mRestaurantsOptionsRecycleView.setAdapter(mRestaurantsCardViewAdapter);
+                        invalidateOptionsMenu();
                     } catch (JSONException e) {
                         networkError();
                         e.printStackTrace();
@@ -159,6 +206,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     private void networkError() {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
+        animationView.setOnClickListener(v -> getRestaurantItems());
     }
 
 }
