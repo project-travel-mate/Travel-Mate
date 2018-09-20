@@ -154,6 +154,8 @@
     <string name="password_length">Password must contain minimum 8 characters</string>
     <string name="invalid_email">Invalid Email</string>
 
+    <string name="no_items">No Checklists</string>
+
     <!-- Profile strings -->
     <string name="my_profile">My Profile</string>
     <string name="name_updated">Name has been updated</string>
