@@ -27,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import database.AppDataBase;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.roompersistence.ChecklistViewModel;
 import io.github.project_travel_mate.roompersistence.Injection;
@@ -49,7 +50,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private View mChecklistView;
     private List<ChecklistItem> mItems = new ArrayList<>();
-
+    private  AppDataBase mDatabase;
     public ChecklistFragment() {
     }
 
@@ -67,6 +68,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
 
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(mActivity);
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ChecklistViewModel.class);
+        mDatabase = AppDataBase.getAppDatabase(mActivity);
 
         attachAdapter();
 
@@ -89,6 +91,8 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe());
+
+                        mDatabase.widgetCheckListDao().insert(checklistItem);
                     }
                 });
         builder.create();
@@ -131,6 +135,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
+                mDatabase.widgetCheckListDao().insert(checklistItem);
             }
             editor.putString(IS_ADDED_INDB, "yes");
             editor.apply();
@@ -139,6 +144,12 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> listview.setAdapter(new ChecklistAdapter(mActivity, items, mViewModel))));
+
+        mDisposable.add(mViewModel.getSortedItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items ->  mDatabase.widgetCheckListDao().insertAll(items)));
+
     }
 
     @Override
@@ -186,6 +197,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
+        mDatabase.widgetCheckListDao().deleteAll();
         //creates a snackbar with undo option
         TravelmateSnackbars.createSnackBar(mChecklistView.findViewById(R.id.fragment_checklist),
                 R.string.deleted_task_message,
@@ -198,6 +210,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe());
+                        mDatabase.widgetCheckListDao().insert(checklistItem);
                     }
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorPrimary))
