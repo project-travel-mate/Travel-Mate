@@ -118,9 +118,9 @@ class FinalCityInfoPresenter {
                             imagesArray.add(arr.getString(i));
                         }
                         mFinalCityInfoView.parseInfoResult(
-                                responseObject.getString("description"),
                                 responseObject.getString("latitude"),
                                 responseObject.getString("longitude"),
+                                responseObject.getBoolean("has_visited"),
                                 imagesArray);
                     } catch (JSONException e) {
                         e.printStackTrace();

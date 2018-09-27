@@ -4,13 +4,13 @@ public class RestaurantItemEntity {
     private String mImageUrl;
     private String mRestaurantName;
     private String mRestaurantAddress;
-    private String mRatings;
-    private String mVotes;
+    private float mRatings;
+    private int mVotes;
     private String mURL;
     private int mAvgCost;
 
     public RestaurantItemEntity(String imageUrl, String name, String address,
-                                String ratings, String votes, int avgCost, String restaurantURL) {
+                                float ratings, int votes, int avgCost, String restaurantURL) {
         this.mImageUrl = imageUrl;
         this.mRestaurantName = name;
         this.mRestaurantAddress = address;
@@ -32,11 +32,11 @@ public class RestaurantItemEntity {
         return mRestaurantAddress;
     }
 
-    public String getRatings() {
+    public float getRatings() {
         return mRatings;
     }
 
-    public String getVotes() {
+    public int getVotes() {
         return mVotes;
     }
 

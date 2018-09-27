@@ -16,8 +16,6 @@
         android:layout_width="69dp"
         android:layout_height="69dp"
         android:alpha="1"
-        android:clickable="true"
-        android:onClick="onClickProfile"
         android:scaleType="centerCrop" />
 
     <TextView
@@ -27,7 +25,5 @@
         android:text="@string/app_name"
         android:id="@+id/email"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-
 
 </LinearLayout>

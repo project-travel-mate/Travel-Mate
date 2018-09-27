@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,19 +29,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,9 +58,9 @@ import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
-import static utils.Utils.bitmapDescriptorFromVector;
 
-public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PlacesOnMapActivity extends AppCompatActivity implements
+        Marker.OnMarkerClickListener {
 
     @BindView(R.id.lv)
     RecyclerView recyclerView;
@@ -79,17 +77,18 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
     private String mMode;
     private int mIcon;
     private int mIndex;
-    private GoogleMap mGoogleMap;
     private Handler mHandler;
     private String mToken;
     private City mCity;
-    private RecyclerView.LayoutManager mLayoutManager;
     private JSONArray mFeedItems;
     private List<Marker> mMarkerList = new ArrayList<>();
     private Marker mPreviousMarker = null;
     BottomSheetBehavior sheetBehavior;
     @BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
+    private MapView mMap;
+    private IMapController mController;
+    private Drawable mMarker, mDefaultMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +104,11 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-
+        mMap = (MapView) findViewById(R.id.map);
         setTitle(mCity.getNickname());
+
+        mMarker = this.getResources().getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
+        mDefaultMarker = this.getResources().getDrawable(R.drawable.marker_default);
 
         switch (type) {
             case "restaurant":
@@ -129,13 +131,26 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
 
         getPlaces();
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        initMap();
 
         setTitle("Places");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    /**
+     * On open street map initialize
+     */
+    private void initMap() {
+        mMap.setBuiltInZoomControls(false);
+        mMap.setMultiTouchControls(true);
+        mMap.setTilesScaledToDpi(true);
+        mController = mMap.getController();
+
+        GeoPoint cityLocation = new GeoPoint(Double.parseDouble(mCity.getLatitude()),
+                Double.parseDouble(mCity.getLongitude()));
+        mController.setZoom(14);
+        mController.setCenter(cityLocation);
     }
 
     @Override
@@ -145,27 +160,91 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * show marker
+     *
+     * @param locationLat  latitude
+     * @param locationLong longitude
+     * @param locationName name of location
+     */
     private void showMarker(Double locationLat, Double locationLong, String locationName) {
-        LatLng coord = new LatLng(locationLat, locationLong);
+        GeoPoint coord = new GeoPoint(locationLat, locationLong);
+        Marker marker = new Marker(mMap);
         if (ContextCompat.checkSelfPermission(PlacesOnMapActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            if (mGoogleMap != null) {
-                mGoogleMap.setMyLocationEnabled(true);
-                //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
+            marker.setPosition(coord);
+            marker.setIcon(mMarker);
+            marker.setTitle(locationName);
+            marker.setOnMarkerClickListener(this);
 
-                MarkerOptions temp = new MarkerOptions();
-                MarkerOptions markerOptions = temp
-                        .title(locationName)
-                        .position(coord)
-                        .icon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
-                                R.drawable.ic_radio_button_checked_orange_24dp));
-                Marker marker = mGoogleMap.addMarker(markerOptions);
-                mMarkerList.add(marker);
-            }
+            mMap.getOverlays().add(marker);
+            mMap.invalidate();
+
+            mMarkerList.add(marker);
         }
     }
 
+    /**
+     * move to center marker
+     *
+     * @param marker  marker
+     * @param latitude latitude
+     * @param longitude longitude
+     */
+    private void moveMakerToCenter(Marker marker, Double latitude, Double longitude) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        mMap.setBottom(height);
+        mMap.setRight(width);
+        mMap.setTileSource(TileSourceFactory.MAPNIK);
+        mController.setZoom(15);
+        GeoPoint center = new GeoPoint(latitude, longitude);
+        mController.animateTo(center);
+    }
+
+    /**
+     * on marker selected
+     *
+     * @param marker  marker
+     */
+    private void onPlaceSelected(Marker marker) {
+        Toast.makeText(getBaseContext(), "GOT", Toast.LENGTH_LONG);
+        try {
+            for (int i = 0; i < mFeedItems.length(); i++) {
+                //get index of the clicked marker
+                if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
+                    mIndex = i;
+                    break;
+                }
+            }
+            Double latitude =
+                    mFeedItems.getJSONObject(mIndex).getDouble("latitude");
+            Double longitude =
+                    mFeedItems.getJSONObject(mIndex).getDouble("longitude");
+
+            moveMakerToCenter(marker, latitude, longitude);
+            linearLayout.setVisibility(View.VISIBLE);
+            highlightMarker(mIndex);
+            //set info about clicked marker
+            selectedItemName.setText(mFeedItems.getJSONObject(mIndex).getString("title"));
+            String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
+            if (address.length > 1) {
+                selectedItemAddress.setText(address[0] + ", " +  address[1]);
+            } else {
+                selectedItemAddress.setText(address[0]);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * get places
+     */
     private void getPlaces() {
 
         mProgressDialog = new ProgressDialog(PlacesOnMapActivity.this);
@@ -229,12 +308,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         } else {
             // Specify a layout for RecyclerView
             // Create a vertical RecyclerView
-            mLayoutManager = new LinearLayoutManager(PlacesOnMapActivity.this,
-                    LinearLayoutManager.VERTICAL,
-                    false
-            );
+            RecyclerView.LayoutManager mLayoutManager =
+                    new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setAdapter(new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon));
+            recyclerView.setAdapter(new PlacesOnMapAdapter(this, feedItems, mIcon));
             textViewNoItems.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
@@ -247,15 +324,20 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
      */
     private void highlightMarker(int position) {
         if (mPreviousMarker != null) {
-            mPreviousMarker.setIcon(bitmapDescriptorFromVector(PlacesOnMapActivity.this,
-                    R.drawable.ic_radio_button_checked_orange_24dp));
+            mPreviousMarker.setIcon(mMarker);
             //hide info about previous marker
-            mPreviousMarker.hideInfoWindow();
+            mPreviousMarker.closeInfoWindow();
         }
         Marker currentMarker = mMarkerList.get(position);
+
+        mMap.getOverlays().remove(currentMarker);
+        mMap.invalidate();
+        currentMarker.setIcon(mDefaultMarker);
+        mMap.getOverlays().add(currentMarker);
+        mMap.invalidate();
+
         //show info about current marker
         currentMarker.showInfoWindow();
-        currentMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mPreviousMarker = currentMarker;
     }
 
@@ -274,48 +356,21 @@ public class PlacesOnMapActivity extends AppCompatActivity implements OnMapReady
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        LatLng coordinate = new LatLng(latitude, longitude);
-        CameraUpdate selectedPosition = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
-        mGoogleMap.animateCamera(selectedPosition);
-    }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-        mGoogleMap = map;
-        LatLng coordinate = new LatLng(Double.parseDouble(mCity.getLatitude()),
-                Double.parseDouble(mCity.getLongitude()));
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
-        map.animateCamera(yourLocation);
-
-        map.setOnMarkerClickListener(marker -> {
-            try {
-                for (int i = 0; i < mFeedItems.length(); i++) {
-                    //get index of the clicked marker
-                    if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
-                        mIndex = i;
-                        break;
-                    }
-                }
-                linearLayout.setVisibility(View.VISIBLE);
-                highlightMarker(mIndex);
-                //set info about clicked marker
-                selectedItemName.setText(marker.getTitle());
-                String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
-                if (address.length > 1) {
-                    selectedItemAddress.setText(address[0] + ", " +  address[1]);
-                } else {
-                    selectedItemAddress.setText(address[0]);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return false;
-        });
+        mController.setZoom(16);
+        GeoPoint center = new GeoPoint(latitude, longitude);
+        mController.animateTo(center);
     }
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, PlacesOnMapActivity.class);
         return intent;
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker, MapView mapView) {
+        onPlaceSelected(marker);
+        return false;
     }
 
     /**

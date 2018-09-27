@@ -23,7 +23,7 @@ public class RestaurantsCardViewAdapter
 
     private final OnItemClickListener mOnItemClickListener;
     private final List<RestaurantItemEntity> mOptionsEntityList;
-    Context mContext;
+    private Context mContext;
     /**
      * Initializes new CardViewoptions adapter
      *
@@ -51,7 +51,7 @@ public class RestaurantsCardViewAdapter
                 .getImage()).fit().centerCrop().into(holder.optionImage);
         holder.optionName.setText(mOptionsEntityList.get(position).getName());
         holder.optionAddress.setText(mOptionsEntityList.get(position).getAddress());
-        holder.optionRatings.setText(mOptionsEntityList.get(position).getRatings());
+        holder.optionRatings.setText(String.valueOf(mOptionsEntityList.get(position).getRatings()));
         holder.optionAvgCost.setText(mContext.getString(R.string.currency) +
                 String.valueOf(mOptionsEntityList.get(position).getAvgCost())
                 + mContext.getString(R.string.approx_cost));

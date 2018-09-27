@@ -37,31 +37,6 @@
                 android:orientation="horizontal" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <utils.ExpandableTextView
-                    android:id="@+id/expand_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:textColor="#666666"
-                    android:textSize="16sp" />
-
-                <ImageButton
-                    android:id="@+id/expand_collapse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/empty_description"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/weather"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -71,10 +46,9 @@
                 tools:targetApi="lollipop">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
 
                     <ImageView
                         android:id="@+id/icon"
@@ -124,15 +98,46 @@
                                 android:textSize="15sp" />
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/weatherinfo"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_margin="5dp"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textSize="15sp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/weatherinfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="end"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/view_forecast"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="1dp"
+                                android:contentDescription="@string/empty_description"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                                android:tint="@color/grey" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -156,10 +161,12 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/ic_history_black_24dp" />
+                        android:src="@drawable/ic_info_outline_black_24dp"
+                        android:tint="@color/blue" />
 
                     <TextView
                         android:id="@+id/city_history_text"
@@ -167,8 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
-                        android:text="@string/title_activity_city_history"
-                        android:textColor="@color/black"
+                        android:text="@string/know_more_about"
                         android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -192,10 +198,12 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/funfact" />
+                        android:src="@drawable/ic_insert_emoticon_black_24dp"
+                        android:tint="@color/saffron" />
 
                     <TextView
                         android:id="@+id/fftext"
@@ -204,11 +212,9 @@
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:text="@string/fun_facts"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,10 +234,12 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/hangout" />
+                        android:src="@drawable/ic_location"
+                        android:tint="@color/red_error" />
 
                     <TextView
                         android:id="@+id/hgtext"
@@ -240,10 +248,8 @@
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:text="@string/text_hangout"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/monu"
@@ -257,10 +263,12 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/monuments" />
+                        android:src="@drawable/ic_location_city_black"
+                        android:tint="@color/blue" />
 
                     <TextView
                         android:id="@+id/mntext"
@@ -269,7 +277,6 @@
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:text="@string/text_monuments"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -293,8 +300,9 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
                         android:src="@drawable/shopping_icon" />
 
@@ -305,7 +313,6 @@
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:text="@string/text_shopping"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -321,10 +328,12 @@
                     tools:targetApi="lollipop">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/empty_description"
-                        android:src="@drawable/restaurant" />
+                        android:src="@drawable/ic_local_bar_black"
+                        android:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/rstext"
@@ -333,7 +342,6 @@
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:text="@string/text_restaurants"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -341,38 +349,57 @@
 
 
             <LinearLayout
+                android:id="@+id/trends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                tools:targetApi="lollipop">
 
-                <LinearLayout
-                    android:id="@+id/trends"
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/empty_description"
+                    android:src="@drawable/twitter_icon" />
+
+                <TextView
+                    android:id="@+id/cttext"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/shadow_1"
-                    android:backgroundTint="@color/black"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    tools:targetApi="lollipop">
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="@string/text_city_trends"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="@string/empty_description"
-                        android:src="@drawable/twitter_icon" />
+            <LinearLayout
+                android:id="@+id/is_visited"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_shape"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-                    <TextView
-                        android:id="@+id/cttext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:text="@string/text_city_trends"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/city_visited"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>

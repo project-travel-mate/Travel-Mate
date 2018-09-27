@@ -1,25 +1,47 @@
 package objects;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 /**
  * Model class for city object
  */
+@Entity (tableName = "city")
 public class City implements Serializable {
 
-    private final List<String> mInterests = new ArrayList<>();
-    private String mAvatar;
-    private String mNickname;
-    private String mDescription;
-    private String mId;
-    private String mLatitude;
-    private String mLongitude;
-    private int mFunFactsCount;
-    private int mBackgroundColor;
+    @Ignore
+    public final List<String> mInterests = new ArrayList<>();
 
+    @PrimaryKey
+    @NonNull
+    public String mId;
+    @ColumnInfo (name = "city_latitude")
+    public String mLatitude;
+    @ColumnInfo (name = "city_longitude")
+    public String mLongitude;
+    @ColumnInfo (name = "city_funfact")
+    public int mFunFactsCount;
+    @ColumnInfo (name = "city_background")
+    public int mBackgroundColor;
+
+    @ColumnInfo(name = "city_avatar")
+    public String mAvatar;
+    @ColumnInfo (name = "city_nickname")
+    public String mNickname;
+    @ColumnInfo (name = "city_description")
+    public String mDescription;
+
+    public City() {
+    }
 
     public City(String mId, String mAvatar, String mNickname, int funFactsCount, int color, String... interest) {
         this.mAvatar = mAvatar;
@@ -30,11 +52,13 @@ public class City implements Serializable {
         mInterests.addAll(Arrays.asList(interest));
     }
 
+    @Ignore
     public City(String nickname, String id) {
         this.mNickname = nickname;
         this.mId = id;
     }
 
+    @Ignore
     public City(String id, String nickname, String avatar) {
         this.mId = id;
         this.mNickname = nickname;

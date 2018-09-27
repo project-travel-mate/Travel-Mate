@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,6 +34,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -66,6 +66,8 @@ import utils.CircleImageView;
 import utils.TravelmateSnackbars;
 
 import static android.view.View.GONE;
+import static com.google.android.flexbox.FlexDirection.ROW;
+import static com.google.android.flexbox.JustifyContent.FLEX_START;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.CLOUDINARY_API_KEY;
 import static utils.Constants.CLOUDINARY_API_SECRET;
@@ -129,7 +131,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private static final int RESULT_CROP_IMAGE = 2;
     private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
     private String mProfileImageUrl;
-    private RecyclerView.LayoutManager mLayoutManager;
     private CitiesTravelledAdapter mCitiesAdapter;
     private MaterialDialog mDialog;
 
@@ -732,7 +733,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                         JSONArray arr;
                         try {
                             final String res = response.body().string();
-                            Log.e("Response for cities is ", res);
+                            Log.v("Response for cities is ", res);
                             arr = new JSONArray(res);
                             for (int i = 0; i < arr.length(); i++) {
                                 String id = arr.getJSONObject(i).getString("id");
@@ -745,11 +746,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             if (!mCities.isEmpty()) {
                                 // Specify a layout for RecyclerView
                                 // Create a horizontal RecyclerView
-                                mLayoutManager = new LinearLayoutManager(ProfileActivity.this,
-                                        LinearLayoutManager.HORIZONTAL,
-                                        false
-                                );
-                                recyclerView.setLayoutManager(mLayoutManager);
+                                FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(ProfileActivity.this);
+                                layoutManager.setFlexDirection(ROW);
+                                layoutManager.setJustifyContent(FLEX_START);
+                                recyclerView.setLayoutManager(layoutManager);
                                 mCitiesAdapter = new CitiesTravelledAdapter(ProfileActivity.this, mCities);
                                 recyclerView.setAdapter(mCitiesAdapter);
                             } else {

@@ -17,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@color/colorPrimary"
             app:toolbarId="@+id/toolbar">
 
             <ImageView
@@ -27,7 +29,9 @@
                 android:contentDescription="@string/empty_description"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder_image"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -42,8 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_margin="16dp"
-                android:tint="@color/white"
-                android:src="@drawable/ic_location_city_black" />
+                android:src="@drawable/ic_location_city_black"
+                android:tint="@color/white" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

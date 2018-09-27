@@ -13,6 +13,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import database.AppDataBase;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.roompersistence.ChecklistViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,12 +27,15 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
     private  List<ChecklistItem> mItems;
     private ChecklistViewModel mViewModel;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private AppDataBase mDatabase;
 
     ChecklistAdapter(Activity context, List<ChecklistItem> items, ChecklistViewModel model) {
         super(context, R.layout.checklist_item);
         this.mContext = context;
         this.mItems = items;
         mViewModel = model;
+
+        mDatabase = AppDataBase.getAppDatabase(mContext);
     }
 
     @Override
@@ -69,12 +73,17 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
+
+                mDatabase.widgetCheckListDao().updateIsDone(mItems.get(position).getId());
+
             } else {
                 //updating isDone to 0 in database
                 mDisposable.add(mViewModel.updateUndone(mItems.get(position).getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe());
+
+                mDatabase.widgetCheckListDao().updateUndone(mItems.get(position).getId());
             }
         });
         return view;
