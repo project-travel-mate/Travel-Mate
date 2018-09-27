@@ -82,7 +82,6 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     private SharedPreferences mSharedPreferences;
 
     private AppDataBase mDatabase;
-    private SharedPreferences mSharedPreferences;
     private SimpleDateFormat mFormat;
 
     public CityFragment() {
@@ -174,6 +173,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                     public void onStarted(CustomTarget target) {
                         // do something
                     }
+
                     @Override
                     public void onEnded(CustomTarget target) {
                         // do something
@@ -213,6 +213,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         };
 
         spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+    }
+
     /**
      * Check cached cities with expiration time 24 hours
      * @param mCities
