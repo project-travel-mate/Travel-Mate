@@ -213,7 +213,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         };
 
         spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
-
+    /**
      * Check cached cities with expiration time 24 hours
      * @param mCities
      **/
