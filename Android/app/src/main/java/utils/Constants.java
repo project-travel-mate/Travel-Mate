@@ -72,6 +72,9 @@ public class Constants {
         }
     };
 
+    //spotlight shown count
+    public static final String SPOTLIGHT_SHOW_COUNT = "spotlight_";
+
     //share profile strings
     public static final String SHARE_PROFILE_URI = "http://project-travel-mate.github.io/Travel-Mate";
     public static final String SHARE_PROFILE_USER_ID_QUERY = "user";
