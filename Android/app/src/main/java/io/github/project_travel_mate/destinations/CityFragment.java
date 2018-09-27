@@ -18,12 +18,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.takusemba.spotlight.OnSpotlightStateChangedListener;
+import com.takusemba.spotlight.OnTargetStateChangedListener;
+import com.takusemba.spotlight.Spotlight;
+import com.takusemba.spotlight.shape.Circle;
+import com.takusemba.spotlight.target.CustomTarget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +54,7 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
+import static utils.Constants.SPOTLIGHT_SHOW_COUNT;
 
 public class CityFragment extends Fragment implements TravelmateSnackbars {
 
@@ -64,6 +71,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
+    private int mSpotlightShownCount;
+    private SharedPreferences mSharedPreferences;
 
     public CityFragment() {
     }
@@ -84,8 +93,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mToken = sharedPreferences.getString(USER_TOKEN, null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
+        mSpotlightShownCount = mSharedPreferences.getInt(SPOTLIGHT_SHOW_COUNT, 0);
 
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -106,7 +116,70 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             }
         });
         fetchCitiesList();
+
+        // make an target
+        View spotView = inflater.inflate(R.layout.spotlight_target, null);
+
+        if (mSpotlightShownCount <= 3) {
+            showSpotlightView(spotView);
+        }
+
         return view;
+    }
+
+    /**
+     * shows spotlight on city card for the first 3 times.
+     * @param spotView
+     */
+    private void showSpotlightView(View spotView) {
+        CustomTarget customTarget = new CustomTarget.Builder(getActivity())
+                .setPoint(280f, 560f)
+                .setShape(new Circle(300f))
+                .setOverlay(spotView)
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
+                    @Override
+                    public void onStarted(CustomTarget target) {
+                        // do something
+                    }
+                    @Override
+                    public void onEnded(CustomTarget target) {
+                        // do something
+                    }
+                })
+                .build();
+
+
+        Spotlight spotlight =
+                Spotlight.with(getActivity())
+                        .setOverlayColor(R.color.spotlight)
+                        .setDuration(1000L)
+                        .setAnimation(new DecelerateInterpolator(2f))
+                        .setTargets(customTarget)
+                        .setClosedOnTouchedOutside(false)
+                        .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
+                            @Override
+                            public void onStarted() {
+                                //do something
+                            }
+
+                            @Override
+                            public void onEnded() {
+                                //do something
+                            }
+                        });
+        spotlight.start();
+
+        View.OnClickListener closeSpotlight = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spotlight.closeSpotlight();
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putInt(SPOTLIGHT_SHOW_COUNT, mSpotlightShownCount + 1);
+                editor.commit();
+            }
+        };
+
+        spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
     }
 
     @Override
