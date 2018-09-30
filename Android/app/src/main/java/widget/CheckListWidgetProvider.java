@@ -6,10 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
-import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.utilities.ChecklistActivity;
 

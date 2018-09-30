@@ -19,7 +19,7 @@ import java.util.List;
 public class City implements Serializable {
 
     @Ignore
-    public final List<String> mInterests = new ArrayList<>();
+    public List<String> mInterests = new ArrayList<>();
 
     @PrimaryKey
     @NonNull

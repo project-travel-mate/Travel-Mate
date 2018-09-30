@@ -1,12 +1,12 @@
 package widget;
 
-import java.util.ArrayList;
-
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+
+import java.util.ArrayList;
 
 import io.github.project_travel_mate.R;
 import objects.ChecklistItem;

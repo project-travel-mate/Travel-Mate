@@ -146,8 +146,10 @@ class LoginPresenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 mhandler.post(() -> {
-                    mView.showError();
-                    mView.dismissLoadingDialog();
+                    if (mView != null) {
+                        mView.showError();
+                        mView.dismissLoadingDialog();
+                    }
                 });
             }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,8 +60,8 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.LAST_CACHE_TIME;
-import static utils.Constants.USER_TOKEN;
 import static utils.Constants.SPOTLIGHT_SHOW_COUNT;
+import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment implements TravelmateSnackbars {
 
@@ -148,6 +149,14 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             fetchCitiesList();
         } else {
             FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
+            ArrayList<String> interests = new ArrayList<>( Arrays.asList(
+                    mActivity.getApplicationContext().getString(R.string.interest_know_more),
+                    mActivity.getApplicationContext().getString(R.string.interest_weather),
+                    mActivity.getApplicationContext().getString(R.string.interest_fun_facts),
+                    mActivity.getApplicationContext().getString(R.string.interest_trends)
+            ) );
+            for ( City city : mCities)
+                city.mInterests = interests;
             lv.setAdapter(new CityAdapter(mActivity, mCities, settings));
             lv.setOnItemClickListener((parent, mView, position, id1) -> {
                 City city = (City) lv.getAdapter().getItem(position);
@@ -402,6 +411,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                             e.printStackTrace();
                             Log.e("ERROR", "Message : " + e.getMessage());
                             networkError();
+                        } catch (SQLiteConstraintException exception) {
+                            exception.printStackTrace();
                         }
                     } else {
                         networkError();
