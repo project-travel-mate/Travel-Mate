@@ -100,7 +100,7 @@ public class CurrencyActivity extends AppCompatActivity {
         flag_check_first_item = true;
         flag_check_second_item = false;
         result_textview.setText(String.valueOf(0.0));
-        Intent intent = new Intent(mContext, ConversionListviewActivity.class);
+        Intent intent = new Intent(mContext, ConversionListViewActivity.class);
         startActivity(intent);
     }
 
@@ -109,7 +109,7 @@ public class CurrencyActivity extends AppCompatActivity {
         flag_check_second_item = true;
         flag_check_first_item = false;
         result_textview.setText(String.valueOf(0.0));
-        Intent intent = new Intent(mContext, ConversionListviewActivity.class);
+        Intent intent = new Intent(mContext, ConversionListViewActivity.class);
         startActivity(intent);
     }
 
