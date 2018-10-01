@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Filter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,23 +21,25 @@ import io.github.project_travel_mate.R;
 import objects.CurrencyName;
 import utils.CurrencyConverterGlobal;
 
-public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConverterAdapter.ViewHolder> {
+public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConverterAdapter.ViewHolder>
+        implements Filterable {
 
-    private ArrayList<CurrencyName> mListCurencyNames;
+    private List<CurrencyName> mListCurrencyNames, mListCurrencyNamesFiltered;
     public Activity activity;
 
-    CurrencyConverterAdapter(Activity activity, ArrayList<CurrencyName> list) {
+    CurrencyConverterAdapter(Activity activity, List<CurrencyName> list) {
         this.activity = activity;
-        this.mListCurencyNames = list;
+        this.mListCurrencyNames = list;
+        this.mListCurrencyNamesFiltered = list;
         Log.d("my list size", "" + getCount());
     }
 
     public int getCount() {
-        return mListCurencyNames.size();
+        return mListCurrencyNamesFiltered.size();
     }
 
     public Object getItem(int position) {
-        return mListCurencyNames.get(position);
+        return mListCurrencyNamesFiltered.get(position);
     }
 
     @NonNull
@@ -49,20 +54,22 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         if (android.os.Build.VERSION.SDK_INT >= 5.0) {
-            holder.mShortTitle.setText(mListCurencyNames.get(position).shortName);
+            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).shortName);
         } else {
-            holder.mShortTitle.setText(mListCurencyNames.get(position).abrivation);
+            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).abrivation);
         }
 
         int mResId;
         if (android.os.Build.VERSION.SDK_INT >= 5.0) {
-            mResId = activity.getResources().getIdentifier(mListCurencyNames.get(position).abrivation.toLowerCase(),
+            mResId = activity.getResources().getIdentifier(
+                    mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
                     "drawable", activity.getPackageName());
         } else {
-            mResId = activity.getResources().getIdentifier(mListCurencyNames.get(position).shortName.toLowerCase(),
+            mResId = activity.getResources().getIdentifier(
+                    mListCurrencyNamesFiltered.get(position).shortName.toLowerCase(),
                     "drawable", activity.getPackageName());
         }
-        Log.d("Resouce resouce id", "" + mListCurencyNames.get(position).shortName);
+        Log.d("Resouce resouce id", "" + mListCurrencyNamesFiltered.get(position).shortName);
 
         if (mResId == 0) {
             mResId = activity.getResources().getIdentifier("tryk", "drawable", activity.getPackageName());
@@ -74,10 +81,10 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
             if (android.os.Build.VERSION.SDK_INT >= 5.0) {
                 CurrencyConverterGlobal.global_image_id =
                         activity.getResources().getIdentifier(
-                                mListCurencyNames.get(position).abrivation.toLowerCase(),
+                                mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
                                 "drawable", activity.getPackageName());
-                CurrencyConverterGlobal.global_country_name = mListCurencyNames.get(position).shortName;
-                CurrencyConverterGlobal.country_id = mListCurencyNames.get(position).abrivation;
+                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).shortName;
+                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abrivation;
 
                 if (CurrencyConverterGlobal.country_id.contains("TRY")) {
                     CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
@@ -91,10 +98,10 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
             } else {
                 CurrencyConverterGlobal.global_image_id =
                         activity.getResources().getIdentifier(
-                                mListCurencyNames.get(position).shortName.toLowerCase(),
+                                mListCurrencyNamesFiltered.get(position).shortName.toLowerCase(),
                                 "drawable", activity.getPackageName());
-                CurrencyConverterGlobal.global_country_name = mListCurencyNames.get(position).abrivation;
-                CurrencyConverterGlobal.country_id = mListCurencyNames.get(position).shortName;
+                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abrivation;
+                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).shortName;
                 if (CurrencyConverterGlobal.country_id.contains("TRY")) {
                     CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
                             "drawable", activity.getPackageName());
@@ -109,8 +116,40 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
     }
 
     @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mListCurrencyNamesFiltered = mListCurrencyNames;
+                } else {
+                    List<CurrencyName> filteredList = new ArrayList<>();
+                    for (CurrencyName row : mListCurrencyNames) {
+                        if (row.getShortName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getAbrivation().toLowerCase().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+                    mListCurrencyNamesFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListCurrencyNamesFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mListCurrencyNamesFiltered = (ArrayList<CurrencyName>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    @Override
     public int getItemCount() {
-        return mListCurencyNames.size();
+        return mListCurrencyNamesFiltered.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

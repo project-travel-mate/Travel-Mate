@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,10 +19,12 @@ import butterknife.BindView;
 import io.github.project_travel_mate.R;
 import objects.CurrencyName;
 
-public class ConversionListviewActivity extends Activity {
+public class ConversionListViewActivity extends Activity implements TextWatcher {
 
     @BindView(R.id.listView)
     RecyclerView mListview;
+    @BindView(R.id.currencySearch)
+    EditText mCurrencySearch;
     CurrencyConverterAdapter mAdaptorListView;
     String temp = null;
 
@@ -36,9 +41,12 @@ public class ConversionListviewActivity extends Activity {
 
         currences_names = new ArrayList<>();
         mListview = findViewById(R.id.listView);
+        mCurrencySearch = findViewById(R.id.currencySearch);
 
         mContext = this;
         addCurrencies();
+
+        mCurrencySearch.addTextChangedListener(this);
     }
 
     public void addCurrencies() {
@@ -78,10 +86,25 @@ public class ConversionListviewActivity extends Activity {
 
         Collections.sort(currences_names, (n1, n2) -> n1.shortName.compareTo(n2.shortName));
 
-        mAdaptorListView = new CurrencyConverterAdapter(ConversionListviewActivity.this, currences_names);
+        mAdaptorListView = new CurrencyConverterAdapter(ConversionListViewActivity.this, currences_names);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext());
         mListview.setLayoutManager(mLayoutManager);
         mListview.setAdapter(mAdaptorListView);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence searchItem, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence searchItem, int start, int before, int count) {
+        ConversionListViewActivity.this.mAdaptorListView.getFilter().filter(searchItem);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
 
