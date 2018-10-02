@@ -30,6 +30,16 @@
     <string name="signup">Signup</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
 
+    <!-- reset password strings -->
+    <string name="submit">Submit</string>
+    <string name="text_back_to_login"><u>Back to login</u></string>
+    <string name="text_forgot_password"><u>Forgot password? Clear here to reset.</u></string>
+    <string name="text_resend_code"><u>Didn\'t get the code? Resend code.</u></string>
+    <string name="text_code_sent_alert">A reset code has been sent to your email id : %1$s. Please enter the code below.</string>
+    <string name="confirm">Confirm</string>
+    <string name="text_code_resent_alert">A new code has been sent</string>
+    <string name="text_password_updated_alert">Your password has been reset. Login with the new password.</string>
+
     <!-- Travel home page strings -->
     <string name="hotel">HOTEL BOOKING</string>
     <string name="online_Shopping">ONLINE SHOPPING</string>

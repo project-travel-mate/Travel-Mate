@@ -217,6 +217,12 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
                 final String res = Objects.requireNonNull(response.body()).string();
 
                 mHandler.post(() -> {
+
+                    if (res.equals("\"Not Found\"") || res.contains("Not Found")) {
+                        notFoundError();
+                        return;
+                    }
+
                     try {
                         JSONArray array = new JSONArray(res);
                         Log.v(TAG, "Response = " + res );
@@ -249,6 +255,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
 
             }
         });
+    }
+
+    /**
+     * Plays the Not Found animation in the view
+     */
+    private void notFoundError() {
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
+        animationView.setOnClickListener(v -> getRestaurantItems());
     }
 
     /**

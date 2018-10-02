@@ -28,4 +28,13 @@ interface LoginView {
 
     void showMessage(String message);
 
+    void forgotPassword();
+
+    void openResetPin(String email);
+
+    void resendResetCode();
+
+    void newPasswordInput();
+
+    void confirmPasswordReset(String email);
 }

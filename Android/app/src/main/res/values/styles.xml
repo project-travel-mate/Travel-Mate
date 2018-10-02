@@ -13,6 +13,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
     </style>
 
 
@@ -82,6 +83,12 @@
         <item name="cardCornerRadius">4dp</item>
         <item name="cardElevation">2dp</item>
         <item name="contentPadding">6dp</item>
+    </style>
+
+    <style name="OtpWidget.OtpView" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxLines">1</item>
     </style>
 
 </resources>

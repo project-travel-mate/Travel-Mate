@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.login;
 
 import android.os.Handler;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +127,7 @@ class LoginPresenter {
         mView.showLoadingDialog();
 
         String uri = API_LINK_V2 + "sign-in";
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -176,4 +178,35 @@ class LoginPresenter {
         });
     }
 
+    public void forgotPassword() {
+        mView.forgotPassword();
+    }
+
+    public void ok_password_reset_request(String email) {
+        //TODO validate email address, verify if it's a registered user, send 4- digit otp to email
+
+        //if email is verified as a registered one
+        mView.openResetPin(email);
+
+    }
+
+    public void resendResetCode(String email) {
+        //TODO resend a 4-digit otp to the email address
+
+        mView.resendResetCode();
+    }
+
+    public void newPasswordInput() {
+        mView.newPasswordInput();
+    }
+
+    public void ok_password_reset_confirm(String email) {
+        mView.confirmPasswordReset(email);
+    }
+
+    public void ok_password_reset(String email, String newPassword) {
+        //TODO update the password for the corresponding email address
+        //display the login UI to login with the new password
+        mView.openLogin();
+    }
 }

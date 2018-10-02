@@ -27,6 +27,12 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
     }
 
+    public void updateData(List<T> items) {
+        mItems.clear();
+        mItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         // Checking if we need an additional row for single item
