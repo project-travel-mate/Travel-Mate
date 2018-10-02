@@ -1,6 +1,7 @@
 package utils;
 
 public class RestaurantItemEntity {
+    private String mId;
     private String mImageUrl;
     private String mRestaurantName;
     private String mRestaurantAddress;
@@ -9,8 +10,9 @@ public class RestaurantItemEntity {
     private String mURL;
     private int mAvgCost;
 
-    public RestaurantItemEntity(String imageUrl, String name, String address,
+    public RestaurantItemEntity(String id, String imageUrl, String name, String address,
                                 float ratings, int votes, int avgCost, String restaurantURL) {
+        this.mId = id;
         this.mImageUrl = imageUrl;
         this.mRestaurantName = name;
         this.mRestaurantAddress = address;
@@ -46,6 +48,10 @@ public class RestaurantItemEntity {
 
     public String getURL() {
         return mURL;
+    }
+
+    public String getId() {
+        return mId;
     }
 
 }

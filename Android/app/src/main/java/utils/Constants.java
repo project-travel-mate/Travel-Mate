@@ -25,6 +25,7 @@ public class Constants {
     public static final String LAST_CACHE_TIME = "last_cache";
 
     public static final String API_LINK_V2 = "https://project-travel-mate.herokuapp.com/api/";
+    public static final String AUTHORIZATION = "Authorization";
 
     // TODO:: replace placeholders with actual values
     //Cloudinary information
