@@ -158,39 +158,10 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to switch GPS on
      */
     public void displayLocationRequest(Context context) {
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-
-        LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(10000 / 2);
-        LocationSettingsRequest.Builder mBuilder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-
-        mBuilder.setAlwaysShow(true);
-        PendingResult<LocationSettingsResult> mPendingResult =
-                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mBuilder.build());
-        mPendingResult.setResultCallback(locationSettingsResult -> {
-            final Status mStatus = locationSettingsResult.getStatus();
-            switch (mStatus.getStatusCode()) {
-                case LocationSettingsStatusCodes.SUCCESS:
-                    //All location settings are satisfied
-                    break;
-                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                    //Display dialog to update location settings
-                    try {
-                        mStatus.startResolutionForResult((Activity) context, REQUEST_LOCATION);
-                    } catch (IntentSender.SendIntentException e) {
-                        //Unable to execute request
-                    }
-                    break;
-                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                    //Dialog cannot be displayed
-                    break;
-            }
-        });
+        MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context));
+        mLocationOverlay.enableMyLocation();
+        mLocationOverlay.setLocationUpdateMinTime(10000);
+        mLocationOverlay.setLocationUpdateMinDistance(100);
+        mLocationOverlay.startLocationProvider(null);
     }
 }
