@@ -133,10 +133,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         content.setVisibility(View.GONE);
         cityVisitedLayout.setVisibility(View.GONE);
-
         setClickListeners();
     }
 
@@ -276,7 +274,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
             animationView.setVisibility(View.GONE);
             mCity.setLatitude(latitude);
             mCity.setLongitude(longitude);
-            cityVisitedLayout.setVisibility(View.VISIBLE);
+            cityVisitedLayout.setVisibility(isCityVisited ? View.VISIBLE : View.GONE);
             if (imagesArray.size() > 0)
                 slideImages(imagesArray);
         });

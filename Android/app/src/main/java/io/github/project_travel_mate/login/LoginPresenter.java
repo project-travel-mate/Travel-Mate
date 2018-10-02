@@ -1,6 +1,7 @@
 package io.github.project_travel_mate.login;
 
 import android.os.Handler;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +127,7 @@ class LoginPresenter {
         mView.showLoadingDialog();
 
         String uri = API_LINK_V2 + "sign-in";
+        Log.v("EXECUTING", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
