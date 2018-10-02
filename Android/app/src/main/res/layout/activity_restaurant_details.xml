@@ -66,25 +66,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:drawableStart="@drawable/ic_location"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_big" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_location"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_big" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -92,25 +82,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/avg_cost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:drawableStart="@drawable/ic_attach_money_black"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_attach_money_black"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/avg_cost"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -118,25 +98,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/price_range"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:drawableStart="@drawable/ic_attach_money_black"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_attach_money_black"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/price_range"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -144,25 +114,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_euro_symbol_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/currency"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
+                    android:drawableStart="@drawable/baseline_euro_symbol_24"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -170,26 +129,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/user_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:drawableStart="@drawable/baseline_grade_24"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_grade_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/user_rating"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -197,25 +146,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/user_votes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/baseline_favorite_24"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_favorite_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/user_votes"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -224,26 +163,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/table_booking"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/baseline_book_24"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_book_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/table_booking"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -251,25 +180,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+
+                <TextView
+                    android:id="@+id/cuisines"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:drawableStart="@drawable/baseline_restaurant_menu_24"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_restaurant_menu_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/cuisines"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -278,25 +198,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/phone_numbers"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/baseline_phone_24"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_small" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_phone_24"
-                        android:layout_margin="4dp"/>
-
-                    <TextView
-                        android:id="@+id/phone_numbers"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
