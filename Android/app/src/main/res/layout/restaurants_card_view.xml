@@ -30,6 +30,11 @@
                 android:layout_marginStart="11dp"
                 android:textSize="12sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent_black">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="fill_parent"
@@ -87,6 +92,8 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/votes"
