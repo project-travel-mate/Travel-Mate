@@ -54,14 +54,18 @@ class RestaurantDetailsActivity : AppCompatActivity() {
         currency.text = getString(R.string.rest_currency, restaurant.currency)
         user_rating.text = getString(R.string.user_rating, restaurant.rating)
         user_votes.text = getString(R.string.user_votes, restaurant.votes)
-        table_booking.text = getString(R.string.has_table_booking, restaurant.hasTableBooking.toString())
+
+        if (restaurant.hasTableBooking) {
+            table_booking.text = getString(R.string.has_table_booking)
+        } else {
+            table_booking_content.gone()
+        }
         cuisines.text = getString(R.string.cuisines, restaurant.cuisines)
 
         val phoneNo = restaurant.phoneNumbers as String?
         if (phoneNo.isNullOrEmpty()) {
-            phone_numbers.gone()
+            phone_numbers_content.gone()
         } else {
-            phone_numbers.visible()
             phone_numbers.text = getString(R.string.phone_no, phoneNo)
         }
     }
