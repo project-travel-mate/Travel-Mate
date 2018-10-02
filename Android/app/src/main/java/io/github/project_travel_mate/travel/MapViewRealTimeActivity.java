@@ -103,7 +103,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
         // Get user's current location
         tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.displayLocationRequest(this);
+            tracker.displayLocationRequest(this, mMap);
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());

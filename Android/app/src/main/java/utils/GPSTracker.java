@@ -12,15 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.Objects;
 
 /**
@@ -157,11 +151,10 @@ public class GPSTracker extends Service implements LocationListener {
     /**
      * Function to switch GPS on
      */
-    public void displayLocationRequest(Context context) {
-        MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context));
+    public void displayLocationRequest(Context context, MapView mapView) {
+        MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mapView);
+        mLocationOverlay.enableFollowLocation();
         mLocationOverlay.enableMyLocation();
-        mLocationOverlay.setLocationUpdateMinTime(10000);
-        mLocationOverlay.setLocationUpdateMinDistance(100);
-        mLocationOverlay.startLocationProvider(null);
+        mapView.getOverlays().add(mLocationOverlay);
     }
 }
