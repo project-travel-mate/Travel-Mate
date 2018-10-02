@@ -25,7 +25,7 @@
             android:layout_marginStart="5dp"
             android:paddingTop="15dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/mytrips" />
+            android:src="@drawable/ic_card_travel_black_24dp" />
 
         <TextView
             android:id="@+id/text"
