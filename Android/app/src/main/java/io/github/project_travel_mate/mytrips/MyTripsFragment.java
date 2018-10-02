@@ -12,11 +12,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -45,20 +46,21 @@ import static utils.Constants.USER_TOKEN;
 
 public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TravelmateSnackbars {
 
-    private final List<Trip> mTrips = new ArrayList<>();
-
-    @BindView(R.id.gv)
-    GridView gridView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rv)
+    RecyclerView mRecyclerView;
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
     private TripsListAdapter mMyTripsAdapter;
     static int ADDNEWTRIP_ACTIVITY = 203;
     private View mTripsView;
+
+    private List<Trip> mTripList = new ArrayList<>();
+
 
     public MyTripsFragment() {
         // Required empty public constructor
@@ -78,9 +80,22 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
         swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(getLayoutManager());
+        mMyTripsAdapter = new TripsListAdapter(mActivity.getApplicationContext(), mTripList);
+        mMyTripsAdapter.setOnItemClickListener((position, v) -> {
+            Intent intent = MyTripInfoActivity.getStartIntent(mActivity.getApplicationContext(),
+                    mTripList.get(position));
+            mActivity.getApplicationContext().startActivity(intent);
+        });
+        mRecyclerView.setAdapter(mMyTripsAdapter);
         mytrip();
         return mTripsView;
 
+    }
+
+    private LinearLayoutManager getLayoutManager() {
+        return new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
     }
 
     private void mytrip() {
@@ -121,23 +136,24 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 return;
                             }
 
-                            for (int i = 0; i < arr.length(); i++) {
+                            for (int i = arr.length() - 1; i >= 0; i--) {
                                 String id = arr.getJSONObject(i).getString("id");
                                 String start = arr.getJSONObject(i).getString("start_date_tx");
                                 String end = arr.getJSONObject(i).optString("end_date", null);
                                 String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                 String tname = arr.getJSONObject(i).getString("trip_name");
                                 String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                                mTrips.add(new Trip(id, name, image, start, end, tname));
+                                mTripList.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
-                                mMyTripsAdapter = new TripsListAdapter(mActivity.getApplicationContext(), mTrips);
-                                gridView.setAdapter(mMyTripsAdapter);
+                                mMyTripsAdapter.notifyItemInserted(arr.length() - i - 1);
                             }
+
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
                             Log.e("ERROR", "Message : " + e.getMessage());
                             networkError();
                         }
+
                     } else {
                         networkError();
                     }
@@ -181,7 +197,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADDNEWTRIP_ACTIVITY && resultCode == RESULT_OK) {
-            mTrips.clear();
+            mTripList.clear();
             mMyTripsAdapter.notifyDataSetChanged();
             mytrip();
         }
@@ -189,13 +205,11 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onResume() {
         super.onResume();
-        mTrips.clear();
-        mytrip();
     }
 
     @Override
     public void onRefresh() {
-        mTrips.clear();
+        mTripList.clear();
         mMyTripsAdapter.notifyDataSetChanged();
         mytrip();
         swipeRefreshLayout.setRefreshing(false);
