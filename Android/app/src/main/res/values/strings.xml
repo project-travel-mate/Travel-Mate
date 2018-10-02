@@ -278,4 +278,14 @@
     <string name="rating">rating</string>
     <string name="alphabetically">alphabetically</string>
 
+    <!-- Restaurant details -->
+    <string name="rest_address">Address: %s</string>
+    <string name="avg_cost">Average Cost: %s</string>
+    <string name="price_range">Price Range: %s</string>
+    <string name="rest_currency">Currency: %s</string>
+    <string name="user_rating">Users Rating: %s</string>
+    <string name="user_votes">Users Votes: %s</string>
+    <string name="has_table_booking">You can book table</string>
+    <string name="cuisines">Cuisines: %s</string>
+    <string name="phone_no">Phone Number: %s</string>
 </resources>

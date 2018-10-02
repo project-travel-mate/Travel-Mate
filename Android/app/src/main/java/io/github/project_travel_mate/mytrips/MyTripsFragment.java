@@ -197,7 +197,6 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADDNEWTRIP_ACTIVITY && resultCode == RESULT_OK) {
-            mTripList.clear();
             if (mMyTripsAdapter != null) {
                 mMyTripsAdapter.notifyDataSetChanged();
             }

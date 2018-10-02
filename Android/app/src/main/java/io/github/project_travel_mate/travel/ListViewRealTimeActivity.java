@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -48,8 +49,9 @@ public class ListViewRealTimeActivity extends AppCompatActivity {
 
         // Get user's current location
         mTracker = new GPSTracker(this);
+        MapView mMap = (MapView) findViewById(R.id.action_map_view);
         if (!mTracker.canGetLocation()) {
-            mTracker.displayLocationRequest(this);
+            mTracker.displayLocationRequest(this, mMap);
         } else {
             mCurlat = Double.toString(mTracker.getLatitude());
             mCurlon = Double.toString(mTracker.getLongitude());
