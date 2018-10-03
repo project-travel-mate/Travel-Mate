@@ -3,10 +3,12 @@ package adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,7 +25,6 @@ public class RestaurantsCardViewAdapter
 
     private final OnItemClickListener mOnItemClickListener;
     private final List<RestaurantItemEntity> mOptionsEntityList;
-    private Context mContext;
     /**
      * Initializes new CardViewoptions adapter
      *
@@ -31,10 +32,9 @@ public class RestaurantsCardViewAdapter
      * @param mOptionsEntityList   the list of entities to be populated in view
      */
     public RestaurantsCardViewAdapter(OnItemClickListener mOnItemClickListener,
-                                  List<RestaurantItemEntity> mOptionsEntityList, Context mContext) {
+                                  List<RestaurantItemEntity> mOptionsEntityList) {
         this.mOnItemClickListener = mOnItemClickListener;
         this.mOptionsEntityList = mOptionsEntityList;
-        this.mContext = mContext;
     }
 
     @NonNull
@@ -47,16 +47,24 @@ public class RestaurantsCardViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull UtilityOptionsViewHolder holder, int position) {
-        Picasso.with(holder.optionImage.getContext()).load(mOptionsEntityList.get(position)
-                .getImage()).fit().centerCrop().into(holder.optionImage);
-        holder.optionName.setText(mOptionsEntityList.get(position).getName());
-        holder.optionAddress.setText(mOptionsEntityList.get(position).getAddress());
-        holder.optionRatings.setText(String.valueOf(mOptionsEntityList.get(position).getRatings()));
-        holder.optionAvgCost.setText(mContext.getString(R.string.currency) +
-                String.valueOf(mOptionsEntityList.get(position).getAvgCost())
-                + mContext.getString(R.string.approx_cost));
-        holder.optionVotes.setText(mOptionsEntityList.get(position).getVotes() + " "
-                + mContext.getString(R.string.votes));
+        Context context = holder.optionImage.getContext();
+
+        RestaurantItemEntity currentItem = mOptionsEntityList.get(position);
+
+        if (!TextUtils.isEmpty(currentItem.getImage())) {
+            Picasso.with(context).load(currentItem
+                    .getImage()).fit().centerCrop().into(holder.optionImage);
+        }
+        holder.optionName.setText(currentItem.getName());
+        holder.optionAddress.setText(currentItem.getAddress());
+        holder.optionRatings.setText(String.valueOf(currentItem.getRatings()));
+        holder.optionAvgCost.setText(context.getString(R.string.currency) +
+                String.valueOf(currentItem.getAvgCost())
+                + context.getString(R.string.approx_cost));
+        holder.optionVotes.setText(currentItem.getVotes() + " "
+                + context.getString(R.string.votes));
+
+        holder.content.setOnClickListener(view -> mOnItemClickListener.onItemClick(currentItem));
     }
 
     /**
@@ -70,13 +78,16 @@ public class RestaurantsCardViewAdapter
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(RestaurantItemEntity item);
     }
 
     /**
      * Viewholder for the cardView item
      */
-    public class UtilityOptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UtilityOptionsViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.item_content)
+        LinearLayout content;
 
         @BindView(R.id.image)
         ImageView optionImage;
@@ -99,12 +110,6 @@ public class RestaurantsCardViewAdapter
         UtilityOptionsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            mOnItemClickListener.onItemClick(getAdapterPosition());
         }
     }
 }

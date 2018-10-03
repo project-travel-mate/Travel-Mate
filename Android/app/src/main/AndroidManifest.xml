@@ -64,7 +64,6 @@
             android:name=".utilities.ChecklistActivity"
             android:label="@string/title_activity_select_city"
             android:theme="@style/AppTheme_picker" />
-
         <activity
             android:name=".travel.ShoppingCurrentCityActivity"
             android:label="@string/title_activity_shopping_currentcity"
@@ -102,8 +101,7 @@
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".destinations.description.FinalCityInfoActivity"
-            android:theme="@style/AppThemeNoBar"/>
-
+            android:theme="@style/AppThemeNoBar" />
         <activity android:name=".destinations.description.PlacesOnMapActivity" />
         <activity android:name=".mytrips.AddNewTripActivity" />
         <activity
@@ -149,8 +147,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <receiver android:name="widget.CheckListWidgetProvider" >
+        <activity android:name=".destinations.description.RestaurantDetailsActivity"
+            android:theme="@style/AppThemeNoBar"/>
+        <receiver android:name="widget.CheckListWidgetProvider">
             <intent-filter>
 
                 <!-- This widget provider receives broadcast with following action name or simply onUpdate of AppWidgetProvider is called -->
@@ -165,7 +164,6 @@
         <service
             android:name="widget.CheckListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
     </application>
 
 </manifest>

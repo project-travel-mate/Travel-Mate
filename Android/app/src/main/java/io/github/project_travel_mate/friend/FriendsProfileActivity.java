@@ -182,7 +182,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                             friendUserName.setSingleLine(true);
                             statusIcon.setImageResource(R.drawable.ic_person_black_24dp);
                             profileIcon.setImageResource(R.drawable.ic_email_black_24dp);
-                            emailIcon.setImageResource(R.drawable.baseline_date_range_black);
+                            emailIcon.setImageResource(R.drawable.ic_date_range_black_24dp);
                             dateJoinedLayout.setVisibility(GONE);
                         }
 

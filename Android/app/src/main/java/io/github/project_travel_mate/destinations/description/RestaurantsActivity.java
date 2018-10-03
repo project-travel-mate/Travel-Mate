@@ -3,7 +3,6 @@ package io.github.project_travel_mate.destinations.description;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.City;
+import objects.RestaurantDetails;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -43,11 +44,15 @@ import okhttp3.Response;
 import utils.RestaurantItemEntity;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.USER_TOKEN;
 
 
 public class RestaurantsActivity extends AppCompatActivity implements RestaurantsCardViewAdapter.OnItemClickListener {
+
+    private static final String TAG = "RestaurantsActivity";
+
     @BindView(R.id.restaurants_recycler_view)
     RecyclerView mRestaurantsOptionsRecycleView;
     @BindView(R.id.animation_view)
@@ -60,6 +65,11 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     public List<RestaurantItemEntity> restaurantItemEntities = new ArrayList<>();
     private RestaurantsCardViewAdapter mRestaurantsCardViewAdapter;
 
+    private final Gson mGson = new Gson();
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, RestaurantsActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +82,24 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
-        getRestaurantItems();
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(mCity.getNickname());
+
+        mRestaurantsCardViewAdapter = new RestaurantsCardViewAdapter(this,
+                restaurantItemEntities);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RestaurantsActivity.this);
+        mRestaurantsOptionsRecycleView.setLayoutManager(mLayoutManager);
+        mRestaurantsOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
+        mRestaurantsOptionsRecycleView.setAdapter(mRestaurantsCardViewAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getRestaurantItems();
     }
 
     @Override
@@ -129,26 +153,54 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
 
 
     @Override
-    public void onItemClick(int position) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(restaurantItemEntities.get(position).getURL()));
-        startActivity(browserIntent);
-    }
+    public void onItemClick(RestaurantItemEntity item) {
 
-    public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, RestaurantsActivity.class);
-        return intent;
-    }
+        //get-restaurant/<int:restaurant_id>
 
-    private void getRestaurantItems() {
-
-        String uri = API_LINK_V2 + "get-all-restaurants/" + mCity.getLatitude() + "/" + mCity.getLongitude();
-        Log.v("executing", "URI : " + uri);
+        String requestUrl = API_LINK_V2 + "get-restaurant/" + item.getId();
+        Log.w(TAG, "URL =" + requestUrl);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
+                .header(AUTHORIZATION, "Token " + mToken)
+                .url(requestUrl)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(() -> networkError());
+                Log.v(TAG, "Request Failed, message = " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                Log.v(TAG, "Response = " + res );
+
+                RestaurantDetails details = mGson.fromJson(res, RestaurantDetails.class);
+
+                Log.d(TAG, "details " + details.getName());
+
+                mHandler.post(() -> RestaurantDetailsActivity.newInstance(RestaurantsActivity.this, details));
+            }
+        });
+    }
+
+    private void getRestaurantItems() {
+
+        String uri = API_LINK_V2 + "get-all-restaurants/" + mCity.getLatitude() + "/" + mCity.getLongitude();
+        Log.v(TAG, "URI : " + uri);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header(AUTHORIZATION, "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
@@ -156,7 +208,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.post(() -> networkError());
-                Log.v("Request Failed", "Message : " + e.getMessage());
+                Log.v(TAG, "Request Failed, message = " + e.getMessage());
             }
 
             @Override
@@ -165,11 +217,18 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
                 final String res = Objects.requireNonNull(response.body()).string();
 
                 mHandler.post(() -> {
+
+                    if (res.equals("\"Not Found\"") || res.contains("Not Found")) {
+                        notFoundError();
+                        return;
+                    }
+
                     try {
                         JSONArray array = new JSONArray(res);
-                        Log.v("Response", res );
+                        Log.v(TAG, "Response = " + res );
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject object = array.getJSONObject(i);
+                            String id = object.getString("restaurant_id");
                             String imageUrl = object.getString("restaurant_image");
                             String name = object.getString("restaurant_name");
                             String address = object.getString("address");
@@ -177,17 +236,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
                             int votes = object.getInt("votes");
                             String restaurantURL = object.getString("restaurant_url");
                             int avgCost = object.getInt("avg_cost_2");
+
                             restaurantItemEntities.add(
-                                    new RestaurantItemEntity(imageUrl, name, address, ratings,
+                                    new RestaurantItemEntity(id, imageUrl, name, address, ratings,
                                             votes, avgCost, restaurantURL));
                         }
+
                         animationView.setVisibility(View.GONE);
-                        mRestaurantsCardViewAdapter = new RestaurantsCardViewAdapter(RestaurantsActivity.this,
-                                restaurantItemEntities, RestaurantsActivity.this);
-                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RestaurantsActivity.this);
-                        mRestaurantsOptionsRecycleView.setLayoutManager(mLayoutManager);
-                        mRestaurantsOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
-                        mRestaurantsOptionsRecycleView.setAdapter(mRestaurantsCardViewAdapter);
+                        mRestaurantsCardViewAdapter.notifyDataSetChanged();
+
                         invalidateOptionsMenu();
                     } catch (JSONException e) {
                         networkError();
@@ -198,6 +255,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
 
             }
         });
+    }
+
+    /**
+     * Plays the Not Found animation in the view
+     */
+    private void notFoundError() {
+        animationView.setAnimation(R.raw.empty_list);
+        animationView.playAnimation();
+        animationView.setOnClickListener(v -> getRestaurantItems());
     }
 
     /**
