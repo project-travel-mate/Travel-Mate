@@ -288,4 +288,12 @@
     <string name="has_table_booking">You can book table</string>
     <string name="cuisines">Cuisines: %s</string>
     <string name="phone_no">Phone Number: %s</string>
+
+    <!-- Contributors string -->
+    <string name="android_team">Android Team</string>
+    <string name="server_team">Server Team</string>
+    <string name="see_more">Show more contributors</string>
+    <string name="i_want_to_contribute">I want to contribute</string>
+    <string name="github">Github</string>
+    <string name="project">Project Travel-Mate</string>
 </resources>
