@@ -52,6 +52,15 @@ public class City implements Serializable {
         mInterests.addAll(Arrays.asList(interest));
     }
 
+    public City(String mId, String mAvatar, String mNickname, int funFactsCount, int color, List<String> interests) {
+        this.mAvatar = mAvatar;
+        this.mNickname = mNickname;
+        this.mId = mId;
+        this.mFunFactsCount = funFactsCount;
+        this.mBackgroundColor = color;
+        mInterests.addAll(interests);
+    }
+
     @Ignore
     public City(String nickname, String id) {
         this.mNickname = nickname;

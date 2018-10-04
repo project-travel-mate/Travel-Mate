@@ -59,15 +59,18 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.LAST_CACHE_TIME;
 import static utils.Constants.SPOTLIGHT_SHOW_COUNT;
 import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment implements TravelmateSnackbars {
 
+    private static final String TAG = "CityFragment";
+
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-    @BindView(R.id.music_list)
+    @BindView(R.id.cities_list)
     ListView lv;
 
     private MaterialSearchView mMaterialSearchView;
@@ -84,6 +87,12 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     private AppDataBase mDatabase;
     private SimpleDateFormat mFormat;
+
+    private CityAdapter mCityAdapter;
+    private FlipSettings mSettings = new FlipSettings.Builder().defaultPage().build();
+    private ArrayList<City> mCities = new ArrayList<>();
+    private View mSpotView;
+    private List<String> mInterests;
 
     public CityFragment() {
     }
@@ -115,6 +124,16 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         mHandler = new Handler(Looper.getMainLooper());
 
+        // make an target
+        mSpotView = inflater.inflate(R.layout.spotlight_target, null);
+
+        mInterests = new ArrayList<>(Arrays.asList(
+                mActivity.getString(R.string.interest_know_more),
+                mActivity.getString(R.string.interest_weather),
+                mActivity.getString(R.string.interest_fun_facts),
+                mActivity.getString(R.string.interest_trends)
+        ));
+
         mMaterialSearchView = view.findViewById(R.id.search_view);
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -122,6 +141,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                 Log.v("QUERY ITEM : ", query);
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 mNameyet = newText;
@@ -131,45 +151,47 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                 return true;
             }
         });
-      
-        fetchCitiesList();
-
-        // make an target
-        View spotView = inflater.inflate(R.layout.spotlight_target, null);
-
-        if (mSpotlightShownCount <= 3) {
-            showSpotlightView(spotView);
-        }
-
-
 
         mDatabase = AppDataBase.getAppDatabase(mActivity);
-        List<City> mCities = Arrays.asList(mDatabase.cityDao().loadAll());
-        if (checkCachedCities(mCities)) {
-            fetchCitiesList();
-        } else {
-            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
-            ArrayList<String> interests = new ArrayList<>( Arrays.asList(
-                    mActivity.getApplicationContext().getString(R.string.interest_know_more),
-                    mActivity.getApplicationContext().getString(R.string.interest_weather),
-                    mActivity.getApplicationContext().getString(R.string.interest_fun_facts),
-                    mActivity.getApplicationContext().getString(R.string.interest_trends)
-            ) );
-            for ( City city : mCities)
-                city.mInterests = interests;
-            lv.setAdapter(new CityAdapter(mActivity, mCities, settings));
-            lv.setOnItemClickListener((parent, mView, position, id1) -> {
-                City city = (City) lv.getAdapter().getItem(position);
-                Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
-                startActivity(intent);
-            });
-        }
+
+        mCityAdapter = new CityAdapter(mActivity, mCities, mSettings);
+
+        lv.setAdapter(mCityAdapter);
+        lv.setOnItemClickListener((parent, mView, position, id1) -> {
+            City city = (City) lv.getAdapter().getItem(position);
+            Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
+            startActivity(intent);
+        });
 
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mCities.clear();
+        mCities = new ArrayList<>(Arrays.asList(mDatabase.cityDao().loadAll()));
+
+        if (checkCachedCities(mCities)) {
+            fetchCitiesList();
+        } else {
+            animationView.setVisibility(View.GONE);
+
+            for (City city : mCities)
+                city.mInterests = mInterests;
+
+            mCityAdapter.updateData(mCities);
+
+            if (mSpotlightShownCount <= 3) {
+                showSpotlightView(mSpotView);
+            }
+        }
+    }
+
     /**
      * shows spotlight on city card for the first 3 times.
+     *
      * @param spotView
      */
     private void showSpotlightView(View spotView) {
@@ -192,7 +214,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
 
         Spotlight spotlight =
-                Spotlight.with(getActivity())
+                Spotlight.with(mActivity)
                         .setOverlayColor(R.color.spotlight)
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
@@ -211,14 +233,11 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                         });
         spotlight.start();
 
-        View.OnClickListener closeSpotlight = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spotlight.closeSpotlight();
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putInt(SPOTLIGHT_SHOW_COUNT, mSpotlightShownCount + 1);
-                editor.commit();
-            }
+        View.OnClickListener closeSpotlight = v -> {
+            spotlight.closeSpotlight();
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putInt(SPOTLIGHT_SHOW_COUNT, mSpotlightShownCount + 1);
+            editor.commit();
         };
 
         spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
@@ -226,6 +245,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     /**
      * Check cached cities with expiration time 24 hours
+     *
      * @param mCities
      **/
     private boolean checkCachedCities(List<City> mCities) {
@@ -304,7 +324,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                     final ArrayList<String> citynames;
                     try {
                         arr = new JSONArray(Objects.requireNonNull(response.body()).string());
-                        Log.v("RESPONSE : ", arr.toString());
+                        Log.v(TAG, "response= " + arr.toString());
 
                         cities = new ArrayList<>();
                         citynames = new ArrayList<>();
@@ -320,7 +340,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
 
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Log.e(TAG, "error parsing JSON, ", e);
                             }
                         }
                         ArrayAdapter<String> dataAdapter =
@@ -333,13 +353,11 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                             startActivity(intent);
                         });
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR", "Message : " + e.getMessage());
+                        Log.e(TAG, "Error parsing JSON, " + e.getMessage());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "Error, " + e);
                     }
                 });
-
             }
         });
     }
@@ -351,20 +369,20 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         // to fetch 6 city names
         String uri = API_LINK_V2 + "get-all-cities/10";
-        Log.v("EXECUTING", uri);
+        Log.v(TAG, "url=" + uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
+                .header(AUTHORIZATION, "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                Log.e(TAG, "Request Failed: " + e.getMessage());
                 mHandler.post(() -> networkError());
             }
 
@@ -374,45 +392,41 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                     if (response.isSuccessful()) {
                         try {
                             String res = response.body().string();
-                            Log.v("RESULT", res);
+                            Log.v(TAG, "result=" + res);
+
                             animationView.setVisibility(View.GONE);
                             JSONArray ar = new JSONArray(res);
-                            FlipSettings settings = new FlipSettings.Builder().defaultPage().build();
-                            List<City> cities = new ArrayList<>();
+
                             for (int i = 0; i < ar.length(); i++) {
                                 City city = new City(
                                         ar.getJSONObject(i).getString("id"),
                                         ar.getJSONObject(i).optString("image"),
                                         ar.getJSONObject(i).getString("city_name"),
                                         ar.getJSONObject(i).getInt("facts_count"),
-                                        mColors[i],
-                                        mActivity.getApplicationContext().getString(R.string.interest_know_more),
-                                        mActivity.getApplicationContext().getString(R.string.interest_weather),
-                                        mActivity.getApplicationContext().getString(R.string.interest_fun_facts),
-                                        mActivity.getApplicationContext().getString(R.string.interest_trends));
-                                cities.add(city);
+                                        mColors[i], mInterests);
+                                mCities.add(city);
 
                                 //Inset into local DB
                                 mDatabase.cityDao().insert(city);
-                                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                                editor.putString(LAST_CACHE_TIME, mFormat.format(new Date()).toString());
-                                editor.apply();
-
                             }
 
-                            lv.setAdapter(new CityAdapter(mActivity, cities, settings));
-                            lv.setOnItemClickListener((parent, view, position, id1) -> {
-                                City city = (City) lv.getAdapter().getItem(position);
-                                Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
-                                startActivity(intent);
-                            });
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(LAST_CACHE_TIME, mFormat.format(new Date()));
+                            editor.apply();
+
+                            Log.d(TAG, "get cities cities size = " + mCities.size());
+
+                            mCityAdapter.updateData(mCities);
+
+                            if (mSpotlightShownCount <= 3) {
+                                showSpotlightView(mSpotView);
+                            }
 
                         } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                            Log.e("ERROR", "Message : " + e.getMessage());
+                            Log.e(TAG, "Error parsing mCities JSON : " + e.getMessage());
                             networkError();
                         } catch (SQLiteConstraintException exception) {
-                            exception.printStackTrace();
+                            Log.e(TAG, "Error Sqlite : " + exception.getMessage());
                         }
                     } else {
                         networkError();
@@ -435,5 +449,4 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
-
 }
