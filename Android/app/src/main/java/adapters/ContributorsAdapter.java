@@ -53,11 +53,15 @@ public class ContributorsAdapter extends BaseAdapter {
 
         final ImageView contributor_avatarImageView = (ImageView) convertView.findViewById(R.id.contributor_image);
         final TextView contributor_unameTextView = (TextView) convertView.findViewById(R.id.contributor_name);
+        final TextView contributor_contibutionsTextView =
+                (TextView) convertView.findViewById(R.id.contributor_contributions);
         String contributorAvatarUrl = contributor.getAvatarUrl();
-        Picasso.with(mContext).load(contributorAvatarUrl).placeholder(R.drawable.placeholder_image)
+        Picasso.with(mContext).load(contributorAvatarUrl).centerCrop().resize(150, 150)
+                .placeholder(R.drawable.placeholder_image)
                 .into(contributor_avatarImageView);
-        contributor_unameTextView.setText(contributor.getUsername());
-
+        final String unameFormatted = "@" + contributor.getUsername();
+        contributor_unameTextView.setText(unameFormatted);
+        contributor_contibutionsTextView.setText(String.valueOf(contributor.getContributions()));
         return convertView;
     }
 

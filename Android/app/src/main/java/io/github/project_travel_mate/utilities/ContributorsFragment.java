@@ -2,7 +2,9 @@ package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.gson.Gson;
@@ -29,6 +32,7 @@ import java.util.List;
 import adapters.ContributorsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import objects.Contributor;
 import okhttp3.Call;
@@ -36,6 +40,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.ExpandableHeightGridView;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.USER_TOKEN;
@@ -49,15 +54,15 @@ import static utils.Constants.USER_TOKEN;
 public class ContributorsFragment extends Fragment {
 
     @BindView(R.id.android_contributors_gv)
-    GridView android_contributors_gv;
+    ExpandableHeightGridView android_contributors_gv;
     @BindView(R.id.server_contributors_gv)
-    GridView server_contributors_gv;
+    ExpandableHeightGridView server_contributors_gv;
     private String mToken;
     private Activity mActivity;
     private View mContributorsView;
     private ContributorsAdapter mAndroidContributorsAdapter;
     private ArrayList<Contributor> mAndroidContributors = new ArrayList<>();
-    private List<Contributor> mServerContributors = new ArrayList<>();
+    private ArrayList<Contributor> mServerContributors = new ArrayList<>();
     private ContributorsAdapter mServerContributorsAdapter;
     private Handler mHandler;
 
@@ -97,16 +102,19 @@ public class ContributorsFragment extends Fragment {
         mServerContributorsAdapter = new ContributorsAdapter(this.getContext(), mServerContributors);
         server_contributors_gv.setAdapter(mServerContributorsAdapter);
 
-        setAndroidContributors();
-        setServerContributors();
+        setContributors("Travel-Mate");
+        setContributors("server");
+        android_contributors_gv.setOnItemClickListener((adapterView, view, i, l) -> startActivity(
+                new Intent(Intent.ACTION_VIEW, Uri.parse(mAndroidContributors.get(i).getUrl()))
+        ));
+        server_contributors_gv.setOnItemClickListener((adapterView, view, i, l) -> startActivity(
+                new Intent(Intent.ACTION_VIEW, Uri.parse(mServerContributors.get(i).getUrl()))
+        ));
         return mContributorsView;
     }
 
-    private void setServerContributors() {
-    }
-
-    private void setAndroidContributors() {
-        String uri = API_LINK_V2 + "get-contributors/Travel-Mate";
+    private void setContributors(String repo) {
+        String uri = API_LINK_V2 + "get-contributors/" + repo;
         Log.v("EXECUTING", uri);
 
         //Set up client for android contributors
@@ -134,9 +142,10 @@ public class ContributorsFragment extends Fragment {
 
                             Type listType = new TypeToken<ArrayList<Contributor>>() {
                             }.getType();
-                            mAndroidContributors = new Gson().fromJson(responseString,
+                            ArrayList<Contributor> contributorsList = new Gson().fromJson(responseString,
                                     listType);
-                            mAndroidContributorsAdapter.update(mAndroidContributors);
+                            updateDataAndUI(response.request().url().toString(), contributorsList);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -146,6 +155,25 @@ public class ContributorsFragment extends Fragment {
 
             }
         });
+    }
+
+    private void updateDataAndUI(String url, ArrayList<Contributor> contributorsList) {
+        if (url.contains("server")) {
+            mServerContributors = contributorsList;
+            mServerContributorsAdapter.update(mServerContributors);
+            server_contributors_gv.setExpanded(true);
+
+        } else if (url.contains("Travel-Mate")) {
+            mAndroidContributors = contributorsList;
+            mAndroidContributorsAdapter.update(mAndroidContributors);
+            android_contributors_gv.setExpanded(true);
+
+        }
+    }
+
+    @OnClick(R.id.contributors_footer)
+    void github_project_cardview_clicked() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/project-travel-mate")));
     }
 
     @Override
