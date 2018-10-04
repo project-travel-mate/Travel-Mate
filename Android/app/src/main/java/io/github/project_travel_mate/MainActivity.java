@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         whatsNew.presentAutomatically(this);
 
         // To check for shared profile intents
-        String action =  getIntent().getAction();
+        String action = getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             showProfile(getIntent().getDataString());
         }
@@ -224,10 +224,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
-            case R.id.nav_myfriends :
+            case R.id.nav_myfriends:
                 fragment = MyFriendsFragment.newInstance();
                 break;
-            case R.id.nav_settings :
+            case R.id.nav_settings:
                 fragment = SettingsFragment.newInstance();
                 break;
         }
@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_notification :
+            case R.id.action_notification:
                 Intent intent = NotificationsActivity.getStartIntent(MainActivity.this);
                 startActivity(intent);
                 return true;

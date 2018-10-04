@@ -21,4 +21,6 @@
     <color name="yellow">#ebdb60</color>
     <color name="peach">#C9EDD8B8</color>
     <color name="spotlight">#C7010B0E</color>
+    <color name="transparent">#AA000000</color>
+    <color name="github_contributions_light_green">#8CC665</color>
 </resources>
