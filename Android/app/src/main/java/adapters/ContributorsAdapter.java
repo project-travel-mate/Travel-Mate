@@ -65,6 +65,12 @@ public class ContributorsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * Replaces dataset with the argument's dataset
+     * ans notifies the UI about those changes
+     *
+     * @param newContributors
+     */
     public void update(ArrayList<Contributor> newContributors) {
         mContributors.clear();
         this.mContributors = newContributors;
