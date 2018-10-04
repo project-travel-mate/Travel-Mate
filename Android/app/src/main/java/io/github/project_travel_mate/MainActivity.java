@@ -77,12 +77,13 @@ import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private static final String KEY_SELECTED_NAV_MENU = "KEY_SELECTED_NAV_MENU";
 
     private SharedPreferences mSharedPreferences;
-    private int mPreviousMenuItemId;
     private String mToken;
     private DrawerLayout mDrawer;
     private Handler mHandler;
+    private int mPreviousMenuItemId;
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
-        mPreviousMenuItemId = R.id.nav_city; // This is default item
         mHandler = new Handler(Looper.getMainLooper());
 
         // To show what's new in our application
@@ -116,10 +116,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Initially city fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = CityFragment.newInstance();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_NAV_MENU)) {
+            mPreviousMenuItemId = savedInstanceState.getInt(KEY_SELECTED_NAV_MENU);
+            fragment = getFragmentByNavMenuItemId(mPreviousMenuItemId);
+            defaultSelectedNavMenu(mPreviousMenuItemId);
+        } else {
+            fragment = CityFragment.newInstance();
+            defaultSelectedNavMenu(R.id.nav_city);
+            mPreviousMenuItemId = R.id.nav_city;
+        }
+
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         // Get runtime permissions for Android M
         getRuntimePermissions();
@@ -155,6 +163,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+    void defaultSelectedNavMenu(int resId) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem menuItem = menu.findItem(resId);
+        menuItem.setChecked(true);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -176,8 +192,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         int id = item.getItemId();
-        Fragment fragment = null;
+        mPreviousMenuItemId = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        Fragment fragment = getFragmentByNavMenuItemId(id);
+
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
+
+        mDrawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private Fragment getFragmentByNavMenuItemId(int id) {
+
+        Fragment fragment = null;
 
         switch (id) {
             case R.id.nav_travel:
@@ -232,13 +262,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        if (fragment != null) {
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        }
 
-        mDrawer.closeDrawer(GravityCompat.START);
-        mPreviousMenuItemId = item.getItemId();
-        return true;
+        return fragment;
     }
 
     private void getRuntimePermissions() {
@@ -426,5 +451,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_SELECTED_NAV_MENU, mPreviousMenuItemId);
     }
 }
