@@ -182,6 +182,10 @@ class LoginPresenter {
         mView.forgotPassword();
     }
 
+    /**
+     * called when a user submits his/her e-mail address for which the password needs to be reset
+     * @param email user's email address
+     */
     public void ok_password_reset_request(String email) {
         //TODO validate email address, verify if it's a registered user, send 4- digit otp to email
 
@@ -190,6 +194,10 @@ class LoginPresenter {
 
     }
 
+    /**
+     * triggers a request to resend a 4-digit code for validation password reset request
+     * @param email user's email address to where the code has to be sent
+     */
     public void resendResetCode(String email) {
         //TODO resend a 4-digit otp to the email address
 
@@ -204,6 +212,11 @@ class LoginPresenter {
         mView.confirmPasswordReset(email);
     }
 
+    /**
+     * takes in the newly entered password and updates it against the user's email address
+     * @param email user's email address
+     * @param newPassword new password
+     */
     public void ok_password_reset(String email, String newPassword) {
         //TODO update the password for the corresponding email address
         //display the login UI to login with the new password

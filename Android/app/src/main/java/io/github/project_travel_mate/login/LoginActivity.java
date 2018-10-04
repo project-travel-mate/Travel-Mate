@@ -324,6 +324,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEmailForgotPassword.setText("");
     }
 
+    /**
+     * displays input fields to get user's email when he/she requests for a password reset
+     */
     @Override
     public void forgotPassword() {
         log.setVisibility(View.GONE);
@@ -331,6 +334,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mForgotPasswordLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * displays pin view for a user to enter 4-digit code that verifies his/her request for password reset
+     * @param email user's e-mail address to which a newly generated 4-digit code will be sent
+     */
     @Override
     public void openResetPin(String email) {
         mForgotPasswordLayout.setVisibility(View.GONE);
@@ -339,11 +346,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mResendCodeText.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * displays a confirmation alert that a reset code has been resent upon request
+     */
     @Override
     public void resendResetCode() {
         showMessage(getString(R.string.text_code_resent_alert));
     }
 
+    /**
+     * displays fields to input new password and confirm the new password
+     */
     @Override
     public void newPasswordInput() {
         mResetCodeLayout.setVisibility(View.GONE);
@@ -351,6 +364,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mNewPasswordLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * validates the new password and updates the details against the user's email id
+     * @param email the user's email id for which the password is reset
+     */
     @Override
     public void confirmPasswordReset(String email) {
         String newPassword = mNewPasswordReset.getText().toString();

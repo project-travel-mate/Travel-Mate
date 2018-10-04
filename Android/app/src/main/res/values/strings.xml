@@ -33,7 +33,7 @@
     <!-- reset password strings -->
     <string name="submit">Submit</string>
     <string name="text_back_to_login"><u>Back to login</u></string>
-    <string name="text_forgot_password"><u>Forgot password? Clear here to reset.</u></string>
+    <string name="text_forgot_password"><u>Forgot password? Click here to reset.</u></string>
     <string name="text_resend_code"><u>Didn\'t get the code? Resend code.</u></string>
     <string name="text_code_sent_alert">A reset code has been sent to your email id : %1$s. Please enter the code below.</string>
     <string name="confirm">Confirm</string>
