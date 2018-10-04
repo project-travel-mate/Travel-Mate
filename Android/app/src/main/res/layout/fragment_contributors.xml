@@ -97,26 +97,6 @@
 
                 />
 
-            <!--<android.support.v7.widget.CardView
-                android:id="@+id/see_more_android_devs"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp">
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableEnd="@drawable/ic_arrow_downward"
-                    android:drawablePadding="15dp"
-                    android:drawableTint="@color/grey"
-                    android:padding="8dp"
-                    android:text="@string/see_more" />
-
-            </android.support.v7.widget.CardView>-->
-
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -139,25 +119,6 @@
                 android:layout_height="wrap_content"
                 android:isScrollContainer="false"
                 android:numColumns="3" />
-
-            <!--<android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp">
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableEnd="@drawable/ic_arrow_downward"
-                    android:drawablePadding="15dp"
-                    android:drawableTint="@color/grey"
-                    android:padding="8dp"
-                    android:text="@string/see_more" />
-
-            </android.support.v7.widget.CardView>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
