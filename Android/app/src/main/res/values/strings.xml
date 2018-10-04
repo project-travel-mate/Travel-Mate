@@ -296,5 +296,5 @@
     <string name="i_want_to_contribute">I want to contribute</string>
     <string name="github">Github</string>
     <string name="project">Project Travel-Mate</string>
-    <string name="contributions">Contributions: </string>
+    <string name="contributions">Commits: </string>
 </resources>

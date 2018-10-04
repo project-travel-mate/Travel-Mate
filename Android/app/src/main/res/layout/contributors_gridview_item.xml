@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="25dp">
@@ -30,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:foregroundGravity="center"
+                android:textSize="15sp"
                 android:gravity="center_vertical" />
 
             <LinearLayout
@@ -43,18 +43,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/contributions" />
+                    android:text="@string/contributions"
+                    android:textSize="15sp" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/contributor_contributions"
-                    style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginStart="5dp"
-                    android:background="@drawable/rounded_corner"
                     android:foregroundGravity="right"
-                    android:gravity="end" />
+                    android:gravity="end"
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

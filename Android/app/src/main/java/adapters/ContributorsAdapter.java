@@ -51,13 +51,13 @@ public class ContributorsAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.contributors_gridview_item, null);
         }
 
-        final ImageView contributor_avatarImageView = (ImageView) convertView.findViewById(R.id.contributor_image);
-        final TextView contributor_unameTextView = (TextView) convertView.findViewById(R.id.contributor_name);
+        final ImageView contributor_avatarImageView = convertView.findViewById(R.id.contributor_image);
+        final TextView contributor_unameTextView = convertView.findViewById(R.id.contributor_name);
         final TextView contributor_contibutionsTextView =
-                (TextView) convertView.findViewById(R.id.contributor_contributions);
+                convertView.findViewById(R.id.contributor_contributions);
         String contributorAvatarUrl = contributor.getAvatarUrl();
-        Picasso.with(mContext).load(contributorAvatarUrl).centerCrop().resize(150, 150)
-                .placeholder(R.drawable.placeholder_image)
+        Picasso.with(mContext).load(contributorAvatarUrl).centerCrop()
+                .resize(250, 250)
                 .into(contributor_avatarImageView);
         final String unameFormatted = "@" + contributor.getUsername();
         contributor_unameTextView.setText(unameFormatted);
@@ -69,7 +69,7 @@ public class ContributorsAdapter extends BaseAdapter {
      * Replaces dataset with the argument's dataset
      * ans notifies the UI about those changes
      *
-     * @param newContributors
+     * @param newContributors - new data to be set to list
      */
     public void update(ArrayList<Contributor> newContributors) {
         mContributors.clear();
