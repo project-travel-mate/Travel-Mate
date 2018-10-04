@@ -57,6 +57,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
@@ -74,6 +75,8 @@ import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
  * Launcher Activity; Handles fragment changes;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "MainActivity";
 
     private SharedPreferences mSharedPreferences;
     private int mPreviousMenuItemId;
@@ -289,20 +292,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // to fetch user details
         String uri = API_LINK_V2 + "get-user";
-        Log.v("EXECUTING", uri);
+        Log.v(TAG, "url=" + uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
+                .header(AUTHORIZATION, "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                Log.e(TAG, "request Failed, message = " + e.getMessage());
             }
 
             @Override
@@ -332,8 +335,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fillNavigationView(fullName, imageURL);
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                        Log.e(TAG, "Error parsing user JSON, " + e.getMessage());
                     }
                 });
 
@@ -376,20 +378,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void updateNotificationsCount(Menu menu) {
         String uri;
         uri = API_LINK_V2 + "number-of-unread-notifications";
-        Log.v("EXECUTING", uri);
+        Log.v(TAG, "url = " + uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
+                .header(AUTHORIZATION, "Token " + mToken)
                 .url(uri)
                 .build();
         //Setup callback
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
+                Log.e(TAG, "Request Failed, message =" + e.getMessage());
             }
 
             @Override
@@ -408,8 +410,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     mNotificationCount);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("ERROR : ", "Message : " + e.getMessage());
+                        Log.e(TAG, "Error parsing notifications json, " + e.getMessage());
                     }
                 });
             }
