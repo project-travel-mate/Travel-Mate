@@ -111,6 +111,9 @@ dependencies {
 
     implementation 'com.google.android:flexbox:1.0.0'
 
+    //otp pin view
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
+
     //Timeline View
     implementation 'com.github.vipulasri:timelineview:1.0.6'
 }
