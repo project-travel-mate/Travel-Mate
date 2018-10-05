@@ -54,6 +54,8 @@ import static utils.Constants.USER_TOKEN;
  */
 public class HotelsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private  static final String KEY_SELECTED_CITY = "KEY_SELECTED_CITY";
+
     @BindView(R.id.hotel_list)
     GridView gridView;
     @BindView(R.id.select_city)
@@ -68,6 +70,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     private Handler mHandler;
     private String mToken;
 
+    private CitySearchModel mSelectedCity;
+
     private ArrayList<CitySearchModel> mSearchCities = new ArrayList<>();
 
     @Override
@@ -79,6 +83,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+
 
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -92,6 +97,14 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_CITY)) {
+            mSelectedCity = savedInstanceState.getParcelable(KEY_SELECTED_CITY);
+            if (mSelectedCity != null) {
+                selectCity.setText(String.format(getString(R.string.showing_hotels), mSelectedCity.getName()));
+                getCityInfo(mSelectedCity.getId());
+            }
+        }
     }
 
     @Override
@@ -257,6 +270,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 new CitySearchDialogCompat(HotelsActivity.this, getString(R.string.search_title),
                         getString(R.string.search_hint), null, mSearchCities,
                         (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
+                            mSelectedCity = item;
                             String selectedCity = item.getId();
                             selectCity.setText(String.format(getString(R.string.showing_hotels), item.getName()));
                             dialog.dismiss();
@@ -265,6 +279,17 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 gridView.setAdapter(null);
                 break;
         }
+    }
+
+
+    /**
+     * save selected city to bundle
+     * in case of configuration change like device screen rotation.
+     * */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_SELECTED_CITY, mSelectedCity);
     }
 
     // TODO :: Move adapter to a new class
