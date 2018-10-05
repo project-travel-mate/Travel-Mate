@@ -41,7 +41,8 @@ import utils.TravelmateSnackbars;
 import static utils.Constants.BASE_TASKS;
 import static utils.Constants.IS_ADDED_INDB;
 
-public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
+public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
+        ChecklistAdapter.ChecklistAdapterListener {
 
     @BindView(R.id.listview)
     ListView listview;
@@ -51,6 +52,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
     private View mChecklistView;
     private List<ChecklistItem> mItems = new ArrayList<>();
     private  AppDataBase mDatabase;
+    private MenuItem mActionDeleteMenuItem;
     public ChecklistFragment() {
     }
 
@@ -108,7 +110,22 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.checklist_menu, menu);
+        mActionDeleteMenuItem = menu.findItem(R.id.action_delete);
+        checkForCompletedItem();
+    }
 
+    private void checkForCompletedItem() {
+
+        mDisposable.add(mViewModel.getCompletedItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> {
+                    if (items.size() > 0) {
+                        mActionDeleteMenuItem.setVisible(true);
+                    } else {
+                        mActionDeleteMenuItem.setVisible(false);
+                    }
+                }));
     }
 
     @Override
@@ -121,6 +138,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     private void attachAdapter() {
 
@@ -143,12 +161,19 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
         mDisposable.add(mViewModel.getSortedItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> listview.setAdapter(new ChecklistAdapter(mActivity, items, mViewModel))));
+                .subscribe(items -> {
+                    ChecklistAdapter adapter = new ChecklistAdapter(mActivity, items, mViewModel);
+                    adapter.setListener(ChecklistFragment.this);
+                    listview.setAdapter(adapter);
+                }));
 
         mDisposable.add(mViewModel.getSortedItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items ->  mDatabase.widgetCheckListDao().insertAll(items)));
+
+
+
 
     }
 
@@ -178,7 +203,10 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
         AlertDialog.Builder builder = new AlertDialog.Builder(crt);
         builder.setMessage(R.string.delete_tasks)
                 .setPositiveButton(R.string.positive_button,
-                        (dialog, which) -> deleteCompletedTasks())
+                        (dialog, which) -> {
+                            mActionDeleteMenuItem.setVisible(false);
+                            deleteCompletedTasks();
+                        })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
                             //do nothing on clicking cancel
@@ -212,9 +240,16 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars {
                                 .subscribe());
                         mDatabase.widgetCheckListDao().insert(checklistItem);
                     }
+
+                    if (mItems.size() > 0) mActionDeleteMenuItem.setVisible(true);
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorPrimary))
                 .show();
+    }
+
+    @Override
+    public void onItemCheckedChange() {
+        checkForCompletedItem();
     }
 }
 

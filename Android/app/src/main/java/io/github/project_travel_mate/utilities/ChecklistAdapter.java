@@ -28,6 +28,7 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
     private ChecklistViewModel mViewModel;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private AppDataBase mDatabase;
+    private ChecklistAdapterListener mListener;
 
     ChecklistAdapter(Activity context, List<ChecklistItem> items, ChecklistViewModel model) {
         super(context, R.layout.checklist_item);
@@ -36,6 +37,11 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
         mViewModel = model;
 
         mDatabase = AppDataBase.getAppDatabase(mContext);
+    }
+
+
+    public void setListener(ChecklistAdapterListener listener) {
+        this.mListener = listener;
     }
 
     @Override
@@ -76,6 +82,8 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
 
                 mDatabase.widgetCheckListDao().updateIsDone(mItems.get(position).getId());
 
+
+
             } else {
                 //updating isDone to 0 in database
                 mDisposable.add(mViewModel.updateUndone(mItems.get(position).getId())
@@ -84,6 +92,10 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
                         .subscribe());
 
                 mDatabase.widgetCheckListDao().updateUndone(mItems.get(position).getId());
+            }
+
+            if (mListener != null) {
+                mListener.onItemCheckedChange();
             }
         });
         return view;
@@ -96,6 +108,11 @@ class ChecklistAdapter extends ArrayAdapter<ChecklistItem> {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+
+    public interface ChecklistAdapterListener {
+        void onItemCheckedChange();
     }
 
 }
