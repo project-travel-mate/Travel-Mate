@@ -127,13 +127,6 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         // make an target
         mSpotView = inflater.inflate(R.layout.spotlight_target, null);
 
-        mInterests = new ArrayList<>(Arrays.asList(
-                mActivity.getString(R.string.interest_know_more),
-                mActivity.getString(R.string.interest_weather),
-                mActivity.getString(R.string.interest_fun_facts),
-                mActivity.getString(R.string.interest_trends)
-        ));
-
         mMaterialSearchView = view.findViewById(R.id.search_view);
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -172,6 +165,12 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         mCities.clear();
         mCities = new ArrayList<>(Arrays.asList(mDatabase.cityDao().loadAll()));
+        mInterests = new ArrayList<>(Arrays.asList(
+                mActivity.getString(R.string.interest_know_more),
+                mActivity.getString(R.string.interest_weather),
+                mActivity.getString(R.string.interest_fun_facts),
+                mActivity.getString(R.string.interest_trends)
+        ));
 
         if (checkCachedCities(mCities)) {
             fetchCitiesList();
