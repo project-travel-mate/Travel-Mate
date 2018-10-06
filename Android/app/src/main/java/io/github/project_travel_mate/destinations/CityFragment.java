@@ -195,8 +195,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
      */
     private void showSpotlightView(View spotView) {
         CustomTarget customTarget = new CustomTarget.Builder(getActivity())
-                .setPoint(280f, 560f)
-                .setShape(new Circle(300f))
+                .setPoint(180f, 430f)
+                .setShape(new Circle(200f))
                 .setOverlay(spotView)
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
                     @Override
