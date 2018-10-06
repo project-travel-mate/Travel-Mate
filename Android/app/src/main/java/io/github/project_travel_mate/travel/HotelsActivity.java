@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +60,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.hotel_list)
     GridView gridView;
     @BindView(R.id.select_city)
-    TextView selectCity;
+    Button selectCity;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.text_view)
@@ -147,6 +148,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                         try {
                             JSONArray feedItems = new JSONArray(res);
                             Log.v("response", feedItems + " ");
+                            selectCity.setVisibility(View.GONE);
                             layout.setVisibility(View.VISIBLE);
                             animationView.setVisibility(View.GONE);
                             textView.setVisibility(View.GONE);
