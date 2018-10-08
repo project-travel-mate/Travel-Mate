@@ -62,16 +62,11 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
 
-            <GridView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/hotel_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:animateLayoutChanges="false"
-                android:cacheColorHint="@android:color/transparent"
-                android:fastScrollEnabled="true"
-                android:numColumns="2"
-                android:orientation="horizontal"
-                android:verticalSpacing="5dp" />
+                android:cacheColorHint="@android:color/transparent" />
 
         </LinearLayout>
 

@@ -70,6 +70,7 @@
             android:theme="@style/AppTheme_picker" />
         <activity
             android:name=".travel.HotelsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_hotels"
             android:theme="@style/AppTheme_picker" />
         <activity

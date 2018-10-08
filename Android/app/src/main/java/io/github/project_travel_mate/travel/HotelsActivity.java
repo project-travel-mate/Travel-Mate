@@ -8,16 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -55,10 +57,12 @@ import static utils.Constants.USER_TOKEN;
  */
 public class HotelsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private  static final String KEY_SELECTED_CITY = "KEY_SELECTED_CITY";
+    private static final String KEY_SELECTED_CITY = "KEY_SELECTED_CITY";
 
+    /*    @BindView(R.id.hotel_list)
+        GridView gridView;*/
     @BindView(R.id.hotel_list)
-    GridView gridView;
+    RecyclerView recyclerView;
     @BindView(R.id.select_city)
     Button selectCity;
     @BindView(R.id.animation_view)
@@ -85,6 +89,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
         ButterKnife.bind(this);
 
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -152,8 +157,33 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             layout.setVisibility(View.VISIBLE);
                             animationView.setVisibility(View.GONE);
                             textView.setVisibility(View.GONE);
-                            if (feedItems.length() > 0) {
-                                gridView.setAdapter(new HotelsAdapter(HotelsActivity.this, feedItems));
+                            int itemsSize = feedItems.length();
+                            if (itemsSize > 0) {
+                                /*
+                                 * Extracting data from json and adding it to the model
+                                 * then adding that model object to the list
+                                 */
+                                HotelsModel hotelsModel;
+                                List<HotelsModel> hotelsModelList = new ArrayList<>();
+                                JSONObject jo;
+                                try {
+                                    for (int i = 0; i < itemsSize; i++) {
+                                        jo = feedItems.getJSONObject(i);
+                                        hotelsModel = new HotelsModel(jo.getString("title"),
+                                                jo.getString("address").toString(),
+                                                jo.optString("phone", "000"),
+                                                jo.optString("href"),
+                                                jo.getInt("distance") / 1000,
+                                                jo.getDouble("latitude"),
+                                                jo.getDouble("longitude"));
+                                        hotelsModelList.add(hotelsModel);
+                                    }
+                                    //Passing the data list to the adapter
+                                    recyclerView.setAdapter(new HotelsAdapter(HotelsActivity.this, hotelsModelList));
+                                } catch (JSONException je) {
+                                    je.printStackTrace();
+                                    networkError();
+                                }
                             } else {
                                 noResults();
                             }
@@ -244,6 +274,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             public void onFailure(Call call, IOException e) {
                 mHandler.post(() -> networkError());
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful() && response.body() != null) {
@@ -278,7 +309,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                             dialog.dismiss();
                             getCityInfo(selectedCity);
                         }).show();
-                gridView.setAdapter(null);
+                recyclerView.setAdapter(null);
                 break;
         }
     }
@@ -287,7 +318,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * save selected city to bundle
      * in case of configuration change like device screen rotation.
-     * */
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -295,84 +326,55 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // TODO :: Move adapter to a new class
-    class HotelsAdapter extends BaseAdapter {
+    public class HotelsAdapter extends RecyclerView.Adapter<HotelsAdapter.HotelsViewHolder> {
 
-        final Context mContext;
-        final JSONArray mFeedItems;
-        private final LayoutInflater mInflater;
+        private final Context mContext;
+        private List<HotelsModel> mHotelsModelList;
 
-        HotelsAdapter(Context context, JSONArray feedItems) {
+        HotelsAdapter(Context context, List<HotelsModel> mHotelsModelList) {
             this.mContext = context;
-            this.mFeedItems = feedItems;
+            this.mHotelsModelList = mHotelsModelList;
+        }
 
-            mInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @NonNull
+        @Override
+        public HotelsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_listitem, parent, false);
+            return new HotelsViewHolder(view);
         }
 
         @Override
-        public int getCount() {
-            return mFeedItems.length();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            try {
-                return mFeedItems.getJSONObject(position);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView != null) {
-                holder = (ViewHolder) convertView.getTag();
-            } else {
-                convertView = mInflater.inflate(R.layout.hotel_listitem, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            }
+        public void onBindViewHolder(@NonNull HotelsViewHolder holder, int position) {
 
             try {
-                holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
-                holder.description.setText(android.text.Html.fromHtml(mFeedItems
-                        .getJSONObject(position).getString("address")).toString());
-                holder.distance.setText(new DecimalFormat("##.##").format((float) mFeedItems
-                        .getJSONObject(position).getInt("distance") / 1000));
+                holder.title.setText(mHotelsModelList.get(position).getTitle());
+                holder.description.setText(android.text.Html.fromHtml(mHotelsModelList.get(position).getAddress()));
+                holder.distance.setText(new DecimalFormat("##.##").format((float) mHotelsModelList.get(position)
+                        .getDistance()));
                 holder.call.setOnClickListener(view -> {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     try {
-                        intent.setData(Uri.parse("tel:" +
-                                mFeedItems.getJSONObject(position).optString("phone", "000")));
+                        intent.setData(Uri.parse("tel:" + mHotelsModelList.get(position).getPhone()));
                         mContext.startActivity(intent);
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         networkError();
                     }
                 });
+
                 holder.map.setOnClickListener(view -> {
                     Intent browserIntent;
                     try {
                         Double latitude =
-                                mFeedItems.getJSONObject(position).getDouble("latitude");
+                                mHotelsModelList.get(position).getLatitude();
                         Double longitude =
-                                mFeedItems.getJSONObject(position).getDouble("longitude");
-
+                                mHotelsModelList.get(position).getLongitude();
                         browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
-                                mFeedItems.getJSONObject(position).getString("title") +
+                                mHotelsModelList.get(position).getTitle() +
                                 "+(name)+@" + latitude +
                                 "," + longitude));
-
                         mContext.startActivity(browserIntent);
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         networkError();
                     }
@@ -382,24 +384,16 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                     Intent browserIntent = null;
                     try {
                         browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(mFeedItems.getJSONObject(position).getString("href")));
-                    } catch (JSONException e) {
+                                Uri.parse(mHotelsModelList.get(position).getHref()));
+                    } catch (Exception e) {
                         e.printStackTrace();
                         networkError();
                     }
                     mContext.startActivity(browserIntent);
 
                 });
-                holder.expandText.setOnClickListener((View view) -> {
-                    if (holder.detailsLayout.getVisibility() == View.GONE) {
-                        holder.detailsLayout.setVisibility(View.VISIBLE);
-                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                    } else {
-                        holder.detailsLayout.setVisibility(View.GONE);
-                        holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    }
-                });
-                holder.expandCollapse.setOnClickListener((View view) -> {
+
+                holder.expand_more_details.setOnClickListener((View view) -> {
                     if (holder.detailsLayout.getVisibility() == View.GONE) {
                         holder.detailsLayout.setVisibility(View.VISIBLE);
                         holder.expandCollapse.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
@@ -409,11 +403,44 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 Log.e("ERROR : ", "Message : " + e.getMessage());
             }
-            return convertView;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mHotelsModelList.size();
+        }
+
+//        View holder Class to hold the Views
+        class HotelsViewHolder extends RecyclerView.ViewHolder {
+
+            @BindView(R.id.hotel_name)
+            TextView title;
+            @BindView(R.id.hotel_address)
+            TextView description;
+            @BindView(R.id.call)
+            RelativeLayout call;
+            @BindView(R.id.map)
+            RelativeLayout map;
+            @BindView(R.id.book)
+            RelativeLayout book;
+            @BindView(R.id.more_details)
+            LinearLayout detailsLayout;
+            @BindView(R.id.expand_collapse)
+            ImageView expandCollapse;
+            @BindView(R.id.distance)
+            TextView distance;
+            @BindView(R.id.expand_more_details)
+            RelativeLayout expand_more_details;
+
+
+            private HotelsViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+            }
         }
     }
 
@@ -438,32 +465,76 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         animationView.playAnimation();
     }
 
-    class ViewHolder {
-        @BindView(R.id.hotel_name)
-        TextView title;
-        @BindView(R.id.hotel_address)
-        TextView description;
-        @BindView(R.id.call)
-        RelativeLayout call;
-        @BindView(R.id.map)
-        RelativeLayout map;
-        @BindView(R.id.book)
-        RelativeLayout book;
-        @BindView(R.id.more_details)
-        LinearLayout detailsLayout;
-        @BindView(R.id.expand_text_view)
-        TextView expandText;
-        @BindView(R.id.expand_collapse)
-        ImageView expandCollapse;
-        @BindView(R.id.distance)
-        TextView distance;
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
-
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, HotelsActivity.class);
         return intent;
     }
+
+    // TODO :: Move model to a new class
+//    Model class to hold the data instead of passing the whole JSONObject to recyclerView
+    class HotelsModel {
+        private String mTitle;
+        private String mAddress;
+        private String mPhone;
+        private String mHref;
+        private int mDistance;
+        private double mLatitude;
+        private double mLongitude;
+
+        HotelsModel(String mTitle, String mAddress, String mPhone, String mHref, int mDistance,
+                    double mLatitude, double mLongitude) {
+            this.mTitle = mTitle;
+            this.mAddress = mAddress;
+            this.mPhone = mPhone;
+            this.mHref = mHref;
+            this.mDistance = mDistance;
+            this.mLatitude = mLatitude;
+            this.mLongitude = mLongitude;
+        }
+
+        public String getTitle() {
+            return mTitle;
+        }
+
+        public String getAddress() {
+            return mAddress;
+        }
+
+        public String getPhone() {
+            return mPhone;
+        }
+
+        public String getHref() {
+            return mHref;
+        }
+
+        public int getDistance() {
+            return mDistance;
+        }
+
+        public double getLatitude() {
+            return mLatitude;
+        }
+
+        public double getLongitude() {
+            return mLongitude;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
