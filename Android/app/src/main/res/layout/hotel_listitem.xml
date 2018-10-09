@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:maxLines="10"
             android:text="@string/empty_description"
             android:textAlignment="center"
@@ -106,7 +106,7 @@
 
         <LinearLayout
             android:id="@+id/more_details"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:baselineAligned="false"
@@ -115,9 +115,9 @@
 
             <RelativeLayout
                 android:id="@+id/call"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.0">
+                android:layout_weight="1">
 
                 <utils.CircleImageView
                     android:id="@+id/call_image"
@@ -137,9 +137,9 @@
 
             <RelativeLayout
                 android:id="@+id/map"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.0">
+                android:layout_weight="1">
 
                 <utils.CircleImageView
                     android:id="@+id/map_image"
@@ -158,9 +158,9 @@
 
             <RelativeLayout
                 android:id="@+id/book"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.0">
+                android:layout_weight="1">
 
                 <utils.CircleImageView
                     android:id="@+id/locate_image"

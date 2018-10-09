@@ -59,8 +59,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final String KEY_SELECTED_CITY = "KEY_SELECTED_CITY";
 
-    /*    @BindView(R.id.hotel_list)
-        GridView gridView;*/
     @BindView(R.id.hotel_list)
     RecyclerView recyclerView;
     @BindView(R.id.select_city)
@@ -173,7 +171,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                                                 jo.getString("address").toString(),
                                                 jo.optString("phone", "000"),
                                                 jo.optString("href"),
-                                                jo.getInt("distance") / 1000,
+                                                jo.getInt("distance"),
                                                 jo.getDouble("latitude"),
                                                 jo.getDouble("longitude"));
                                         hotelsModelList.add(hotelsModel);
@@ -350,7 +348,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                 holder.title.setText(mHotelsModelList.get(position).getTitle());
                 holder.description.setText(android.text.Html.fromHtml(mHotelsModelList.get(position).getAddress()));
                 holder.distance.setText(new DecimalFormat("##.##").format((float) mHotelsModelList.get(position)
-                        .getDistance()));
+                        .getDistance() / 1000));
                 holder.call.setOnClickListener(view -> {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     try {
@@ -378,19 +376,17 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                         e.printStackTrace();
                         networkError();
                     }
-
                 });
                 holder.book.setOnClickListener(view -> {
                     Intent browserIntent = null;
                     try {
                         browserIntent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse(mHotelsModelList.get(position).getHref()));
+                        mContext.startActivity(browserIntent);
                     } catch (Exception e) {
                         e.printStackTrace();
                         networkError();
                     }
-                    mContext.startActivity(browserIntent);
-
                 });
 
                 holder.expand_more_details.setOnClickListener((View view) -> {
@@ -414,7 +410,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             return mHotelsModelList.size();
         }
 
-//        View holder Class to hold the Views
+        //        View holder Class to hold the Views
         class HotelsViewHolder extends RecyclerView.ViewHolder {
 
             @BindView(R.id.hotel_name)
@@ -435,7 +431,6 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
             TextView distance;
             @BindView(R.id.expand_more_details)
             RelativeLayout expand_more_details;
-
 
             private HotelsViewHolder(View itemView) {
                 super(itemView);
@@ -466,8 +461,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, HotelsActivity.class);
-        return intent;
+        return new Intent(context, HotelsActivity.class);
     }
 
     // TODO :: Move model to a new class
@@ -521,20 +515,3 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

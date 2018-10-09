@@ -42,8 +42,6 @@
             app:lottie_imageAssetsFolder="images"
             app:lottie_loop="true" />
 
-
-
         <LinearLayout
             android:id="@+id/layout"
             android:layout_width="match_parent"
@@ -79,6 +77,5 @@
             android:layout_marginBottom="5dp"
             android:text="@string/hotels_text" />
     </FrameLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>
