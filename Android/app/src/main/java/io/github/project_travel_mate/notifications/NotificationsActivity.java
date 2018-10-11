@@ -352,6 +352,9 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                         R.string.no_notifications, Snackbar.LENGTH_LONG);
         snackbar.show();
 
+        MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
+        item.setVisible(false);
+
         animationView.setAnimation(R.raw.no_notifications);
         animationView.playAnimation();
     }
