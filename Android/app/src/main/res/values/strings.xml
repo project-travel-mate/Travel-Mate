@@ -149,6 +149,7 @@
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
     <string name="empty_description">No description available.</string>
+    <string name="sample_state_trending">#Delhi</string>
 
     <!--AlertDialog sign out-->
     <string name="signout_message">Are you sure want to sign out?</string>
