@@ -176,6 +176,7 @@
             android:text="Convert"
             android:textColor="#fff" />
 
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/graph"
             android:layout_width="match_parent"
@@ -185,6 +186,5 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>
