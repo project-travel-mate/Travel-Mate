@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 
     // Lottie : animations
-    implementation 'com.airbnb.android:lottie:2.5.5'
+    implementation 'com.airbnb.android:lottie:2.7.0'
 
     // To show what's new in the application
     implementation 'io.github.tonnyl:whatsnew:0.1.1'
