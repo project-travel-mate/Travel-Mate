@@ -116,6 +116,9 @@ dependencies {
 
     //Timeline View
     implementation 'com.github.vipulasri:timelineview:1.0.6'
+
+    //Graph view
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 preBuild.dependsOn('checkstyle')
