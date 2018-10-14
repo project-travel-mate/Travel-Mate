@@ -2,22 +2,27 @@ package io.github.project_travel_mate.utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -58,6 +63,8 @@ public class CurrencyActivity extends AppCompatActivity {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.actual_layout)
+    RelativeLayout actual_layout;
     @BindView(R.id.first_country_image)
     ImageView from_image;
     @BindView(R.id.second_country_flag)
@@ -99,7 +106,9 @@ public class CurrencyActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle(R.string.progress_wait);
+        mDialog.setMessage(getResources().getString(R.string.progress_wait));
+        mDialog.setTitle(R.string.app_name);
+        mDialog.setCancelable(false);
 
         sDefSystemLanguage = Locale.getDefault().getLanguage();
 
@@ -132,9 +141,22 @@ public class CurrencyActivity extends AppCompatActivity {
     @OnClick(R.id.button_convert)
     void onConvertclicked() {
         from_amount = Integer.parseInt(from_edittext.getText().toString());
-        convertCurrency();
-        currencyRate();
-        utils.Utils.hideKeyboard(this);
+        if (new Connection().isOnline()) {
+            convertCurrency();
+            currencyRate();
+            utils.Utils.hideKeyboard(this);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CurrencyActivity.this);
+            builder.setTitle(R.string.app_name);
+            builder.setMessage(R.string.check_internet);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        }
     }
 
     void setupGraph(JSONArray currencyRateTrends) {
@@ -192,6 +214,7 @@ public class CurrencyActivity extends AppCompatActivity {
 
         // set data
         graph.setData(data);
+
     }
 
     /**
@@ -216,8 +239,8 @@ public class CurrencyActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mDialog.hide();
                 mHandler.post(() -> {
+                    mDialog.hide();
                     Log.e("Request Failed", "Message : " + e.getMessage());
                     cancelAnimation();
                     networkError();
@@ -313,8 +336,7 @@ public class CurrencyActivity extends AppCompatActivity {
     }
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, CurrencyActivity.class);
-        return intent;
+        return new Intent(context, CurrencyActivity.class);
     }
 
     @Override
@@ -346,6 +368,7 @@ public class CurrencyActivity extends AppCompatActivity {
     private void networkError() {
         animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
+        actual_layout.setVisibility(View.GONE);
         animationView.playAnimation();
     }
 
@@ -355,6 +378,7 @@ public class CurrencyActivity extends AppCompatActivity {
     private void emptyListAnimation() {
         animationView.setVisibility(View.VISIBLE);
         animationView.setAnimation(R.raw.empty_list);
+        actual_layout.setVisibility(View.GONE);
         animationView.playAnimation();
     }
 
@@ -365,6 +389,7 @@ public class CurrencyActivity extends AppCompatActivity {
         if (animationView != null) {
             animationView.cancelAnimation();
             animationView.setVisibility(View.GONE);
+            actual_layout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -373,5 +398,14 @@ public class CurrencyActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    //    TODO : Move to different class
+    class Connection {
+        boolean isOnline() {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = cm != null ? cm.getActiveNetworkInfo() : null;
+            return info != null && info.isConnectedOrConnecting();
+        }
     }
 }
