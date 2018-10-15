@@ -32,8 +32,7 @@ class TripsListAdapter extends RecyclerView.Adapter<TripsListAdapter.TimelineVie
     private LayoutInflater mInflater;
     private static ClickListener mClickListener;
 
-    TripsListAdapter(Context context,
-                   List<Trip> trips) {
+    TripsListAdapter(List<Trip> trips) {
         this.mTrips = trips;
     }
 

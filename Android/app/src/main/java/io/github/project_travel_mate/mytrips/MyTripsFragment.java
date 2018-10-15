@@ -82,7 +82,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(getLayoutManager());
-        mMyTripsAdapter = new TripsListAdapter(mActivity.getApplicationContext(), mTripList);
+        mMyTripsAdapter = new TripsListAdapter(mTripList);
         mMyTripsAdapter.setOnItemClickListener((position, v) -> {
             Intent intent = MyTripInfoActivity.getStartIntent(mActivity.getApplicationContext(),
                     mTripList.get(position));
@@ -121,9 +121,10 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
+                    swipeRefreshLayout.setRefreshing(false);
                     if (response.isSuccessful() && response.body() != null) {
                         JSONArray arr;
                         try {
@@ -145,8 +146,8 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
                                 mTripList.add(new Trip(id, name, image, start, end, tname));
                                 animationView.setVisibility(View.GONE);
-                                mMyTripsAdapter.notifyItemInserted(arr.length() - i - 1);
                             }
+                            mMyTripsAdapter.notifyItemRangeInserted(0, arr.length());
 
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
@@ -210,9 +211,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
-        mTripList.clear();
-        mMyTripsAdapter.notifyDataSetChanged();
         mytrip();
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(true);
     }
 }
