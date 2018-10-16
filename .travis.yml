@@ -5,7 +5,7 @@ android:
     - tools
     - platform-tools
     - tools
-    - build-tools-28.0.3
+    - build-tools-28.0.2
     - android-28
 # Support library
     - extra-android-support
@@ -14,9 +14,6 @@ android:
     - extra-google-m2repository
   licenses:
     - '.+'
-
-before_install:
-    - yes | sdkmanager "platforms;android-28"
 
 before_script:
     - cd Android
