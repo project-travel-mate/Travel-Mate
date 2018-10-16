@@ -15,6 +15,9 @@ android:
   licenses:
     - '.+'
 
+before_install:
+    - yes | sdkmanager "platforms;android-28"
+
 before_script:
     - cd Android
     - chmod +x gradlew
