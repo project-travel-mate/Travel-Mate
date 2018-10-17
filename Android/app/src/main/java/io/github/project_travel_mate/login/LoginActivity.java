@@ -106,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
     private Handler mHandler;
+    private String mOtpCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (validateEmail(emailString)) {
                     mBackToLogin.setVisibility(View.GONE);
                     mResendCodeText.setVisibility(View.VISIBLE);
-                    mLoginPresenter.ok_password_reset_request(emailString);
+                    mLoginPresenter.ok_password_reset_request(emailString, mHandler);
                 }
                 break;
                 // Open login
@@ -227,7 +228,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // Call resend reset code request
             case R.id.resend_code:
                 emailString = mEmailForgotPassword.getText().toString();
-                mLoginPresenter.resendResetCode(emailString);
+                mLoginPresenter.resendResetCode(emailString, mHandler);
                 break;
                 // Call confirm reset request
             case R.id.ok_confirm_pass_reset:
@@ -374,7 +375,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String confirmNewPassword = mConfirmNewPasswordReset.getText().toString();
         if (validatePassword(newPassword)) {
             if (confirmNewPassword.equals(newPassword)) {
-                mLoginPresenter.ok_password_reset(email, newPassword);
+                mLoginPresenter.ok_password_reset(email, mOtpCode, newPassword, mHandler);
                 showMessage(getString(R.string.text_password_updated_alert));
             }
         }
@@ -444,10 +445,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     @Override
     public void onOtpCompleted(String otp) {
-        //TODO verify if the OTP entered was correct and display fields to take in the new password
-        //TODO display an error message in the SnackBar if the code is invalid
-
-        //if code is valid, display fields to accept new password
+        mOtpCode = otp;
         mLoginPresenter.newPasswordInput();
     }
 }
