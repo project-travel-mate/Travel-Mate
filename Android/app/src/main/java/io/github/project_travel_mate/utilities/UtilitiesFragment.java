@@ -81,6 +81,10 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 intent = CurrencyActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
+            case 4 :
+                intent = WorldClockActivity.getStartIntent(mActivity);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -102,6 +106,10 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.currency),
                         getResources().getString(R.string.text_currency)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.worldclock),
+                        getResources().getString(R.string.text_clock)));
         return cardEntities;
     }
 }

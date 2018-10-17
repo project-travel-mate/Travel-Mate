@@ -17,9 +17,9 @@ import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import io.github.project_travel_mate.R;
-import objects.CurrencyName;
+import objects.ZoneName;
 
-public class ConversionListViewActivity extends Activity implements TextWatcher {
+public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
     @BindView(R.id.listView)
     RecyclerView mListview;
@@ -28,7 +28,7 @@ public class ConversionListViewActivity extends Activity implements TextWatcher 
     CurrencyConverterAdapter mAdaptorListView;
     String temp = null;
 
-    public static ArrayList<CurrencyName> currences_names;
+    public static ArrayList<ZoneName> currences_names;
     String s_ids_names;
     private Context mContext;
 
@@ -50,7 +50,6 @@ public class ConversionListViewActivity extends Activity implements TextWatcher 
     }
 
     public void addCurrencies() {
-
         try {
             InputStream is = mContext.getAssets().open("currencies.json");
             int size = is.available();
@@ -81,12 +80,12 @@ public class ConversionListViewActivity extends Activity implements TextWatcher 
             }
             String[] split2 = temp.split(":");
             temp = null;
-            currences_names.add(new CurrencyName(split[2], split2[1]));
+            currences_names.add(new ZoneName(split[2], split2[1]));
         }
 
         Collections.sort(currences_names, (n1, n2) -> n1.shortName.compareTo(n2.shortName));
 
-        mAdaptorListView = new CurrencyConverterAdapter(ConversionListViewActivity.this, currences_names);
+        mAdaptorListView = new CurrencyConverterAdapter(CurrencyListViewActivity.this, currences_names);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext());
         mListview.setLayoutManager(mLayoutManager);
         mListview.setAdapter(mAdaptorListView);
@@ -99,7 +98,7 @@ public class ConversionListViewActivity extends Activity implements TextWatcher 
 
     @Override
     public void onTextChanged(CharSequence searchItem, int start, int before, int count) {
-        ConversionListViewActivity.this.mAdaptorListView.getFilter().filter(searchItem);
+        CurrencyListViewActivity.this.mAdaptorListView.getFilter().filter(searchItem);
     }
 
     @Override

@@ -47,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import objects.CurrencyName;
+import objects.ZoneName;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -89,7 +89,7 @@ public class CurrencyActivity extends AppCompatActivity {
     private static final String GRAPH_LABEL_NAME = "Last 7 days currency rate trends";
 
     private ProgressDialog mDialog;
-    public static ArrayList<CurrencyName> currences_names;
+    public static ArrayList<ZoneName> currences_names;
 
     public static String sDefSystemLanguage;
     private Context mContext;
@@ -125,7 +125,7 @@ public class CurrencyActivity extends AppCompatActivity {
         flag_check_first_item = true;
         flag_check_second_item = false;
         result_textview.setText(String.valueOf(0.0));
-        Intent intent = new Intent(mContext, ConversionListViewActivity.class);
+        Intent intent = new Intent(mContext, CurrencyListViewActivity.class);
         startActivity(intent);
     }
 
@@ -134,7 +134,7 @@ public class CurrencyActivity extends AppCompatActivity {
         flag_check_second_item = true;
         flag_check_first_item = false;
         result_textview.setText(String.valueOf(0.0));
-        Intent intent = new Intent(mContext, ConversionListViewActivity.class);
+        Intent intent = new Intent(mContext, CurrencyListViewActivity.class);
         startActivity(intent);
     }
 
