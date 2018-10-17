@@ -130,7 +130,9 @@
         <activity android:name=".utilities.WeatherForecastActivity" />
         <activity android:name=".utilities.CompassActivity" />
         <activity android:name=".utilities.CurrencyActivity" />
-        <activity android:name=".utilities.ConversionListViewActivity" />
+        <activity android:name=".utilities.WorldClockActivity" />
+        <activity android:name=".utilities.CurrencyListViewActivity" />
+        <activity android:name=".utilities.TimezoneListViewActivity" />
         <activity android:name=".destinations.description.WeatherActivity" />
         <activity android:name=".destinations.description.CityHistoryActivity" />
         <activity android:name=".travel.ListViewRealTimeActivity" />

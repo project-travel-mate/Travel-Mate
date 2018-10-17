@@ -21,6 +21,7 @@ public class DateUtils {
 
     /**
      * Convert rfc3339 format received from the server to time in millis
+     *
      * @param dateInString - input date in string
      * @return date in milliseconds
      */
@@ -40,6 +41,7 @@ public class DateUtils {
 
     /**
      * Convert time in millis to date
+     *
      * @param timeMills - input time in milliseconds
      * @return input date in date format
      */
@@ -47,4 +49,15 @@ public class DateUtils {
         long duration = System.currentTimeMillis() - timeMills;
         return dateFormatter.format(new Date(timeMills));
     }
+
+    public static String getDate(int beforeDays) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        if (beforeDays > 0) {
+            cal.add(Calendar.DAY_OF_YEAR, -beforeDays);
+        }
+        return dateFormatter.format(cal.getTime());
+    }
+
 }

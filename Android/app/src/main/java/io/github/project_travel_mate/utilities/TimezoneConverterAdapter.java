@@ -21,13 +21,13 @@ import io.github.project_travel_mate.R;
 import objects.ZoneName;
 import utils.CurrencyConverterGlobal;
 
-public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConverterAdapter.ViewHolder>
+public class TimezoneConverterAdapter extends RecyclerView.Adapter<TimezoneConverterAdapter.ViewHolder>
         implements Filterable {
 
     private List<ZoneName> mListCurrencyNames, mListCurrencyNamesFiltered;
     public Activity activity;
 
-    CurrencyConverterAdapter(Activity activity, List<ZoneName> list) {
+    TimezoneConverterAdapter(Activity activity, List<ZoneName> list) {
         this.activity = activity;
         this.mListCurrencyNames = list;
         this.mListCurrencyNamesFiltered = list;

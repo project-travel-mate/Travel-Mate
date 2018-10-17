@@ -224,6 +224,11 @@
     <!-- Currency Convertor Strings -->
     <string name="text_currency">Currency Converter</string>
 
+
+    <!-- World Clock Strings -->
+    <string name="text_clock">World Clock</string>
+    <string name="select_timezone">Select Timezone</string>
+
     <string name="sign_out">Sign out</string>
 
     <string name="default_status">Write something about yourself…</string>
@@ -308,4 +313,5 @@
     <string name="github">Github</string>
     <string name="project">Project Travel-Mate</string>
     <string name="contributions">Commits: </string>
+    <string name="check_internet">Please check your internet connectivity</string>
 </resources>
