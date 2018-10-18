@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.FullScreenImage;
 import io.github.project_travel_mate.R;
+import objects.FriendCity;
 import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -76,13 +78,15 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     @BindView(R.id.trips_together_layout)
     RelativeLayout tripsTogetherLayout;
     @BindView(R.id.date_joined_layout)
-    RelativeLayout dateJoinedLayout;
+    LinearLayout dateJoinedLayout;
     @BindView(R.id.display_mutual_trips)
     TextView mutualTripsText;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.friend_city_list_recycler)
+    RecyclerView cityRecycler;
 
     private String mToken;
     private Handler mHandler;
@@ -91,6 +95,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     private List<Trip> mTrips = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mMutualTripsAdapter;
+    private FriendCityRecyclerAdapter mCityAdapter;
+    private ArrayList<FriendCity> mFriendCityList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,13 +105,20 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         setContentView(R.layout.activity_friends_profile);
         ButterKnife.bind(this);
 
+        mFriendCityList = new ArrayList<>();
+        mCityAdapter = new FriendCityRecyclerAdapter(this, mFriendCityList);
+        cityRecycler.setAdapter(mCityAdapter);
+        cityRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
         Intent intent = getIntent();
         int mFriendId = (int) intent.getSerializableExtra(EXTRA_MESSAGE_FRIEND_ID);
         mHandler = new Handler(Looper.getMainLooper());
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
+
         getFriendDetails(String.valueOf(mFriendId));
         getMutualTrips(String.valueOf(mFriendId));
+        getVisitedCities(String.valueOf(mFriendId));
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -121,6 +134,49 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         Intent intent = new Intent(context, FriendsProfileActivity.class);
         intent.putExtra(EXTRA_MESSAGE_FRIEND_ID, id);
         return intent;
+    }
+
+    private void getVisitedCities(final String friendId) {
+        mFriendCityList.clear();
+        String uri;
+        if (friendId != null)
+            uri = API_LINK_V2 + "get-visited-city/" + friendId;
+        else
+            uri = API_LINK_V2 + "get-visited-city";
+        Log.d("FriendsProfileActivity", " executing getVisitedCities: " + uri);
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+                try {
+                    JSONArray citiesArray = new JSONArray(res);
+                    for (int i = 0; i < citiesArray.length(); i++) {
+                        JSONObject city = citiesArray.getJSONObject(i);
+                        int cityId = city.getInt("id");
+                        String cityName = city.getString("city_name");
+                        String cityNickname = city.getString("nickname");
+                        int cityFactsCount = city.getInt("facts_count");
+                        String image = city.getString("image");
+                        mFriendCityList.add(new FriendCity(cityId, cityName, cityNickname, cityFactsCount, image));
+                    }
+                    mHandler.post(() -> {
+                        mCityAdapter.notifyDataSetChanged();
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getFriendDetails(final String friendId) {
@@ -157,6 +213,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                 mHandler.post(() -> {
                     try {
                         JSONObject object = new JSONObject(res);
+                        Log.d(FriendsProfileActivity.class.getSimpleName(), "onResponse: " + res);
                         String userName = object.getString("username");
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
