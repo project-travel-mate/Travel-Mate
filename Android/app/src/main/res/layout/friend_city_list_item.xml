@@ -9,10 +9,10 @@
         android:id="@+id/city_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@android:color/holo_blue_bright"
-        android:textStyle="bold"
+        android:padding="14dp"
+        android:background="@drawable/round_shape"
         android:textSize="16sp"
+        android:textColor="@color/white"
         tools:text="Banglore"/>
 
 </LinearLayout>
