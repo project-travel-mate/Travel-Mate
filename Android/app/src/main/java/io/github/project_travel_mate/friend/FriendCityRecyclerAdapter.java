@@ -36,13 +36,6 @@ public class FriendCityRecyclerAdapter extends RecyclerView.Adapter<FriendCityRe
     @Override
     public void onBindViewHolder(@NonNull FriendCityViewHolder holder, int position) {
         holder.friendCityTextView.setText(mCityList.get(position).getCityName());
-        holder.friendCityTextView.setBackgroundColor(getRandomColor());
-    }
-
-    private int getRandomColor() {
-        int[] colors = new int[]{Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW};
-        Random random = new Random();
-        return colors[random.nextInt(colors.length - 1)];
     }
 
     @Override
