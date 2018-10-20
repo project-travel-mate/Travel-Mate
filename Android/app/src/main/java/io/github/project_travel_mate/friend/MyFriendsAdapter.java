@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -20,15 +21,14 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.User;
 
-class MyFriendsAdapter extends ArrayAdapter<User> {
+
+class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.MyFriendsViewHolder> {
 
     private final Context mContext;
     private final List<User> mFriends;
     private LayoutInflater mInflater;
 
-    public MyFriendsAdapter(Context context,
-                   List<User> friends) {
-        super(context, R.layout.friend_listitem, friends);
+    MyFriendsAdapter(Context context, List<User> friends) {
         this.mContext = context;
         this.mFriends = friends;
         mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -36,16 +36,13 @@ class MyFriendsAdapter extends ArrayAdapter<User> {
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-        MyFriendsAdapter.ViewHolder holder;
-        View view = convertView;
-        if (view == null) {
-            view = mInflater.inflate(R.layout.friend_listitem, parent, false);
-            holder = new MyFriendsAdapter.ViewHolder(view);
-            view.setTag(holder);
-        } else {
-            holder = (MyFriendsAdapter.ViewHolder) view.getTag();
-        }
+    public MyFriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = mInflater.inflate(R.layout.friend_listitem, parent, false);
+        return new MyFriendsViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyFriendsViewHolder holder, int position) {
 
         Picasso.with(mContext).load(mFriends.get(position).getImage()).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon)
@@ -53,23 +50,30 @@ class MyFriendsAdapter extends ArrayAdapter<User> {
         String fullName = mFriends.get(position).getFirstName() + " " + mFriends.get(position).getLastName();
         holder.friendDisplayName.setText(fullName);
 
-        view.setOnClickListener(v -> {
+        holder.my_friends_linear_layout.setOnClickListener(v -> {
             Intent intent = FriendsProfileActivity.getStartIntent(mContext, mFriends.get(position).getId());
             mContext.startActivity(intent);
         });
 
-        return view;
     }
 
-    class ViewHolder {
+    @Override
+    public int getItemCount() {
+        return mFriends.size();
+    }
+
+    class MyFriendsViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.profile_image)
         ImageView friendImage;
         @BindView(R.id.friend_display_name)
         TextView friendDisplayName;
+        @BindView(R.id.my_friends_linear_layout)
+        LinearLayout my_friends_linear_layout;
 
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        MyFriendsViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

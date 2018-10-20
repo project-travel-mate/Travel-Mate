@@ -9,11 +9,11 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -44,8 +44,8 @@ public class MyFriendsFragment extends Fragment {
 
     private final List<User> mFriends = new ArrayList<>();
 
-    @BindView(R.id.gv)
-    GridView gridView;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
@@ -57,6 +57,7 @@ public class MyFriendsFragment extends Fragment {
     public MyFriendsFragment() {
         // Required empty public constructor
     }
+
     public static MyFriendsFragment newInstance() {
         return new MyFriendsFragment();
     }
@@ -126,7 +127,7 @@ public class MyFriendsFragment extends Fragment {
                                 mFriends.add(new User(userName, firstName, lastName, id, imageURL, dateJoined, status));
                                 animationView.setVisibility(GONE);
                                 mAdapter = new MyFriendsAdapter(mActivity.getApplicationContext(), mFriends);
-                                gridView.setAdapter(mAdapter);
+                                recyclerView.setAdapter(mAdapter);
                             }
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();
