@@ -101,7 +101,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:indeterminateDrawable="@drawable/progress_bar"
-                android:visibility="gone"></ProgressBar>
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/profile_icon"
@@ -163,7 +163,7 @@
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="20dp"
                 android:indeterminateDrawable="@drawable/progress_bar"
-                android:visibility="gone"></ProgressBar>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/display_email"
@@ -179,6 +179,16 @@
                 android:text="@string/email"
                 android:textColor="@color/dark_grey"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/is_email_verified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@id/display_email"
+                android:layout_marginEnd="15dp"
+                android:layout_below="@+id/ib_edit_display_name"
+                android:src="@drawable/ic_close_black_24dp"/>
 
             <ImageView
                 android:id="@+id/email_icon"
