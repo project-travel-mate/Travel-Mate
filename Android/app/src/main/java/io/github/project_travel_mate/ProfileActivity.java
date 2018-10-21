@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -94,6 +96,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     EditText displayName;
     @BindView(R.id.display_email)
     TextView emailId;
+    @BindView(R.id.is_email_verified)
+    ImageView isVerified;
     @BindView(R.id.display_joining_date)
     TextView joiningDate;
     @BindView(R.id.display_status)
@@ -208,7 +212,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             Intent removeIntent = new Intent(Intent.ACTION_DELETE);
             Intent chooserIntent = Intent.createChooser(removeIntent, getString(R.string.choose_an_option));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {galleryIntent});
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
             startActivityForResult(chooserIntent, RESULT_PICK_IMAGE);
         });
 
@@ -222,6 +226,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         });
 
     }
+
     private final TextWatcher mCountCharacters = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
@@ -268,7 +273,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View view = getCurrentFocus();
-            if ( view instanceof EditText) {
+            if (view instanceof EditText) {
                 Rect outRect = new Rect();
                 view.getGlobalVisibleRect(outRect);
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
@@ -278,7 +283,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -303,6 +308,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void signOut() {
         //set AlertDialog before signout
         ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
@@ -422,6 +428,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             String imageURL = object.getString("image");
                             String dateJoined = object.getString("date_joined");
                             String status = object.getString("status");
+                            boolean verified = object.getBoolean("is_verified");
                             new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
                             String fullName = firstName + " " + lastName;
                             Long dateTime = rfc3339ToMills(dateJoined);
@@ -432,6 +439,14 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                                 status = getString(R.string.default_status);
                             }
                             fillProfileInfo(fullName, userName, imageURL, date, status);
+
+                            if (verified) {
+                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+                                isVerified.setColorFilter(Color.GREEN);
+                            } else {
+                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                                isVerified.setColorFilter(Color.RED);
+                            }
 
                             if (userId == null) {
                                 mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
@@ -613,9 +628,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     /**
      * Method to get URL for image using Cloudinary
-     * @param croppedImage  Uri of cropped image
+     *
+     * @param croppedImage Uri of cropped image
      **/
-    private void getUrlFromCloudinary (Uri croppedImage) {
+    private void getUrlFromCloudinary(Uri croppedImage) {
         Map config = new HashMap();
         config.put("cloud_name", CLOUDINARY_CLOUD_NAME);
         config.put("api_key", CLOUDINARY_API_KEY);
@@ -630,9 +646,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
-                mProfileImageUrl =  resultData.get("url").toString();
+                mProfileImageUrl = resultData.get("url").toString();
                 sendURLtoServer(mProfileImageUrl);
             }
+
             @Override
             public void onError(String requestId, ErrorInfo error) {
                 networkError();
@@ -643,6 +660,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             public void onReschedule(String requestId, ErrorInfo error) {
                 Log.e(LOG_TAG, error.toString());
             }
+
             @Override
             public void onProgress(String requestId, long bytes, long totalBytes) {
 
@@ -652,8 +670,9 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     /**
      * Method for sending URL to server
+     *
      * @param imageUrl - Url of image obtained from
-     *                   Cloudinary cloud(passed as string)
+     *                 Cloudinary cloud(passed as string)
      */
     private void sendURLtoServer(String imageUrl) {
 
@@ -785,6 +804,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             qrItem.setVisible(false);
         }
     }
+
     /**
      * Plays the network lost animation in the view
      */
@@ -805,7 +825,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         Log.v("profile url", profileURI + "");
 
-        intent.putExtra(Intent.EXTRA_TEXT , getResources().getString(R.string.share_profile_text) + " " + profileURI );
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_profile_text) + " " + profileURI);
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
