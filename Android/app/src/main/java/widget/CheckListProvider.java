@@ -19,8 +19,8 @@ import objects.ChecklistItem;
  */
 
 public class CheckListProvider implements RemoteViewsFactory {
-    private ArrayList<CheckListItem> mListItemCheckList = new ArrayList<CheckListItem>();
-    private Context mContext = null;
+    private ArrayList<CheckListItem> mListItemCheckList = new ArrayList<>();
+    private Context mContext;
     private int mAppWidgetId;
 
     public CheckListProvider(Context context, ChecklistItem[] checklistItems, Intent intent) {

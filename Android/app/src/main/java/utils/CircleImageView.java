@@ -301,9 +301,7 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     }
 
     private void applyColorFilter() {
-        if (mBitmapPaint != null) {
-            mBitmapPaint.setColorFilter(mColorFilter);
-        }
+        mBitmapPaint.setColorFilter(mColorFilter);
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {

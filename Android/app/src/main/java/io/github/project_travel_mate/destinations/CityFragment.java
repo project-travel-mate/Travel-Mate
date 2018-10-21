@@ -191,7 +191,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     /**
      * shows spotlight on city card for the first 3 times.
      *
-     * @param spotView
+     * @param spotView - the view to be highlighted
      */
     private void showSpotlightView(View spotView) {
         CustomTarget customTarget = new CustomTarget.Builder(getActivity())
@@ -236,7 +236,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             spotlight.closeSpotlight();
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putInt(SPOTLIGHT_SHOW_COUNT, mSpotlightShownCount + 1);
-            editor.commit();
+            editor.apply();
         };
 
         spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
@@ -245,14 +245,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     /**
      * Check cached cities with expiration time 24 hours
      *
-     * @param mCities
+     * @param mCities - list of cities object
      **/
     private boolean checkCachedCities(List<City> mCities) {
-        if (mCities.size() == 0 || is24Hours()) {
-            return true;
-        } else {
-            return false;
-        }
+        return mCities.size() == 0 || is24Hours();
     }
 
     /**

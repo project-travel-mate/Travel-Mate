@@ -322,21 +322,14 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
 
         mDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3.5f, getResources().getDisplayMetrics());
 
-        layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                setPositionFor(mAnalogSecond);
-                setPositionFor(mAnalogMinute);
-                setPositionFor(mAnalogHour);
+        layoutListener = () -> {
+            setPositionFor(mAnalogSecond);
+            setPositionFor(mAnalogMinute);
+            setPositionFor(mAnalogHour);
 
-                tickTick();
+            tickTick();
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
-                } else {
-                    getViewTreeObserver().removeGlobalOnLayoutListener(layoutListener);
-                }
-            }
+            getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
         };
 
         //the coolest line

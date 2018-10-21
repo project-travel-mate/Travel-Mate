@@ -8,7 +8,7 @@
     <EditText android:id="@+id/currencySearch"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:hint="Search currencies.."
+        android:hint="@string/search_currencies"
         android:inputType="textVisiblePassword"/>
 
     <android.support.v7.widget.RecyclerView

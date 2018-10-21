@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -58,12 +60,9 @@ class TweetsRecyclerAdapter extends RecyclerView.Adapter<TweetsRecyclerAdapter.V
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onTrendingTweetsClicked(mTweetsList.get(getAdapterPosition()));
-                    }
+            itemView.setOnClickListener(view -> {
+                if (listener != null) {
+                    listener.onTrendingTweetsClicked(mTweetsList.get(getAdapterPosition()));
                 }
             });
         }

@@ -149,12 +149,7 @@ public class CurrencyActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrencyActivity.this);
             builder.setTitle(R.string.app_name);
             builder.setMessage(R.string.check_internet);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
             builder.show();
         }
     }
@@ -176,7 +171,7 @@ public class CurrencyActivity extends AppCompatActivity {
     }
 
     void setGraphData(JSONArray currencyRateTrends) {
-        ArrayList<Entry> values = new ArrayList<Entry>();
+        ArrayList<Entry> values = new ArrayList<>();
 
         for (int i = 0; i < currencyRateTrends.length(); i++) {
             try {

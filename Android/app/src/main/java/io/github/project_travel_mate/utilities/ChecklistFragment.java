@@ -81,11 +81,11 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     void onClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = (mActivity).getLayoutInflater();
-        builder.setTitle("Add new item");
+        builder.setTitle(R.string.add_new);
         builder.setCancelable(false);
         final View dialogv = inflater.inflate(R.layout.dialog, null, false);
         builder.setView(dialogv)
-                .setPositiveButton("OK", (dialog, id1) -> {
+                .setPositiveButton(R.string.positive_button, (dialog, id1) -> {
                     EditText e1 = dialogv.findViewById(R.id.task);
                     if (!e1.getText().toString().equals("")) {
                         ChecklistItem checklistItem = new ChecklistItem(e1.getText().toString(), String.valueOf(0));
@@ -109,7 +109,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.checklist_menu, menu);
+        mActivity.getMenuInflater().inflate(R.menu.checklist_menu, menu);
         mActionDeleteMenuItem = menu.findItem(R.id.action_delete);
         checkForCompletedItem();
     }

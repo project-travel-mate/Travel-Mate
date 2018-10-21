@@ -47,6 +47,7 @@
     <string name="fun_facts">Fun Facts</string>
     <string name="search_hint">What are you looking for…?</string>
     <string name="search_title">Cities</string>
+    <string name="spotlight_home_page">Unfold the city cards to get easy access to information</string>
 
     <!-- Destinations home page strings -->
     <string name="popular_cities">Most Popular Cities</string>
@@ -145,6 +146,12 @@
     <string name="interest_fun_facts">Fun Facts</string>
     <string name="interest_weather">View Weather Forecast</string>
     <string name="interest_trends">City Trends</string>
+    <string name="status_length">22/100</string>
+    <string name="from_text">From</string>
+    <string name="to_text">To</string>
+    <string name="usd_dollar">United States Dollar</string>
+    <string name="usd_amount">1</string>
+    <string name="inr">Indian Rupee</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -166,6 +173,7 @@
     <string name="invalid_email">Invalid Email</string>
 
     <string name="no_items">No Checklists</string>
+    <string name="add_new">Add new item</string>
 
     <!-- Profile strings -->
     <string name="my_profile">My Profile</string>
@@ -223,11 +231,17 @@
 
     <!-- Currency Convertor Strings -->
     <string name="text_currency">Currency Converter</string>
+    <string name="search_currencies">Search currencies..</string>
+    <string name="output_0">0.0</string>
+    <string name="convert">Convert</string>
+    <string name="sample_timezone">Asia/Kolkata</string>
+
 
 
     <!-- World Clock Strings -->
     <string name="text_clock">World Clock</string>
     <string name="select_timezone">Select Timezone</string>
+    <string name="search_timezone">Search Timezone..</string>
 
     <string name="sign_out">Sign out</string>
 

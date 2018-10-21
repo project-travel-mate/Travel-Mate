@@ -230,7 +230,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {

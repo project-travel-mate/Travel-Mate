@@ -100,7 +100,7 @@ public class MyFriendsFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {

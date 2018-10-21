@@ -143,7 +143,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    String createdAt = getTimeAgo(date.getTime());
+                                    String createdAt = getTimeAgo(Objects.requireNonNull(date).getTime());
                                     if (!read) {
                                         allRead = true;
                                     }

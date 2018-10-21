@@ -201,9 +201,7 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.post(() -> {
-                    mView.showError();
-                });
+                mHandler.post(() -> mView.showError());
             }
 
             @Override
@@ -264,9 +262,7 @@ class LoginPresenter {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.post(() -> {
-                    mView.showError();
-                });
+                mHandler.post(() -> mView.showError());
             }
 
             @Override

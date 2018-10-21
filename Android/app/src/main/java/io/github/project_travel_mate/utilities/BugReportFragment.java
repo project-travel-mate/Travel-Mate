@@ -122,7 +122,7 @@ public class BugReportFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 handler.post(() -> {
                     if (response.isSuccessful()) {
                         try {

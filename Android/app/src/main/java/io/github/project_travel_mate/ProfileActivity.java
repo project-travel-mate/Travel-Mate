@@ -745,7 +745,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 handler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {

@@ -308,9 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageView = navigationHeader.findViewById(R.id.image);
         Picasso.with(MainActivity.this).load(imageURL).placeholder(R.drawable.icon_profile)
                 .error(R.drawable.icon_profile).into(imageView);
-        imageView.setOnClickListener(v -> {
-            startActivity(ProfileActivity.getStartIntent(MainActivity.this));
-        });
+        imageView.setOnClickListener(v -> startActivity(ProfileActivity.getStartIntent(MainActivity.this)));
     }
 
     private void getProfileInfo() {

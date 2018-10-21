@@ -10,16 +10,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Currency;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -78,8 +72,8 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
     }
 
     /**
-     * @param tz
-     * @return
+     * @param tz - timexome to be displayed
+     * @return - formatted timezone value
      */
     private static String displayTimeZone(TimeZone tz) {
         long hours = TimeUnit.MILLISECONDS.toHours(tz.getRawOffset());
@@ -88,7 +82,7 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
         // avoid -4:-30 issue
         minutes = Math.abs(minutes);
 
-        String result = "";
+        String result;
         if (hours > 0) {
             result = tz.getID() + " " + String.format("(GMT+%d:%02d)", hours, minutes);
         } else {
@@ -99,12 +93,12 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
     }
 
     /**
-     * @param countryCode
-     * @return
+     * @param countryCode - country code to get symbol for
+     * @return - country symbol
      */
     private String getFlagId(String countryCode) {
         String currencySymbol = "";
-        Locale locale = null;
+        Locale locale;
         Currency currency = null;
         try {
             locale = new Locale("", countryCode);

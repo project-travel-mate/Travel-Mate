@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/display_status"
                 android:layout_alignEnd="@+id/display_status"
-                android:text="22/100"
+                android:text="@string/status_length"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 android:visibility="gone" />
