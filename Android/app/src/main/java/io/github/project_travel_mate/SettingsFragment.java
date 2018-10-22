@@ -1,6 +1,7 @@
 package io.github.project_travel_mate;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.login.LoginActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -55,6 +59,8 @@ public class SettingsFragment extends Fragment {
     EditText confirmPasswordText;
     @BindView(R.id.done_button)
     ActionProcessButton doneButton;
+    @BindView(R.id.delete_button)
+    ActionProcessButton deleteButton;
     @BindView(R.id.layout)
     LinearLayout layout;
     @BindView(R.id.animation_view)
@@ -63,8 +69,9 @@ public class SettingsFragment extends Fragment {
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
-    private SharedPreferences mSharedPrefrences;
+    private SharedPreferences mSharedPreferences;
     private View mView;
+    private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
 
     public SettingsFragment() {
         //required public constructor
@@ -88,9 +95,9 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, mView);
 
-        mSharedPrefrences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean readNotifStatus = mSharedPrefrences.getBoolean(READ_NOTIF_STATUS, true);
-        mToken = mSharedPrefrences.getString(USER_TOKEN, null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        boolean readNotifStatus = mSharedPreferences.getBoolean(READ_NOTIF_STATUS, true);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
         doneButton.setMode(ActionProcessButton.Mode.ENDLESS);
@@ -100,14 +107,18 @@ public class SettingsFragment extends Fragment {
                 checkPasswordMatch();
         });
 
+        deleteButton.setOnClickListener(v -> {
+            deleteAccount();
+        });
+
         if (readNotifStatus) {
             notificationSwitch.setChecked(true);
         }
         notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
-                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
+                mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
             } else {
-                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
+                mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
             }
         });
         return mView;
@@ -230,6 +241,59 @@ public class SettingsFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void deleteAccount() {
+        //set AlertDialog before delete account
+        ContextThemeWrapper crt = new ContextThemeWrapper(mActivity, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.delete_account)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+
+                            String uri = API_LINK_V2 + "delete-profile";
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+
+                            // Create a http request object.
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+
+                            // Create a new Call object with post method.
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                    mHandler.post(() -> networkError());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            mSharedPreferences
+                                                    .edit()
+                                                    .putString(USER_TOKEN, null)
+                                                    .apply();
+
+                                            Intent intent = LoginActivity.getStartIntent(mActivity);
+                                            mActivity.startActivity(intent);
+                                            mActivity.finish();
+                                        }
+                                    });
+
+                                }
+                            });
+
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
     }
 
     /**
