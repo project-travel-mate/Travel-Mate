@@ -328,4 +328,6 @@
     <string name="project">Project Travel-Mate</string>
     <string name="contributions">Commits: </string>
     <string name="check_internet">Please check your internet connectivity</string>
+    <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
+    <string name="your_past_trips">Your past trips</string>
 </resources>

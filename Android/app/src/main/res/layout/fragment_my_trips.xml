@@ -49,6 +49,14 @@
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_add_circle_white_24dp" />
 
+                <TextView
+                    android:id="@+id/my_trips_no_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|center_horizontal"
+                    android:text="@string/you_dont_have_trips"
+                    android:visibility="gone" />
+
             </RelativeLayout>
 
         </FrameLayout>
