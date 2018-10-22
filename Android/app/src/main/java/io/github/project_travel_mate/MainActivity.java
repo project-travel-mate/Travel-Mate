@@ -43,6 +43,7 @@ import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.mytrips.MyTripInfoActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
@@ -50,6 +51,7 @@ import io.github.project_travel_mate.utilities.AboutUsFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
+import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -59,6 +61,7 @@ import okhttp3.Response;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
+import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_ID;
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // To check for shared profile intents
         String action = getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
-            showProfile(getIntent().getDataString());
+            showProfileOrTrip(getIntent().getDataString());
         }
 
         //Initially city fragment
@@ -374,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         invalidateOptionsMenu();
     }
 
-    void showProfile(String data) {
+    void showProfileOrTrip(String data) {
         Uri uri = Uri.parse(data);
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
         String myId = mSharedPreferences.getString(USER_ID, null);
@@ -386,6 +389,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             } else {
                 Intent intent = ProfileActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        } else {
+            String tripID = uri.getQueryParameter(SHARE_TRIP_TRIP_ID_QUERY);
+            if (tripID != null) {
+                Log.v("trip id", tripID + " ");
+                Trip trip = new Trip();
+                trip.setId(tripID);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip);
                 startActivity(intent);
             }
         }

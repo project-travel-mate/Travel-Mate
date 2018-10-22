@@ -69,5 +69,10 @@ public class Trip implements Serializable {
     public boolean isPublic() {
         return mIsPublic;
     }
+    public void setId(String id) {
+        this.mId = id;
+    }
+
+
 
 }

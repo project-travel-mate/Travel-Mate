@@ -111,6 +111,8 @@
     <string name="trip_private_message">This is a private trip. Your friends, with the trip link, won\'t be able to view this</string>
     <string name="public_trip_toggle_on">Make Private</string>
     <string name="public_trip_toggle_off">Make Public</string>
+    <string name="share_trip">Share trip</string>
+    <string name="share_trip_text">Hi! We are planning this trip! Come join us. Here is the link to join: </string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -72,6 +73,10 @@ import static android.view.View.GONE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
+import static utils.Constants.SHARE_PROFILE_URI;
+import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
+import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
@@ -357,14 +362,35 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; go home
                 finish();
                 return true;
             case R.id.action_remove_trip:
                 removeTrip();
                 return true;
+            case R.id.share_trip:
+                shareTrip();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void shareTrip() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        Uri uri = Uri.parse(SHARE_PROFILE_URI)
+                .buildUpon()
+                .appendQueryParameter(SHARE_TRIP_TRIP_ID_QUERY, mTrip.getId())
+                .build();
+
+        Log.v("trip url", uri + "");
+
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_trip_text) + " " + uri);
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.snackbar_no_share_app,
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
