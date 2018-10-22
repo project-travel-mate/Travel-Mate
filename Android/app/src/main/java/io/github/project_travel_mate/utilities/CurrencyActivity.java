@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -46,6 +47,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import io.github.project_travel_mate.R;
 import objects.ZoneName;
 import okhttp3.Call;
@@ -79,14 +81,20 @@ public class CurrencyActivity extends AppCompatActivity {
     TextView to_country_name;
     @BindView(R.id.graph)
     LineChart graph;
+    @BindView(R.id.chart_duration_spinner)
+    Spinner chart_duration_spinner;
 
 
     Boolean flag_check_first_item = false;
     Boolean flag_check_second_item = false;
+    Boolean flag_convert_pressed = false;
+
+
+
     int from_amount = 1;
     String first_country_short = "USD";
     String second_country_short = "INR";
-    private static final String GRAPH_LABEL_NAME = "Last 7 days currency rate trends";
+    String GRAPH_LABEL_NAME = "Last 7 days currency rate trends";
 
     private ProgressDialog mDialog;
     public static ArrayList<ZoneName> currences_names;
@@ -140,25 +148,62 @@ public class CurrencyActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_convert)
     void onConvertclicked() {
+
         from_amount = Integer.parseInt(from_edittext.getText().toString());
         if (new Connection().isOnline()) {
             convertCurrency();
-            currencyRate();
+            int chartDays = getChartTimeInterval();
+            currencyRate(chartDays);
+            flag_convert_pressed = true;
             utils.Utils.hideKeyboard(this);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrencyActivity.this);
             builder.setTitle(R.string.app_name);
             builder.setMessage(R.string.check_internet);
-            builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
+            builder.setPositiveButton(R.string.positive_button, (dialog, which) -> dialog.dismiss());
             builder.show();
         }
     }
 
+    @OnItemSelected(R.id.chart_duration_spinner)
+    void onChartDurationSpinnerClicked() {
+        // Flag is implemented here so that default behaviour of spinner's
+        // on item selected doesn't trigger when activity is first launched
+        if (flag_convert_pressed) {
+            onConvertclicked();
+            GRAPH_LABEL_NAME = "Last " + chart_duration_spinner.getSelectedItem() + " currency rate trends";
+        }
+    }
+
+
+
+    // Method to obtain value(last x number of days) to be passed to API
+    int getChartTimeInterval() {
+        switch (chart_duration_spinner.getSelectedItemPosition()) {
+            default:
+                return 6;
+            case 0:
+                return 6;
+            case 1:
+                return 30;
+            case 2:
+                return 60;
+            case 3:
+                return 180;
+            case 4:
+                return 364;
+
+        }
+    }
+
+
     void setupGraph(JSONArray currencyRateTrends) {
         if (currencyRateTrends == null || currencyRateTrends.length() == 0) {
             graph.setVisibility(View.GONE);
+            chart_duration_spinner.setVisibility(View.INVISIBLE);
         } else {
             graph.setVisibility(View.VISIBLE);
+            chart_duration_spinner.setVisibility(View.VISIBLE);
             graph.getXAxis().setEnabled(false);
             graph.getAxisLeft().setEnabled(false);
             graph.getAxisRight().setEnabled(false);
@@ -275,10 +320,10 @@ public class CurrencyActivity extends AppCompatActivity {
      * currency rate conversion
      * and set result to graph
      */
-    private void currencyRate() {
+    private void currencyRate(int totalDays) {
 
         String uri = API_LINK_V2 + "get-all-currency-rate/"
-                + DateUtils.getDate(6) + "/" + DateUtils.getDate(0) + "/"
+                + DateUtils.getDate(totalDays) + "/" + DateUtils.getDate(0) + "/"
                 + first_country_short.toLowerCase() + "/" + second_country_short.toLowerCase();
 
         mDialog.show();
