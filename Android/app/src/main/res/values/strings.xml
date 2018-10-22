@@ -333,4 +333,15 @@
     <string name="check_internet">Please check your internet connectivity</string>
     <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
     <string name="your_past_trips">Your past trips</string>
+
+    <!-- Currency Convertor Chart Time-Series Spinner options -->
+    <string name="time_series_prompt">Time Interval</string>
+    <string-array name="time_series_array">
+        <item>7 Days</item>
+        <item>1 Month</item>
+        <item>2 Months</item>
+        <item>6 Months</item>
+        <item>1 Year</item>
+
+    </string-array>
 </resources>
