@@ -167,6 +167,7 @@ public class CurrencyActivity extends AppCompatActivity {
 
     @OnItemSelected(R.id.chart_duration_spinner)
     void onChartDurationSpinnerClicked() {
+        // Flag is implemented here so that default behaviour of spinner's on item selected doesn't trigger when activity is first launched
         if (flag_convert_pressed) {
             onConvertclicked();
             GRAPH_LABEL_NAME = "Last " + chart_duration_spinner.getSelectedItem() + " currency rate trends";
