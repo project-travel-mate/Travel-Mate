@@ -113,6 +113,9 @@
     <string name="public_trip_toggle_off">Make Public</string>
     <string name="share_trip">Share trip</string>
     <string name="share_trip_text">Hi! We are planning this trip! Come join us. Here is the link to join: </string>
+    <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
+    <string name="your_past_trips">Your past trips</string>
+    <string name="add_me_to_trip">Add me to this trip</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -337,8 +340,6 @@
     <string name="project">Project Travel-Mate</string>
     <string name="contributions">Commits: </string>
     <string name="check_internet">Please check your internet connectivity</string>
-    <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
-    <string name="your_past_trips">Your past trips</string>
 
     <!-- Currency Convertor Chart Time-Series Spinner options -->
     <string name="time_series_prompt">Time Interval</string>
