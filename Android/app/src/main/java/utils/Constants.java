@@ -58,6 +58,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_ID = "cityid_";
     public static final String EXTRA_MESSAGE_CALLED_FROM_UTILITIES = "iscalledfromutilties_";
     public static final String EXTRA_MESSAGE_HASHTAG_NAME = "hashtagname_";
+    public static final String EXTRA_MESSAGE_PART_OF_TRIP = "ispartoftrip_";
 
     // Here API
     public static final List<String> HERE_API_MODES = new ArrayList<String>() {
@@ -79,6 +80,7 @@ public class Constants {
     //share profile strings
     public static final String SHARE_PROFILE_URI = "http://project-travel-mate.github.io/Travel-Mate";
     public static final String SHARE_PROFILE_USER_ID_QUERY = "user";
+    public static final String SHARE_TRIP_TRIP_ID_QUERY = "trip";
 
     //QRCode constants
     public static final int QR_CODE_WIDTH = 200;

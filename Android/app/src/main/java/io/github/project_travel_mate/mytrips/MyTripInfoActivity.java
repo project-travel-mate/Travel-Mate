@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -69,9 +70,13 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
+import static utils.Constants.EXTRA_MESSAGE_PART_OF_TRIP;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
+import static utils.Constants.SHARE_PROFILE_URI;
+import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
 import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
@@ -110,6 +115,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     TextView noFriendTitle;
     @BindView(R.id.trip_name_progress_bar)
     ProgressBar tripNameProgressBar;
+    @BindView(R.id.addme_to_trip)
+    LinearLayout addMeToTrip;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -121,6 +128,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     private boolean mIsTripNameEdited = false;
     private MaterialDialog mDialog;
     private MyTripFriendNameAdapter mAdapter;
+    boolean isUserPartofTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,11 +196,23 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             }
         });
 
-        cityImageView.setOnClickListener(v -> {
-            Intent fullScreenIntent = FullScreenImage.getStartIntent(MyTripInfoActivity.this,
-                    mTrip.getImage(), mTrip.getName());
-            startActivity(fullScreenIntent);
-        });
+
+        isUserPartofTrip = intent.getBooleanExtra(EXTRA_MESSAGE_PART_OF_TRIP, true);
+        if (isUserPartofTrip) { //user is part of the trip
+            addMeToTrip.setVisibility(GONE);
+        } else {
+            //user is not a part of trip
+            addMeToTrip.setVisibility(VISIBLE);
+            addNewFriend.setVisibility(GONE);
+            friendEmail.setVisibility(GONE);
+        }
+    }
+
+    @OnClick(R.id.city_image)
+    void cityImageClicked() {
+        Intent fullScreenIntent = FullScreenImage.getStartIntent(MyTripInfoActivity.this,
+                mTrip.getImage(), mTrip.getName());
+        startActivity(fullScreenIntent);
     }
 
     @OnTextChanged(R.id.friend_email)
@@ -216,7 +236,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
     private void getSingleTrip() {
 
-        animationView.setVisibility(View.VISIBLE);
+        animationView.setVisibility(VISIBLE);
         animationView.playAnimation();
 
         // to fetch mCity names
@@ -254,7 +274,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             String end = ob.optString("end_date", null);
                             String city = ob.getJSONObject("city").getString("city_name");
                             boolean isPublic = ob.getBoolean("is_public");
-                            details.setVisibility(View.VISIBLE);
+                            details.setVisibility(VISIBLE);
                             details.setOnClickListener(view -> {
                                 details.setEnabled(false);
                                 getCity(city);
@@ -266,16 +286,18 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             final String timeString =
                                     new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
-                            editTrip.setVisibility(View.VISIBLE);
-
-                            if (isPublic) {
-                                tripPublicMessage.setText(R.string.trip_public_message);
-                                publicToggleButton.setChecked(true);
+                            if (!isUserPartofTrip) {
+                                if (isPublic) {
+                                    tripPublicMessage.setText(R.string.trip_public_message);
+                                    publicToggleButton.setChecked(true);
+                                } else {
+                                    tripPublicMessage.setText(R.string.trip_private_message);
+                                    publicToggleButton.setChecked(false);
+                                }
                             } else {
-                                tripPublicMessage.setText(R.string.trip_private_message);
-                                publicToggleButton.setChecked(false);
+                                tripPublicMessage.setVisibility(GONE);
+                                publicToggleButton.setVisibility(GONE);
                             }
-
                             updateFriendList();
                             animationView.setVisibility(GONE);
                         } catch (JSONException | IOException | NullPointerException e) {
@@ -285,13 +307,14 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     } else {
                         networkError();
                     }
-                    tripName.setVisibility(View.VISIBLE);
-                    cityImageView.setVisibility(View.VISIBLE);
+                    tripName.setVisibility(VISIBLE);
+                    cityImageView.setVisibility(VISIBLE);
                     mFriendId = null;
                 });
             }
         });
     }
+
     private void getCity(String cityname) {
         // to fetch city names
         String uri = API_LINK_V2 + "get-city-by-name/" + cityname;
@@ -357,14 +380,35 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; go home
                 finish();
                 return true;
             case R.id.action_remove_trip:
                 removeTrip();
                 return true;
+            case R.id.share_trip:
+                shareTrip();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void shareTrip() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        Uri uri = Uri.parse(SHARE_PROFILE_URI)
+                .buildUpon()
+                .appendQueryParameter(SHARE_TRIP_TRIP_ID_QUERY, mTrip.getId())
+                .build();
+
+        Log.v("trip url", uri + "");
+
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_trip_text) + " " + uri);
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.snackbar_no_share_app,
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -572,7 +616,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             if (usersArray.length() == 0) {
                                 addNewFriend.setVisibility(GONE);
                                 friendEmail.setVisibility(GONE);
-                                noFriendTitle.setVisibility(View.VISIBLE);
+                                noFriendTitle.setVisibility(VISIBLE);
                                 noFriendTitle.setTypeface(null, Typeface.BOLD);
                                 String mystring = getString(R.string.friends_title);
                                 SpannableString content = new SpannableString(mystring);
@@ -580,20 +624,21 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                 noFriendTitle.setText(content);
                                 noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
-                                noFriendTitle.setOnClickListener(view -> {
+                                if (isUserPartofTrip) {
+                                    noFriendTitle.setOnClickListener(view -> {
+                                        noFriendTitle.setVisibility(GONE);
+                                        addNewFriend.setVisibility(VISIBLE);
+                                        friendEmail.setVisibility(VISIBLE);
+                                        friendTitle.setText(R.string.friends_show_title);
+                                        friendTitle.setTypeface(null, Typeface.BOLD);
+                                        friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
+                                    });
+                                } else {
                                     noFriendTitle.setVisibility(GONE);
-                                    addNewFriend.setVisibility(View.VISIBLE);
-                                    friendEmail.setVisibility(View.VISIBLE);
-                                    friendTitle.setText(R.string.friends_show_title);
-                                    friendTitle.setTypeface(null, Typeface.BOLD);
-                                    friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
-                                });
+                                }
                             } else {
-                                friendTitle.setText(R.string.friends_show_title);
-                                friendTitle.setVisibility(View.VISIBLE);
-                                showIcon.setVisibility(View.VISIBLE);
-                                addNewFriend.setVisibility(View.VISIBLE);
-                                friendEmail.setVisibility(View.VISIBLE);
+
+
                                 for (int i = 0; i < usersArray.length(); i++) {
 
                                     JSONObject jsonObject = usersArray.getJSONObject(i);
@@ -609,6 +654,17 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
                                             friendImage, friendJoinedOn, friendStatus));
                                 }
+
+
+                                friendTitle.setText(R.string.friends_show_title);
+                                friendTitle.setVisibility(VISIBLE);
+                                showIcon.setVisibility(VISIBLE);
+
+                                if (isUserPartofTrip) {
+                                    addNewFriend.setVisibility(VISIBLE);
+                                    friendEmail.setVisibility(VISIBLE);
+                                }
+
 
                                 if (mIsClicked) {
                                     mAdapter = new MyTripFriendNameAdapter(
@@ -654,7 +710,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         runOnUiThread(() -> {
             tripName.setVisibility(View.INVISIBLE);
-            tripNameProgressBar.setVisibility(View.VISIBLE);
+            tripNameProgressBar.setVisibility(VISIBLE);
             editTrip.setVisibility(GONE);
         });
         String editedTripName = String.valueOf(tripName.getText());
@@ -690,9 +746,9 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     networkError();
                 }
                 runOnUiThread(() -> {
-                    tripName.setVisibility(View.VISIBLE);
+                    tripName.setVisibility(VISIBLE);
                     tripNameProgressBar.setVisibility(View.GONE);
-                    editTrip.setVisibility(View.VISIBLE);
+                    editTrip.setVisibility(VISIBLE);
                 });
             }
         });
@@ -745,13 +801,21 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
      */
     private void networkError() {
         layout.setVisibility(View.INVISIBLE);
-        animationView.setVisibility(View.VISIBLE);
+        animationView.setVisibility(VISIBLE);
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
+
     public static Intent getStartIntent(Context context, Trip trip) {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Trip trip, boolean isPartoftrip) {
+        Intent intent = new Intent(context, MyTripInfoActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
+        intent.putExtra(EXTRA_MESSAGE_PART_OF_TRIP, isPartoftrip);
         return intent;
     }
 }
