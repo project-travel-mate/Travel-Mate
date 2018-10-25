@@ -107,6 +107,10 @@
     <string name="remove_trip_message">Are you sure want to remove the trip?</string>
     <string name="trips_together_message">Your trips together…</string>
     <string name="remove_trip_success">Removed trip successfully!</string>
+    <string name="trip_public_message">This is a public trip. Your friends can view this trip if you share the trip link</string>
+    <string name="trip_private_message">This is a private trip. Your friends, with the trip link, won\'t be able to view this</string>
+    <string name="public_trip_toggle_on">Make Private</string>
+    <string name="public_trip_toggle_off">Make Public</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>

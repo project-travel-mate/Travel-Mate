@@ -294,7 +294,8 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                                 String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                 String tname = arr.getJSONObject(i).getString("trip_name");
                                 String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                                mTrips.add(new Trip(id, name, image, start, end, tname));
+                                boolean isPublic = arr.getJSONObject(i).getBoolean("is_public");
+                                mTrips.add(new Trip(id, name, image, start, end, tname, isPublic));
                             }
                             //display trips only if there exists at least one trip
                             //else hide the view
