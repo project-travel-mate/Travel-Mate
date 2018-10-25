@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
@@ -95,6 +96,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     ImageView showIcon;
     @BindView(R.id.edit_trip_icon)
     ImageView editTrip;
+    @BindView(R.id.public_trip_message)
+    TextView tripPublicMessage;
+    @BindView(R.id.ispublic_toggleButton)
+    ToggleButton publicToggleButton;
     @BindView(R.id.know_more)
     FloatingActionButton details;
     @BindView(R.id.animation_view)
@@ -139,6 +144,12 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         friendEmail.setThreshold(1);
         setTitle(mTrip.getName());
 
+        publicToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTripPrivacy();
+            }
+        });
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -242,6 +253,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             String start = ob.getString("start_date_tx");
                             String end = ob.optString("end_date", null);
                             String city = ob.getJSONObject("city").getString("city_name");
+                            boolean isPublic = ob.getBoolean("is_public");
                             details.setVisibility(View.VISIBLE);
                             details.setOnClickListener(view -> {
                                 details.setEnabled(false);
@@ -255,6 +267,15 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                     new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
                             editTrip.setVisibility(View.VISIBLE);
+
+                            if (isPublic) {
+                                tripPublicMessage.setText(R.string.trip_public_message);
+                                publicToggleButton.setChecked(true);
+                            } else {
+                                tripPublicMessage.setText(R.string.trip_private_message);
+                                publicToggleButton.setChecked(false);
+                            }
+
                             updateFriendList();
                             animationView.setVisibility(GONE);
                         } catch (JSONException | IOException | NullPointerException e) {
@@ -673,6 +694,48 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     tripNameProgressBar.setVisibility(View.GONE);
                     editTrip.setVisibility(View.VISIBLE);
                 });
+            }
+        });
+    }
+
+    private void updateTripPrivacy() {
+
+        String uri = "";
+        if (publicToggleButton.isChecked()) {
+            uri = API_LINK_V2 + "update-trip-public/" + mTrip.getId();
+        } else {
+            uri = API_LINK_V2 + "update-trip-private/" + mTrip.getId();
+        }
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> networkError());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    if (response.isSuccessful()) {
+                        runOnUiThread(() -> {
+                            if (publicToggleButton.isChecked()) {
+                                tripPublicMessage.setText(R.string.trip_public_message);
+                            } else {
+                                tripPublicMessage.setText(R.string.trip_private_message);
+                            }
+                        });
+                    }
+                } else {
+                    networkError();
+                }
             }
         });
     }

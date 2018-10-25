@@ -28,7 +28,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,11 +145,12 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 for (int i = 0; i < arr.length(); i++) {
                                     String id = arr.getJSONObject(i).getString("id");
                                     String start = arr.getJSONObject(i).getString("start_date_tx");
+                                    boolean isPublic = arr.getJSONObject(i).getBoolean("is_public");
                                     String end = arr.getJSONObject(i).optString("end_date", null);
                                     String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                     String tname = arr.getJSONObject(i).getString("trip_name");
                                     String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                                    trips.add(new Trip(id, name, image, start, end, tname));
+                                    trips.add(new Trip(id, name, image, start, end, tname, isPublic));
                                 }
                                 animationView.setVisibility(View.GONE);
                                 my_trips_main_layout.setVisibility(View.VISIBLE);
