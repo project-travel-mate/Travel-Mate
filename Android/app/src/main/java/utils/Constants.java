@@ -58,6 +58,7 @@ public class Constants {
     public static final String EXTRA_MESSAGE_CITY_ID = "cityid_";
     public static final String EXTRA_MESSAGE_CALLED_FROM_UTILITIES = "iscalledfromutilties_";
     public static final String EXTRA_MESSAGE_HASHTAG_NAME = "hashtagname_";
+    public static final String EXTRA_MESSAGE_PART_OF_TRIP = "ispartoftrip_";
 
     // Here API
     public static final List<String> HERE_API_MODES = new ArrayList<String>() {

@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.v("trip id", tripID + " ");
                 Trip trip = new Trip();
                 trip.setId(tripID);
-                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip, false);
                 startActivity(intent);
             }
         }

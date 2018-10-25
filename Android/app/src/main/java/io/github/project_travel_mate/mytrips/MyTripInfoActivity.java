@@ -73,6 +73,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.EXTRA_MESSAGE_FRIEND_ID;
+import static utils.Constants.EXTRA_MESSAGE_PART_OF_TRIP;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
@@ -196,13 +197,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         });
 
 
-        isUserPartofTrip = false;
+        isUserPartofTrip = intent.getBooleanExtra(EXTRA_MESSAGE_PART_OF_TRIP, true);
         if (isUserPartofTrip) { //user is part of the trip
-
             addMeToTrip.setVisibility(GONE);
-
         } else {
-
             //user is not a part of trip
             addMeToTrip.setVisibility(VISIBLE);
             addNewFriend.setVisibility(GONE);
@@ -288,12 +286,17 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             final String timeString =
                                     new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
-                            if (isPublic) {
-                                tripPublicMessage.setText(R.string.trip_public_message);
-                                publicToggleButton.setChecked(true);
+                            if (!isUserPartofTrip) {
+                                if (isPublic) {
+                                    tripPublicMessage.setText(R.string.trip_public_message);
+                                    publicToggleButton.setChecked(true);
+                                } else {
+                                    tripPublicMessage.setText(R.string.trip_private_message);
+                                    publicToggleButton.setChecked(false);
+                                }
                             } else {
-                                tripPublicMessage.setText(R.string.trip_private_message);
-                                publicToggleButton.setChecked(false);
+                                tripPublicMessage.setVisibility(GONE);
+                                publicToggleButton.setVisibility(GONE);
                             }
                             updateFriendList();
                             animationView.setVisibility(GONE);
@@ -802,9 +805,17 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
+
     public static Intent getStartIntent(Context context, Trip trip) {
         Intent intent = new Intent(context, MyTripInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Trip trip, boolean isPartoftrip) {
+        Intent intent = new Intent(context, MyTripInfoActivity.class);
+        intent.putExtra(EXTRA_MESSAGE_TRIP_OBJECT, trip);
+        intent.putExtra(EXTRA_MESSAGE_PART_OF_TRIP, isPartoftrip);
         return intent;
     }
 }
