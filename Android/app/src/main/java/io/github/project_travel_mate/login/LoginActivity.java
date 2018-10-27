@@ -213,7 +213,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 emailString = mEmailForgotPassword.getText().toString();
                 if (validateEmail(emailString)) {
                     mBackToLogin.setVisibility(View.GONE);
-                    mResendCodeText.setVisibility(View.VISIBLE);
                     mLoginPresenter.ok_password_reset_request(emailString, mHandler);
                 }
                 break;
@@ -317,6 +316,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void openLogin() {
+        showMessage(getString(R.string.text_password_updated_alert));
         mForgotPasswordLayout.setVisibility(View.GONE);
         mNewPasswordLayout.setVisibility(View.GONE);
         sig.setVisibility(View.GONE);
@@ -376,7 +376,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (validatePassword(newPassword)) {
             if (confirmNewPassword.equals(newPassword)) {
                 mLoginPresenter.ok_password_reset(email, mOtpCode, newPassword, mHandler);
-                showMessage(getString(R.string.text_password_updated_alert));
             }
         }
     }
