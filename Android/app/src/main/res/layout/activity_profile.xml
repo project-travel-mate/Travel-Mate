@@ -8,10 +8,22 @@
     android:scrollbars="none">
 
     <LinearLayout
+        android:id="@id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@id/layout">
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/horizontalProgressBar"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateBehavior="cycle"
+            android:indeterminateTint="@color/colorAccent"
+            android:paddingStart="@dimen/margin_20dp"
+            android:paddingEnd="@dimen/margin_20dp" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
@@ -34,8 +46,8 @@
                 android:layout_height="220dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="69dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="69dp"
                 android:src="@drawable/default_user_icon"
                 android:visibility="invisible" />
 
@@ -44,10 +56,10 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignEnd="@+id/display_image"
-                android:layout_alignParentBottom="false"
                 android:layout_alignParentEnd="false"
-                android:layout_marginEnd="20dp"
+                android:layout_alignParentBottom="false"
                 android:layout_marginTop="180dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/change_pic" />
 
             <ImageView
@@ -65,9 +77,9 @@
                 android:id="@+id/display_status"
                 android:layout_width="250dp"
                 android:layout_height="52dp"
-                android:layout_alignParentBottom="false"
-                android:layout_alignStart="@+id/status_icon"
                 android:layout_below="@+id/display_image"
+                android:layout_alignStart="@+id/status_icon"
+                android:layout_alignParentBottom="false"
                 android:layout_centerHorizontal="false"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
@@ -87,8 +99,8 @@
                 android:id="@+id/ib_edit_display_status"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/status_icon"
+                android:layout_alignParentEnd="true"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_edit_black_24dp" />
 
@@ -101,7 +113,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:indeterminateDrawable="@drawable/progress_bar"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/profile_icon"
@@ -118,8 +130,8 @@
                 android:id="@+id/display_name"
                 android:layout_width="217dp"
                 android:layout_height="45dp"
-                android:layout_alignStart="@+id/profile_icon"
                 android:layout_below="@+id/display_status"
+                android:layout_alignStart="@+id/profile_icon"
                 android:layout_centerHorizontal="false"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
@@ -137,8 +149,8 @@
                 android:id="@+id/ib_edit_display_name"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/display_name"
+                android:layout_alignParentEnd="true"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_edit_black_24dp" />
 
@@ -146,8 +158,8 @@
                 android:id="@+id/status_character_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/display_status"
                 android:layout_alignEnd="@+id/display_status"
+                android:layout_alignBottom="@+id/display_status"
                 android:text="@string/status_length"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
@@ -163,14 +175,14 @@
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="20dp"
                 android:indeterminateDrawable="@drawable/progress_bar"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/display_email"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_alignStart="@+id/email_icon"
                 android:layout_below="@+id/profile_icon"
+                android:layout_alignStart="@+id/email_icon"
                 android:layout_centerHorizontal="false"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
@@ -184,11 +196,11 @@
                 android:id="@+id/is_email_verified"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@id/display_email"
-                android:layout_marginEnd="15dp"
                 android:layout_below="@+id/ib_edit_display_name"
-                android:src="@drawable/ic_close_black_24dp"/>
+                android:layout_alignBottom="@id/display_email"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_close_black_24dp" />
 
             <ImageView
                 android:id="@+id/email_icon"
@@ -215,8 +227,8 @@
                 android:id="@+id/display_joining_date"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_alignStart="@+id/date_joined_icon"
                 android:layout_below="@+id/display_email"
+                android:layout_alignStart="@+id/date_joined_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
@@ -230,8 +242,8 @@
                 android:id="@+id/citie_travelled_text"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_alignStart="@+id/status_icon"
                 android:layout_below="@+id/display_joining_date"
+                android:layout_alignStart="@+id/status_icon"
                 android:paddingTop="8sp"
                 android:text="@string/cities_travelled"
                 android:textColor="@color/dark_grey"
@@ -239,13 +251,13 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/citie_travelled_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:scrollbars="none" />
 
         </RelativeLayout>

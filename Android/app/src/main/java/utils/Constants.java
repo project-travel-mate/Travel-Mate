@@ -89,4 +89,7 @@ public class Constants {
     //Weather forecast constants
     public static final String CURRENT_TEMP = "TEMP";
     public static final int NUM_DAYS = 7;
+
+    // for email verification
+    public static final int VERIFICATION_REQUEST_CODE = 400;
 }

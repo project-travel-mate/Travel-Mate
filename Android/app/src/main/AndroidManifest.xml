@@ -110,6 +110,9 @@
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".destinations.description.TweetsActivity" />
+        <activity android:name=".VerifyEmailActivity"
+            android:label="@string/verify_email"
+            android:theme="@style/AppThemeNoBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -151,8 +154,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".destinations.description.RestaurantDetailsActivity"
-            android:theme="@style/AppThemeNoBar"/>
+        <activity
+            android:name=".destinations.description.RestaurantDetailsActivity"
+            android:theme="@style/AppThemeNoBar" />
 
         <receiver android:name="widget.CheckListWidgetProvider">
             <intent-filter>
@@ -169,6 +173,7 @@
         <service
             android:name="widget.CheckListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

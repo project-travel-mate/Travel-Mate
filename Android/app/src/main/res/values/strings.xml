@@ -247,7 +247,6 @@
     <string name="sample_timezone">Asia/Kolkata</string>
 
 
-
     <!-- World Clock Strings -->
     <string name="text_clock">World Clock</string>
     <string name="select_timezone">Select Timezone</string>
@@ -343,6 +342,7 @@
 
     <!-- Currency Convertor Chart Time-Series Spinner options -->
     <string name="time_series_prompt">Time Interval</string>
+    <string name="verify_email">Verify Email</string>
     <string-array name="time_series_array">
         <item>7 Days</item>
         <item>1 Month</item>

@@ -2,6 +2,7 @@ package io.github.project_travel_mate;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
@@ -84,10 +87,13 @@ import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
+import static utils.Constants.VERIFICATION_REQUEST_CODE;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
 public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
+    @BindView(R.id.horizontalProgressBar)
+    ProgressBar horizontalProgressBar;
     @BindView(R.id.display_image)
     CircleImageView displayImage;
     @BindView(R.id.change_image)
@@ -137,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private String mProfileImageUrl;
     private CitiesTravelledAdapter mCitiesAdapter;
     private MaterialDialog mDialog;
-
+    private boolean mIsVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +173,26 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             editDisplayName.setVisibility(View.INVISIBLE);
             updateOptionsMenu();
         }
+
+        isVerified.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+            if (!mIsVerified) {
+                builder.setTitle("Your email id is not verified");
+                builder.setPositiveButton("Verify Now", (dialogInterface, i) -> {
+                    sendVerificationEmail();
+                });
+                builder.setNegativeButton("Later", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+            } else {
+                builder.setTitle("Your email id is verified");
+                builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+            }
+            builder.create().show();
+
+        });
 
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
@@ -224,6 +250,61 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     imageUri, fullname);
             startActivity(fullScreenIntent);
         });
+    }
+
+
+    public void sendVerificationEmail() {
+        String uri;
+        uri = API_LINK_V2 + "generate-verification-code";
+        Log.v("EXECUTING", uri);
+        horizontalProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    networkError();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                mHandler.post(() -> {
+                    horizontalProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (response.body() != null && response.isSuccessful()) {
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            if (res.equals("\"Verification code sent\"")) {
+                                Toast.makeText(ProfileActivity.this,
+                                        "OTP sent on registered email !", Toast.LENGTH_SHORT).show();
+                                Intent verifyIntent = new Intent(ProfileActivity.this, VerifyEmailActivity.class);
+                                startActivityForResult(verifyIntent, VERIFICATION_REQUEST_CODE);
+                            } else {
+                                Toast.makeText(ProfileActivity.this,
+                                        "There was some error !", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(ProfileActivity.this,
+                                    "There was some error. Please, try again !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
     }
 
@@ -243,6 +324,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == VERIFICATION_REQUEST_CODE) {
+            recreate();
+        }
 
         if (data == null)
             return;
@@ -439,6 +524,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                                 status = getString(R.string.default_status);
                             }
                             fillProfileInfo(fullName, userName, imageURL, date, status);
+
+                            mIsVerified = verified;
 
                             if (verified) {
                                 isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
