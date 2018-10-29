@@ -44,6 +44,7 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.QUOTES_SHOW_DAILY;
 import static utils.Constants.READ_NOTIF_STATUS;
 import static utils.Constants.USER_TOKEN;
 
@@ -51,6 +52,8 @@ public class SettingsFragment extends Fragment {
 
     @BindView(R.id.switch_notification)
     Switch notificationSwitch;
+    @BindView(R.id.switch_quotes)
+    Switch quoteSwitch;
     @BindView(R.id.old_password)
     EditText oldPasswordText;
     @BindView(R.id.new_password)
@@ -97,6 +100,7 @@ public class SettingsFragment extends Fragment {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean readNotifStatus = mSharedPreferences.getBoolean(READ_NOTIF_STATUS, true);
+        boolean showDailyQuote = mSharedPreferences.getBoolean(QUOTES_SHOW_DAILY, true);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -119,6 +123,20 @@ public class SettingsFragment extends Fragment {
                 mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
             } else {
                 mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
+            }
+        });
+
+        if (showDailyQuote) {
+            quoteSwitch.setChecked(true);
+            Log.wtf("QUOTES", "QUOTES WAS TRUE");
+        }
+        quoteSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, true).apply();
+                Log.wtf("isChecked is true", "Setting Show Daily To True");
+            } else {
+                mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, false).apply();
+                Log.wtf("isChecked is false", "Setting Show Daily To False");
             }
         });
         return mView;
