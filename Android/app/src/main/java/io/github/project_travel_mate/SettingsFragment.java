@@ -128,15 +128,12 @@ public class SettingsFragment extends Fragment {
 
         if (showDailyQuote) {
             quoteSwitch.setChecked(true);
-            Log.wtf("QUOTES", "QUOTES WAS TRUE");
         }
         quoteSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, true).apply();
-                Log.wtf("isChecked is true", "Setting Show Daily To True");
             } else {
                 mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, false).apply();
-                Log.wtf("isChecked is false", "Setting Show Daily To False");
             }
         });
         return mView;
