@@ -89,4 +89,16 @@ public class Constants {
     //Weather forecast constants
     public static final String CURRENT_TEMP = "TEMP";
     public static final int NUM_DAYS = 7;
+
+    // Quotes
+    public static final String QUOTES_API_LINK = "https://raw.githubusercontent.com/btford/philosobot/master/quotes/";
+    public static final String QUOTES_SHOW_DAILY = "show_daily_quotes";
+    public static final String QUOTES_LAUNCH_COUNT = "number_of_times_launched";
+    public static final String QUOTES_FIRST_LAUNCH_DATE = "date_of_first_launch";
+    public static final boolean QUOTES_SHOW_ON_FIRST_LOAD = true;
+    // Min number of days between quotes
+    public static final int DAYS_UNTIL_SHOW_QUOTE = 1;
+    //Min number of launches before Quotes
+    public static final int LAUNCHES_UNTIL_SHOW_QUOTE = 1;
+
 }
