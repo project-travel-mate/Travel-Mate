@@ -9,9 +9,10 @@
     <color name="grey">#616161</color>
     <color name="silver">#969696</color>
     <color name="blue">#0288D1</color>
+    <color name="light_grey">#FFBDBDBD</color>
     <color name="dark_grey">#333434</color>
     <color name="transparent_black">#CC000000</color>
-
+    <color name="stock_activity_background">#FFFAFAFA</color>
 
     <color name="saffron">#F4B63E</color>
     <color name="sienna">#EB6460</color>

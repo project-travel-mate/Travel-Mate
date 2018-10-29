@@ -19,7 +19,7 @@ import objects.ChecklistItem;
  */
 
 public class CheckListProvider implements RemoteViewsFactory {
-    private ArrayList<CheckListItem> mListItemCheckList = new ArrayList<>();
+    private ArrayList<CheckListWidgetItem> mListItemCheckList = new ArrayList<CheckListWidgetItem>();
     private Context mContext;
     private int mAppWidgetId;
 
@@ -34,8 +34,8 @@ public class CheckListProvider implements RemoteViewsFactory {
     private void populateListItem(ChecklistItem[] checklistItems) {
 
         for (ChecklistItem checkItem : checklistItems) {
-            CheckListItem checkListItem = new CheckListItem();
-            if (checkItem.getIsDone().equalsIgnoreCase("1")) {
+            CheckListWidgetItem checkListItem = new CheckListWidgetItem();
+            if (checkItem.getIsDone()) {
                 checkListItem.heading = checkItem.getName();
                 mListItemCheckList.add(checkListItem);
             }
@@ -61,7 +61,7 @@ public class CheckListProvider implements RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         final RemoteViews remoteView = new RemoteViews(
                 mContext.getPackageName(), R.layout.checklist_widget_item);
-        CheckListItem checkListItem = mListItemCheckList.get(position);
+        CheckListWidgetItem checkListItem = mListItemCheckList.get(position);
         remoteView.setTextViewText(R.id.check_item_title, checkListItem.heading);
 
         return remoteView;
