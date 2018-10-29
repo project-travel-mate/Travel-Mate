@@ -194,6 +194,12 @@
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
     <string name="status_updated">Status has been updated</string>
     <string name="cities_travelled">Cities visited </string>
+    <string name="email_not_verified">Your email id is not verified</string>
+    <string name="verify_now">Verify Now</string>
+    <string name="later">Later</string>
+    <string name="text_email_verified">Your email id is verified</string>
+    <string name="text_otp_code_sent_alert">An OTP code has been sent to your email id : %1$s. Please enter the code below.</string>
+
 
     <!-- About Us String-->
     <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
@@ -346,6 +352,7 @@
 
     <!-- Currency Convertor Chart Time-Series Spinner options -->
     <string name="time_series_prompt">Time Interval</string>
+    <string name="verify_email">Verify Email</string>
     <string-array name="time_series_array">
         <item>7 Days</item>
         <item>1 Month</item>
