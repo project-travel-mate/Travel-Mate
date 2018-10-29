@@ -70,12 +70,13 @@
                     android:src="@drawable/ic_check_circle_white_custom" />
 
                 <TextView
+                    android:id="@+id/code_sent_alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="start"
                     android:padding="16dp"
-                    android:text="@string/text_code_sent_alert"
+                    android:text="@string/text_otp_code_sent_alert"
                     android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/white"

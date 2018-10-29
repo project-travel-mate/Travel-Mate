@@ -2,7 +2,6 @@ package io.github.project_travel_mate;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -177,16 +176,16 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         isVerified.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
             if (!mIsVerified) {
-                builder.setTitle("Your email id is not verified");
-                builder.setPositiveButton("Verify Now", (dialogInterface, i) -> {
+                builder.setTitle(R.string.email_not_verified);
+                builder.setPositiveButton(R.string.verify_now, (dialogInterface, i) -> {
                     sendVerificationEmail();
                 });
-                builder.setNegativeButton("Later", (dialogInterface, i) -> {
+                builder.setNegativeButton(R.string.later, (dialogInterface, i) -> {
                     dialogInterface.dismiss();
                 });
             } else {
-                builder.setTitle("Your email id is verified");
-                builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+                builder.setTitle(R.string.text_email_verified);
+                builder.setPositiveButton(R.string.positive_button, (dialogInterface, i) -> {
                     dialogInterface.dismiss();
                 });
             }

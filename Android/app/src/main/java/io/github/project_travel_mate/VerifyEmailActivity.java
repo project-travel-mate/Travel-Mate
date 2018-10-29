@@ -26,10 +26,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
 import static utils.Constants.VERIFICATION_REQUEST_CODE;
 
 public class VerifyEmailActivity extends AppCompatActivity implements OnOtpCompletionListener {
+
+    @BindView(R.id.code_sent_alert)
+    TextView mCodeSentAlert;
 
     @BindView(R.id.resend_code)
     TextView resendCode;
@@ -38,7 +42,7 @@ public class VerifyEmailActivity extends AppCompatActivity implements OnOtpCompl
     OtpView resetCode;
 
     private String mToken;
-    Handler mHandler;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,9 @@ public class VerifyEmailActivity extends AppCompatActivity implements OnOtpCompl
 
         resendCode.setOnClickListener(view -> verifyEmail(null, false));
         resetCode.setOtpCompletionListener(this);
+
+        String mUserEmail = mSharedPreferences.getString(USER_EMAIL, null);
+        mCodeSentAlert.setText(String.format(getString(R.string.text_otp_code_sent_alert), mUserEmail));
     }
 
     @Override
