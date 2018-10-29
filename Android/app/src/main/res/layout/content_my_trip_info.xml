@@ -143,39 +143,6 @@
                     android:src="@drawable/ic_arrow_drop_down_black_24dp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/public_trip_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/public_trip_message"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toStartOf="@+id/ispublic_toggleButton"
-                    android:fontFamily="sans-serif-bold"
-                    android:padding="5dp"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <ToggleButton
-                    android:id="@+id/ispublic_toggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="53dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:textOn="@string/public_trip_toggle_on"
-                    android:textOff="@string/public_trip_toggle_off" />
-            </RelativeLayout>
-
             <adapters.NestedListView
                 android:id="@+id/friend_list"
                 android:layout_width="match_parent"
@@ -212,14 +179,50 @@
                 android:textColor="@color/white"
                 android:visibility="gone" />
 
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/public_trip_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/public_trip_message"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toStartOf="@+id/ispublic_toggleButton"
+                    android:fontFamily="sans-serif-bold"
+                    android:padding="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <ToggleButton
+                    android:id="@+id/ispublic_toggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="53dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/round_shape"
+                    android:textColor="@color/white"
+                    android:textOn="@string/public_trip_toggle_on"
+                    android:textOff="@string/public_trip_toggle_off" />
+            </RelativeLayout>
+
+
             <LinearLayout
+                android:id="@+id/addme_to_trip"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/addme_to_trip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"

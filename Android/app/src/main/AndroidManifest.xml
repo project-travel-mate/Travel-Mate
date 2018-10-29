@@ -143,6 +143,7 @@
         <activity android:name=".destinations.description.RestaurantsActivity" />
         <activity android:name=".destinations.description.TweetsDescriptionActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".utilities.QuotesActivity" />
         <activity
             android:name=".DeleteProfilePictureActivity"
             android:icon="@drawable/ic_delete_round"

@@ -9,8 +9,8 @@ android {
         applicationId "io.github.project_travel_mate"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 44
-        versionName "5.5.0"
+        versionCode 45
+        versionName "5.5.2"
     }
 
     buildTypes {
@@ -74,7 +74,7 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     // Lottie : animations
     implementation 'com.airbnb.android:lottie:2.7.0'
-    
+
     // To show what's new in the application
     implementation 'io.github.tonnyl:whatsnew:0.1.1'
     //To display search dialog

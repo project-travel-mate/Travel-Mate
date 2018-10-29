@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -77,6 +78,7 @@ import static utils.Constants.EXTRA_MESSAGE_PART_OF_TRIP;
 import static utils.Constants.EXTRA_MESSAGE_TRIP_OBJECT;
 import static utils.Constants.SHARE_PROFILE_URI;
 import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
+import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
 
 public class MyTripInfoActivity extends AppCompatActivity implements TravelmateSnackbars {
@@ -117,6 +119,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     ProgressBar tripNameProgressBar;
     @BindView(R.id.addme_to_trip)
     LinearLayout addMeToTrip;
+    @BindView(R.id.public_trip_layout)
+    RelativeLayout publicPrivateInfo;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -129,6 +133,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     private MaterialDialog mDialog;
     private MyTripFriendNameAdapter mAdapter;
     boolean isUserPartofTrip;
+    private String mUserEmail;
+    boolean isTripPublic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +148,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
+        mUserEmail = sharedPreferences.getString(USER_EMAIL, null);
         if (mTrip.getImage() != null && !mTrip.getImage().isEmpty())
             Picasso.with(this).load(mTrip.getImage()).error(R.drawable.placeholder_image)
-               .placeholder(R.drawable.placeholder_image).into(cityImageView);
+                    .placeholder(R.drawable.placeholder_image).into(cityImageView);
         showIcon.setVisibility(GONE);
         editTrip.setVisibility(GONE);
         mHandler = new Handler(Looper.getMainLooper());
@@ -180,7 +187,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                 mIsTripNameEdited = true;
             } else {
                 //clicking edit trip after editing the trip name
-                if (tripName.getText().length() != 0 ) {
+                if (tripName.getText().length() != 0) {
                     editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
                     tripName.setFocusableInTouchMode(false);
                     tripName.setCursorVisible(false);
@@ -196,16 +203,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             }
         });
 
-
-        isUserPartofTrip = intent.getBooleanExtra(EXTRA_MESSAGE_PART_OF_TRIP, true);
-        if (isUserPartofTrip) { //user is part of the trip
-            addMeToTrip.setVisibility(GONE);
-        } else {
-            //user is not a part of trip
-            addMeToTrip.setVisibility(VISIBLE);
-            addNewFriend.setVisibility(GONE);
-            friendEmail.setVisibility(GONE);
-        }
     }
 
     @OnClick(R.id.city_image)
@@ -286,18 +283,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             final String timeString =
                                     new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
                             tripDate.setText(timeString);
-                            if (!isUserPartofTrip) {
-                                if (isPublic) {
-                                    tripPublicMessage.setText(R.string.trip_public_message);
-                                    publicToggleButton.setChecked(true);
-                                } else {
-                                    tripPublicMessage.setText(R.string.trip_private_message);
-                                    publicToggleButton.setChecked(false);
-                                }
-                            } else {
-                                tripPublicMessage.setVisibility(GONE);
-                                publicToggleButton.setVisibility(GONE);
-                            }
+                            isTripPublic = isPublic;
+
                             updateFriendList();
                             animationView.setVisibility(GONE);
                         } catch (JSONException | IOException | NullPointerException e) {
@@ -613,7 +600,31 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                         try {
                             ob = new JSONObject(res);
                             JSONArray usersArray = ob.getJSONArray("users");
-                            if (usersArray.length() == 0) {
+
+                            isUserPartofTrip = false;
+                            for (int i = 0; i < usersArray.length(); i++) {
+
+                                JSONObject jsonObject = usersArray.getJSONObject(i);
+                                String friendFirstName = jsonObject.getString("first_name");
+                                String friendLastName = jsonObject.getString("last_name");
+                                String friendImage = jsonObject.getString("image");
+                                String friendJoinedOn = jsonObject.getString("date_joined");
+                                String friendUserName = jsonObject.getString("username");
+                                String friendStatus = jsonObject.getString("status");
+                                int friendId = jsonObject.getInt("id");
+
+                                if (friendUserName.equals(mUserEmail)) {
+                                    isUserPartofTrip = true;
+                                    continue;
+                                }
+
+                                mFriendDeleteId = String.valueOf(friendId);
+                                tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
+                                        friendImage, friendJoinedOn, friendStatus));
+                            }
+
+
+                            if (tripFriends.size() == 0) {
                                 addNewFriend.setVisibility(GONE);
                                 friendEmail.setVisibility(GONE);
                                 noFriendTitle.setVisibility(VISIBLE);
@@ -624,45 +635,45 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                 noFriendTitle.setText(content);
                                 noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
-                                if (isUserPartofTrip) {
-                                    noFriendTitle.setOnClickListener(view -> {
-                                        noFriendTitle.setVisibility(GONE);
-                                        addNewFriend.setVisibility(VISIBLE);
-                                        friendEmail.setVisibility(VISIBLE);
-                                        friendTitle.setText(R.string.friends_show_title);
-                                        friendTitle.setTypeface(null, Typeface.BOLD);
-                                        friendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f);
-                                    });
+                                addNewFriend.setVisibility(VISIBLE);
+                                friendEmail.setVisibility(VISIBLE);
+                                addMeToTrip.setVisibility(GONE);
+                                publicPrivateInfo.setVisibility(VISIBLE);
+
+                                if (isTripPublic) {
+                                    tripPublicMessage.setText(R.string.trip_public_message);
+                                    publicToggleButton.setChecked(true);
                                 } else {
-                                    noFriendTitle.setVisibility(GONE);
+                                    tripPublicMessage.setText(R.string.trip_private_message);
+                                    publicToggleButton.setChecked(false);
                                 }
+
                             } else {
-
-
-                                for (int i = 0; i < usersArray.length(); i++) {
-
-                                    JSONObject jsonObject = usersArray.getJSONObject(i);
-                                    String friendFirstName = jsonObject.getString("first_name");
-                                    String friendLastName = jsonObject.getString("last_name");
-                                    String friendImage = jsonObject.getString("image");
-                                    String friendJoinedOn = jsonObject.getString("date_joined");
-                                    String friendUserName = jsonObject.getString("username");
-                                    String friendStatus = jsonObject.getString("status");
-                                    int friendId = jsonObject.getInt("id");
-
-                                    mFriendDeleteId = String.valueOf(friendId);
-                                    tripFriends.add(new User(friendUserName, friendFirstName, friendLastName, friendId,
-                                            friendImage, friendJoinedOn, friendStatus));
-                                }
 
 
                                 friendTitle.setText(R.string.friends_show_title);
                                 friendTitle.setVisibility(VISIBLE);
                                 showIcon.setVisibility(VISIBLE);
 
-                                if (isUserPartofTrip) {
+                                if (isUserPartofTrip) { //user is part of the trip
                                     addNewFriend.setVisibility(VISIBLE);
                                     friendEmail.setVisibility(VISIBLE);
+                                    addMeToTrip.setVisibility(GONE);
+                                    publicPrivateInfo.setVisibility(VISIBLE);
+
+                                    if (isTripPublic) {
+                                        tripPublicMessage.setText(R.string.trip_public_message);
+                                        publicToggleButton.setChecked(true);
+                                    } else {
+                                        tripPublicMessage.setText(R.string.trip_private_message);
+                                        publicToggleButton.setChecked(false);
+                                    }
+
+                                } else {
+                                    //user is not a part of trip
+                                    addMeToTrip.setVisibility(VISIBLE);
+                                    addNewFriend.setVisibility(GONE);
+                                    friendEmail.setVisibility(GONE);
                                 }
 
 
@@ -736,10 +747,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     mHandler.post(() -> {
                         if (response.isSuccessful()) {
                             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                            R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
+                                    R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
                         } else {
                             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
-                            res, Snackbar.LENGTH_LONG).show();
+                                    res, Snackbar.LENGTH_LONG).show();
                         }
                     });
                 } else {

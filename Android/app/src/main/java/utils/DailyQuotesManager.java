@@ -3,12 +3,8 @@ package utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.utilities.DailyQuotesFragment;
+import io.github.project_travel_mate.utilities.QuotesActivity;
 
 public class DailyQuotesManager {
 
@@ -19,7 +15,7 @@ public class DailyQuotesManager {
     public static void checkDailyQuote(Context mContext) {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        if (prefs.getBoolean(Constants.QUOTES_SHOW_DAILY, true) != true) {
+        if (!prefs.getBoolean(Constants.QUOTES_SHOW_DAILY, true)) {
             return;
         }
 
@@ -52,16 +48,7 @@ public class DailyQuotesManager {
     }
 
     private static void showDailyQuote(final Context mContext) {
-        DailyQuotesFragment dailyQuotesFragment = new DailyQuotesFragment();
-
-        // Get the FragmentManager and start a transaction.
-
-        FragmentManager fragmentManager = ((FragmentActivity) mContext).getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Add the SimpleFragment.
-        fragmentTransaction.add(R.id.quote_framelayout,
-                dailyQuotesFragment).addToBackStack(null).commit();
+        mContext.startActivity(QuotesActivity.getStartIntent(mContext));
     }
 
     public static void dontShowQuotes(Context mContext) {

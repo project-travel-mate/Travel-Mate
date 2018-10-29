@@ -11,17 +11,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,11 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.utilities.DailyQuotesFragment;
-import utils.DailyQuotesManager;
 import utils.TravelmateSnackbars;
 
-import static utils.Constants.QUOTES_SHOW_DAILY;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
 
@@ -63,8 +56,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LinearLayout sig;
     @BindView(R.id.loginlayout)
     LinearLayout log;
-    @BindView(R.id.quote_framelayout)
-    FrameLayout quoteLayout;
     @BindView(R.id.forgot_password_layout)
     LinearLayout mForgotPasswordLayout;
     @BindView(R.id.reset_code_layout)
@@ -140,12 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getRunTimePermissions();
 
         // Check for Showing Daily Quote
-        if (!mSharedPreferences.getBoolean(QUOTES_SHOW_DAILY, true)) {
-            // If user is already logged in, open MainActivity
-            checkUserSession();
-        } else {
-            DailyQuotesManager.checkDailyQuote(this);
-        }
+        checkUserSession();
 
         signup.setOnClickListener(this);
         login.setOnClickListener(this);

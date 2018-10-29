@@ -39,6 +39,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import io.github.project_travel_mate.friend.MyFriendsFragment;
@@ -57,6 +58,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.DailyQuotesManager;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.AUTHORIZATION;
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
+
+        DailyQuotesManager.checkDailyQuote(this);
 
         // To show what's new in our application
         WhatsNew whatsNew = WhatsNew.newInstance(
