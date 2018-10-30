@@ -233,7 +233,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_utility:
                 fragment = UtilitiesFragment.newInstance();
                 break;
-
+                //Work In Progress Offline Maps
+            case R.id.nav_offlinemaps:
+                break;
             case R.id.nav_about_us:
                 fragment = AboutUsFragment.newInstance();
                 break;
