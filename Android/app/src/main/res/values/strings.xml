@@ -8,6 +8,7 @@
     <string name="navigation_drawer_destination">Destinations</string>
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
+    <string name="navigation_drawer_offlinemaps">Offline Maps</string>
     <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_my_friends">My Friends</string>

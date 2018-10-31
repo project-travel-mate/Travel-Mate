@@ -2,23 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_margin="5dp"
-    android:paddingStart="5dp"
-    android:paddingEnd="5dp">
+    android:orientation="vertical"
+    android:paddingEnd="5dp"
+    android:paddingStart="5dp">
+
     <TextView
+        android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textColor="@color/black"
-        android:id="@+id/heading"/>
+        android:textStyle="bold" />
+
     <utils.ExpandableTextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text"
         android:textColor="@color/black"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
