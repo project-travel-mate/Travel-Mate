@@ -6,11 +6,11 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class ChecklistDragCallback extends ItemTouchHelper.Callback {
 
-    private final ChecklistPendingAdapter mAdapter;
+    private final ChecklistAdapter mAdapter;
     private int mDraggedFrom = -1;
     private int mDraggedTo = -1;
 
-    public ChecklistDragCallback(ChecklistPendingAdapter mAdapter) {
+    public ChecklistDragCallback(ChecklistAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
 
