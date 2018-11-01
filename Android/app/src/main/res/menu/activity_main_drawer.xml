@@ -27,7 +27,7 @@
         <item
             android:id="@+id/nav_offlinemaps"
             android:icon="@drawable/ic_maps"
-            android:title="@string/navigation_drawer_offlinemaps" />
+            android:title="Offline Maps" />
 
     </group>
 
