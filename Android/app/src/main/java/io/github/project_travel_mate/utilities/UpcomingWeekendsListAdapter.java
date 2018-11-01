@@ -44,7 +44,7 @@ public class UpcomingWeekendsListAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.name.setText(uw.getmName());
         holder.timelineView.setMarker(VectorDrawableCompat
                 .create(mContext.getResources(), R.drawable.ic_marker_inactive, mContext.getTheme()));
-        holder.date.setText(uw.getmDate() + ". " + uw.getmMonth());
+        holder.date.setText(uw.getmDate() + "-" + uw.getmMonth());
     }
 
     @Override
