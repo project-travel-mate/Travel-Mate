@@ -9,6 +9,7 @@
     <string name="navigation_drawer_travel">Travel</string>
     <string name="navigation_drawer_utilities">Utilities</string>
     <string name="navigation_drawer_offlinemaps">Offline Maps</string>
+    <string name="navigation_drawer_favouritecities">Favourite Cities</string>
     <string name="navigation_drawer_about_us">About Us</string>
     <string name="navigation_drawer_signout">Sign Out</string>
     <string name="navigation_drawer_my_friends">My Friends</string>
@@ -367,4 +368,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
