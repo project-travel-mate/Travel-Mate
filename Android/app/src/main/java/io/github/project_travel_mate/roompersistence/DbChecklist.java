@@ -65,7 +65,7 @@ public abstract class   DbChecklist extends RoomDatabase {
     };
 
     //migration from database version 4 to 5
-  /*  static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             // Create the new table to be used
@@ -106,7 +106,7 @@ public abstract class   DbChecklist extends RoomDatabase {
             database.execSQL("ALTER TABLE checklist_items RENAME TO events_new");
         }
     };
-*/
+
     public abstract ChecklistItemDAO checklistItemDAO();
     public abstract OfflineDataDAO offlineDataDAO();
 
