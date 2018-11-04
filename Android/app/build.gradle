@@ -67,6 +67,15 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
     implementation 'com.github.juanlabrador:badgecounter:1.0.2@aar'
+
+
+    //Dagger2
+
+    implementation 'com.google.dagger:dagger-android:2.17'
+    implementation 'com.google.dagger:dagger-android-support:2.17' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.17'
+
+
     // Cloudinary : For profile photo upload
     implementation 'com.cloudinary:cloudinary-android:1.24.0'
     // Zxing : creating qr code

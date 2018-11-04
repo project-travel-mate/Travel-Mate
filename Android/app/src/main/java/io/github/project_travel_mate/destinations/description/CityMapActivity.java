@@ -1,5 +1,7 @@
 package io.github.project_travel_mate.destinations.description;
 
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +15,15 @@ import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.destinations.offlinedata.OfflineData;
+import io.github.project_travel_mate.destinations.offlinedata.OfflineDataSource;
 import objects.City;
+import utils.GeopointsConverter;
 import utils.Utils;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
@@ -26,6 +33,10 @@ public class CityMapActivity extends AppCompatActivity {
     MapView cityMap;
     @BindView(R.id.fab_save_map)
     FloatingActionButton  saveMap;
+
+    @Inject
+    OfflineDataSource offlineDataSource;
+
 
     public static Intent getStartIntent(Context context, City city) {
         return new Intent(context, CityMapActivity.class)
@@ -69,6 +80,9 @@ public class CityMapActivity extends AppCompatActivity {
         saveMap.setOnClickListener(v -> {
             CacheManager manager = new CacheManager(cityMap);
             manager.downloadAreaAsync(this, points, 14, 29);
+
+            OfflineData offlineMaps = new OfflineData( this, cityPoint, 14, 29);
+            offlineDataSource.insertMap(offlineMaps);
         });
     }
 }

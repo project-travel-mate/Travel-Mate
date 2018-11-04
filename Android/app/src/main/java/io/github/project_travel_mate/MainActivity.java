@@ -234,6 +234,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = UtilitiesFragment.newInstance();
                 break;
 
+            case R.id.nav_offlinemaps:
+
+                break;
+
+
+
             case R.id.nav_about_us:
                 fragment = AboutUsFragment.newInstance();
                 break;
