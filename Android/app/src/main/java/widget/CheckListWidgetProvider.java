@@ -6,7 +6,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.utilities.ChecklistActivity;
@@ -16,6 +19,7 @@ import io.github.project_travel_mate.utilities.ChecklistActivity;
  */
 public class CheckListWidgetProvider extends AppWidgetProvider {
 
+    private static final String MyOnClick = "myOnClickTag"; //static variable, which will be your onClick name tag
     /*
      * this method is called every 30 mins as specified on widgetinfo.xml
      * this method is also called on every phone reboot
@@ -30,15 +34,44 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteViews = updateWidgetListView(context,
                     appWidgetIds[i]);
 
+
             Intent startActivityIntent = new Intent(context, ChecklistActivity.class);
             PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context,
                     0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.check_list_view, startActivityPendingIntent);
 
+            remoteViews.setOnClickPendingIntent(R.id.image_checkbox, getPendingSelfIntent(context, MyOnClick));
+            // initialization of Image button
             appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
+    //Define a helper method to automate the creation of each PendingIntent
+    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(action);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+    /*
+    Whenever the view that you set the tag is pressed,
+    onReceive will capture that and will do the action just the same as our everyday, standard onClick event.
+     */
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (MyOnClick.equals(intent.getAction())) {
+            //your onClick action is here
+            Toast.makeText(context, "Widget Button", Toast.LENGTH_SHORT).show();
+            /*  Image button check;
+                if (check.getVisibility() == View.VISIBLE) {
+                    check.setVisibility(View.INVISIBLE);
+                } else {
+                    check.setVisibility(View.VISIBLE);
+                }
+
+             */
+        }
+    }
+
 
     private RemoteViews updateWidgetListView(Context context, int appWidgetId) {
 
@@ -57,6 +90,7 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
         remoteViews.setRemoteAdapter(appWidgetId, R.id.check_list_view,
                 svcIntent);
         //setting an empty view in case of no data
+
         remoteViews.setEmptyView(R.id.check_list_view, R.id.empty_view);
         return remoteViews;
     }
