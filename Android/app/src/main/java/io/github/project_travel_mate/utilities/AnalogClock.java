@@ -18,7 +18,7 @@ public class AnalogClock extends TravelMateAnalogClock {
     }
 
     /**
-     * @param ctx
+     * @param ctx - copntext
      */
     public AnalogClock(Context ctx) {
         super(ctx);
@@ -26,8 +26,8 @@ public class AnalogClock extends TravelMateAnalogClock {
     }
 
     /**
-     * @param context
-     * @param attrs
+     * @param context - context
+     * @param attrs - attributes
      */
     public AnalogClock(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,9 +35,9 @@ public class AnalogClock extends TravelMateAnalogClock {
     }
 
     /**
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
+     * @param context - context
+     * @param attrs - attributes
+     * @param defStyleAttr - resource attribute
      */
     public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -45,10 +45,10 @@ public class AnalogClock extends TravelMateAnalogClock {
     }
 
     /**
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
-     * @param defStyleRes
+     * @param context - context
+     * @param attrs - attributes
+     * @param defStyleAttr - resource attribute
+     * @param defStyleRes - style resources
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

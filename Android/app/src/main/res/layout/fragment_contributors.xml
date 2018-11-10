@@ -31,12 +31,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableEnd="@drawable/ic_github_alt"
+                    android:gravity="center"
                     android:text="@string/github" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:text="@string/project" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -50,6 +51,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,11 +92,10 @@
                 android:id="@+id/android_contributors_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:isScrollContainer="false"
                 android:horizontalSpacing="5dp"
-                android:verticalSpacing="30dp"
+                android:isScrollContainer="false"
                 android:numColumns="3"
-                />
+                android:verticalSpacing="30dp" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -116,10 +117,10 @@
                 android:id="@+id/server_contributors_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:isScrollContainer="false"
                 android:horizontalSpacing="5dp"
-                android:verticalSpacing="30dp"
-                android:numColumns="3" />
+                android:isScrollContainer="false"
+                android:numColumns="3"
+                android:verticalSpacing="30dp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

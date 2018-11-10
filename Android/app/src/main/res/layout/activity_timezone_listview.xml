@@ -8,7 +8,7 @@
     <EditText android:id="@+id/timezoneSearch"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:hint="Search Timezone.."
+        android:hint="@string/search_timezone"
         android:inputType="textVisiblePassword"/>
 
     <android.support.v7.widget.RecyclerView

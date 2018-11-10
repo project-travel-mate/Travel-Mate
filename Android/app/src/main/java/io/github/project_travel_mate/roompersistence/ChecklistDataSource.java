@@ -19,19 +19,49 @@ public class ChecklistDataSource {
     }
 
     Flowable<List<ChecklistItem>> getSortedItems() {
-        return mDao.getSortedItems();
+        return mDao.getSortedItems().distinctUntilChanged();
     }
 
-    void updateIsDone(int id) {
-        mDao.updateIsDone(id);
+    Flowable<List<ChecklistItem>> getPendingItems() {
+        return mDao.getPendingItems().distinctUntilChanged();
     }
 
-    void updateUndone(int id) {
-        mDao.updateUndone(id);
+    Flowable<List<ChecklistItem>> getFinishedItems() {
+        return mDao.getFinishedItems().distinctUntilChanged();
+    }
+
+    int getMaxPosition() {
+        return mDao.getMaxPosition();
+    }
+
+    void updateName(String name, int id) {
+        mDao.updateName(name, id);
+    }
+
+    void updateIsDone(int id, boolean done) {
+        mDao.updateIsDone(id, done);
+    }
+
+    void updatePositions(int pos) {
+        mDao.updatePositions(pos);
+    }
+
+    void movePositions(int from, int to) {
+        if (from < to) {
+            mDao.moveItemDown(from, to);
+        } else {
+            // should be (from > to) since method not called when equal
+            mDao.moveItemUp(from, to);
+        }
+
     }
 
     void insertItem(ChecklistItem item) {
-        mDao.insertItems(item);
+        mDao.insertItem(item);
+    }
+
+    void deleteItem(ChecklistItem item) {
+        mDao.deleteItem(item);
     }
 
     void deleteCompletedTasks() {
@@ -39,6 +69,6 @@ public class ChecklistDataSource {
     }
 
     Single<List<ChecklistItem>> getCompletedItems() {
-        return  mDao.getCompletedItems();
+        return mDao.getCompletedItems();
     }
 }

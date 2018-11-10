@@ -93,7 +93,6 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
     private String mFriendImageUri;
     private String mFriendName;
     private List<Trip> mTrips = new ArrayList<>();
-    private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mMutualTripsAdapter;
     private FriendCityRecyclerAdapter mCityAdapter;
     private ArrayList<FriendCity> mFriendCityList;
@@ -169,9 +168,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                         String image = city.getString("image");
                         mFriendCityList.add(new FriendCity(cityId, cityName, cityNickname, cityFactsCount, image));
                     }
-                    mHandler.post(() -> {
-                        mCityAdapter.notifyDataSetChanged();
-                    });
+                    mHandler.post(() -> mCityAdapter.notifyDataSetChanged());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -280,7 +277,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 handler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {
@@ -297,17 +294,14 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
                                 String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
                                 String tname = arr.getJSONObject(i).getString("trip_name");
                                 String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                                mTrips.add(new Trip(id, name, image, start, end, tname));
+                                boolean isPublic = arr.getJSONObject(i).getBoolean("is_public");
+                                mTrips.add(new Trip(id, name, image, start, end, tname, isPublic));
                             }
                             //display trips only if there exists at least one trip
                             //else hide the view
                             if (!mTrips.isEmpty()) {
                                 // Specify a layout for RecyclerView
                                 // Create a horizontal RecyclerView
-                                mLayoutManager = new LinearLayoutManager(FriendsProfileActivity.this,
-                                        LinearLayoutManager.HORIZONTAL,
-                                        false
-                                );
                                 FlexboxLayoutManager layoutManager =
                                         new FlexboxLayoutManager(FriendsProfileActivity.this);
                                 layoutManager.setFlexDirection(ROW);

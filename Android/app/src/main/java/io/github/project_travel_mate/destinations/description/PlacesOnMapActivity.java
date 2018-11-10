@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,7 +103,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        mMap = (MapView) findViewById(R.id.map);
+        mMap = findViewById(R.id.map);
         setTitle(mCity.getNickname());
 
         mMarker = this.getResources().getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
@@ -212,7 +211,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      * @param marker  marker
      */
     private void onPlaceSelected(Marker marker) {
-        Toast.makeText(getBaseContext(), "GOT", Toast.LENGTH_LONG);
         try {
             for (int i = 0; i < mFeedItems.length(); i++) {
                 //get index of the clicked marker

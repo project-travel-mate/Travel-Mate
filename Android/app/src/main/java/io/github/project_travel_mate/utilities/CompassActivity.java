@@ -1,7 +1,6 @@
 package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -56,11 +55,7 @@ public class CompassActivity extends AppCompatActivity {
             alertDialog.setTitle(getResources().getString(R.string.compass_dialog_header));
             alertDialog.setMessage(getResources().getString(R.string.compass_dialog_description));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.compass_dialog_confirm),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    (dialog, which) -> dialog.dismiss());
             alertDialog.show();
         }
     }
@@ -70,7 +65,7 @@ public class CompassActivity extends AppCompatActivity {
      */
     private void setupCompass() {
         mCompass = new Compass(this);
-        Compass.CompassListener cl = azimuth -> adjustArrow(azimuth);
+        Compass.CompassListener cl = this::adjustArrow;
         mCompass.setListener(cl);
     }
     /**

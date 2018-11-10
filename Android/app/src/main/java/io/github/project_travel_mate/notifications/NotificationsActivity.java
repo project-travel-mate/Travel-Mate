@@ -143,7 +143,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    String createdAt = getTimeAgo(date.getTime());
+                                    String createdAt = getTimeAgo(Objects.requireNonNull(date).getTime());
                                     if (!read) {
                                         allRead = true;
                                     }
@@ -168,7 +168,8 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                         String image = subObject.getString("images");
                                         String start = obj.getString("start_date_tx");
                                         String tname = obj.getString("trip_name");
-                                        Trip trip = new Trip(tripId, name, image, start, "", tname);
+                                        boolean isPublic = obj.getBoolean("is_public");
+                                        Trip trip = new Trip(tripId, name, image, start, "", tname, isPublic);
                                         //add only if notif is unread and
                                         //showReadNotif is true
                                         if (!read || mShowReadNotif) {
@@ -176,7 +177,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                                     trip, createdAt));
                                         }
                                     } else {
-                                        Trip trip = new Trip("", "", "", "", "", "");
+                                        Trip trip = new Trip("", "", "", "", "", "", true);
                                         if (!read || mShowReadNotif) {
                                             notifications.add(new Notification(id, type, text, read, user,
                                                     trip, createdAt));

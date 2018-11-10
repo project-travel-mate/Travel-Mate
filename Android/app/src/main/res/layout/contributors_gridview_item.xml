@@ -11,51 +11,48 @@
         android:layout_centerHorizontal="true"
         android:foregroundGravity="center" />
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contributor_image">
+        android:gravity="center"
+        android:layout_below="@id/contributor_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/contributor_name"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:foregroundGravity="center"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/contributor_name"
-                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"
-                android:textSize="15sp"
-                android:gravity="center_vertical" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:text="@string/contributions"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/contributions"
-                    android:textSize="15sp" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/contributor_contributions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginStart="5dp"
-                    android:foregroundGravity="right"
-                    android:gravity="end"
-                    android:textSize="15sp" />
-            </LinearLayout>
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/contributor_contributions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="5dp"
+                android:foregroundGravity="right"
+                android:gravity="end"
+                android:textSize="15sp" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </RelativeLayout>

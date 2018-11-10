@@ -189,6 +189,7 @@ class LoginPresenter {
      */
     public void ok_password_reset_request(String email, Handler mHandler) {
         //TODO validate email address, verify if it's a registered user, send 4- digit otp to email
+        mHandler.post(() -> mView.showLoadingDialog());
         String uri = API_LINK_V2 + "forgot-password-email-code/" + email;
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -202,6 +203,7 @@ class LoginPresenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
                     mView.showError();
                 });
             }
@@ -211,6 +213,7 @@ class LoginPresenter {
                 final String res = Objects.requireNonNull(response.body()).string();
 
                 mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
                     if (response.isSuccessful()) {
                         mView.showMessage(res);
                         //if email is verified as a registered one
@@ -252,6 +255,7 @@ class LoginPresenter {
      */
     public void ok_password_reset(String email, String code, String newPassword, Handler mHandler) {
         //TODO update the password for the corresponding email address
+        mHandler.post(() -> mView.showLoadingDialog());
         String uri = API_LINK_V2 + "forgot-password-verify-code/" + email
                 + "/" + code + "/" + newPassword;
         //Set up client
@@ -265,6 +269,7 @@ class LoginPresenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
                     mView.showError();
                 });
             }
@@ -274,8 +279,8 @@ class LoginPresenter {
                 final String res = Objects.requireNonNull(response.body()).string();
 
                 mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
                     if (response.isSuccessful()) {
-                        mView.showMessage("Password updated successfully");
                         //display the login UI to login with the new password
                         mView.openLogin();
                     } else if (response.code() == 400) {

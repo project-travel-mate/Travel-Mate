@@ -14,8 +14,8 @@
   + Transport 
      + Train, Bus, Car
   + Hotel booking
-  + online shopping
-  + real time locator
+  + Online shopping
+  + Real time locator
 + Utilities
   + Share Contact (Share my contact or view someone's contact)
   + Checklist 
