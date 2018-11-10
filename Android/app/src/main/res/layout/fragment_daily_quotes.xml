@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/root_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/city"
+              android:baselineAligned="false"
+              android:clickable="true"
+              android:focusable="true"
+              android:gravity="center_vertical"
+              android:orientation="vertical"
+              android:weightSum="3"
+              tools:context=".utilities.DailyQuotesFragment">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:alpha=".9"
+        android:background="@color/white"
+        android:elevation="7dp">
+
+        <TextView
+            android:id="@+id/quote_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-bold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/author_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quote_textView"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/fab"
+            android:fontFamily="sans-serif-bold"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <com.dd.processbutton.FlatButton
+            android:id="@+id/negative_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:background="#f5f5f5"
+            android:padding="10dp"
+            android:text="@string/reject_daily_quotes_button"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            app:pb_colorNormal="#f5f5f5"
+            app:pb_colorPressed="@color/light_grey"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_share_white"/>
+
+    </RelativeLayout>
+</LinearLayout>

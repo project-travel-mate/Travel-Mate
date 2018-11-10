@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,8 +21,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,17 +46,33 @@ import static utils.Constants.BASE_TASKS;
 import static utils.Constants.IS_ADDED_INDB;
 
 public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
-        ChecklistAdapter.ChecklistAdapterListener {
+        ChecklistAdapter.ChecklistEventListener {
 
-    @BindView(R.id.listview)
-    ListView listview;
+    @BindView(R.id.recycler_pending)
+    RecyclerView mPendingRecycler;
+
+    @BindView(R.id.layout_divider)
+    LinearLayout mTickedBanner;
+
+    @BindView(R.id.divider_tv_count)
+    TextView mTickedCounter;
+
+    @BindView(R.id.divider_ic_arrow)
+    ImageView mBannerArrow;
+
+    @BindView(R.id.recycler_finished)
+    RecyclerView mFinishedRecycler;
+
     private Activity mActivity;
     private ChecklistViewModel mViewModel;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private View mChecklistView;
     private List<ChecklistItem> mItems = new ArrayList<>();
-    private  AppDataBase mDatabase;
+    private AppDataBase mDatabase;
     private MenuItem mActionDeleteMenuItem;
+    private boolean mFinishedHidden = false;
+    private ItemTouchHelper mTouchHelper;
+
     public ChecklistFragment() {
     }
 
@@ -77,30 +97,6 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
         return mChecklistView;
     }
 
-    @OnClick(R.id.add)
-    void onClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = (mActivity).getLayoutInflater();
-        builder.setTitle("Add new item");
-        builder.setCancelable(false);
-        final View dialogv = inflater.inflate(R.layout.dialog, null, false);
-        builder.setView(dialogv)
-                .setPositiveButton("OK", (dialog, id1) -> {
-                    EditText e1 = dialogv.findViewById(R.id.task);
-                    if (!e1.getText().toString().equals("")) {
-                        ChecklistItem checklistItem = new ChecklistItem(e1.getText().toString(), String.valueOf(0));
-                        mDisposable.add(mViewModel.insertItem(checklistItem)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe());
-
-                        mDatabase.widgetCheckListDao().insert(checklistItem);
-                    }
-                });
-        builder.create();
-        builder.show();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +105,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.checklist_menu, menu);
+        mActivity.getMenuInflater().inflate(R.menu.checklist_menu, menu);
         mActionDeleteMenuItem = menu.findItem(R.id.action_delete);
         checkForCompletedItem();
     }
@@ -131,7 +127,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_delete :
+            case R.id.action_delete:
                 initiateDeletion();
                 return true;
             default:
@@ -142,13 +138,29 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
     private void attachAdapter() {
 
+        ChecklistAdapter pendingAdapter = new ChecklistAdapter(mActivity, mViewModel, true);
+        pendingAdapter.setEventListener(ChecklistFragment.this);
+        mPendingRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mPendingRecycler.setAdapter(pendingAdapter);
+
+        ItemTouchHelper.Callback callback = new ChecklistDragCallback(pendingAdapter);
+        mTouchHelper = new ItemTouchHelper(callback);
+        mTouchHelper.attachToRecyclerView(mPendingRecycler);
+
+        ChecklistAdapter finishedAdapter = new ChecklistAdapter(mActivity, mViewModel, false);
+        finishedAdapter.setEventListener(ChecklistFragment.this);
+        mFinishedRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mFinishedRecycler.setAdapter(finishedAdapter);
+
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         //First time users
         String isAlreadyAdded = sharedPreferences.getString(IS_ADDED_INDB, "null");
         if (isAlreadyAdded.equals("null")) {
             for (int i = 0; i < BASE_TASKS.size(); i++) {
-                ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), String.valueOf(0));
+                ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), false, i);
                 mDisposable.add(mViewModel.insertItem(checklistItem)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -158,29 +170,52 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
             editor.putString(IS_ADDED_INDB, "yes");
             editor.apply();
         }
-        mDisposable.add(mViewModel.getSortedItems()
+
+        mDisposable.add(mViewModel.getPendingItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(pendingAdapter::updateChecklist)
+        );
+
+        mDisposable.add(mViewModel.getFinishedItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
-                    ChecklistAdapter adapter = new ChecklistAdapter(mActivity, items, mViewModel);
-                    adapter.setListener(ChecklistFragment.this);
-                    listview.setAdapter(adapter);
-                }));
+                    // This check is needed to ensure the Fragment is attached to
+                    // an activity context before we attempt to modify the TextView
+                    if (getActivity() != null) {
+                        mTickedCounter.setText(getString(R.string.ticked_items_count, items.size()));
+                    }
+                    finishedAdapter.updateChecklist(items);
+                })
+        );
 
+        // Subscribe to complete list for the widget
         mDisposable.add(mViewModel.getSortedItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items ->  mDatabase.widgetCheckListDao().insertAll(items)));
-
-
-
-
+                .subscribe(items -> mDatabase.widgetCheckListDao().insertAll(items)));
     }
 
     @Override
-    public void onAttach (Context context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity) context;
+    }
+
+    @OnClick(R.id.layout_divider)
+    public void onTickedBannerClick() {
+        if (mFinishedHidden) {
+            // should make finished items visible
+            mFinishedRecycler.setVisibility(View.VISIBLE);
+            mBannerArrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        } else {
+            // should hide finished items
+            mFinishedRecycler.setVisibility(View.GONE);
+            mBannerArrow.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+        }
+
+        mFinishedHidden = !mFinishedHidden;
     }
 
     /**
@@ -210,7 +245,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> {
                             //do nothing on clicking cancel
-                    });
+                        });
         builder.create().show();
     }
 
@@ -225,20 +260,21 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
+        // TODO make this deleteCompleted tasks
         mDatabase.widgetCheckListDao().deleteAll();
         //creates a snackbar with undo option
-        TravelmateSnackbars.createSnackBar(mChecklistView.findViewById(R.id.fragment_checklist),
+        TravelmateSnackbars.createSnackBar(mActivity.findViewById(R.id.checklist_root_layout),
                 R.string.deleted_task_message,
                 Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v -> {
+                    // TODO can replace this with a single multi-item insert statement
                     for (int i = 0; i < mItems.size(); i++) {
                         //adds all completed task in database again
-                        ChecklistItem checklistItem = new ChecklistItem(mItems.get(i).getName(), String.valueOf(1));
-                        mDisposable.add(mViewModel.insertItem(checklistItem)
+                        mDisposable.add(mViewModel.insertItem(mItems.get(i))
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe());
-                        mDatabase.widgetCheckListDao().insert(checklistItem);
+                        mDatabase.widgetCheckListDao().insert(mItems.get(i));
                     }
 
                     if (mItems.size() > 0) mActionDeleteMenuItem.setVisible(true);
@@ -250,6 +286,11 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     @Override
     public void onItemCheckedChange() {
         checkForCompletedItem();
+    }
+
+    @Override
+    public void onStartDrag(ChecklistAdapter.ViewHolder holder) {
+        mTouchHelper.startDrag(holder);
     }
 }
 

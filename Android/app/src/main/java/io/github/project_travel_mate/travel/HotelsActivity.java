@@ -168,7 +168,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                                     for (int i = 0; i < itemsSize; i++) {
                                         jo = feedItems.getJSONObject(i);
                                         hotelsModel = new HotelsModel(jo.getString("title"),
-                                                jo.getString("address").toString(),
+                                                jo.getString("address"),
                                                 jo.optString("phone", "000"),
                                                 jo.optString("href"),
                                                 jo.getInt("distance"),
@@ -378,7 +378,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
                 holder.book.setOnClickListener(view -> {
-                    Intent browserIntent = null;
+                    Intent browserIntent;
                     try {
                         browserIntent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse(mHotelsModelList.get(position).getHref()));

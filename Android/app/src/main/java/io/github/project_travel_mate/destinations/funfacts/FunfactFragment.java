@@ -70,7 +70,8 @@ public class FunfactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        FunFact fact = (FunFact) getArguments().getSerializable(EXTRA_MESSAGE_FUNFACT_OBJECT);
+        FunFact fact = (FunFact) Objects.requireNonNull(getArguments())
+                .getSerializable(EXTRA_MESSAGE_FUNFACT_OBJECT);
         View view = inflater.inflate(R.layout.fragment_funfact, container, false);
         ViewHolder holder = new ViewHolder(view);
         if (fact != null) {

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -27,7 +28,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,14 +55,14 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     RecyclerView mRecyclerView;
     @BindView(R.id.my_trips_main_layout)
     RelativeLayout my_trips_main_layout;
+    @BindView(R.id.my_trips_no_items)
+    TextView noTrips;
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
     private TripsListAdapter mMyTripsAdapter;
     static int ADDNEWTRIP_ACTIVITY = 203;
     private View mTripsView;
-
-    private List<Trip> mTripList = new ArrayList<>();
 
     public MyTripsFragment() {
         // Required empty public constructor
@@ -85,10 +85,10 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(getLayoutManager());
-        mMyTripsAdapter = new TripsListAdapter(mTripList);
-        mMyTripsAdapter.setOnItemClickListener((position, v) -> {
+        mMyTripsAdapter = new TripsListAdapter(new ArrayList<>());
+        mMyTripsAdapter.setOnItemClickListener((trip) -> {
             Intent intent = MyTripInfoActivity.getStartIntent(mActivity.getApplicationContext(),
-                    mTripList.get(position));
+                    trip);
             mActivity.getApplicationContext().startActivity(intent);
         });
         mRecyclerView.setAdapter(mMyTripsAdapter);
@@ -129,7 +129,6 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void onResponse(Call call, final Response response) {
 
                 mHandler.post(() -> {
-                    mTripList.clear();
                     if (response.isSuccessful() && response.body() != null) {
                         JSONArray arr;
                         try {
@@ -139,21 +138,24 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                             if (arr.length() < 1) {
                                 noResults();
-                                return;
-                            }
-
-                            for (int i = arr.length() - 1; i >= 0; i--) {
-                                String id = arr.getJSONObject(i).getString("id");
-                                String start = arr.getJSONObject(i).getString("start_date_tx");
-                                String end = arr.getJSONObject(i).optString("end_date", null);
-                                String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
-                                String tname = arr.getJSONObject(i).getString("trip_name");
-                                String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
-                                mTripList.add(new Trip(id, name, image, start, end, tname));
+                                noTrips.setVisibility(View.VISIBLE);
+                            } else {
+                                noTrips.setVisibility(View.GONE);
+                                ArrayList<Trip> trips = new ArrayList<>();
+                                for (int i = 0; i < arr.length(); i++) {
+                                    String id = arr.getJSONObject(i).getString("id");
+                                    String start = arr.getJSONObject(i).getString("start_date_tx");
+                                    boolean isPublic = arr.getJSONObject(i).getBoolean("is_public");
+                                    String end = arr.getJSONObject(i).optString("end_date", null);
+                                    String name = arr.getJSONObject(i).getJSONObject("city").getString("city_name");
+                                    String tname = arr.getJSONObject(i).getString("trip_name");
+                                    String image = arr.getJSONObject(i).getJSONObject("city").getString("image");
+                                    trips.add(new Trip(id, name, image, start, end, tname, isPublic));
+                                }
                                 animationView.setVisibility(View.GONE);
                                 my_trips_main_layout.setVisibility(View.VISIBLE);
+                                mMyTripsAdapter.initData(trips);
                             }
-                            mMyTripsAdapter.notifyDataSetChanged();
 
                         } catch (JSONException | IOException | NullPointerException e) {
                             e.printStackTrace();

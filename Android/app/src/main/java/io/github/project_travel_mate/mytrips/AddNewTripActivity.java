@@ -59,7 +59,6 @@ import static utils.Constants.USER_TOKEN;
 public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         View.OnClickListener, TravelmateSnackbars {
 
-    private static final String DATEPICKER_TAG1 = "datepicker1";
     @BindView(R.id.select_city_name)
     TextView cityName;
     @BindView(R.id.sdate)

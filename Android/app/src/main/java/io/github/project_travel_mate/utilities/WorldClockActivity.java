@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;

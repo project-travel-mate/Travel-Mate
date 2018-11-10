@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Get runtime permissions for Android M
         getRunTimePermissions();
 
-        // If user is already logged in, open MainActivity
+        // Check for Showing Daily Quote
         checkUserSession();
 
         signup.setOnClickListener(this);
@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
                         } else {
                             Snackbar snackbar = Snackbar
-                                    .make(findViewById(android.R.id.content), 
+                                    .make(findViewById(android.R.id.content),
                                           R.string.passwords_check, Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
@@ -213,7 +213,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 emailString = mEmailForgotPassword.getText().toString();
                 if (validateEmail(emailString)) {
                     mBackToLogin.setVisibility(View.GONE);
-                    mResendCodeText.setVisibility(View.VISIBLE);
                     mLoginPresenter.ok_password_reset_request(emailString, mHandler);
                 }
                 break;
@@ -317,6 +316,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void openLogin() {
+        showMessage(getString(R.string.text_password_updated_alert));
         mForgotPasswordLayout.setVisibility(View.GONE);
         mNewPasswordLayout.setVisibility(View.GONE);
         sig.setVisibility(View.GONE);
@@ -376,7 +376,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (validatePassword(newPassword)) {
             if (confirmNewPassword.equals(newPassword)) {
                 mLoginPresenter.ok_password_reset(email, mOtpCode, newPassword, mHandler);
-                showMessage(getString(R.string.text_password_updated_alert));
             }
         }
     }
@@ -407,7 +406,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         }
     }
-/**
+
+    /**
      * Validates the given password, checks if given password proper format as standard password string
      * @param passString password string to be validate
      * @return Boolean returns true if email format is correct, otherwise false
@@ -435,6 +435,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         }
     }
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, LoginActivity.class);
     }

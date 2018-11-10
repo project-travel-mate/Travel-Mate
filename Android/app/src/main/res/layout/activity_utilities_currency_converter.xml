@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:text="From"
+                android:text="@string/from_text"
                 android:textColor="@color/green" />
 
 
@@ -67,7 +67,7 @@
                         android:layout_marginStart="19dp"
                         android:layout_toEndOf="@+id/first_country_image"
                         android:layout_toRightOf="@+id/first_country_image"
-                        android:text="United States Dollar"
+                        android:text="@string/usd_dollar"
                         android:textColor="#6e6e6e" />
                 </RelativeLayout>
 
@@ -83,7 +83,7 @@
                     android:background="@drawable/edit_txt_bg"
                     android:ems="10"
                     android:inputType="number"
-                    android:text="1" />
+                    android:text="@string/usd_amount" />
 
             </RelativeLayout>
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:text="To"
+                android:text="@string/to_text"
                 android:textColor="@color/green" />
 
             <RelativeLayout
@@ -136,7 +136,7 @@
                         android:layout_marginStart="18dp"
                         android:layout_toEndOf="@+id/second_country_flag"
                         android:layout_toRightOf="@+id/second_country_flag"
-                        android:text="Indian Rupee"
+                        android:text="@string/inr"
                         android:textColor="#6e6e6e" />
                 </RelativeLayout>
 
@@ -159,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="0.0"
+                android:text="@string/output_0"
                 android:textColor="@color/green"
                 android:textSize="32sp" />
 
@@ -173,8 +173,20 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
             android:background="@color/green"
-            android:text="Convert"
+            android:text="@string/convert"
             android:textColor="#fff" />
+
+        <Spinner
+            android:id="@+id/chart_duration_spinner"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:entries="@array/time_series_array"
+            android:prompt="@string/time_series_prompt"
+            android:layout_below="@id/button_convert"
+            android:visibility="invisible"/>
 
 
         <com.github.mikephil.charting.charts.LineChart

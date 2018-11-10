@@ -1,5 +1,5 @@
 package widget;
 
-public class CheckListItem {
+public class CheckListWidgetItem {
     public String heading;
 }
