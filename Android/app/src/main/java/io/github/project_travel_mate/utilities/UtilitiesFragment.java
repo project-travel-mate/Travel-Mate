@@ -124,7 +124,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         if (!mHasMagneticSensor) {
             cardEntities.add(
                     new CardItemEntity(
-                            getResources().getDrawable(R.drawable.compass),
+                            getResources().getDrawable(R.drawable.compass_unavailable),
                             getResources().getString(R.string.text_Compass)));
         }
         return cardEntities;
