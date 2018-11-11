@@ -34,7 +34,6 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteViews = updateWidgetListView(context,
                     appWidgetIds[i]);
 
-
             Intent startActivityIntent = new Intent(context, ChecklistActivity.class);
             PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context,
                     0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -90,7 +89,6 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
         remoteViews.setRemoteAdapter(appWidgetId, R.id.check_list_view,
                 svcIntent);
         //setting an empty view in case of no data
-
         remoteViews.setEmptyView(R.id.check_list_view, R.id.empty_view);
         return remoteViews;
     }
