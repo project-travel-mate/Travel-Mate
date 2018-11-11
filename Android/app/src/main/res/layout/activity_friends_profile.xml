@@ -24,114 +24,128 @@
             app:lottie_imageAssetsFolder="images"
             app:lottie_loop="true" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <utils.CircleImageView
                 android:id="@+id/display_image"
-                android:layout_height="220dp"
                 android:layout_width="220dp"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="69dp"
+                android:layout_height="220dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/default_user_icon" />
 
-            <ImageView
-                android:id="@+id/status_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignBottom="@+id/display_status"
-                android:layout_toStartOf="@+id/display_image"
-                android:alpha="0.8"
-                android:contentDescription="@string/info_icon"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_info_outline_black_24dp" />
-
-            <TextView
-                android:id="@+id/display_status"
-                android:layout_width="217dp"
-                android:layout_height="52dp"
-                android:layout_alignParentBottom="false"
-                android:layout_alignStart="@+id/status_icon"
-                android:layout_below="@+id/display_image"
-                android:layout_centerHorizontal="false"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/transparent"
-                android:cursorVisible="false"
-                android:ellipsize="end"
-                android:focusableInTouchMode="false"
-                android:inputType="textMultiLine"
-                android:paddingLeft="30dp"
-                android:paddingTop="7dp"
-                android:text="@string/default_status"
-                android:textColor="#333434"
-                android:textSize="18sp" />
-            <ImageView
-                android:id="@+id/profile_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignTop="@+id/display_name"
-                android:layout_toStartOf="@+id/display_image"
-                android:alpha="0.8"
-                android:contentDescription="@string/info_icon"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_person_black_24dp" />
-
-            <TextView
-                android:id="@+id/display_name"
-                android:layout_width="217dp"
-                android:layout_height="45dp"
-                android:layout_alignStart="@+id/profile_icon"
-                android:layout_below="@+id/display_status"
-                android:layout_centerHorizontal="false"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
-                android:cursorVisible="false"
-                android:ellipsize="end"
-                android:focusableInTouchMode="false"
-                android:inputType="textMultiLine"
-                android:paddingLeft="30dp"
-                android:text="@string/default_name"
-                android:textColor="#333434"
-                android:textSize="18sp" />
-            <TextView
-                android:id="@+id/display_email"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/friend_city_list_recycler"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_alignStart="@+id/email_icon"
-                android:layout_below="@+id/profile_icon"
-                android:layout_centerHorizontal="false"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingStart="30dp"
-                android:paddingTop="8sp"
-                android:text="@string/email"
-                android:textColor="#333434"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-            <ImageView
-                android:id="@+id/email_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignTop="@+id/display_email"
-                android:layout_toStartOf="@+id/display_image"
-                android:alpha="0.8"
-                android:contentDescription="@string/info_icon"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_email_black_24dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:orientation="horizontal">
 
-            <RelativeLayout
+                <ImageView
+                    android:id="@+id/status_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_status"
+                    android:layout_width="217dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:ellipsize="end"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="7dp"
+                    android:text="@string/default_status"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
+
+                <ImageView
+                    android:id="@+id/profile_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_name"
+                    android:layout_width="217dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:ellipsize="end"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="30dp"
+                    android:text="@string/default_name"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_email_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="8sp"
+                    android:paddingLeft="30dp"
+                    android:text="@string/email"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:id="@+id/date_joined_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="false"
-                android:layout_alignStart="@+id/status_icon"
-                android:layout_below="@+id/display_email"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
 
                 <ImageView
                     android:id="@+id/date_joined_icon"
@@ -145,24 +159,19 @@
                     android:id="@+id/display_joining_date"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:layout_alignStart="@+id/date_joined_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="50dp"
                     android:layout_marginTop="5dp"
                     android:paddingLeft="30dp"
                     android:paddingTop="8sp"
                     android:text="@string/text_joining_date"
                     android:textColor="#333434"
                     android:textSize="18sp" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/trips_together_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/status_icon"
-                android:layout_below="@+id/date_joined_layout"
+                android:layout_marginStart="@dimen/margin_16dp"
                 android:layout_marginTop="5dp">
 
                 <TextView
@@ -175,14 +184,14 @@
                     android:textSize="18sp" />
 
             </RelativeLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:layout_marginStart="@dimen/margin_16dp"/>
 
     </LinearLayout>
 

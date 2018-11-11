@@ -79,6 +79,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout sliderDotsPanel;
     @BindView(R.id.is_visited)
     LinearLayout cityVisitedLayout;
+    @BindView(R.id.ll_city_map)
+    LinearLayout cityMap;
 
     private int mDotsCount;
     private ImageView[] mDots;
@@ -147,6 +149,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         trend.setOnClickListener(this);
         weather.setOnClickListener(this);
         cityHistory.setOnClickListener(this);
+        cityMap.setOnClickListener(this);
     }
 
     @Override
@@ -189,6 +192,9 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 intent = CityHistoryActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 startActivity(intent);
                 break;
+            case R.id.ll_city_map:
+                intent = CityMapActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
+                startActivity(intent);
         }
     }
 

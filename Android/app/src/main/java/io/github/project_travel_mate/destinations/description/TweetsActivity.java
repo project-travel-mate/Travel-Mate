@@ -13,7 +13,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -112,13 +111,10 @@ public class TweetsActivity extends AppCompatActivity {
                                 mTweets.add(new Tweet(nam, link, count));
                             }
                             mAdapter = new TweetsRecyclerAdapter(mTweets,
-                                    new TweetsRecyclerAdapter.TweetsAdapterListener() {
-                                        @Override
-                                        public void onTrendingTweetsClicked(Tweet tweet) {
-                                            Intent intent = TweetsDescriptionActivity
-                                                    .getStartIntent(TweetsActivity.this, tweet.getName());
-                                            startActivity(intent);
-                                        }
+                                    tweet -> {
+                                        Intent intent = TweetsDescriptionActivity
+                                                .getStartIntent(TweetsActivity.this, tweet.getName());
+                                        startActivity(intent);
                                     });
                             lv.setAdapter(mAdapter);
                             lv.setLayoutManager(new StaggeredGridLayoutManager(2,

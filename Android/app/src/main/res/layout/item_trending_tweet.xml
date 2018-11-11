@@ -39,7 +39,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:textColor="@color/black"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:paddingStart="4dp"
         android:paddingEnd="8dp"
         tools:text="@string/sample_state_trending" />

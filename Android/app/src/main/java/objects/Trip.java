@@ -10,6 +10,7 @@ public class Trip implements Serializable {
     private String mStart;
     private String mEnd;
     private String mTname;
+    private boolean mIsPublic;
 
     public Trip() {
     }
@@ -23,14 +24,17 @@ public class Trip implements Serializable {
      * @param start start date of trip
      * @param end   end date of trip
      * @param tname name of trip
+     * @param isPublic  is trip public or private
      */
-    public Trip(String id, String name, String image, String start, String end, String tname) {
+    public Trip(String id, String name, String image, String start, String end, String tname, boolean isPublic) {
+
         this.mId = id;
         this.mName = name;
         this.mImage = image;
         this.mStart = start;
         this.mEnd = end;
         this.mTname = tname;
+        this.mIsPublic = isPublic;
     }
 
     public Trip(String mId, String mImage) {
@@ -61,6 +65,14 @@ public class Trip implements Serializable {
     public String getTname() {
         return mTname;
     }
+
+    public boolean isPublic() {
+        return mIsPublic;
+    }
+    public void setId(String id) {
+        this.mId = id;
+    }
+
 
 
 }

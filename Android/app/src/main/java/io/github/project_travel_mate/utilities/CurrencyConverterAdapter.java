@@ -18,16 +18,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import objects.CurrencyName;
+import objects.ZoneName;
 import utils.CurrencyConverterGlobal;
 
 public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConverterAdapter.ViewHolder>
         implements Filterable {
 
-    private List<CurrencyName> mListCurrencyNames, mListCurrencyNamesFiltered;
+    private List<ZoneName> mListCurrencyNames, mListCurrencyNamesFiltered;
     public Activity activity;
 
-    CurrencyConverterAdapter(Activity activity, List<CurrencyName> list) {
+    CurrencyConverterAdapter(Activity activity, List<ZoneName> list) {
         this.activity = activity;
         this.mListCurrencyNames = list;
         this.mListCurrencyNamesFiltered = list;
@@ -124,8 +124,8 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
                 if (charString.isEmpty()) {
                     mListCurrencyNamesFiltered = mListCurrencyNames;
                 } else {
-                    List<CurrencyName> filteredList = new ArrayList<>();
-                    for (CurrencyName row : mListCurrencyNames) {
+                    List<ZoneName> filteredList = new ArrayList<>();
+                    for (ZoneName row : mListCurrencyNames) {
                         if (row.getShortName().toLowerCase().contains(charString.toLowerCase()) ||
                                 row.getAbrivation().toLowerCase().contains(charSequence)) {
                             filteredList.add(row);
@@ -141,7 +141,7 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mListCurrencyNamesFiltered = (ArrayList<CurrencyName>) filterResults.values;
+                mListCurrencyNamesFiltered = (ArrayList<ZoneName>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

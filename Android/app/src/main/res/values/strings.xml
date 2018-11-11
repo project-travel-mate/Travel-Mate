@@ -47,6 +47,7 @@
     <string name="fun_facts">Fun Facts</string>
     <string name="search_hint">What are you looking for…?</string>
     <string name="search_title">Cities</string>
+    <string name="spotlight_home_page">Unfold the city cards to get easy access to information</string>
 
     <!-- Destinations home page strings -->
     <string name="popular_cities">Most Popular Cities</string>
@@ -72,9 +73,11 @@
     <!-- Checklist strings -->
     <string name="text_checklist">Checklist</string>
     <string name="enter_task_name">Enter task name</string>
+    <string name="menu_delete_completed">Delete ticked items</string>
     <string name="delete_tasks">Are you sure you want to delete all completed tasks?</string>
     <string name="undo">Undo</string>
     <string name="deleted_task_message">Deleted all completed tasks</string>
+    <string name="ticked_items_count">%1$d Ticked items</string>
 
     <!-- My Trip Strings -->
     <string name="trip_city">Trip City :</string>
@@ -106,6 +109,15 @@
     <string name="remove_trip_message">Are you sure want to remove the trip?</string>
     <string name="trips_together_message">Your trips together…</string>
     <string name="remove_trip_success">Removed trip successfully!</string>
+    <string name="trip_public_message">This is a public trip. Your friends can view this trip if you share the trip link</string>
+    <string name="trip_private_message">This is a private trip. Your friends, with the trip link, won\'t be able to view this</string>
+    <string name="public_trip_toggle_on">Make Private</string>
+    <string name="public_trip_toggle_off">Make Public</string>
+    <string name="share_trip">Share trip</string>
+    <string name="share_trip_text">Hi! We are planning this trip! Come join us. Here is the link to join: </string>
+    <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
+    <string name="your_past_trips">Your past trips</string>
+    <string name="add_me_to_trip">Add me to this trip</string>
 
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
@@ -129,6 +141,7 @@
     <string name="text_shopping">Shopping</string>
     <string name="text_restaurants">Restaurants</string>
     <string name="text_city_trends">City Trends</string>
+    <string name="text_city_map">City Map</string>
     <string name="text_login"><u>Already a member? Login</u></string>
     <string name="text_signup_or"><u>Not registered yet? Create new account</u></string>
     <string name="text_go">Go</string>
@@ -145,6 +158,12 @@
     <string name="interest_fun_facts">Fun Facts</string>
     <string name="interest_weather">View Weather Forecast</string>
     <string name="interest_trends">City Trends</string>
+    <string name="status_length">22/100</string>
+    <string name="from_text">From</string>
+    <string name="to_text">To</string>
+    <string name="usd_dollar">United States Dollar</string>
+    <string name="usd_amount">1</string>
+    <string name="inr">Indian Rupee</string>
 
     <!-- Sample Data -->
     <string name="sample_state">Delhi</string>
@@ -166,6 +185,7 @@
     <string name="invalid_email">Invalid Email</string>
 
     <string name="no_items">No Checklists</string>
+    <string name="add_new">Add new item</string>
 
     <!-- Profile strings -->
     <string name="my_profile">My Profile</string>
@@ -176,6 +196,12 @@
     <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
     <string name="status_updated">Status has been updated</string>
     <string name="cities_travelled">Cities visited </string>
+    <string name="email_not_verified">Your email id is not verified</string>
+    <string name="verify_now">Verify Now</string>
+    <string name="later">Later</string>
+    <string name="text_email_verified">Your email id is verified</string>
+    <string name="text_otp_code_sent_alert">An OTP code has been sent to your email id : %1$s. Please enter the code below.</string>
+
 
     <!-- About Us String-->
     <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
@@ -223,6 +249,19 @@
 
     <!-- Currency Convertor Strings -->
     <string name="text_currency">Currency Converter</string>
+    <string name="search_currencies">Search currencies..</string>
+    <string name="output_0">0.0</string>
+    <string name="convert">Convert</string>
+    <string name="sample_timezone">Asia/Kolkata</string>
+
+    <!-- Upcoming weekends Strings -->
+    <string name="upcoming_long_weekends">Upcoming long weekends</string>
+    <string name="upcoming_long_weekends_no_items">There are no upcoming events</string>
+
+    <!-- World Clock Strings -->
+    <string name="text_clock">World Clock</string>
+    <string name="select_timezone">Select Timezone</string>
+    <string name="search_timezone">Search Timezone..</string>
 
     <string name="sign_out">Sign out</string>
 
@@ -234,6 +273,9 @@
 
     <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+    <string name="share_daily_quote">Hey! Checkout this quote, seems interesting! I find this on Travel Mate app. Download it from Play Store :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+    <string name="reject_daily_quotes_button">Don\'t Show Again</string>
 
     <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
     <string name="no_results">No results found</string>
@@ -269,14 +311,17 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="read_notifications_message">Show my read notifications</string>
+    <string name="show_quotes_message">Show daily quotes</string>
     <string name="required_error">Required!</string>
     <string name="password_updated">Password Updated!</string>
     <string name="status_character_limit">/100</string>
     <string name="remove_photo">Remove photo</string>
     <string name="choose_an_option">Choose an option</string>
     <string name="remove_profile_picture">Do you want to remove profile picture?</string>
+    <string name="delete_account">Are you sure you want to remove your travel mate account? This action can\'t be undone.</string>
 
     <string name="done_label">Done</string>
+    <string name="delete_label">Delete Account</string>
     <!-- About us strings -->
     <string name="email_hello">Hello</string>
     <string name="email_send">Send Email</string>
@@ -309,4 +354,19 @@
     <string name="project">Project Travel-Mate</string>
     <string name="contributions">Commits: </string>
     <string name="check_internet">Please check your internet connectivity</string>
+
+    <!-- Currency Convertor Chart Time-Series Spinner options -->
+    <string name="time_series_prompt">Time Interval</string>
+    <string name="verify_email">Verify Email</string>
+    <string-array name="time_series_array">
+        <item>7 Days</item>
+        <item>1 Month</item>
+        <item>2 Months</item>
+        <item>6 Months</item>
+        <item>1 Year</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

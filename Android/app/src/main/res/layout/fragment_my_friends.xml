@@ -16,14 +16,12 @@
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
 
-    <GridView
-        android:id="@+id/gv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="3"
-        android:horizontalSpacing="10dp"
-        android:numColumns="3"
-        android:orientation="horizontal"
-        android:verticalSpacing="10dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:spanCount="3"/>
 
 </FrameLayout>

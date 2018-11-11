@@ -2,6 +2,8 @@ package utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -60,5 +62,15 @@ public class Utils {
     public static String decryt(String d) throws UnsupportedEncodingException {
         byte[] data = Base64.decode(d, Base64.DEFAULT);
         return new String(data, "UTF-8");
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+        }
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 }

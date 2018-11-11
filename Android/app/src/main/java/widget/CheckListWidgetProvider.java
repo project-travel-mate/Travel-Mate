@@ -30,18 +30,22 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
         final int N = appWidgetIds.length;
         /*int[] appWidgetIds holds ids of multiple instance of your widget
          * meaning you are placing more than one widgets on your homescreen*/
-        for (int i = 0; i < N; ++i) {
+        for (int appWidgetId : appWidgetIds) {
             RemoteViews remoteViews = updateWidgetListView(context,
-                    appWidgetIds[i]);
+                    appWidgetId);
 
             Intent startActivityIntent = new Intent(context, ChecklistActivity.class);
             PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context,
                     0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.check_list_view, startActivityPendingIntent);
 
+
             remoteViews.setOnClickPendingIntent(R.id.image_checkbox, getPendingSelfIntent(context, MyOnClick));
             // initialization of Image button
-            appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
+            
+
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }

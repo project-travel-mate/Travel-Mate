@@ -43,7 +43,8 @@ public class City implements Serializable {
     public City() {
     }
 
-    public City(String mId, String mAvatar, String mNickname, int funFactsCount, int color, String... interest) {
+    public City(@NonNull String mId, String mAvatar, String mNickname,
+                int funFactsCount, int color, String... interest) {
         this.mAvatar = mAvatar;
         this.mNickname = mNickname;
         this.mId = mId;
@@ -52,7 +53,8 @@ public class City implements Serializable {
         mInterests.addAll(Arrays.asList(interest));
     }
 
-    public City(String mId, String mAvatar, String mNickname, int funFactsCount, int color, List<String> interests) {
+    public City(@NonNull String mId, String mAvatar, String mNickname, int funFactsCount,
+                int color, List<String> interests) {
         this.mAvatar = mAvatar;
         this.mNickname = mNickname;
         this.mId = mId;
@@ -62,13 +64,13 @@ public class City implements Serializable {
     }
 
     @Ignore
-    public City(String nickname, String id) {
+    public City(String nickname, @NonNull String id) {
         this.mNickname = nickname;
         this.mId = id;
     }
 
     @Ignore
-    public City(String id, String nickname, String avatar) {
+    public City(@NonNull String id, String nickname, String avatar) {
         this.mId = id;
         this.mNickname = nickname;
         this.mAvatar = avatar;

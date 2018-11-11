@@ -101,6 +101,7 @@
                 android:layout_toEndOf="@+id/expand_text_view"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/empty_description"
+                android:tint="#666666"
                 android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
         </RelativeLayout>
 

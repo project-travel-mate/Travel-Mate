@@ -1,11 +1,11 @@
 package objects;
 
-public class CurrencyName {
+public class ZoneName {
 
     public String shortName;
     public String abrivation;
 
-    public CurrencyName(String shortName, String abrivation) {
+    public ZoneName(String shortName, String abrivation) {
         this.shortName = shortName;
         this.abrivation = abrivation;
     }

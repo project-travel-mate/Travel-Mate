@@ -91,7 +91,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         mHandler = new Handler(Looper.getMainLooper());
-        mMap = (MapView) findViewById(R.id.map);
+        mMap = findViewById(R.id.map);
         scrollView.setVisibility(View.GONE);
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);

@@ -376,6 +376,33 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_city_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                tools:targetApi="lollipop">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/empty_description"
+                    android:src="@drawable/ic_map" />
+
+                <TextView
+                    android:id="@+id/tv_city_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="@string/text_city_map"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/is_visited"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
