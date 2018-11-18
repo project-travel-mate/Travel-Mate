@@ -171,10 +171,13 @@ public class DailyQuotesFragment extends Fragment {
     }
 
     void doNotShowClicked() {
+        /*
         if (getFragmentManager() != null && getFragmentManager().getBackStackEntryCount() != 0) {
             DailyQuotesManager.dontShowQuotes(getContext());
             closeQuoteFragment();
-        }
+        }*/
+        DailyQuotesManager.dontShowQuotes(getContext());
+        closeQuoteFragment();
     }
 
     private void closeQuoteFragment() {
