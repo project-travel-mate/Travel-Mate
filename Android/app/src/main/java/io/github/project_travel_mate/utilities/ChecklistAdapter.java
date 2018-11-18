@@ -32,7 +32,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import objects.ChecklistItem;
 
-public class ChecklistPendingAdapter extends RecyclerView.Adapter<ChecklistPendingAdapter.ViewHolder> {
+public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ViewHolder> {
 
     private List<ChecklistItem> mItems;
     private ChecklistViewModel mViewModel;
@@ -45,7 +45,7 @@ public class ChecklistPendingAdapter extends RecyclerView.Adapter<ChecklistPendi
     // Else, it is for finished / ticked items
     private final boolean mCanAddItems;
 
-    public ChecklistPendingAdapter(Activity context, ChecklistViewModel mViewModel, boolean canAddItems) {
+    public ChecklistAdapter(Activity context, ChecklistViewModel mViewModel, boolean canAddItems) {
         mItems = new ArrayList<>(); // initialize with empty list
         this.mCanAddItems = canAddItems;
         this.mViewModel = mViewModel;
@@ -63,7 +63,7 @@ public class ChecklistPendingAdapter extends RecyclerView.Adapter<ChecklistPendi
         mItems.clear();
         mItems.addAll(items);
         // this handles all updates, so we don't need manual notifyItem* calls
-        diffResult.dispatchUpdatesTo(ChecklistPendingAdapter.this);
+        diffResult.dispatchUpdatesTo(ChecklistAdapter.this);
 
         if (mCanAddItems) checkLastItem();
     }
