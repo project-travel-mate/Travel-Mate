@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/nav_grp1"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:id="@+id/nav_grp1">
         <item
             android:id="@+id/nav_city"
             android:icon="@drawable/ic_location_city_black"
@@ -24,10 +22,6 @@
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"
             android:title="@string/navigation_drawer_utilities" />
-        <item
-            android:id="@+id/nav_offlinemaps"
-            android:icon="@drawable/ic_maps"
-            android:title="Offline Maps" />
 
     </group>
 
