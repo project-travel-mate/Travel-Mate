@@ -182,7 +182,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
             mCityAdapter.updateData(mCities);
 
-            if (mSpotlightShownCount <= 3) {
+            if (mSpotlightShownCount <= 4) {
                 showSpotlightView(mSpotView);
             }
         }

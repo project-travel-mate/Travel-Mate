@@ -86,7 +86,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
-        //Testing for layout
+
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         mHandler = new Handler(Looper.getMainLooper());

@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
+    android:background="@android:color/transparent"
     android:padding="@dimen/widget_margin">
 
     <TextView
@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="127dp"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         android:typeface="serif" />
@@ -22,7 +23,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="178dp"
+        android:textColor="@color/white"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tView_tzdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="215dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"/>
 
 </RelativeLayout>
