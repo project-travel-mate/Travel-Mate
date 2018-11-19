@@ -57,3 +57,4 @@ public class ClockWidgetActivity extends AppWidgetProvider {
     }
 }
 
+
