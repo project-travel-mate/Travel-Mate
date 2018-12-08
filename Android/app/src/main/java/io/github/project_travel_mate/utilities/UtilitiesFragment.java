@@ -3,6 +3,7 @@ package io.github.project_travel_mate.utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
     @BindView(R.id.utility_options_recycle_view)
     RecyclerView mUtilityOptionsRecycleView;
     private Activity mActivity;
+    private boolean mHasMagneticSensor = true;
 
     public UtilitiesFragment() {
     }
@@ -52,6 +54,13 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         mUtilityOptionsRecycleView.setItemAnimator(new DefaultItemAnimator());
         mUtilityOptionsRecycleView.setAdapter(cardViewOptionsAdapter);
 
+        PackageManager mManager = getActivity().getPackageManager();
+        boolean hasAccelerometer = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER);
+        boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
+        if (!hasAccelerometer || !hasMagneticSensor) {
+            this.mHasMagneticSensor = false;
+        }
+
         return view;
     }
 
@@ -69,20 +78,24 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 intent = ChecklistActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
-            case 1 :
+            case 1:
                 intent = WeatherForecastActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
-            case 2 :
+            case 2:
                 intent = CompassActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
-            case 3 :
+            case 3:
                 intent = CurrencyActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
-            case 4 :
+            case 4:
                 intent = WorldClockActivity.getStartIntent(mActivity);
+                startActivity(intent);
+                break;
+            case 5:
+                intent = UpcomingWeekendsActivity.getStartIntent(mActivity);
                 startActivity(intent);
                 break;
         }
@@ -98,10 +111,12 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.weather),
                         getResources().getString(R.string.text_weather)));
-        cardEntities.add(
-                new CardItemEntity(
-                        getResources().getDrawable(R.drawable.compass),
-                        getResources().getString(R.string.text_Compass)));
+        if (mHasMagneticSensor) {
+            cardEntities.add(
+                    new CardItemEntity(
+                            getResources().getDrawable(R.drawable.compass),
+                            getResources().getString(R.string.text_Compass)));
+        }
         cardEntities.add(
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.currency),
@@ -110,6 +125,16 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
                 new CardItemEntity(
                         getResources().getDrawable(R.drawable.worldclock),
                         getResources().getString(R.string.text_clock)));
+        cardEntities.add(
+                new CardItemEntity(
+                        getResources().getDrawable(R.drawable.upcoming_long_weekends),
+                        getResources().getString(R.string.upcoming_long_weekends)));
+        if (!mHasMagneticSensor) {
+            cardEntities.add(
+                    new CardItemEntity(
+                            getResources().getDrawable(R.drawable.compass_unavailable),
+                            getResources().getString(R.string.text_Compass)));
+        }
         return cardEntities;
     }
 }

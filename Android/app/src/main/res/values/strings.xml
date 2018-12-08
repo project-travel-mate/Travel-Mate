@@ -254,6 +254,9 @@
     <string name="convert">Convert</string>
     <string name="sample_timezone">Asia/Kolkata</string>
 
+    <!-- Upcoming weekends Strings -->
+    <string name="upcoming_long_weekends">Upcoming long weekends</string>
+    <string name="upcoming_long_weekends_no_items">There are no upcoming events</string>
 
     <!-- World Clock Strings -->
     <string name="text_clock">World Clock</string>

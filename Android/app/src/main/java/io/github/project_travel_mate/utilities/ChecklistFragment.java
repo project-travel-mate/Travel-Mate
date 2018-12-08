@@ -46,7 +46,7 @@ import static utils.Constants.BASE_TASKS;
 import static utils.Constants.IS_ADDED_INDB;
 
 public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
-        ChecklistPendingAdapter.ChecklistEventListener {
+        ChecklistAdapter.ChecklistEventListener {
 
     @BindView(R.id.recycler_pending)
     RecyclerView mPendingRecycler;
@@ -138,7 +138,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
     private void attachAdapter() {
 
-        ChecklistPendingAdapter pendingAdapter = new ChecklistPendingAdapter(mActivity, mViewModel, true);
+        ChecklistAdapter pendingAdapter = new ChecklistAdapter(mActivity, mViewModel, true);
         pendingAdapter.setEventListener(ChecklistFragment.this);
         mPendingRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mPendingRecycler.setAdapter(pendingAdapter);
@@ -147,7 +147,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
         mTouchHelper = new ItemTouchHelper(callback);
         mTouchHelper.attachToRecyclerView(mPendingRecycler);
 
-        ChecklistPendingAdapter finishedAdapter = new ChecklistPendingAdapter(mActivity, mViewModel, false);
+        ChecklistAdapter finishedAdapter = new ChecklistAdapter(mActivity, mViewModel, false);
         finishedAdapter.setEventListener(ChecklistFragment.this);
         mFinishedRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mFinishedRecycler.setAdapter(finishedAdapter);
@@ -289,7 +289,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     }
 
     @Override
-    public void onStartDrag(ChecklistPendingAdapter.ViewHolder holder) {
+    public void onStartDrag(ChecklistAdapter.ViewHolder holder) {
         mTouchHelper.startDrag(holder);
     }
 }
