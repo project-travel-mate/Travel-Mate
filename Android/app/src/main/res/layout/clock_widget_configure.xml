@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@android:color/transparent">
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignStart="@+id/spinnerTimeZoneIDs"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="323dp"
+        android:text="@string/add_widget" />
+
+    <Spinner
+        android:id="@+id/spinnerTimeZoneIDs"
+        android:layout_width="230dp"
+        android:layout_height="52dp"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="250dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="182dp"
+        android:text="@string/configure"
+        android:textSize="18sp" />
+
+</RelativeLayout>
