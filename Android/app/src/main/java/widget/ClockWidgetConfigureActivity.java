@@ -67,7 +67,7 @@ public class ClockWidgetConfigureActivity extends Activity implements AdapterVie
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_text);
+            return TIMEZONE_CODE;
         }
     }
 
