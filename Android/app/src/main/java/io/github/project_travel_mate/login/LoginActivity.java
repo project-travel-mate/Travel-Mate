@@ -130,9 +130,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Get runtime permissions for Android M
         getRunTimePermissions();
 
-        // Check for Showing Daily Quote
-        checkUserSession();
-
         signup.setOnClickListener(this);
         login.setOnClickListener(this);
         ok_login.setOnClickListener(this);
@@ -295,15 +292,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 }, 0);
             }
-        }
-    }
-
-    @Override
-    public void checkUserSession() {
-        if (mSharedPreferences.getString(USER_TOKEN, null) != null) {
-            Intent intent = MainActivity.getStartIntent(LoginActivity.this);
-            startActivity(intent);
-            finish();
         }
     }
 
