@@ -27,6 +27,9 @@ public interface CityDao {
     @Query("Select * FROM city")
     City[] loadAll();
 
+    @Query("Select * FROM city WHERE city_favourite = 1")
+    City[] loadAllFavourite();
+
     @Query("DELETE FROM city")
     void deleteAll();
 }

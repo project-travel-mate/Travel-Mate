@@ -32,6 +32,8 @@ public class City implements Serializable {
     public int mFunFactsCount;
     @ColumnInfo (name = "city_background")
     public int mBackgroundColor;
+    @ColumnInfo (name = "city_favourite")
+    public int mFavouriteCity;
 
     @ColumnInfo(name = "city_avatar")
     public String mAvatar;
@@ -126,5 +128,13 @@ public class City implements Serializable {
 
     public void setBackgroundColor(int mBackgroundColor) {
         this.mBackgroundColor = mBackgroundColor;
+    }
+
+    public int getFavouriteCity() {
+        return mFavouriteCity;
+    }
+
+    public void setFavouriteCity(int mFavouriteCity) {
+        this.mFavouriteCity = mFavouriteCity;
     }
 }
