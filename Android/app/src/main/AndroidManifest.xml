@@ -110,7 +110,8 @@
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".destinations.description.TweetsActivity" />
-        <activity android:name=".VerifyEmailActivity"
+        <activity
+            android:name=".VerifyEmailActivity"
             android:label="@string/verify_email"
             android:theme="@style/AppThemeNoBar" />
 
@@ -179,6 +180,22 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name="widget.ClockWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_widget_info" />
+        </receiver>
+
+        <activity android:name="widget.ClockWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
