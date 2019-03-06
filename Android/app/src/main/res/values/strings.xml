@@ -54,6 +54,10 @@
     <string name="popular_cities">Most Popular Cities</string>
     <string name="city_visited">You have visited this city!</string>
 
+    <!-- Favourite cities to visit -->
+    <string name="favourite_cities">Favourite cities</string>
+    <string name="no_favourite_cities">You haven\'t add any cities yet!</string>
+
     <!-- Map strings -->
     <string name="title">Select items to display in map</string>
     <string name="choose">Select</string>
@@ -370,4 +374,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_widget">Add World Clock Widget</string>
+    <string name="configure">Select Timezone For Clock Widget</string>
 </resources>

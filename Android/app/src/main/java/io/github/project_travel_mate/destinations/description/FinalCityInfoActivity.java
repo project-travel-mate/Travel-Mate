@@ -23,11 +23,13 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import database.AppDataBase;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.funfacts.FunFactsActivity;
 import objects.City;
@@ -57,6 +59,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     ViewPager imagesSliderView;
     @BindView(R.id.icon)
     ImageView icon;
+    @BindView(R.id.image_favourite)
+    ImageView favourite;
     @BindView(R.id.funfact)
     LinearLayout funfact;
     @BindView(R.id.restau)
@@ -89,6 +93,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private String mToken;
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
     private String mCurrentTemp;
+    private AppDataBase mDatabase;
     int currentPage = 0;
     Timer timer;
 
@@ -101,6 +106,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
         mFinalCityInfoPresenter = new FinalCityInfoPresenter();
 
         mHandler = new Handler(Looper.getMainLooper());
+
+        mDatabase = AppDataBase.getAppDatabase(this);
 
         Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
@@ -133,6 +140,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
             funfact.setVisibility(View.GONE);
         }
 
+        toggleFavouriteCityView();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         content.setVisibility(View.GONE);
@@ -150,6 +158,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         weather.setOnClickListener(this);
         cityHistory.setOnClickListener(this);
         cityMap.setOnClickListener(this);
+        favourite.setOnClickListener(this);
     }
 
     @Override
@@ -188,13 +197,33 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 intent = WeatherActivity.getStartIntent(FinalCityInfoActivity.this, mCity, mCurrentTemp);
                 startActivity(intent);
                 break;
-            case R.id.city_history :
+            case R.id.city_history:
                 intent = CityHistoryActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 startActivity(intent);
                 break;
             case R.id.ll_city_map:
                 intent = CityMapActivity.getStartIntent(FinalCityInfoActivity.this, mCity);
                 startActivity(intent);
+                break;
+            case R.id.image_favourite:
+                toggleFavouriteCity();
+                break;
+        }
+    }
+
+    private void toggleFavouriteCity() {
+        if (mCity.getFavouriteCity() == 0) mCity.setFavouriteCity(1);
+        else mCity.setFavouriteCity(0);
+
+        mDatabase.cityDao().update(mCity);
+        toggleFavouriteCityView();
+    }
+
+    private void toggleFavouriteCityView() {
+        if (mCity.getFavouriteCity() == 0) {
+            favourite.setImageDrawable(getDrawable(R.drawable.ic_favorite_border_red_24dp));
+        } else {
+            favourite.setImageDrawable(getDrawable(R.drawable.ic_favorite_red_full_24dp));
         }
     }
 
@@ -265,10 +294,10 @@ public class FinalCityInfoActivity extends AppCompatActivity
      * request to fetch city information comes back successfully
      * used to display the fetched information from backend on activity
      *
-     * @param latitude    city latitude
-     * @param longitude   city longitude
+     * @param latitude      city latitude
+     * @param longitude     city longitude
      * @param isCityVisited true, if city is visited
-     * @param imagesArray images array for the city
+     * @param imagesArray   images array for the city
      */
     @Override
     public void parseInfoResult(final String latitude,
@@ -288,6 +317,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
     /**
      * auto slides images in the final city info
+     *
      * @param imagesArray array of images url
      */
     public void slideImages(ArrayList<String> imagesArray) {
@@ -327,7 +357,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
         imagesSliderView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-               //required method
+                //required method
             }
 
             @Override

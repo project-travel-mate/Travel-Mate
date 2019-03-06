@@ -17,7 +17,7 @@ import objects.City;
  * Created by Santosh on 05/09/18.
  */
 
-@Database(entities = {City.class, ChecklistItem.class}, version = 2, exportSchema = false)
+@Database(entities = {City.class, ChecklistItem.class}, version = 3, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
 
@@ -33,11 +33,20 @@ public abstract class AppDataBase extends RoomDatabase {
                     AppDataBase.class,
                     "city-travel-mate-db")
                     .allowMainThreadQueries()
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build();
         }
         return instance;
     }
+
+    //migration from database version 2 to 3
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Add column to the table
+            database.execSQL("ALTER TABLE city ADD city_favourite INTEGER DEFAULT 0 NOT NULL");
+        }
+    };
 
     //migration from database version 1 t o2
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {

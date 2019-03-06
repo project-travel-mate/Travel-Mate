@@ -41,6 +41,7 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.destinations.CityFragment;
+import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.login.LoginActivity;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mToken;
     private DrawerLayout mDrawer;
     private Handler mHandler;
+    private NavigationView mNavigationView;
     private int mPreviousMenuItemId;
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
@@ -173,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     void defaultSelectedNavMenu(int resId) {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
+        mNavigationView = findViewById(R.id.nav_view);
+        Menu menu = mNavigationView.getMenu();
         MenuItem menuItem = menu.findItem(resId);
         menuItem.setChecked(true);
     }
@@ -233,9 +235,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_utility:
                 fragment = UtilitiesFragment.newInstance();
                 break;
-                //Work In Progress Offline Maps
-            case R.id.nav_offlinemaps:
+
+            case R.id.nav_favourite:
+                fragment = FavouriteCitiesFragment.newInstance();
                 break;
+
             case R.id.nav_about_us:
                 fragment = AboutUsFragment.newInstance();
                 break;
@@ -474,5 +478,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_SELECTED_NAV_MENU, mPreviousMenuItemId);
+    }
+
+    public NavigationView getNavigationView() {
+        return mNavigationView;
     }
 }

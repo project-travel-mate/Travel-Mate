@@ -18,7 +18,7 @@ interface LoginView {
 
     void getRunTimePermissions();
 
-    void checkUserSession();
+//    void checkUserSession();
 
     void openSignUp();
 
