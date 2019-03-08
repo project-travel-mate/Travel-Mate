@@ -127,8 +127,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mHandler = new Handler(Looper.getMainLooper());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Get runtime permissions for Android M
-        getRunTimePermissions();
 
         signup.setOnClickListener(this);
         login.setOnClickListener(this);

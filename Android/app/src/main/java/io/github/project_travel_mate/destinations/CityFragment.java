@@ -1,9 +1,11 @@
 package io.github.project_travel_mate.destinations;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
+import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import objects.City;
@@ -183,7 +187,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             mCityAdapter.updateData(mCities);
 
             if (mSpotlightShownCount <= 3) {
-                showSpotlightView(mSpotView);
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            showSpotlightView(mSpotView);
+                        }
             }
         }
     }
@@ -331,7 +338,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         arr.getJSONObject(i).getInt("facts_count"),
                                         R.color.sienna,
                                         getString(R.string.interest_know_more), getString(R.string.interest_weather),
-                                        getString(R.string.interest_fun_facts), getString(R.string.interest_trends)));
+                                        getString(R.string.
+
+                                                interest_fun_facts), getString(R.string.interest_trends)));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
 
                             } catch (JSONException e) {
@@ -414,7 +423,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                             mCityAdapter.updateData(mCities);
 
                             if (mSpotlightShownCount <= 3) {
-                                showSpotlightView(mSpotView);
+                                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                                    showSpotlightView(mSpotView);
+                                }
                             }
 
                         } catch (JSONException | IOException e) {

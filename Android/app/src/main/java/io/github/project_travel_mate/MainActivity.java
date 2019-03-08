@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,8 +28,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.juanlabrador.badgecounter.BadgeCounter;
 import com.squareup.picasso.Picasso;
@@ -39,7 +42,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
@@ -95,6 +100,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
 
+
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+
+    @BindView(R.id.layout_runtime_permission)
+    ConstraintLayout layoutRuntimePermission;
+
+    @BindView(R.id.grantPermissionsBtn)
+    Button grantPermissionsBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         //Initially city fragment
-        Fragment fragment;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_NAV_MENU)) {
             mPreviousMenuItemId = savedInstanceState.getInt(KEY_SELECTED_NAV_MENU);
@@ -280,27 +294,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return fragment;
     }
 
+    @OnClick({R.id.grantPermissionsBtn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.grantPermissionsBtn:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.BLUETOOTH,
+                                Manifest.permission.BLUETOOTH_ADMIN,
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.WRITE_CONTACTS,
+                                Manifest.permission.READ_PHONE_STATE,
+                                Manifest.permission.WAKE_LOCK,
+                                Manifest.permission.INTERNET,
+                                Manifest.permission.ACCESS_NETWORK_STATE,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.VIBRATE,
+                        }, 0);
+                    }
+                }
+
+                break;
+        }
+    }
+
     private void getRuntimePermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(MainActivity.this,
-                    Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.BLUETOOTH,
-                        Manifest.permission.BLUETOOTH_ADMIN,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WAKE_LOCK,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.VIBRATE,
-                }, 0);
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            layoutRuntimePermission.setVisibility(View.VISIBLE);
+        }else {
+            layoutRuntimePermission.setVisibility(View.GONE);
+            fragment = CityFragment.newInstance();
+            defaultSelectedNavMenu(R.id.nav_city);
+            mPreviousMenuItemId = R.id.nav_city;
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 0 : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    layoutRuntimePermission.setVisibility(View.GONE);
+                    fragment = CityFragment.newInstance();
+                    defaultSelectedNavMenu(R.id.nav_city);
+                    mPreviousMenuItemId = R.id.nav_city;
+                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
             }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
@@ -408,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.v("trip id", tripID + " ");
                 Trip trip = new Trip();
                 trip.setId(tripID);
-                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip, false);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this, trip, false);
                 startActivity(intent);
             }
         }

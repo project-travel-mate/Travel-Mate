@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: '../config/checkstyle.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -101,6 +100,3 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
-preBuild.dependsOn('checkstyle')
-assemble.dependsOn('lint')
-check.dependsOn('checkstyle')
