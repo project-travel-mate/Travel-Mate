@@ -83,7 +83,7 @@ import static utils.WhatsNewStrings.WHATS_NEW1_TEXT;
 import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
 
 /**
- * Launcher Activity; Handles fragment changes;
+ * Launcher Activity; Handles mFragment changes;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
 
 
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
+    private Fragment mFragment;
+    private FragmentManager mFragmentManager;
 
 
     private static final int PERMISSION_REQUEST_CODE = 0;
@@ -141,20 +141,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showProfileOrTrip(getIntent().getDataString());
         }
 
-        //Initially city fragment
-        fragmentManager = getSupportFragmentManager();
+        //Initially city mFragment
+        mFragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_NAV_MENU)) {
             mPreviousMenuItemId = savedInstanceState.getInt(KEY_SELECTED_NAV_MENU);
-            fragment = getFragmentByNavMenuItemId(mPreviousMenuItemId);
+            mFragment = getFragmentByNavMenuItemId(mPreviousMenuItemId);
             defaultSelectedNavMenu(mPreviousMenuItemId);
         } else {
-            fragment = CityFragment.newInstance();
+            mFragment = CityFragment.newInstance();
             defaultSelectedNavMenu(R.id.nav_city);
             mPreviousMenuItemId = R.id.nav_city;
         }
 
-        fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+        mFragmentManager.beginTransaction().replace(R.id.inc, mFragment).commit();
 
         // Get runtime permissions for Android M
         getRuntimePermissions();
@@ -175,16 +175,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (getIntent() != null && getIntent().getAction() != null) {
             switch (getIntent().getAction()) {
                 case travelShortcut:
-                    fragment = TravelFragment.newInstance();
-                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    mFragment = TravelFragment.newInstance();
+                    mFragmentManager.beginTransaction().replace(R.id.inc, mFragment).commit();
                     break;
                 case myTripsShortcut:
-                    fragment = MyTripsFragment.newInstance();
-                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    mFragment = MyTripsFragment.newInstance();
+                    mFragmentManager.beginTransaction().replace(R.id.inc, mFragment).commit();
                     break;
                 case utilitiesShortcut:
-                    fragment = UtilitiesFragment.newInstance();
-                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    mFragment = UtilitiesFragment.newInstance();
+                    mFragmentManager.beginTransaction().replace(R.id.inc, mFragment).commit();
                     break;
             }
         }
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // Change fragment on selecting naviagtion drawer item
+    // Change mFragment on selecting naviagtion drawer item
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -348,10 +348,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     layoutRuntimePermission.setVisibility(View.GONE);
-                    fragment = CityFragment.newInstance();
+                    mFragment = CityFragment.newInstance();
                     defaultSelectedNavMenu(R.id.nav_city);
                     mPreviousMenuItemId = R.id.nav_city;
-                    fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
+                    mFragmentManager.beginTransaction().replace(R.id.inc, mFragment).commit();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();

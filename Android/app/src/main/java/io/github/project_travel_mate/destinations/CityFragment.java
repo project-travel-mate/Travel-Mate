@@ -51,7 +51,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
-import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import objects.City;
@@ -189,8 +188,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             if (mSpotlightShownCount <= 3) {
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                         Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                            showSpotlightView(mSpotView);
-                        }
+                    showSpotlightView(mSpotView);
+                }
             }
         }
     }
