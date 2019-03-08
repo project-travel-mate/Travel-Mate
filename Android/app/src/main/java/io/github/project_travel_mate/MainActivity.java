@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment;
     private FragmentManager fragmentManager;
 
+
+    private static final int PERMISSION_REQUEST_CODE = 0;
+
     @BindView(R.id.layout_runtime_permission)
     ConstraintLayout layoutRuntimePermission;
 
@@ -316,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.VIBRATE,
-                        }, 0);
+                        }, PERMISSION_REQUEST_CODE);
                     }
                 }
 
@@ -329,20 +332,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             layoutRuntimePermission.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             layoutRuntimePermission.setVisibility(View.GONE);
-            fragment = CityFragment.newInstance();
-            defaultSelectedNavMenu(R.id.nav_city);
-            mPreviousMenuItemId = R.id.nav_city;
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
         }
 
     }
 
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 0 : {
+            case PERMISSION_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
