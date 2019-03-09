@@ -337,9 +337,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                         arr.getJSONObject(i).getInt("facts_count"),
                                         R.color.sienna,
                                         getString(R.string.interest_know_more), getString(R.string.interest_weather),
-                                        getString(R.string.
-
-                                                interest_fun_facts), getString(R.string.interest_trends)));
+                                        getString(R.string.interest_fun_facts), getString(R.string.interest_trends)));
                                 citynames.add(arr.getJSONObject(i).getString("city_name"));
 
                             } catch (JSONException e) {
