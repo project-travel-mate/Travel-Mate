@@ -194,7 +194,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
      */
     private void noResults() {
         TravelmateSnackbars.createSnackBar(mTripsView.findViewById(R.id.my_trips_frag), R.string.no_trips,
-                Snackbar.LENGTH_LONG).show();
+                Snackbar.LENGTH_SHORT).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.setVisibility(View.VISIBLE);
         animationView.playAnimation();
