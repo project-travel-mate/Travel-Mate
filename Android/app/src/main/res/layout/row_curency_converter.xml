@@ -23,7 +23,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
-                android:src="@drawable/aed" />
+                android:src="@drawable/ae" /> <!-- From com.blongho.countryFlags-->
 
         </LinearLayout>
 
