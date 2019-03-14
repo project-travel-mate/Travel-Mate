@@ -10,12 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import adapters.CardViewOptionsAdapter;
 import butterknife.BindView;
@@ -29,6 +31,7 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
     RecyclerView mUtilityOptionsRecycleView;
     private Activity mActivity;
     private boolean mHasMagneticSensor = true;
+    private static final String mTAG = "UtilsFragment";
 
     public UtilitiesFragment() {
     }
@@ -59,6 +62,10 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         boolean hasMagneticSensor = mManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS);
         if (!hasAccelerometer || !hasMagneticSensor) {
             this.mHasMagneticSensor = false;
+        }
+        String[] timeZones = TimeZone.getAvailableIDs();
+        for (String string: timeZones) {
+            Log.e(mTAG, "onCreate: " + string);
         }
 
         return view;

@@ -37,7 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.destinations.CityFragment;
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
             }
         }
+
     }
 
 

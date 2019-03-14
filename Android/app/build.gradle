@@ -106,7 +106,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     // World Country flag
-    implementation 'com.github.blongho:world-country-data:v1.1'
+    implementation 'com.github.blongho:world-country-data:v1.1.0'
 }
 
 preBuild.dependsOn('checkstyle')

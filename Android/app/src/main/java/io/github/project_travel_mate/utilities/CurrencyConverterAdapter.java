@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
@@ -31,7 +30,7 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
 
     private List<ZoneName> mListCurrencyNames, mListCurrencyNamesFiltered;
     public Activity activity;
-    private List<Country> mCountryList;
+    private List<Country> mCountryList; // List of Countries. These have flags
     private final String mTag = getClass().getSimpleName().toUpperCase();
 
     CurrencyConverterAdapter(Activity activity, List<ZoneName> list) {
@@ -78,7 +77,7 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).shortName;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abbreviation;
 
-            } else {
+            } else { // Is This is for world clock
                 CurrencyConverterGlobal.global_image_id = getFlag(mListCurrencyNamesFiltered.get(position));
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abbreviation;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).shortName;
@@ -139,15 +138,16 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
     /**
      * Get the flag of the country using the ZoneName attributes
      * @param zoneName The ZoneName
-     * @return a drawable resource id for a country image
+     * @return a drawable resource id for a country image of a drawable for the globe
      */
     private int getFlag(final ZoneName zoneName) {
         for (final Country country : mCountryList) {
             if (zoneName.getShortName().toLowerCase().contains(country.getName().toLowerCase()) ||
+                    zoneName.getAbbreviation().equalsIgnoreCase(country.getAlpha2()) ||
                     (country.getCurrency() != null &&
                      country.getCurrency().getCode().equalsIgnoreCase(zoneName.getAbbreviation())))
                 return World.getFlagOf(country.getAlpha2());
         }
-        return World.getFlagOf("globe");
+        return World.getWorldFlag();
     }
 }

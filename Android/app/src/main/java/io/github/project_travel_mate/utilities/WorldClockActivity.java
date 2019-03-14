@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import utils.CurrencyConverterGlobal;
+
 
 public class WorldClockActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public class WorldClockActivity extends AppCompatActivity {
     //private DigitalClock mDigitalClock;
 
     private static TextClock mDigitalClock;
+    private static final String mTag = "WorldClockActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class WorldClockActivity extends AppCompatActivity {
 
                 setClock();
                 Log.d("Key", timezone_short);
+
             }
         }
     }
