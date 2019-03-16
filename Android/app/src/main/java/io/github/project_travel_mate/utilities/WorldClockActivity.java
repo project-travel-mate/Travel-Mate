@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -42,7 +41,6 @@ public class WorldClockActivity extends AppCompatActivity {
     //private DigitalClock mDigitalClock;
 
     private static TextClock mDigitalClock;
-    private static final String mTag = "WorldClockActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
