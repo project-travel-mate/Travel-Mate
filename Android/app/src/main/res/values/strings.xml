@@ -22,6 +22,9 @@
     <string name="title_activity_fun_facts">FunFacts</string>
     <string name="title_activity_city_history">City History</string>
 
+    <!-- Exit App Strings -->
+    <string name="confirm_exit_message">Press back again to exit</string>
+
     <!-- login/signup strings -->
     <string name="email_id">Email id</string>
     <string name="password">Password</string>
