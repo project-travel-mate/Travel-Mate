@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;

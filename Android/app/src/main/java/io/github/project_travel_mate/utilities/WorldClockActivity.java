@@ -23,7 +23,6 @@ import butterknife.OnClick;
 import io.github.project_travel_mate.R;
 import utils.CurrencyConverterGlobal;
 
-
 public class WorldClockActivity extends AppCompatActivity {
 
     @BindView(R.id.timezone_country_flag)
@@ -72,7 +71,6 @@ public class WorldClockActivity extends AppCompatActivity {
 
                 setClock();
                 Log.d("Key", timezone_short);
-
             }
         }
     }
