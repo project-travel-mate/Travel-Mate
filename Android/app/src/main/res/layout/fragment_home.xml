@@ -39,6 +39,7 @@
 
     <android.support.design.card.MaterialCardView
         android:id="@+id/materialCardView2"
+        android:clickable="true"
         android:layout_width="150dp"
         android:layout_height="149dp"
         android:layout_marginStart="16dp"
