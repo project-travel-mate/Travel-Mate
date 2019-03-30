@@ -106,6 +106,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @BindView(R.id.input_layout_email_forgot_password)
     TextInputLayout mInputLayoutEmailForgotPassword;
+    @BindView(R.id.input_layout_firstname_signup)
+    TextInputLayout mInputLayoutFirstNameSignup;
+    @BindView(R.id.input_layout_lastname_signup)
+    TextInputLayout mInputLayoutLastNameSignup;
 
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
@@ -188,17 +192,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String confirmPassString = confirm_pass_signup.getText().toString();
                 String firstname = firstName.getText().toString();
                 String lastname = lastName.getText().toString();
-                if (validateEmail(emailString)) {
-                    if (validatePassword(passString)) {
-                        if (passString.equals(confirmPassString)) {
-                            mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
-                        } else {
-                            Snackbar snackbar = Snackbar
-                                    .make(findViewById(android.R.id.content),
-                                          R.string.passwords_check, Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                if (!firstname.isEmpty() && !lastname.isEmpty()) {
+                    mInputLayoutFirstNameSignup.setErrorEnabled(false);
+                    mInputLayoutLastNameSignup.setErrorEnabled(false);
+                    if (validateEmail(emailString)) {
+                        if (validatePassword(passString)) {
+                            if (passString.equals(confirmPassString)) {
+                                mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                            } else {
+                                Snackbar snackbar = Snackbar
+                                        .make(findViewById(android.R.id.content),
+                                                R.string.passwords_check, Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            }
                         }
                     }
+                } else {
+                    if (firstname.isEmpty())
+                        mInputLayoutFirstNameSignup.setError(getString(R.string.empty_first_name));
+                    if (lastname.isEmpty())
+                        mInputLayoutLastNameSignup.setError(getString(R.string.empty_last_name));
                 }
                 break;
                 // Open forgot password
