@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.utilities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -8,11 +9,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +33,7 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
 
     public static ArrayList<ZoneName> timezone_names;
     private Context mContext;
-
+    private static final  String mTAG = "TimezoneListViewAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +51,28 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
     }
 
     /**
-     * add times to list adapter
+     * Add timezones as well as the country codes <br>
+     *     The country codes will be used by com.github.blongho:world-country-data to get the flag of the country
+     *
      */
     public void addTimezones() {
         String[] locales = Locale.getISOCountries();
         for (String countryCode : locales) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 for (String id : android.icu.util.TimeZone.getAvailableIDs(countryCode)) {
-                    // Add timezone to result map
-                    timezone_names.add(new ZoneName(displayTimeZone(TimeZone.getTimeZone(id)), getFlagId(countryCode)));
+                    final String zone = displayTimeZone(TimeZone.getTimeZone(id));
+                    if (!zone.equalsIgnoreCase("GMT (GMT0:00)")) {
+                        // Add timezone to result map
+                        timezone_names.add(new ZoneName(zone, countryCode));
+                    }
                 }
-            }
 
+            } else {
+                Toast.makeText(getApplicationContext(), "This feature requires android version 6 or more",
+                               Toast.LENGTH_SHORT).show();
+                Log.d(mTAG, "addTimezones: Requires android version 6 or higher");
+                break;
+            }
         }
 
         Collections.sort(timezone_names, (n1, n2) -> n1.shortName.compareTo(n2.shortName));
@@ -75,6 +87,7 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
      * @param tz - timexome to be displayed
      * @return - formatted timezone value
      */
+    @SuppressLint ("DefaultLocale")
     private static String displayTimeZone(TimeZone tz) {
         long hours = TimeUnit.MILLISECONDS.toHours(tz.getRawOffset());
         long minutes = TimeUnit.MILLISECONDS.toMinutes(tz.getRawOffset())
@@ -90,28 +103,6 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
         }
 
         return result;
-    }
-
-    /**
-     * @param countryCode - country code to get symbol for
-     * @return - country symbol
-     */
-    private String getFlagId(String countryCode) {
-        String currencySymbol = "";
-        Locale locale;
-        Currency currency = null;
-        try {
-            locale = new Locale("", countryCode);
-            currency = Currency.getInstance(locale);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        if (currency != null) {
-            currencySymbol = currency.getCurrencyCode();
-        }
-
-        return currencySymbol;
     }
 
     @Override

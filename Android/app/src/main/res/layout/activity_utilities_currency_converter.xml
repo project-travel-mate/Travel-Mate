@@ -56,7 +56,7 @@
                         android:id="@+id/first_country_image"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/usd" />
+                        android:src="@drawable/us" />
 
                     <TextView
                         android:id="@+id/first_country_name"
@@ -125,7 +125,7 @@
                         android:id="@+id/second_country_flag"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/inr" />
+                        android:src="@drawable/in" />
 
                     <TextView
                         android:id="@+id/second_country_name"
