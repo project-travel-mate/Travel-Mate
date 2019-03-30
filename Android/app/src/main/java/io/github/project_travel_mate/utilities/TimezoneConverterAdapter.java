@@ -56,13 +56,14 @@ public class TimezoneConverterAdapter extends RecyclerView.Adapter<TimezoneConve
         if (android.os.Build.VERSION.SDK_INT >= 5.0) {
             holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).shortName);
         } else {
-            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).abrivation);
+            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).abbreviation);
         }
 
         int mResId;
         if (android.os.Build.VERSION.SDK_INT >= 5.0) {
             mResId = activity.getResources().getIdentifier(
-                    mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
+                    mListCurrencyNamesFiltered.get(position).abbreviation
+                      .toLowerCase(),
                     "drawable", activity.getPackageName());
         } else {
             mResId = activity.getResources().getIdentifier(
@@ -81,10 +82,11 @@ public class TimezoneConverterAdapter extends RecyclerView.Adapter<TimezoneConve
             if (android.os.Build.VERSION.SDK_INT >= 5.0) {
                 CurrencyConverterGlobal.global_image_id =
                         activity.getResources().getIdentifier(
-                                mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
+                                mListCurrencyNamesFiltered.get(position).abbreviation
+                                  .toLowerCase(),
                                 "drawable", activity.getPackageName());
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).shortName;
-                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abrivation;
+                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abbreviation;
 
                 if (CurrencyConverterGlobal.country_id.contains("TRY")) {
                     CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
@@ -100,7 +102,7 @@ public class TimezoneConverterAdapter extends RecyclerView.Adapter<TimezoneConve
                         activity.getResources().getIdentifier(
                                 mListCurrencyNamesFiltered.get(position).shortName.toLowerCase(),
                                 "drawable", activity.getPackageName());
-                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abrivation;
+                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abbreviation;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).shortName;
                 if (CurrencyConverterGlobal.country_id.contains("TRY")) {
                     CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
@@ -127,7 +129,7 @@ public class TimezoneConverterAdapter extends RecyclerView.Adapter<TimezoneConve
                     List<ZoneName> filteredList = new ArrayList<>();
                     for (ZoneName row : mListCurrencyNames) {
                         if (row.getShortName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getAbrivation().toLowerCase().contains(charSequence)) {
+                                row.getAbbreviation().toLowerCase().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
