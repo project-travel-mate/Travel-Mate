@@ -243,9 +243,11 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email_forgot_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/white">
+                    android:textColorHint="@color/white"
+                    app:errorEnabled="true">
 
                     <EditText
                         android:id="@+id/input_email_forgot_password"

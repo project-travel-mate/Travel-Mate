@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -102,6 +103,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @BindView(R.id.reset_code)
     OtpView mResetCode;
+
+    @BindView(R.id.input_layout_email_forgot_password)
+    TextInputLayout mInputLayoutEmailForgotPassword;
 
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
@@ -386,11 +390,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public boolean validateEmail(String email) {
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if (!email.equals("") && matcher.matches()) {
+            mInputLayoutEmailForgotPassword.setErrorEnabled(false);
             return true;
         } else {
-            Snackbar snackbar = Snackbar
-                    .make(findViewById(android.R.id.content), R.string.invalid_email, Snackbar.LENGTH_LONG);
-            snackbar.show();
+            mInputLayoutEmailForgotPassword.setError(getString(R.string.invalid_email));
             return false;
         }
     }
