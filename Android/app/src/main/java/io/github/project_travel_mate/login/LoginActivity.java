@@ -404,6 +404,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Validates first name and last name of user, checks if these are empty or filled
+     * @param firstname first name of user
+     * @param lastname last name of user
+     * @return Boolean returns true if both are filled, otherwise false
+     */
     public boolean validateName(String firstname, String lastname) {
         if (!firstname.isEmpty() && !lastname.isEmpty())
             return true;
