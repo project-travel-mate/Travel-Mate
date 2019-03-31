@@ -16,7 +16,6 @@ import com.blongho.country_data.Country;
 import com.blongho.country_data.World;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import butterknife.BindView;
