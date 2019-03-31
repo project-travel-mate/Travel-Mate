@@ -192,9 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String confirmPassString = confirm_pass_signup.getText().toString();
                 String firstname = firstName.getText().toString();
                 String lastname = lastName.getText().toString();
-                if (!firstname.isEmpty() && !lastname.isEmpty()) {
-                    mInputLayoutFirstNameSignup.setErrorEnabled(false);
-                    mInputLayoutLastNameSignup.setErrorEnabled(false);
+                if (validateName(firstname, lastname)) {
                     if (validateEmail(emailString)) {
                         if (validatePassword(passString)) {
                             if (passString.equals(confirmPassString)) {
@@ -207,11 +205,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         }
                     }
-                } else {
-                    if (firstname.isEmpty())
-                        mInputLayoutFirstNameSignup.setError(getString(R.string.empty_first_name));
-                    if (lastname.isEmpty())
-                        mInputLayoutLastNameSignup.setError(getString(R.string.empty_last_name));
                 }
                 break;
                 // Open forgot password
@@ -407,6 +400,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         } else {
             mInputLayoutEmailForgotPassword.setError(getString(R.string.invalid_email));
+            return false;
+        }
+    }
+
+    public boolean validateName(String firstname, String lastname) {
+        if (!firstname.isEmpty() && !lastname.isEmpty())
+            return true;
+        else {
+            if (firstname.isEmpty())
+                mInputLayoutFirstNameSignup.setError(getString(R.string.empty_first_name));
+            else
+                mInputLayoutFirstNameSignup.setErrorEnabled(false);
+            if (lastname.isEmpty())
+                mInputLayoutLastNameSignup.setError(getString(R.string.empty_last_name));
+            else
+                mInputLayoutLastNameSignup.setErrorEnabled(false);
             return false;
         }
     }
