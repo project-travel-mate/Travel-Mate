@@ -106,6 +106,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @BindView(R.id.input_layout_email_forgot_password)
     TextInputLayout mInputLayoutEmailForgotPassword;
+    @BindView(R.id.input_layout_firstname_signup)
+    TextInputLayout mInputLayoutFirstNameSignup;
+    @BindView(R.id.input_layout_lastname_signup)
+    TextInputLayout mInputLayoutLastNameSignup;
 
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
@@ -188,15 +192,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String confirmPassString = confirm_pass_signup.getText().toString();
                 String firstname = firstName.getText().toString();
                 String lastname = lastName.getText().toString();
-                if (validateEmail(emailString)) {
-                    if (validatePassword(passString)) {
-                        if (passString.equals(confirmPassString)) {
-                            mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
-                        } else {
-                            Snackbar snackbar = Snackbar
-                                    .make(findViewById(android.R.id.content),
-                                          R.string.passwords_check, Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                if (validateName(firstname, lastname)) {
+                    if (validateEmail(emailString)) {
+                        if (validatePassword(passString)) {
+                            if (passString.equals(confirmPassString)) {
+                                mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                            } else {
+                                Snackbar snackbar = Snackbar
+                                        .make(findViewById(android.R.id.content),
+                                                R.string.passwords_check, Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            }
                         }
                     }
                 }
@@ -394,6 +400,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         } else {
             mInputLayoutEmailForgotPassword.setError(getString(R.string.invalid_email));
+            return false;
+        }
+    }
+
+    /**
+     * Validates first name and last name of user, checks if these are empty or filled
+     * @param firstname first name of user
+     * @param lastname last name of user
+     * @return Boolean returns true if both are filled, otherwise false
+     */
+    public boolean validateName(String firstname, String lastname) {
+        if (!firstname.isEmpty() && !lastname.isEmpty())
+            return true;
+        else {
+            if (firstname.isEmpty())
+                mInputLayoutFirstNameSignup.setError(getString(R.string.empty_first_name));
+            else
+                mInputLayoutFirstNameSignup.setErrorEnabled(false);
+            if (lastname.isEmpty())
+                mInputLayoutLastNameSignup.setError(getString(R.string.empty_last_name));
+            else
+                mInputLayoutLastNameSignup.setErrorEnabled(false);
             return false;
         }
     }
