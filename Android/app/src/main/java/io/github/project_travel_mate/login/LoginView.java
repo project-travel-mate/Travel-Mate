@@ -15,11 +15,7 @@ interface LoginView {
     void showLoadingDialog();
 
     void dismissLoadingDialog();
-
-    void getRunTimePermissions();
-
 //    void checkUserSession();
-
     void openSignUp();
 
     void openLogin();
