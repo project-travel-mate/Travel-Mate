@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.travel.HotelsActivity;
 
 public class HomeFragment extends Fragment {
@@ -18,6 +21,8 @@ public class HomeFragment extends Fragment {
     private Activity mActivity;
     @BindView(R.id.materialCardView2)
     MaterialCardView mHotelBookingView;
+    @BindView(R.id.materialCardView21)
+    MaterialCardView mFriendsView;
 
     public HomeFragment() {
     }
@@ -32,10 +37,15 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, rootview);
+        FragmentManager fragmentManager = getFragmentManager();
         mHotelBookingView.setOnClickListener(v -> {
             Intent hotelIntent = HotelsActivity.getStartIntent(mActivity);
             startActivity(hotelIntent);
-
+        });
+        mFriendsView.setOnClickListener(v1 -> {
+            Fragment friendsFragment = new MyFriendsFragment();
+            fragmentManager.beginTransaction().replace(R.id.parent_home,
+                    friendsFragment).commit();
         });
         return rootview;
     }
