@@ -47,6 +47,7 @@
                 android:layout_gravity="end|bottom"
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_location_city_black"
+                app:layout_collapseMode="parallax"
                 android:tint="@color/white" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
