@@ -22,6 +22,9 @@
     <string name="title_activity_fun_facts">FunFacts</string>
     <string name="title_activity_city_history">City History</string>
 
+    <!-- Exit App Strings -->
+    <string name="confirm_exit_message">Press back again to exit</string>
+
     <!-- login/signup strings -->
     <string name="email_id">Email id</string>
     <string name="password">Password</string>
@@ -29,6 +32,8 @@
     <string name="login">Login</string>
     <string name="signup">Signup</string>
     <string name="toast_invalid_username_or_password">Invalid username or password</string>
+    <string name="empty_first_name">First name can\'t remain empty</string>
+    <string name="empty_last_name">Last name can\'t remain empty</string>
 
     <!-- reset password strings -->
     <string name="submit">Submit</string>

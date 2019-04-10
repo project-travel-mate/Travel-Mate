@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.juanlabrador.badgecounter.BadgeCounter;
 import com.squareup.picasso.Picasso;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
+    private boolean mDoubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,8 +189,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.inc);
+            if (currentFragment instanceof CityFragment)
+                checkDoubleBackPress();
+            else {
+                Fragment fragment = new CityFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.inc, fragment).commit();
+                defaultSelectedNavMenu(R.id.nav_city);
+                mPreviousMenuItemId = R.id.nav_city;
+            }
         }
+    }
+
+    private void checkDoubleBackPress() {
+        if (mDoubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.mDoubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.confirm_exit_message, Toast.LENGTH_SHORT).show();
     }
 
     // Change fragment on selecting naviagtion drawer item
@@ -220,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
         switch (id) {
+            case R.id.nav_home:
+                fragment = HomeFragment.newInstance();
+                break;
+
             case R.id.nav_travel:
                 fragment = TravelFragment.newInstance();
                 break;
@@ -408,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.v("trip id", tripID + " ");
                 Trip trip = new Trip();
                 trip.setId(tripID);
-                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip, false);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this, trip, false);
                 startActivity(intent);
             }
         }
