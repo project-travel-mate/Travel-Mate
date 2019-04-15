@@ -140,6 +140,7 @@
                 android:ellipsize="end"
                 android:focusableInTouchMode="false"
                 android:inputType="textMultiLine"
+                android:maxLength="50"
                 android:paddingLeft="30dp"
                 android:text="@string/default_name"
                 android:textColor="@color/dark_grey"
