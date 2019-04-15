@@ -3,11 +3,11 @@ package objects;
 public class ZoneName {
 
     public String shortName;
-    public String abrivation;
+    public String abbreviation;
 
-    public ZoneName(String shortName, String abrivation) {
+    public ZoneName(String shortName, String abbreviation) {
         this.shortName = shortName;
-        this.abrivation = abrivation;
+        this.abbreviation = abbreviation;
     }
 
     public String getShortName() {
@@ -18,12 +18,20 @@ public class ZoneName {
         this.shortName = shortName;
     }
 
-    public String getAbrivation() {
-        return abrivation;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
-    public void setAbrivation(String abrivation) {
-        this.abrivation = abrivation;
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ZoneName{");
+        sb.append("shortName='").append(shortName).append('\'');
+        sb.append(", abbreviation='").append(abbreviation).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -51,7 +51,7 @@ public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
     public void addCurrencies() {
         try {
-            InputStream is = mContext.getAssets().open("currencies.json");
+            InputStream is = mContext.getAssets().open("currency.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

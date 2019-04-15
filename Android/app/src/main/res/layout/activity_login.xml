@@ -126,9 +126,11 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_firstname_signup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColorHint="@color/white">
+                    android:textColorHint="@color/white"
+                    app:errorEnabled="true">
 
                     <EditText
                         android:id="@+id/input_firstname_signup"
@@ -142,9 +144,11 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_lastname_signup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/white">
+                    android:textColorHint="@color/white"
+                    app:errorEnabled="true">
 
                     <EditText
                         android:id="@+id/input_lastname_signup"
@@ -243,9 +247,11 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email_forgot_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/white">
+                    android:textColorHint="@color/white"
+                    app:errorEnabled="true">
 
                     <EditText
                         android:id="@+id/input_email_forgot_password"

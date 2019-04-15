@@ -18,7 +18,6 @@ import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.HotelsActivity;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
-
 public class HomeFragment extends Fragment {
 
     private Activity mActivity;

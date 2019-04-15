@@ -51,7 +51,7 @@ Based on this information and the recommendation from the app, user can opt for 
 
 ## Travel
 ### My trips
-This option allows users to view their travel history, including pictures during each trip, names of accompanying induviduals, and details of expenses for future reference.
+This option allows users to view their travel history, including pictures during each trip, names of accompanying individuals, and details of expenses for future reference.
 
 <img src="./screenshots/travel.png" width="200px"> <img src="./screenshots/trips.png" width="200px"> <img src="./screenshots/mytrip_info.png" width="200px">
 

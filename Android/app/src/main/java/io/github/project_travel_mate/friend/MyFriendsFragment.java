@@ -155,7 +155,7 @@ public class MyFriendsFragment extends Fragment {
      * Plays the no results animation in the view
      */
     private void noResults() {
-        Toast.makeText(mActivity, R.string.no_friends_message, Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, R.string.no_friends_message, Toast.LENGTH_SHORT).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
     }
