@@ -17,6 +17,7 @@ import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.travel.HotelsActivity;
+import io.github.project_travel_mate.utilities.UtilitiesFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment {
     MaterialCardView mTripsView;
     @BindView(R.id.popular_cities_home)
     MaterialCardView mCitiesView;
+    @BindView(R.id.utilities_home)
+    MaterialCardView mUtilitiesView;
 
     public HomeFragment() {
     }
@@ -62,6 +65,11 @@ public class HomeFragment extends Fragment {
             Fragment citiesFragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.parent_home,
                     citiesFragment).commit();
+        });
+        mUtilitiesView.setOnClickListener(v -> {
+            Fragment utilitiesFragment = new UtilitiesFragment();
+            fragmentManager.beginTransaction().replace(R.id.parent_home,
+                    utilitiesFragment).commit();
         });
         return rootview;
     }

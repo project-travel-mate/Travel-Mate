@@ -145,6 +145,7 @@
     </android.support.design.card.MaterialCardView>
 
     <android.support.design.card.MaterialCardView
+        android:id="@+id/utilities_home"
         android:layout_width="150dp"
         android:layout_height="149dp"
         android:layout_marginEnd="116dp"
