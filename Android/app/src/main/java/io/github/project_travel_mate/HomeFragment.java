@@ -53,22 +53,30 @@ public class HomeFragment extends Fragment {
         mFriendsView.setOnClickListener(v1 -> {
             Fragment friendsFragment = new MyFriendsFragment();
             fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    friendsFragment).commit();
+                    friendsFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
         mTripsView.setOnClickListener(v -> {
             Fragment tripsFragment = new MyTripsFragment();
             fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    tripsFragment).commit();
+                    tripsFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
         mCitiesView.setOnClickListener(v -> {
             Fragment citiesFragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    citiesFragment).commit();
+                    citiesFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
         mUtilitiesView.setOnClickListener(v -> {
             Fragment utilitiesFragment = new UtilitiesFragment();
             fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    utilitiesFragment).commit();
+                    utilitiesFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
         return rootview;
     }
