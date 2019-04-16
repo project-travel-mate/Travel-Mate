@@ -20,3 +20,4 @@ Tell us what happens instead
 If applicable, add screenshots to help explain your problem.
 
 ### Would you like to work on the issue?
+Tell us if you would like to work on this issue.
