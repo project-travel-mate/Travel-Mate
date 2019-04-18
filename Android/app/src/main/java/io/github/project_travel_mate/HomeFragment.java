@@ -71,6 +71,10 @@ public class HomeFragment extends Fragment {
         return rootview;
     }
 
+    /**
+     * This function handles the transaction of one fragment to another.
+     * @param fragment
+     */
     private void transactFragment(Fragment fragment) {
         mFragmentManager.beginTransaction().replace(R.id.parent_home,
                 fragment)
