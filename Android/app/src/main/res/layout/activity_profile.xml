@@ -179,6 +179,18 @@
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/status_character_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/display_name"
+                android:layout_alignBottom="@+id/display_name"
+                android:text="@string/name_length"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+
+            <TextView
                 android:id="@+id/display_email"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
