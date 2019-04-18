@@ -12,7 +12,11 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blongho.country_data.Country;
+import com.blongho.country_data.World;
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,12 +30,16 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
 
     private List<ZoneName> mListCurrencyNames, mListCurrencyNamesFiltered;
     public Activity activity;
+    private List<Country> mCountryList; // List of Countries. These have flags
+    private final String mTag = getClass().getSimpleName().toUpperCase();
 
     CurrencyConverterAdapter(Activity activity, List<ZoneName> list) {
         this.activity = activity;
         this.mListCurrencyNames = list;
         this.mListCurrencyNamesFiltered = list;
         Log.d("my list size", "" + getCount());
+        World.init(this.activity.getApplicationContext());
+        mCountryList = World.getAllCountries();
     }
 
     public int getCount() {
@@ -52,64 +60,27 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        final ZoneName zoneName = mListCurrencyNamesFiltered.get(position);
         if (android.os.Build.VERSION.SDK_INT >= 5.0) {
             holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).shortName);
         } else {
-            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).abrivation);
+            holder.mShortTitle.setText(mListCurrencyNamesFiltered.get(position).abbreviation);
         }
 
-        int mResId;
-        if (android.os.Build.VERSION.SDK_INT >= 5.0) {
-            mResId = activity.getResources().getIdentifier(
-                    mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
-                    "drawable", activity.getPackageName());
-        } else {
-            mResId = activity.getResources().getIdentifier(
-                    mListCurrencyNamesFiltered.get(position).shortName.toLowerCase(),
-                    "drawable", activity.getPackageName());
-        }
-        Log.d("Resouce resouce id", "" + mListCurrencyNamesFiltered.get(position).shortName);
+        int mResId = getFlag(zoneName);
 
-        if (mResId == 0) {
-            mResId = activity.getResources().getIdentifier("tryk", "drawable", activity.getPackageName());
-            holder.mImageView.setImageResource(mResId);
-        }
         holder.mImageView.setImageResource(mResId);
 
         holder.itemView.setOnClickListener(view -> {
             if (android.os.Build.VERSION.SDK_INT >= 5.0) {
-                CurrencyConverterGlobal.global_image_id =
-                        activity.getResources().getIdentifier(
-                                mListCurrencyNamesFiltered.get(position).abrivation.toLowerCase(),
-                                "drawable", activity.getPackageName());
+                CurrencyConverterGlobal.global_image_id = getFlag(mListCurrencyNamesFiltered.get(position));
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).shortName;
-                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abrivation;
+                CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abbreviation;
 
-                if (CurrencyConverterGlobal.country_id.contains("TRY")) {
-                    CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
-                            "drawable", activity.getPackageName());
-
-                }
-                if (CurrencyConverterGlobal.country_id.contains("TMM")) {
-                    CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
-                            "drawable", activity.getPackageName());
-                }
-            } else {
-                CurrencyConverterGlobal.global_image_id =
-                        activity.getResources().getIdentifier(
-                                mListCurrencyNamesFiltered.get(position).shortName.toLowerCase(),
-                                "drawable", activity.getPackageName());
-                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abrivation;
+            } else { // Is This is for world clock
+                CurrencyConverterGlobal.global_image_id = getFlag(mListCurrencyNamesFiltered.get(position));
+                CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abbreviation;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).shortName;
-                if (CurrencyConverterGlobal.country_id.contains("TRY")) {
-                    CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
-                            "drawable", activity.getPackageName());
-                }
-                if (CurrencyConverterGlobal.country_id.contains("TMM")) {
-                    CurrencyConverterGlobal.global_image_id = activity.getResources().getIdentifier("tryk",
-                            "drawable", activity.getPackageName());
-                }
             }
             activity.finish();
         });
@@ -127,7 +98,7 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
                     List<ZoneName> filteredList = new ArrayList<>();
                     for (ZoneName row : mListCurrencyNames) {
                         if (row.getShortName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getAbrivation().toLowerCase().contains(charSequence)) {
+                                row.getAbbreviation().toLowerCase().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
@@ -162,5 +133,21 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    /**
+     * Get the flag of the country using the ZoneName attributes
+     * @param zoneName The ZoneName
+     * @return a drawable resource id for a country image of a drawable for the globe
+     */
+    private int getFlag(final ZoneName zoneName) {
+        for (final Country country : mCountryList) {
+            if (zoneName.getShortName().toLowerCase().contains(country.getName().toLowerCase()) ||
+                    zoneName.getAbbreviation().equalsIgnoreCase(country.getAlpha2()) ||
+                    (country.getCurrency() != null &&
+                     country.getCurrency().getCode().equalsIgnoreCase(zoneName.getAbbreviation())))
+                return World.getFlagOf(country.getAlpha2());
+        }
+        return World.getWorldFlag();
     }
 }
