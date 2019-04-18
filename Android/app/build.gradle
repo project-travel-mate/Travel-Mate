@@ -11,6 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 45
         versionName "5.5.2"
+        testInstrumentationRunner = 'androidx.support.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -107,6 +108,12 @@ dependencies {
 
     // World Country flag
     implementation 'com.github.blongho:world-country-data:v1.1.0'
+
+    //UI Testing Dependencies
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
 }
 
 preBuild.dependsOn('checkstyle')
