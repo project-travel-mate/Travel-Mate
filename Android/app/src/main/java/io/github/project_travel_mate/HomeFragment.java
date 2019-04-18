@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.utilities_home)
     MaterialCardView mUtilitiesView;
 
+    private FragmentManager mFragmentManager;
+
     public HomeFragment() {
     }
 
@@ -45,32 +47,39 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, rootview);
-        FragmentManager fragmentManager = getFragmentManager();
+        mFragmentManager = getFragmentManager();
         mHotelBookingView.setOnClickListener(v -> {
             Intent hotelIntent = HotelsActivity.getStartIntent(mActivity);
             startActivity(hotelIntent);
         });
         mFriendsView.setOnClickListener(v1 -> {
             Fragment friendsFragment = new MyFriendsFragment();
-            fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    friendsFragment).commit();
+            transactFragment(friendsFragment);
         });
         mTripsView.setOnClickListener(v -> {
             Fragment tripsFragment = new MyTripsFragment();
-            fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    tripsFragment).commit();
+            transactFragment(tripsFragment);
         });
         mCitiesView.setOnClickListener(v -> {
             Fragment citiesFragment = new CityFragment();
-            fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    citiesFragment).commit();
+            transactFragment(citiesFragment);
         });
         mUtilitiesView.setOnClickListener(v -> {
             Fragment utilitiesFragment = new UtilitiesFragment();
-            fragmentManager.beginTransaction().replace(R.id.parent_home,
-                    utilitiesFragment).commit();
+            transactFragment(utilitiesFragment);
         });
         return rootview;
+    }
+
+    /**
+     * This function handles the transaction of one fragment to another.
+     * @param fragment
+     */
+    private void transactFragment(Fragment fragment) {
+        mFragmentManager.beginTransaction().replace(R.id.parent_home,
+                fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
