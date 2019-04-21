@@ -179,7 +179,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/status_character_count"
+                android:id="@+id/name_character_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/display_name"
