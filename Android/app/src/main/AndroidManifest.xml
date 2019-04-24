@@ -125,7 +125,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+                  android:configChanges="orientation|screenSize" />
         <activity android:name=".friend.FriendsProfileActivity" />
         <activity android:name=".notifications.NotificationsActivity" />
         <activity
