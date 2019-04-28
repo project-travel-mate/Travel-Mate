@@ -340,8 +340,8 @@ public class FlipViewPager extends FrameLayout {
                         if (clickListener != null) {
                             if (mCurrentPageIndex == 1 && isLeftClicked(ev)) {
                                 clickListener.onItemClick(null, this, mRow * 2, -1);
-                            } else if (mCurrentPageIndex == 1 && isRightClicked(ev) && mMaxItems > (mRow * 2 + 1))
-                                clickListener.onItemClick(null, this, mRow * 2 + 1, -1);
+                            } else if (mCurrentPageIndex == 1 && isRightClicked(ev) && mMaxItems > (mRow * 2))
+                                clickListener.onItemClick(null, this, mRow * 2, -1);
                         }
                         return false;
                     }
