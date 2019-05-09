@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -68,6 +69,13 @@ public class SettingsFragment extends Fragment {
     LinearLayout layout;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.text_input_old_password)
+    TextInputLayout oldPasswordInput;
+    @BindView(R.id.text_input_new_password)
+    TextInputLayout newPasswordInput;
+    @BindView(R.id.text_input_confirm_password)
+    TextInputLayout confirmPasswordInput;
+
 
     private String mToken;
     private Handler mHandler;
@@ -145,15 +153,15 @@ public class SettingsFragment extends Fragment {
      */
     private boolean checkEmptyText() {
         if (oldPasswordText.getText().toString().equals("")) {
-            oldPasswordText.setError(getString(R.string.required_error));
+            oldPasswordInput.setError(getString(R.string.required_error));
             oldPasswordText.requestFocus();
             return false;
         } else if (newPasswordText.getText().toString().equals("")) {
-            newPasswordText.setError(getString(R.string.required_error));
+            newPasswordInput.setError(getString(R.string.required_error));
             newPasswordText.requestFocus();
             return false;
         } else if (confirmPasswordText.getText().toString().equals("")) {
-            confirmPasswordText.setError(getString(R.string.required_error));
+            confirmPasswordInput.setError(getString(R.string.required_error));
             confirmPasswordText.requestFocus();
             return false;
         } else {
