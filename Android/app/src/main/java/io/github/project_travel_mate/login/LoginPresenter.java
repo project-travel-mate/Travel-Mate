@@ -235,7 +235,7 @@ class LoginPresenter {
      */
     public void resendResetCode(String email, Handler mHandler) {
         ok_password_reset_request(email, mHandler);
-
+        ok_password_reset_confirm(email);
         mView.resendResetCode();
     }
 
