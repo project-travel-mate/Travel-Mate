@@ -140,6 +140,7 @@
                 android:ellipsize="end"
                 android:focusableInTouchMode="false"
                 android:inputType="textMultiLine"
+                android:maxLength="50"
                 android:paddingLeft="30dp"
                 android:text="@string/default_name"
                 android:textColor="@color/dark_grey"
@@ -176,6 +177,18 @@
                 android:layout_marginTop="20dp"
                 android:indeterminateDrawable="@drawable/progress_bar"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/name_character_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/display_name"
+                android:layout_alignBottom="@+id/display_name"
+                android:text="@string/name_length"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
 
             <TextView
                 android:id="@+id/display_email"

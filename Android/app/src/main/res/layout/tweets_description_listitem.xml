@@ -88,7 +88,9 @@
             android:id="@+id/created_at"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="180dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:textAlignment="textEnd"
             android:layout_weight="3"
             android:textSize="10sp"
             android:text="@string/sample_date"/>

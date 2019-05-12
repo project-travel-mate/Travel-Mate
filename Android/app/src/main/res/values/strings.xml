@@ -168,6 +168,7 @@
     <string name="interest_weather">View Weather Forecast</string>
     <string name="interest_trends">City Trends</string>
     <string name="status_length">22/100</string>
+    <string name="name_length">22/50</string>
     <string name="from_text">From</string>
     <string name="to_text">To</string>
     <string name="usd_dollar">United States Dollar</string>

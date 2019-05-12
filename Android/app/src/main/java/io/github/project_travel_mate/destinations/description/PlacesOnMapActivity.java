@@ -433,8 +433,14 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
             holder.linearLayout.setOnClickListener(view1 -> {
                 Intent browserIntent;
-                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.in/"));
-                mContext.startActivity(browserIntent);
+                try {
+                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" +
+                            mFeedItems.getJSONObject(position).getString("title")
+                    ));
+                    mContext.startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
 
             holder.completeLayout.setOnClickListener(v -> {
