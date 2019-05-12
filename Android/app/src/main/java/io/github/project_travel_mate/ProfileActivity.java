@@ -573,50 +573,59 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         // Add form parameters
         String fullName = String.valueOf(displayName.getText());
-        String firstName = fullName.substring(0, fullName.indexOf(' '));
-        String lastName = fullName.substring(fullName.indexOf(' ') + 1);
+        Log.i("Fullname: ", fullName);
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("firstname", firstName)
-                .addFormDataPart("lastname", lastName)
-                .build();
+        try {
+            String firstName = fullName.substring(0, fullName.indexOf(' '));
+            String lastName = fullName.substring(fullName.indexOf(' ') + 1);
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("firstname", firstName)
+                    .addFormDataPart("lastname", lastName)
+                    .build();
 
-        // Create a http request object.
-        Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
-                .url(uri)
-                .post(requestBody)
-                .build();
+            // Create a http request object.
+            Request request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .post(requestBody)
+                    .build();
 
-        // Create a new Call object with post method.
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-                mHandler.post(() -> networkError());
-            }
+            // Create a new Call object with post method.
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("Request Failed", "Message : " + e.getMessage());
+                    mHandler.post(() -> networkError());
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(() -> {
-                    if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
-                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
-                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                    } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
-                                Snackbar.LENGTH_LONG).show();
-                        networkError();
-                    }
-                });
-                runOnUiThread(() -> {
-                    nameProgressBar.setVisibility(View.GONE);
-                    displayName.setVisibility(View.VISIBLE);
-                });
-            }
-        });
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    mHandler.post(() -> {
+                        if (response.isSuccessful()) {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
+                                    R.string.name_updated, Snackbar.LENGTH_SHORT).show();
+                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                        } else {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                    Snackbar.LENGTH_LONG).show();
+                            networkError();
+                        }
+                    });
+                    runOnUiThread(() -> {
+                        nameProgressBar.setVisibility(View.GONE);
+                        displayName.setVisibility(View.VISIBLE);
+                    });
+                }
+            });
+        } catch (StringIndexOutOfBoundsException e ) {
+            displayName.setVisibility(View.VISIBLE);
+            nameProgressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(getApplicationContext(), "Introduce atleast two names.", Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
     private void setUserStatus() {
