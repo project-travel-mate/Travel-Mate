@@ -2,6 +2,7 @@ language: android
 jdk: oraclejdk8
 android:
   components:
+  # use the latest revision of Android SDK Tools
     - platform-tools
     - tools
     - build-tools-28.0.3
@@ -13,6 +14,8 @@ android:
     - extra-google-m2repository
   licenses:
     - '.+'
+before_install:
+  - chmod +x gradlew
 
 before_script:
     - cd Android
