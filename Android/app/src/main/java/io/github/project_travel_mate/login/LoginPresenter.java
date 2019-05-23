@@ -88,6 +88,7 @@ class LoginPresenter {
             public void onResponse(Call call, final Response response) throws IOException {
 
                 final String res = Objects.requireNonNull(response.body()).string();
+                final String msg = "signup succeeded! please login";
                 final int responseCode = response.code();
                 mhandler.post(() -> {
                     try {
@@ -99,7 +100,7 @@ class LoginPresenter {
                             mView.showMessage("signup succeeded! please login");
                         } else {
                             // show error message
-                            mView.showMessage(res);
+                            mView.showMessage(msg);
                         }
                         mView.dismissLoadingDialog();
                     } catch (Exception e) {
@@ -235,7 +236,7 @@ class LoginPresenter {
      */
     public void resendResetCode(String email, Handler mHandler) {
         ok_password_reset_request(email, mHandler);
-
+        ok_password_reset_confirm(email);
         mView.resendResetCode();
     }
 
