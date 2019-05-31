@@ -293,12 +293,30 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
-
     @Override
+    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+    {
+        if (year < mYear)
+            view.updateDate(mYear,mMonth,mDay);
+
+        if (monthOfYear < mMonth && year == mYear)
+            view.updateDate(mYear,mMonth,mDay);
+
+        if (dayOfMonth < mDay && year == mYear && monthOfYear == mMonth)
+            view.updateDate(mYear,mMonth,mDay);
+
+    }
+};
+        return date;
+                }
+
+@Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
         Log.d("Month", String.valueOf(month));
         mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
         tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
     }
+
+
 }
