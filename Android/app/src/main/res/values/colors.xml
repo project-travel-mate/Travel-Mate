@@ -9,9 +9,10 @@
     <color name="grey">#616161</color>
     <color name="silver">#969696</color>
     <color name="blue">#0288D1</color>
+    <color name="light_grey">#FFBDBDBD</color>
     <color name="dark_grey">#333434</color>
     <color name="transparent_black">#CC000000</color>
-
+    <color name="stock_activity_background">#FFFAFAFA</color>
 
     <color name="saffron">#F4B63E</color>
     <color name="sienna">#EB6460</color>
@@ -21,4 +22,7 @@
     <color name="yellow">#ebdb60</color>
     <color name="peach">#C9EDD8B8</color>
     <color name="spotlight">#C7010B0E</color>
+    <color name="transparent">#AA000000</color>
+    <color name="clock_transparent">#AA000000</color>
+    <color name="github_contributions_light_green">#8CC665</color>
 </resources>

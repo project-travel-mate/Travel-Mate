@@ -20,7 +20,6 @@
             android:layout_height="300dp"
             android:layout_gravity="center"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="loading.json"
             app:lottie_imageAssetsFolder="images"
             app:lottie_loop="true" />
 

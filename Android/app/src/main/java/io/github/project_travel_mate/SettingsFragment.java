@@ -2,6 +2,7 @@ package io.github.project_travel_mate;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +11,11 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +34,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.login.LoginActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -40,6 +45,7 @@ import okhttp3.Response;
 import utils.TravelmateSnackbars;
 
 import static utils.Constants.API_LINK_V2;
+import static utils.Constants.QUOTES_SHOW_DAILY;
 import static utils.Constants.READ_NOTIF_STATUS;
 import static utils.Constants.USER_TOKEN;
 
@@ -47,6 +53,8 @@ public class SettingsFragment extends Fragment {
 
     @BindView(R.id.switch_notification)
     Switch notificationSwitch;
+    @BindView(R.id.switch_quotes)
+    Switch quoteSwitch;
     @BindView(R.id.old_password)
     EditText oldPasswordText;
     @BindView(R.id.new_password)
@@ -55,16 +63,26 @@ public class SettingsFragment extends Fragment {
     EditText confirmPasswordText;
     @BindView(R.id.done_button)
     ActionProcessButton doneButton;
+    @BindView(R.id.delete_button)
+    ActionProcessButton deleteButton;
     @BindView(R.id.layout)
     LinearLayout layout;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.text_input_old_password)
+    TextInputLayout oldPasswordInput;
+    @BindView(R.id.text_input_new_password)
+    TextInputLayout newPasswordInput;
+    @BindView(R.id.text_input_confirm_password)
+    TextInputLayout confirmPasswordInput;
+
 
     private String mToken;
     private Handler mHandler;
     private Activity mActivity;
-    private SharedPreferences mSharedPrefrences;
+    private SharedPreferences mSharedPreferences;
     private View mView;
+    private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
 
     public SettingsFragment() {
         //required public constructor
@@ -88,9 +106,10 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, mView);
 
-        mSharedPrefrences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean readNotifStatus = mSharedPrefrences.getBoolean(READ_NOTIF_STATUS, true);
-        mToken = mSharedPrefrences.getString(USER_TOKEN, null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        boolean readNotifStatus = mSharedPreferences.getBoolean(READ_NOTIF_STATUS, true);
+        boolean showDailyQuote = mSharedPreferences.getBoolean(QUOTES_SHOW_DAILY, true);
+        mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
         doneButton.setMode(ActionProcessButton.Mode.ENDLESS);
@@ -100,14 +119,29 @@ public class SettingsFragment extends Fragment {
                 checkPasswordMatch();
         });
 
+        deleteButton.setOnClickListener(v -> {
+            deleteAccount();
+        });
+
         if (readNotifStatus) {
             notificationSwitch.setChecked(true);
         }
         notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
-                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
+                mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, false).apply();
             } else {
-                mSharedPrefrences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
+                mSharedPreferences.edit().putBoolean(READ_NOTIF_STATUS, true).apply();
+            }
+        });
+
+        if (showDailyQuote) {
+            quoteSwitch.setChecked(true);
+        }
+        quoteSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, true).apply();
+            } else {
+                mSharedPreferences.edit().putBoolean(QUOTES_SHOW_DAILY, false).apply();
             }
         });
         return mView;
@@ -119,15 +153,15 @@ public class SettingsFragment extends Fragment {
      */
     private boolean checkEmptyText() {
         if (oldPasswordText.getText().toString().equals("")) {
-            oldPasswordText.setError(getString(R.string.required_error));
+            oldPasswordInput.setError(getString(R.string.required_error));
             oldPasswordText.requestFocus();
             return false;
         } else if (newPasswordText.getText().toString().equals("")) {
-            newPasswordText.setError(getString(R.string.required_error));
+            newPasswordInput.setError(getString(R.string.required_error));
             newPasswordText.requestFocus();
             return false;
         } else if (confirmPasswordText.getText().toString().equals("")) {
-            confirmPasswordText.setError(getString(R.string.required_error));
+            confirmPasswordInput.setError(getString(R.string.required_error));
             confirmPasswordText.requestFocus();
             return false;
         } else {
@@ -230,6 +264,59 @@ public class SettingsFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void deleteAccount() {
+        //set AlertDialog before delete account
+        ContextThemeWrapper crt = new ContextThemeWrapper(mActivity, R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(crt);
+        builder.setMessage(R.string.delete_account)
+                .setPositiveButton(R.string.positive_button,
+                        (dialog, which) -> {
+
+                            String uri = API_LINK_V2 + "delete-profile";
+                            //Set up client
+                            OkHttpClient client = new OkHttpClient();
+
+                            // Create a http request object.
+                            Request request = new Request.Builder()
+                                    .header("Authorization", "Token " + mToken)
+                                    .url(uri)
+                                    .build();
+
+                            // Create a new Call object with post method.
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.e("Request Failed", "Message : " + e.getMessage());
+                                    mHandler.post(() -> networkError());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    final String res = Objects.requireNonNull(response.body()).string();
+                                    mHandler.post(() -> {
+                                        if (response.isSuccessful()) {
+                                            mSharedPreferences
+                                                    .edit()
+                                                    .putString(USER_TOKEN, null)
+                                                    .apply();
+
+                                            Intent intent = LoginActivity.getStartIntent(mActivity);
+                                            mActivity.startActivity(intent);
+                                            mActivity.finish();
+                                        }
+                                    });
+
+                                }
+                            });
+
+                        })
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> {
+
+                        });
+        builder.create().show();
     }
 
     /**

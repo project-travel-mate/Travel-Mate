@@ -127,13 +127,6 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         // make an target
         mSpotView = inflater.inflate(R.layout.spotlight_target, null);
 
-        mInterests = new ArrayList<>(Arrays.asList(
-                mActivity.getString(R.string.interest_know_more),
-                mActivity.getString(R.string.interest_weather),
-                mActivity.getString(R.string.interest_fun_facts),
-                mActivity.getString(R.string.interest_trends)
-        ));
-
         mMaterialSearchView = view.findViewById(R.id.search_view);
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -172,6 +165,12 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         mCities.clear();
         mCities = new ArrayList<>(Arrays.asList(mDatabase.cityDao().loadAll()));
+        mInterests = new ArrayList<>(Arrays.asList(
+                mActivity.getString(R.string.interest_know_more),
+                mActivity.getString(R.string.interest_weather),
+                mActivity.getString(R.string.interest_fun_facts),
+                mActivity.getString(R.string.interest_trends)
+        ));
 
         if (checkCachedCities(mCities)) {
             fetchCitiesList();
@@ -192,12 +191,12 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     /**
      * shows spotlight on city card for the first 3 times.
      *
-     * @param spotView
+     * @param spotView - the view to be highlighted
      */
     private void showSpotlightView(View spotView) {
         CustomTarget customTarget = new CustomTarget.Builder(getActivity())
-                .setPoint(280f, 560f)
-                .setShape(new Circle(300f))
+                .setPoint(180f, 430f)
+                .setShape(new Circle(200f))
                 .setOverlay(spotView)
                 .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
                     @Override
@@ -237,7 +236,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             spotlight.closeSpotlight();
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putInt(SPOTLIGHT_SHOW_COUNT, mSpotlightShownCount + 1);
-            editor.commit();
+            editor.apply();
         };
 
         spotView.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
@@ -246,14 +245,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     /**
      * Check cached cities with expiration time 24 hours
      *
-     * @param mCities
+     * @param mCities - list of cities object
      **/
     private boolean checkCachedCities(List<City> mCities) {
-        if (mCities.size() == 0 || is24Hours()) {
-            return true;
-        } else {
-            return false;
-        }
+        return mCities.size() == 0 || is24Hours();
     }
 
     /**

@@ -39,10 +39,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.destinations.CityFragment;
+import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
 import io.github.project_travel_mate.friend.MyFriendsFragment;
 import io.github.project_travel_mate.login.LoginActivity;
+import io.github.project_travel_mate.mytrips.MyTripInfoActivity;
 import io.github.project_travel_mate.mytrips.MyTripsFragment;
 import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
@@ -50,15 +53,18 @@ import io.github.project_travel_mate.utilities.AboutUsFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
+import objects.Trip;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import utils.DailyQuotesManager;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.SHARE_PROFILE_USER_ID_QUERY;
+import static utils.Constants.SHARE_TRIP_TRIP_ID_QUERY;
 import static utils.Constants.USER_DATE_JOINED;
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_ID;
@@ -77,12 +83,14 @@ import static utils.WhatsNewStrings.WHATS_NEW1_TITLE;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private static final String KEY_SELECTED_NAV_MENU = "KEY_SELECTED_NAV_MENU";
 
     private SharedPreferences mSharedPreferences;
-    private int mPreviousMenuItemId;
     private String mToken;
     private DrawerLayout mDrawer;
     private Handler mHandler;
+    private NavigationView mNavigationView;
+    private int mPreviousMenuItemId;
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
@@ -91,14 +99,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
-        mPreviousMenuItemId = R.id.nav_city; // This is default item
         mHandler = new Handler(Looper.getMainLooper());
+
+        DailyQuotesManager.checkDailyQuote(this);
 
         // To show what's new in our application
         WhatsNew whatsNew = WhatsNew.newInstance(
@@ -108,18 +118,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         whatsNew.presentAutomatically(this);
 
         // To check for shared profile intents
-        String action =  getIntent().getAction();
+        String action = getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
-            showProfile(getIntent().getDataString());
+            showProfileOrTrip(getIntent().getDataString());
         }
 
         //Initially city fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = CityFragment.newInstance();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_NAV_MENU)) {
+            mPreviousMenuItemId = savedInstanceState.getInt(KEY_SELECTED_NAV_MENU);
+            fragment = getFragmentByNavMenuItemId(mPreviousMenuItemId);
+            defaultSelectedNavMenu(mPreviousMenuItemId);
+        } else {
+            fragment = CityFragment.newInstance();
+            defaultSelectedNavMenu(R.id.nav_city);
+            mPreviousMenuItemId = R.id.nav_city;
+        }
+
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         // Get runtime permissions for Android M
         getRuntimePermissions();
@@ -155,6 +173,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+    void defaultSelectedNavMenu(int resId) {
+        mNavigationView = findViewById(R.id.nav_view);
+        Menu menu = mNavigationView.getMenu();
+        MenuItem menuItem = menu.findItem(resId);
+        menuItem.setChecked(true);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -176,10 +202,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         int id = item.getItemId();
-        Fragment fragment = null;
+        mPreviousMenuItemId = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+        Fragment fragment = getFragmentByNavMenuItemId(id);
+
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.inc, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+        mDrawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private Fragment getFragmentByNavMenuItemId(int id) {
+
+        Fragment fragment = null;
+
         switch (id) {
+            case R.id.nav_home:
+                fragment = HomeFragment.newInstance();
+                break;
+
             case R.id.nav_travel:
                 fragment = TravelFragment.newInstance();
                 break;
@@ -194,6 +240,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_utility:
                 fragment = UtilitiesFragment.newInstance();
+                break;
+
+            case R.id.nav_favourite:
+                fragment = FavouriteCitiesFragment.newInstance();
                 break;
 
             case R.id.nav_about_us:
@@ -224,21 +274,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
-            case R.id.nav_myfriends :
+            case R.id.nav_myfriends:
                 fragment = MyFriendsFragment.newInstance();
                 break;
-            case R.id.nav_settings :
+            case R.id.nav_settings:
                 fragment = SettingsFragment.newInstance();
                 break;
         }
-
-        if (fragment != null) {
-            fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
-        }
-
-        mDrawer.closeDrawer(GravityCompat.START);
-        mPreviousMenuItemId = item.getItemId();
-        return true;
+        return fragment;
     }
 
     private void getRuntimePermissions() {
@@ -283,9 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageView = navigationHeader.findViewById(R.id.image);
         Picasso.with(MainActivity.this).load(imageURL).placeholder(R.drawable.icon_profile)
                 .error(R.drawable.icon_profile).into(imageView);
-        imageView.setOnClickListener(v -> {
-            startActivity(ProfileActivity.getStartIntent(MainActivity.this));
-        });
+        imageView.setOnClickListener(v -> startActivity(ProfileActivity.getStartIntent(MainActivity.this)));
     }
 
     private void getProfileInfo() {
@@ -351,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         invalidateOptionsMenu();
     }
 
-    void showProfile(String data) {
+    void showProfileOrTrip(String data) {
         Uri uri = Uri.parse(data);
         String userId = uri.getQueryParameter(SHARE_PROFILE_USER_ID_QUERY);
         String myId = mSharedPreferences.getString(USER_ID, null);
@@ -363,6 +404,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             } else {
                 Intent intent = ProfileActivity.getStartIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        } else {
+            String tripID = uri.getQueryParameter(SHARE_TRIP_TRIP_ID_QUERY);
+            if (tripID != null) {
+                Log.v("trip id", tripID + " ");
+                Trip trip = new Trip();
+                trip.setId(tripID);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip, false);
                 startActivity(intent);
             }
         }
@@ -420,11 +470,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_notification :
+            case R.id.action_notification:
                 Intent intent = NotificationsActivity.getStartIntent(MainActivity.this);
                 startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_SELECTED_NAV_MENU, mPreviousMenuItemId);
+    }
+
+    public NavigationView getNavigationView() {
+        return mNavigationView;
     }
 }

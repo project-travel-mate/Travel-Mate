@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="8dp"
+    app:cardElevation="0dp"
+    android:layout_gravity="left"
+    app:cardCornerRadius="20dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/trending_bg"
+    android:paddingStart="12dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="12dp"
+    >
+
+    <ImageView
+        android:id="@+id/iv_type"
+        android:layout_width="14dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_hash"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/tagmain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:paddingStart="4dp"
+        android:paddingEnd="8dp"
+        tools:text="@string/sample_state_trending" />
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_link"
+        android:tint="#bababa"
+        android:adjustViewBounds="true"
+        />
+
+</LinearLayout>
+
+

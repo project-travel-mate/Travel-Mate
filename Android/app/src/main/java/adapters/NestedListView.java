@@ -70,9 +70,7 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
                 newHeight += getDividerHeight() * listPosition;
             }
             if ((heightMode == MeasureSpec.AT_MOST) && (newHeight > heightSize)) {
-                if (newHeight > heightSize) {
-                    newHeight = heightSize;
-                }
+                newHeight = heightSize;
             }
         } else {
             newHeight = getMeasuredHeight();

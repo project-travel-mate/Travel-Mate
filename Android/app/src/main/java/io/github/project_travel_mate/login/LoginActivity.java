@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.FlatButton;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,17 +42,28 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Initiates login
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView, TravelmateSnackbars {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView,
+        TravelmateSnackbars, OnOtpCompletionListener {
 
     private final LoginPresenter mLoginPresenter = new LoginPresenter();
     @BindView(R.id.signup)
     TextView signup;
     @BindView(R.id.login)
     TextView login;
+    @BindView(R.id.back_to_login)
+    TextView mBackToLogin;
+
     @BindView(R.id.signup_layout)
     LinearLayout sig;
     @BindView(R.id.loginlayout)
     LinearLayout log;
+    @BindView(R.id.forgot_password_layout)
+    LinearLayout mForgotPasswordLayout;
+    @BindView(R.id.reset_code_layout)
+    LinearLayout mResetCodeLayout;
+    @BindView(R.id.new_password_layout)
+    LinearLayout mNewPasswordLayout;
+
     @BindView(R.id.input_email_login)
     EditText email_login;
     @BindView(R.id.input_pass_login)
@@ -64,13 +78,43 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText firstName;
     @BindView(R.id.input_lastname_signup)
     EditText lastName;
+    @BindView(R.id.input_email_forgot_password)
+    EditText mEmailForgotPassword;
+    @BindView(R.id.input_pass_reset)
+    EditText mNewPasswordReset;
+    @BindView(R.id.input_confirm_pass_reset)
+    EditText mConfirmNewPasswordReset;
+
     @BindView(R.id.ok_login)
     FlatButton ok_login;
     @BindView(R.id.ok_signup)
     FlatButton ok_signup;
+    @BindView(R.id.ok_submit_pass_reset)
+    FlatButton mOkSubmitReset;
+    @BindView(R.id.ok_confirm_pass_reset)
+    FlatButton mOkConfirmReset;
+
+    @BindView(R.id.forgot_password)
+    TextView mForgotPasswordText;
+    @BindView(R.id.code_sent_alert)
+    TextView mCodeSentAlert;
+    @BindView(R.id.resend_code)
+    TextView mResendCodeText;
+
+    @BindView(R.id.reset_code)
+    OtpView mResetCode;
+
+    @BindView(R.id.input_layout_email_forgot_password)
+    TextInputLayout mInputLayoutEmailForgotPassword;
+    @BindView(R.id.input_layout_firstname_signup)
+    TextInputLayout mInputLayoutFirstNameSignup;
+    @BindView(R.id.input_layout_lastname_signup)
+    TextInputLayout mInputLayoutLastNameSignup;
+
     private SharedPreferences mSharedPreferences;
     private MaterialDialog mDialog;
     private Handler mHandler;
+    private String mOtpCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +138,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Get runtime permissions for Android M
         getRunTimePermissions();
 
-        // If user is already logged in, open MainActivity
-        checkUserSession();
-
         signup.setOnClickListener(this);
         login.setOnClickListener(this);
         ok_login.setOnClickListener(this);
         ok_signup.setOnClickListener(this);
+
+        //listeners for handling 'forgot password' flow
+        mForgotPasswordText.setOnClickListener(this);
+        mBackToLogin.setOnClickListener(this);
+        mResendCodeText.setOnClickListener(this);
+        mOkSubmitReset.setOnClickListener(this);
+        mOkConfirmReset.setOnClickListener(this);
+
+        //listener for otp view to accept password reset code
+        mResetCode.setOtpCompletionListener(this);
     }
 
     @Override
@@ -115,12 +166,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Open signup
             case R.id.signup:
                 signup.setVisibility(View.GONE);
+                mForgotPasswordText.setVisibility(View.GONE);
+                mBackToLogin.setVisibility(View.GONE);
                 login.setVisibility(View.VISIBLE);
                 mLoginPresenter.signUp();
                 break;
             // Open login
             case R.id.login:
                 signup.setVisibility(View.VISIBLE);
+                mForgotPasswordText.setVisibility(View.VISIBLE);
+                mBackToLogin.setVisibility(View.GONE);
                 login.setVisibility(View.GONE);
                 mLoginPresenter.login();
                 break;
@@ -137,19 +192,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String confirmPassString = confirm_pass_signup.getText().toString();
                 String firstname = firstName.getText().toString();
                 String lastname = lastName.getText().toString();
-                if (validateEmail(emailString)) {
-                    if (validatePassword(passString)) {
-                        if (passString.equals(confirmPassString)) {
-                            mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
-                        } else {
-                            Snackbar snackbar = Snackbar
-                                    .make(findViewById(android.R.id.content), 
-                                          R.string.passwords_check, Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                if (validateName(firstname, lastname)) {
+                    if (validateEmail(emailString)) {
+                        if (validatePassword(passString)) {
+                            if (passString.equals(confirmPassString)) {
+                                mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                            } else {
+                                Snackbar snackbar = Snackbar
+                                        .make(findViewById(android.R.id.content),
+                                                R.string.passwords_check, Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            }
                         }
                     }
                 }
-
+                break;
+                // Open forgot password
+            case R.id.forgot_password:
+                login.setVisibility(View.GONE);
+                signup.setVisibility(View.GONE);
+                mForgotPasswordText.setVisibility(View.GONE);
+                mBackToLogin.setVisibility(View.VISIBLE);
+                mLoginPresenter.forgotPassword();
+                break;
+                // Call submit password reset request
+            case R.id.ok_submit_pass_reset:
+                emailString = mEmailForgotPassword.getText().toString();
+                if (validateEmail(emailString)) {
+                    mBackToLogin.setVisibility(View.GONE);
+                    mLoginPresenter.ok_password_reset_request(emailString, mHandler);
+                }
+                break;
+                // Open login
+            case R.id.back_to_login:
+                signup.setVisibility(View.VISIBLE);
+                mForgotPasswordText.setVisibility(View.VISIBLE);
+                mBackToLogin.setVisibility(View.GONE);
+                login.setVisibility(View.GONE);
+                mLoginPresenter.login();
+                break;
+                // Call resend reset code request
+            case R.id.resend_code:
+                emailString = mEmailForgotPassword.getText().toString();
+                mLoginPresenter.resendResetCode(emailString, mHandler);
+                break;
+                // Call confirm reset request
+            case R.id.ok_confirm_pass_reset:
+                emailString = mEmailForgotPassword.getText().toString();
+                mLoginPresenter.ok_password_reset_confirm(emailString);
                 break;
         }
     }
@@ -216,24 +306,76 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void checkUserSession() {
-        if (mSharedPreferences.getString(USER_TOKEN, null) != null) {
-            Intent intent = MainActivity.getStartIntent(LoginActivity.this);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    @Override
     public void openSignUp() {
         log.setVisibility(View.GONE);
+        mForgotPasswordLayout.setVisibility(View.GONE);
         sig.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void openLogin() {
-        log.setVisibility(View.VISIBLE);
+        showMessage(getString(R.string.text_password_updated_alert));
+        mForgotPasswordLayout.setVisibility(View.GONE);
+        mNewPasswordLayout.setVisibility(View.GONE);
         sig.setVisibility(View.GONE);
+        log.setVisibility(View.VISIBLE);
+        mForgotPasswordText.setVisibility(View.VISIBLE);
+        mEmailForgotPassword.setText("");
+    }
+
+    /**
+     * displays input fields to get user's email when he/she requests for a password reset
+     */
+    @Override
+    public void forgotPassword() {
+        log.setVisibility(View.GONE);
+        sig.setVisibility(View.GONE);
+        mForgotPasswordLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * displays pin view for a user to enter 4-digit code that verifies his/her request for password reset
+     * @param email user's e-mail address to which a newly generated 4-digit code will be sent
+     */
+    @Override
+    public void openResetPin(String email) {
+        mForgotPasswordLayout.setVisibility(View.GONE);
+        mResetCodeLayout.setVisibility(View.VISIBLE);
+        mCodeSentAlert.setText(String.format(getString(R.string.text_code_sent_alert), email));
+        mResendCodeText.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * displays a confirmation alert that a reset code has been resent upon request
+     */
+    @Override
+    public void resendResetCode() {
+        showMessage(getString(R.string.text_code_resent_alert));
+    }
+
+    /**
+     * displays fields to input new password and confirm the new password
+     */
+    @Override
+    public void newPasswordInput() {
+        mResetCodeLayout.setVisibility(View.GONE);
+        mResendCodeText.setVisibility(View.GONE);
+        mNewPasswordLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * validates the new password and updates the details against the user's email id
+     * @param email the user's email id for which the password is reset
+     */
+    @Override
+    public void confirmPasswordReset(String email) {
+        String newPassword = mNewPasswordReset.getText().toString();
+        String confirmNewPassword = mConfirmNewPasswordReset.getText().toString();
+        if (validatePassword(newPassword)) {
+            if (confirmNewPassword.equals(newPassword)) {
+                mLoginPresenter.ok_password_reset(email, mOtpCode, newPassword, mHandler);
+            }
+        }
     }
 
     public void setLoginEmail(String email) {
@@ -254,15 +396,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public boolean validateEmail(String email) {
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if (!email.equals("") && matcher.matches()) {
+            mInputLayoutEmailForgotPassword.setErrorEnabled(false);
             return true;
         } else {
-            Snackbar snackbar = Snackbar
-                    .make(findViewById(android.R.id.content), R.string.invalid_email, Snackbar.LENGTH_LONG);
-            snackbar.show();
+            mInputLayoutEmailForgotPassword.setError(getString(R.string.invalid_email));
             return false;
         }
     }
-/**
+
+    /**
+     * Validates first name and last name of user, checks if these are empty or filled
+     * @param firstname first name of user
+     * @param lastname last name of user
+     * @return Boolean returns true if both are filled, otherwise false
+     */
+    public boolean validateName(String firstname, String lastname) {
+        if (!firstname.isEmpty() && !lastname.isEmpty())
+            return true;
+        else {
+            if (firstname.isEmpty())
+                mInputLayoutFirstNameSignup.setError(getString(R.string.empty_first_name));
+            else
+                mInputLayoutFirstNameSignup.setErrorEnabled(false);
+            if (lastname.isEmpty())
+                mInputLayoutLastNameSignup.setError(getString(R.string.empty_last_name));
+            else
+                mInputLayoutLastNameSignup.setErrorEnabled(false);
+            return false;
+        }
+    }
+
+    /**
      * Validates the given password, checks if given password proper format as standard password string
      * @param passString password string to be validate
      * @return Boolean returns true if email format is correct, otherwise false
@@ -271,7 +435,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (passString.length() >= 8) {
             Pattern pattern;
             Matcher matcher;
-            final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^?&+=!])(?=\\S+$).{4,}$";
+            final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[_@#$%^?&+=!])(?=\\S+$).{4,}$";
             pattern = Pattern.compile(PASSWORD_PATTERN);
             matcher = pattern.matcher(passString);
 
@@ -290,8 +454,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         }
     }
+
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        return intent;
+        return new Intent(context, LoginActivity.class);
+    }
+
+    /**
+     * handles validating password reset confirmation code
+     * @param otp code entered by the user
+     */
+    @Override
+    public void onOtpCompleted(String otp) {
+        mOtpCode = otp;
+        mLoginPresenter.newPasswordInput();
     }
 }

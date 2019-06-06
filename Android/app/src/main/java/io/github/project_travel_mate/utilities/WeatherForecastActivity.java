@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -42,7 +42,7 @@ import static utils.Constants.USER_TOKEN;
 public class WeatherForecastActivity extends AppCompatActivity {
 
     @BindView(R.id.select_city)
-    TextView selectCity;
+    Button selectCity;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
@@ -55,8 +55,6 @@ public class WeatherForecastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_utilities_weather_forecast);
 
         ButterKnife.bind(this);
-        animationView.setAnimation(R.raw.weather);
-        animationView.playAnimation();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);

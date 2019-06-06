@@ -2,14 +2,13 @@ package io.github.project_travel_mate.destinations.description
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import com.squareup.picasso.Picasso
 import io.github.project_travel_mate.R
 import io.github.project_travel_mate.utilities.gone
-import io.github.project_travel_mate.utilities.visible
 import kotlinx.android.synthetic.main.activity_restaurant_details.*
 import objects.RestaurantDetails
 

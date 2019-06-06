@@ -16,10 +16,13 @@
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"/>
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
+        />
 
 </FrameLayout>

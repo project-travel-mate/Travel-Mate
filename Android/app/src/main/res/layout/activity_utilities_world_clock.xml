@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context=".utilities.WorldClockActivity">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTimeZone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="5sp"
+                android:text="@string/select_timezone"
+                android:textColor="@color/green"
+                android:textSize="@dimen/text_size_normal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTimeZone"
+                android:layout_marginTop="25sp"
+                android:background="#f5f5f5"
+                android:padding="10sp">
+
+                <RelativeLayout
+                    android:id="@+id/zone_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/timezone_country_flag"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/in" />
+
+                    <TextView
+                        android:id="@+id/timezone_country_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toEndOf="@+id/timezone_country_flag"
+                        android:layout_toRightOf="@+id/timezone_country_flag"
+                        android:text="@string/sample_timezone"
+                        android:textColor="#6e6e6e" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <io.github.project_travel_mate.utilities.AnalogClock
+            android:id="@+id/clock_analog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+
+        <android.widget.TextClock
+            android:id="@+id/clock_digital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="@dimen/clockTextMargin"
+            android:layout_marginBottom="@dimen/clockTextMarginBottom"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+</ScrollView>
