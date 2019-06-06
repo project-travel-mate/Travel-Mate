@@ -144,7 +144,7 @@ public class AddBugFragment extends Fragment implements AdapterView.OnItemSelect
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     // will be true only if the status code is in the range of [200..300)
                     Log.d("RESPONSE : ", "success" + response.toString());

@@ -8,10 +8,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -41,12 +42,12 @@ import static utils.Constants.USER_TOKEN;
 public class TweetsActivity extends AppCompatActivity {
 
     @BindView(R.id.list)
-    ListView lv;
+    RecyclerView lv;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
     private final List<Tweet> mTweets = new ArrayList<>();
-    private TweetsAdapter mAdapter;
+    private TweetsRecyclerAdapter mAdapter;
     private Handler mHandler;
     private String mToken;
 
@@ -109,8 +110,15 @@ public class TweetsActivity extends AppCompatActivity {
                                 String count = array.getJSONObject(i).getString("tweet_volume");
                                 mTweets.add(new Tweet(nam, link, count));
                             }
-                            mAdapter = new TweetsAdapter(TweetsActivity.this, mTweets);
+                            mAdapter = new TweetsRecyclerAdapter(mTweets,
+                                    tweet -> {
+                                        Intent intent = TweetsDescriptionActivity
+                                                .getStartIntent(TweetsActivity.this, tweet.getName());
+                                        startActivity(intent);
+                                    });
                             lv.setAdapter(mAdapter);
+                            lv.setLayoutManager(new StaggeredGridLayoutManager(2,
+                                    StaggeredGridLayoutManager.VERTICAL));
                             animationView.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();

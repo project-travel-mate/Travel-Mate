@@ -100,8 +100,7 @@ public class CitySearchModelAdapter<T extends Searchable>
                 .into(image);
 
         //highlight the letter(s) user has searched for
-        boolean mHighlightPartsInCommon = true;
-        if (mSearchTag != null && mHighlightPartsInCommon)
+        if (mSearchTag != null)
             text.setText(StringsHelper.highlightLCS(object.getTitle(), getSearchTag(),
                     Color.RED ));
         else text.setText(object.getTitle());

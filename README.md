@@ -4,8 +4,12 @@
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/project-travel-mate/Travel-Mate.svg?columns=all)](https://waffle.io/project-travel-mate/Travel-Mate)
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height=
-"80">](https://goo.gl/1iAq94)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=io.github.project_travel_mate)
+[<img src="https://f-droid.org/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/io.github.project_travel_mate/)
 
 <a href="https://www.buymeacoffee.com/qITGMWB" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
@@ -47,7 +51,7 @@ Based on this information and the recommendation from the app, user can opt for 
 
 ## Travel
 ### My trips
-This option allows users to view their travel history, including pictures during each trip, names of accompanying induviduals, and details of expenses for future reference.
+This option allows users to view their travel history, including pictures during each trip, names of accompanying individuals, and details of expenses for future reference.
 
 <img src="./screenshots/travel.png" width="200px"> <img src="./screenshots/trips.png" width="200px"> <img src="./screenshots/mytrip_info.png" width="200px">
 
@@ -102,6 +106,8 @@ If you're new to open-source, we recommend you to checkout our [_Contributing Gu
 + [What's new](https://github.com/TonnyL/WhatsNew)
 + [Notification Badge](https://github.com/nex3z/NotificationBadge)
 + [Search Dialog](https://github.com/mirrajabi/search-dialog)
++ [Timeline View](https://github.com/vipulasri/Timeline-View)
++ [Spotlight](https://github.com/TakuSemba/Spotlight)
 
 
 ## Contact Us

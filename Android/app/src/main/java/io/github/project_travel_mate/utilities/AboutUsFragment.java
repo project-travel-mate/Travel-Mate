@@ -45,6 +45,7 @@ public class AboutUsFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment AboutUsFragment.
      */
     public static AboutUsFragment newInstance() {
@@ -128,6 +129,16 @@ public class AboutUsFragment extends Fragment {
         Intent viewIntent =
                 new Intent(Intent.ACTION_VIEW, Uri.parse(BUY_ME_A_COFFEE));
         startActivity(viewIntent);
+    }
+
+    @OnClick(R.id.view_contributors)
+    public void onViewContributorsClicked() {
+        Fragment fragment;
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment = ContributorsFragment.newInstance();
+        if (fragment != null && fragmentManager != null) {
+            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.inc, fragment).commit();
+        }
     }
 
     @Override

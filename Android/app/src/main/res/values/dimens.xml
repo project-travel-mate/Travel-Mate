@@ -14,5 +14,15 @@
     <dimen name="text_size_small">18sp</dimen>
     <dimen name="text_size_normal">21sp</dimen>
     <dimen name="text_size_big">23sp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
 
+    <dimen name="clockTextMargin">450dp</dimen>
+    <dimen name="clockTextMarginBottom">20dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="widget.ClockWidgetConfigureActivity"
+    android:initialKeyguardLayout="@layout/clock_widget"
+    android:initialLayout="@layout/clock_widget"
+    android:minWidth="110dp"
+    android:minHeight="160dp"
+    android:previewImage="@drawable/clockwidget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="60000"
+    android:label="World Clock Widget"
+    android:widgetCategory="home_screen"></appwidget-provider>

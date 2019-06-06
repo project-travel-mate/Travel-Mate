@@ -58,7 +58,7 @@ public class TweetsDescriptionAdapter extends RecyclerView.Adapter<TweetsDescrip
             e.printStackTrace();
         }
         final String timeString =
-                new SimpleDateFormat("dd-MMM-YY", Locale.US).format(cal.getTime());
+                new SimpleDateFormat("dd-MMM-yyyy").format(cal.getTime());
 
         Picasso.with(mContext).load(tweet.getAvatar()).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon)

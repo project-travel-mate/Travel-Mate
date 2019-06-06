@@ -8,11 +8,11 @@
         android:icon="@drawable/ic_playlist_add_check_white"
         android:orderInCategory="100"
         android:title="@string/abc_search_hint"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_list_view"
         android:icon="@drawable/ic_list_white_24dp"
         android:orderInCategory="100"
         android:title="@string/abc_search_hint"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 </menu>

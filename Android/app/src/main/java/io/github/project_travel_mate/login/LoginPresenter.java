@@ -178,4 +178,121 @@ class LoginPresenter {
         });
     }
 
+    public void forgotPassword() {
+        mView.forgotPassword();
+    }
+
+    /**
+     * called when a user submits his/her e-mail address for which the password needs to be reset
+     *
+     * @param email user's email address
+     */
+    public void ok_password_reset_request(String email, Handler mHandler) {
+        //TODO validate email address, verify if it's a registered user, send 4- digit otp to email
+        mHandler.post(() -> mView.showLoadingDialog());
+        String uri = API_LINK_V2 + "forgot-password-email-code/" + email;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri).get()
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
+                    mView.showError();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
+                    if (response.isSuccessful()) {
+                        mView.showMessage(res);
+                        //if email is verified as a registered one
+                        mView.openResetPin(email);
+                    } else if (response.code() == 404) {
+                        mView.showMessage("Invalid username");
+                    } else {
+                        mView.showError();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * triggers a request to resend a 4-digit code for validation password reset request
+     *
+     * @param email user's email address to where the code has to be sent
+     */
+    public void resendResetCode(String email, Handler mHandler) {
+        ok_password_reset_request(email, mHandler);
+        ok_password_reset_confirm(email);
+        mView.resendResetCode();
+    }
+
+    public void newPasswordInput() {
+        mView.newPasswordInput();
+    }
+
+    public void ok_password_reset_confirm(String email) {
+        mView.confirmPasswordReset(email);
+    }
+
+    /**
+     * takes in the newly entered password and updates it against the user's email address
+     *
+     * @param email       user's email address
+     * @param newPassword new password
+     */
+    public void ok_password_reset(String email, String code, String newPassword, Handler mHandler) {
+        //TODO update the password for the corresponding email address
+        mHandler.post(() -> mView.showLoadingDialog());
+        String uri = API_LINK_V2 + "forgot-password-verify-code/" + email
+                + "/" + code + "/" + newPassword;
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .url(uri).get()
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
+                    mView.showError();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                final String res = Objects.requireNonNull(response.body()).string();
+
+                mHandler.post(() -> {
+                    mView.dismissLoadingDialog();
+                    if (response.isSuccessful()) {
+                        //display the login UI to login with the new password
+                        mView.openLogin();
+                    } else if (response.code() == 400) {
+                        mView.showMessage("Wrong 4-digit code or wrong password format");
+                    } else if (response.code() == 404) {
+                        mView.showMessage("Wrong email");
+                    } else {
+                        mView.showError();
+                    }
+                });
+            }
+        });
+
+    }
 }

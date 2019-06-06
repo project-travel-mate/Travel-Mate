@@ -20,7 +20,7 @@ public class CityHistoryListItem {
     }
 
     public String getText() {
-        String currText = "";
+        StringBuilder currText = new StringBuilder();
         try {
             JSONObject jsonObject = new JSONObject(mText);
             Iterator<?> keys = jsonObject.keys();
@@ -30,14 +30,14 @@ public class CityHistoryListItem {
                 String nextText = jsonObject.get(key).toString();
 
                 if (cnt == 0 || nextText.equals(""))
-                    currText += nextText;
-                else currText += nextText + "\n";
+                    currText.append(nextText);
+                else currText.append(nextText).append("\n");
 
                 cnt++;
             }
         } catch (JSONException e) {
-            currText = mText + "\n";
+            currText = new StringBuilder(mText + "\n");
         }
-        return currText;
+        return currText.toString();
     }
 }

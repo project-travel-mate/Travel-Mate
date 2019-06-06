@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,12 +23,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
@@ -82,10 +86,13 @@ import static utils.Constants.USER_IMAGE;
 import static utils.Constants.USER_NAME;
 import static utils.Constants.USER_STATUS;
 import static utils.Constants.USER_TOKEN;
+import static utils.Constants.VERIFICATION_REQUEST_CODE;
 import static utils.DateUtils.getDate;
 import static utils.DateUtils.rfc3339ToMills;
 
 public class ProfileActivity extends AppCompatActivity implements TravelmateSnackbars {
+    @BindView(R.id.horizontalProgressBar)
+    ProgressBar horizontalProgressBar;
     @BindView(R.id.display_image)
     CircleImageView displayImage;
     @BindView(R.id.change_image)
@@ -94,6 +101,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     EditText displayName;
     @BindView(R.id.display_email)
     TextView emailId;
+    @BindView(R.id.is_email_verified)
+    ImageView isVerified;
     @BindView(R.id.display_joining_date)
     TextView joiningDate;
     @BindView(R.id.display_status)
@@ -133,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private String mProfileImageUrl;
     private CitiesTravelledAdapter mCitiesAdapter;
     private MaterialDialog mDialog;
-
+    private boolean mIsVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +172,26 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             editDisplayName.setVisibility(View.INVISIBLE);
             updateOptionsMenu();
         }
+
+        isVerified.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+            if (!mIsVerified) {
+                builder.setTitle(R.string.email_not_verified);
+                builder.setPositiveButton(R.string.verify_now, (dialogInterface, i) -> {
+                    sendVerificationEmail();
+                });
+                builder.setNegativeButton(R.string.later, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+            } else {
+                builder.setTitle(R.string.text_email_verified);
+                builder.setPositiveButton(R.string.positive_button, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+            }
+            builder.create().show();
+
+        });
 
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
@@ -208,7 +237,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             Intent removeIntent = new Intent(Intent.ACTION_DELETE);
             Intent chooserIntent = Intent.createChooser(removeIntent, getString(R.string.choose_an_option));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {galleryIntent});
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
             startActivityForResult(chooserIntent, RESULT_PICK_IMAGE);
         });
 
@@ -220,8 +249,64 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     imageUri, fullname);
             startActivity(fullScreenIntent);
         });
+    }
+
+
+    public void sendVerificationEmail() {
+        String uri;
+        uri = API_LINK_V2 + "generate-verification-code";
+        Log.v("EXECUTING", uri);
+        horizontalProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        Request request = new Request.Builder()
+                .header("Authorization", "Token " + mToken)
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+                mHandler.post(() -> {
+                    networkError();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                mHandler.post(() -> {
+                    horizontalProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (response.body() != null && response.isSuccessful()) {
+                        try {
+                            final String res = Objects.requireNonNull(response.body()).string();
+                            if (res.equals("\"Verification code sent\"")) {
+                                Toast.makeText(ProfileActivity.this,
+                                        "OTP sent on registered email !", Toast.LENGTH_SHORT).show();
+                                Intent verifyIntent = new Intent(ProfileActivity.this, VerifyEmailActivity.class);
+                                startActivityForResult(verifyIntent, VERIFICATION_REQUEST_CODE);
+                            } else {
+                                Toast.makeText(ProfileActivity.this,
+                                        "There was some error !", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(ProfileActivity.this,
+                                    "There was some error. Please, try again !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
     }
+
     private final TextWatcher mCountCharacters = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
@@ -238,6 +323,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == VERIFICATION_REQUEST_CODE) {
+            recreate();
+        }
 
         if (data == null)
             return;
@@ -268,7 +357,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View view = getCurrentFocus();
-            if ( view instanceof EditText) {
+            if (view instanceof EditText) {
                 Rect outRect = new Rect();
                 view.getGlobalVisibleRect(outRect);
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
@@ -278,7 +367,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -303,6 +392,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void signOut() {
         //set AlertDialog before signout
         ContextThemeWrapper crt = new ContextThemeWrapper(this, R.style.AlertDialog);
@@ -422,6 +512,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             String imageURL = object.getString("image");
                             String dateJoined = object.getString("date_joined");
                             String status = object.getString("status");
+                            boolean verified = object.getBoolean("is_verified");
                             new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
                             String fullName = firstName + " " + lastName;
                             Long dateTime = rfc3339ToMills(dateJoined);
@@ -432,6 +523,16 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                                 status = getString(R.string.default_status);
                             }
                             fillProfileInfo(fullName, userName, imageURL, date, status);
+
+                            mIsVerified = verified;
+
+                            if (verified) {
+                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+                                isVerified.setColorFilter(Color.GREEN);
+                            } else {
+                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                                isVerified.setColorFilter(Color.RED);
+                            }
 
                             if (userId == null) {
                                 mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
@@ -472,50 +573,59 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         // Add form parameters
         String fullName = String.valueOf(displayName.getText());
-        String firstName = fullName.substring(0, fullName.indexOf(' '));
-        String lastName = fullName.substring(fullName.indexOf(' ') + 1);
+        Log.i("Fullname: ", fullName);
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("firstname", firstName)
-                .addFormDataPart("lastname", lastName)
-                .build();
+        try {
+            String firstName = fullName.substring(0, fullName.indexOf(' '));
+            String lastName = fullName.substring(fullName.indexOf(' ') + 1);
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("firstname", firstName)
+                    .addFormDataPart("lastname", lastName)
+                    .build();
 
-        // Create a http request object.
-        Request request = new Request.Builder()
-                .header("Authorization", "Token " + mToken)
-                .url(uri)
-                .post(requestBody)
-                .build();
+            // Create a http request object.
+            Request request = new Request.Builder()
+                    .header("Authorization", "Token " + mToken)
+                    .url(uri)
+                    .post(requestBody)
+                    .build();
 
-        // Create a new Call object with post method.
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Request Failed", "Message : " + e.getMessage());
-                mHandler.post(() -> networkError());
-            }
+            // Create a new Call object with post method.
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("Request Failed", "Message : " + e.getMessage());
+                    mHandler.post(() -> networkError());
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String res = Objects.requireNonNull(response.body()).string();
-                mHandler.post(() -> {
-                    if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
-                                R.string.name_updated, Snackbar.LENGTH_SHORT).show();
-                        mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                    } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
-                                Snackbar.LENGTH_LONG).show();
-                        networkError();
-                    }
-                });
-                runOnUiThread(() -> {
-                    nameProgressBar.setVisibility(View.GONE);
-                    displayName.setVisibility(View.VISIBLE);
-                });
-            }
-        });
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    final String res = Objects.requireNonNull(response.body()).string();
+                    mHandler.post(() -> {
+                        if (response.isSuccessful()) {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
+                                    R.string.name_updated, Snackbar.LENGTH_SHORT).show();
+                            mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
+                        } else {
+                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                    Snackbar.LENGTH_LONG).show();
+                            networkError();
+                        }
+                    });
+                    runOnUiThread(() -> {
+                        nameProgressBar.setVisibility(View.GONE);
+                        displayName.setVisibility(View.VISIBLE);
+                    });
+                }
+            });
+        } catch (StringIndexOutOfBoundsException e ) {
+            displayName.setVisibility(View.VISIBLE);
+            nameProgressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(getApplicationContext(), "Introduce atleast two names.", Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
     private void setUserStatus() {
@@ -613,9 +723,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     /**
      * Method to get URL for image using Cloudinary
-     * @param croppedImage  Uri of cropped image
+     *
+     * @param croppedImage Uri of cropped image
      **/
-    private void getUrlFromCloudinary (Uri croppedImage) {
+    private void getUrlFromCloudinary(Uri croppedImage) {
         Map config = new HashMap();
         config.put("cloud_name", CLOUDINARY_CLOUD_NAME);
         config.put("api_key", CLOUDINARY_API_KEY);
@@ -630,9 +741,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
-                mProfileImageUrl =  resultData.get("url").toString();
+                mProfileImageUrl = resultData.get("url").toString();
                 sendURLtoServer(mProfileImageUrl);
             }
+
             @Override
             public void onError(String requestId, ErrorInfo error) {
                 networkError();
@@ -643,6 +755,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             public void onReschedule(String requestId, ErrorInfo error) {
                 Log.e(LOG_TAG, error.toString());
             }
+
             @Override
             public void onProgress(String requestId, long bytes, long totalBytes) {
 
@@ -652,8 +765,9 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
     /**
      * Method for sending URL to server
+     *
      * @param imageUrl - Url of image obtained from
-     *                   Cloudinary cloud(passed as string)
+     *                 Cloudinary cloud(passed as string)
      */
     private void sendURLtoServer(String imageUrl) {
 
@@ -726,7 +840,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
 
                 handler.post(() -> {
                     if (response.isSuccessful() && response.body() != null) {
@@ -785,6 +899,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             qrItem.setVisible(false);
         }
     }
+
     /**
      * Plays the network lost animation in the view
      */
@@ -805,7 +920,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         Log.v("profile url", profileURI + "");
 
-        intent.putExtra(Intent.EXTRA_TEXT , getResources().getString(R.string.share_profile_text) + " " + profileURI );
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_profile_text) + " " + profileURI);
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {

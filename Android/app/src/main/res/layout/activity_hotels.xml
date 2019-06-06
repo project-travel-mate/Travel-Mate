@@ -37,11 +37,10 @@
             android:layout_gravity="center"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:visibility="gone"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="loading.json"
             app:lottie_imageAssetsFolder="images"
             app:lottie_loop="true" />
-
 
         <LinearLayout
             android:id="@+id/layout"
@@ -49,27 +48,23 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <Button
                 android:id="@+id/select_city"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:gravity="center"
+                android:background="@drawable/round_shape"
+                android:gravity ="center"
                 android:padding="10dp"
+                android:layout_margin="20dp"
                 android:text="@string/prompt_city_name"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
-            <GridView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/hotel_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:animateLayoutChanges="false"
-                android:cacheColorHint="@android:color/transparent"
-                android:fastScrollEnabled="true"
-                android:numColumns="2"
-                android:orientation="horizontal"
-                android:verticalSpacing="5dp" />
+                android:cacheColorHint="@android:color/transparent" />
 
         </LinearLayout>
 
@@ -82,6 +77,5 @@
             android:layout_marginBottom="5dp"
             android:text="@string/hotels_text" />
     </FrameLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single" android:id="@+id/nav_grp1">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
             android:id="@+id/nav_city"
             android:icon="@drawable/ic_location_city_black"
             android:title="@string/navigation_drawer_destination" />
@@ -18,6 +22,10 @@
             android:id="@+id/nav_myfriends"
             android:icon="@drawable/ic_people_black_24dp"
             android:title="@string/navigation_drawer_my_friends" />
+        <item
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favourite_cities" />
         <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_utilities"

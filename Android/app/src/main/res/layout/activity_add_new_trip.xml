@@ -57,7 +57,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_location"
+            android:src="@drawable/ic_event"
             android:layout_weight="0"/>
         <TextView
             android:id="@+id/sdate"
@@ -81,7 +81,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_event"
+            android:src="@drawable/ic_location"
             android:layout_weight="0"/>
         <TextView
             android:layout_weight="1"
