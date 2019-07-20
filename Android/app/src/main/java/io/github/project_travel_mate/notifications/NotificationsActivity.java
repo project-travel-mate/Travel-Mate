@@ -90,7 +90,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        updateOptionsMenu();
+        hideOptionsMenu();
     }
 
     private void getNotifications() {
@@ -188,12 +188,14 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     mAdapter = new NotificationsAdapter(NotificationsActivity.this, notifications);
                                     listView.setAdapter(mAdapter);
                                     animationView.setVisibility(View.GONE);
+
+                                    MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
+                                    item.setVisible(true);
                                 } else {
                                     emptyList();
                                 }
                                 if (!allRead) {
-                                    MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
-                                    item.setVisible(false);
+                                    hideOptionsMenu();
                                 }
                             }
 
@@ -216,7 +218,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         return true;
     }
 
-    private void updateOptionsMenu() {
+    private void hideOptionsMenu() {
         if (mOptionsMenu != null) {
             MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
             item.setVisible(false);
@@ -323,10 +325,10 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                                             (R.id.notifications_id_layout), res,
                                                     Snackbar.LENGTH_LONG).show();
                                         }
+
+                                        mDialog.dismiss();
+                                        hideOptionsMenu();
                                     });
-                                    mDialog.dismiss();
-                                    MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
-                                    item.setVisible(false);
                                 }
                             });
 
@@ -353,8 +355,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                         R.string.no_notifications, Snackbar.LENGTH_LONG);
         snackbar.show();
 
-        MenuItem item = mOptionsMenu.findItem(R.id.action_sort);
-        item.setVisible(false);
+        hideOptionsMenu();
 
         animationView.setAnimation(R.raw.no_notifications);
         animationView.playAnimation();
