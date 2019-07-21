@@ -127,7 +127,7 @@
     <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
     <string name="your_past_trips">Your past trips</string>
     <string name="add_me_to_trip">Add me to this trip</string>
-
+    <string name="wrong_date_alert">You should use a future date, if you are planning your next trip!</string>
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
     <string name="passwords_check">Passwords do not match!</string>
