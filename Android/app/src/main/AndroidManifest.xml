@@ -99,7 +99,8 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppThemeNoBar" />
+            android:theme="@style/AppThemeNoBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".destinations.description.FinalCityInfoActivity"
             android:theme="@style/AppThemeNoBar" />
