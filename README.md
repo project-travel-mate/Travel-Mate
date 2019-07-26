@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate) [![Uplabs](https://img.shields.io/badge/Uplabs-PhotoEditor-orange.svg)](https://www.uplabs.com/posts/travel-mate) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/project-travel-mate/Travel-Mate.svg?columns=all)](https://waffle.io/project-travel-mate/Travel-Mate)
-
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=io.github.project_travel_mate)
@@ -14,7 +12,7 @@
 <a href="https://www.buymeacoffee.com/qITGMWB" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 
-A must-have app for those interested in travel. The app provides users with various features from **choosing the correct destination** to **making all the bookings** and to **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for every possible problem a traveller might face during the course of his or her entire journey.
+A must-have app for those interested in travel. The app provides users with various features including **choosing the correct destination** , **making all the bookings** , and **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for common problems a traveller might face during the course of their journey.
 
 
 + **[How Travel Mate Works](#how-travel-mate-works)**
@@ -37,11 +35,10 @@ A must-have app for those interested in travel. The app provides users with vari
 
 ## How Travel Mate Works
 
-While travelling from one place to another, there are a lot of factors to be considered to make the trip a memorable one. Our platform helps the traveller with anything and everything that he or she might need, from the moment he or she plans the journey till the time he or she is back home happy and content.
-The platform includes a wide variety of options - from selection of Mode of Transport, to finding out about the destination city, to provision of best music, novels, depending on the mood of the traveller. Travel Mate basically works in 3 phases.
+Travel Mate was designed as a complete platform for travel. The app provides everything needed to assist users with their travel plans, including choosing transportation, discovering local venues, and managing expenses. 
 
 ## Select Destination
-A comprehensive list of all the information one would need to know about a city, be it current weather of the city or a list of best hangout places there. Along with the information, the current trend of the city on twitter can also be seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
+A comprehensive list of all the information about a destination: current weather, the best place to hangout, or most popular restaurants. Along with the information, the current trend of the city on twitter can also be seen. (It is extracted from Twitter using Twitter and Yahoo! APIs).
 Based on this information and the recommendation from the app, user can opt for the preferred destination location.
 
 <img src="./screenshots/all_cities.png" width="200px"> <img src="./screenshots/one_city.png" width="200px"> <img src="./screenshots/fact.png" width="200px">

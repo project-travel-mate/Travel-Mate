@@ -27,9 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -296,7 +299,18 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String currentDateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        int currentDay = Integer.parseInt(currentDateString.split("-")[0]);
+        int currentMonth = Integer.parseInt(currentDateString.split("-")[1]);
+        int currentYear = Integer.parseInt(currentDateString.split("-")[2]);
+        Calendar currentDayCalendar = new GregorianCalendar(currentYear, currentMonth, currentDay);
+
         Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
+        if (calendar.compareTo(currentDayCalendar) < 0) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                    R.string.wrong_date_alert, Snackbar.LENGTH_LONG).show();
+            return;
+        }
         Log.d("Month", String.valueOf(month));
         mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
         tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
