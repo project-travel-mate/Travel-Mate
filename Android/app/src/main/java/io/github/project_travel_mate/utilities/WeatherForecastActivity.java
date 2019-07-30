@@ -74,7 +74,7 @@ public class WeatherForecastActivity extends AppCompatActivity {
      */
     private void showSearchDialog() {
         CitySearchBottomSheetDialogFragment citySearchBottomSheetDialogFragment =
-                CitySearchBottomSheetDialogFragment.newInstance();
+                CitySearchBottomSheetDialogFragment.newInstance(R.string.search_title, R.string.search_hint);
         citySearchBottomSheetDialogFragment.setmCitySearchModels(mSearchCities);
         citySearchBottomSheetDialogFragment.setmListener(position -> {
             CitySearchModel item = mSearchCities.get(position);

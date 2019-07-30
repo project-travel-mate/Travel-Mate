@@ -1,16 +1,26 @@
 package io.github.project_travel_mate.searchcitydialog;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -24,9 +34,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import ir.mirrajabi.searchdialog.StringsHelper;
 import utils.CircleImageView;
 
 public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragment {
+
+    private static final String ARG_TITLE = "TITLE";
+    private static final String ARG_HINT = "HINT";
 
     @BindView(R.id.rv_cities)
     RecyclerView rvCities;
@@ -41,9 +55,11 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
     private List<CitySearchModel> mCitySearchModels = new ArrayList<>();
     private CitySearchModelAdapter mCitySearchModelAdapter;
 
-    public static CitySearchBottomSheetDialogFragment newInstance() {
+    public static CitySearchBottomSheetDialogFragment newInstance(@StringRes int title, @StringRes int hint) {
         final CitySearchBottomSheetDialogFragment fragment = new CitySearchBottomSheetDialogFragment();
         final Bundle args = new Bundle();
+        args.putInt(ARG_TITLE, title);
+        args.putInt(ARG_HINT, hint);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,9 +72,43 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle);
+    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        Dialog dialog = getDialog();
+//        if (dialog == null) {
+//            return;
+//        }
+//
+//        Window window = dialog.getWindow();
+//        if (window == null) {
+//            return;
+//        }
+//
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            return;
+        }
+
+        int title = arguments.getInt(ARG_TITLE, R.string.search_title);
+        int hint = arguments.getInt(ARG_HINT, R.string.search_hint);
+
+        tvTitle.setText(title);
+        etQuery.setHint(hint);
 
         mCitySearchModelAdapter = new CitySearchModelAdapter(mCitySearchModels);
         rvCities.setAdapter(mCitySearchModelAdapter);
@@ -118,6 +168,7 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
 
         private List<CitySearchModel> mCitySearchModels;
         private List<CitySearchModel> mFilteredCitySearchModels = new ArrayList<>();
+        private String mQueryString = "";
 
         CitySearchModelAdapter(@NonNull List<CitySearchModel> mCitySearchModels) {
             this.mCitySearchModels = mCitySearchModels;
@@ -139,15 +190,32 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
                 return;
             }
 
-            holder.tvCityName.setText(citySearchModel.getName());
+            String name = citySearchModel.getName();
+
+            final SpannableStringBuilder sb = new SpannableStringBuilder(name);
+
+            // Span to set text color to some RGB value
+            final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
+
+            // Span to make text bold
+            final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+
+            int start = name.toLowerCase().indexOf(mQueryString.toLowerCase());
+            int end = start + mQueryString.length();
+
+            if (start == -1) {
+                start = 0;
+            }
+
+            if (end == -1) {
+                end = 0;
+            }
+
+            sb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+            holder.tvCityName.setText(sb);
             Picasso.with(context).load(citySearchModel.getImageUrl())
                     .into(holder.civCityImage);
-
-            //highlight the letter(s) user has searched for
-//            if (mSearchTag != null)
-//                text.setText(StringsHelper.highlightLCS(object.getTitle(), getSearchTag(),
-//                        Color.RED ));
-//            else text.setText(object.getTitle());
 
             if (mListener != null)
                 holder.itemView.setOnClickListener(
@@ -178,12 +246,14 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
                     mFilteredCitySearchModels.clear();
 
                     if (constraint == null || constraint.length() == 0) {
+                        mQueryString = "";
                         mFilteredCitySearchModels.addAll(mCitySearchModels);
                         filterResults.values = mCitySearchModels;
                         filterResults.count = mCitySearchModels.size();
                         return filterResults;
                     }
 
+                    mQueryString = constraint.toString();
                     for (CitySearchModel citySearchModel :
                             mCitySearchModels) {
                         if (citySearchModel.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
