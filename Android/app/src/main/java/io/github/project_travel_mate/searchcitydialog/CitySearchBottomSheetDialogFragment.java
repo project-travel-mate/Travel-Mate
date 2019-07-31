@@ -2,11 +2,14 @@ package io.github.project_travel_mate.searchcitydialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +22,6 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -34,7 +35,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import ir.mirrajabi.searchdialog.StringsHelper;
 import utils.CircleImageView;
 
 public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragment {
@@ -77,22 +77,20 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        Dialog dialog = getDialog();
-//        if (dialog == null) {
-//            return;
-//        }
-//
-//        Window window = dialog.getWindow();
-//        if (window == null) {
-//            return;
-//        }
-//
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//    }
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+        dialog.setOnShowListener(dialog1 -> {
+            View bottomSheet = ((BottomSheetDialog) dialog1)
+                    .findViewById(android.support.design.R.id.design_bottom_sheet);
+
+            BottomSheetBehavior.from(bottomSheet)
+                    .setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+        });
+
+        return dialog;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -248,8 +246,8 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
                     if (constraint == null || constraint.length() == 0) {
                         mQueryString = "";
                         mFilteredCitySearchModels.addAll(mCitySearchModels);
-                        filterResults.values = mCitySearchModels;
-                        filterResults.count = mCitySearchModels.size();
+                        filterResults.values = mFilteredCitySearchModels;
+                        filterResults.count = mFilteredCitySearchModels.size();
                         return filterResults;
                     }
 
