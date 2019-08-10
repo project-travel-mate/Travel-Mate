@@ -10,7 +10,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a
    build.
-2. Check that there are no conflicts and your request passes [Travis](Travis-ci.org) build. Check the log of the pass test if it fails the build.
+2. Check that there are no conflicts and your request passes [Travis](https://travis-ci.org/project-travel-mate/Travel-Mate) build. Check the log of the pass test if it fails the build.
 3. Give the description of the issue that you want to resolve in the pull request message. The format of the commit message to be fixed    - **Fixes #[issue number] [Description of the issue]** Example: **Fixes #529: Add toast warning in `MainActivity.java`**
 4. Wait for the maintainers to review your pull request and do the changes if requested.
 
