@@ -232,6 +232,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         });
         displayStatus.addTextChangedListener(mCountCharacters);
         changeImage.setOnClickListener(v -> {
+            Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            getIntent.setType("image/*");
             Intent galleryIntent = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
