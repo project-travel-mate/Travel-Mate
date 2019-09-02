@@ -27,7 +27,7 @@
             android:id="@+id/et_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/search_dialog_ic_search"
+            android:drawableEnd="@drawable/search_gray"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             tools:hint="What are you looking for?" />

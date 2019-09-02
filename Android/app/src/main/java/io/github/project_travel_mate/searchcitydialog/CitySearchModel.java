@@ -3,12 +3,10 @@ package io.github.project_travel_mate.searchcitydialog;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import ir.mirrajabi.searchdialog.core.Searchable;
-
 /*
  * Items to be displayed in search list
  */
-public class CitySearchModel implements Searchable, Parcelable {
+public class CitySearchModel implements Parcelable {
 
     private String mName;
     private String mImageUrl;
@@ -38,7 +36,6 @@ public class CitySearchModel implements Searchable, Parcelable {
         }
     };
 
-    @Override
     public String getTitle() {
         return mName;
     }
