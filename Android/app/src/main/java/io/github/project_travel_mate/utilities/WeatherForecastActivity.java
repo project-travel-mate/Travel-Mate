@@ -84,15 +84,6 @@ public class WeatherForecastActivity extends AppCompatActivity {
             citySearchBottomSheetDialogFragment.dismissAllowingStateLoss();
         });
         citySearchBottomSheetDialogFragment.show(getSupportFragmentManager(), "CitySearch");
-
-//        new CitySearchDialogCompat(WeatherForecastActivity.this, getString(R.string.search_title),
-//                getString(R.string.search_hint), null, mSearchCities,
-//                (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
-//                    Intent intent = WeatherActivity.getStartIntent(WeatherForecastActivity.this, item.getName(),
-//                            item.getId(), true);
-//                    startActivity(intent);
-//                    dialog.dismiss();
-//                }).show();
     }
 
     /**
