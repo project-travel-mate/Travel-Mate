@@ -14,14 +14,23 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="titletitletitle" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="Cities"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/et_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hinthinthint" />
+            android:drawableEnd="@drawable/search_dialog_ic_search"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            tools:hint="What are you looking for?" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_cities"
@@ -32,7 +41,8 @@
             android:paddingBottom="@dimen/list_item_spacing_half"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:context=".searchcitydialog.CitySearchBottomSheetDialogFragment"
-            tools:listitem="@layout/search_list_item" />
+            tools:listitem="@layout/search_list_item"
+            tools:itemCount="3"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
