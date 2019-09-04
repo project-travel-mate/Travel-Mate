@@ -219,15 +219,6 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
                 holder.itemView.setOnClickListener(
                         view -> mListener.onCitySearchModelClicked(position));
 
-
-//            holder.text.setText(String.valueOf(position));
-//            holder.itemView.setOnClickListener(v -> {
-//                if (mListener != null) {
-//                    mListener.onCitySearchModelClicked(getAdapterPosition());
-//                    dismiss();
-//                }
-//            });
-
         }
 
         @Override

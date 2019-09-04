@@ -19,7 +19,7 @@
             android:layout_marginRight="12dp"
             android:lines="1"
             android:maxLines="1"
-            android:text="Cities"
+            android:text="@string/search_title"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:drawableEnd="@drawable/search_gray"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            tools:hint="What are you looking for?" />
+            tools:hint="@string/search_hint" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_cities"
