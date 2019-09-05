@@ -40,9 +40,8 @@ import javax.net.ssl.HttpsURLConnection;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.searchcitydialog.CitySearchDialogCompat;
+import io.github.project_travel_mate.searchcitydialog.CitySearchBottomSheetDialogFragment;
 import io.github.project_travel_mate.searchcitydialog.CitySearchModel;
-import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -113,7 +112,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-          
+
     /**
      * Calls API to add  new trip
      */
@@ -168,7 +167,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                                     R.string.trip_added, Snackbar.LENGTH_LONG).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_OK , returnIntent);
+                            setResult(Activity.RESULT_OK, returnIntent);
                             finish();
 
                         } else {
@@ -267,16 +266,19 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
                 } else
                     addTrip();
-            
+
                 break;
-            case R.id.select_city_name :
-                new CitySearchDialogCompat(AddNewTripActivity.this, getString(R.string.search_title),
-                        getString(R.string.search_hint), null, mSearchCities,
-                        (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
-                            mCityid = item.getId();
-                            cityName.setText(item.getTitle());
-                            dialog.dismiss();
-                        }).show();
+            case R.id.select_city_name:
+                CitySearchBottomSheetDialogFragment citySearchBottomSheetDialogFragment =
+                        CitySearchBottomSheetDialogFragment.newInstance(R.string.search_title, R.string.search_hint);
+                citySearchBottomSheetDialogFragment.setmCitySearchModels(mSearchCities);
+                citySearchBottomSheetDialogFragment.setmListener(position -> {
+                    CitySearchModel item = mSearchCities.get(position);
+                    mCityid = item.getId();
+                    cityName.setText(item.getTitle());
+                    citySearchBottomSheetDialogFragment.dismissAllowingStateLoss();
+                });
+                citySearchBottomSheetDialogFragment.show(getSupportFragmentManager(), "CitySearch");
                 break;
 
         }

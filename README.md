@@ -102,7 +102,6 @@ If you're new to open-source, we recommend you to checkout our [_Contributing Gu
 + [Zxing](https://github.com/zxing/zxing)
 + [What's new](https://github.com/TonnyL/WhatsNew)
 + [Notification Badge](https://github.com/nex3z/NotificationBadge)
-+ [Search Dialog](https://github.com/mirrajabi/search-dialog)
 + [Timeline View](https://github.com/vipulasri/Timeline-View)
 + [Spotlight](https://github.com/TakuSemba/Spotlight)
 
