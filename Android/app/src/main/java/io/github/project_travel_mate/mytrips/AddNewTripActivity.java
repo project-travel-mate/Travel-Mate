@@ -58,6 +58,7 @@ import static utils.Constants.USER_TOKEN;
 /**
  * Activity to add new trip
  */
+
 public class AddNewTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         View.OnClickListener, TravelmateSnackbars {
 
@@ -82,6 +83,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     private Handler mHandler;
     private DatePickerDialog mDatePickerDialog;
     private ArrayList<CitySearchModel> mSearchCities = new ArrayList<>();
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         mHandler = new Handler(Looper.getMainLooper());
         mToken = sharedPreferences.getString(USER_TOKEN, null);
 
-        final Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
 
         mDatePickerDialog = new DatePickerDialog(
                 AddNewTripActivity.this,
@@ -248,6 +250,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         switch (view.getId()) {
             // Set Start date
             case R.id.sdate:
+
                 mDatePickerDialog.show();
                 break;
             // Add a new trip
@@ -301,20 +304,26 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String currentDateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        int currentDay = Integer.parseInt(currentDateString.split("-")[0]);
-        int currentMonth = Integer.parseInt(currentDateString.split("-")[1]);
-        int currentYear = Integer.parseInt(currentDateString.split("-")[2]);
-        Calendar currentDayCalendar = new GregorianCalendar(currentYear, currentMonth, currentDay);
 
-        Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
-        if (calendar.compareTo(currentDayCalendar) < 0) {
+        int currentDay = calendar.get(Calendar.DATE);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        Date currentDate = new Date(currentYear, currentMonth, currentDay);
+        Date selectedDate = new Date(year, month, dayOfMonth);
+
+        if (selectedDate.compareTo(currentDate) > 0) {
+            Log.d("Month", String.valueOf(month));
+            mStartdate = Long.toString(selectedDate.getTime() / 1000);
+            tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+        } else if (selectedDate.compareTo(currentDate) == 0) {
+            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                    R.string.wrong_date_alert, Snackbar.LENGTH_LONG).show();
+            return;
+        } else {
             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
                     R.string.wrong_date_alert, Snackbar.LENGTH_LONG).show();
             return;
         }
-        Log.d("Month", String.valueOf(month));
-        mStartdate = Long.toString(calendar.getTimeInMillis() / 1000);
-        tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
     }
 }
