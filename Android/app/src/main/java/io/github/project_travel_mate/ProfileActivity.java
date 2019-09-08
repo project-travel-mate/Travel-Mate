@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -118,12 +119,12 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     @BindView(R.id.name_progress_bar)
     ProgressBar nameProgressBar;
     @BindView(R.id.layout)
-    LinearLayout layout;
+    ConstraintLayout layout;
     @BindView(R.id.status_character_count)
     TextView characterCount;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.citie_travelled_text)
+    @BindView(R.id.cities_travelled_text)
     TextView citiesTravelledHeading;
 
     private String mToken;
