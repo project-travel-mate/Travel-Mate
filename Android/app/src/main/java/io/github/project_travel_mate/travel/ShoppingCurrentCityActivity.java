@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     private MaterialSearchView mSearchView;
     private String mToken;
     private Handler mHandler;
+    private JSONArray mFeedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,25 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        try {
+            Parcelable listViewState = savedInstanceState.getParcelable("listview");
+            String showCityNameState = savedInstanceState.getString("showCityName");
+            String feedItemsState = savedInstanceState.getString("feedItems");
+            if (listViewState != null || showCityNameState != null || feedItemsState != null) {
+                try {
+                    mFeedItems = new JSONArray(feedItemsState);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, mFeedItems));
+                lv.onRestoreInstanceState(listViewState);
+                showCityName.setText(showCityNameState);
+                showCityName.setVisibility(View.VISIBLE);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.go)
@@ -162,6 +183,15 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("listview", lv.onSaveInstanceState());
+        outState.putString("showCityName", String.valueOf(showCityName.getText()));
+        outState.putString("feedItems", mFeedItems.toString());
+    }
+
     private void getShoppingItems(final String item) {
         showCityName.setText(String.format(getString(R.string.showing_shopping_item), item));
         showCityName.setVisibility(View.VISIBLE);
@@ -193,16 +223,16 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         try {
                             final String res = Objects.requireNonNull(response.body()).string();
-                            JSONArray feedItems = new JSONArray(res);
-                            Log.v("response", feedItems + " ");
+                            mFeedItems = new JSONArray(res);
+                            Log.v("response", mFeedItems + " ");
 
-                            if (feedItems.length() == 0) {
+                            if (mFeedItems.length() == 0) {
                                 Utils.hideKeyboard(ShoppingCurrentCityActivity.this);
                             }
                             animationView.setVisibility(View.GONE);
                             layout.setVisibility(View.VISIBLE);
                             textView.setVisibility(View.GONE);
-                            lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, feedItems));
+                            lv.setAdapter(new ShoppingAdapter(ShoppingCurrentCityActivity.this, mFeedItems));
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
                             networkError();
