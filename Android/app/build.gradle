@@ -7,10 +7,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "io.github.project_travel_mate"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 28
-        versionCode 45
-        versionName "5.5.2"
+        versionCode 47
+        versionName "5.6.0"
     }
 
     buildTypes {
