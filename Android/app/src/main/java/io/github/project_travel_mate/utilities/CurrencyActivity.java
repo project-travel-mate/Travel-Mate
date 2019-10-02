@@ -89,7 +89,6 @@ public class CurrencyActivity extends AppCompatActivity {
     Boolean flag_convert_pressed = false;
 
 
-
     int from_amount = 1;
     String first_country_short = "USD";
     String second_country_short = "INR";
@@ -173,7 +172,6 @@ public class CurrencyActivity extends AppCompatActivity {
             GRAPH_LABEL_NAME = "Last " + chart_duration_spinner.getSelectedItem() + " currency rate trends";
         }
     }
-
 
 
     // Method to obtain value(last x number of days) to be passed to API
@@ -446,5 +444,19 @@ public class CurrencyActivity extends AppCompatActivity {
             NetworkInfo info = cm != null ? cm.getActiveNetworkInfo() : null;
             return info != null && info.isConnectedOrConnecting();
         }
+    }
+
+    /**
+     * Error animation will be cancelled if user presses back while the animation is showing
+     */
+    @Override
+    public void onBackPressed() {
+        if (animationView != null) {
+            if (animationView.getVisibility() == View.VISIBLE) {
+                cancelAnimation();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }
