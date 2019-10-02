@@ -12,7 +12,7 @@
 <a href="https://www.buymeacoffee.com/qITGMWB" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 
-A must-have app for those interested in travel. The app provides users with various features including **choosing the correct destination** , **making all the bookings** , and **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for common problems a traveller might face during the course of their journey.
+A must-have app for those interested in travel. The app provides users with various features including **choosing the correct destination**, **making all the bookings**, and **easily organizing the trip**. The platform basically uses a [mash-up technology](https://en.wikipedia.org/wiki/Mashup_(web_application_hybrid)). The app provides solutions for common problems a traveller might face during the course of their journey.
 
 
 + **[Journey of a hackathon project to a Summer of Code Project](https://medium.com/@prabhakar267/6a1b8c1d5e3e)**
