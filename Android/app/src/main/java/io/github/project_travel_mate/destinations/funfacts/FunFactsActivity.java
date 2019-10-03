@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
@@ -21,6 +22,7 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +58,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
 
@@ -155,6 +158,13 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         Intent intent = new Intent(context, FunFactsActivity.class);
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         return intent;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
