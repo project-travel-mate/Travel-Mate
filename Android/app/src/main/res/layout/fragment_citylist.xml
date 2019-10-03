@@ -48,7 +48,8 @@
             android:divider="@null"
             android:fastScrollEnabled="true"
             android:persistentDrawingCache="scrolling"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"
+            />
 
     </LinearLayout>
 

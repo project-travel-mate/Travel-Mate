@@ -56,9 +56,6 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_facts);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
 
@@ -159,12 +156,24 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         return intent;
     }
+
+    public void showUpButton() {
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+    }
+    @Override
+    public void onBackPressed() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 1) {
+            fragmentManager.popBackStackImmediate();
+        } else {
+            super.onBackPressed();
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+        return false;
     }
-
 }

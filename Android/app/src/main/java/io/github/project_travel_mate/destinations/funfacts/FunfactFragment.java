@@ -6,15 +6,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +29,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import objects.FunFact;
 
@@ -70,6 +76,8 @@ public class FunfactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        this.setHasOptionsMenu(true);
+
         FunFact fact = (FunFact) Objects.requireNonNull(getArguments())
                 .getSerializable(EXTRA_MESSAGE_FUNFACT_OBJECT);
         View view = inflater.inflate(R.layout.fragment_funfact, container, false);
@@ -77,6 +85,15 @@ public class FunfactFragment extends Fragment {
         if (fact != null) {
             (holder.desc).setText(fact.getText());
             (holder.title).setText(fact.getTitle());
+            Toolbar toolbar = view.findViewById(R.id.toolbar);
+            ((AppCompatActivity) Objects.requireNonNull(getActivity() ) ).setSupportActionBar(toolbar);
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Objects.requireNonNull(getActivity()).finish();
+                }
+            });
+
             if (fact.getSource() != null && !fact.getSource().equals("null")) {
                 (holder.text_source).setVisibility(View.VISIBLE);
                 (holder.text_source).setOnClickListener(view1 -> openURL(fact.getSourceURL()));
@@ -89,6 +106,33 @@ public class FunfactFragment extends Fragment {
                     .into(holder.image);
         }
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FunFactsActivity activity = (FunFactsActivity) getActivity();
+        if (activity != null) {
+            activity.showUpButton();
+
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(getContext(), "OnOptionsCalled", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == android.R.id.home) {
+            ((FunFactsActivity) Objects.requireNonNull(getActivity())).onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     /**
@@ -156,6 +200,7 @@ public class FunfactFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     class ViewHolder {
@@ -178,4 +223,5 @@ public class FunfactFragment extends Fragment {
         }
 
     }
+
 }
