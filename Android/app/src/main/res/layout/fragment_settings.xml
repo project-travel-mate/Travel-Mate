@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    <android.support.design.widget.CoordinatorLayout android:id="@+id/fragmentBugReport"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/fragmentBugReport"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:id="@+id/change_password_heading"/>
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_old_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,9 +132,9 @@
                     android:hint="@string/old_password"
                     android:inputType="textPassword"
                     android:textColorHint="@color/grey"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,9 +151,9 @@
                     android:singleLine="true"
                     android:hint="@string/new_password"
                     android:inputType="textPassword"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                     android:ems="10"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.dd.processbutton.iml.ActionProcessButton
                 android:id="@+id/done_button"
@@ -192,5 +192,5 @@
             </LinearLayout>
         </LinearLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </ScrollView>

@@ -88,7 +88,7 @@
         android:textColor="#88FFFFFF"
         tools:text="Today" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
         android:textColor="#88FFFFFF"
         tools:text="Min Temp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/forecast_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

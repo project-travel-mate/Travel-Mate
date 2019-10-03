@@ -19,7 +19,7 @@
         app:lineSize="2dp"
         app:line="@color/colorPrimary"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -69,6 +69,6 @@
                 android:paddingEnd="10dp"/>
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

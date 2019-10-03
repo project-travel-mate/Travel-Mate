@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 import io.github.project_travel_mate.R;
 
-public class ExpandableTextView extends android.support.v7.widget.AppCompatTextView {
+public class ExpandableTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     private static final int DEFAULT_TRIM_LENGTH = 200;
     private static final String ELLIPSIS = "...";

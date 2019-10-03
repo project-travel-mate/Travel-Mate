@@ -3,9 +3,9 @@ package io.github.project_travel_mate.destinations.description;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.util.GeoPoint;

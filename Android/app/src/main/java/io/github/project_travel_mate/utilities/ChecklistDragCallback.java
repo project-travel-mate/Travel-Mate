@@ -1,8 +1,8 @@
 package io.github.project_travel_mate.utilities;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 public class ChecklistDragCallback extends ItemTouchHelper.Callback {
 

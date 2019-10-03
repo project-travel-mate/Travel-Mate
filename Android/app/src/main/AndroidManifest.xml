@@ -117,7 +117,7 @@
             android:theme="@style/AppThemeNoBar" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="io.github.project_travel_mate.shareFile"
             android:exported="false"
             android:grantUriPermissions="true">

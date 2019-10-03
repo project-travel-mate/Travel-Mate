@@ -9,7 +9,7 @@ import java.io.File;
 /**
  * @author Yalantis
  */
-public class FontTextView extends android.support.v7.widget.AppCompatTextView {
+public class FontTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public FontTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

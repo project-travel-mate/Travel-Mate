@@ -17,7 +17,7 @@
             android:layout_height="2dp"
             android:background="@color/black" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -40,7 +40,7 @@
                     android:layout_gravity="center"
                     android:text="@string/project" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <View
@@ -48,7 +48,7 @@
             android:layout_height="2dp"
             android:background="@color/black" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -57,10 +57,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/i_want_to_contribute" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/contributors_footer">
@@ -72,7 +72,7 @@
             android:orientation="vertical"
             android:scrollbars="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
@@ -86,7 +86,7 @@
                     android:padding="8dp"
                     android:text="@string/android_team" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <utils.ExpandableHeightGridView
                 android:id="@+id/android_contributors_gv"
@@ -97,7 +97,7 @@
                 android:numColumns="3"
                 android:verticalSpacing="30dp" />
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
@@ -111,7 +111,7 @@
                     android:padding="8dp"
                     android:text="@string/server_team" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <utils.ExpandableHeightGridView
                 android:id="@+id/server_contributors_gv"
@@ -122,7 +122,7 @@
                 android:numColumns="3"
                 android:verticalSpacing="30dp" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

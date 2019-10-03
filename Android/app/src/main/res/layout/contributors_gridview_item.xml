@@ -44,7 +44,7 @@
                 android:text="@string/contributions"
                 android:textSize="15sp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/contributor_contributions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

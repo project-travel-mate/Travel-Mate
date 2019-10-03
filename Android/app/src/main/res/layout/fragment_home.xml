@@ -4,12 +4,12 @@
     android:id="@+id/parent_home"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView21"
         android:layout_width="150dp"
         android:layout_height="149dp"
@@ -40,9 +40,9 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
         android:clickable="true"
         android:layout_width="150dp"
@@ -77,9 +77,9 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/popular_cities_home"
         android:layout_width="150dp"
         android:layout_height="149dp"
@@ -110,9 +110,9 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView3"
         android:layout_width="150dp"
         android:layout_height="149dp"
@@ -143,9 +143,9 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/utilities_home"
         android:layout_width="150dp"
         android:layout_height="149dp"
@@ -176,6 +176,6 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-    </android.support.design.card.MaterialCardView>
-</android.support.constraint.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

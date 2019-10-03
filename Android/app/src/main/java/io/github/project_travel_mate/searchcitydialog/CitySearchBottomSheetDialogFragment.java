@@ -5,14 +5,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -83,7 +83,7 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
 
         dialog.setOnShowListener(dialog1 -> {
             View bottomSheet = ((BottomSheetDialog) dialog1)
-                    .findViewById(android.support.design.R.id.design_bottom_sheet);
+                    .findViewById(R.id.design_bottom_sheet);
 
             BottomSheetBehavior.from(bottomSheet)
                     .setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);

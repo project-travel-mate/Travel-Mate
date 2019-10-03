@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
