@@ -30,21 +30,13 @@ Thumbs.db
 app/*.iml
 .idea
 .idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+*/.idea
 .gradle
 build/
+*/build/
 app/release/
 
 #NDK
 obj/
 
-#database connection file
-connection.inc.php
-
-#3rd party API keys and tokens
-constants.inc.php
-
-#php error log files
-error_log
-
 *.hprof
-../.idea
