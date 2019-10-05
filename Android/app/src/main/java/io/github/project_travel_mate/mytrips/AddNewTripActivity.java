@@ -23,19 +23,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.dd.processbutton.FlatButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Objects;
 
-import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,7 +99,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 AddNewTripActivity.this,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
 
         fetchCitiesList();
 
@@ -166,7 +163,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     mHandler.post(() -> {
                         if (responseCode == HttpsURLConnection.HTTP_CREATED) {
                             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                                    R.string.trip_added, Snackbar.LENGTH_LONG).show();
+                                                               R.string.trip_added, Snackbar.LENGTH_LONG
+                            ).show();
                             //Call back to MytripsFragment
                             Intent returnIntent = new Intent();
                             setResult(Activity.RESULT_OK, returnIntent);
@@ -174,7 +172,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
                         } else {
                             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                                    res, Snackbar.LENGTH_LONG).show();
+                                                               res, Snackbar.LENGTH_LONG
+                            ).show();
                         }
                     });
 
@@ -223,7 +222,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                                 mSearchCities.add(new CitySearchModel(
                                         ar.getJSONObject(i).getString("city_name"),
                                         ar.getJSONObject(i).optString("image"),
-                                        ar.getJSONObject(i).getString("id")));
+                                        ar.getJSONObject(i).getString("id")
+                                ));
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -240,8 +240,9 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home) {
             finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -260,15 +261,19 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
                 if (mTripname.trim().equals("")) {
                     TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                            R.string.trip_name_blank, Snackbar.LENGTH_LONG).show();
+                                                       R.string.trip_name_blank, Snackbar.LENGTH_LONG
+                    ).show();
                 } else if (tripStartDate == null || tripStartDate.getText().toString().equals("")) {
                     TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                            R.string.trip_date_blank, Snackbar.LENGTH_LONG).show();
+                                                       R.string.trip_date_blank, Snackbar.LENGTH_LONG
+                    ).show();
                 } else if (mCityid == null) {
                     TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                            R.string.trip_city_blank, Snackbar.LENGTH_LONG).show();
-                } else
+                                                       R.string.trip_city_blank, Snackbar.LENGTH_LONG
+                    ).show();
+                } else {
                     addTrip();
+                }
 
                 break;
             case R.id.select_city_name:
@@ -305,12 +310,12 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-        int currentDay = calendar.get(Calendar.DATE);
-        int currentMonth = calendar.get(Calendar.MONTH);
-        int currentYear = calendar.get(Calendar.YEAR);
+        Date currentDate = calendar.getTime();
 
-        Date currentDate = new Date(currentYear, currentMonth, currentDay);
-        Date selectedDate = new Date(year, month, dayOfMonth);
+        Calendar selectedCalendar = Calendar.getInstance();
+        selectedCalendar.set(year, month, dayOfMonth);
+
+        Date selectedDate = selectedCalendar.getTime();
 
         if (selectedDate.compareTo(currentDate) > 0) {
             Log.d("Month", String.valueOf(month));
@@ -318,11 +323,13 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
         } else if (selectedDate.compareTo(currentDate) == 0) {
             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                    R.string.wrong_date_alert, Snackbar.LENGTH_LONG).show();
+                                               R.string.wrong_date_alert, Snackbar.LENGTH_LONG
+            ).show();
             return;
         } else {
             TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
-                    R.string.wrong_date_alert, Snackbar.LENGTH_LONG).show();
+                                               R.string.wrong_date_alert, Snackbar.LENGTH_LONG
+            ).show();
             return;
         }
     }
