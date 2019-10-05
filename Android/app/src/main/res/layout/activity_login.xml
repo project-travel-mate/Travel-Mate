@@ -19,6 +19,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
+                android:adjustViewBounds="true"
                 android:layout_height="match_parent"
                 android:alpha="0.2"
                 android:src="@drawable/city"
