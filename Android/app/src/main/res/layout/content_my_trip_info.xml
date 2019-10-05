@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io.github.project_travel_mate.mytrips.MyTripInfoActivity"
-    tools:showIn="@layout/activity_city_info">
+    tools:context="io.github.project_travel_mate.mytrips.MyTripInfoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +32,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView
@@ -44,48 +43,44 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-bold"
                     android:padding="10dp"
+                    android:text="Chennai"
                     android:textColor="@color/black"
                     android:textSize="25sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/trip_start_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/city_name"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_toRightOf="@+id/city_name"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-bold"
-                    android:gravity="top"
-                    android:paddingBottom="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <TextView android:id="@+id/label_trip_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="Trip Name: "
+                    android:visibility="gone"
+                    android:layout_marginLeft="1dp"/>
+
                 <EditText
                     android:id="@+id/trip_name"
-                    android:layout_width="318dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:cursorVisible="false"
                     android:ellipsize="end"
+                    android:text="My Trip"
+                    android:textStyle="bold"
                     android:focusableInTouchMode="false"
                     android:fontFamily="sans-serif-bold"
                     android:inputType="text"
                     android:padding="10dp"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:visibility="invisible" />
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/label_trip_name"/>
 
                 <ProgressBar
                     android:id="@+id/trip_name_progress_bar"
@@ -105,16 +100,42 @@
                     android:padding="10dp"
                     android:paddingBottom="13dp"
                     android:src="@drawable/ic_edit_black_24dp" />
+
+                <TextView android:id="@+id/label_trip_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/trip_name"
+                    android:visibility="gone"
+                    android:text="Trip Date: "
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="1dp"/>
+
+
+                <TextView
+                    android:id="@+id/trip_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/label_trip_date"
+                    android:layout_below="@+id/trip_name"
+                    android:fontFamily="sans-serif-bold"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="25/Aug"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/no_friend_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="5dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
                 android:visibility="gone" />
 
             <RelativeLayout
@@ -155,7 +176,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/black"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/colorAccent"
                 android:ems="10"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -167,12 +190,13 @@
                 android:visibility="gone"
                 tools:targetApi="lollipop" />
 
-            <TextView
+            <Button
                 android:id="@+id/add_new_friend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/round_shape"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/my_trip_detail_button_shape"
                 android:orientation="horizontal"
                 android:padding="15dp"
                 android:text="@string/prompt_add_friend"
@@ -180,38 +204,55 @@
                 android:visibility="gone" />
 
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
                 android:visibility="gone"
                 android:id="@+id/public_trip_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
-                <TextView
-                    android:id="@+id/public_trip_message"
-                    android:layout_width="300dp"
+                <TextView android:id="@+id/label_trip_type"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Trip Type: "
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toStartOf="@+id/ispublic_toggleButton"
-                    android:fontFamily="sans-serif-bold"
-                    android:padding="5dp"
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+                    />
 
                 <ToggleButton
                     android:id="@+id/ispublic_toggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="53dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/round_shape"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@+id/label_trip_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/label_trip_type"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/my_trip_detail_button_shape"
                     android:textColor="@color/white"
                     android:textOn="@string/public_trip_toggle_on"
                     android:textOff="@string/public_trip_toggle_off" />
-            </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/public_trip_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/trip_private_message"
+                    app:layout_constraintStart_toStartOf="@+id/label_trip_type"
+                    app:layout_constraintEnd_toEndOf="@+id/ispublic_toggleButton"
+                    app:layout_constraintTop_toBottomOf="@+id/ispublic_toggleButton"/>
+
+            </android.support.constraint.ConstraintLayout>
 
 
             <LinearLayout
@@ -248,10 +289,7 @@
                         android:text="@string/add_me_to_trip"
                         android:textSize="18sp" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

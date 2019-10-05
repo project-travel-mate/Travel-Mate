@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -120,7 +121,11 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     @BindView(R.id.addme_to_trip)
     LinearLayout addMeToTrip;
     @BindView(R.id.public_trip_layout)
-    RelativeLayout publicPrivateInfo;
+    ConstraintLayout publicPrivateInfo;
+    @BindView(R.id.label_trip_name)
+    TextView labelTripName;
+    @BindView(R.id.label_trip_date)
+    TextView labelTripDate;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -628,17 +633,19 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                 addNewFriend.setVisibility(GONE);
                                 friendEmail.setVisibility(GONE);
                                 noFriendTitle.setVisibility(VISIBLE);
-                                noFriendTitle.setTypeface(null, Typeface.BOLD);
+//                                noFriendTitle.setTypeface(null, Typeface.BOLD);
                                 String mystring = getString(R.string.friends_title);
                                 SpannableString content = new SpannableString(mystring);
                                 content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
                                 noFriendTitle.setText(content);
-                                noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+//                                noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
                                 addNewFriend.setVisibility(VISIBLE);
                                 friendEmail.setVisibility(VISIBLE);
                                 addMeToTrip.setVisibility(GONE);
                                 publicPrivateInfo.setVisibility(VISIBLE);
+                                labelTripName.setVisibility(VISIBLE);
+                                labelTripDate.setVisibility(VISIBLE);
 
                                 if (isTripPublic) {
                                     tripPublicMessage.setText(R.string.trip_public_message);
