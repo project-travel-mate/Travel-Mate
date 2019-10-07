@@ -194,10 +194,12 @@ public class WeatherActivity extends AppCompatActivity {
 
                                     dayOfweek.setText(dayOfWeek);
 
-                                    icon.setImageResource(id);
-                                    //change the color of weather icon vector from default black to white
-                                    DrawableCompat.setTint(icon.getDrawable(),
-                                            ContextCompat.getColor(WeatherActivity.this, android.R.color.white));
+                                    if (id != 0) {
+                                        icon.setImageResource(id);
+                                        //change the color of weather icon vector from default black to white
+                                        DrawableCompat.setTint(icon.getDrawable(),
+                                                ContextCompat.getColor(WeatherActivity.this, android.R.color.white));
+                                    }
                                     today.setText(R.string.today);
 
                                 } else {
@@ -271,7 +273,7 @@ public class WeatherActivity extends AppCompatActivity {
                     try {
                         JSONObject responseObject = new JSONObject(res);
                         mCurrentTemp = responseObject.getString("temp") +
-                                        (char) 0x00B0 + responseObject.getString("temp_units");
+                                (char) 0x00B0 + responseObject.getString("temp_units");
                         fetchWeatherForecast();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -286,6 +288,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     /**
      * provide back navigation on the action bar
+     *
      * @return boolean stating Up Navigation has been handled
      */
     @Override
@@ -296,8 +299,9 @@ public class WeatherActivity extends AppCompatActivity {
 
     /**
      * called to start the WeatherActivity via an intent
-     * @param context context to access application resources
-     * @param city City object containing the details of the current city
+     *
+     * @param context     context to access application resources
+     * @param city        City object containing the details of the current city
      * @param currentTemp current temperature of the current city
      * @return reference to intent object to start the activity
      */
@@ -311,9 +315,10 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * called to start WeatherActivity from Utilities after user
      * has searched for a city
-     * @param context context to access application resources
-     * @param cityName name of he city for which weather is to be displayed
-     * @param cityId id of the city for which weather is to be displayed
+     *
+     * @param context             context to access application resources
+     * @param cityName            name of he city for which weather is to be displayed
+     * @param cityId              id of the city for which weather is to be displayed
      * @param calledFromUtilities to check if it's called from Utilities or not
      * @return intent object
      */
