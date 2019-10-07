@@ -65,7 +65,7 @@ public class CurrencyActivity extends AppCompatActivity {
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.actual_layout)
-    RelativeLayout actual_layout;
+    View actual_layout;
     @BindView(R.id.first_country_image)
     ImageView from_image;
     @BindView(R.id.second_country_flag)
