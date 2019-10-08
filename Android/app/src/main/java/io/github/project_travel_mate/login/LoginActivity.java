@@ -432,27 +432,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @return Boolean returns true if email format is correct, otherwise false
      */
     public boolean validatePassword(String passString) {
-        if (passString.length() >= 8) {
-            Pattern pattern;
-            Matcher matcher;
-            final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[_@#$%^?&+=!])(?=\\S+$).{4,}$";
-            pattern = Pattern.compile(PASSWORD_PATTERN);
-            matcher = pattern.matcher(passString);
-
-            if (matcher.matches()) {
+        if (passString.length() >= 8)
                 return true;
-            } else {
-                Snackbar snackbar = Snackbar
-                        .make(findViewById(android.R.id.content), R.string.invalid_password, Snackbar.LENGTH_LONG);
-                snackbar.show();
-                return false;
-            }
-        } else {
-            Snackbar snackbar = Snackbar
-                    .make(findViewById(android.R.id.content), R.string.password_length, Snackbar.LENGTH_LONG);
-            snackbar.show();
-            return false;
-        }
+        return false;
     }
 
     public static Intent getStartIntent(Context context) {
