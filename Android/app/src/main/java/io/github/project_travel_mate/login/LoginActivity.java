@@ -434,7 +434,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public boolean validatePassword(String passString) {
         if (passString.length() >= 8) {
                 return true;              
-            
         } else {
             Snackbar snackbar = Snackbar
                     .make(findViewById(android.R.id.content), R.string.password_length, Snackbar.LENGTH_LONG);
