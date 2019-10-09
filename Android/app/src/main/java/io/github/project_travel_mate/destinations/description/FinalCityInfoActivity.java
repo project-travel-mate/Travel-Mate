@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +24,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -331,7 +331,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
         for (int i = 0; i < mDotsCount; i++) {
             mDots[i] = new ImageView(this);
-            mDots[i].setImageDrawable(getResources().getDrawable(R.drawable.non_active_dot));
+            mDots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.non_active_dot));
 
             LinearLayout.LayoutParams params = new LinearLayout
                     .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -339,7 +339,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
             params.setMargins(8, 0, 8, 0);
             sliderDotsPanel.addView(mDots[i], params);
         }
-        mDots[0].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
+        mDots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.active_dot));
 
         final Handler handler = new Handler();
         final Runnable Update = () -> {
@@ -347,9 +347,9 @@ public class FinalCityInfoActivity extends AppCompatActivity
                 currentPage = 0;
             }
             for (int i = 0; i < mDotsCount; i++) {
-                mDots[i].setImageDrawable(getResources().getDrawable(R.drawable.non_active_dot));
+                mDots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.non_active_dot));
             }
-            mDots[currentPage].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
+            mDots[currentPage].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.active_dot));
             imagesSliderView.setCurrentItem(currentPage++, true);
         };
 
@@ -363,8 +363,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < mDotsCount; i++)
-                    mDots[i].setImageDrawable(getResources().getDrawable(R.drawable.non_active_dot));
-                mDots[position].setImageDrawable(getResources().getDrawable(R.drawable.active_dot));
+                    mDots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.non_active_dot));
+                mDots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.active_dot));
             }
 
             @Override
