@@ -6,8 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -90,8 +88,8 @@ public class CheckListWidgetProvider extends AppWidgetProvider {
         //don't know its purpose to me right now
         svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
         //setting adapter to listview of the widget
-        remoteViews.setRemoteAdapter(appWidgetId, R.id.check_list_view,
-                svcIntent);
+        remoteViews.setRemoteAdapter( R.id.check_list_view,svcIntent);
+
         //setting an empty view in case of no data
         remoteViews.setEmptyView(R.id.check_list_view, R.id.empty_view);
         return remoteViews;
