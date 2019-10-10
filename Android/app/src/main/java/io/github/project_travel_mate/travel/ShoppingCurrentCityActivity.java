@@ -1,14 +1,18 @@
 package io.github.project_travel_mate.travel;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -86,6 +90,21 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         setTitle(getResources().getString(R.string.text_shopping));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(ShoppingCurrentCityActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.VIBRATE,
+
+                }, 0);
+            }
+        }
 
         mSearchView = findViewById(R.id.search_view);
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {

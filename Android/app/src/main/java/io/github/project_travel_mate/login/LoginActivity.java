@@ -28,7 +28,6 @@ import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -285,22 +284,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (ContextCompat.checkSelfPermission(LoginActivity.this,
                     Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.BLUETOOTH,
-                        Manifest.permission.BLUETOOTH_ADMIN,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WAKE_LOCK,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.VIBRATE,
+//                requestPermissions(new String[]{Manifest.permission.CAMERA,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.BLUETOOTH,
+//                        Manifest.permission.BLUETOOTH_ADMIN,
+//                        Manifest.permission.READ_CONTACTS,
+//                        Manifest.permission.WRITE_CONTACTS,
+//                        Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.WAKE_LOCK,
 
-                }, 0);
+//                        Manifest.permission.INTERNET,
+//                        Manifest.permission.ACCESS_NETWORK_STATE,
+//                        Manifest.permission.ACCESS_FINE_LOCATION,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION,
+
+//                        Manifest.permission.VIBRATE,
+
+//                }, 0);
             }
         }
     }
