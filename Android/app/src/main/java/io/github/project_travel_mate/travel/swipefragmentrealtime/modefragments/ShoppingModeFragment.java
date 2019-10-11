@@ -87,7 +87,7 @@ public class ShoppingModeFragment extends Fragment {
 
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()

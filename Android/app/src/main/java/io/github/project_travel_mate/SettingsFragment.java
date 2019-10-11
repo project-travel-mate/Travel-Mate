@@ -226,7 +226,7 @@ public class SettingsFragment extends Fragment {
         doneButton.setProgress(1);
         String uri = API_LINK_V2 + "update-password";
         Log.v("EXECUTING", uri);
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -241,7 +241,7 @@ public class SettingsFragment extends Fragment {
                 .post(requestBody)
                 .build();
 
-        // Create a new Call object with post method.
+        // Create a new Call object with Post method.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -275,7 +275,7 @@ public class SettingsFragment extends Fragment {
                         (dialog, which) -> {
 
                             String uri = API_LINK_V2 + "delete-profile";
-                            //Set up client
+                            //Set up Client
                             OkHttpClient client = new OkHttpClient();
 
                             // Create a http request object.
@@ -284,7 +284,7 @@ public class SettingsFragment extends Fragment {
                                     .url(uri)
                                     .build();
 
-                            // Create a new Call object with post method.
+                            // Create a new Call object with Post method.
                             client.newCall(request).enqueue(new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {

@@ -261,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -433,7 +433,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             uri = API_LINK_V2 + "remove-profile-image";
                             Log.v("EXECUTING", uri);
 
-                            //Set up client
+                            //Set up Client
                             OkHttpClient client = new OkHttpClient();
                             //Execute request
                             Request request = new Request.Builder()
@@ -483,7 +483,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -569,7 +569,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         String uri = API_LINK_V2 + "update-user-details";
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
 
         // Add form parameters
@@ -592,7 +592,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     .post(requestBody)
                     .build();
 
-            // Create a new Call object with post method.
+            // Create a new Call object with Post method.
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -637,7 +637,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         // to update user name
         String uri;
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         Request request;
 
@@ -773,7 +773,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private void sendURLtoServer(String imageUrl) {
 
         String uri = API_LINK_V2 + "update-profile-image";
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = new MultipartBody.Builder()
@@ -788,7 +788,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 .post(requestBody)
                 .build();
 
-        // Create a new Call object with post method.
+        // Create a new Call object with Post method.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -824,7 +824,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         String uri = API_LINK_V2 + "get-visited-city";
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
@@ -837,7 +837,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             public void onFailure(Call call, IOException e) {
 
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                // handler.post(() -> networkError());
+                // handler.Post(() -> networkError());
             }
 
             @Override

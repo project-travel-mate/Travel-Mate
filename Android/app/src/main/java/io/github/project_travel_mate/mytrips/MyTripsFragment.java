@@ -111,7 +111,7 @@ public class MyTripsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()

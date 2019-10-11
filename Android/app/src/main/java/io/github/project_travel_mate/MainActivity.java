@@ -51,6 +51,7 @@ import io.github.project_travel_mate.notifications.NotificationsActivity;
 import io.github.project_travel_mate.travel.TravelFragment;
 import io.github.project_travel_mate.utilities.AboutUsFragment;
 import io.github.project_travel_mate.utilities.UtilitiesFragment;
+import io.github.project_travel_mate.utilities.WorldClockActivity;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 import objects.Trip;
@@ -335,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String uri = API_LINK_V2 + "get-user";
         Log.v(TAG, "url=" + uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -430,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         uri = API_LINK_V2 + "number-of-unread-notifications";
         Log.v(TAG, "url = " + uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -488,3 +489,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return mNavigationView;
     }
 }
+

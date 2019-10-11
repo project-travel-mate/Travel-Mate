@@ -255,7 +255,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
         Log.v("executing", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()

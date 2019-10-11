@@ -686,7 +686,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
     /**
      * After rotating, the mMatrix needs to be translated. This function finds the area of image
-     * which was previously centered and adjusts translations so that is again the center, post-rotation.
+     * which was previously centered and adjusts translations so that is again the center, Post-rotation.
      *
      * @param axis          Matrix.MTRANS_X or Matrix.MTRANS_Y
      * @param trans         the value of trans in that axis before the rotation

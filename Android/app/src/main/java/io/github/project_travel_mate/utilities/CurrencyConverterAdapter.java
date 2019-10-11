@@ -77,7 +77,7 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).shortName;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).abbreviation;
 
-            } else { // Is This is for world clock
+            } else { // Is This is for world Clock
                 CurrencyConverterGlobal.global_image_id = getFlag(mListCurrencyNamesFiltered.get(position));
                 CurrencyConverterGlobal.global_country_name = mListCurrencyNamesFiltered.get(position).abbreviation;
                 CurrencyConverterGlobal.country_id = mListCurrencyNamesFiltered.get(position).shortName;

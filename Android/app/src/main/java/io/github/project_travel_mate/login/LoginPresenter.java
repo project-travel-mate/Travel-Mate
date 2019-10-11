@@ -57,7 +57,7 @@ class LoginPresenter {
 
         String uri = API_LINK_V2 + "sign-up";
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = new MultipartBody.Builder()
@@ -129,7 +129,7 @@ class LoginPresenter {
         String uri = API_LINK_V2 + "sign-in";
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = new MultipartBody.Builder()
@@ -191,7 +191,7 @@ class LoginPresenter {
         //TODO validate email address, verify if it's a registered user, send 4- digit otp to email
         mHandler.post(() -> mView.showLoadingDialog());
         String uri = API_LINK_V2 + "forgot-password-email-code/" + email;
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
 
         //Execute request
@@ -258,7 +258,7 @@ class LoginPresenter {
         mHandler.post(() -> mView.showLoadingDialog());
         String uri = API_LINK_V2 + "forgot-password-verify-code/" + email
                 + "/" + code + "/" + newPassword;
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()

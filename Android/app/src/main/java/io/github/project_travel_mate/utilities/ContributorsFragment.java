@@ -111,7 +111,7 @@ public class ContributorsFragment extends Fragment {
         String uri = API_LINK_V2 + "get-contributors/" + repo;
         Log.v("EXECUTING", uri);
 
-        //Set up client for android contributors
+        //Set up Client for android contributors
         OkHttpClient client = new OkHttpClient();
         //Request
         final Request request = new Request.Builder()

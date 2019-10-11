@@ -99,7 +99,7 @@ public class UpcomingWeekendsActivity extends AppCompatActivity implements Swipe
 
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()

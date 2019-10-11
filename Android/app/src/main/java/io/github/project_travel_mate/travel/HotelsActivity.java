@@ -126,7 +126,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -204,7 +204,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         String uri = API_LINK_V2 + "get-all-cities/5000";
         Log.v("EXECUTING", uri);
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()

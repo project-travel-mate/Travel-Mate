@@ -50,7 +50,7 @@ class FunFactsPresenter {
         String uri = API_LINK_V2 + "get-city-facts/" + id;
         Log.v("EXECUTING", uri );
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -90,7 +90,7 @@ class FunFactsPresenter {
         String uri = API_LINK_V2 + "get-city-images/" + id;
         Log.v("EXECUTING", uri );
 
-        //Set up client
+        //Set up Client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()

@@ -272,7 +272,7 @@
     <string name="text_clock">World Clock</string>
     <string name="select_timezone">Select Timezone</string>
     <string name="search_timezone">Search Timezone..</string>
-
+    <string name="time_zone">Asia/Kolkata</string>
     <string name="sign_out">Sign out</string>
 
     <string name="default_status">Write something about yourself…</string>
