@@ -1,7 +1,6 @@
 package objects;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class UpcomingWeekends implements Serializable {
 
