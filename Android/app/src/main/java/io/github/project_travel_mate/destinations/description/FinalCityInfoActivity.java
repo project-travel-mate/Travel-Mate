@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -331,7 +330,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
         for (int i = 0; i < mDotsCount; i++) {
             mDots[i] = new ImageView(this);
-            mDots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.non_active_dot));
+            mDots[i].setImageDrawable(getDrawable( R.drawable.non_active_dot));
 
             LinearLayout.LayoutParams params = new LinearLayout
                     .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
