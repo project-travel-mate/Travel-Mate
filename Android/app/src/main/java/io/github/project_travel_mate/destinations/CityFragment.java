@@ -296,7 +296,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         String uri = API_LINK_V2 + "get-city-by-name/" + mNameyet.trim();
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -366,7 +366,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         String uri = API_LINK_V2 + "get-all-cities/10";
         Log.v(TAG, "url=" + uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
