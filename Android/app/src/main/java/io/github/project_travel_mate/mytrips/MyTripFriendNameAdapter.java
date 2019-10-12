@@ -117,7 +117,7 @@ class MyTripFriendNameAdapter extends ArrayAdapter<User> {
 
         String uri = API_LINK_V2 + "remove-friend-from-trip/" + mTrip.getId() + "/" + mFriendId;
         Log.v("EXECUTING", uri);
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
