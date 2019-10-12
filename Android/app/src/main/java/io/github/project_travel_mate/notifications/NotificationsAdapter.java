@@ -86,7 +86,7 @@ class NotificationsAdapter extends ArrayAdapter<Notification> {
         uri = API_LINK_V2 + "mark-notification/" + mNotifications.get(position).getId();
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
