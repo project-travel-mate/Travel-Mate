@@ -120,9 +120,9 @@ public class AddBugFragment extends Fragment implements AdapterView.OnItemSelect
 
         String url = API_LINK_V2 + "add-feedback";
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
-        // Post request params
+        // post request params
         RequestBody formBody = new FormBody.Builder()
                 .add("text", description)
                 .add("type", mType)
