@@ -83,7 +83,7 @@ public class TweetsActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-city-trends/" + mCity.getId();
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
