@@ -241,7 +241,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -416,7 +416,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             uri = API_LINK_V2 + "remove-user-from-trip/" + mTrip.getId();
                             Log.v("EXECUTING", uri);
 
-                            //Set up Client
+                            //Set up client
                             OkHttpClient client = new OkHttpClient();
                             //Execute request
                             Request request = new Request.Builder()
@@ -463,7 +463,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         String uri = API_LINK_V2 + "get-user/" + mNameYet.trim();
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
@@ -535,7 +535,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -573,7 +573,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
