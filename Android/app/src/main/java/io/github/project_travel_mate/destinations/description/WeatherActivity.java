@@ -134,7 +134,7 @@ public class WeatherActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-multiple-days-weather/" + NUM_DAYS + "/" + mCity.getNickname();
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
