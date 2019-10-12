@@ -266,7 +266,7 @@ public class CurrencyActivity extends AppCompatActivity {
         Log.v("EXECUTING", uri);
 
         mDialog.show();
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -326,7 +326,7 @@ public class CurrencyActivity extends AppCompatActivity {
                 + first_country_short.toLowerCase() + "/" + second_country_short.toLowerCase();
 
         mDialog.show();
-        //Set up Client
+        //Set up client
 
         OkHttpClient client = new OkHttpClient();
         //Execute request
