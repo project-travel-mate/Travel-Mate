@@ -131,7 +131,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = new MultipartBody.Builder()
@@ -197,7 +197,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
         String uri = API_LINK_V2 + "get-all-cities/10";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
