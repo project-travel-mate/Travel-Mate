@@ -247,7 +247,7 @@ public class WeatherActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-city-weather/" + mCity.getId();
         uri = uri.replaceAll(" ", "%20");
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         Log.v("EXECUTING", uri);
