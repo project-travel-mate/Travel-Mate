@@ -307,7 +307,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         String uri = API_LINK_V2 + "get-city-by-name/" + cityname;
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
