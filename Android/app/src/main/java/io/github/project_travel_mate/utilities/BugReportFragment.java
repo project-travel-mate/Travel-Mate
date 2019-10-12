@@ -107,7 +107,7 @@ public class BugReportFragment extends Fragment {
 
         String url = API_LINK_V2 + "get-all-user-feedback";
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
