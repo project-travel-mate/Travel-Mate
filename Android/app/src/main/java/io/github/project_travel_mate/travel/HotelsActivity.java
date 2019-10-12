@@ -126,7 +126,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
