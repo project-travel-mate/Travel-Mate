@@ -95,7 +95,7 @@ public class WeatherForecastActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-all-cities/10";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
