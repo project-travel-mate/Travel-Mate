@@ -87,7 +87,7 @@ public class VerifyEmailActivity extends AppCompatActivity implements OnOtpCompl
         Log.v("EXECUTING", uri);
         progressDialog.show();
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
