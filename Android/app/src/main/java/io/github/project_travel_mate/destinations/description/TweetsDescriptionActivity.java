@@ -96,7 +96,7 @@ public class TweetsDescriptionActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-search-tweets/" + mHashtagName;
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         //Execute request
