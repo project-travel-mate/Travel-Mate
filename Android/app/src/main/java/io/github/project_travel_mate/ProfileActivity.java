@@ -483,7 +483,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -788,7 +788,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 .post(requestBody)
                 .build();
 
-        // Create a new Call object with Post method.
+        // Create a new Call object with post method.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -837,7 +837,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             public void onFailure(Call call, IOException e) {
 
                 Log.e("Request Failed", "Message : " + e.getMessage());
-                // handler.Post(() -> networkError());
+                // handler.post(() -> networkError());
             }
 
             @Override
