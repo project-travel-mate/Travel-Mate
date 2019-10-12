@@ -160,7 +160,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         String requestUrl = API_LINK_V2 + "get-restaurant/" + item.getId();
         Log.w(TAG, "URL =" + requestUrl);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -196,7 +196,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         String uri = API_LINK_V2 + "get-all-restaurants/" + mCity.getLatitude() + "/" + mCity.getLongitude();
         Log.v(TAG, "URI : " + uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
