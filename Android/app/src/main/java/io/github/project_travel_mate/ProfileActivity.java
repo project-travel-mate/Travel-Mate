@@ -261,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -637,7 +637,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         // to update user name
         String uri;
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         Request request;
 
@@ -773,7 +773,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     private void sendURLtoServer(String imageUrl) {
 
         String uri = API_LINK_V2 + "update-profile-image";
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = new MultipartBody.Builder()
