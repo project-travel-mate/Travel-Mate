@@ -86,7 +86,7 @@ public class HospitalModeFragment extends Fragment {
 
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
