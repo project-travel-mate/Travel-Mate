@@ -168,7 +168,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         String uri = API_LINK_V2 + "get-shopping-info/" + item;
         uri = uri.replace(" ", "+");
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         //Execute request
