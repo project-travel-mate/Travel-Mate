@@ -569,7 +569,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         String uri = API_LINK_V2 + "update-user-details";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
 
         // Add form parameters
@@ -824,7 +824,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         String uri = API_LINK_V2 + "get-visited-city";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
