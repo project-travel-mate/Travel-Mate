@@ -143,7 +143,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         else
             uri = API_LINK_V2 + "get-visited-city";
         Log.d("FriendsProfileActivity", " executing getVisitedCities: " + uri);
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -189,7 +189,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
             uri = API_LINK_V2 + "get-user";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -260,7 +260,7 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         String uri = API_LINK_V2 + "get-common-trips/" + friendId;
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         final Request request = new Request.Builder()
