@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String uri = API_LINK_V2 + "get-user";
         Log.v(TAG, "url=" + uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         uri = API_LINK_V2 + "number-of-unread-notifications";
         Log.v(TAG, "url = " + uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
