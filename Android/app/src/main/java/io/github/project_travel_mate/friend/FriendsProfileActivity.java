@@ -348,5 +348,4 @@ public class FriendsProfileActivity extends AppCompatActivity implements Travelm
         animationView.setAnimation(R.raw.network_lost);
         animationView.playAnimation();
     }
-
 }
