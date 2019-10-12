@@ -98,7 +98,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
         String uri = API_LINK_V2 + "get-notifications";
         Log.v("EXECUTING", uri);
 
-        //Set up Client
+        //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
         Request request = new Request.Builder()
@@ -297,7 +297,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                             uri = API_LINK_V2 + "mark-all-notification";
                             Log.v("EXECUTING", uri);
 
-                            //Set up Client
+                            //Set up client
                             OkHttpClient client = new OkHttpClient();
                             //Execute request
                             Request request = new Request.Builder()
