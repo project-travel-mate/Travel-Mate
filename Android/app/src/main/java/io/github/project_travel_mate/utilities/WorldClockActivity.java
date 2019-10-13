@@ -96,7 +96,9 @@ public class WorldClockActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
-
+   /**
+    * This function gets GMT time from the device.
+    */
     private void getGMTTime() {
         mCurrent = Calendar.getInstance();
         mCurrent.add(Calendar.HOUR, -2);
@@ -120,6 +122,12 @@ public class WorldClockActivity extends AppCompatActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         settings.edit().putString(key, value).apply();
     }
+
+   /**
+    * This function gets the time from the time zone that user have chosen.
+    * 
+    * @param timezone 
+    */
     private void setSelectedText(TimeZone timezone) {
         mMiliSeconds = mMiliSeconds + timezone.getRawOffset();
         mTextClock.setTimeZone(timezone.getID());
