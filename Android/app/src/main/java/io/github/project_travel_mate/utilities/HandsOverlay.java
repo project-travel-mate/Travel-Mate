@@ -19,6 +19,14 @@ public class HandsOverlay implements DialOverlay {
     private boolean mShowSeconds;
     private float mScale;
 
+    /**
+     * Constructors of HandsOverlay.java
+     * The following constructors set the drawable of minute hand and hour hand.
+     * The scales of the minute hand and hour hand depends on the setScale function from CustomAnalogClock.java
+     *
+     * @param context
+     * @param useLargeFace
+     */
     public HandsOverlay(Context context, boolean useLargeFace) {
         final Resources r = context.getResources();
 
@@ -34,6 +42,7 @@ public class HandsOverlay implements DialOverlay {
         mHour = hourHand;
         mMinute = minuteHand;
     }
+
     public HandsOverlay withScale(float scale) {
         this.mScale = scale;
         return this;
@@ -48,6 +57,13 @@ public class HandsOverlay implements DialOverlay {
         mMinute = r.getDrawable(minuteHandRes);
     }
 
+    /**
+     * Calculates the angle of hour hand for both 24 hour format and 12 hour format
+     *
+     * @param h
+     * @param m
+     * @return
+     */
     public static float getHourHandAngle(int h, int m) {
         return CustomAnalogClock.is24 ? ((12 + h) / 24.0f * 360) % 360 + (m / 60.0f) * 360 / 24.0f :
                 ((12 + h) / 12.0f * 360) % 360 + (m / 60.0f) * 360 / 12.0f;
@@ -74,6 +90,17 @@ public class HandsOverlay implements DialOverlay {
         canvas.restore();
     }
 
+    /**
+     * Sets minute hand on the clock face
+     *
+     * @param canvas
+     * @param cX
+     * @param cY
+     * @param w
+     * @param h
+     * @param calendar
+     * @param sizeChanged
+     */
     private void drawMinutes(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
                              boolean sizeChanged) {
         canvas.rotate(mMinRot, cX, cY);
@@ -86,6 +113,17 @@ public class HandsOverlay implements DialOverlay {
         mMinute.draw(canvas);
     }
 
+    /**
+     * Sets minute hand on the clock face
+     *
+     * @param canvas
+     * @param cX
+     * @param cY
+     * @param w
+     * @param h
+     * @param calendar
+     * @param sizeChanged
+     */
     private void drawHours(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
                            boolean sizeChanged) {
         canvas.rotate(mHourRot, cX, cY);
@@ -102,6 +140,11 @@ public class HandsOverlay implements DialOverlay {
         mShowSeconds = showSeconds;
     }
 
+    /**
+     * This function calculates the rotation of hour hand and minute hand
+     *
+     * @param calendar
+     */
     private void updateHands(Calendar calendar) {
 
         final int h = calendar.get(Calendar.HOUR_OF_DAY);
