@@ -8,7 +8,7 @@
 ## Checkout App from Play Store
 Before getting into the app, you should first familarise yourself with the app. Get the app from Google Play Store.
 
-*Don't forget to rate the app 5 stars there ;)*
+*Don't forget to rate the app 5 stars there :)*
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
@@ -19,7 +19,7 @@ Before getting into the app, you should first familarise yourself with the app. 
 ```
 git clone https://github.com/YOUR_USERNAME/Travel-Mate.git & cd Travel-Mate
 ```
-+ Add upstream remote to your git
++ Add upstream remote to your git.
 ```
 git remote add upstream https://github.com/project-travel-mate/Travel-Mate.git
 ```
@@ -43,7 +43,7 @@ git push
 git checkout master
 git pull upstream master
 ```
-+ Start a new branch with a suitable name
++ Start a new branch with a suitable name.
 ```
 git checkout -b awesome-branch-name
 ```
@@ -51,26 +51,26 @@ git checkout -b awesome-branch-name
 
 + **Develop a new feature or solve an existing issue. Read [CONTRIBUTING](CONTRIBUTING.md) guidelines carefully**
 
-+ Run checkstyle and fix any issues
++ Run checkstyle and fix any issues.
 ```
 ./gradlew checkstyle
 ```
 Checkout the file at `Android/app/build/reports/checkstyle/checkstyle.html` to get a detailed report of where the checkstyle is failing.
 
-+ Check for build failures
++ Check for build failures.
 ```
 ./gradlew assembleDebug assembleRelease
 ```
-+ Stage changed files
++ Stage changed files.
 ```
 git add <file names>
 ```
-+ Make a commit with a suitable message
++ Make a commit with a suitable message.
 ```
 git commit -m "Awesome changes"
 ```
 Verify your commit by typing `git log`
-+ Push the branch to your forked repository
++ Push the branch to your forked repository.
 ```
 git push origin awesome-branch-name
 ```
