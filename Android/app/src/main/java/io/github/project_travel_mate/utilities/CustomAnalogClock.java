@@ -10,12 +10,9 @@ import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 
 import io.github.project_travel_mate.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -23,11 +20,7 @@ import java.util.TimeZone;
 
 /**
  * A widget that displays the time as a 12-at-the-top 24 hour analog clock. By
- * default, it will show the current time in the current timezone. The displayed
- * time can be set using {@link #setTime(long)} and and
- * {@link #setTimezone(TimeZone)}.
- *
- * @author <a href="mailto:steve@staticfree.info">Steve Pomeroy</a>
+ * default, it will show the current time in the current timezone.
  */
 public class CustomAnalogClock extends View {
 
@@ -49,9 +42,12 @@ public class CustomAnalogClock extends View {
     private boolean mAutoUpdate;
 
     /**
-     * Constructors for analog clock
+     * Constructors for CustomAnalogClock
+     *
+     * @param context
+     * @param attrs
+     * @param defStyle
      */
-
     public CustomAnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         handleAttrs(context, attrs);
@@ -91,7 +87,7 @@ public class CustomAnalogClock extends View {
     }
 
     /**
-     * Will set the scale of the view, for example 0.5f will draw the clock with half of its mRadius
+     * Sets the scale of the view, for example the value 0.5f draws the clock with half of its mRadius
      *
      * @param scale the scale to render the view in
      */
@@ -103,15 +99,27 @@ public class CustomAnalogClock extends View {
         invalidate();
     }
 
+    /**
+     * Function for the clock face on the canvas
+     *
+     * @param drawableRes
+     */
     public void setFace(int drawableRes) {
         final Resources r = getResources();
         setFace(r.getDrawable(drawableRes));
     }
 
     /**
-     * Initialize the analog clock
+     * Initializes the clock face with hour hand, minute hand
+     *
+     * @param context
+     * @param watchFace
+     * @param hourHand
+     * @param minuteHand
+     * @param alpha
+     * @param is24       checks if the time is in 24 hour format or not
+     * @param hourOnTop  check if the hour hand is on top on minute hand or not
      */
-
     public void init(Context context, @DrawableRes int watchFace, @DrawableRes int hourHand,
                      @DrawableRes int minuteHand, int alpha, boolean is24, boolean hourOnTop) {
         CustomAnalogClock.is24 = is24;
@@ -129,10 +137,11 @@ public class CustomAnalogClock extends View {
 
         mHandsOverlay = new HandsOverlay(hHand, mHand).withScale(mSizeScale);
     }
+
     /**
-     * Will set the clock face - Clock height, clock width and radius.
+     * Draw the face of the clock on the canvas with the calculated height, width and radius
      *
-     * @param Drawable for the clock face. 
+     * @param face
      */
     public void setFace(Drawable face) {
         mFace = face;
@@ -175,8 +184,8 @@ public class CustomAnalogClock extends View {
     }
 
     /**
-      * Auto updating time function of the clock
-      */
+     * Auto updating time function of the clock
+     */
     public void setmAutoUpdate(boolean mAutoUpdate) {
         this.mAutoUpdate = mAutoUpdate;
         setTime(Calendar.getInstance());
@@ -202,7 +211,11 @@ public class CustomAnalogClock extends View {
         mSizeChanged = true;
     }
 
-    // some parts from AnalogClock.java
+    /**
+     * calculating the size of the clock
+     *
+     * @param canvas
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -247,7 +260,12 @@ public class CustomAnalogClock extends View {
         }
     }
 
-    // from AnalogClock.java
+    /**
+     * from Analog.java
+     *
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int finalRadius = (int) (mRadius * mSizeScale);
@@ -288,4 +306,3 @@ public class CustomAnalogClock extends View {
     }
 
 }
-
