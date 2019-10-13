@@ -13,11 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextClock;
-import java.util.Arrays;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
+
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
@@ -28,10 +29,8 @@ public class WorldClockActivity extends AppCompatActivity {
     private TextClock mTextClock;
     private long mMiliSeconds;
     private ArrayAdapter<String> mIdAdapter;
-    private Spinner mSpinnerAvailableID;
+    private Spinner mTimeZoneChooser;
     private Calendar mCurrent;
-    private String mDefaultZone = "Asia/Kolkata";
-    private boolean mAutoUpdate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,30 +39,30 @@ public class WorldClockActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle(R.string.text_clock);
 
-        mTextClock =  findViewById(R.id.clock_digital);
-        mAnalogClock =  findViewById(R.id.clock_analog);
-        mSpinnerAvailableID = findViewById(R.id.availableID); // choosing time zone
+        mTextClock = findViewById(R.id.clock_digital);
+        mAnalogClock = findViewById(R.id.clock_analog);
+        mTimeZoneChooser = findViewById(R.id.availableID); // choosing time zone
 
         String[] idArray = TimeZone.getAvailableIDs();
         mIdAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, idArray);
         mIdAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerAvailableID.setAdapter(mIdAdapter);
-        String savedValue = getSavedValue(DEFAULT_TIME_ZONE_KEY);
-        mSpinnerAvailableID.setSelection(Arrays.asList(idArray).indexOf(savedValue), true);
+        mTimeZoneChooser.setAdapter(mIdAdapter);
 
-        /* Analog clock initialization*/
+        /**
+         * Analog Clock Initialization
+         */
         mAnalogClock.init(WorldClockActivity.this, R.drawable.clock_face,
                 R.drawable.hours_hand, R.drawable.minutes_hand,
                 0, false, false);
 
-        mAnalogClock.setScale(1f); //analog clock size
+        mAnalogClock.setScale(1f);
+        // analog clock size
 
-        getGMTTime(); //get time from selected time zone
+        getGMTTime();
+        // get time from selected time zone
 
-        setSelectedText(TimeZone.getTimeZone(savedValue)); // change time from selected time zone
-
-        mSpinnerAvailableID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mTimeZoneChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent,
                                        View view, int position, long id) {
@@ -72,6 +71,7 @@ public class WorldClockActivity extends AppCompatActivity {
                 TimeZone timezone = TimeZone.getTimeZone(selectedId);
                 setSelectedText(timezone);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
 
@@ -96,13 +96,13 @@ public class WorldClockActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
-   /**
-    * This function gets GMT time from the device.
-    */
+
+    /**
+     * This function gets GMT time and also performs time calculation according to time zone.
+     */
     private void getGMTTime() {
         mCurrent = Calendar.getInstance();
         mCurrent.add(Calendar.HOUR, -2);
-        /* Time calculation according to time zone */
         mMiliSeconds = mCurrent.getTimeInMillis();
         TimeZone tzCurrent = mCurrent.getTimeZone();
         int offset = tzCurrent.getRawOffset();
@@ -112,22 +112,22 @@ public class WorldClockActivity extends AppCompatActivity {
         mMiliSeconds = mMiliSeconds - offset;
     }
 
-    private String getSavedValue(String key) {
-        // this code get the latest time zone that user have chosen
-        return PreferenceManager.getDefaultSharedPreferences(getBaseContext())
-                .getString(key, mDefaultZone);
-    }
+    /**
+     * This function saves the user selected time zone
+     *
+     * @param key
+     * @param value
+     */
     private void saveTimeZonePrefs(String key, String value) {
-        // this code is for saving the user selected time zone
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         settings.edit().putString(key, value).apply();
     }
 
-   /**
-    * This function gets the time from the time zone that user have chosen.
-    * 
-    * @param timezone 
-    */
+    /**
+     * This function gets the time from the time zone that user have chosen.
+     *
+     * @param timezone
+     */
     private void setSelectedText(TimeZone timezone) {
         mMiliSeconds = mMiliSeconds + timezone.getRawOffset();
         mTextClock.setTimeZone(timezone.getID());
