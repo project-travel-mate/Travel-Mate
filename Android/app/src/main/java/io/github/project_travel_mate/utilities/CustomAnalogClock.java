@@ -48,6 +48,10 @@ public class CustomAnalogClock extends View {
     private HandsOverlay mHandsOverlay;
     private boolean mAutoUpdate;
 
+    /**
+     * Constructors for analog clock
+     */
+
     public CustomAnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         handleAttrs(context, attrs);
@@ -104,6 +108,10 @@ public class CustomAnalogClock extends View {
         setFace(r.getDrawable(drawableRes));
     }
 
+    /**
+     * Initialize the analog clock
+     */
+
     public void init(Context context, @DrawableRes int watchFace, @DrawableRes int hourHand,
                      @DrawableRes int minuteHand, int alpha, boolean is24, boolean hourOnTop) {
         CustomAnalogClock.is24 = is24;
@@ -121,7 +129,11 @@ public class CustomAnalogClock extends View {
 
         mHandsOverlay = new HandsOverlay(hHand, mHand).withScale(mSizeScale);
     }
-
+    /**
+     * Will set the clock face - Clock height, clock width and radius.
+     *
+     * @param Drawable for the clock face. 
+     */
     public void setFace(Drawable face) {
         mFace = face;
         mSizeChanged = true;
