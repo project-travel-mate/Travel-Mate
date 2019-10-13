@@ -1,6 +1,9 @@
 ---
 name: Chore
 about: Issues related to docs, workflow, dependency and others
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
