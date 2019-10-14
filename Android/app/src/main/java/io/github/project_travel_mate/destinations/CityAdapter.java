@@ -77,6 +77,8 @@ class CityAdapter extends BaseFlipAdapter<City> {
         return convertView;
     }
 
+
+    //why the get page is set to Constant?
     @Override
     public int getPagesCount() {
         return 5;
@@ -141,6 +143,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
     }
 
     class CitiesInfoHolder {
+
         @BindView(R.id.nickname)
         TextView nickName;
         @BindView(R.id.interest_1)
