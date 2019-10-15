@@ -42,7 +42,7 @@ public class CustomAnalogClock extends View {
     private boolean mAutoUpdate;
 
     /**
-     * Constructors for CustomAnalogClock
+     * Constructor for CustomAnalogClock
      *
      * @param context
      * @param attrs
@@ -53,22 +53,44 @@ public class CustomAnalogClock extends View {
         handleAttrs(context, attrs);
     }
 
+    /**
+     * Constructor for CustomAnalogClock
+     *
+     * @param context
+     * @param attrs
+     */
     public CustomAnalogClock(Context context, AttributeSet attrs) {
         super(context, attrs);
         handleAttrs(context, attrs);
     }
 
+    /**
+     * Constructor for CustomAnalogClock
+     *
+     * @param context
+     */
     public CustomAnalogClock(Context context) {
         super(context);
         init(context);
     }
 
+    /**
+     * Constructor for CustomAnalogClock
+     *
+     * @param context
+     */
     public CustomAnalogClock(Context context, boolean defaultWatchFace) {
         super(context);
         if (defaultWatchFace)
             init(context);
     }
 
+    /**
+     * handling the attributes
+     *
+     * @param context
+     * @param attrs
+     */
     private void handleAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CustomAnalogClock, 0, 0);
         if (typedArray.hasValue(R.styleable.CustomAnalogClock_default_watchface)) {
@@ -81,6 +103,11 @@ public class CustomAnalogClock extends View {
         typedArray.recycle();
     }
 
+    /**
+     * Initializing the clock
+     *
+     * @param context
+     */
     public void init(Context context) {
         init(context, R.drawable.clock_face, R.drawable.hours_hand,
                 R.drawable.minutes_hand, 0, false, false);
@@ -204,6 +231,14 @@ public class CustomAnalogClock extends View {
         mHandsOverlay = handsOverlay;
     }
 
+    /**
+     * The function to check if the scale of analog clock is changed or not
+     *
+     * @param w
+     * @param h
+     * @param oldw
+     * @param oldh
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -272,16 +307,35 @@ public class CustomAnalogClock extends View {
         setMeasuredDimension(finalRadius, finalRadius);
     }
 
+    /**
+     * returning the minimum height for the clock
+     *
+     * @return
+     */
     @Override
     protected int getSuggestedMinimumHeight() {
         return (int) (mDialHeight * mSizeScale);
     }
 
+    /**
+     * returning the minimum width for the clock
+     *
+     * @return
+     */
     @Override
     protected int getSuggestedMinimumWidth() {
         return (int) (mDialWidth * mSizeScale);
     }
 
+    /**
+     * Assigning the values of layout
+     *
+     * @param changed
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
     @Override
     protected void onLayout(boolean changed, int left, int top, int right,
                             int bottom) {
@@ -292,15 +346,27 @@ public class CustomAnalogClock extends View {
         mBottom = bottom;
     }
 
-
+    /**
+     * adding DialOverlay interface
+     *
+     * @param dialOverlay
+     */
     public void addDialOverlay(DialOverlay dialOverlay) {
         mDialOverlay.add(dialOverlay);
     }
 
+    /**
+     * Removing DialOverlay interface
+     *
+     * @param dialOverlay
+     */
     public void removeDialOverlay(DialOverlay dialOverlay) {
         mDialOverlay.remove(dialOverlay);
     }
 
+    /**
+     * Clearing DialOVerlay interface
+     */
     public void clearDialOverlays() {
         mDialOverlay.clear();
     }
