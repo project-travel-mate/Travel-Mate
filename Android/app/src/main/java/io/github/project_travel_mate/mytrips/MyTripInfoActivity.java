@@ -126,6 +126,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     TextView labelTripName;
     @BindView(R.id.label_trip_date)
     TextView labelTripDate;
+    @BindView(R.id.friend_whole_layout)
+    RelativeLayout wholeRelativeLayout;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -287,6 +289,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                             cal.setTimeInMillis(Long.parseLong(start) * 1000);
                             final String timeString =
                                     new SimpleDateFormat("dd MMM''yy", Locale.US).format(cal.getTime());
+                            tripDate.setVisibility(VISIBLE);
                             tripDate.setText(timeString);
                             isTripPublic = isPublic;
 
@@ -633,12 +636,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                 addNewFriend.setVisibility(GONE);
                                 friendEmail.setVisibility(GONE);
                                 noFriendTitle.setVisibility(VISIBLE);
-//                                noFriendTitle.setTypeface(null, Typeface.BOLD);
                                 String mystring = getString(R.string.friends_title);
                                 SpannableString content = new SpannableString(mystring);
                                 content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
                                 noFriendTitle.setText(content);
-//                                noFriendTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 
                                 addNewFriend.setVisibility(VISIBLE);
                                 friendEmail.setVisibility(VISIBLE);
@@ -656,11 +657,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                                 }
 
                             } else {
-
-
                                 friendTitle.setText(R.string.friends_show_title);
                                 friendTitle.setVisibility(VISIBLE);
                                 showIcon.setVisibility(VISIBLE);
+                                wholeRelativeLayout.setVisibility(VISIBLE);
 
                                 if (isUserPartofTrip) { //user is part of the trip
                                     addNewFriend.setVisibility(VISIBLE);
