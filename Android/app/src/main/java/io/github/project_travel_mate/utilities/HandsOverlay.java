@@ -20,12 +20,10 @@ public class HandsOverlay implements DialOverlay {
     private float mScale;
 
     /**
-     * Constructors of HandsOverlay.java
-     * The following constructors set the drawable of minute hand and hour hand.
-     * The scales of the minute hand and hour hand depends on the setScale function from CustomAnalogClock.java
+     * Constructor for HandsOverlay.java
      *
      * @param context
-     * @param useLargeFace
+     * @param useLargeFace checks if the scale of the clock face is default or not
      */
     public HandsOverlay(Context context, boolean useLargeFace) {
         final Resources r = context.getResources();
@@ -36,6 +34,14 @@ public class HandsOverlay implements DialOverlay {
         mMinute = null;
     }
 
+    /**
+     * Constructor for HandsOverlay.java
+     * Sets the drawable of minute hand and hour hand.
+     * Default value for mUseLargeFace is false.
+     *
+     * @param hourHand
+     * @param minuteHand
+     */
     public HandsOverlay(Drawable hourHand, Drawable minuteHand) {
         mUseLargeFace = false;
 
@@ -43,18 +49,17 @@ public class HandsOverlay implements DialOverlay {
         mMinute = minuteHand;
     }
 
+    /**
+     * Constructor of HandsOverlay.java
+     * The following constructor is called when the scale of the clock is changed.
+     * The scales of the minute hand and hour hand depends on the setScale function from CustomAnalogClock.java
+     *
+     * @param scale
+     * @return
+     */
     public HandsOverlay withScale(float scale) {
         this.mScale = scale;
         return this;
-    }
-
-    public HandsOverlay(Context context, int hourHandRes, int minuteHandRes) {
-        final Resources r = context.getResources();
-
-        mUseLargeFace = false;
-
-        mHour = r.getDrawable(hourHandRes);
-        mMinute = r.getDrawable(minuteHandRes);
     }
 
     /**
@@ -68,7 +73,16 @@ public class HandsOverlay implements DialOverlay {
         return CustomAnalogClock.is24 ? ((12 + h) / 24.0f * 360) % 360 + (m / 60.0f) * 360 / 24.0f :
                 ((12 + h) / 12.0f * 360) % 360 + (m / 60.0f) * 360 / 12.0f;
     }
-
+    /**
+     * Override onDraw method to draw the overlay.
+     *
+     * @param canvas   the canvas onto which you must draw
+     * @param cX       the x coordinate of the center
+     * @param cY       the y coordinate of the center
+     * @param w        the width of the canvas
+     * @param h        the height of the canvas
+     * @param calendar the desired date/time
+     */
     @Override
     public void onDraw(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
                        boolean sizeChanged) {
@@ -93,13 +107,13 @@ public class HandsOverlay implements DialOverlay {
     /**
      * Sets minute hand on the clock face
      *
-     * @param canvas
-     * @param cX
-     * @param cY
-     * @param w
-     * @param h
-     * @param calendar
-     * @param sizeChanged
+     * @param canvas      the canvas onto which you must draw
+     * @param cX          the x coordinate of the center
+     * @param cY          the y coordinate of the center
+     * @param w           the width of the canvas
+     * @param h           the height of the canvas
+     * @param calendar    the desired date/time
+     * @param sizeChanged boolean to check if the clock size has changed or not
      */
     private void drawMinutes(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
                              boolean sizeChanged) {
@@ -116,13 +130,13 @@ public class HandsOverlay implements DialOverlay {
     /**
      * Sets minute hand on the clock face
      *
-     * @param canvas
-     * @param cX
-     * @param cY
-     * @param w
-     * @param h
-     * @param calendar
-     * @param sizeChanged
+     * @param canvas      the canvas onto which you must draw
+     * @param cX          the x coordinate of the center
+     * @param cY          the y coordinate of the center
+     * @param w           the width of the canvas
+     * @param h           the height of the canvas
+     * @param calendar    the desired date/time
+     * @param sizeChanged boolean to check if the clock size has changed or not
      */
     private void drawHours(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
                            boolean sizeChanged) {
@@ -136,6 +150,11 @@ public class HandsOverlay implements DialOverlay {
         mHour.draw(canvas);
     }
 
+    /**
+     * Triggers the analog clock to show seconds
+     *
+     * @param showSeconds
+     */
     public void setShowSeconds(boolean showSeconds) {
         mShowSeconds = showSeconds;
     }
