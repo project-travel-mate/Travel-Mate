@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -182,7 +183,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_login:
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
-                mLoginPresenter.ok_login(emailString, passString, mHandler);
+                if (isNetworkConnected()) {
+                    mLoginPresenter.ok_login(emailString, passString, mHandler);
+                } else {
+                    showNoNetwork();
+                }
                 break;
             // Call signup
             case R.id.ok_signup:
@@ -195,7 +200,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (validateEmail(emailString)) {
                         if (validatePassword(passString)) {
                             if (passString.equals(confirmPassString)) {
-                                mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                                if (isNetworkConnected()) {
+                                    mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                                } else {
+                                    showNoNetwork();
+                                }
                             } else {
                                 Snackbar snackbar = Snackbar
                                         .make(findViewById(android.R.id.content),
@@ -262,6 +271,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void showError() {
         TravelmateSnackbars.createSnackBar(findViewById(R.id.login_activity),
                 R.string.toast_invalid_username_or_password, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNoNetwork() {
+        TravelmateSnackbars.createSnackBar(findViewById(R.id.login_activity),
+                R.string.toast_no_internet_detected, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -404,6 +419,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
+     * Checks if the device has an active network connection.
+     * @return Boolean return true if network connection is detected.
+     */
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    /**
      * Validates first name and last name of user, checks if these are empty or filled
      * @param firstname first name of user
      * @param lastname last name of user
@@ -454,4 +478,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mOtpCode = otp;
         mLoginPresenter.newPasswordInput();
     }
+
 }

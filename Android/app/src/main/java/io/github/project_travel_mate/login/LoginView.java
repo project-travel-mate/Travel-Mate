@@ -20,6 +20,8 @@ interface LoginView {
 
 //    void checkUserSession();
 
+    void showNoNetwork();
+
     void openSignUp();
 
     void openLogin();

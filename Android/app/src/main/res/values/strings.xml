@@ -381,4 +381,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_widget">Add World Clock Widget</string>
     <string name="configure">Select Timezone For Clock Widget</string>
+    <string name="toast_no_internet_detected">We couldn\'t find an active internet connection. Please try again.</string>
 </resources>
