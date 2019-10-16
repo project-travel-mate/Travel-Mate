@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import utils.TravelmateSnackbars;
+import utils.Utils;
 
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
@@ -182,7 +183,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_login:
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
-                mLoginPresenter.ok_login(emailString, passString, mHandler);
+                if (Utils.isNetworkConnected(this)) {
+                    mLoginPresenter.ok_login(emailString, passString, mHandler);
+                } else {
+                    showNoNetwork();
+                }
                 break;
             // Call signup
             case R.id.ok_signup:
@@ -195,7 +200,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (validateEmail(emailString)) {
                         if (validatePassword(passString)) {
                             if (passString.equals(confirmPassString)) {
-                                mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                                if (Utils.isNetworkConnected(this)) {
+                                    mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
+                                } else {
+                                    showNoNetwork();
+                                }
                             } else {
                                 Snackbar snackbar = Snackbar
                                         .make(findViewById(android.R.id.content),
@@ -262,6 +271,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void showError() {
         TravelmateSnackbars.createSnackBar(findViewById(R.id.login_activity),
                 R.string.toast_invalid_username_or_password, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNoNetwork() {
+        TravelmateSnackbars.createSnackBar(findViewById(R.id.login_activity),
+                R.string.toast_no_internet_detected, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -454,4 +469,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mOtpCode = otp;
         mLoginPresenter.newPasswordInput();
     }
+
 }
