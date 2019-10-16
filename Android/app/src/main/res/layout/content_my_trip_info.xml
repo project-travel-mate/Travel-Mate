@@ -43,7 +43,6 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-bold"
                     android:padding="10dp"
-                    android:text="Chennai"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:visibility="gone"
@@ -60,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textSize="20sp"
-                    android:text="Trip Name: "
+                    android:text="@string/trip_name_label"
                     android:visibility="gone"
                     android:layout_marginLeft="1dp"/>
 
@@ -71,7 +70,6 @@
                     android:background="@android:color/transparent"
                     android:cursorVisible="false"
                     android:ellipsize="end"
-                    android:text="My Trip"
                     android:textStyle="bold"
                     android:focusableInTouchMode="false"
                     android:fontFamily="sans-serif-bold"
@@ -80,7 +78,7 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:visibility="gone"
-                    android:layout_toRightOf="@+id/label_trip_name"/>
+                    android:layout_toEndOf="@+id/label_trip_name"/>
 
                 <ProgressBar
                     android:id="@+id/trip_name_progress_bar"
