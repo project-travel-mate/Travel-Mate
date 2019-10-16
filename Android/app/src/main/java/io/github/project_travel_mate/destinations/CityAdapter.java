@@ -29,11 +29,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;
     private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
-    private List<City> mCityList;
+   // private  List<City> cityList ;
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
         super(context, items, settings);
-        this.mCityList = items;
+        //this.cityList= items;
         this.mContext = (Activity) context;
     }
 
@@ -83,9 +83,9 @@ class CityAdapter extends BaseFlipAdapter<City> {
     //why the get page is set to Constant?
     @Override
     public int getPagesCount() {
-        if(mCityList!= null )
-            return mCityList.size();
-        return 0;
+       // if(cityList!= null)
+           // return  cityList.size();
+        return 5;
     }
 
     private void fillHolder(CitiesHolder holder, CitiesInfoHolder infoHolder, final City city) {
@@ -95,6 +95,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         Iterator<String> iInterests = city.getInterests().iterator();
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
+
         holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackgroundColor()));
         infoHolder.nickName.setText(city.getNickname());
 
