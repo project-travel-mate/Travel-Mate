@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.MainActivity;
 import io.github.project_travel_mate.R;
 import utils.TravelmateSnackbars;
+import utils.Utils;
 
 import static utils.Constants.USER_EMAIL;
 import static utils.Constants.USER_TOKEN;
@@ -183,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.ok_login:
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
-                if (isNetworkConnected()) {
+                if (Utils.isNetworkConnected(this)) {
                     mLoginPresenter.ok_login(emailString, passString, mHandler);
                 } else {
                     showNoNetwork();
@@ -200,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (validateEmail(emailString)) {
                         if (validatePassword(passString)) {
                             if (passString.equals(confirmPassString)) {
-                                if (isNetworkConnected()) {
+                                if (Utils.isNetworkConnected(this)) {
                                     mLoginPresenter.ok_signUp(firstname, lastname, emailString, passString, mHandler);
                                 } else {
                                     showNoNetwork();
@@ -416,15 +417,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mInputLayoutEmailForgotPassword.setError(getString(R.string.invalid_email));
             return false;
         }
-    }
-
-    /**
-     * Checks if the device has an active network connection.
-     * @return Boolean return true if network connection is detected.
-     */
-    public boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 
     /**
