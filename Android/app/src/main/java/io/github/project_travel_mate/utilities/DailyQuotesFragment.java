@@ -80,8 +80,8 @@ public class DailyQuotesFragment extends Fragment {
         mHolder.rootLayout.setOnClickListener(view1 -> closeQuoteFragment());
         mHolder.share.setOnClickListener(view1 -> shareClicked());
         mHolder.negativeButton.setOnClickListener(view1 -> doNotShowClicked());
-
-        getQuote();
+        //TODO generating crash due to network calls on the main thread {use background treat }
+       // getQuote();
 
         return view;
     }

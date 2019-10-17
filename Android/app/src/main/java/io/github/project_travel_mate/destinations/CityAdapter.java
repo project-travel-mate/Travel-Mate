@@ -41,6 +41,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
     public View getPage(int position, View convertView, ViewGroup parent, final City city1, final City city2) {
         CitiesHolder holder;
         CitiesInfoHolder infoHolder;
+        boolean isScrolling ;
         if (convertView == null) {
             convertView = mContext.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
             holder = new CitiesHolder(convertView);
@@ -54,6 +55,17 @@ class CityAdapter extends BaseFlipAdapter<City> {
             holder = (CitiesHolder) convertView.getTag();
         }
         infoHolder = new CitiesInfoHolder(holder.infoPage);
+
+        holder.mLeftView.setOnClickListener(v -> {
+            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city1);
+            mContext.startActivity(intent);
+
+        });
+        holder.mRigthView.setOnClickListener(v -> {
+            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city2);
+            mContext.startActivity(intent);
+
+        });
 
         switch (position) {
             case 1:
@@ -96,6 +108,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
 
+
         holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackgroundColor()));
         infoHolder.nickName.setText(city.getNickname());
 
@@ -133,6 +146,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     class CitiesHolder {
         final List<TextView> interests = new ArrayList<>();
+
+        @BindView(R.id.felt_side)
+        View mLeftView;
+        @BindView(R.id.rigth_side)
+        View mRigthView;
         @BindView(R.id.first)
         ImageView leftAvatar;
         @BindView(R.id.second)

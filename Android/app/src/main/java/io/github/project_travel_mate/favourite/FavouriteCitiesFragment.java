@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
@@ -74,11 +76,8 @@ public class FavouriteCitiesFragment extends Fragment {
 
         animationView.setVisibility(View.GONE);
         fav_cities_lv.setAdapter(mFavouriteCitiesAdapter);
-        fav_cities_lv.setOnItemClickListener((parent, mView, position, id1) -> {
-            City city = (City) fav_cities_lv.getAdapter().getItem(position);
-            Intent intent = FinalCityInfoActivity.getStartIntent(getActivity(), city);
-            startActivity(intent);
-        });
+
+
     }
 
     /**

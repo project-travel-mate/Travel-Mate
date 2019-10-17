@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/black"
     android:weightSum="2"
+    android:descendantFocusability="blocksDescendants"
     android:baselineAligned="false">
 
     <LinearLayout
@@ -44,7 +45,7 @@
         android:background="@color/black" />
 
     <LinearLayout
-        android:id="@+id/right_side"
+        android:id="@+id/rigth_side"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
