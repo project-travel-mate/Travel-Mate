@@ -106,8 +106,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         mMap = findViewById(R.id.map);
         setTitle(mCity.getNickname());
 
-        mMarker = this.getResources().getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
-        mDefaultMarker = this.getResources().getDrawable(R.drawable.marker_default);
+        mMarker = this.getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
+        mDefaultMarker = this.getDrawable(R.drawable.marker_default);
 
         switch (type) {
             case "restaurant":

@@ -286,7 +286,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             marker.setPosition(coord);
-            marker.setIcon(this.getResources().getDrawable(locationIcon));
+            marker.setIcon(this.getDrawable(locationIcon));
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
 
