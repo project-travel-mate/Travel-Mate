@@ -40,6 +40,9 @@ public class DailyQuotesManager {
         if (launchCount >= Constants.DAYS_UNTIL_SHOW_QUOTE) {
             if (System.currentTimeMillis() >= dateFirstLaunched +
                     (Constants.DAYS_UNTIL_SHOW_QUOTE * 24 * 60 * 60 * 1000)) {
+                dateFirstLaunched = System.currentTimeMillis();
+                editor.putLong(Constants.QUOTES_FIRST_LAUNCH_DATE, dateFirstLaunched);
+
                 showDailyQuote(mContext);
             }
         }
