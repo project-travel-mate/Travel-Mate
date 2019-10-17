@@ -9,7 +9,7 @@
     android:baselineAligned="false">
 
     <LinearLayout
-        android:id="@+id/felt_side"
+        android:id="@+id/left_side"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
@@ -45,7 +45,7 @@
         android:background="@color/black" />
 
     <LinearLayout
-        android:id="@+id/rigth_side"
+        android:id="@+id/right_side"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"

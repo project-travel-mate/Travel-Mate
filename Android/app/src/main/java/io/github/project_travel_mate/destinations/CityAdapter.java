@@ -29,11 +29,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;
     private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
-   // private  List<City> cityList ;
+    private List<City> mCityList;
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
         super(context, items, settings);
-        //this.cityList= items;
+        this.mCityList = items;
         this.mContext = (Activity) context;
     }
 
@@ -41,7 +41,6 @@ class CityAdapter extends BaseFlipAdapter<City> {
     public View getPage(int position, View convertView, ViewGroup parent, final City city1, final City city2) {
         CitiesHolder holder;
         CitiesInfoHolder infoHolder;
-        boolean isScrolling ;
         if (convertView == null) {
             convertView = mContext.getLayoutInflater().inflate(R.layout.home_city_merge_page, parent, false);
             holder = new CitiesHolder(convertView);
@@ -92,11 +91,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
     }
 
 
-    //why the get page is set to Constant?
+
     @Override
     public int getPagesCount() {
-       // if(cityList!= null)
-           // return  cityList.size();
+        if (mCityList != null)
+            return mCityList.size();
         return 5;
     }
 
@@ -107,8 +106,6 @@ class CityAdapter extends BaseFlipAdapter<City> {
         Iterator<String> iInterests = city.getInterests().iterator();
         while (iViews.hasNext() && iInterests.hasNext())
             iViews.next().setText(iInterests.next());
-
-
         holder.infoPage.setBackgroundColor(mContext.getResources().getColor(city.getBackgroundColor()));
         infoHolder.nickName.setText(city.getNickname());
 
@@ -146,10 +143,9 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     class CitiesHolder {
         final List<TextView> interests = new ArrayList<>();
-
-        @BindView(R.id.felt_side)
+        @BindView(R.id.left_side)
         View mLeftView;
-        @BindView(R.id.rigth_side)
+        @BindView(R.id.right_side)
         View mRigthView;
         @BindView(R.id.first)
         ImageView leftAvatar;
@@ -168,7 +164,6 @@ class CityAdapter extends BaseFlipAdapter<City> {
     }
 
     class CitiesInfoHolder {
-
         @BindView(R.id.nickname)
         TextView nickName;
         @BindView(R.id.interest_1)
