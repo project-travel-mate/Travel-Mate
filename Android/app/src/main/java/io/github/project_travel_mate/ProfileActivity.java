@@ -166,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     mSharedPreferences.getString(USER_EMAIL, null),
                     mSharedPreferences.getString(USER_IMAGE, null),
                     mSharedPreferences.getString(USER_DATE_JOINED, null),
-                    mSharedPreferences.getString(USER_STATUS, getString(R.string.default_status)));
+                    mSharedPreferences.getString(USER_STATUS, null));
 
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
@@ -518,10 +518,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             Long dateTime = rfc3339ToMills(dateJoined);
                             String date = getDate(dateTime);
 
-                            if (status == null || Objects.equals(status, "null")) {
-
-                                status = getString(R.string.default_status);
-                            }
                             fillProfileInfo(fullName, userName, imageURL, date, status);
 
                             mIsVerified = verified;
@@ -619,7 +615,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     });
                 }
             });
-        } catch (StringIndexOutOfBoundsException e ) {
+        } catch (StringIndexOutOfBoundsException e) {
             displayName.setVisibility(View.VISIBLE);
             nameProgressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(getApplicationContext(), "Introduce atleast two names.", Toast.LENGTH_LONG).show();
@@ -643,7 +639,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         mUserStatus = String.valueOf(displayStatus.getText());
         if (mUserStatus.equals("")) {
             uri = API_LINK_V2 + "remove-user-status";
-            mUserStatus = getString(R.string.default_status);
 
             request = new Request.Builder()
                     .header("Authorization", "Token " + mToken)
@@ -716,9 +711,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
-        if (status.equals("null"))
-            status = getString(R.string.default_status);
-        displayStatus.setText(status);
+
+        if (status != null && !status.equals("null")) {
+            displayStatus.setText(status);
+        }
     }
 
     /**

@@ -93,7 +93,7 @@
             android:inputType="textMultiLine"
             android:maxLength="100"
             android:padding="4dp"
-            android:text="@string/default_status"
+            android:hint="@string/default_status"
             android:textColor="@color/dark_grey"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/ib_edit_display_status"
