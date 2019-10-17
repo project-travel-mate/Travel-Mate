@@ -81,7 +81,7 @@ public class DailyQuotesFragment extends Fragment {
         mHolder.share.setOnClickListener(view1 -> shareClicked());
         mHolder.negativeButton.setOnClickListener(view1 -> doNotShowClicked());
 
-         getQuote();
+        getQuote();
         return view;
     }
 
