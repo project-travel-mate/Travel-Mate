@@ -25,4 +25,7 @@
     <color name="transparent">#AA000000</color>
     <color name="clock_transparent">#AA000000</color>
     <color name="github_contributions_light_green">#8CC665</color>
+    <color name="orangish">#ff4411</color>
+    <color name="orangish_dark">#ff3300</color>
+    <color name="dark_blue">#202070</color>
 </resources>
