@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -77,9 +78,8 @@ public class DailyQuotesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_daily_quotes, container, false);
         mHolder = new ViewHolder(view);
         mRandom = new Random();
-        mHolder.rootLayout.setOnClickListener(view1 -> closeQuoteFragment());
         mHolder.share.setOnClickListener(view1 -> shareClicked());
-        mHolder.negativeButton.setOnClickListener(view1 -> doNotShowClicked());
+        mHolder.continueButton.setOnClickListener(view1 -> continueClicked());
 
         getQuote();
 
@@ -170,9 +170,15 @@ public class DailyQuotesFragment extends Fragment {
         return bitmap;
     }
 
-    void doNotShowClicked() {
+    /**
+     * Check if checkbox to don't show daily quote again is checked,
+     * then close the fragment
+     */
+    void continueClicked() {
         if (getFragmentManager() != null) {
-            DailyQuotesManager.dontShowQuotes(getContext());
+            if (mHolder.quotesCheckBox.isChecked()) {
+                DailyQuotesManager.dontShowQuotes(getContext());
+            }
             closeQuoteFragment();
         }
     }
@@ -195,7 +201,7 @@ public class DailyQuotesFragment extends Fragment {
                 .getWindow()
                 .getDecorView()
                 .findViewById(android.R.id.content);
-        FlatButton negButton = rootView.findViewById(R.id.negative_button);
+        FlatButton negButton = rootView.findViewById(R.id.continue_button);
         FloatingActionButton fab = rootView.findViewById(R.id.fab);
         negButton.setVisibility(View.GONE);
         fab.setVisibility(View.INVISIBLE);
@@ -258,8 +264,10 @@ public class DailyQuotesFragment extends Fragment {
         TextView authorTv;
         @BindView(R.id.fab)
         FloatingActionButton share;
-        @BindView(R.id.negative_button)
-        FlatButton negativeButton;
+        @BindView(R.id.continue_button)
+        FlatButton continueButton;
+        @BindView(R.id.dont_show_quotes_checkBox)
+        CheckBox quotesCheckBox;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
