@@ -24,7 +24,7 @@ interface LoginView {
 
     void openSignUp();
 
-    void openLogin();
+    void openLogin(boolean isPassReseted);
 
     void setLoginEmail(String email);
 

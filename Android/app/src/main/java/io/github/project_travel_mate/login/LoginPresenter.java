@@ -94,7 +94,7 @@ class LoginPresenter {
                         String successfulMessage = "\"Successfully registered\"";
                         if (responseCode == HttpsURLConnection.HTTP_CREATED && res.equals(successfulMessage)) {
                             //if successful redirect to login
-                            mView.openLogin();
+                            mView.openLogin(false);
                             mView.setLoginEmail(email);
                             mView.showMessage("signup succeeded! please login");
                         } else {
@@ -111,8 +111,8 @@ class LoginPresenter {
         });
     }
 
-    public void login() {
-        mView.openLogin();
+    public void login(boolean isPassReseted) {
+        mView.openLogin(isPassReseted);
     }
 
     /**
@@ -282,7 +282,7 @@ class LoginPresenter {
                     mView.dismissLoadingDialog();
                     if (response.isSuccessful()) {
                         //display the login UI to login with the new password
-                        mView.openLogin();
+                        mView.openLogin(true);
                     } else if (response.code() == 400) {
                         mView.showMessage("Wrong 4-digit code or wrong password format");
                     } else if (response.code() == 404) {

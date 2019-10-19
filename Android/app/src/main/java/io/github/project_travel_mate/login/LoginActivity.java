@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mForgotPasswordText.setVisibility(View.VISIBLE);
                 mBackToLogin.setVisibility(View.GONE);
                 login.setVisibility(View.GONE);
-                mLoginPresenter.login();
+                mLoginPresenter.login(false);
                 break;
             // Call login
             case R.id.ok_login:
@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mForgotPasswordText.setVisibility(View.VISIBLE);
                 mBackToLogin.setVisibility(View.GONE);
                 login.setVisibility(View.GONE);
-                mLoginPresenter.login();
+                mLoginPresenter.login(false);
                 break;
                 // Call resend reset code request
             case R.id.resend_code:
@@ -327,8 +327,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void openLogin() {
-        showMessage(getString(R.string.text_password_updated_alert));
+    public void openLogin(boolean isPassReseted) {
+        if (isPassReseted) {
+            showMessage(getString(R.string.text_password_updated_alert));
+        }
         mForgotPasswordLayout.setVisibility(View.GONE);
         mNewPasswordLayout.setVisibility(View.GONE);
         sig.setVisibility(View.GONE);
