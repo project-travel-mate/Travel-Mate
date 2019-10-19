@@ -24,7 +24,7 @@ interface LoginView {
 
     void openSignUp();
 
-    void openLogin();
+    void openLogin(boolean showToastMessage);
 
     void setLoginEmail(String email);
 
