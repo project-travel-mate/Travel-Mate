@@ -327,8 +327,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void openLogin(boolean isPassReseted) {
-        if (isPassReseted) {
+    public void openLogin(boolean showToastMessage) {
+        if (showToastMessage) {
             showMessage(getString(R.string.text_password_updated_alert));
         }
         mForgotPasswordLayout.setVisibility(View.GONE);

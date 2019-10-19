@@ -111,8 +111,8 @@ class LoginPresenter {
         });
     }
 
-    public void login(boolean isPassReseted) {
-        mView.openLogin(isPassReseted);
+    public void login(boolean showToastMessage) {
+        mView.openLogin(showToastMessage);
     }
 
     /**
