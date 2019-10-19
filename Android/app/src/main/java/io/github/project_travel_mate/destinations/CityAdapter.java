@@ -60,7 +60,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
             mContext.startActivity(intent);
 
         });
-        holder.mRigthView.setOnClickListener(v -> {
+        holder.mRightView.setOnClickListener(v -> {
             Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city2);
             mContext.startActivity(intent);
 
@@ -146,7 +146,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
         @BindView(R.id.left_side)
         View mLeftView;
         @BindView(R.id.right_side)
-        View mRigthView;
+        View mRightView;
         @BindView(R.id.first)
         ImageView leftAvatar;
         @BindView(R.id.second)

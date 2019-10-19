@@ -28,7 +28,6 @@ import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,6 +1,5 @@
 package io.github.project_travel_mate.favourite;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,11 +18,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import objects.City;
 
 public class FavouriteCitiesFragment extends Fragment {
