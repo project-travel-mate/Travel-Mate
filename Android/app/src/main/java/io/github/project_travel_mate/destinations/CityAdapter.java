@@ -55,17 +55,6 @@ class CityAdapter extends BaseFlipAdapter<City> {
         }
         infoHolder = new CitiesInfoHolder(holder.infoPage);
 
-        holder.mLeftView.setOnClickListener(v -> {
-            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city1);
-            mContext.startActivity(intent);
-
-        });
-        holder.mRightView.setOnClickListener(v -> {
-            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city2);
-            mContext.startActivity(intent);
-
-        });
-
         switch (position) {
             case 1:
                 Picasso.with(mContext).
