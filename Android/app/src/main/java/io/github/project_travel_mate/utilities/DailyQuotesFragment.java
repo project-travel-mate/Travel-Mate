@@ -82,7 +82,6 @@ public class DailyQuotesFragment extends Fragment {
         mHolder.continueButton.setOnClickListener(view1 -> continueClicked());
 
         getQuote();
-
         return view;
     }
 

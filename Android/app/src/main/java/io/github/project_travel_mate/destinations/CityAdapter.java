@@ -29,9 +29,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;
     private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+    private List<City> mCityList;
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
         super(context, items, settings);
+        this.mCityList = items;
         this.mContext = (Activity) context;
     }
 
@@ -52,6 +54,17 @@ class CityAdapter extends BaseFlipAdapter<City> {
             holder = (CitiesHolder) convertView.getTag();
         }
         infoHolder = new CitiesInfoHolder(holder.infoPage);
+
+        holder.mLeftView.setOnClickListener(v -> {
+            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city1);
+            mContext.startActivity(intent);
+
+        });
+        holder.mRightView.setOnClickListener(v -> {
+            Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city2);
+            mContext.startActivity(intent);
+
+        });
 
         switch (position) {
             case 1:
@@ -77,8 +90,12 @@ class CityAdapter extends BaseFlipAdapter<City> {
         return convertView;
     }
 
+
+
     @Override
     public int getPagesCount() {
+        if (mCityList != null)
+            return mCityList.size();
         return 5;
     }
 
@@ -93,9 +110,11 @@ class CityAdapter extends BaseFlipAdapter<City> {
         infoHolder.nickName.setText(city.getNickname());
 
         infoHolder.nickName.setOnClickListener(v -> {
+
         });
 
         infoHolder.fv1.setOnClickListener(v -> {
+
             Intent intent = FinalCityInfoActivity.getStartIntent(mContext, city);
             mContext.startActivity(intent);
         });
@@ -124,6 +143,10 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     class CitiesHolder {
         final List<TextView> interests = new ArrayList<>();
+        @BindView(R.id.left_side)
+        View mLeftView;
+        @BindView(R.id.right_side)
+        View mRightView;
         @BindView(R.id.first)
         ImageView leftAvatar;
         @BindView(R.id.second)
