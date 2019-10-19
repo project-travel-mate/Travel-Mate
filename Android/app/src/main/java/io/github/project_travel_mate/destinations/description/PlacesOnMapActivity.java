@@ -148,7 +148,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
         GeoPoint cityLocation = new GeoPoint(Double.parseDouble(mCity.getLatitude()),
                 Double.parseDouble(mCity.getLongitude()));
-        mController.setZoom(14);
+        mController.setZoom(14.0);
         mController.setCenter(cityLocation);
     }
 
@@ -200,7 +200,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         mMap.setBottom(height);
         mMap.setRight(width);
         mMap.setTileSource(TileSourceFactory.MAPNIK);
-        mController.setZoom(15);
+        mController.setZoom(15.0);
         GeoPoint center = new GeoPoint(latitude, longitude);
         mController.animateTo(center);
     }
@@ -355,7 +355,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-        mController.setZoom(16);
+        mController.setZoom(16.0);
         GeoPoint center = new GeoPoint(latitude, longitude);
         mController.animateTo(center);
     }

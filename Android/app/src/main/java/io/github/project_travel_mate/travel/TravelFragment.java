@@ -86,15 +86,15 @@ public class TravelFragment extends Fragment implements CardViewOptionsAdapter.O
         List<CardItemEntity> cardEntities = new ArrayList<>();
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.hotel),
+                        getActivity().getDrawable(R.drawable.hotel),
                         getResources().getString(R.string.hotel)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.shop),
+                        getActivity().getDrawable(R.drawable.shop),
                         getResources().getString(R.string.online_Shopping)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.location),
+                        getActivity().getDrawable(R.drawable.location),
                         getResources().getString(R.string.real_time_locator)));
         return cardEntities;
     }
