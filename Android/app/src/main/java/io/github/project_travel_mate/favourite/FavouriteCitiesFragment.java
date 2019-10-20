@@ -1,5 +1,6 @@
 package io.github.project_travel_mate.favourite;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import database.AppDataBase;
 import flipviewpager.utils.FlipSettings;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import objects.City;
 
 public class FavouriteCitiesFragment extends Fragment {
@@ -72,8 +74,11 @@ public class FavouriteCitiesFragment extends Fragment {
 
         animationView.setVisibility(View.GONE);
         fav_cities_lv.setAdapter(mFavouriteCitiesAdapter);
-
-
+        fav_cities_lv.setOnItemClickListener((parent, mView, position, id1) -> {
+            City city = (City) fav_cities_lv.getAdapter().getItem(position);
+            Intent intent = FinalCityInfoActivity.getStartIntent(getActivity(), city);
+            startActivity(intent);
+        });
     }
 
     /**
@@ -84,5 +89,4 @@ public class FavouriteCitiesFragment extends Fragment {
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
     }
-
 }
