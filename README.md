@@ -4,7 +4,7 @@
 
 Travel Mate is an android app for travellers. It provides features like **choosing the correct destination**, **making bookings**, and **organizing the trip**. It provides solutions for every problem a traveller might face during their journey. It provide a comprehensive list of information about a destination: current weather, best places to hangout, and city's current trends. Checkout [Features list](#features) for a detailed feature description.
 
-| <img src=".github/screenshots/all_cities.png" width="200px"> | <img src=".github/screenshots/one_city.png" width="200px"> | <img src=".github/screenshots/city_here.png" width="200px"> |
+| <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/all_cities.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/one_city.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/city_here.png" width="200px"> |
 | - | - | - |
 
 ## Download
@@ -32,25 +32,25 @@ We are not running any ads in the app and the source code is available for free 
 ### Destinations
 Travel Mate helps decide the destination by providing tourist spots, interesting trivia, local trends, weather and much more about over 10k cities.
 
-| <img src=".github/screenshots/one_city.png" width="200px"> | <img src=".github/screenshots/trend.png" width="200px"> | <img src=".github/screenshots/fact.png" width="200px"> |
+| <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/one_city.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/trend.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/fact.png" width="200px"> |
 | - | - | - |
 
 ### My Trips
 Travel Mate allows users to store their travel history. They can add their Travel Mate friends to trip and share their history with others. They always have option to keep their trips private.
 
-| <img src=".github/screenshots/travel.png" width="200px"> | <img src=".github/screenshots/shopping.png" width="200px"> | <img src=".github/screenshots/mytrip_info.png" width="200px"> |
+| <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/travel.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/shopping.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/mytrip_info.png" width="200px"> |
 | - | - | - |
 
 ### Travel
 Travel Mate provides real-time information about monuments, restaurants, hotels, medical centres, etc. for travellers explore unfamiliar cities.
 
-| <img src=".github/screenshots/hotel_book.png" width="200px"> | <img src=".github/screenshots/trips.png" width="200px"> | <img src=".github/screenshots/here.png" width="200px"> |
+| <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/hotel_book.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/trips.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/here.png" width="200px"> |
 | - | - | - |
 
 ### Utility
 Travel Mate gives a bunch of helpful utilities in one app including World Clock, checklists, share your contact.
 
-| <img src=".github/screenshots/world_clock.jpeg" width="200px"> | <img src=".github/screenshots/share_my_contact.png" width="200px"> | <img src=".github/screenshots/checklist.png" width="200px"> |
+| <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/world_clock.jpeg" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/share_my_contact.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/checklist.png" width="200px"> |
 | - | - | - |
 
 ### Contributing
