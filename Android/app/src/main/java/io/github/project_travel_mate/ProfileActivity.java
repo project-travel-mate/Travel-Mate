@@ -196,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
                 mFlagForDrawable = false;
-                editDisplayName.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                editDisplayName.setImageDrawable(getDrawable(R.drawable.ic_check_black_24dp));
                 displayName.setFocusableInTouchMode(true);
                 displayName.setCursorVisible(true);
                 displayName.requestFocus();
@@ -204,7 +204,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 Objects.requireNonNull(imm).showSoftInput(displayName, InputMethodManager.SHOW_IMPLICIT);
             } else {
                 mFlagForDrawable = true;
-                editDisplayName.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                editDisplayName.setImageDrawable(getDrawable(R.drawable.ic_edit_black_24dp));
                 displayName.setFocusableInTouchMode(false);
                 displayName.setCursorVisible(false);
                 setUserDetails();
@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         editDisplayStatus.setOnClickListener(v -> {
             if (mFlagForDrawable) {
                 mFlagForDrawable = false;
-                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                editDisplayStatus.setImageDrawable(getDrawable(R.drawable.ic_check_black_24dp));
                 displayStatus.setFocusableInTouchMode(true);
                 displayStatus.setCursorVisible(true);
                 displayStatus.requestFocus();
@@ -223,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 characterCount.setVisibility(View.VISIBLE);
             } else {
                 mFlagForDrawable = true;
-                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                editDisplayStatus.setImageDrawable(getDrawable(R.drawable.ic_edit_black_24dp));
                 displayStatus.setFocusableInTouchMode(false);
                 displayStatus.setCursorVisible(false);
                 setUserStatus();
@@ -523,10 +523,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             mIsVerified = verified;
 
                             if (verified) {
-                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+                                isVerified.setImageDrawable(getDrawable(R.drawable.ic_done_black_24dp));
                                 isVerified.setColorFilter(Color.GREEN);
                             } else {
-                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                                isVerified.setImageDrawable(getDrawable(R.drawable.ic_close_black_24dp));
                                 isVerified.setColorFilter(Color.RED);
                             }
 

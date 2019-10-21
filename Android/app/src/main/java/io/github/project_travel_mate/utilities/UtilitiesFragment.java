@@ -105,34 +105,34 @@ public class UtilitiesFragment extends Fragment implements CardViewOptionsAdapte
         List<CardItemEntity> cardEntities = new ArrayList<>();
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.checklist),
+                        getActivity().getDrawable(R.drawable.checklist),
                         getResources().getString(R.string.text_checklist)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.weather),
+                        getActivity().getDrawable(R.drawable.weather),
                         getResources().getString(R.string.text_weather)));
         if (mHasMagneticSensor) {
             cardEntities.add(
                     new CardItemEntity(
-                            getResources().getDrawable(R.drawable.compass),
+                            getActivity().getDrawable(R.drawable.compass),
                             getResources().getString(R.string.text_Compass)));
         }
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.currency),
+                        getActivity().getDrawable(R.drawable.currency),
                         getResources().getString(R.string.text_currency)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.worldclock),
+                        getActivity().getDrawable(R.drawable.worldclock),
                         getResources().getString(R.string.text_clock)));
         cardEntities.add(
                 new CardItemEntity(
-                        getResources().getDrawable(R.drawable.upcoming_long_weekends),
+                        getActivity().getDrawable(R.drawable.upcoming_long_weekends),
                         getResources().getString(R.string.upcoming_long_weekends)));
         if (!mHasMagneticSensor) {
             cardEntities.add(
                     new CardItemEntity(
-                            getResources().getDrawable(R.drawable.compass_unavailable),
+                            getActivity().getDrawable(R.drawable.compass_unavailable),
                             getResources().getString(R.string.text_Compass)));
         }
         return cardEntities;
