@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.6.1">
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/androidTest/java/io/github/project_travel_mate/ApplicationTest.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/adapters/CardViewOptionsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/adapters/ContributorsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/adapters/ImageAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/adapters/NestedListView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/adapters/RestaurantsCardViewAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/dao/CityDao.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/dao/WidgetCheckListDao.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/database/AppDataBase.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/database/Converters.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/flipviewpager/adapter/BaseFlipAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/flipviewpager/utils/FlipSettings.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/flipviewpager/view/FlipViewPager.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/CitiesTravelledAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/DeleteProfilePictureActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/FullScreenImage.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/HomeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/MainActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/ProfileActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/SettingsFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/SplashActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/VerifyEmailActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/CityAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/CityFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/CityHistoryActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/CityHistoryAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/CityImageSliderAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/CityMapActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/FinalCityInfoActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/FinalCityInfoPresenter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/FinalCityInfoView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/PlacesOnMapActivity.java">
+<error line="544" column="19" severity="error" message="Local variable name &apos;mFeedItems_filtered&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/RestaurantsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/TweetsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/TweetsDescriptionActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/TweetsDescriptionAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/TweetsRecyclerAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/WeatherActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/description/WeatherAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/funfacts/FunFactsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/funfacts/FunFactsPresenter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/funfacts/FunFactsView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/destinations/funfacts/FunfactFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/favourite/FavouriteCitiesAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/favourite/FavouriteCitiesFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/friend/FriendCityRecyclerAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/friend/FriendsProfileActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/friend/MutualTripsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/friend/MyFriendsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/friend/MyFriendsFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/login/LoginActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/login/LoginPresenter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/login/LoginView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/AddNewTripActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/MyTripFriendNameAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/MyTripInfoActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/MyTripsFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/TripImageActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/mytrips/TripsListAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/notifications/NotificationsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/notifications/NotificationsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/BooleanConverter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/ChecklistDataSource.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/ChecklistItemDAO.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/ChecklistViewModel.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/DbChecklist.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/Injection.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/roompersistence/ViewModelFactory.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/searchcitydialog/CitySearchBottomSheetDialogFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/searchcitydialog/CitySearchModel.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/HotelsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/ListViewRealTimeActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/MapViewRealTimeActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/ShoppingAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/ShoppingCurrentCityActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/TravelFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/MapListItemAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/ViewPageFragmentsAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/AtmModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/BusStopModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/EatModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/HangoutSpotFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/HospitalModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/MonumentsModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/PetrolModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/travel/swipefragmentrealtime/modefragments/ShoppingModeFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/AboutUsFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/AddBugFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/AnalogClock.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/BugReportAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/BugReportFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ChecklistActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ChecklistAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ChecklistDragCallback.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ChecklistFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ChecklistItemDiffCallback.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/CompassActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ContributorsFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/CurrencyActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/CurrencyConverterAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/CurrencyListViewActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/CustomAnalogClock.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/DailyQuotesFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/DialOverlay.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/HandsOverlay.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/QuotesActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/ShareContactActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/TimezoneConverterAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/TimezoneListViewActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/UpcomingWeekendsActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/UpcomingWeekendsListAdapter.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/UtilitiesFragment.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/WeatherForecastActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/io/github/project_travel_mate/utilities/WorldClockActivity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/ChecklistItem.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/City.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/CityHistoryListItem.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Contributor.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Feedback.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/FriendCity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/FunFact.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/MapItem.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Notification.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Quote.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/QuoteGroup.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Trip.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Tweet.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/TweetDescription.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/UpcomingWeekends.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/User.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/Weather.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/objects/ZoneName.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/CardItemEntity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/CircleImageView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/Compass.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/Constants.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/CurrencyConverterGlobal.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/DailyQuotesManager.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/DateUtils.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/ExpandableHeightGridView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/ExpandableTextView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/GPSTracker.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/RestaurantItemEntity.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/TouchImageView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/TravelMateAnalogClock.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/TravelmateSnackbars.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/Utils.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/WeatherUtils.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/utils/WhatsNewStrings.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/views/FontTextView.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/CheckListProvider.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/CheckListWidgetItem.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/CheckListWidgetProvider.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/CheckListWidgetService.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/ClockWidget.java">
+</file>
+<file name="/Users/tahir/StudioProjects/Travel-Mate/app/src/main/java/widget/ClockWidgetConfigureActivity.java">
+</file>
+</checkstyle>

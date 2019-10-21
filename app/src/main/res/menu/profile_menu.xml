@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ProfileActivity">
+
+    <item
+        android:id="@+id/action_qrcode_scan"
+        android:icon="@drawable/ic_qrcode_scan"
+        android:orderInCategory="100"
+        android:title="@string/share_my_qr_code"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_share_profile"
+        android:icon="@drawable/ic_share_white"
+        android:orderInCategory="100"
+        android:title="@string/text_share_profile"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/sign_out" />
+
+</menu>

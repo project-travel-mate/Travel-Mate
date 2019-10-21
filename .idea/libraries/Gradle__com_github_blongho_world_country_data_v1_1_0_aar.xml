@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.blongho:world-country-data:v1.1.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a05f5489ce6c3f0f2027df36b482fe10/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a05f5489ce6c3f0f2027df36b482fe10/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.blongho/world-country-data/v1.1.0/918798b379de6d4e75ca4451e06ac3919210b6e9/world-country-data-v1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

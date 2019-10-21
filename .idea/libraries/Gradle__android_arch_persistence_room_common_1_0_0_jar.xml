@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: android.arch.persistence.room:common:1.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/android.arch.persistence.room/common/1.0.0/1cbd3ddc566125293b13af5c0a65bc015476e83c/common-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/android.arch.persistence.room/common/1.0.0/5c5c59f3f0aeb14d82aae5bd98cbbbe607d58297/common-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

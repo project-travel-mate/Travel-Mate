@@ -1,0 +1,105 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeNoBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+    </style>
+
+
+    <style name="AppTheme_picker" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        false
+        true
+        true
+        @android:color/transparent</style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ToolbarText" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+    <style name="TextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextView.Interest" parent="TextView">
+        <item name="android:background">@drawable/round_textview</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.Nickname" parent="TextView">
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+
+    <style name="LinearLayout" />
+
+    <style name="LinearLayout.Interests">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginLeft">14dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!--AlertDialog SignOut-->
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <!-- Full Profile Image Theme-->
+    <style name="FullProfileImageTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/black</item>
+    </style>
+
+    <style name="RestaurantCardView" parent="CardView">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPadding">6dp</item>
+    </style>
+
+    <style name="OtpWidget.OtpView" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+        <item name="android:isScrollContainer">true</item>
+    </style>
+</resources>

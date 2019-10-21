@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hotelsCoordinatorLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="io.github.project_travel_mate.travel.HotelsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?android:attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="io.github.project_travel_mate.travel.HotelsActivity">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_loop="true" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/select_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_shape"
+                android:gravity ="center"
+                android:padding="10dp"
+                android:layout_margin="20dp"
+                android:text="@string/prompt_city_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hotel_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@android:color/transparent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="222dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:text="@string/hotels_text" />
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

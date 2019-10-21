@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/shadow_1"
+    android:backgroundTint="@color/black"
+    android:gravity="center_vertical"
+    tools:targetApi="lollipop"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <utils.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:paddingTop="15dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_card_travel_black_24dp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/sample_state"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="20dp"
+            android:layout_height="13dp"
+            android:layout_alignParentEnd="false"
+            android:layout_toStartOf="@+id/notification_time"
+            android:layout_weight="1"
+            android:paddingTop="1dp"
+            app:srcCompat="@drawable/ic_access_time_black_24dp" />
+
+        <TextView
+            android:id="@+id/notification_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/sample_state"
+            android:textAlignment="textEnd"
+            android:textColor="@color/grey"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/read_status"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal" />
+
+</LinearLayout>

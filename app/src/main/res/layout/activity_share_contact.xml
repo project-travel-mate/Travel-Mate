@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout android:id="@+id/activityShareContact"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="io.github.project_travel_mate.utilities.ShareContactActivity">
+
+    <ImageView
+        android:id="@+id/im"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:contentDescription="@string/empty_description" />
+
+    <TextView
+        android:id="@+id/qr_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="54dp"
+        android:gravity="center"
+        android:paddingTop="5sp"
+        android:text="@string/bottom_info_string"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/view_contact"
+        android:textColor="@color/white" />
+
+  </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

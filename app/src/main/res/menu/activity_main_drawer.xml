@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" android:id="@+id/nav_grp1">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_city"
+            android:icon="@drawable/ic_location_city_black"
+            android:title="@string/navigation_drawer_destination" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/ic_directions_car_black"
+            android:title="@string/navigation_drawer_travel" />
+        <item
+            android:id="@+id/nav_mytrips"
+            android:icon="@drawable/ic_card_travel_black_24dp"
+            android:title="@string/my_trip" />
+        <item
+            android:id="@+id/nav_myfriends"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="@string/navigation_drawer_my_friends" />
+        <item
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favourite_cities" />
+        <item
+            android:id="@+id/nav_utility"
+            android:icon="@drawable/ic_utilities"
+            android:title="@string/navigation_drawer_utilities" />
+
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/nav_grp2">
+
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="@string/navigation_drawer_about_us" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/navigation_drawer_signout" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/navigation_drawer_settings"/>
+    </group>
+
+</menu>

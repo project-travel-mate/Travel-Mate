@@ -1,0 +1,12 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/utility_options_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"/>
+
+</ScrollView>

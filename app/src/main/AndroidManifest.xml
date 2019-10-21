@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?><!-- suppress ALL -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.github.project_travel_mate">
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:icon="@drawable/google_travel_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:fullBackupContent">
+        <activity
+            android:name=".mytrips.TripImageActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNoBar"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="project-travel-mate.github.io" />
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+                <data android:pathPattern=".*" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="utils.GPSTracker"
+            android:enabled="true" />
+
+        <activity
+            android:name=".utilities.ChecklistActivity"
+            android:label="@string/title_activity_select_city"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.ShoppingCurrentCityActivity"
+            android:label="@string/title_activity_shopping_currentcity"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.HotelsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_hotels"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".travel.MapViewRealTimeActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/AppTheme_picker" />
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNoBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+        <activity
+            android:name=".destinations.funfacts.FunFactsActivity"
+            android:label="@string/title_activity_fun_facts"
+            android:theme="@style/AppTheme_picker" />
+        <activity android:name=".utilities.ShareContactActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppThemeNoBar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".destinations.description.FinalCityInfoActivity"
+            android:theme="@style/AppThemeNoBar" />
+        <activity android:name=".destinations.description.PlacesOnMapActivity" />
+        <activity android:name=".mytrips.AddNewTripActivity" />
+        <activity
+            android:name=".mytrips.MyTripInfoActivity"
+            android:theme="@style/AppThemeNoBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".destinations.description.TweetsActivity" />
+        <activity
+            android:name=".VerifyEmailActivity"
+            android:label="@string/verify_email"
+            android:theme="@style/AppThemeNoBar" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="io.github.project_travel_mate.shareFile"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".ProfileActivity"
+                  android:configChanges="orientation|screenSize" />
+        <activity android:name=".friend.FriendsProfileActivity" />
+        <activity android:name=".notifications.NotificationsActivity" />
+        <activity
+            android:name=".FullScreenImage"
+            android:theme="@style/FullProfileImageTheme" />
+        <activity android:name=".utilities.WeatherForecastActivity" />
+        <activity android:name=".utilities.CompassActivity" />
+        <activity android:name=".utilities.CurrencyActivity" />
+        <activity android:name=".utilities.WorldClockActivity" />
+        <activity android:name=".utilities.CurrencyListViewActivity" />
+        <activity android:name=".utilities.TimezoneListViewActivity" />
+        <activity android:name=".destinations.description.WeatherActivity" />
+        <activity android:name=".utilities.UpcomingWeekendsActivity" />
+        <activity android:name=".destinations.description.CityHistoryActivity" />
+        <activity android:name=".destinations.description.CityMapActivity" />
+        <activity android:name=".travel.ListViewRealTimeActivity" />
+        <activity android:name=".destinations.description.RestaurantsActivity" />
+        <activity android:name=".destinations.description.TweetsDescriptionActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".utilities.QuotesActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+        />
+        <activity
+            android:name=".DeleteProfilePictureActivity"
+            android:icon="@drawable/ic_delete_round"
+            android:label="@string/remove_photo"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.DELETE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".destinations.description.RestaurantDetailsActivity"
+            android:theme="@style/AppThemeNoBar" />
+
+        <receiver android:name="widget.CheckListWidgetProvider">
+            <intent-filter>
+
+                <!-- This widget provider receives broadcast with following action name or simply onUpdate of AppWidgetProvider is called -->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- linking up xml file of appwidget-provider to AppWidgetProvider -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/checklist_widget_info" />
+        </receiver>
+
+        <service
+            android:name="widget.CheckListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name="widget.ClockWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_widget_info" />
+        </receiver>
+
+        <activity android:name="widget.ClockWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

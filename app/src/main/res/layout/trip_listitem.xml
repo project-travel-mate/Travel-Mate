@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/trip_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:layout_marginLeft="10dp">
+
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:markerSize="20dp"
+        app:lineSize="2dp"
+        app:line="@color/colorPrimary"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        card_view:contentPadding="100dp"
+        card_view:cardCornerRadius="2dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <utils.CircleImageView
+                android:id="@+id/profile_image"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="2dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/sample_state"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_toEndOf="@id/profile_image"
+                android:lineSpacingExtra="3dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="5dp"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_state"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_below="@id/tv"
+                android:layout_toEndOf="@id/profile_image"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

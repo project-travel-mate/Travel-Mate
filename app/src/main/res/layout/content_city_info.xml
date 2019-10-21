@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="io.github.project_travel_mate.destinations.description.FinalCityInfoActivity"
+    tools:showIn="@layout/activity_city_info">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="loading.json"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_loop="true" />
+
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/SliderDots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/favourite_city"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/margin_16dp">
+
+                <ImageView
+                    android:id="@+id/image_favourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_favorite_border_red_24dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weather"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                tools:targetApi="lollipop">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/empty_description"
+                        android:tint="@color/grey" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/temp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1.0"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:contentDescription="@string/empty_description"
+                                android:src="@drawable/umbrella"
+                                android:tint="@color/grey" />
+
+                            <TextView
+                                android:id="@+id/humidit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1.0"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/weatherinfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="end"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/view_forecast"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="1dp"
+                                android:contentDescription="@string/empty_description"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                                android:tint="@color/grey" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/city_history"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/ic_info_outline_black_24dp"
+                        android:tint="@color/blue" />
+
+                    <TextView
+                        android:id="@+id/city_history_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/know_more_about"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/funfact"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/ic_insert_emoticon_black_24dp"
+                        android:tint="@color/saffron" />
+
+                    <TextView
+                        android:id="@+id/fftext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/fun_facts"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/hangout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/ic_location"
+                        android:tint="@color/red_error" />
+
+                    <TextView
+                        android:id="@+id/hgtext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/text_hangout"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/monu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/ic_location_city_black"
+                        android:tint="@color/blue" />
+
+                    <TextView
+                        android:id="@+id/mntext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/text_monuments"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/shoppp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/shopping_icon" />
+
+                    <TextView
+                        android:id="@+id/shtext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/text_shopping"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/restau"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shadow_1"
+                    android:backgroundTint="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    tools:targetApi="lollipop">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/empty_description"
+                        android:src="@drawable/ic_local_bar_black"
+                        android:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/rstext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="@string/text_restaurants"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/trends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                tools:targetApi="lollipop">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/empty_description"
+                    android:src="@drawable/twitter_icon" />
+
+                <TextView
+                    android:id="@+id/cttext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="@string/text_city_trends"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_city_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_1"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                tools:targetApi="lollipop">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/empty_description"
+                    android:src="@drawable/ic_map" />
+
+                <TextView
+                    android:id="@+id/tv_city_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="@string/text_city_map"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/is_visited"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_shape"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/city_visited"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

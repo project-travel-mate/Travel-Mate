@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dip"
+            android:padding="3dip">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ae" /> <!-- From com.blongho.country_data-->
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/thumbnail"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:text="@string/sample_state"
+            android:textColor="#040404"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

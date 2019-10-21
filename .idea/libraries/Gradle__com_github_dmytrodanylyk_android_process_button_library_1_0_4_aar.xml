@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.dmytrodanylyk.android-process-button:library:1.0.4@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/89f9f60c1ba3ebf0947827c0220ca883/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/89f9f60c1ba3ebf0947827c0220ca883/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.dmytrodanylyk.android-process-button/library/1.0.4/151d2a8951c2943c51fd729caa404da4e0afa655/library-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

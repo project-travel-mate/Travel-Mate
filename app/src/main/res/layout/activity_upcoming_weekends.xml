@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:id="@+id/upcoming_weekends_activity"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 tools:context="io.github.project_travel_mate.utilities.UpcomingWeekendsActivity"
+                                                 android:layout_margin="8dp">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                     xmlns:tools="http://schemas.android.com/tools"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loading.json"
+                app:lottie_imageAssetsFolder="images"
+                app:lottie_loop="true" />
+
+            <RelativeLayout
+                android:id="@+id/upcoming_weekends_main_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/upcoming_weekends_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/trip_listitem" />
+
+                <TextView
+                    android:id="@+id/upcoming_weekends_no_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|center_horizontal"
+                    android:text="@string/you_dont_have_trips"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</android.support.design.widget.CoordinatorLayout>

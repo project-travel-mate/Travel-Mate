@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.tonnyl:whatsnew:0.1.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/adab59e5512b24ffedd85444c0154793/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/adab59e5512b24ffedd85444c0154793/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.tonnyl/whatsnew/0.1.1/da6da4b6b4baa1df1638ace23d53baa68a66fb0e/whatsnew-0.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

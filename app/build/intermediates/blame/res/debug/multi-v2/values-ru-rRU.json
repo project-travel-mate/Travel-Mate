@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ru-rRU/values-ru-rRU.xml",
+            "map": [
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/0192c4abe410c934fa03451325380035/res/values-ru-rRU/values-ru-rRU.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,113,171,257,339,412,487",
+                        "endColumns": "57,57,85,81,72,74,76",
+                        "endOffsets": "108,166,252,334,407,482,559"
+                    }
+                }
+            ]
+        }
+    ]
+}

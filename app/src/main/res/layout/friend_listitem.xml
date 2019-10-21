@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/my_friends_linear_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <utils.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="2dp" />
+
+    <TextView
+        android:id="@+id/friend_display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:maxWidth="90dp"
+        android:maxHeight="50dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+</LinearLayout>

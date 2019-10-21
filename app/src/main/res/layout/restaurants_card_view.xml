@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_content"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shadow_1"
+    android:backgroundTint="@color/black"
+    android:gravity="center_horizontal"
+    tools:targetApi="lollipop"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/avg_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="11dp"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent_black">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="fill_parent"
+                android:layout_height="164dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:alpha="0.75"
+                android:background="@color/black"
+                android:backgroundTint="@color/black"
+                android:contentDescription="@string/empty_description"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop" />
+
+            <utils.CircleImageView
+                android:id="@+id/ratings_circle"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/ratings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="13dp"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/restaurant_address"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_alignBottom="@+id/image"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/restaurant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/restaurant_address"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/votes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+
+    </FrameLayout>
+</LinearLayout>

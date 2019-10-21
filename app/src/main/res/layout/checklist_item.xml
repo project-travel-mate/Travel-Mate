@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/stock_activity_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/row_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingTop="4dp"
+        android:src="@drawable/ic_drag_indicator_grey_400_24dp" />
+
+    <CheckBox
+        android:id="@+id/row_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
+
+    <ImageView
+        android:id="@+id/row_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingTop="4dp"
+        android:src="@drawable/ic_add_grey_400_24dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/row_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:hint="@string/enter_task_name"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp" />
+
+    <ImageView
+        android:id="@+id/row_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingTop="4dp"
+        android:src="@drawable/ic_cancel_grey_400_24dp"
+        android:visibility="gone" />
+
+</LinearLayout>
+

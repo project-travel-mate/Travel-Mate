@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notifications_white"
+        android:orderInCategory="100"
+        android:title="@string/abc_search_hint"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#ff5722</color>
+    <color name="green">#5cb85c</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#616161</color>
+    <color name="silver">#969696</color>
+    <color name="blue">#0288D1</color>
+    <color name="light_grey">#FFBDBDBD</color>
+    <color name="dark_grey">#333434</color>
+    <color name="transparent_black">#CC000000</color>
+    <color name="stock_activity_background">#FFFAFAFA</color>
+
+    <color name="saffron">#F4B63E</color>
+    <color name="sienna">#EB6460</color>
+    <color name="purple">#7c57e4</color>
+    <color name="pink">#ff4284</color>
+    <color name="orange">#ff8c6a</color>
+    <color name="yellow">#ebdb60</color>
+    <color name="peach">#C9EDD8B8</color>
+    <color name="spotlight">#C7010B0E</color>
+    <color name="transparent">#AA000000</color>
+    <color name="clock_transparent">#AA000000</color>
+    <color name="github_contributions_light_green">#8CC665</color>
+    <color name="orangish">#ff4411</color>
+    <color name="orangish_dark">#ff3300</color>
+    <color name="dark_blue">#202070</color>
+</resources>

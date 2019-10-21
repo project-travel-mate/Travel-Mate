@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/horizontalProgressBar"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateBehavior="cycle"
+            android:indeterminateTint="@color/colorAccent"
+            android:paddingStart="@dimen/margin_20dp"
+            android:paddingEnd="@dimen/margin_20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="load.json"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_loop="true" />
+
+        <utils.CircleImageView
+            android:id="@+id/display_image"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/default_user_icon"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <utils.CircleImageView
+            android:id="@+id/change_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/change_pic"
+            app:layout_constraintBottom_toBottomOf="@id/display_image"
+            app:layout_constraintEnd_toEndOf="@id/display_image" />
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:alpha="0.8"
+            android:contentDescription="@string/info_icon"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_status"
+            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
+        <EditText
+            android:id="@+id/display_status"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
+            android:ellipsize="end"
+            android:focusableInTouchMode="false"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:maxLength="100"
+            android:padding="4dp"
+            android:hint="@string/default_status"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/ib_edit_display_status"
+            app:layout_constraintStart_toEndOf="@id/status_icon"
+            app:layout_constraintTop_toBottomOf="@id/change_image" />
+
+        <TextView
+            android:id="@+id/status_character_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/status_length"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/display_status"
+            app:layout_constraintTop_toBottomOf="@id/display_status" />
+
+        <ImageButton
+            android:id="@+id/ib_edit_display_status"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_status"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+        <ProgressBar
+            android:id="@+id/status_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/display_status"
+            app:layout_constraintEnd_toEndOf="@id/display_status"
+            app:layout_constraintStart_toStartOf="@id/display_status"
+            app:layout_constraintTop_toTopOf="@id/display_status" />
+
+        <ImageView
+            android:id="@+id/profile_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:alpha="0.8"
+            android:contentDescription="@string/info_icon"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_name"
+            app:srcCompat="@drawable/ic_person_black_24dp" />
+
+        <EditText
+            android:id="@+id/display_name"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
+            android:ellipsize="end"
+            android:focusableInTouchMode="false"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:maxLength="50"
+            android:padding="4dp"
+            android:text="@string/default_name"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/ib_edit_display_name"
+            app:layout_constraintStart_toEndOf="@id/profile_icon"
+            app:layout_constraintTop_toBottomOf="@id/display_status" />
+
+        <TextView
+            android:id="@+id/name_character_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_length"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/display_name"
+            app:layout_constraintTop_toBottomOf="@id/display_name" />
+
+
+        <ImageButton
+            android:id="@+id/ib_edit_display_name"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_name"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+        <ProgressBar
+            android:id="@+id/name_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/display_name"
+            app:layout_constraintEnd_toEndOf="@id/display_name"
+            app:layout_constraintStart_toStartOf="@id/display_name"
+            app:layout_constraintTop_toTopOf="@id/display_name" />
+
+        <ImageView
+            android:id="@+id/email_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:alpha="0.8"
+            android:contentDescription="@string/info_icon"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_email"
+            app:srcCompat="@drawable/ic_email_black_24dp" />
+
+
+        <TextView
+            android:id="@+id/display_email"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:text="@string/email"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/is_email_verified"
+            app:layout_constraintStart_toEndOf="@id/email_icon"
+            app:layout_constraintTop_toBottomOf="@id/display_name" />
+
+        <ImageView
+            android:id="@+id/is_email_verified"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_close_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_email" />
+
+
+        <ImageView
+            android:id="@+id/date_joined_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:alpha="0.8"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/display_joining_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/display_joining_date"
+            app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+        <TextView
+            android:id="@+id/display_joining_date"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:text="@string/text_joining_date"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/is_email_verified"
+            app:layout_constraintStart_toEndOf="@id/date_joined_icon"
+            app:layout_constraintTop_toBottomOf="@id/display_email" />
+
+        <TextView
+            android:id="@+id/cities_travelled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            android:text="@string/cities_travelled"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/date_joined_icon"
+            app:layout_constraintTop_toBottomOf="@id/display_joining_date" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cities_travelled_text" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

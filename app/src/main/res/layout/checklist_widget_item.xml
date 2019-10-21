@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/check_card_widget"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#7a424242"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="left"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/image_checkbox"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/check"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/check_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="3dp"
+            android:paddingTop="5dp"
+            android:singleLine="false"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSearchResultSubtitle"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+</LinearLayout>

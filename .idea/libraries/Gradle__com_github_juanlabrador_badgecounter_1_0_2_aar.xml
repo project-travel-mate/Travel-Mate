@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.juanlabrador:badgecounter:1.0.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/18ec6629049710efbd7d38fa3052218b/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/18ec6629049710efbd7d38fa3052218b/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.juanlabrador/badgecounter/1.0.2/7867ee39b4cd7b37725c0e9e43d6b6d78f3eafc0/badgecounter-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

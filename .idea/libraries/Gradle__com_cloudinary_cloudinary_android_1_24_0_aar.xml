@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.cloudinary:cloudinary-android:1.24.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cloudinary/cloudinary-android/1.24.0/dd6c51cdab7284c1a8094cbb600047fe25acba7b/cloudinary-android-1.24.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

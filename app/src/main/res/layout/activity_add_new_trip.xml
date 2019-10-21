@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/activityAddNewTrip"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".mytrips.AddNewTripActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/tname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="@string/prompt_trip_name"
+            android:maxLines="1"
+            android:popupBackground="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:inputType="text"
+            tools:targetApi="lollipop" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_event"
+            android:layout_weight="0"/>
+        <TextView
+            android:id="@+id/sdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/prompt_start_date"
+            android:textColor="?attr/editTextColor"
+            android:background="?attr/editTextBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_location"
+            android:layout_weight="0"/>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/select_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/prompt_city_name"
+            android:textColor="?attr/editTextColor"
+            android:background="?attr/editTextBackground" />
+    </LinearLayout>
+
+    <com.dd.processbutton.FlatButton
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/prompt_add_trip"
+        android:textColor="@color/white" />
+</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

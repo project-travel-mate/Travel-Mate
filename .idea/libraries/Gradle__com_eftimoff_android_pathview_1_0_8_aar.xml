@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.eftimoff:android-pathview:1.0.8@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/jars/libs/androidsvg-1.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

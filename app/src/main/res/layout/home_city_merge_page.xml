@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/black"
+    android:weightSum="2"
+    android:descendantFocusability="blocksDescendants"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:id="@+id/left_side"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/first"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/empty_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image" />
+
+
+        <TextView
+            android:id="@+id/name1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/sample_state"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/right_side"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/second"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/empty_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image" />
+
+
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/sample_state"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>
+    
+    
+

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shadow_1"
+    android:backgroundTint="@color/black"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:targetApi="lollipop">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <utils.CircleImageView
+                android:id="@+id/distance_image"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/distance_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/distance"
+                android:layout_centerHorizontal="true"
+                android:text="@string/kms"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/hotel_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_margin="8dp"
+            android:gravity="start"
+            android:text="@string/text_title"
+            android:textAlignment="center"
+            android:textColor="#ff4a4a4a"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hotel_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="10"
+            android:text="@string/empty_description"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/expand_more_details"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/expand_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/tap_for_more_details"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+            <ImageButton
+                android:id="@+id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="end|bottom"
+                android:layout_toEndOf="@+id/expand_text_view"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/empty_description"
+                android:tint="#666666"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/more_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/call"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <utils.CircleImageView
+                    android:id="@+id/call_image"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@color/colorAccent" />
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_call_white" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/map"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <utils.CircleImageView
+                    android:id="@+id/map_image"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@color/colorAccent" />
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_pin_drop_white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/book"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <utils.CircleImageView
+                    android:id="@+id/locate_image"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/more"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

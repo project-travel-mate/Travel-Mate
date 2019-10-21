@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@android:color/white"
+        tools:text="DayOfWeek" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="#88FFFFFF"
+        tools:text="Date" />
+
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/today"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/empty_description"
+        android:textColor="@android:color/black"
+        android:tint="@android:color/white"
+        tools:src="@drawable/wi_day_rain" />
+
+    <TextView
+        android:id="@+id/max_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_icon"
+        android:layout_margin="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@color/colorPrimary"
+        tools:text="MaxTemp" />
+
+    <TextView
+        android:id="@+id/min_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/weather_icon"
+        android:layout_margin="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="#81D4FA"
+        tools:text="MinTemp" />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+#Mon Oct 21 18:12:00 PKT 2019
+path.2=classes.dex
+path.1=classes.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/transforms/dexMerger/debug/2
+base.1=/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/transforms/dexMerger/debug/1
+base.0=/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/transforms/dexMerger/debug/0

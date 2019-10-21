@@ -1,0 +1,50 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="4"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_dns"
+        android:shortcutShortLabel="@string/navigation_drawer_utilities"
+        android:shortcutLongLabel="@string/navigation_drawer_utilities">
+        <intent
+            android:action="io.github.project_travel_mate.UtilitiesShortcut"
+            android:targetPackage="io.github.project_travel_mate"
+            android:targetClass="io.github.project_travel_mate.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="3"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_card_travel"
+        android:shortcutShortLabel="@string/my_trip"
+        android:shortcutLongLabel="@string/my_trip">
+        <intent
+            android:action="io.github.project_travel_mate.MyTripsShortcut"
+            android:targetPackage="io.github.project_travel_mate"
+            android:targetClass="io.github.project_travel_mate.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="2"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_directions_car"
+        android:shortcutShortLabel="@string/navigation_drawer_travel"
+        android:shortcutLongLabel="@string/navigation_drawer_travel">
+        <intent
+            android:action="io.github.project_travel_mate.TravelShortcut"
+            android:targetPackage="io.github.project_travel_mate"
+            android:targetClass="io.github.project_travel_mate.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="1"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_account_circle"
+        android:shortcutShortLabel="@string/my_profile"
+        android:shortcutLongLabel="@string/my_profile">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="io.github.project_travel_mate"
+            android:targetClass="io.github.project_travel_mate.ProfileActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

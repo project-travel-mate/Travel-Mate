@@ -1,0 +1,39 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v11/values-v11.xml",
+            "map": [
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/res/values-v11/values-v11.xml",
+                    "from": {
+                        "startLines": "2,19",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,1044",
+                        "endLines": "18,35",
+                        "endColumns": "10,10",
+                        "endOffsets": "1039,2010"
+                    }
+                },
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/res/values-v11/values-v11.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "3",
+                        "endColumns": "10",
+                        "endOffsets": "150"
+                    },
+                    "to": {
+                        "startLines": "36",
+                        "startColumns": "4",
+                        "startOffsets": "2015",
+                        "endLines": "37",
+                        "endColumns": "10",
+                        "endOffsets": "2110"
+                    }
+                }
+            ]
+        }
+    ]
+}

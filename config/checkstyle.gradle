@@ -1,0 +1,25 @@
+apply plugin: 'checkstyle'
+
+dependencies {
+    checkstyle 'com.puppycrawl.tools:checkstyle:7.6.1'
+}
+
+def qualityConfigDir = "$project.rootDir/config/quality"
+def reportsDir = "$project.buildDir/reports"
+
+check.dependsOn 'checkstyle'
+
+task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code style checks') {
+    configFile file("$qualityConfigDir/checkstyle_config.xml")
+    source 'src'
+    include '**/*.java'
+
+    reports {
+        xml.enabled = true
+        xml {
+            destination file("$reportsDir/checkstyle/checkstyle.xml")
+        }
+    }
+
+    classpath = files( )
+}

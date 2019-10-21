@@ -1,0 +1,849 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f68a96a7923af284c586a220113639f6/AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.dmytrodanylyk.android-process-button:library:1.0.4] /Users/tahir/.gradle/caches/transforms-2/files-2.1/89f9f60c1ba3ebf0947827c0220ca883/AndroidManifest.xml:2:1-12:12
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:2:1-15:12
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:17:1-55:12
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/8e1b530d2f113d975e7dbfc5537c100b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.miguelcatalan:materialsearchview:1.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e393f9c36ed594ed35cc9056517c57b6/AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:design:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/37f124a110557547343dc345df7cfb08/AndroidManifest.xml:17:1-24:12
+MERGED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:2:1-15:12
+MERGED from [io.github.tonnyl:whatsnew:0.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/adab59e5512b24ffedd85444c0154793/AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/51176e1b27a5e8ab63485a78e36827b2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.blongho:world-country-data:v1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a05f5489ce6c3f0f2027df36b482fe10/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6b4ebc97172f22a42f63e4ece87f9088/AndroidManifest.xml:17:1-22:12
+MERGED from [com.airbnb.android:lottie:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/98ad12eb58a30dc02efdc0485d3871b8/AndroidManifest.xml:2:1-13:12
+MERGED from [com.github.takusemba:spotlight:1.6.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/489631c15ac293bedb987b74b07b2bb5/AndroidManifest.xml:2:1-11:12
+MERGED from [com.theartofdev.edmodo:android-image-cropper:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0192c4abe410c934fa03451325380035/AndroidManifest.xml:2:1-11:12
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.4.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/008017ff692b8af8ca478b355e01ac36/AndroidManifest.xml:6:1-16:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d1a87111c5171656982108f70102623a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.eftimoff:android-pathview:1.0.8] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/AndroidManifest.xml:2:1-14:12
+MERGED from [com.patrickpissurno:ripple-effect:1.3.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/91c428921dbd72ea20e8dee39673f569/AndroidManifest.xml:2:1-14:12
+MERGED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:2:1-29:12
+MERGED from [com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32] /Users/tahir/.gradle/caches/transforms-2/files-2.1/405a91efdcd8f722ad782612adfc871d/AndroidManifest.xml:17:1-27:12
+MERGED from [com.jakewharton:butterknife:8.8.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2757ff4cb195d549c3c6eb259cecdc06/AndroidManifest.xml:2:1-7:12
+MERGED from [android.arch.persistence.room:rxjava2:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/86e6dbc6aa8d4033b550e9440597b2e9/AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.persistence.room:runtime:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/79f16cfed7eed22e1b5df6897a1e9eb3/AndroidManifest.xml:17:1-24:12
+MERGED from [com.github.juanlabrador:badgecounter:1.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/18ec6629049710efbd7d38fa3052218b/AndroidManifest.xml:2:1-12:12
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/803eafbe32206e1947f2ddf51be0180c/AndroidManifest.xml:15:1-21:12
+MERGED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:17:1-30:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e921a9af0ebaf9999ec0de4885285438/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f474594c756680c981a1e3ec654d01c7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/63778846dc211011d7e8a73107a6d696/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/85f609c935d32397979a07f38ed0b993/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6acb4e3c864758734da58ee6c8857a44/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a475529dab8e311644e5118f9f368ea2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android:flexbox:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/17c01f8e299dcd073c54d64442556e03/AndroidManifest.xml:17:1-27:12
+MERGED from [com.github.mukeshsolanki:android-otpview-pinview:2.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/9de48666de077d16137e6f74b38b603c/AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.vipulasri:timelineview:1.0.6] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7a3bb1b2a0f50708bd17b9efd729fa60/AndroidManifest.xml:2:1-17:12
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e902febde7dce9a35974ee2f093efc76/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/448e560f875b0484c40315028765df99/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3b0140dc09717dd29e8d803792cd2208/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f2a4450d92628db211f9b88f956679db/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/47f57195609c9580fa63b3fe02468aae/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d956ca355e3944ffdcdcb7d1470021f0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3eda59ab8adda19d97d4422411f5f5da/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88a28da95a78eeea92d2d33fed60da9e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7babb98c5926d21c8cfe0fa9bb1bd92b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82328d6d29ebd7d954567d5046ba388b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2dd7828a2c05c016e01fe0b2c0f43ebf/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/203bd455aa47b87185fad289b6b62686/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:exifinterface:27.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82258009d4a49bbafe22fa7e150b35a4/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/447c0ac484f432f36f52eb36fd0281be/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88e8dd4f3bc9f7b869dfa2cf5a5338b2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6175c7a2a9ba692c61bd5ae2ec638894/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/fe804b58a8692182f62ffb650296d974/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1c948a9fd75f4e143e11a96ba7e18c36/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.persistence:db-framework:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0563094e1d383d1528491e90b9de629a/AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.persistence:db:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/14bec2b2facd5cd6554a939a2f0e31e7/AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/c0c563559bb269035376aa3456eb0138/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e0f221e7bff47b9b72cdd0071212cd75/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6cc88045328f4688aa08e105d230142f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:2:1-65:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+	package
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:4:5-44
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:1-206:12
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:2:11-69
+uses-feature#android.hardware.camera
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:6:5-60
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:24:5-26:36
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:24:5-26:36
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:6:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:7:5-9:36
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:32:5-34:36
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:32:5-34:36
+	android:required
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:9:9-33
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:8:9-57
+uses-permission#android.permission.CAMERA
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:11:5-65
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:21:5-65
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:21:5-65
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:11:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:12:22-78
+uses-permission#android.permission.BLUETOOTH
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:13:5-68
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:13:22-65
+uses-permission#android.permission.WRITE_CONTACTS
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:14:5-73
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:14:22-70
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:15:5-74
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:15:22-71
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:16:5-75
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:16:22-72
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:17:5-68
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:12:5-68
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:12:5-68
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:17:22-65
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:18:5-80
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:18:22-77
+uses-permission#android.permission.INTERNET
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:19:5-67
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:11:5-67
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:11:5-67
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:19:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:20:5-79
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:13:5-79
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:13:5-79
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:20:22-76
+uses-permission#android.permission.READ_CONTACTS
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:21:5-72
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:21:22-69
+uses-permission#android.permission.READ_PROFILE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:22:5-71
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:22:22-68
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:23:5-81
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:23:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:24:22-76
+uses-permission#android.permission.VIBRATE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:25:5-66
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:25:22-63
+application
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:27:5-204:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f68a96a7923af284c586a220113639f6/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f68a96a7923af284c586a220113639f6/AndroidManifest.xml:9:5-20
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:13:5-67
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:13:5-67
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:45:5-53:19
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:45:5-53:19
+MERGED from [com.miguelcatalan:materialsearchview:1.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e393f9c36ed594ed35cc9056517c57b6/AndroidManifest.xml:11:5-20
+MERGED from [com.miguelcatalan:materialsearchview:1.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e393f9c36ed594ed35cc9056517c57b6/AndroidManifest.xml:11:5-20
+MERGED from [com.android.support:design:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/37f124a110557547343dc345df7cfb08/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/37f124a110557547343dc345df7cfb08/AndroidManifest.xml:22:5-20
+MERGED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:13:5-20
+MERGED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:13:5-20
+MERGED from [com.airbnb.android:lottie:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/98ad12eb58a30dc02efdc0485d3871b8/AndroidManifest.xml:11:5-20
+MERGED from [com.airbnb.android:lottie:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/98ad12eb58a30dc02efdc0485d3871b8/AndroidManifest.xml:11:5-20
+MERGED from [com.eftimoff:android-pathview:1.0.8] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/AndroidManifest.xml:12:5-20
+MERGED from [com.eftimoff:android-pathview:1.0.8] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/AndroidManifest.xml:12:5-20
+MERGED from [com.patrickpissurno:ripple-effect:1.3.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/91c428921dbd72ea20e8dee39673f569/AndroidManifest.xml:12:5-20
+MERGED from [com.patrickpissurno:ripple-effect:1.3.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/91c428921dbd72ea20e8dee39673f569/AndroidManifest.xml:12:5-20
+MERGED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:22:5-28:19
+MERGED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:22:5-28:19
+MERGED from [com.github.vipulasri:timelineview:1.0.6] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7a3bb1b2a0f50708bd17b9efd729fa60/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.vipulasri:timelineview:1.0.6] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7a3bb1b2a0f50708bd17b9efd729fa60/AndroidManifest.xml:11:5-15:19
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2dd7828a2c05c016e01fe0b2c0f43ebf/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2dd7828a2c05c016e01fe0b2c0f43ebf/AndroidManifest.xml:22:5-23:19
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:16:5-63:19
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:16:5-63:19
+	android:screenOrientation
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:33:9-45
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:34:9-35
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:31:9-41
+	android:fullBackupContent
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:29:9-59
+		REJECTED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:13:18-64
+	tools:ignore
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:16:18-44
+	android:largeHeap
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:32:9-33
+	android:icon
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:30:9-52
+	android:allowBackup
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:28:9-35
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:35:9-40
+	tools:replace
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:36:9-50
+activity#io.github.project_travel_mate.mytrips.TripImageActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:37:9-40:47
+	android:configChanges
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:39:13-59
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:40:13-44
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:38:13-54
+activity#io.github.project_travel_mate.MainActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:41:9-58:20
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:43:13-45
+	android:windowSoftInputMode
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:46:13-55
+	android:configChanges
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:45:13-59
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:44:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:42:13-41
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:project-travel-mate.github.io+data:pathPattern:.*+data:scheme:http+data:scheme:https
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:47:13-57:29
+action#android.intent.action.VIEW
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:48:17-69
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:48:25-66
+category#android.intent.category.DEFAULT
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:50:17-76
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:50:27-73
+category#android.intent.category.BROWSABLE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:51:17-78
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:51:27-75
+data
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:53:17-70
+	android:host
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:53:23-67
+	android:scheme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:54:23-45
+	android:pathPattern
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:56:23-47
+service#utils.GPSTracker
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:60:9-62:38
+	android:enabled
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:62:13-35
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:61:13-44
+activity#io.github.project_travel_mate.utilities.ChecklistActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:64:9-67:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:66:13-63
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:67:13-51
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:65:13-56
+activity#io.github.project_travel_mate.travel.ShoppingCurrentCityActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:68:9-71:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:70:13-72
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:71:13-51
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:69:13-63
+activity#io.github.project_travel_mate.travel.HotelsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:72:9-76:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:75:13-58
+	android:configChanges
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:74:13-59
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:76:13-51
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:73:13-50
+activity#io.github.project_travel_mate.travel.MapViewRealTimeActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:77:9-80:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:79:13-55
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:80:13-51
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:78:13-59
+activity#io.github.project_travel_mate.SplashActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:81:9-94:20
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:83:13-45
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:84:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:82:13-43
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:85:13-89:29
+action#android.intent.action.MAIN
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:86:17-69
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:86:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:88:17-77
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:88:27-74
+meta-data#android.app.shortcuts
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:91:13-93:53
+	android:resource
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:93:17-50
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:92:17-53
+activity#io.github.project_travel_mate.destinations.funfacts.FunFactsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:95:9-98:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:97:13-61
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:98:13-51
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:96:13-67
+activity#io.github.project_travel_mate.utilities.ShareContactActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:99:9-68
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:99:19-65
+activity#io.github.project_travel_mate.login.LoginActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:100:9-104:54
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:102:13-57
+	android:windowSoftInputMode
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:104:13-52
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:103:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:101:13-48
+activity#io.github.project_travel_mate.destinations.description.FinalCityInfoActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:105:9-107:52
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:107:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:106:13-75
+activity#io.github.project_travel_mate.destinations.description.PlacesOnMapActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:108:9-82
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:108:19-79
+activity#io.github.project_travel_mate.mytrips.AddNewTripActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:109:9-64
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:109:19-61
+activity#io.github.project_travel_mate.mytrips.MyTripInfoActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:110:9-113:57
+	android:windowSoftInputMode
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:113:13-54
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:112:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:111:13-55
+activity#io.github.project_travel_mate.destinations.description.TweetsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:114:9-77
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:114:19-74
+activity#io.github.project_travel_mate.VerifyEmailActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:115:9-118:52
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:117:13-49
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:118:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:116:13-48
+provider#android.support.v4.content.FileProvider
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:120:9-128:20
+	android:grantUriPermissions
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:124:13-47
+	android:authorities
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:122:13-74
+	android:exported
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:123:13-37
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:121:13-67
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:125:13-127:58
+	android:resource
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:127:17-55
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:126:17-67
+activity#io.github.project_travel_mate.ProfileActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:130:9-131:68
+	android:configChanges
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:131:19-65
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:130:19-50
+activity#io.github.project_travel_mate.friend.FriendsProfileActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:132:9-67
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:132:19-64
+activity#io.github.project_travel_mate.notifications.NotificationsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:133:9-73
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:133:19-70
+activity#io.github.project_travel_mate.FullScreenImage
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:134:9-136:60
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:136:13-57
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:135:13-44
+activity#io.github.project_travel_mate.utilities.WeatherForecastActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:137:9-71
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:137:19-68
+activity#io.github.project_travel_mate.utilities.CompassActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:138:9-63
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:138:19-60
+activity#io.github.project_travel_mate.utilities.CurrencyActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:139:9-64
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:139:19-61
+activity#io.github.project_travel_mate.utilities.WorldClockActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:140:9-66
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:140:19-63
+activity#io.github.project_travel_mate.utilities.CurrencyListViewActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:141:9-72
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:141:19-69
+activity#io.github.project_travel_mate.utilities.TimezoneListViewActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:142:9-72
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:142:19-69
+activity#io.github.project_travel_mate.destinations.description.WeatherActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:143:9-78
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:143:19-75
+activity#io.github.project_travel_mate.utilities.UpcomingWeekendsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:144:9-72
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:144:19-69
+activity#io.github.project_travel_mate.destinations.description.CityHistoryActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:145:9-82
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:145:19-79
+activity#io.github.project_travel_mate.destinations.description.CityMapActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:146:9-78
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:146:19-75
+activity#io.github.project_travel_mate.travel.ListViewRealTimeActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:147:9-69
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:147:19-66
+activity#io.github.project_travel_mate.destinations.description.RestaurantsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:148:9-82
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:148:19-79
+activity#io.github.project_travel_mate.destinations.description.TweetsDescriptionActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:149:9-88
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:149:19-85
+activity#com.theartofdev.edmodo.cropper.CropImageActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:150:9-85
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:150:19-82
+activity#io.github.project_travel_mate.utilities.QuotesActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:151:9-153:11
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:152:13-63
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:151:19-59
+activity#io.github.project_travel_mate.DeleteProfilePictureActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:154:9-164:20
+	android:label
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:157:13-49
+	android:icon
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:156:13-53
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:158:13-59
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:155:13-57
+intent-filter#action:name:android.intent.action.DELETE+category:name:android.intent.category.DEFAULT
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:159:13-163:29
+action#android.intent.action.DELETE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:160:17-71
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:160:25-68
+activity#io.github.project_travel_mate.destinations.description.RestaurantDetailsActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:165:9-167:52
+	android:theme
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:167:13-49
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:166:13-79
+receiver#widget.CheckListWidgetProvider
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:169:9-179:20
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:169:19-64
+intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:170:13-174:29
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:173:17-84
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:173:25-81
+meta-data#android.appwidget.provider
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:176:13-178:65
+	android:resource
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:178:17-62
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:177:17-58
+service#widget.CheckListWidgetService
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:181:9-183:72
+	android:permission
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:183:13-69
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:182:13-57
+meta-data#preloaded_fonts
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:185:9-187:57
+	android:resource
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:187:13-54
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:186:13-43
+receiver#widget.ClockWidget
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:189:9-197:20
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:189:19-52
+activity#widget.ClockWidgetConfigureActivity
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:199:9-203:20
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:199:19-69
+intent-filter#action:name:android.appwidget.action.APPWIDGET_CONFIGURE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:200:13-202:29
+action#android.appwidget.action.APPWIDGET_CONFIGURE
+ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:201:17-87
+	android:name
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml:201:25-84
+uses-sdk
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f68a96a7923af284c586a220113639f6/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f68a96a7923af284c586a220113639f6/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.dmytrodanylyk.android-process-button:library:1.0.4] /Users/tahir/.gradle/caches/transforms-2/files-2.1/89f9f60c1ba3ebf0947827c0220ca883/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.dmytrodanylyk.android-process-button:library:1.0.4] /Users/tahir/.gradle/caches/transforms-2/files-2.1/89f9f60c1ba3ebf0947827c0220ca883/AndroidManifest.xml:8:5-10:41
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:7:5-9:41
+MERGED from [com.cloudinary:cloudinary-android:1.24.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a97057380fb03893a71fca821442cee9/AndroidManifest.xml:7:5-9:41
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:19:5-43
+MERGED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:19:5-43
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/8e1b530d2f113d975e7dbfc5537c100b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/8e1b530d2f113d975e7dbfc5537c100b/AndroidManifest.xml:20:5-44
+MERGED from [com.miguelcatalan:materialsearchview:1.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e393f9c36ed594ed35cc9056517c57b6/AndroidManifest.xml:7:5-9:41
+MERGED from [com.miguelcatalan:materialsearchview:1.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e393f9c36ed594ed35cc9056517c57b6/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/37f124a110557547343dc345df7cfb08/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/37f124a110557547343dc345df7cfb08/AndroidManifest.xml:20:5-44
+MERGED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:8:5-11:75
+MERGED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:8:5-11:75
+MERGED from [io.github.tonnyl:whatsnew:0.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/adab59e5512b24ffedd85444c0154793/AndroidManifest.xml:8:5-11:72
+MERGED from [io.github.tonnyl:whatsnew:0.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/adab59e5512b24ffedd85444c0154793/AndroidManifest.xml:8:5-11:72
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/51176e1b27a5e8ab63485a78e36827b2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/51176e1b27a5e8ab63485a78e36827b2/AndroidManifest.xml:20:5-44
+MERGED from [com.github.blongho:world-country-data:v1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a05f5489ce6c3f0f2027df36b482fe10/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.blongho:world-country-data:v1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a05f5489ce6c3f0f2027df36b482fe10/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6b4ebc97172f22a42f63e4ece87f9088/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6b4ebc97172f22a42f63e4ece87f9088/AndroidManifest.xml:20:5-44
+MERGED from [com.airbnb.android:lottie:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/98ad12eb58a30dc02efdc0485d3871b8/AndroidManifest.xml:7:5-9:41
+MERGED from [com.airbnb.android:lottie:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/98ad12eb58a30dc02efdc0485d3871b8/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.takusemba:spotlight:1.6.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/489631c15ac293bedb987b74b07b2bb5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.takusemba:spotlight:1.6.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/489631c15ac293bedb987b74b07b2bb5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.theartofdev.edmodo:android-image-cropper:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0192c4abe410c934fa03451325380035/AndroidManifest.xml:7:5-9:41
+MERGED from [com.theartofdev.edmodo:android-image-cropper:2.7.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0192c4abe410c934fa03451325380035/AndroidManifest.xml:7:5-9:41
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.4.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/008017ff692b8af8ca478b355e01ac36/AndroidManifest.xml:12:5-14:41
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.4.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/008017ff692b8af8ca478b355e01ac36/AndroidManifest.xml:12:5-14:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d1a87111c5171656982108f70102623a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d1a87111c5171656982108f70102623a/AndroidManifest.xml:20:5-44
+MERGED from [com.eftimoff:android-pathview:1.0.8] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/AndroidManifest.xml:8:5-10:41
+MERGED from [com.eftimoff:android-pathview:1.0.8] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1aad0f7ecd1d4c377d263a73b5b5c2d5/AndroidManifest.xml:8:5-10:41
+MERGED from [com.patrickpissurno:ripple-effect:1.3.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/91c428921dbd72ea20e8dee39673f569/AndroidManifest.xml:8:5-10:41
+MERGED from [com.patrickpissurno:ripple-effect:1.3.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/91c428921dbd72ea20e8dee39673f569/AndroidManifest.xml:8:5-10:41
+MERGED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:7:5-9:41
+MERGED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:7:5-9:41
+MERGED from [com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32] /Users/tahir/.gradle/caches/transforms-2/files-2.1/405a91efdcd8f722ad782612adfc871d/AndroidManifest.xml:23:5-25:41
+MERGED from [com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32] /Users/tahir/.gradle/caches/transforms-2/files-2.1/405a91efdcd8f722ad782612adfc871d/AndroidManifest.xml:23:5-25:41
+MERGED from [com.jakewharton:butterknife:8.8.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2757ff4cb195d549c3c6eb259cecdc06/AndroidManifest.xml:5:5-43
+MERGED from [com.jakewharton:butterknife:8.8.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2757ff4cb195d549c3c6eb259cecdc06/AndroidManifest.xml:5:5-43
+MERGED from [android.arch.persistence.room:rxjava2:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/86e6dbc6aa8d4033b550e9440597b2e9/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence.room:rxjava2:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/86e6dbc6aa8d4033b550e9440597b2e9/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence.room:runtime:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/79f16cfed7eed22e1b5df6897a1e9eb3/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence.room:runtime:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/79f16cfed7eed22e1b5df6897a1e9eb3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.github.juanlabrador:badgecounter:1.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/18ec6629049710efbd7d38fa3052218b/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.juanlabrador:badgecounter:1.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/18ec6629049710efbd7d38fa3052218b/AndroidManifest.xml:8:5-10:41
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/803eafbe32206e1947f2ddf51be0180c/AndroidManifest.xml:19:5-43
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/803eafbe32206e1947f2ddf51be0180c/AndroidManifest.xml:19:5-43
+MERGED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e921a9af0ebaf9999ec0de4885285438/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e921a9af0ebaf9999ec0de4885285438/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f474594c756680c981a1e3ec654d01c7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f474594c756680c981a1e3ec654d01c7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/63778846dc211011d7e8a73107a6d696/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/63778846dc211011d7e8a73107a6d696/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/85f609c935d32397979a07f38ed0b993/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/85f609c935d32397979a07f38ed0b993/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6acb4e3c864758734da58ee6c8857a44/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6acb4e3c864758734da58ee6c8857a44/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a475529dab8e311644e5118f9f368ea2/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a475529dab8e311644e5118f9f368ea2/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android:flexbox:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/17c01f8e299dcd073c54d64442556e03/AndroidManifest.xml:23:5-25:41
+MERGED from [com.google.android:flexbox:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/17c01f8e299dcd073c54d64442556e03/AndroidManifest.xml:23:5-25:41
+MERGED from [com.github.mukeshsolanki:android-otpview-pinview:2.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/9de48666de077d16137e6f74b38b603c/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.mukeshsolanki:android-otpview-pinview:2.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/9de48666de077d16137e6f74b38b603c/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.vipulasri:timelineview:1.0.6] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7a3bb1b2a0f50708bd17b9efd729fa60/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.vipulasri:timelineview:1.0.6] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7a3bb1b2a0f50708bd17b9efd729fa60/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e902febde7dce9a35974ee2f093efc76/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e902febde7dce9a35974ee2f093efc76/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/448e560f875b0484c40315028765df99/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/448e560f875b0484c40315028765df99/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3b0140dc09717dd29e8d803792cd2208/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3b0140dc09717dd29e8d803792cd2208/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f2a4450d92628db211f9b88f956679db/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/f2a4450d92628db211f9b88f956679db/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/47f57195609c9580fa63b3fe02468aae/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/47f57195609c9580fa63b3fe02468aae/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d956ca355e3944ffdcdcb7d1470021f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/d956ca355e3944ffdcdcb7d1470021f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3eda59ab8adda19d97d4422411f5f5da/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/3eda59ab8adda19d97d4422411f5f5da/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88a28da95a78eeea92d2d33fed60da9e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88a28da95a78eeea92d2d33fed60da9e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7babb98c5926d21c8cfe0fa9bb1bd92b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/7babb98c5926d21c8cfe0fa9bb1bd92b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82328d6d29ebd7d954567d5046ba388b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82328d6d29ebd7d954567d5046ba388b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2dd7828a2c05c016e01fe0b2c0f43ebf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/2dd7828a2c05c016e01fe0b2c0f43ebf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/203bd455aa47b87185fad289b6b62686/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/203bd455aa47b87185fad289b6b62686/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:27.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82258009d4a49bbafe22fa7e150b35a4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:27.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/82258009d4a49bbafe22fa7e150b35a4/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/447c0ac484f432f36f52eb36fd0281be/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/447c0ac484f432f36f52eb36fd0281be/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88e8dd4f3bc9f7b869dfa2cf5a5338b2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/88e8dd4f3bc9f7b869dfa2cf5a5338b2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6175c7a2a9ba692c61bd5ae2ec638894/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6175c7a2a9ba692c61bd5ae2ec638894/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/fe804b58a8692182f62ffb650296d974/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/fe804b58a8692182f62ffb650296d974/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1c948a9fd75f4e143e11a96ba7e18c36/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/1c948a9fd75f4e143e11a96ba7e18c36/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.persistence:db-framework:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0563094e1d383d1528491e90b9de629a/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence:db-framework:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/0563094e1d383d1528491e90b9de629a/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence:db:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/14bec2b2facd5cd6554a939a2f0e31e7/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.persistence:db:1.0.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/14bec2b2facd5cd6554a939a2f0e31e7/AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/c0c563559bb269035376aa3456eb0138/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/c0c563559bb269035376aa3456eb0138/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e0f221e7bff47b9b72cdd0071212cd75/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/e0f221e7bff47b9b72cdd0071212cd75/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6cc88045328f4688aa08e105d230142f/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6cc88045328f4688aa08e105d230142f/AndroidManifest.xml:20:5-44
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:8:5-10:41
+MERGED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:8:5-10:41
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.afollestad.material-dialogs:core:0.9.6.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/5958ef39bbae057d23c1f06cd7cace0b/AndroidManifest.xml:11:9-72
+	android:targetSdkVersion
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tahir/StudioProjects/Travel-Mate/app/src/main/AndroidManifest.xml
+uses-feature#android.hardware.camera.front
+ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:27:5-29:36
+	android:required
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:29:9-33
+	android:name
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:28:9-53
+uses-feature#android.hardware.camera.flash
+ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:35:5-37:36
+	android:required
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:37:9-33
+	android:name
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:36:9-53
+uses-feature#android.hardware.screen.landscape
+ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:38:5-40:36
+	android:required
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:40:9-33
+	android:name
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:39:9-57
+uses-feature#android.hardware.wifi
+ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:41:5-43:36
+MERGED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:25:5-27:36
+MERGED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:25:5-27:36
+	android:required
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:43:9-33
+	android:name
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:42:9-45
+activity#com.journeyapps.barcodescanner.CaptureActivity
+ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:46:9-52:63
+	android:screenOrientation
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:49:13-56
+	android:clearTaskOnLaunch
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:48:13-45
+	android:stateNotNeeded
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:50:13-42
+	android:windowSoftInputMode
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:52:13-60
+	android:theme
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:51:13-54
+	android:name
+		ADDED from [com.journeyapps:zxing-android-embedded:3.4.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/AndroidManifest.xml:47:13-74
+supports-screens
+ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:11:5-14:40
+	android:largeScreens
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:13:9-36
+	android:normalScreens
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:14:9-37
+	android:anyDensity
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:12:9-34
+uses-feature#android.hardware.location.network
+ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:16:5-18:36
+	android:required
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:18:9-33
+	android:name
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:17:9-57
+uses-feature#android.hardware.location.gps
+ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:19:5-21:36
+	android:required
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:21:9-33
+	android:name
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:20:9-53
+uses-feature#android.hardware.telephony
+ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:22:5-24:36
+	android:required
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:24:9-33
+	android:name
+		ADDED from [org.osmdroid:osmdroid-android:6.0.2] /Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/AndroidManifest.xml:23:9-50
+provider#android.arch.lifecycle.ProcessLifecycleOwnerInitializer
+ADDED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:23:9-27:43
+	android:authorities
+		ADDED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:25:13-68
+	android:multiprocess
+		ADDED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:27:13-40
+	android:exported
+		ADDED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:26:13-37
+	android:name
+		ADDED from [android.arch.lifecycle:extensions:1.1.0] /Users/tahir/.gradle/caches/transforms-2/files-2.1/6e24f8fee8fd87730e41a6e97d6863c2/AndroidManifest.xml:24:13-83
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:14:5-81
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:14:22-78
+service#com.evernote.android.job.v21.PlatformJobService
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:17:9-20:72
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:19:13-37
+	android:permission
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:20:13-69
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:18:13-75
+service#com.evernote.android.job.v14.PlatformAlarmService
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:21:9-24:72
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:23:13-37
+	android:permission
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:24:13-69
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:22:13-77
+service#com.evernote.android.job.v14.PlatformAlarmServiceExact
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:25:9-27:40
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:26:13-82
+receiver#com.evernote.android.job.v14.PlatformAlarmReceiver
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:29:9-38:20
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:30:13-78
+intent-filter#action:name:com.evernote.android.job.v14.RUN_JOB+action:name:net.vrallev.android.job.v14.RUN_JOB
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:32:13-37:29
+action#com.evernote.android.job.v14.RUN_JOB
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:35:17-79
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:35:25-76
+action#net.vrallev.android.job.v14.RUN_JOB
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:36:17-78
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:36:25-75
+receiver#com.evernote.android.job.JobBootReceiver
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:39:9-48:20
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:40:13-68
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED+action:name:android.intent.action.QUICKBOOT_POWERON+action:name:com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:42:13-47:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:43:17-79
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:43:25-76
+action#android.intent.action.QUICKBOOT_POWERON
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:44:17-82
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:44:25-79
+action#com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:45:17-82
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:45:25-79
+action#android.intent.action.MY_PACKAGE_REPLACED
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:46:17-84
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:46:25-81
+service#com.evernote.android.job.gcm.PlatformGcmService
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:50:9-58:19
+	android:enabled
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:52:13-36
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:53:13-36
+	android:permission
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:54:13-93
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:51:13-75
+intent-filter#action:name:com.google.android.gms.gcm.ACTION_TASK_READY
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:55:13-57:29
+action#com.google.android.gms.gcm.ACTION_TASK_READY
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:56:17-87
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:56:25-84
+service#com.evernote.android.job.JobRescheduleService
+ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:59:9-62:72
+	android:exported
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:61:13-37
+	android:permission
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:62:13-69
+	android:name
+		ADDED from [com.evernote:android-job:1.2.1] /Users/tahir/.gradle/caches/transforms-2/files-2.1/817c518be6b103a07730dd13a607cba1/AndroidManifest.xml:60:13-73

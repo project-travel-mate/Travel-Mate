@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="load.json"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_loop="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <utils.CircleImageView
+                android:id="@+id/display_image"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/default_user_icon" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/friend_city_list_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/status_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_status"
+                    android:layout_width="217dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:ellipsize="end"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="7dp"
+                    android:text="@string/default_status"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
+
+                <ImageView
+                    android:id="@+id/profile_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_name"
+                    android:layout_width="217dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:ellipsize="end"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="30dp"
+                    android:text="@string/default_name"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:contentDescription="@string/info_icon"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_email_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="8sp"
+                    android:paddingLeft="30dp"
+                    android:text="@string/email"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/date_joined_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp">
+
+                <ImageView
+                    android:id="@+id/date_joined_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:alpha="0.8"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+                <TextView
+                    android:id="@+id/display_joining_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="8sp"
+                    android:text="@string/text_joining_date"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/trips_together_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/display_mutual_trips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:paddingTop="8sp"
+                    android:text="@string/trips_together_message"
+                    android:textColor="#333434"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginStart="@dimen/margin_16dp"/>
+
+    </LinearLayout>
+
+
+</ScrollView>

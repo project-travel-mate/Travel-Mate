@@ -1,0 +1,94 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-de/values-de.xml",
+            "map": [
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/179e83a51e5cefd3cf60ca51bece311d/res/values-de/values-de.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "46",
+                        "startColumns": "4",
+                        "startOffsets": "3990",
+                        "endColumns": "100",
+                        "endOffsets": "4086"
+                    }
+                },
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/affe17527b61f1fd757b7aca4374a066/res/values-de/values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,94,196,244,294,335,384,433,480",
+                        "endColumns": "38,101,47,49,40,48,48,46,45",
+                        "endOffsets": "89,191,239,289,330,379,428,475,521"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,40,41,42,43,47,48",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2843,2882,2984,3645,3695,3736,3785,4091,4138",
+                        "endColumns": "38,101,47,49,40,48,48,46,45",
+                        "endOffsets": "2877,2979,3027,3690,3731,3780,3829,4133,4179"
+                    }
+                },
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/0192c4abe410c934fa03451325380035/res/values-de/values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,191,238,299,357,439,517,604,668",
+                        "endColumns": "135,46,60,57,81,77,86,63,73",
+                        "endOffsets": "186,233,294,352,434,512,599,663,737"
+                    },
+                    "to": {
+                        "startLines": "32,33,34,35,36,37,38,39,44",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3032,3168,3215,3276,3334,3416,3494,3581,3834",
+                        "endColumns": "135,46,60,57,81,77,86,63,73",
+                        "endOffsets": "3163,3210,3271,3329,3411,3489,3576,3640,3903"
+                    }
+                },
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/d1a87111c5171656982108f70102623a/res/values-de/values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,308,420,506,611,726,803,879,971,1065,1162,1263,1371,1471,1575,1675,1773,1870,1952,2063,2166,2265,2376,2478,2585,2741,2843",
+                        "endColumns": "104,97,111,85,104,114,76,75,91,93,96,100,107,99,103,99,97,96,81,110,102,98,110,101,106,155,101,81",
+                        "endOffsets": "205,303,415,501,606,721,798,874,966,1060,1157,1258,1366,1466,1570,1670,1768,1865,1947,2058,2161,2260,2371,2473,2580,2736,2838,2920"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,45",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,308,420,506,611,726,803,879,971,1065,1162,1263,1371,1471,1575,1675,1773,1870,1952,2063,2166,2265,2376,2478,2585,2741,3908",
+                        "endColumns": "104,97,111,85,104,114,76,75,91,93,96,100,107,99,103,99,97,96,81,110,102,98,110,101,106,155,101,81",
+                        "endOffsets": "205,303,415,501,606,721,798,874,966,1060,1157,1258,1366,1466,1570,1670,1768,1865,1947,2058,2161,2260,2371,2473,2580,2736,2838,3985"
+                    }
+                },
+                {
+                    "source": "/Users/tahir/.gradle/caches/transforms-2/files-2.1/a951312ec492569ae44d42cc46fc71b6/res/values-de/values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,114,161,333",
+                        "endColumns": "58,46,171,108",
+                        "endOffsets": "109,156,328,437"
+                    },
+                    "to": {
+                        "startLines": "49,50,51,52",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "4184,4243,4290,4462",
+                        "endColumns": "58,46,171,108",
+                        "endOffsets": "4238,4285,4457,4566"
+                    }
+                }
+            ]
+        }
+    ]
+}

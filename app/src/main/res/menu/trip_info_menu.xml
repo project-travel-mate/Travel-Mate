@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".mytrips.MyTripInfoActivity">
+    <item
+        android:id="@+id/action_remove_trip"
+        android:icon="@drawable/ic_remove_white_"
+        android:title="@string/remove_me_from_trip" />
+    <item
+        android:id="@+id/share_trip"
+        android:title="@string/share_trip"
+        android:icon="@drawable/ic_share_white"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/root_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/background_quotes"
+              android:baselineAligned="false"
+              android:clickable="true"
+              android:focusable="true"
+              android:gravity="center_vertical"
+              android:orientation="vertical"
+              android:weightSum="3"
+              tools:context=".utilities.DailyQuotesFragment">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:elevation="7dp">
+
+        <View
+            android:id="@+id/daily_quotes_orange_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/daily_quotes_white_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+        <TextView
+            android:id="@+id/daily_quotes_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_quote"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/daily_quotes_format_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_format_quote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            android:contentDescription=""/>
+
+        <TextView
+            android:id="@+id/quote_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/daily_quotes_format_image"/>
+
+        <TextView
+            android:id="@+id/author_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_toStartOf="@+id/fab"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/quote_textView"
+            app:layout_constraintStart_toStartOf="@+id/quote_textView"
+            app:layout_constraintTop_toBottomOf="@+id/quote_textView"/>
+
+        <com.dd.processbutton.FlatButton
+            android:id="@+id/continue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/continue_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:pb_colorNormal="@color/orangish"
+            app:pb_colorPressed="@color/orangish_dark"
+            app:pb_cornerRadius="5dp"/>
+
+        <CheckBox
+            android:id="@+id/dont_show_quotes_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:buttonTint="@color/black"
+            android:text="@string/reject_daily_quotes"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/dark_blue"
+            android:src="@drawable/ic_share_white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.10" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

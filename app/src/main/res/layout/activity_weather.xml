@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#343434"
+    android:fillViewport="true"
+    tools:context=".destinations.description.WeatherActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true" />
+
+    <TextView
+        android:id="@+id/empty_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:text="@string/city_not_found"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@android:color/white"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/weather_condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/temp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="48sp"
+        tools:text="Rain" />
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/weather_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-155dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="48sp"
+        tools:text="61&#176;C" />
+
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="155dp"
+        android:contentDescription="@string/empty_description"
+        android:tint="@android:color/white"
+        tools:src="@drawable/wi_day_rain" />
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/today"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/temp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@android:color/white"
+        tools:text="Day of the week" />
+
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_condition"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/temp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="#88FFFFFF"
+        tools:text="Today" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/min_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/temp"
+        android:layout_below="@+id/weather_icon"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@android:color/white"
+        tools:text="Max Temp" />
+
+    <TextView
+        android:id="@+id/max_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/weather_condition"
+        android:layout_alignTop="@+id/min_temp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="#88FFFFFF"
+        tools:text="Min Temp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/forecast_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="#424242" />
+
+
+</RelativeLayout>

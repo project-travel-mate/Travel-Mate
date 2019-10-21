@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/fragmentBugReport"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_imageAssetsFolder="images"
+        app:lottie_loop="true" />
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/no_feedback_message"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/listview_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_title"
+            android:background="@color/black"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:visibility="gone"/>
+
+         <ListView
+            android:id="@+id/issues_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="true"
+            tools:targetApi="lollipop"
+            android:layout_margin="5dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add_circle_white_24dp"
+        android:layout_margin="16dp" />
+
+</FrameLayout>

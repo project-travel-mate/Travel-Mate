@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#fff"
+  android:orientation="vertical"
+  app:ignore="NamespaceTypo">
+
+  <com.airbnb.lottie.LottieAnimationView
+    android:id="@+id/animation_view"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_gravity="center"
+    app:lottie_autoPlay="true"
+    app:lottie_fileName="loading.json"
+    app:lottie_imageAssetsFolder="images"
+    app:lottie_loop="true" />
+
+  <android.support.v4.widget.NestedScrollView
+    android:id="@+id/actual_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <RelativeLayout
+        android:id="@+id/layout_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+          android:id="@+id/from"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5sp"
+          android:layout_marginTop="5sp"
+          android:text="@string/from_text"
+          android:textColor="@color/green" />
+
+
+        <RelativeLayout
+
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/from"
+          android:layout_marginTop="5sp"
+          android:background="#f5f5f5"
+          android:padding="10sp">
+
+
+          <RelativeLayout
+            android:id="@+id/from_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+              android:id="@+id/first_country_image"
+              android:layout_width="50dp"
+              android:layout_height="40dp"
+              android:src="@drawable/us" />
+
+            <TextView
+              android:id="@+id/first_country_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginStart="19dp"
+              android:layout_marginLeft="19dp"
+              android:layout_toEndOf="@+id/first_country_image"
+              android:layout_toRightOf="@+id/first_country_image"
+              android:text="@string/usd_dollar"
+              android:textColor="#6e6e6e" />
+          </RelativeLayout>
+
+          <EditText
+            android:id="@+id/first_country_edittext"
+            android:layout_width="80sp"
+            android:layout_height="50sp"
+            android:layout_alignBottom="@+id/from_field"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginRight="17dp"
+            android:background="@drawable/edit_txt_bg"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@string/usd_amount" />
+
+        </RelativeLayout>
+
+      </RelativeLayout>
+
+
+      <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_from">
+
+        <TextView
+          android:id="@+id/to"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5sp"
+          android:layout_marginTop="5sp"
+          android:text="@string/to_text"
+          android:textColor="@color/green" />
+
+        <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/to"
+          android:layout_marginTop="5sp"
+          android:background="#f5f5f5"
+          android:padding="10sp">
+
+          <RelativeLayout
+            android:id="@+id/to_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+
+            <ImageView
+              android:id="@+id/second_country_flag"
+              android:layout_width="50dp"
+              android:layout_height="40dp"
+              android:src="@drawable/in" />
+
+            <TextView
+              android:id="@+id/second_country_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginStart="18dp"
+              android:layout_marginLeft="18dp"
+              android:layout_toEndOf="@+id/second_country_flag"
+              android:layout_toRightOf="@+id/second_country_flag"
+              android:text="@string/inr"
+              android:textColor="#6e6e6e" />
+          </RelativeLayout>
+
+        </RelativeLayout>
+
+      </RelativeLayout>
+
+      <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="#f5f5f5"
+        android:padding="16dp">
+
+        <TextView
+          android:id="@+id/text_result"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:text="@string/output_0"
+          android:textColor="@color/green"
+          android:textSize="32sp" />
+
+      </RelativeLayout>
+
+      <Button
+        android:id="@+id/button_convert"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@color/green"
+        android:text="@string/convert"
+        android:textColor="#fff" />
+
+      <Spinner
+        android:id="@+id/chart_duration_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_convert"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:entries="@array/time_series_array"
+        android:padding="20dp"
+        android:prompt="@string/time_series_prompt"
+        android:visibility="invisible" />
+
+
+      <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/chart_duration_spinner"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:visibility="gone" />
+
+    </RelativeLayout>
+
+  </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

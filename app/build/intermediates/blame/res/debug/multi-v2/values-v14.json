@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/tahir/StudioProjects/Travel-Mate/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v14/values-v14.xml",
+            "map": [
+                {
+                    "source": "/Users/tahir/StudioProjects/Travel-Mate/app/src/main/res/values-v14/dimens.xml",
+                    "from": {
+                        "startLines": "7",
+                        "startColumns": "4",
+                        "startOffsets": "209",
+                        "endColumns": "43",
+                        "endOffsets": "248"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "43",
+                        "endOffsets": "94"
+                    }
+                }
+            ]
+        }
+    ]
+}

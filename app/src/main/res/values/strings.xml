@@ -1,0 +1,388 @@
+<resources>
+    <string name="app_name">Travel Mate</string>
+
+    <string name="navigation_drawer_open">Travel Guide</string>
+    <string name="navigation_drawer_close">Travel Guide</string>
+
+    <!--Drawer Strings -->
+    <string name="navigation_drawer_destination">Destinations</string>
+    <string name="navigation_drawer_travel">Travel</string>
+    <string name="navigation_drawer_utilities">Utilities</string>
+    <string name="navigation_drawer_about_us">About Us</string>
+    <string name="navigation_drawer_signout">Sign Out</string>
+    <string name="navigation_drawer_my_friends">My Friends</string>
+    <string name="navigation_drawer_settings">Settings</string>
+
+    <!-- Activity Title strings -->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_select_city">Select City</string>
+    <string name="title_activity_shopping_currentcity">Shopping current city</string>
+    <string name="title_activity_hotels">Hotels</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_fun_facts">FunFacts</string>
+    <string name="title_activity_city_history">City History</string>
+
+    <!-- Exit App Strings -->
+    <string name="confirm_exit_message">Press back again to exit</string>
+
+    <!-- login/signup strings -->
+    <string name="email_id">Email id</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="toast_invalid_username_or_password">Invalid username or password</string>
+    <string name="empty_first_name">First name can\'t remain empty</string>
+    <string name="empty_last_name">Last name can\'t remain empty</string>
+
+    <!-- reset password strings -->
+    <string name="submit">Submit</string>
+    <string name="text_back_to_login"><u>Back to login</u></string>
+    <string name="text_forgot_password"><u>Forgot password? Click here to reset.</u></string>
+    <string name="text_resend_code"><u>Didn\'t get the code? Resend code.</u></string>
+    <string name="text_code_sent_alert">A reset code has been sent to your email id : %1$s. Please enter the code below.</string>
+    <string name="confirm">Confirm</string>
+    <string name="text_code_resent_alert">A new code has been sent</string>
+    <string name="text_password_updated_alert">Your password has been reset. Login with the new password.</string>
+
+    <!-- Travel home page strings -->
+    <string name="hotel">HOTEL BOOKING</string>
+    <string name="online_Shopping">ONLINE SHOPPING</string>
+    <string name="real_time_locator">REAL TIME LOCATOR</string>
+    <string name="fun_facts">Fun Facts</string>
+    <string name="search_hint">What are you looking for…?</string>
+    <string name="search_title">Cities</string>
+    <string name="spotlight_home_page">Unfold the city cards to get easy access to information</string>
+
+    <!-- Destinations home page strings -->
+    <string name="popular_cities">Most Popular Cities</string>
+    <string name="city_visited">You have visited this city!</string>
+
+    <!-- Favourite cities to visit -->
+    <string name="favourite_cities">Favourite cities</string>
+    <string name="no_favourite_cities">You haven\'t add any cities yet!</string>
+
+    <!-- Map strings -->
+    <string name="title">Select items to display in map</string>
+    <string name="choose">Select</string>
+    <array name="items">
+        <item>Food</item>
+        <item>Hangout Spots</item>
+        <item>Monuments</item>
+        <item>Bus Stop</item>
+        <item>Shopping</item>
+        <item>Petrol</item>
+        <item>ATM</item>
+        <item>Hospital</item>
+    </array>
+    <string name="no_activity_for_browser">No app found to open this website</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="kms">kms</string>
+
+    <!-- Checklist strings -->
+    <string name="text_checklist">Checklist</string>
+    <string name="enter_task_name">Enter task name</string>
+    <string name="menu_delete_completed">Delete ticked items</string>
+    <string name="delete_tasks">Are you sure you want to delete all completed tasks?</string>
+    <string name="undo">Undo</string>
+    <string name="deleted_task_message">Deleted all completed tasks</string>
+    <string name="ticked_items_count">%1$d Ticked items</string>
+
+    <!-- My Trip Strings -->
+    <string name="trip_city">Trip City :</string>
+    <string name="trip_date">Trip Date :</string>
+    <string name="prompt_trip_name">Enter trip Name</string>
+    <string name="prompt_city_name">Select City</string>
+    <string name="prompt_start_date">Select Trip Date</string>
+    <string name="prompt_add_trip">Add trip</string>
+    <string name="prompt_friend_name">Enter friend name</string>
+    <string name="prompt_add_friend">Add New friend</string>
+    <string name="text_started_on">Started on :  </string>
+    <string name="progress_wait">Please wait…</string>
+    <string name="trip_added">Trip added</string>
+    <string name="friend_added">Friend added to trip</string>
+    <string name="no_friend_selected">Please select a valid friend to add</string>
+    <string name="my_trip">My Trips</string>
+    <string name="no_trips">You don\'t have any trips. Click add button to get started</string>
+    <string name="know_more_about">Know more about %1$s</string>
+    <string name="friends_title">Travelling with someone? Add friends to this trip.</string>
+    <string name="friends_show_title">Friends in this Trip</string>
+    <string name="trip_name_updated">Trip name has been updated</string>
+    <string name="cannot_edit">Trip name can\'t remain empty!</string>
+    <string name="remove_friend_message">Are you sure you want to remove %1$s from this trip?</string>
+    <string name="removed_friend_message">Successfully removed friend</string>
+    <string name="trip_name_blank">Trip name can\'t be left blank</string>
+    <string name="trip_city_blank">Trip city can\`t be left blank</string>
+    <string name="trip_date_blank">Trip start date can\'t be left blank</string>
+    <string name="remove_me_from_trip">Remove me from trip</string>
+    <string name="remove_trip_message">Are you sure want to remove the trip?</string>
+    <string name="trips_together_message">Your trips together…</string>
+    <string name="remove_trip_success">Removed trip successfully!</string>
+    <string name="trip_public_message">This is a public trip. Your friends can view this trip if you share the trip link</string>
+    <string name="trip_private_message">This is a private trip. Your friends, with the trip link, won\'t be able to view this</string>
+    <string name="public_trip_toggle_on">Make Private</string>
+    <string name="public_trip_toggle_off">Make Public</string>
+    <string name="share_trip">Share trip</string>
+    <string name="share_trip_text">Hi! We are planning this trip! Come join us. Here is the link to join: </string>
+    <string name="you_dont_have_trips">You don\'t have any upcoming trips. Click on + icon on bottom to add new trip!</string>
+    <string name="your_past_trips">Your past trips</string>
+    <string name="add_me_to_trip">Add me to this trip</string>
+    <string name="wrong_date_alert">You should use a future date, if you are planning your next trip!</string>
+    <!-- Errors and messages -->
+    <string name="no_items_available">No items available!</string>
+    <string name="passwords_check">Passwords do not match!</string>
+    <string name="location_enabled">Location enabled</string>
+    <string name="location_not_enabled">Location not enabled</string>
+
+    <!--Hotel strings-->
+    <string name="showing_hotels">Showing %1$s Hotels</string>
+
+    <!-- Share contact strings -->
+    <string name="share_intent_text">Share Contact Details</string>
+    <string name="share_menu">Share</string>
+    <string name="share_contact_qr">Hey! Here is my contact information. Shared Using Travel Mate app. Download it from Play Store : https://play.google.com/store/apps/details/?id=io.github.project.project_travel_mate</string>
+    <string name="view_contact">View someone\'s Contact</string>
+    <string name="bottom_info_string">Share this code with the people to share your contact details.</string>
+
+    <!-- Constant texts -->
+    <string name="text_hangout">Hangout</string>
+    <string name="text_monuments">Monuments</string>
+    <string name="text_shopping">Shopping</string>
+    <string name="text_restaurants">Restaurants</string>
+    <string name="text_city_trends">City Trends</string>
+    <string name="text_city_map">City Map</string>
+    <string name="text_login"><u>Already a member? Login</u></string>
+    <string name="text_signup_or"><u>Not registered yet? Create new account</u></string>
+    <string name="text_go">Go</string>
+    <string name="text_locate">Locate</string>
+    <string name="text_more">More</string>
+    <string name="text_title">Title</string>
+    <string name="text_call">Call</string>
+    <string name="text_book">Book</string>
+    <string name="text_joining_date">Joined on %1$s</string>
+    <string name="profile_picture_updated">Profile Picture Updated!</string>
+    <string name="text_source">"Source : "</string>
+    <string name="no_friends_message">You haven\'t added any trip with friends yet</string>
+    <string name="interest_know_more">Know More</string>
+    <string name="interest_fun_facts">Fun Facts</string>
+    <string name="interest_weather">View Weather Forecast</string>
+    <string name="interest_trends">City Trends</string>
+    <string name="status_length">22/100</string>
+    <string name="name_length">22/50</string>
+    <string name="from_text">From</string>
+    <string name="to_text">To</string>
+    <string name="usd_dollar">United States Dollar</string>
+    <string name="usd_amount">1</string>
+    <string name="inr">Indian Rupee</string>
+
+    <!-- Sample Data -->
+    <string name="sample_state">Delhi</string>
+    <string name="empty_description">No description available.</string>
+    <string name="sample_state_trending">#Delhi</string>
+
+    <!--AlertDialog sign out-->
+    <string name="signout_message">Are you sure want to sign out?</string>
+    <string name="positive_button">OK</string>
+    <string name="default_name">--</string>
+    <string name="email">Email</string>
+    <string name="profile_icon">Profile_icon</string>
+    <string name="mail_icon">mail_icon</string>
+    <string name="info_icon">info_icon</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="invalid_password">Password must contain at least 1 Capital Alphabet, 1 Number and 1 Special Character.</string>
+    <string name="password_length">Password must contain minimum 8 characters</string>
+    <string name="invalid_email">Invalid Email</string>
+
+    <string name="no_items">No Checklists</string>
+    <string name="add_new">Add new item</string>
+
+    <!-- Profile strings -->
+    <string name="my_profile">My Profile</string>
+    <string name="name_updated">Name has been updated</string>
+    <string name="text_share_profile">Share my profile</string>
+    <string name="snackbar_no_share_app">No application to share.</string>
+    <string name="share_chooser">Select app to send message…</string>
+    <string name="share_profile_text">Hi! Checkout my Travel Mate profile: </string>
+    <string name="status_updated">Status has been updated</string>
+    <string name="cities_travelled">Cities visited </string>
+    <string name="email_not_verified">Your email id is not verified</string>
+    <string name="verify_now">Verify Now</string>
+    <string name="later">Later</string>
+    <string name="text_email_verified">Your email id is verified</string>
+    <string name="text_otp_code_sent_alert">An OTP code has been sent to your email id : %1$s. Please enter the code below.</string>
+
+
+    <!-- About Us String-->
+    <string name="app_description">A must-have app for those interested in travel. The app provides users with various features from choosing the correct destination to making all the bookings and to easily organizing the trip.</string>
+    <string name="version_code">Version Code :</string>
+    <string name="fork_on_github">Fork on GitHub</string>
+    <string name="view_contributors">View Contributors</string>
+    <string name="report_a_bug">Report a Bug</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="join_slack">Join Slack</string>
+    <string name="share_app">Share app</string>
+    <string name="website">Website</string>
+    <string name="buy_me_a_coffee">Buy us a coffee</string>
+
+    <!-- Choose feature type -->
+    <array name="bug_types">
+        <item>Crash</item>
+        <item>Feature Request</item>
+        <item>Other</item>
+    </array>
+
+    <!-- Bug report strings -->
+    <string name="choose_a_type_bugreport">Choose a Type:</string>
+    <string name="hint_edit_text_bugreport">Describe your issue…</string>
+    <string name="button_text_bugreport">Report</string>
+    <string name="failure_message_bugreport">Failed to send issue…</string>
+    <string name="success_message_bugreport">Issue Sent Successfully…</string>
+    <string name="no_feedback_message">We would love to hear from you!Click on add button to send us feedback.</string>
+    <string name="feedback_title">Reported Feedbacks</string>
+    <string name="sample_date">20-Jul</string>
+
+    <!-- Weather Strings -->
+    <string name="humidity">%1$s humidity</string>
+    <string name="text_weather">Weather Forecast</string>
+    <string name="weather_forecast_message">Check weather forecast of the city you wish to travel to!</string>
+
+    <!-- Compass Strings -->
+    <string name="text_Compass">Compass</string>
+    <string name="compass_dial">Compass Dial</string>
+    <string name="compass_hands">Compass Hands</string>
+    <string name="compass_dialog_header">Info</string>
+    <string name="compass_dialog_description">Your mobile does not support Compass</string>
+    <string name="compass_dialog_confirm">OK</string>
+
+
+    <!-- Currency Convertor Strings -->
+    <string name="text_currency">Currency Converter</string>
+    <string name="search_currencies">Search currencies..</string>
+    <string name="output_0">0.0</string>
+    <string name="convert">Convert</string>
+    <string name="sample_timezone">Asia/Kolkata</string>
+
+    <!-- Upcoming weekends Strings -->
+    <string name="upcoming_long_weekends">Upcoming long weekends</string>
+    <string name="upcoming_long_weekends_no_items">There are no upcoming events</string>
+
+    <!-- World Clock Strings -->
+    <string name="text_clock">World Clock</string>
+    <string name="select_timezone">Select Timezone</string>
+    <string name="search_timezone">Search Timezone..</string>
+
+    <string name="sign_out">Sign out</string>
+
+    <string name="default_status">Write something about yourself…</string>
+
+    <!-- Notifications -->
+    <string name="no_notifications">You don\'t have any notifications.</string>
+    <string name="mark_all_read_notifications">Do you want to mark all notifications as read?</string>
+
+    <string name="share_fun_fact">Hey! Checkout this fun fact, seems interesting! I find this on Travel Mate app. Download it from Play Store :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+    <string name="share_daily_quote">Hey! Checkout this quote, seems interesting! I find this on Travel Mate app. Download it from Play Store :
+    https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
+    <string name="reject_daily_quotes">Don\'t Show Again</string>
+    <string name="daily_quote">Daily Quote</string>
+    <string name="continue_button">Continue</string>
+    <string name="quote_format">Quote Format</string>
+
+    <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
+    <string name="no_results">No results found</string>
+    <string name="hotels_text">Tell us where are you travelling to? We will search hotels for you.</string>
+
+    <!-- handle responses from Weather API -->
+    <string name="view_forecast">View weather forecast</string>
+    <string name="city_not_found">Sorry! No weather forecast found for %1$s.</string>
+    <string name="today">Today</string>
+    <string name="showing_shopping_item">Searching for: %1$s</string>
+    <string name="share_my_qr_code">Share my QR code</string>
+    <string name="currency">Rs.</string>
+    <string name="approx_cost">/- for 2 approx.</string>
+    <string name="votes">votes</string>
+
+    <!--ListView Real Time acitivy -->
+    <string name="food">Food</string>
+    <string name="hangout">Hangout Spots</string>
+    <string name="hospital">Hospitals</string>
+    <string name="petrol">Petrol Pumps</string>
+    <string name="travelling">Bus Stops</string>
+    <string name="atm">ATM</string>
+    <string name="more">More…</string>
+    <string name="tap_for_more_details">Tap for more details</string>
+    <string name="trip_info_city_date_separater">|</string>
+
+    <!--Tweets Strings -->
+    <string name="username">\@%1$s </string>
+    <string name="hashtag_title">#%1$s</string>
+
+    <!-- Settings Strings -->
+    <string name="change_password_heading">Change Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="read_notifications_message">Show my read notifications</string>
+    <string name="show_quotes_message">Show daily quotes</string>
+    <string name="required_error">Required!</string>
+    <string name="password_updated">Password Updated!</string>
+    <string name="status_character_limit">/100</string>
+    <string name="remove_photo">Remove photo</string>
+    <string name="choose_an_option">Choose an option</string>
+    <string name="remove_profile_picture">Do you want to remove profile picture?</string>
+    <string name="delete_account">Are you sure you want to remove your travel mate account? This action can\'t be undone.</string>
+
+    <string name="done_label">Done</string>
+    <string name="delete_label">Delete Account</string>
+    <!-- About us strings -->
+    <string name="email_hello">Hello</string>
+    <string name="email_send">Send Email</string>
+    <string name="share_text">Hi! I found out this app for the travellers. Do download it : https://play.google.com/store/apps/details?id=io.github.project_travel_mate</string>
+
+    <!-- Restaurants strings -->
+    <string name="sort">Sort</string>
+    <string name="prices_lowest">prices lowest</string>
+    <string name="prices_highest">prices highest</string>
+    <string name="rating">rating</string>
+    <string name="alphabetically">alphabetically</string>
+
+    <!-- Restaurant details -->
+    <string name="rest_address">Address: %s</string>
+    <string name="avg_cost">Average Cost: %s</string>
+    <string name="price_range">Price Range: %s</string>
+    <string name="rest_currency">Currency: %s</string>
+    <string name="user_rating">Users Rating: %s</string>
+    <string name="user_votes">Users Votes: %s</string>
+    <string name="has_table_booking">You can book table</string>
+    <string name="cuisines">Cuisines: %s</string>
+    <string name="phone_no">Phone Number: %s</string>
+
+    <!-- Contributors string -->
+    <string name="android_team">Android Team</string>
+    <string name="server_team">Server Team</string>
+    <string name="see_more">Show more contributors</string>
+    <string name="i_want_to_contribute">I want to contribute</string>
+    <string name="github">Github</string>
+    <string name="project">Project Travel-Mate</string>
+    <string name="contributions">Commits: </string>
+    <string name="check_internet">Please check your internet connectivity</string>
+
+    <!-- Currency Convertor Chart Time-Series Spinner options -->
+    <string name="time_series_prompt">Time Interval</string>
+    <string name="verify_email">Verify Email</string>
+    <string-array name="time_series_array">
+        <item>7 Days</item>
+        <item>1 Month</item>
+        <item>2 Months</item>
+        <item>6 Months</item>
+        <item>1 Year</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_widget">Add World Clock Widget</string>
+    <string name="configure">Select Timezone For Clock Widget</string>
+    <string name="toast_no_internet_detected">We couldn\'t find an active internet connection. Please try again.</string>
+</resources>
