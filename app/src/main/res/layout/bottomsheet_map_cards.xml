@@ -30,7 +30,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="12dp"
-        android:hint="Enter search term" />
+        android:hint="@string/search_hint" />
 
     <TextView
         android:id="@+id/textViewNoItems"

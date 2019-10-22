@@ -531,7 +531,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * compares the filtered string with the exsiting array and creates a new one.
      *
-     * @param searchtxt
+     * @param searchtxt the text user enters into the edittext
      */
     private void filter(String searchtxt) {
 
