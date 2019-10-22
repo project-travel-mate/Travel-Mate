@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,7 +20,19 @@
         android:text="@string/nearby_places"
         android:textSize="16sp"
         android:textStyle="bold" />
+    <EditText
+        android:id="@+id/editTextSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter search term"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginTop="16dp"
+
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp" />
     <TextView
         android:id="@+id/textViewNoItems"
         android:layout_width="match_parent"

@@ -19,19 +19,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -59,8 +66,9 @@ import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements
-        Marker.OnMarkerClickListener {
-
+        Marker.OnMarkerClickListener, TextWatcher {
+    @BindView(R.id.editTextSearch)
+    EditText editTextSearch;
     @BindView(R.id.lv)
     RecyclerView recyclerView;
     @BindView(R.id.textViewNoItems)
@@ -71,7 +79,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     TextView selectedItemAddress;
     @BindView(R.id.item_info)
     LinearLayout linearLayout;
-
+    PlacesOnMapAdapter PlacesMapAdapter;
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
@@ -95,7 +103,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_places_on_map);
 
         ButterKnife.bind(this);
-
+        editTextSearch.addTextChangedListener(this);
         Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         String type = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
@@ -187,8 +195,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * move to center marker
      *
-     * @param marker  marker
-     * @param latitude latitude
+     * @param marker    marker
+     * @param latitude  latitude
      * @param longitude longitude
      */
     private void moveMakerToCenter(Marker marker, Double latitude, Double longitude) {
@@ -208,7 +216,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * on marker selected
      *
-     * @param marker  marker
+     * @param marker marker
      */
     private void onPlaceSelected(Marker marker) {
         try {
@@ -231,7 +239,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             selectedItemName.setText(mFeedItems.getJSONObject(mIndex).getString("title"));
             String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
             if (address.length > 1) {
-                selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                selectedItemAddress.setText(address[0] + ", " + address[1]);
             } else {
                 selectedItemAddress.setText(address[0]);
             }
@@ -277,7 +285,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                 mHandler.post(() -> {
                     try {
                         mFeedItems = new JSONArray(res);
-                        for (int i = 0; i < mFeedItems.length(); i++ ) {
+                        for (int i = 0; i < mFeedItems.length(); i++) {
                             Double latitude =
                                     mFeedItems.getJSONObject(i).getDouble("latitude");
                             Double longitude =
@@ -309,7 +317,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setAdapter(new PlacesOnMapAdapter(this, feedItems, mIcon));
+            PlacesMapAdapter = new PlacesOnMapAdapter(PlacesOnMapActivity.this,feedItems,mIcon);
+
+
+            recyclerView.setAdapter(PlacesMapAdapter);
             textViewNoItems.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
@@ -317,6 +328,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
     /**
      * Highlights the marker whose card is clicked
+     *
      * @param position position of the marker in
      *                 mMarkerList whose card is clicked
      */
@@ -341,6 +353,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
     /**
      * Zooms in towards the marker whose card is clicked
+     *
      * @param position position of the item in
      *                 mFeedItems whose card is clicked
      */
@@ -371,13 +384,31 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         return false;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+      //  if(editable.toString().length()) {
+            filter(editable.toString());
+        //}
+        }
+
     /**
      * Adapter for horizontal recycler view for displaying each cityInfoItem
      */
     class PlacesOnMapAdapter extends RecyclerView.Adapter<PlacesOnMapAdapter.ViewHolder> {
 
         final Context mContext;
-        final JSONArray mFeedItems;
+         JSONArray mFeedItems;
         final int mRd;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
@@ -385,7 +416,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             this.mFeedItems = feedItems;
             mRd = r;
         }
-
+        public void filterList(JSONArray filterdNames) {
+            this.mFeedItems = filterdNames;
+            notifyDataSetChanged();
+        }
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (position == 0) {
@@ -448,7 +482,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                     highlightMarker(position);
                     String[] address = mFeedItems.getJSONObject(position).getString("address").split("<br/>");
                     if (address.length > 1) {
-                        selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                        selectedItemAddress.setText(address[0] + ", " + address[1]);
                     } else {
                         selectedItemAddress.setText(address[0]);
                     }
@@ -467,7 +501,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.city_infoitem, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            return  holder;
+            return holder;
         }
 
         @Override
@@ -500,5 +534,29 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             }
 
         }
+    }
+
+    private void filter(String text) {
+        //new array list that will hold the filtered data
+        //
+         JSONArray mFeedItems_filtered = new JSONArray();
+
+
+for(int i=0;i<=mFeedItems.length()-1;i++){
+
+    try {
+        if (mFeedItems.getJSONObject(i).getString("title").contains(text.toLowerCase())) {
+            //adding the element to filtered list
+            mFeedItems_filtered.put(mFeedItems.getJSONObject(i));
+        }
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
+
+        PlacesMapAdapter.filterList(mFeedItems_filtered);
+
+
     }
 }
