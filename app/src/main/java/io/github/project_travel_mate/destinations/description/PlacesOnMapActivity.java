@@ -537,7 +537,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     }
 
     /**
-     * comapres the filtered string with the exsiting array and creates a new one.
+     * compares the filtered string with the exsiting array and creates a new one.
      *
      * @param searchtxt
      */
@@ -549,7 +549,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         for (int i = 0; i <= mFeedItems.length() - 1; i++) {
 
             try {
-                if (mFeedItems.getJSONObject(i).getString("title").contains(searchtxt.toLowerCase())) {
+                if (mFeedItems.getJSONObject(i).getString("title").toLowerCase().contains(searchtxt.toLowerCase())) {
                     filteredFeedItems.put(mFeedItems.getJSONObject(i));
                 }
             } catch (JSONException e) {
