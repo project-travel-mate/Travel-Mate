@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: '../config/checkstyle.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -30,6 +29,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 repositories {
@@ -108,6 +108,3 @@ dependencies {
     implementation 'com.github.blongho:world-country-data:v1.1.0'
 }
 
-preBuild.dependsOn('checkstyle')
-assemble.dependsOn('lint')
-check.dependsOn('checkstyle')
