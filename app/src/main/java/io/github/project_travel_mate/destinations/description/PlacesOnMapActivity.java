@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -175,6 +176,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      * @param locationName name of location
      */
     private void showMarker(Double locationLat, Double locationLong, String locationName) {
+
         GeoPoint coord = new GeoPoint(locationLat, locationLong);
         Marker marker = new Marker(mMap);
         if (ContextCompat.checkSelfPermission(PlacesOnMapActivity.this,
@@ -184,7 +186,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             marker.setIcon(mMarker);
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
-
             mMap.getOverlays().add(marker);
             mMap.invalidate();
 
@@ -213,31 +214,14 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         mController.animateTo(center);
     }
 
-    /**
-     * on marker selected
-     *
-     * @param marker marker
-     */
-    private void onPlaceSelected(Marker marker) {
-        try {
-            for (int i = 0; i < mFeedItems.length(); i++) {
-                //get index of the clicked marker
-                if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
-                    mIndex = i;
-                    break;
-                }
-            }
-            Double latitude =
-                    mFeedItems.getJSONObject(mIndex).getDouble("latitude");
-            Double longitude =
-                    mFeedItems.getJSONObject(mIndex).getDouble("longitude");
 
-            moveMakerToCenter(marker, latitude, longitude);
+    private void onPlaceSelected(Marker m) {
+        try {
+
+            moveMakerToCenter(m, m.getPosition().getLatitude(), m.getPosition().getLongitude());
             linearLayout.setVisibility(View.VISIBLE);
-            GeoPoint coord = new GeoPoint(latitude, longitude);
-         //   highlightMarker(mIndex,coord,mFeedItems.getJSONObject(mIndex).getString());
-            //set info about clicked marker
-            selectedItemName.setText(mFeedItems.getJSONObject(mIndex).getString("title"));
+
+            selectedItemName.setText(m.getTitle());
             String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
             if (address.length > 1) {
                 selectedItemAddress.setText(address[0] + ", " + address[1]);
@@ -327,14 +311,19 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * Highlights the marker whose card is clicked
-     *
-     * @param position position of the marker in
-     *                 mMarkerList whose card is clicked
-     */
-    private void highlightMarker(int position,GeoPoint coord,String title) {
 
+    private void highlightMarker(String title) {
+      //  Toast.makeText(this, "this is "+title, Toast.LENGTH_SHORT).show();
+        int index = 0;
+        Marker currentMarker = null;
+        for (Marker m : mMarkerList) {
+
+            if (m.getTitle().equals(title)) {
+                currentMarker = mMarkerList.get(index);
+                break;
+            }
+            index++;
+        }
 
         if (mPreviousMarker != null) {
             mPreviousMarker.setIcon(mMarker);
@@ -342,39 +331,24 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             mPreviousMarker.closeInfoWindow();
         }
 
-        Marker m = new Marker(mMap);
-m.setPosition(coord);
-m.setTitle(title);
 
-      //  Marker currentMarker = mMarkerList.get(position);
 
-        mMap.getOverlays().remove(m);
+        mMap.getOverlays().remove(currentMarker);
         mMap.invalidate();
-        m.setIcon(mDefaultMarker);
-        mMap.getOverlays().add(m);
+        currentMarker.setIcon(mDefaultMarker);
+        mMap.getOverlays().add(currentMarker);
         mMap.invalidate();
 
         //show info about current marker
-        m.showInfoWindow();
-        mPreviousMarker = m;
+        currentMarker.showInfoWindow();
+        mPreviousMarker = currentMarker;
+        zoomToMarker(currentMarker.getPosition().getLatitude(),currentMarker.getPosition().getLongitude());
     }
 
-    /**
-     * Zooms in towards the marker whose card is clicked
-     *
-     * @param position position of the item in
-     *                 mFeedItems whose card is clicked
-     */
-    private void zoomToMarker(int position) {
-        Double latitude = null, longitude = null;
-        try {
-            latitude =
-                    mFeedItems.getJSONObject(position).getDouble("latitude");
-            longitude =
-                    mFeedItems.getJSONObject(position).getDouble("longitude");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+    private void zoomToMarker(double latitude,double longitude) {
+
+
 
         mController.setZoom(16.0);
         GeoPoint center = new GeoPoint(latitude, longitude);
@@ -388,7 +362,8 @@ m.setTitle(title);
 
     @Override
     public boolean onMarkerClick(Marker marker, MapView mapView) {
-        onPlaceSelected(marker);
+        marker.showInfoWindow();
+        //onPlaceSelected(marker);
         return false;
     }
 
@@ -424,15 +399,17 @@ m.setTitle(title);
             this.mFeedItems = feedItems;
             mRd = r;
         }
+
         public Object getItem(int position) {
-            Object o =null;
+            Object o = null;
             try {
-                o=mFeedItems.get(position);
+                o = mFeedItems.get(position);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return o;
         }
+
         public void filterList(JSONArray filterdNames) {
             this.mFeedItems = filterdNames;
             notifyDataSetChanged();
@@ -497,15 +474,14 @@ m.setTitle(title);
 
             holder.completeLayout.setOnClickListener(v -> {
                 try {
-                    GeoPoint coord = new GeoPoint(mFeedItems.getJSONObject(position).getDouble("latitude"), mFeedItems.getJSONObject(position).getDouble("longitude"));
-                    highlightMarker(position,coord,mFeedItems.getJSONObject(position).getString("title") );
+                    highlightMarker(mFeedItems.getJSONObject(position).getString("title"));
                     String[] address = mFeedItems.getJSONObject(position).getString("address").split("<br/>");
                     if (address.length > 1) {
                         selectedItemAddress.setText(address[0] + ", " + address[1]);
                     } else {
                         selectedItemAddress.setText(address[0]);
                     }
-                    zoomToMarker(position);
+
                     linearLayout.setVisibility(View.VISIBLE);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     selectedItemName.setText(mFeedItems.getJSONObject(position).getString("title"));
