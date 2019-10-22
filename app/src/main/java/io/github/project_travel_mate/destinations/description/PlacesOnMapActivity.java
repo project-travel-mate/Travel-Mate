@@ -214,15 +214,16 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     }
 
     /**
-     * @param m = marker
+     * on marker selected
+     *
+     * @param marker marker
      */
-    private void onPlaceSelected(Marker m) {
+    private void onPlaceSelected(Marker marker) {
         try {
 
-            moveMakerToCenter(m, m.getPosition().getLatitude(), m.getPosition().getLongitude());
+            moveMakerToCenter(marker, marker.getPosition().getLatitude(), marker.getPosition().getLongitude());
             linearLayout.setVisibility(View.VISIBLE);
-
-            selectedItemName.setText(m.getTitle());
+            selectedItemName.setText(marker.getTitle());
             String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
             if (address.length > 1) {
                 selectedItemAddress.setText(address[0] + ", " + address[1]);
@@ -318,7 +319,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      * @param title this is the title of the marker
      */
     private void highlightMarker(String title) {
-        //  Toast.makeText(this, "this is "+title, Toast.LENGTH_SHORT).show();
         int index = 0;
         Marker currentMarker = null;
         for (Marker m : mMarkerList) {
@@ -352,8 +352,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * Zooms in towards the marker whose card is clicked
      *
-     * @param latitude
-     * @param longitude
+     * @param latitude  latitude from the selected marker
+     * @param longitude longitude from the selected marker
      */
     private void zoomToMarker(double latitude, double longitude) {
 
@@ -362,7 +362,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         GeoPoint center = new GeoPoint(latitude, longitude);
         mController.animateTo(center);
     }
-
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, PlacesOnMapActivity.class);
@@ -531,15 +530,11 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * compares the filtered string with the exsiting array and creates a new one.
      *
-     * @param searchtxt the text user enters into the edittext
+     * @param searchtxt the text user enters into the edittext field
      */
     private void filter(String searchtxt) {
-
         final JSONArray filteredFeedItems = new JSONArray();
-
-
         for (int i = 0; i <= mFeedItems.length() - 1; i++) {
-
             try {
                 if (mFeedItems.getJSONObject(i).getString("title").toLowerCase().contains(searchtxt.toLowerCase())) {
                     filteredFeedItems.put(mFeedItems.getJSONObject(i));
@@ -549,9 +544,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             }
 
         }
-
         PlacesMapAdapter.filterList(filteredFeedItems);
-
-
     }
 }
