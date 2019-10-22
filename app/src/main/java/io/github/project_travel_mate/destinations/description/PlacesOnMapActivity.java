@@ -397,9 +397,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     @Override
     public void afterTextChanged(Editable editable) {
 
-        //  if(editable.toString().length()) {
         filter(editable.toString());
-        //}
     }
 
     /**
@@ -538,18 +536,21 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         }
     }
 
-    private void filter(String text) {
-        //new array list that will hold the filtered data
-        //
-        final JSONArray mFeedItems_filtered = new JSONArray();
+    /**
+     * comapres the filtered string with the exsiting array and creates a new one.
+     *
+     * @param searchtxt
+     */
+    private void filter(String searchtxt) {
+
+        final JSONArray filteredFeedItems = new JSONArray();
 
 
         for (int i = 0; i <= mFeedItems.length() - 1; i++) {
 
             try {
-                if (mFeedItems.getJSONObject(i).getString("title").contains(text.toLowerCase())) {
-                    //adding the element to filtered list
-                    mFeedItems_filtered.put(mFeedItems.getJSONObject(i));
+                if (mFeedItems.getJSONObject(i).getString("title").contains(searchtxt.toLowerCase())) {
+                    filteredFeedItems.put(mFeedItems.getJSONObject(i));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -557,7 +558,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
         }
 
-        PlacesMapAdapter.filterList(mFeedItems_filtered);
+        PlacesMapAdapter.filterList(filteredFeedItems);
 
 
     }
