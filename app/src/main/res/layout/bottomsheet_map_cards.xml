@@ -14,25 +14,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/nearby_places"
         android:textSize="16sp"
         android:textStyle="bold" />
+
     <EditText
         android:id="@+id/editTextSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter search term"
-
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-
-        android:layout_marginTop="16dp"
-
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="12dp"
+        android:hint="Enter search term" />
+
     <TextView
         android:id="@+id/textViewNoItems"
         android:layout_width="match_parent"

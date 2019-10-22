@@ -317,7 +317,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
-            PlacesMapAdapter = new PlacesOnMapAdapter(PlacesOnMapActivity.this,feedItems,mIcon);
+            PlacesMapAdapter = new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon);
 
 
             recyclerView.setAdapter(PlacesMapAdapter);
@@ -397,10 +397,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     @Override
     public void afterTextChanged(Editable editable) {
 
-      //  if(editable.toString().length()) {
-            filter(editable.toString());
+        //  if(editable.toString().length()) {
+        filter(editable.toString());
         //}
-        }
+    }
 
     /**
      * Adapter for horizontal recycler view for displaying each cityInfoItem
@@ -408,7 +408,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     class PlacesOnMapAdapter extends RecyclerView.Adapter<PlacesOnMapAdapter.ViewHolder> {
 
         final Context mContext;
-         JSONArray mFeedItems;
+        JSONArray mFeedItems;
         final int mRd;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
@@ -416,10 +416,12 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             this.mFeedItems = feedItems;
             mRd = r;
         }
+
         public void filterList(JSONArray filterdNames) {
             this.mFeedItems = filterdNames;
             notifyDataSetChanged();
         }
+
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (position == 0) {
@@ -539,21 +541,21 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     private void filter(String text) {
         //new array list that will hold the filtered data
         //
-         JSONArray mFeedItems_filtered = new JSONArray();
+        final JSONArray mFeedItems_filtered = new JSONArray();
 
 
-for(int i=0;i<=mFeedItems.length()-1;i++){
+        for (int i = 0; i <= mFeedItems.length() - 1; i++) {
 
-    try {
-        if (mFeedItems.getJSONObject(i).getString("title").contains(text.toLowerCase())) {
-            //adding the element to filtered list
-            mFeedItems_filtered.put(mFeedItems.getJSONObject(i));
+            try {
+                if (mFeedItems.getJSONObject(i).getString("title").contains(text.toLowerCase())) {
+                    //adding the element to filtered list
+                    mFeedItems_filtered.put(mFeedItems.getJSONObject(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
-
-}
 
         PlacesMapAdapter.filterList(mFeedItems_filtered);
 
