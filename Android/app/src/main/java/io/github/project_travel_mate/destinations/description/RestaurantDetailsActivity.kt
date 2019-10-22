@@ -45,7 +45,9 @@ class RestaurantDetailsActivity : AppCompatActivity() {
     }
 
     private fun populateViews (restaurant: RestaurantDetails) {
-        Picasso.with(this).load(restaurant.featuredImage).into(image_view)
+        if (restaurant.featuredImage.trim().isNotEmpty()) {
+            Picasso.with(this).load(restaurant.featuredImage).into(image_view)
+        }
 
         address.text = getString(R.string.rest_address, restaurant.address)
         avg_cost.text = getString(R.string.avg_cost, restaurant.avgCost.toString())

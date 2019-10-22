@@ -285,7 +285,10 @@
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
     <string name="share_daily_quote">Hey! Checkout this quote, seems interesting! I find this on Travel Mate app. Download it from Play Store :
     https://play.google.com/store/apps/details?id=io.github.project_travel_mate.</string>
-    <string name="reject_daily_quotes_button">Don\'t Show Again</string>
+    <string name="reject_daily_quotes">Don\'t Show Again</string>
+    <string name="daily_quote">Daily Quote</string>
+    <string name="continue_button">Continue</string>
+    <string name="quote_format">Quote Format</string>
 
     <string name="shopping_text">Want to shop something? Select the search icon on top.</string>
     <string name="no_results">No results found</string>
@@ -381,5 +384,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_widget">Add World Clock Widget</string>
     <string name="configure">Select Timezone For Clock Widget</string>
-  <string name="trip_name_label">Trip Name:</string>
+    <string name="trip_name_label">Trip Name:</string>
+    <string name="toast_no_internet_detected">We couldn\'t find an active internet connection. Please try again.</string>
+
 </resources>

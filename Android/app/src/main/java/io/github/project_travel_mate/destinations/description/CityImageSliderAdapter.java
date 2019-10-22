@@ -2,6 +2,7 @@ package io.github.project_travel_mate.destinations.description;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -51,6 +52,8 @@ public class CityImageSliderAdapter extends PagerAdapter {
                     mImagesArray.get(position), mCityName);
             mContext.startActivity(fullScreenIntent);
         });
+        imageView.setBackgroundColor(Color.TRANSPARENT);
+        imageView.setAlpha(0.6f);
         return imageView;
     }
 

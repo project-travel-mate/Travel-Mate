@@ -2,44 +2,35 @@ package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextClock;
-import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import utils.CurrencyConverterGlobal;
 
 public class WorldClockActivity extends AppCompatActivity {
 
-    @BindView(R.id.timezone_country_flag)
-    ImageView from_image;
-    @BindView(R.id.timezone_country_name)
-    TextView timezone_name;
-    Boolean flag_check_first_item = false;
-    private Context mContext;
-    String timezone_short = "Asia/Kolkata";
-    private AnalogClock mAnalogClock;
-    private String mFormat;
-    private final String mHours12 = "hh:mm:ss a";
-    private final String mHours24 = "k:mm:ss";
-
-    //private DigitalClock mDigitalClock;
-
-    private static TextClock mDigitalClock;
+    private CustomAnalogClock mAnalogClock;
+    private static final String DEFAULT_TIME_ZONE_KEY = "defaultTimeZone";
+    private TextClock mTextClock;
+    private long mMiliSeconds;
+    private ArrayAdapter<String> mIdAdapter;
+    private Spinner mTimeZoneChooser;
+    private Calendar mCurrent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,62 +39,50 @@ public class WorldClockActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle(R.string.text_clock);
 
-
+        mTextClock = findViewById(R.id.clock_digital);
         mAnalogClock = findViewById(R.id.clock_analog);
+        mTimeZoneChooser = findViewById(R.id.availableID); // choosing time zone
 
-        mDigitalClock = findViewById(R.id.clock_digital);
+        String[] idArray = TimeZone.getAvailableIDs();
+        mIdAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, idArray);
+        mIdAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mTimeZoneChooser.setAdapter(mIdAdapter);
 
-        mContext = this;
+        /**
+         * Analog Clock Initialization
+         */
+        mAnalogClock.init(WorldClockActivity.this, R.drawable.clock_face,
+                R.drawable.hours_hand, R.drawable.minutes_hand,
+                0, false, false);
+
+        mAnalogClock.setScale(1f);
+        // analog clock size
+
+        getGMTTime();
+        // get time from selected time zone
+
+        mTimeZoneChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view, int position, long id) {
+                getGMTTime();
+                String selectedId = (String) (parent.getItemAtPosition(position));
+                TimeZone timezone = TimeZone.getTimeZone(selectedId);
+                setSelectedText(timezone);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (flag_check_first_item) {
-            if (CurrencyConverterGlobal.global_image_id != 0 &&
-                    !CurrencyConverterGlobal.global_country_name.isEmpty()) {
-                from_image.setImageResource(CurrencyConverterGlobal.global_image_id);
-                timezone_name.setText(CurrencyConverterGlobal.global_country_name);
-                timezone_short = CurrencyConverterGlobal.country_id;
-
-                setClock();
-                Log.d("Key", timezone_short);
-            }
-        }
-    }
-
-    /**
-     * set clock with timezone
-     */
-    private void setClock() {
-        String timezone = CurrencyConverterGlobal.global_country_name.split(" ", 2)[0];
-
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        long gmtTime = calendar.getTime().getTime();
-
-        long timezoneAlteredTime = gmtTime + TimeZone.getTimeZone(timezone).getRawOffset();
-        Calendar clockCalender = Calendar.getInstance(TimeZone.getTimeZone(timezone));
-        clockCalender.setTimeInMillis(timezoneAlteredTime);
-
-        //customization
-        mAnalogClock.setCalendar(clockCalender)
-                .setDiameterInDp(200.0f)
-                .setOpacity(1.0f)
-                .setColor(Color.BLACK);
-
-        mDigitalClock.setTimeZone(timezone);
-        setFormat();
-    }
-
-    @OnClick(R.id.zone_field)
-    void fromSelected() {
-        flag_check_first_item = true;
-        Intent intent = new Intent(mContext, TimezoneListViewActivity.class);
-        startActivity(intent);
-    }
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, WorldClockActivity.class);
@@ -118,19 +97,48 @@ public class WorldClockActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This function gets GMT time and also performs time calculation according to time zone.
+     */
+    private void getGMTTime() {
+        mCurrent = Calendar.getInstance();
+        mCurrent.add(Calendar.HOUR, -2);
+        mMiliSeconds = mCurrent.getTimeInMillis();
+        TimeZone tzCurrent = mCurrent.getTimeZone();
+        int offset = tzCurrent.getRawOffset();
+        if (tzCurrent.inDaylightTime(new Date())) {
+            offset = offset + tzCurrent.getDSTSavings();
+        }
+        mMiliSeconds = mMiliSeconds - offset;
+    }
 
     /**
-     * Pulls 12/24 mode from system settings
+     * This function saves the user selected time zone
+     *
+     * @param key
+     * @param value
      */
-    private boolean get24HourMode() {
-        return DateFormat.is24HourFormat(mContext);
+    private void saveTimeZonePrefs(String key, String value) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        settings.edit().putString(key, value).apply();
     }
 
-    private void setFormat() {
-        if (get24HourMode()) {
-            mDigitalClock.setFormat24Hour(mHours24);
-        } else {
-            mDigitalClock.setTimeZone(mHours12);
-        }
+    /**
+     * This function gets the time from the time zone that user have chosen.
+     *
+     * @param timezone
+     */
+    private void setSelectedText(TimeZone timezone) {
+        mMiliSeconds = mMiliSeconds + timezone.getRawOffset();
+        mTextClock.setTimeZone(timezone.getID());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, -2);
+        mAnalogClock.setTime(calendar);
+        mAnalogClock.setTimezone(timezone);
+        saveTimeZonePrefs(DEFAULT_TIME_ZONE_KEY, timezone.getID());
+        mTextClock.setFormat12Hour("hh:mm:ss a"); //for 12 hour format
+        mTextClock.setFormat24Hour("k:mm:ss"); // for 24 hour format
+        mMiliSeconds = 0;
     }
+
 }

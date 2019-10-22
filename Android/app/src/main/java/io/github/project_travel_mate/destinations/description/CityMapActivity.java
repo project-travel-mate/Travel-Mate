@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,7 @@ public class CityMapActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         final City mCity = (City) getIntent().getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(mCity.mNickname);
 
         cityMap.setBuiltInZoomControls(false);
@@ -70,5 +73,13 @@ public class CityMapActivity extends AppCompatActivity {
             CacheManager manager = new CacheManager(cityMap);
             manager.downloadAreaAsync(this, points, 14, 29);
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

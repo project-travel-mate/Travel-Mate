@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,13 +51,14 @@ public class TweetsDescriptionAdapter extends RecyclerView.Adapter<TweetsDescrip
         TweetDescription tweet = mTweets.get(position);
         //Convert date to dd-mm-yy format
         final Calendar cal = Calendar.getInstance();
+        String timeString = "";
         try {
             cal.setTimeInMillis(Long.parseLong(tweet.getCreatedAt()) * 1000);
+            timeString = new SimpleDateFormat("dd-MMM-yyyy").format(cal.getTime());
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        final String timeString =
-                new SimpleDateFormat("dd-MMM-yyyy").format(cal.getTime());
+
 
         Picasso.with(mContext).load(tweet.getAvatar()).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon)

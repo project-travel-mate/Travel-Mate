@@ -30,7 +30,7 @@
                 android:layout_height="230dp"
                 android:contentDescription="@string/empty_description"
                 android:scaleType="centerCrop"
-                android:background="@android:color/transparent"
+                android:background="@android:color/black"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_collapseMode="parallax" />
 
