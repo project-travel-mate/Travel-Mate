@@ -22,13 +22,13 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        maven { url "https://jitpack.io" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-ext {
+ext{
     roomVersion = "1.0.0-beta2"
 }
