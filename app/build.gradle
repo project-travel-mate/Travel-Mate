@@ -3,6 +3,11 @@ apply from: 'config/checkstyle.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'checkstyle'
+checkstyle {
+    toolVersion '7.8.1'
+    configFile file("config/quality/checkstyle_config.xml")
+}
+
 
 android {
     compileSdkVersion 28
