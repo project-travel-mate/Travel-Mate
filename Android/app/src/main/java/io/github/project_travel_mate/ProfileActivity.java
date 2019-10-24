@@ -531,12 +531,14 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             }
 
                             if (userId == null) {
-                                mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
-                                mSharedPreferences.edit().putString(USER_EMAIL, userName).apply();
-                                mSharedPreferences.edit().putString(USER_DATE_JOINED, date).apply();
-                                mSharedPreferences.edit().putString(USER_IMAGE, imageURL).apply();
-                                mSharedPreferences.edit().putString(USER_ID, String.valueOf(id)).apply();
-                                mSharedPreferences.edit().putString(USER_STATUS, status).apply();
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString(USER_NAME, fullName);
+                                editor.putString(USER_EMAIL, userName);
+                                editor.putString(USER_DATE_JOINED, date);
+                                editor.putString(USER_IMAGE, imageURL);
+                                editor.putString(USER_ID, String.valueOf(id));
+                                editor.putString(USER_STATUS, status);
+                                editor.apply();
                             } else {
                                 updateOptionsMenu();
                             }
