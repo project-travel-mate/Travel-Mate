@@ -171,6 +171,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
             updateOptionsMenu();
+            updateOptionsMenu();
         }
 
         isVerified.setOnClickListener(view -> {
@@ -513,7 +514,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             String dateJoined = object.getString("date_joined");
                             String status = object.getString("status");
                             boolean verified = object.getBoolean("is_verified");
-                            new User(userName, firstName, lastName, id, imageURL, dateJoined, status);
                             String fullName = firstName + " " + lastName;
                             Long dateTime = rfc3339ToMills(dateJoined);
                             String date = getDate(dateTime);
