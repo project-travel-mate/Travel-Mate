@@ -126,7 +126,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
         mLocationoverlay.enableFollowLocation();
         mLocationoverlay.enableMyLocation();
         mMap.getOverlays().add(mLocationoverlay);
-        mController.setZoom(14);
+        mController.setZoom(14.0);
     }
 
     /**
@@ -286,7 +286,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             marker.setPosition(coord);
-            marker.setIcon(this.getResources().getDrawable(locationIcon));
+            marker.setIcon(this.getDrawable(locationIcon));
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
 
@@ -314,7 +314,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
     private void onMarkerSelected(Marker marker) {
         // Zoom to current location
         GeoPoint coordinate = new GeoPoint(Double.parseDouble(mCurlat), Double.parseDouble(mCurlon));
-        mController.setZoom(14);
+        mController.setZoom(14.0);
         mController.animateTo(coordinate);
 
         marker.showInfoWindow();

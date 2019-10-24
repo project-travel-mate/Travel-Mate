@@ -30,8 +30,6 @@ public class QuotesActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.quote_framelayout,
                 dailyQuotesFragment).commit();
 
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static Intent getStartIntent(Context context) {

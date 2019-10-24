@@ -2,7 +2,6 @@ package io.github.project_travel_mate.utilities;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -11,11 +10,11 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
 
-import io.github.project_travel_mate.R;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import io.github.project_travel_mate.R;
 
 
 /**
@@ -132,8 +131,7 @@ public class CustomAnalogClock extends View {
      * @param drawableRes
      */
     public void setFace(int drawableRes) {
-        final Resources r = getResources();
-        setFace(r.getDrawable(drawableRes));
+        setFace(getContext().getDrawable(drawableRes));
     }
 
     /**
@@ -153,12 +151,12 @@ public class CustomAnalogClock extends View {
 
         CustomAnalogClock.hourOnTop = hourOnTop;
         setFace(watchFace);
-        Drawable hHand = context.getResources().getDrawable(hourHand);
+        Drawable hHand = context.getDrawable(hourHand);
         assert hHand != null;
         if (alpha > 0)
             hHand.setAlpha(alpha);
 
-        Drawable mHand = context.getResources().getDrawable(minuteHand);
+        Drawable mHand = context.getDrawable(minuteHand);
 
         mCalendar = Calendar.getInstance();
 

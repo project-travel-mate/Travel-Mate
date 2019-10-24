@@ -89,5 +89,4 @@ public class FavouriteCitiesFragment extends Fragment {
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
     }
-
 }
