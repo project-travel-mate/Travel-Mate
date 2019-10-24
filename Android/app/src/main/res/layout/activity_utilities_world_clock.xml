@@ -8,7 +8,7 @@
     <FrameLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
         tools:context=".utilities.WorldClockActivity">
@@ -17,33 +17,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvTimeZone"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/select_timezone"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTimeZone">
+                <TextView
+                    android:id="@+id/tvTimeZone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_timezone"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="1"/>
 
                 <Spinner
                     android:id="@+id/availableID"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dialog" />
-
-            </RelativeLayout>
+                    android:spinnerMode="dialog"
+                    android:layout_weight="2"
+                    android:padding="5dp"/>
+            </LinearLayout>
 
             <io.github.project_travel_mate.utilities.CustomAnalogClock
                 android:id="@+id/clock_analog"
@@ -54,7 +56,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <android.widget.TextClock
                 android:id="@+id/clock_digital"

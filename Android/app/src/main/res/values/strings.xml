@@ -270,7 +270,7 @@
 
     <!-- World Clock Strings -->
     <string name="text_clock">World Clock</string>
-    <string name="select_timezone">Select Timezone</string>
+    <string name="select_timezone">Select Timezone:</string>
     <string name="search_timezone">Search Timezone..</string>
 
     <string name="sign_out">Sign out</string>
