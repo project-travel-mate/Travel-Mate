@@ -68,6 +68,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.CircleImageView;
 import utils.TravelmateSnackbars;
+import utils.Utils;
 
 import static android.view.View.GONE;
 import static com.google.android.flexbox.FlexDirection.ROW;
@@ -156,23 +157,25 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
         Intent intent = getIntent();
         String id = intent.getStringExtra(OTHER_USER_ID);
-        getTravelledCities();
-        getUserDetails(id);
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (id == null) {
-            fillProfileInfo(mSharedPreferences.getString(USER_NAME, null),
-                    mSharedPreferences.getString(USER_EMAIL, null),
-                    mSharedPreferences.getString(USER_IMAGE, null),
-                    mSharedPreferences.getString(USER_DATE_JOINED, null),
-                    mSharedPreferences.getString(USER_STATUS, null));
-
-        } else {
+        if (id != null) {
             editDisplayName.setVisibility(View.INVISIBLE);
             updateOptionsMenu();
-            updateOptionsMenu();
         }
+
+        boolean isNetworkConnected = Utils.isNetworkConnected(this);
+        if (isNetworkConnected) {
+            getUserDetails(id);
+            getTravelledCities();
+        } else {
+            fillProfileOffline(mSharedPreferences.getString(USER_NAME, null),
+                    mSharedPreferences.getString(USER_EMAIL, null),
+                    mSharedPreferences.getString(USER_DATE_JOINED, null),
+                    mSharedPreferences.getString(USER_STATUS, null));
+        }
+
+        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         isVerified.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
@@ -713,6 +716,28 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
+
+        if (status != null && !status.equals("null")) {
+            displayStatus.setText(status);
+        }
+    }
+
+    private void fillProfileOffline(String name, String email,
+                                    String dateJoined, String status) {
+        //Change Views Visibility in offline mode
+        displayImage.setVisibility(View.VISIBLE);
+        editDisplayName.setVisibility(View.INVISIBLE);
+        editDisplayStatus.setVisibility(View.INVISIBLE);
+        changeImage.setVisibility(View.INVISIBLE);
+
+        displayName.setText(name);
+        emailId.setText(email);
+        joiningDate.setText(String.format(getString(R.string.text_joining_date), dateJoined));
+
+        Picasso.with(ProfileActivity.this)
+                .load(R.drawable.default_user_icon)
+                .placeholder(R.drawable.default_user_icon)
+                .into(displayImage);
 
         if (status != null && !status.equals("null")) {
             displayStatus.setText(status);
