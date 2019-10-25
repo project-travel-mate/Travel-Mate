@@ -168,10 +168,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             getUserDetails(id);
             getTravelledCities();
         } else {
-            fillProfileOffline(mSharedPreferences.getString(USER_NAME, null),
-                    mSharedPreferences.getString(USER_EMAIL, null),
-                    mSharedPreferences.getString(USER_DATE_JOINED, null),
-                    mSharedPreferences.getString(USER_STATUS, null));
+            fillProfileOffline();
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
@@ -722,8 +719,16 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         }
     }
 
-    private void fillProfileOffline(String name, String email,
-                                    String dateJoined, String status) {
+    /**
+     * Fill profile with user information from SharedPreferences when user is offline
+     */
+    private void fillProfileOffline() {
+        //Get user information from SharedPreferences
+        String name = mSharedPreferences.getString(USER_NAME, null);
+        String email = mSharedPreferences.getString(USER_EMAIL, null);
+        String dateJoined = mSharedPreferences.getString(USER_DATE_JOINED, null);
+        String status = mSharedPreferences.getString(USER_STATUS, null);
+
         //Change Views Visibility in offline mode
         displayImage.setVisibility(View.VISIBLE);
         editDisplayName.setVisibility(View.INVISIBLE);
