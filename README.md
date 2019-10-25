@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/project-travel-mate/Travel-Mate.svg?branch=master)](https://travis-ci.org/project-travel-mate/Travel-Mate) [![Uplabs](https://img.shields.io/badge/Uplabs-PhotoEditor-orange.svg)](https://www.uplabs.com/posts/travel-mate) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Travel Mate is an android app for travellers. It provides features like **choosing the correct destination**, **making bookings**, and **organizing the trip**. It provides solutions for every problem a traveller might face during their journey. It provide a comprehensive list of information about a destination: current weather, best places to hangout, and city's current trends. Checkout [Features list](#features) for a detailed feature description.
+Travel Mate is an android app for travellers. It provides features like **choosing the correct destination**, **making bookings**, and **organizing the trip**. It provides solutions for every problem a traveller might face during their journey. It provides a comprehensive list of information about a destination: current weather, best places to hangout, and city's current trends. Checkout [Features list](#features) for a detailed feature description.
 
 | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/all_cities.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/one_city.png" width="200px"> | <img src="https://raw.githubusercontent.com/project-travel-mate/Travel-Mate/master/.github/screenshots/city_here.png" width="200px"> |
 | - | - | - |
