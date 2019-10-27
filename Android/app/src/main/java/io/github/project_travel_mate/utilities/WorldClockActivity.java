@@ -20,6 +20,7 @@ import adapters.TimezoneAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.github.project_travel_mate.utilities.helper.KeyboardHelper;
 
 public class WorldClockActivity extends AppCompatActivity {
 
@@ -97,6 +98,7 @@ public class WorldClockActivity extends AppCompatActivity {
      * a timezone from the list
      */
     private void onItemAutocompleteItemSelected() {
+        KeyboardHelper.Companion.hideKeyboard(this);
         this.setSelectedText(TimeZone.getTimeZone(this.mAutoCompleteTextViewTimezone.getText().toString()));
     }
 
