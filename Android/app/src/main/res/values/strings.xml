@@ -390,4 +390,8 @@
     <!-- Image description related strings -->
     <string name="description_timezone_flag">Timezone flag</string>
 
+    <!-- Date / time formatting related strings -->
+    <string name="date_format_hours_12">hh:mm:ss a</string>
+    <string name="date_format_hours_24">k:mm:ss</string>
+
 </resources>

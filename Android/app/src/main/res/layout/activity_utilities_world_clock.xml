@@ -58,6 +58,8 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:format12Hour="@string/date_format_hours_12"
+                android:format24Hour="@string/date_format_hours_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
