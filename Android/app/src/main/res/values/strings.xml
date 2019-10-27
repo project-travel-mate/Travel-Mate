@@ -385,4 +385,9 @@
     <string name="add_widget">Add World Clock Widget</string>
     <string name="configure">Select Timezone For Clock Widget</string>
     <string name="toast_no_internet_detected">We couldn\'t find an active internet connection. Please try again.</string>
+
+
+    <!-- Image description related strings -->
+    <string name="description_timezone_flag">Timezone flag</string>
+
 </resources>
