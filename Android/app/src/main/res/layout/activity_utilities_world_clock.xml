@@ -28,6 +28,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <android.widget.TextClock
+                android:id="@+id/clock_digital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:format12Hour="@string/date_format_hours_12"
+                android:format24Hour="@string/date_format_hours_24"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clock_analog" />
+
             <io.github.project_travel_mate.utilities.CustomAnalogClock
                 android:id="@+id/clock_analog"
                 android:layout_width="match_parent"
@@ -38,21 +53,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/actvTimezone" />
-
-            <android.widget.TextClock
-                android:id="@+id/clock_digital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:format12Hour="@string/date_format_hours_12"
-                android:format24Hour="@string/date_format_hours_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clock_analog" />
         </android.support.constraint.ConstraintLayout>
 
 
