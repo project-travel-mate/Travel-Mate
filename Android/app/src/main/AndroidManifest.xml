@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".TravelMateApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/google_travel_logo"
