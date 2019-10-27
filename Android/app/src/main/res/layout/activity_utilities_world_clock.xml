@@ -28,22 +28,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/actvTimezone"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:completionThreshold="0"
+                android:hint="@string/select_timezone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTimeZone">
-
-                <Spinner
-                    android:id="@+id/availableID"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog" />
-
-            </RelativeLayout>
+                app:layout_constraintTop_toBottomOf="@+id/tvTimeZone" />
 
             <io.github.project_travel_mate.utilities.CustomAnalogClock
                 android:id="@+id/clock_analog"
@@ -54,7 +48,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/actvTimezone" />
 
             <android.widget.TextClock
                 android:id="@+id/clock_digital"

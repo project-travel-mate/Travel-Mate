@@ -8,28 +8,36 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextClock;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import adapters.TimezoneAdapter;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 public class WorldClockActivity extends AppCompatActivity {
 
-    private CustomAnalogClock mAnalogClock;
     private static final String DEFAULT_TIME_ZONE_KEY = "defaultTimeZone";
-    private TextClock mTextClock;
+
+    @BindView(R.id.clock_analog)
+    CustomAnalogClock mAnalogClock;
+
+    @BindView(R.id.clock_digital)
+    TextClock mTextClock;
+
+    @BindView(R.id.actvTimezone)
+    AutoCompleteTextView mAutoCompleteTextViewTimezone;
+
+    private TimezoneAdapter mAdapter;
     private long mMiliSeconds;
-    private ArrayAdapter<String> mIdAdapter;
-    private Spinner mTimeZoneChooser;
     private Calendar mCurrent;
 
     @Override
@@ -41,13 +49,10 @@ public class WorldClockActivity extends AppCompatActivity {
 
         mTextClock = findViewById(R.id.clock_digital);
         mAnalogClock = findViewById(R.id.clock_analog);
-        mTimeZoneChooser = findViewById(R.id.availableID); // choosing time zone
 
         String[] idArray = TimeZone.getAvailableIDs();
-        mIdAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, idArray);
-        mIdAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTimeZoneChooser.setAdapter(mIdAdapter);
+        this.mAdapter = new TimezoneAdapter(this, Arrays.asList(idArray));
+        this.mAutoCompleteTextViewTimezone.setAdapter(this.mAdapter);
 
         /**
          * Analog Clock Initialization
@@ -62,22 +67,6 @@ public class WorldClockActivity extends AppCompatActivity {
         getGMTTime();
         // get time from selected time zone
 
-        mTimeZoneChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent,
-                                       View view, int position, long id) {
-                getGMTTime();
-                String selectedId = (String) (parent.getItemAtPosition(position));
-                TimeZone timezone = TimeZone.getTimeZone(selectedId);
-                setSelectedText(timezone);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-        });
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -85,15 +74,15 @@ public class WorldClockActivity extends AppCompatActivity {
 
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, WorldClockActivity.class);
-        return intent;
+        return new Intent(context, WorldClockActivity.class);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home) {
             finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
