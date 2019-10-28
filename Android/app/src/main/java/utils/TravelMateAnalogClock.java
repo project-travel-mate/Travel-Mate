@@ -44,13 +44,13 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     private Context mCtx;
 
     @BindView(R.id.face)
-    AppCompatImageView mAnalogFace;
+    AppCompatImageView AnalogFace;
     @BindView(R.id.hour)
-    AppCompatImageView mAnalogHour;
+    AppCompatImageView AnalogHour;
     @BindView(R.id.minute)
-    AppCompatImageView mAnalogMinute;
+    AppCompatImageView AnalogMinute;
     @BindView(R.id.second)
-    AppCompatImageView mAnalogSecond;
+    AppCompatImageView AnalogSecond;
 
 
     public TravelMateAnalogClock(Context ctx) {
@@ -283,52 +283,52 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
 //
 
         if (!mShowSeconds) {
-            mAnalogSecond.setVisibility(GONE);
+            AnalogSecond.setVisibility(GONE);
         }
 
         //square it
-        mAnalogFace.setAdjustViewBounds(true);
-        mAnalogHour.setAdjustViewBounds(true);
-        mAnalogMinute.setAdjustViewBounds(true);
-        mAnalogSecond.setAdjustViewBounds(true);
+        AnalogFace.setAdjustViewBounds(true);
+        AnalogHour.setAdjustViewBounds(true);
+        AnalogMinute.setAdjustViewBounds(true);
+        AnalogSecond.setAdjustViewBounds(true);
 
-        mAnalogHour.setScaleType(ImageView.ScaleType.FIT_END);
-        mAnalogMinute.setScaleType(ImageView.ScaleType.FIT_END);
-        mAnalogSecond.setScaleType(ImageView.ScaleType.FIT_END);
+        AnalogHour.setScaleType(ImageView.ScaleType.FIT_END);
+        AnalogMinute.setScaleType(ImageView.ScaleType.FIT_END);
+        AnalogSecond.setScaleType(ImageView.ScaleType.FIT_END);
 
         mSizeInDp = 40; //why 40 ? cause it works.
         mSizeInDp = (mSizeInDp + 25) * 4;
         mSizeInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 mSizeInDp, getResources().getDisplayMetrics());
-        ViewGroup.LayoutParams layoutParams = mAnalogFace.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = AnalogFace.getLayoutParams();
         layoutParams.width = mSizeInPixels;
         layoutParams.height = mSizeInPixels;
-        mAnalogFace.setLayoutParams(layoutParams);
+        AnalogFace.setLayoutParams(layoutParams);
 
-        layoutParams = mAnalogSecond.getLayoutParams();
+        layoutParams = AnalogSecond.getLayoutParams();
         float minutesHeight = (mSizeInPixels / 2) - (mSizeInPixels / 5.5f);
         layoutParams.height = (int) minutesHeight;
-        mAnalogSecond.setLayoutParams(layoutParams);
+        AnalogSecond.setLayoutParams(layoutParams);
 
-        layoutParams = mAnalogMinute.getLayoutParams();
+        layoutParams = AnalogMinute.getLayoutParams();
         layoutParams.height = (int) minutesHeight;
-        mAnalogMinute.setLayoutParams(layoutParams);
+        AnalogMinute.setLayoutParams(layoutParams);
 
-        layoutParams = mAnalogHour.getLayoutParams();
+        layoutParams = AnalogHour.getLayoutParams();
         layoutParams.height = (mSizeInPixels) / 5;
-        mAnalogHour.setLayoutParams(layoutParams);
+        AnalogHour.setLayoutParams(layoutParams);
 
-        mAnalogFace.setImageDrawable(face);
-        mAnalogHour.setImageDrawable(hour);
-        mAnalogMinute.setImageDrawable(minute);
-        mAnalogSecond.setImageDrawable(second);
+        AnalogFace.setImageDrawable(face);
+        AnalogHour.setImageDrawable(hour);
+        AnalogMinute.setImageDrawable(minute);
+        AnalogSecond.setImageDrawable(second);
 
         mDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3.5f, getResources().getDisplayMetrics());
 
         layoutListener = () -> {
-            setPositionFor(mAnalogSecond);
-            setPositionFor(mAnalogMinute);
-            setPositionFor(mAnalogHour);
+            setPositionFor(AnalogSecond);
+            setPositionFor(AnalogMinute);
+            setPositionFor(AnalogHour);
 
             tickTick();
 
@@ -377,7 +377,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         animationSet.addAnimation(rotator);
         animationSet.setInterpolator(new LinearInterpolator());
 
-        mAnalogSecond.startAnimation(animationSet);
+        AnalogSecond.startAnimation(animationSet);
 
         //Minutes Degree
         degrees = 6 * curMinute + 0.1f * curSecond + (1e-5f) * curMillis;
@@ -399,7 +399,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         animationSet.addAnimation(rotator);
         animationSet.setInterpolator(new LinearInterpolator());
 
-        mAnalogMinute.startAnimation(animationSet);
+        AnalogMinute.startAnimation(animationSet);
 
         //every 1 hour moves by 0.00166667 degree every 1 second
         //every 1 hour moves by 0.1 degree every 1 minute
@@ -424,7 +424,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         animationSet.addAnimation(rotator);
         animationSet.setInterpolator(new LinearInterpolator());
 
-        mAnalogHour.startAnimation(animationSet);
+        AnalogHour.startAnimation(animationSet);
 
         //move analogSecond by 360 degree every 1 minute
         //move analogMinute by 360 degrees every 60 minute

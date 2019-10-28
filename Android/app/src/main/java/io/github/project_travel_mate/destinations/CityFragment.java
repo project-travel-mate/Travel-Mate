@@ -74,10 +74,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     @BindView(R.id.cities_list)
     ListView lv;
     @BindView(R.id.search_view)
-    MaterialSearchView mMaterialSearchView;
+    MaterialSearchView MaterialSearchView;
 
 
-//    private MaterialSearchView mMaterialSearchView;
+//    private MaterialSearchView MaterialSearchView;
     private final int[] mColors = {R.color.sienna, R.color.saffron, R.color.green, R.color.pink,
             R.color.orange, R.color.blue, R.color.grey, R.color.yellow, R.color.purple, R.color.peach};
 
@@ -132,7 +132,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         mSpotView = inflater.inflate(R.layout.spotlight_target, null);
 
 
-        mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        MaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.v("QUERY ITEM : ", query);
@@ -288,7 +288,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mActivity.getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        mMaterialSearchView.setMenuItem(item);
+        MaterialSearchView.setMenuItem(item);
     }
 
     private void cityAutoComplete() {
@@ -346,8 +346,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                 new ArrayAdapter<>(
                                         mActivity.getApplicationContext(), R.layout.spinner_layout, citynames);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        mMaterialSearchView.setAdapter(dataAdapter);
-                        mMaterialSearchView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                        MaterialSearchView.setAdapter(dataAdapter);
+                        MaterialSearchView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
                             Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, cities.get(arg2));
                             startActivity(intent);
                         });

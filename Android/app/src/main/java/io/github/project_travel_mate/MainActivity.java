@@ -41,7 +41,6 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
@@ -98,9 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawer;
+    DrawerLayout Drawer;
     @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
+    NavigationView NavigationView;
 
 
     @Override
@@ -152,11 +151,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                mDrawer,
+                Drawer,
                 toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
+        Drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         String emailId = mSharedPreferences.getString(USER_EMAIL, getString(R.string.app_name));
@@ -184,16 +183,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void defaultSelectedNavMenu(int resId) {
 
-        Menu menu = mNavigationView.getMenu();
+        Menu menu = NavigationView.getMenu();
         MenuItem menuItem = menu.findItem(resId);
         menuItem.setChecked(true);
     }
 
     @Override
     public void onBackPressed() {
-        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (mDrawer != null && mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (Drawer != null && Drawer.isDrawerOpen(GravityCompat.START)) {
+            Drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -204,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == mPreviousMenuItemId) {
-            mDrawer.closeDrawer(GravityCompat.START);
+            Drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
@@ -220,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
 
-        mDrawer.closeDrawer(GravityCompat.START);
+        Drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -323,10 +321,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void fillNavigationView(String emailId, String imageURL) {
 
 
-        mNavigationView.setNavigationItemSelectedListener(this);
+        NavigationView.setNavigationItemSelectedListener(this);
 
         // Get reference to the navigation view header and email textview
-        View navigationHeader = mNavigationView.getHeaderView(0);
+        View navigationHeader = NavigationView.getHeaderView(0);
         TextView emailTextView = navigationHeader.findViewById(R.id.email);
         emailTextView.setText(emailId);
 
@@ -492,6 +490,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public NavigationView getNavigationView() {
-        return mNavigationView;
+        return NavigationView;
     }
 }

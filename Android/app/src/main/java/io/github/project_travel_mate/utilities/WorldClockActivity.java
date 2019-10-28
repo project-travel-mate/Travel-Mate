@@ -101,5 +101,4 @@ public class WorldClockActivity extends AppCompatActivity {
         KeyboardHelper.Companion.hideKeyboard(this);
         this.setSelectedText(TimeZone.getTimeZone(this.mAutoCompleteTextViewTimezone.getText().toString()));
     }
-
 }
