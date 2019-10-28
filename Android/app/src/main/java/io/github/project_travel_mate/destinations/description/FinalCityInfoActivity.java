@@ -142,7 +142,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
         }
 
         toggleFavouriteCityView();
-//        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         content.setVisibility(View.GONE);
         cityVisitedLayout.setVisibility(View.GONE);

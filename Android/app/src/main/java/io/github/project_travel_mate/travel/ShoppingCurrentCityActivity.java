@@ -64,8 +64,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     TextView showCityName;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    private MaterialSearchView mSearchView;
+    @BindView(R.id.search_view)
+    MaterialSearchView mSearchView;
     private String mToken;
     private Handler mHandler;
     private JSONArray mFeedItems;
@@ -89,7 +89,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
         setTitle(getResources().getString(R.string.text_shopping));
 
-        mSearchView = findViewById(R.id.search_view);
+
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
