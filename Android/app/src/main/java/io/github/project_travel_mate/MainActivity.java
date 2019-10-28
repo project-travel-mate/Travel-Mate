@@ -41,7 +41,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
+
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
