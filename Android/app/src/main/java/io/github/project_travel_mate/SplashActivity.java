@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.AccelerateDecelerateInterpolator;
-
 import com.eftimoff.androipathview.PathView;
 import io.github.project_travel_mate.login.LoginActivity;
 
