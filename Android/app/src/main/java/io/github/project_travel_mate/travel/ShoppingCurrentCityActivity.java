@@ -62,6 +62,8 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     LinearLayout layout;
     @BindView(R.id.show_city_name)
     TextView showCityName;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private MaterialSearchView mSearchView;
     private String mToken;
@@ -73,7 +75,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_currentcity);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

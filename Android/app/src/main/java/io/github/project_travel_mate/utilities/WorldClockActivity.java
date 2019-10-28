@@ -19,18 +19,26 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 public class WorldClockActivity extends AppCompatActivity {
 
-    private CustomAnalogClock mAnalogClock;
+
     private static final String DEFAULT_TIME_ZONE_KEY = "defaultTimeZone";
-    private TextClock mTextClock;
     private long mMiliSeconds;
     private ArrayAdapter<String> mIdAdapter;
-    private Spinner mTimeZoneChooser;
     private Calendar mCurrent;
+
+    @BindView(R.id.clock_digital)
+    TextClock mTextClock;
+
+    @BindView(R.id.clock_analog)
+    CustomAnalogClock mAnalogClock;
+
+    @BindView(R.id.availableID)
+    Spinner mTimeZoneChooser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,9 +47,6 @@ public class WorldClockActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle(R.string.text_clock);
 
-        mTextClock = findViewById(R.id.clock_digital);
-        mAnalogClock = findViewById(R.id.clock_analog);
-        mTimeZoneChooser = findViewById(R.id.availableID); // choosing time zone
 
         String[] idArray = TimeZone.getAvailableIDs();
         mIdAdapter = new ArrayAdapter<>(this,

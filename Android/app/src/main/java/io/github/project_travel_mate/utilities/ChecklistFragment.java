@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,6 +63,9 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
     @BindView(R.id.recycler_finished)
     RecyclerView mFinishedRecycler;
+
+    @BindView(R.id.checklist_root_layout)
+    FrameLayout checklistRootLayout;
 
     private Activity mActivity;
     private ChecklistViewModel mViewModel;

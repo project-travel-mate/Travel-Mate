@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -71,6 +72,8 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
     LinearLayout mLinearLayout;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
+    @BindView(R.id.activityAddNewTrip)
+    CoordinatorLayout activityAddNewTrip;
 
     private String mCityid;
     private String mStartdate;
@@ -163,7 +166,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                     final int responseCode = response.code();
                     mHandler.post(() -> {
                         if (responseCode == HttpsURLConnection.HTTP_CREATED) {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                            TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                                R.string.trip_added, Snackbar.LENGTH_LONG
                             ).show();
                             //Call back to MytripsFragment
@@ -172,7 +175,7 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                             finish();
 
                         } else {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                            TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                                res, Snackbar.LENGTH_LONG
                             ).show();
                         }
@@ -261,15 +264,15 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
                 mTripname = tripName.getText().toString();
 
                 if (mTripname.trim().equals("")) {
-                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                    TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                        R.string.trip_name_blank, Snackbar.LENGTH_LONG
                     ).show();
                 } else if (tripStartDate == null || tripStartDate.getText().toString().equals("")) {
-                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                    TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                        R.string.trip_date_blank, Snackbar.LENGTH_LONG
                     ).show();
                 } else if (mCityid == null) {
-                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+                    TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                        R.string.trip_city_blank, Snackbar.LENGTH_LONG
                     ).show();
                 } else {
@@ -323,12 +326,12 @@ public class AddNewTripActivity extends AppCompatActivity implements DatePickerD
             mStartdate = Long.toString(selectedDate.getTime() / 1000);
             tripStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
         } else if (selectedDate.compareTo(currentDate) == 0) {
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+            TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                R.string.wrong_date_alert, Snackbar.LENGTH_LONG
             ).show();
             return;
         } else {
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityAddNewTrip),
+            TravelmateSnackbars.createSnackBar(activityAddNewTrip,
                                                R.string.wrong_date_alert, Snackbar.LENGTH_LONG
             ).show();
             return;

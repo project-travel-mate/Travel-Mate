@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.TimeZone;
 
+import butterknife.BindView;
 import io.github.project_travel_mate.R;
 
 /**
@@ -26,12 +28,15 @@ public class ClockWidgetConfigureActivity extends Activity implements AdapterVie
     private static String TIMEZONE_CODE = "America/Denver";
     private Context mContext;
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    @BindView(R.id.spinnerTimeZoneIDs)
     Spinner mTimeZoneSpinner;
+    @BindView(R.id.add_button)
+    Button mAddButton;
+
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             final Context context = ClockWidgetConfigureActivity.this;
             // When the button is clicked, store the string locally
-            mTimeZoneSpinner = (Spinner) findViewById(R.id.spinnerTimeZoneIDs);
             TIMEZONE_CODE = mTimeZoneSpinner.getSelectedItem().toString();
             saveTitlePref(context, mAppWidgetId, TIMEZONE_CODE);
             // It is the responsibility of the configuration activity to update the app widget
@@ -83,7 +88,7 @@ public class ClockWidgetConfigureActivity extends Activity implements AdapterVie
         setResult(RESULT_CANCELED);
         setContentView(R.layout.clock_widget_configure);
         //mAppWidgetText = (EditText) findViewById(R.id.appwidget_text);
-        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
+        mAddButton.setOnClickListener(mOnClickListener);
         // Find the widget id from the intent.
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -98,7 +103,6 @@ public class ClockWidgetConfigureActivity extends Activity implements AdapterVie
         }
         //Setup Spinner for Timezone IDs
         String[] timezoneIDs = TimeZone.getAvailableIDs();
-        mTimeZoneSpinner = (Spinner) findViewById(R.id.spinnerTimeZoneIDs);
         ArrayAdapter<String> mTZAdpter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timezoneIDs);
         mTZAdpter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mTimeZoneSpinner.setAdapter(mTZAdpter);

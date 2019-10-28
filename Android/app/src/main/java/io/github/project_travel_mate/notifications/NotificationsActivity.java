@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -60,6 +61,9 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.notifications_id_layout)
+    CoordinatorLayout notificationsIdLayout;
+
     private String mToken;
     private Handler mHandler;
     ArrayList<Notification> notifications;
@@ -74,6 +78,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
     private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
     private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
     private boolean mShowReadNotif;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -317,12 +322,10 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
                                     mHandler.post(() -> {
                                         if (response.isSuccessful()) {
                                             getNotifications();
-                                            TravelmateSnackbars.createSnackBar(findViewById
-                                                            (R.id.notifications_id_layout), res,
+                                            TravelmateSnackbars.createSnackBar(notificationsIdLayout, res,
                                                     Snackbar.LENGTH_SHORT).show();
                                         } else {
-                                            TravelmateSnackbars.createSnackBar(findViewById
-                                                            (R.id.notifications_id_layout), res,
+                                            TravelmateSnackbars.createSnackBar(notificationsIdLayout, res,
                                                     Snackbar.LENGTH_LONG).show();
                                         }
 
@@ -351,7 +354,7 @@ public class NotificationsActivity extends AppCompatActivity implements SwipeRef
 
     private void emptyList() {
         Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.notifications_id_layout),
+                .make(notificationsIdLayout,
                         R.string.no_notifications, Snackbar.LENGTH_LONG);
         snackbar.show();
 

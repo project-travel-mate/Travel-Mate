@@ -39,8 +39,7 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
         setContentView(R.layout.activity_timezone_listview);
 
         timezone_names = new ArrayList<>();
-        mListview = findViewById(R.id.listView);
-        mTimezoneSearch = findViewById(R.id.timezoneSearch);
+
 
         mContext = this;
         addTimezones();

@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -72,8 +73,11 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     LottieAnimationView animationView;
     @BindView(R.id.cities_list)
     ListView lv;
+    @BindView(R.id.search_view)
+    MaterialSearchView mMaterialSearchView;
 
-    private MaterialSearchView mMaterialSearchView;
+
+//    private MaterialSearchView mMaterialSearchView;
     private final int[] mColors = {R.color.sienna, R.color.saffron, R.color.green, R.color.pink,
             R.color.orange, R.color.blue, R.color.grey, R.color.yellow, R.color.purple, R.color.peach};
 
@@ -127,7 +131,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         // make an target
         mSpotView = inflater.inflate(R.layout.spotlight_target, null);
 
-        mMaterialSearchView = view.findViewById(R.id.search_view);
+
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

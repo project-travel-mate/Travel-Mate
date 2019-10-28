@@ -42,7 +42,8 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
     ViewPager viewPager;
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private City mCity;
     private String mToken;
     private Handler mHandler;
@@ -56,7 +57,7 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_facts);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

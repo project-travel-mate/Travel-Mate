@@ -8,13 +8,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 public class ChecklistActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +26,6 @@ public class ChecklistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

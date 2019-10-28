@@ -347,7 +347,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 Uri croppedImage = result.getUri();
                 Picasso.with(this).load(croppedImage).into(displayImage);
                 mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-                TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
+                TravelmateSnackbars.createSnackBar(layout, R.string.profile_picture_updated,
                         Snackbar.LENGTH_SHORT).show();
                 getUrlFromCloudinary(croppedImage);
             }
@@ -452,12 +452,12 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                                     final String res = Objects.requireNonNull(response.body()).string();
                                     mHandler.post(() -> {
                                         if (response.isSuccessful()) {
-                                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                            TravelmateSnackbars.createSnackBar(layout, res,
                                                     Snackbar.LENGTH_SHORT).show();
                                             Picasso.with(ProfileActivity.this).load(R.drawable.default_user_icon)
                                                     .into(displayImage);
                                         } else {
-                                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                                            TravelmateSnackbars.createSnackBar(layout, res,
                                                     Snackbar.LENGTH_LONG).show();
                                         }
                                     });
@@ -602,11 +602,11 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     final String res = Objects.requireNonNull(response.body()).string();
                     mHandler.post(() -> {
                         if (response.isSuccessful()) {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
+                            TravelmateSnackbars.createSnackBar(layout,
                                     R.string.name_updated, Snackbar.LENGTH_SHORT).show();
                             mSharedPreferences.edit().putString(USER_NAME, fullName).apply();
                         } else {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                            TravelmateSnackbars.createSnackBar(layout, res,
                                     Snackbar.LENGTH_LONG).show();
                             networkError();
                         }
@@ -674,13 +674,13 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 final String res = Objects.requireNonNull(response.body()).string();
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout),
+                        TravelmateSnackbars.createSnackBar(layout,
                                 R.string.status_updated, Snackbar.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putString(USER_STATUS, mUserStatus).apply();
                         displayStatus.setText(mUserStatus);
 
                     } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                        TravelmateSnackbars.createSnackBar(layout, res,
                                 Snackbar.LENGTH_LONG).show();
                         networkError();
                     }
@@ -830,7 +830,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     if (response.isSuccessful()) {
                         Log.i(LOG_TAG, "Upload to server successful!");
                     } else {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), res,
+                        TravelmateSnackbars.createSnackBar(layout, res,
                                 Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -952,7 +952,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.snackbar_no_share_app,
+            TravelmateSnackbars.createSnackBar(layout, R.string.snackbar_no_share_app,
                     Snackbar.LENGTH_LONG).show();
         }
     }

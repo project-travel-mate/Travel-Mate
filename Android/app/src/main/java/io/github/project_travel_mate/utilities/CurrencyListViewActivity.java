@@ -40,8 +40,7 @@ public class CurrencyListViewActivity extends Activity implements TextWatcher {
         setContentView(R.layout.activity_conversion_listview);
 
         currences_names = new ArrayList<>();
-        mListview = findViewById(R.id.listView);
-        mCurrencySearch = findViewById(R.id.currencySearch);
+
 
         mContext = this;
         addCurrencies();

@@ -39,7 +39,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 import io.github.project_travel_mate.destinations.CityFragment;
 import io.github.project_travel_mate.favourite.FavouriteCitiesFragment;
 import io.github.project_travel_mate.friend.FriendsProfileActivity;
@@ -87,13 +89,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SharedPreferences mSharedPreferences;
     private String mToken;
-    private DrawerLayout mDrawer;
+
     private Handler mHandler;
-    private NavigationView mNavigationView;
     private int mPreviousMenuItemId;
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
     private static final String utilitiesShortcut = "io.github.project_travel_mate.UtilitiesShortcut";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawer;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -142,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get runtime permissions for Android M
         getRuntimePermissions();
 
-        mDrawer = findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 mDrawer,
                 toolbar,
@@ -175,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     void defaultSelectedNavMenu(int resId) {
-        mNavigationView = findViewById(R.id.nav_view);
+
         Menu menu = mNavigationView.getMenu();
         MenuItem menuItem = menu.findItem(resId);
         menuItem.setChecked(true);
@@ -183,9 +191,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (mDrawer != null && mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -196,8 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == mPreviousMenuItemId) {
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
+            mDrawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
@@ -315,11 +322,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fillNavigationView(String emailId, String imageURL) {
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         // Get reference to the navigation view header and email textview
-        View navigationHeader = navigationView.getHeaderView(0);
+        View navigationHeader = mNavigationView.getHeaderView(0);
         TextView emailTextView = navigationHeader.findViewById(R.id.email);
         emailTextView.setText(emailId);
 

@@ -69,6 +69,9 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.layout)
     LinearLayout layout;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     private Handler mHandler;
     private String mToken;
 
@@ -81,7 +84,7 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotels);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

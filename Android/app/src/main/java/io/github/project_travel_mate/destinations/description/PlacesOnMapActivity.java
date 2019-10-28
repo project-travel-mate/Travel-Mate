@@ -89,7 +89,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     BottomSheetBehavior sheetBehavior;
     @BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
-    private MapView mMap;
+    @BindView(R.id.map)
+    MapView mMap;
     private IMapController mController;
     private Drawable mMarker, mDefaultMarker;
 
@@ -106,7 +107,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        mMap = findViewById(R.id.map);
         setTitle(mCity.getNickname());
         mMarker = this.getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
         mDefaultMarker = this.getDrawable(R.drawable.marker_default);

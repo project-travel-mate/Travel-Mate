@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -121,6 +122,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     LinearLayout addMeToTrip;
     @BindView(R.id.public_trip_layout)
     RelativeLayout publicPrivateInfo;
+    @BindView(R.id.activityMyTripInfo)
+    CoordinatorLayout activityMyTripInfo;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -170,7 +175,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         getSingleTrip();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         editTrip.setOnClickListener(v -> {
@@ -197,7 +202,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
                     updateTripName();
                 } else {
-                    TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo), R.string.cannot_edit,
+                    TravelmateSnackbars.createSnackBar(activityMyTripInfo, R.string.cannot_edit,
                             Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -223,7 +228,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     @OnClick(R.id.add_new_friend)
     void onClick() {
         if (mFriendId == null) {
-            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+            TravelmateSnackbars.createSnackBar(activityMyTripInfo,
                     getString(R.string.no_friend_selected),
                     Snackbar.LENGTH_LONG).show();
         } else {
@@ -554,7 +559,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             public void onResponse(Call call, final Response response) {
                 mHandler.post(() -> {
                     if (response.isSuccessful()) {
-                        TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                        TravelmateSnackbars.createSnackBar(activityMyTripInfo,
                                 getString(R.string.friend_added), Snackbar.LENGTH_LONG).show();
                         updateFriendList();
                         friendEmail.setText(null);
@@ -746,10 +751,10 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
                     final String res = Objects.requireNonNull(response.body()).string();
                     mHandler.post(() -> {
                         if (response.isSuccessful()) {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            TravelmateSnackbars.createSnackBar(activityMyTripInfo,
                                     R.string.trip_name_updated, Snackbar.LENGTH_SHORT).show();
                         } else {
-                            TravelmateSnackbars.createSnackBar(findViewById(R.id.activityMyTripInfo),
+                            TravelmateSnackbars.createSnackBar(activityMyTripInfo,
                                     res, Snackbar.LENGTH_LONG).show();
                         }
                     });

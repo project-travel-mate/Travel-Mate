@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
 import io.github.project_travel_mate.R;
 
 /**
@@ -30,11 +31,6 @@ import io.github.project_travel_mate.R;
  *
  */
 public abstract class TravelMateAnalogClock extends RelativeLayout {
-
-    private AppCompatImageView mAnalogFace;
-    private AppCompatImageView mAnalogHour;
-    private AppCompatImageView mAnalogMinute;
-    private AppCompatImageView mAnalogSecond;
 
     @DrawableRes
     private int mFaceId;
@@ -46,6 +42,16 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     private int mSecondId;
 
     private Context mCtx;
+
+    @BindView(R.id.face)
+    AppCompatImageView mAnalogFace;
+    @BindView(R.id.hour)
+    AppCompatImageView mAnalogHour;
+    @BindView(R.id.minute)
+    AppCompatImageView mAnalogMinute;
+    @BindView(R.id.second)
+    AppCompatImageView mAnalogSecond;
+
 
     public TravelMateAnalogClock(Context ctx) {
         super(ctx);
@@ -274,10 +280,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
 
         inflate(ctx, R.layout.analog_clock, this);
 
-        mAnalogFace = findViewById(R.id.face);
-        mAnalogHour = findViewById(R.id.hour);
-        mAnalogMinute = findViewById(R.id.minute);
-        mAnalogSecond = findViewById(R.id.second);
+//
 
         if (!mShowSeconds) {
             mAnalogSecond.setVisibility(GONE);
