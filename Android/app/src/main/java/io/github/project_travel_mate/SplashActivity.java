@@ -17,14 +17,14 @@ import static utils.Constants.USER_TOKEN;
 
 public class SplashActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
-    @BindView(R.id.pathView)
-    PathView pathView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        final PathView pathView = findViewById(R.id.pathView);
         pathView.getPathAnimator()
                 .delay(1000)
                 .duration(1000)

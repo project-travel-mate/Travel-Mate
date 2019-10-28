@@ -50,7 +50,6 @@ public class CitySearchBottomSheetDialogFragment extends BottomSheetDialogFragme
 
     @BindView(R.id.et_query)
     EditText etQuery;
-    @BindView(R.id.et_query)
 
 
     private Listener mListener;
