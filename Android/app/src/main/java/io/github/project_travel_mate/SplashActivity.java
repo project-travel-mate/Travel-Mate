@@ -10,7 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.eftimoff.androipathview.PathView;
 
-import butterknife.BindView;
+
 import io.github.project_travel_mate.login.LoginActivity;
 
 import static utils.Constants.USER_TOKEN;
