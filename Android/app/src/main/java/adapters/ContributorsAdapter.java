@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.Contributor;
+import utils.CircleImageView;
 
 /**
  * @author amoraitis
@@ -51,17 +55,15 @@ public class ContributorsAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.contributors_gridview_item, null);
         }
 
-        final ImageView contributor_avatarImageView = convertView.findViewById(R.id.contributor_image);
-        final TextView contributor_unameTextView = convertView.findViewById(R.id.contributor_name);
-        final TextView contributor_contibutionsTextView =
-                convertView.findViewById(R.id.contributor_contributions);
+        ViewHolder viewHolder = new ViewHolder(convertView);
+
         String contributorAvatarUrl = contributor.getAvatarUrl();
         Picasso.with(mContext).load(contributorAvatarUrl).centerCrop()
                 .resize(250, 250)
-                .into(contributor_avatarImageView);
+                .into(viewHolder.contributor_avatarImageView);
         final String unameFormatted = "@" + contributor.getUsername();
-        contributor_unameTextView.setText(unameFormatted);
-        contributor_contibutionsTextView.setText(String.valueOf(contributor.getContributions()));
+        viewHolder.contributor_unameTextView.setText(unameFormatted);
+        viewHolder.contributor_contributionsTextView.setText(String.valueOf(contributor.getContributions()));
         return convertView;
     }
 
@@ -75,5 +77,20 @@ public class ContributorsAdapter extends BaseAdapter {
         mContributors.clear();
         this.mContributors = newContributors;
         this.notifyDataSetChanged();
+    }
+
+    class ViewHolder {
+        @BindView(R.id.contributor_image)
+        CircleImageView contributor_avatarImageView;
+
+        @BindView(R.id.contributor_name)
+        TextView contributor_unameTextView;
+
+        @BindView(R.id.contributor_contributions)
+        AppCompatTextView contributor_contributionsTextView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
