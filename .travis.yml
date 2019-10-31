@@ -23,3 +23,4 @@ script:
    - ./gradlew clean
    - ./gradlew assembleDebug assembleRelease
    - ./gradlew checkstyle
+   - ./gradlew test
