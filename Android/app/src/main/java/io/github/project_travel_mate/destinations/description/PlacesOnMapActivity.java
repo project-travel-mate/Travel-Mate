@@ -19,13 +19,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,8 +62,9 @@ import static utils.Constants.EXTRA_MESSAGE_TYPE;
 import static utils.Constants.USER_TOKEN;
 
 public class PlacesOnMapActivity extends AppCompatActivity implements
-        Marker.OnMarkerClickListener {
-
+        Marker.OnMarkerClickListener, TextWatcher {
+    @BindView(R.id.editTextSearch)
+    EditText editTextSearch;
     @BindView(R.id.lv)
     RecyclerView recyclerView;
     @BindView(R.id.textViewNoItems)
@@ -71,7 +75,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     TextView selectedItemAddress;
     @BindView(R.id.item_info)
     LinearLayout linearLayout;
-
+    PlacesOnMapAdapter PlacesMapAdapter;
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
@@ -93,9 +97,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places_on_map);
-
         ButterKnife.bind(this);
-
+        editTextSearch.addTextChangedListener(this);
         Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
         String type = intent.getStringExtra(EXTRA_MESSAGE_TYPE);
@@ -105,10 +108,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         mMap = findViewById(R.id.map);
         setTitle(mCity.getNickname());
-
         mMarker = this.getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
         mDefaultMarker = this.getDrawable(R.drawable.marker_default);
-
         switch (type) {
             case "restaurant":
                 mMode = "eat-drink";
@@ -127,11 +128,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                 mIcon = R.drawable.shopping_icon;
                 break;
         }
-
         getPlaces();
-
         initMap();
-
         setTitle("Places");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -145,7 +143,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         mMap.setMultiTouchControls(true);
         mMap.setTilesScaledToDpi(true);
         mController = mMap.getController();
-
         GeoPoint cityLocation = new GeoPoint(Double.parseDouble(mCity.getLatitude()),
                 Double.parseDouble(mCity.getLongitude()));
         mController.setZoom(14.0);
@@ -176,10 +173,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             marker.setIcon(mMarker);
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
-
             mMap.getOverlays().add(marker);
             mMap.invalidate();
-
             mMarkerList.add(marker);
         }
     }
@@ -187,14 +182,13 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * move to center marker
      *
-     * @param marker  marker
-     * @param latitude latitude
+     * @param marker    marker
+     * @param latitude  latitude
      * @param longitude longitude
      */
     private void moveMakerToCenter(Marker marker, Double latitude, Double longitude) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
         mMap.setBottom(height);
@@ -208,30 +202,16 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     /**
      * on marker selected
      *
-     * @param marker  marker
+     * @param marker marker
      */
     private void onPlaceSelected(Marker marker) {
         try {
-            for (int i = 0; i < mFeedItems.length(); i++) {
-                //get index of the clicked marker
-                if (mFeedItems.getJSONObject(i).getString("title").equals(marker.getTitle())) {
-                    mIndex = i;
-                    break;
-                }
-            }
-            Double latitude =
-                    mFeedItems.getJSONObject(mIndex).getDouble("latitude");
-            Double longitude =
-                    mFeedItems.getJSONObject(mIndex).getDouble("longitude");
-
-            moveMakerToCenter(marker, latitude, longitude);
+            moveMakerToCenter(marker, marker.getPosition().getLatitude(), marker.getPosition().getLongitude());
             linearLayout.setVisibility(View.VISIBLE);
-            highlightMarker(mIndex);
-            //set info about clicked marker
-            selectedItemName.setText(mFeedItems.getJSONObject(mIndex).getString("title"));
+            selectedItemName.setText(marker.getTitle());
             String[] address = mFeedItems.getJSONObject(mIndex).getString("address").split("<br/>");
             if (address.length > 1) {
-                selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                selectedItemAddress.setText(address[0] + ", " + address[1]);
             } else {
                 selectedItemAddress.setText(address[0]);
             }
@@ -244,17 +224,13 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      * get places
      */
     private void getPlaces() {
-
         mProgressDialog = new ProgressDialog(PlacesOnMapActivity.this);
         mProgressDialog.setMessage("Fetching data, Please wait...");
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
-
         String uri = API_LINK_V2 + "get-places/" + mCity.getLatitude() + "/" + mCity.getLongitude()
                 + "/" + mMode;
-
         Log.v("executing", uri);
-
         //Set up client
         OkHttpClient client = new OkHttpClient();
         //Execute request
@@ -271,30 +247,25 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-
                 final String res = Objects.requireNonNull(response.body()).string();
-
                 mHandler.post(() -> {
                     try {
                         mFeedItems = new JSONArray(res);
-                        for (int i = 0; i < mFeedItems.length(); i++ ) {
+                        for (int i = 0; i < mFeedItems.length(); i++) {
                             Double latitude =
                                     mFeedItems.getJSONObject(i).getDouble("latitude");
                             Double longitude =
                                     mFeedItems.getJSONObject(i).getDouble("longitude");
                             String name = mFeedItems.getJSONObject(i).getString("title");
-
                             showMarker(latitude, longitude, name);
                         }
                         setupViewsAsNeeded(mFeedItems);
-
                         mProgressDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("ERROR : ", "Message : " + e.getMessage());
                     }
                 });
-
             }
         });
     }
@@ -309,7 +280,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setAdapter(new PlacesOnMapAdapter(this, feedItems, mIcon));
+            PlacesMapAdapter = new PlacesOnMapAdapter(PlacesOnMapActivity.this, feedItems, mIcon);
+            recyclerView.setAdapter(PlacesMapAdapter);
             textViewNoItems.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
@@ -317,44 +289,42 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
 
     /**
      * Highlights the marker whose card is clicked
-     * @param position position of the marker in
-     *                 mMarkerList whose card is clicked
+     *
+     * @param title this is the title of the marker
      */
-    private void highlightMarker(int position) {
+    private void highlightMarker(String title) {
+        int index = 0;
+        Marker currentMarker = null;
+        for (Marker m : mMarkerList) {
+            if (m.getTitle().equals(title)) {
+                currentMarker = mMarkerList.get(index);
+                break;
+            }
+            index++;
+        }
         if (mPreviousMarker != null) {
             mPreviousMarker.setIcon(mMarker);
             //hide info about previous marker
             mPreviousMarker.closeInfoWindow();
         }
-        Marker currentMarker = mMarkerList.get(position);
-
         mMap.getOverlays().remove(currentMarker);
         mMap.invalidate();
         currentMarker.setIcon(mDefaultMarker);
         mMap.getOverlays().add(currentMarker);
         mMap.invalidate();
-
         //show info about current marker
         currentMarker.showInfoWindow();
         mPreviousMarker = currentMarker;
+        zoomToMarker(currentMarker.getPosition().getLatitude(), currentMarker.getPosition().getLongitude());
     }
 
     /**
      * Zooms in towards the marker whose card is clicked
-     * @param position position of the item in
-     *                 mFeedItems whose card is clicked
+     *
+     * @param latitude  latitude from the selected marker
+     * @param longitude longitude from the selected marker
      */
-    private void zoomToMarker(int position) {
-        Double latitude = null, longitude = null;
-        try {
-            latitude =
-                    mFeedItems.getJSONObject(position).getDouble("latitude");
-            longitude =
-                    mFeedItems.getJSONObject(position).getDouble("longitude");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+    private void zoomToMarker(double latitude, double longitude) {
         mController.setZoom(16.0);
         GeoPoint center = new GeoPoint(latitude, longitude);
         mController.animateTo(center);
@@ -371,19 +341,38 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         return false;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+        filter(editable.toString());
+        
+    }
+
     /**
      * Adapter for horizontal recycler view for displaying each cityInfoItem
      */
     class PlacesOnMapAdapter extends RecyclerView.Adapter<PlacesOnMapAdapter.ViewHolder> {
-
         final Context mContext;
-        final JSONArray mFeedItems;
+        JSONArray mFeedItems;
         final int mRd;
 
         PlacesOnMapAdapter(Context context, JSONArray feedItems, int r) {
             this.mContext = context;
             this.mFeedItems = feedItems;
             mRd = r;
+        }
+
+        public void filterList(JSONArray filterdNames) {
+            this.mFeedItems = filterdNames;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -401,7 +390,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
             }
-
             try {
                 holder.title.setText(mFeedItems.getJSONObject(position).getString("title"));
                 String description = mFeedItems.getJSONObject(position).getString("address");
@@ -410,11 +398,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                 e.printStackTrace();
                 Log.e("ERROR", "Message : " + e.getMessage());
             }
-
             holder.imageView.setImageResource(mRd);
-
             holder.onMap.setOnClickListener(view12 -> {
-
                 Intent browserIntent;
                 try {
                     browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps?q=" +
@@ -428,9 +413,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             });
-
             holder.linearLayout.setOnClickListener(view1 -> {
                 Intent browserIntent;
                 try {
@@ -442,17 +425,15 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
             });
-
             holder.completeLayout.setOnClickListener(v -> {
                 try {
-                    highlightMarker(position);
+                    highlightMarker(mFeedItems.getJSONObject(position).getString("title"));
                     String[] address = mFeedItems.getJSONObject(position).getString("address").split("<br/>");
                     if (address.length > 1) {
-                        selectedItemAddress.setText(address[0] + ", " +  address[1]);
+                        selectedItemAddress.setText(address[0] + ", " + address[1]);
                     } else {
                         selectedItemAddress.setText(address[0]);
                     }
-                    zoomToMarker(position);
                     linearLayout.setVisibility(View.VISIBLE);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     selectedItemName.setText(mFeedItems.getJSONObject(position).getString("title"));
@@ -467,7 +448,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.city_infoitem, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            return  holder;
+            return holder;
         }
 
         @Override
@@ -498,7 +479,25 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
                 super(view);
                 ButterKnife.bind(this, view);
             }
-
         }
+    }
+
+    /**
+     * compares the filtered string with the exsiting array and creates a new one.
+     *
+     * @param searchtxt the text user enters into the edittext field
+     */
+    private void filter(String searchtxt) {
+        final JSONArray filteredFeedItems = new JSONArray();
+        for (int i = 0; i <= mFeedItems.length() - 1; i++) {
+            try {
+                if (mFeedItems.getJSONObject(i).getString("title").toLowerCase().contains(searchtxt.toLowerCase())) {
+                    filteredFeedItems.put(mFeedItems.getJSONObject(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        PlacesMapAdapter.filterList(filteredFeedItems);
     }
 }

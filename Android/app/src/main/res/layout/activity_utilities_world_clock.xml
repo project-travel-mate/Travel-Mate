@@ -3,47 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@color/white">
 
     <FrameLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/white"
         tools:context=".utilities.WorldClockActivity">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvTimeZone"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/actvTimezone"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/select_timezone"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:layout_marginTop="8dp"
+                android:completionThreshold="0"
+                android:hint="@string/select_timezone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
+            <android.widget.TextClock
+                android:id="@+id/clock_digital"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_gravity="center|bottom"
+                android:format12Hour="@string/date_format_hours_12"
+                android:format24Hour="@string/date_format_hours_24"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTimeZone">
-
-                <Spinner
-                    android:id="@+id/availableID"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog" />
-
-            </RelativeLayout>
+                app:layout_constraintTop_toBottomOf="@+id/clock_analog" />
 
             <io.github.project_travel_mate.utilities.CustomAnalogClock
                 android:id="@+id/clock_analog"
@@ -54,20 +52,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
-
-            <android.widget.TextClock
-                android:id="@+id/clock_digital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clock_analog" />
+                app:layout_constraintTop_toBottomOf="@+id/actvTimezone" />
         </android.support.constraint.ConstraintLayout>
 
 

@@ -37,7 +37,6 @@ public class CurrencyConverterAdapter extends RecyclerView.Adapter<CurrencyConve
         this.mListCurrencyNames = list;
         this.mListCurrencyNamesFiltered = list;
         Log.d("my list size", "" + getCount());
-        World.init(this.activity.getApplicationContext());
         mCountryList = World.getAllCountries();
     }
 

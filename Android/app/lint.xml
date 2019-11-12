@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources">
+        <ignore path="**/wi_day_cloudy.xml" />
+        <ignore path="**/wi_day_cloudy_gusts.xml" />
+        <ignore path="**/wi_day_fog.xml" />
+        <ignore path="**/wi_day_hail.xml" />
+        <ignore path="**/wi_day_haze.xml" />
+        <ignore path="**/wi_day_rain.xml" />
+        <ignore path="**/wi_day_rain_mix.xml" />
+        <ignore path="**/wi_day_showers.xml" />
+        <ignore path="**/wi_day_sleet.xml" />
+        <ignore path="**/wi_day_snow.xml" />
+        <ignore path="**/wi_day_sprinkle.xml" />
+        <ignore path="**/wi_day_storm_showers.xml" />
+        <ignore path="**/wi_day_sunny.xml" />
+        <ignore path="**/wi_day_thunderstorm.xml" />
+        <ignore path="**/wi_day_windy.xml" />
+        <ignore path="**/wi_night_clear.xml" />
+        <ignore path="**/wi_night_cloudy.xml" />
+        <ignore path="**/wi_night_cloudy_gusts.xml" />
+        <ignore path="**/wi_night_fog.xml" />
+        <ignore path="**/wi_night_hail.xml" />
+        <ignore path="**/wi_night_rain.xml" />
+        <ignore path="**/wi_night_rain_mix.xml" />
+        <ignore path="**/wi_night_showers.xml" />
+        <ignore path="**/wi_night_sleet.xml" />
+        <ignore path="**/wi_night_snow.xml" />
+        <ignore path="**/wi_night_sprinkle.xml" />
+        <ignore path="**/wi_night_storm_showers.xml" />
+        <ignore path="**/wi_night_sunny.xml" />
+        <ignore path="**/wi_night_thunderstorm.xml" />
+
+    </issue>
+</lint>
