@@ -382,4 +382,5 @@
     <string name="add_widget">Add World Clock Widget</string>
     <string name="configure">Select Timezone For Clock Widget</string>
   <string name="trip_name_label">Trip Name:</string>
+  <string name="label_trip_date">Trip Date:</string>
 </resources>

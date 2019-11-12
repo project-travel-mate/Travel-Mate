@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/trip_name"
                     android:visibility="gone"
-                    android:text="Trip Date: "
+                    android:text="@string/label_trip_date"
                     android:padding="10dp"
                     android:textSize="20sp"
                     android:layout_marginLeft="1dp"/>
