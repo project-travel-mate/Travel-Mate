@@ -9,15 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.TimeZone;
 
-import butterknife.OnClick;
 import io.github.project_travel_mate.R;
-import io.github.project_travel_mate.utilities.TimezoneListViewActivity;
 
 /**
  * The configuration screen for the {@link ClockWidget ClockWidget} AppWidget.

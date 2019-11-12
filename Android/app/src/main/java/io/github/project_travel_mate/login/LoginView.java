@@ -20,9 +20,11 @@ interface LoginView {
 
 //    void checkUserSession();
 
+    void showNoNetwork();
+
     void openSignUp();
 
-    void openLogin();
+    void openLogin(boolean showToastMessage);
 
     void setLoginEmail(String email);
 

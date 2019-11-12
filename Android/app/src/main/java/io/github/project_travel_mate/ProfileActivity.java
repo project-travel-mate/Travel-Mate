@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,12 +118,12 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
     @BindView(R.id.name_progress_bar)
     ProgressBar nameProgressBar;
     @BindView(R.id.layout)
-    LinearLayout layout;
+    ConstraintLayout layout;
     @BindView(R.id.status_character_count)
     TextView characterCount;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.citie_travelled_text)
+    @BindView(R.id.cities_travelled_text)
     TextView citiesTravelledHeading;
 
     private String mToken;
@@ -166,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     mSharedPreferences.getString(USER_EMAIL, null),
                     mSharedPreferences.getString(USER_IMAGE, null),
                     mSharedPreferences.getString(USER_DATE_JOINED, null),
-                    mSharedPreferences.getString(USER_STATUS, getString(R.string.default_status)));
+                    mSharedPreferences.getString(USER_STATUS, null));
 
         } else {
             editDisplayName.setVisibility(View.INVISIBLE);
@@ -196,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         editDisplayName.setOnClickListener(v -> {
             if (mFlagForDrawable) {
                 mFlagForDrawable = false;
-                editDisplayName.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                editDisplayName.setImageDrawable(getDrawable(R.drawable.ic_check_black_24dp));
                 displayName.setFocusableInTouchMode(true);
                 displayName.setCursorVisible(true);
                 displayName.requestFocus();
@@ -204,7 +204,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 Objects.requireNonNull(imm).showSoftInput(displayName, InputMethodManager.SHOW_IMPLICIT);
             } else {
                 mFlagForDrawable = true;
-                editDisplayName.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                editDisplayName.setImageDrawable(getDrawable(R.drawable.ic_edit_black_24dp));
                 displayName.setFocusableInTouchMode(false);
                 displayName.setCursorVisible(false);
                 setUserDetails();
@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         editDisplayStatus.setOnClickListener(v -> {
             if (mFlagForDrawable) {
                 mFlagForDrawable = false;
-                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                editDisplayStatus.setImageDrawable(getDrawable(R.drawable.ic_check_black_24dp));
                 displayStatus.setFocusableInTouchMode(true);
                 displayStatus.setCursorVisible(true);
                 displayStatus.requestFocus();
@@ -223,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                 characterCount.setVisibility(View.VISIBLE);
             } else {
                 mFlagForDrawable = true;
-                editDisplayStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                editDisplayStatus.setImageDrawable(getDrawable(R.drawable.ic_edit_black_24dp));
                 displayStatus.setFocusableInTouchMode(false);
                 displayStatus.setCursorVisible(false);
                 setUserStatus();
@@ -518,19 +518,15 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                             Long dateTime = rfc3339ToMills(dateJoined);
                             String date = getDate(dateTime);
 
-                            if (status == null || Objects.equals(status, "null")) {
-
-                                status = getString(R.string.default_status);
-                            }
                             fillProfileInfo(fullName, userName, imageURL, date, status);
 
                             mIsVerified = verified;
 
                             if (verified) {
-                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+                                isVerified.setImageDrawable(getDrawable(R.drawable.ic_done_black_24dp));
                                 isVerified.setColorFilter(Color.GREEN);
                             } else {
-                                isVerified.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                                isVerified.setImageDrawable(getDrawable(R.drawable.ic_close_black_24dp));
                                 isVerified.setColorFilter(Color.RED);
                             }
 
@@ -619,7 +615,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
                     });
                 }
             });
-        } catch (StringIndexOutOfBoundsException e ) {
+        } catch (StringIndexOutOfBoundsException e) {
             displayName.setVisibility(View.VISIBLE);
             nameProgressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(getApplicationContext(), "Introduce atleast two names.", Toast.LENGTH_LONG).show();
@@ -643,7 +639,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         mUserStatus = String.valueOf(displayStatus.getText());
         if (mUserStatus.equals("")) {
             uri = API_LINK_V2 + "remove-user-status";
-            mUserStatus = getString(R.string.default_status);
 
             request = new Request.Builder()
                     .header("Authorization", "Token " + mToken)
@@ -716,9 +711,10 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         Picasso.with(ProfileActivity.this).load(imageURL).placeholder(R.drawable.default_user_icon)
                 .error(R.drawable.default_user_icon).into(displayImage);
         setTitle(fullName);
-        if (status.equals("null"))
-            status = getString(R.string.default_status);
-        displayStatus.setText(status);
+
+        if (status != null && !status.equals("null")) {
+            displayStatus.setText(status);
+        }
     }
 
     /**

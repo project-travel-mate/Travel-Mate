@@ -11,9 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
@@ -56,6 +58,10 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         ButterKnife.bind(this);
 
@@ -155,6 +161,13 @@ public class FunFactsActivity extends AppCompatActivity implements FunFactsView 
         Intent intent = new Intent(context, FunFactsActivity.class);
         intent.putExtra(EXTRA_MESSAGE_CITY_OBJECT, city);
         return intent;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

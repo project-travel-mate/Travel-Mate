@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -65,7 +64,7 @@ public class CurrencyActivity extends AppCompatActivity {
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.actual_layout)
-    RelativeLayout actual_layout;
+    View actual_layout;
     @BindView(R.id.first_country_image)
     ImageView from_image;
     @BindView(R.id.second_country_flag)
@@ -87,7 +86,6 @@ public class CurrencyActivity extends AppCompatActivity {
     Boolean flag_check_first_item = false;
     Boolean flag_check_second_item = false;
     Boolean flag_convert_pressed = false;
-
 
 
     int from_amount = 1;
@@ -173,7 +171,6 @@ public class CurrencyActivity extends AppCompatActivity {
             GRAPH_LABEL_NAME = "Last " + chart_duration_spinner.getSelectedItem() + " currency rate trends";
         }
     }
-
 
 
     // Method to obtain value(last x number of days) to be passed to API
@@ -446,5 +443,19 @@ public class CurrencyActivity extends AppCompatActivity {
             NetworkInfo info = cm != null ? cm.getActiveNetworkInfo() : null;
             return info != null && info.isConnectedOrConnecting();
         }
+    }
+
+    /**
+     * Error animation will be cancelled if user presses back while the animation is showing
+     */
+    @Override
+    public void onBackPressed() {
+        if (animationView != null) {
+            if (animationView.getVisibility() == View.VISIBLE) {
+                cancelAnimation();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }

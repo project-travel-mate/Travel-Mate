@@ -183,7 +183,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
         editTrip.setOnClickListener(v -> {
             if (!mIsTripNameEdited) {
                 //if edit trip is clicked before editing the name
-                editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                editTrip.setImageDrawable(getDrawable(R.drawable.ic_check_black_24dp));
                 tripName.setFocusableInTouchMode(true);
                 tripName.setCursorVisible(true);
                 tripName.requestFocus();
@@ -195,7 +195,7 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
             } else {
                 //clicking edit trip after editing the trip name
                 if (tripName.getText().length() != 0) {
-                    editTrip.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+                    editTrip.setImageDrawable(getDrawable(R.drawable.ic_edit_black_24dp));
                     tripName.setFocusableInTouchMode(false);
                     tripName.setCursorVisible(false);
                     mIsTripNameEdited = false;

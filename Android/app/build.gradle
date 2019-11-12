@@ -7,10 +7,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "io.github.project_travel_mate"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 28
-        versionCode 45
-        versionName "5.5.2"
+        versionCode 49
+        versionName "5.6.2"
     }
 
     buildTypes {
@@ -40,7 +40,7 @@ repositories {
 
 configurations {
     cleanedAnnotations
-    compile.exclude group: 'org.jetbrains' , module:'annotations'
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
 }
 
 dependencies {
@@ -83,8 +83,6 @@ dependencies {
 
     // To show what's new in the application
     implementation 'io.github.tonnyl:whatsnew:0.1.1'
-    //To display search dialog
-    implementation 'com.github.mirrajabi:search-dialog:1.2.2'
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
