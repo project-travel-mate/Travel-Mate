@@ -84,6 +84,8 @@ public class FinalCityInfoActivity extends AppCompatActivity
     LinearLayout cityVisitedLayout;
     @BindView(R.id.ll_city_map)
     LinearLayout cityMap;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private int mDotsCount;
     private ImageView[] mDots;
@@ -140,7 +142,6 @@ public class FinalCityInfoActivity extends AppCompatActivity
         }
 
         toggleFavouriteCityView();
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         content.setVisibility(View.GONE);
         cityVisitedLayout.setVisibility(View.GONE);
