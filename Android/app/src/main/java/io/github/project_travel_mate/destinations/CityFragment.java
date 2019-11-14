@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,14 +69,10 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
     private static final String TAG = "CityFragment";
 
-    @BindView(R.id.animation_view)
-    LottieAnimationView animationView;
-    @BindView(R.id.cities_list)
-    ListView lv;
-
-    private MaterialSearchView mMaterialSearchView;
     private final int[] mColors = {R.color.sienna, R.color.saffron, R.color.green, R.color.pink,
             R.color.orange, R.color.blue, R.color.grey, R.color.yellow, R.color.purple, R.color.peach};
+
+    private ViewHolder mHolder;
 
     private String mNameyet;
     private Activity mActivity;
@@ -106,8 +103,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_citylist, container, false);
-
-        ButterKnife.bind(this, view);
+        mHolder = new ViewHolder(view);
 
         // Hide keyboard
         InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -127,8 +123,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         // make an target
         mSpotView = inflater.inflate(R.layout.spotlight_target, null);
 
-        mMaterialSearchView = view.findViewById(R.id.search_view);
-        mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        mHolder.mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.v("QUERY ITEM : ", query);
@@ -149,9 +144,9 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         mCityAdapter = new CityAdapter(mActivity, mCities, mSettings);
 
-        lv.setAdapter(mCityAdapter);
-        lv.setOnItemClickListener((parent, mView, position, id1) -> {
-            City city = (City) lv.getAdapter().getItem(position);
+        mHolder.citiesList.setAdapter(mCityAdapter);
+        mHolder.citiesList.setOnItemClickListener((parent, mView, position, id1) -> {
+            City city = (City) mHolder.citiesList.getAdapter().getItem(position);
             Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, city);
             startActivity(intent);
         });
@@ -175,7 +170,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
         if (checkCachedCities(mCities)) {
             fetchCitiesList();
         } else {
-            animationView.setVisibility(View.GONE);
+            mHolder.animationView.setVisibility(View.GONE);
 
             for (City city : mCities)
                 city.mInterests = mInterests;
@@ -284,7 +279,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mActivity.getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        mMaterialSearchView.setMenuItem(item);
+        mHolder.mMaterialSearchView.setMenuItem(item);
     }
 
     private void cityAutoComplete() {
@@ -342,8 +337,8 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                                 new ArrayAdapter<>(
                                         mActivity.getApplicationContext(), R.layout.spinner_layout, citynames);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        mMaterialSearchView.setAdapter(dataAdapter);
-                        mMaterialSearchView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                        mHolder.mMaterialSearchView.setAdapter(dataAdapter);
+                        mHolder.mMaterialSearchView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
                             Intent intent = FinalCityInfoActivity.getStartIntent(mActivity, cities.get(arg2));
                             startActivity(intent);
                         });
@@ -389,7 +384,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
                             String res = response.body().string();
                             Log.v(TAG, "result=" + res);
 
-                            animationView.setVisibility(View.GONE);
+                            mHolder.animationView.setVisibility(View.GONE);
                             JSONArray ar = new JSONArray(res);
 
                             for (int i = 0; i < ar.length(); i++) {
@@ -441,7 +436,27 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
      * Plays the network lost animation in the view
      */
     private void networkError() {
-        animationView.setAnimation(R.raw.network_lost);
-        animationView.playAnimation();
+        mHolder.animationView.setAnimation(R.raw.network_lost);
+        mHolder.animationView.playAnimation();
+    }
+
+    class ViewHolder {
+        @BindView(R.id.animation_view)
+        LottieAnimationView animationView;
+
+        @BindView(R.id.cities_list)
+        ListView citiesList;
+
+        @BindView(R.id.search_view)
+        MaterialSearchView mMaterialSearchView;
+
+        @BindView(R.id.citylist_fragemnt_id)
+        CoordinatorLayout citylistFragemntId;
+
+        View view;
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+            this.view = view;
+        }
     }
 }
