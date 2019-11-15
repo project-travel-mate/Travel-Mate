@@ -75,7 +75,14 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     TextView selectedItemAddress;
     @BindView(R.id.item_info)
     LinearLayout linearLayout;
+    @BindView(R.id.bottom_sheet)
+    LinearLayout layoutBottomSheet;
+    @BindView(R.id.map)
+    MapView mMap;
+
     PlacesOnMapAdapter PlacesMapAdapter;
+    BottomSheetBehavior sheetBehavior;
+
     private ProgressDialog mProgressDialog;
     private String mMode;
     private int mIcon;
@@ -86,10 +93,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     private JSONArray mFeedItems;
     private List<Marker> mMarkerList = new ArrayList<>();
     private Marker mPreviousMarker = null;
-    BottomSheetBehavior sheetBehavior;
-    @BindView(R.id.bottom_sheet)
-    LinearLayout layoutBottomSheet;
-    private MapView mMap;
     private IMapController mController;
     private Drawable mMarker, mDefaultMarker;
 
@@ -106,7 +109,6 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        mMap = findViewById(R.id.map);
         setTitle(mCity.getNickname());
         mMarker = this.getDrawable(R.drawable.ic_radio_button_checked_orange_24dp);
         mDefaultMarker = this.getDrawable(R.drawable.marker_default);
