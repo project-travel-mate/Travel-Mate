@@ -62,8 +62,11 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     LinearLayout layout;
     @BindView(R.id.show_city_name)
     TextView showCityName;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.search_view)
+    MaterialSearchView mSearchView;
 
-    private MaterialSearchView mSearchView;
     private String mToken;
     private Handler mHandler;
     private JSONArray mFeedItems;
@@ -72,11 +75,9 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_currentcity);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
@@ -87,7 +88,6 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
         setTitle(getResources().getString(R.string.text_shopping));
 
-        mSearchView = findViewById(R.id.search_view);
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
