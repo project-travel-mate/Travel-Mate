@@ -23,11 +23,12 @@ import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 /**
  * Created by Santosh on 11/10/18.
- *
  */
 public abstract class TravelMateAnalogClock extends RelativeLayout {
 
@@ -46,6 +47,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     private int mSecondId;
 
     private Context mCtx;
+    private ViewHolder mHolder;
 
     public TravelMateAnalogClock(Context ctx) {
         super(ctx);
@@ -69,7 +71,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     }
 
     /**
-     *  A simple initialization with default assets
+     * A simple initialization with default assets
      */
     public void initializeSimple() {
         this.mFaceId = R.drawable.clock_face;
@@ -80,11 +82,12 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         main(mCtx);
     }
 
-    /** Intitializes the view.
+    /**
+     * Intitializes the view.
      * If you want to provide your own vector assets.(You will have a hard time configuring that)
      *
-     * @param faceId: the clock face vector svg resource.
-     * @param hourId: the hours clock hand vector svg resource.
+     * @param faceId:   the clock face vector svg resource.
+     * @param hourId:   the hours clock hand vector svg resource.
      * @param minuteId: the minutes clock hand vector svg resource.
      * @param secondId: the seconds clock hand vector svg resource.
      */
@@ -168,7 +171,7 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     //-------------- Setters --------------\\
 
     /**
-     *  Sets the timing of the clock from the calendar object
+     * Sets the timing of the clock from the calendar object
      */
     public TravelMateAnalogClock setCalendar(Calendar calendar) {
         this.mCalendar = calendar;
@@ -215,8 +218,8 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
 
     /**
      * @param opacity: ranges from 0 (transparent) to 1.0 (opaque)
-     *
-     *               Default: 1.0f
+     *                 <p>
+     *                 Default: 1.0f
      */
     public TravelMateAnalogClock setOpacity(float opacity) {
         this.mOpacity = opacity;
@@ -246,9 +249,10 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     }
 
     /**
-     *  Black Box
+     * Black Box
      */
     ViewTreeObserver.OnGlobalLayoutListener layoutListener;
+
     private void main(Context ctx) {
 
         Drawable face = AppCompatResources.getDrawable(ctx, mFaceId);
@@ -273,11 +277,12 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         DrawableCompat.setTint(second.mutate(), mColor);
 
         inflate(ctx, R.layout.analog_clock, this);
+        mHolder = new ViewHolder(this);
 
-        mAnalogFace = findViewById(R.id.face);
-        mAnalogHour = findViewById(R.id.hour);
-        mAnalogMinute = findViewById(R.id.minute);
-        mAnalogSecond = findViewById(R.id.second);
+        mAnalogFace = mHolder.face;
+        mAnalogHour = mHolder.hour;
+        mAnalogMinute = mHolder.minute;
+        mAnalogSecond = mHolder.second;
 
         if (!mShowSeconds) {
             mAnalogSecond.setVisibility(GONE);
@@ -337,11 +342,11 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
     }
 
     private void setPositionFor(View v) {
-        v.setTranslationY( -v.getHeight() / 2 + mDp);
+        v.setTranslationY(-v.getHeight() / 2 + mDp);
     }
 
     /**
-     *  Positions clock hands correctly(hopefully), and the rest is clockwork
+     * Positions clock hands correctly(hopefully), and the rest is clockwork
      */
     private void tickTick() {
         Calendar calendar = getCalendar();
@@ -426,5 +431,20 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
         //move analogSecond by 360 degree every 1 minute
         //move analogMinute by 360 degrees every 60 minute
         //move analogHour by 360 degrees every 3600 minutes
+    }
+
+    class ViewHolder {
+        @BindView(R.id.face)
+        AppCompatImageView face;
+        @BindView(R.id.hour)
+        AppCompatImageView hour;
+        @BindView(R.id.minute)
+        AppCompatImageView minute;
+        @BindView(R.id.second)
+        AppCompatImageView second;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
