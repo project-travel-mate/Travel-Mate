@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import adapters.ImageAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 import static utils.Constants.EVENT_IMG;
@@ -19,11 +22,13 @@ import static utils.Constants.IMAGE_NO;
 
 public class TripImageActivity extends AppCompatActivity {
 
+    private ViewHolder mHolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_trip_image);
+        mHolder = new ViewHolder(this);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra(EVENT_NAME);
@@ -31,11 +36,11 @@ public class TripImageActivity extends AppCompatActivity {
 
         ArrayList<String> images = intent.getStringArrayListExtra(EVENT_IMG);
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        //ViewPager viewPager = findViewById(R.id.view_pager);
         ImageAdapter adapter = new ImageAdapter(this, images);
-        viewPager.setAdapter(adapter);
+        mHolder.viewPager.setAdapter(adapter);
         if (pos != -1)
-            viewPager.setCurrentItem(pos);
+            mHolder.viewPager.setCurrentItem(pos);
 
         setTitle(name);
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -44,5 +49,14 @@ public class TripImageActivity extends AppCompatActivity {
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, TripImageActivity.class);
         return intent;
+    }
+
+    class ViewHolder {
+        @BindView(R.id.view_pager)
+        ViewPager viewPager;
+
+        ViewHolder(TripImageActivity view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
