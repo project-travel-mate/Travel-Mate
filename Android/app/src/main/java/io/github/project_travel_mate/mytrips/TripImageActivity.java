@@ -36,7 +36,6 @@ public class TripImageActivity extends AppCompatActivity {
 
         ArrayList<String> images = intent.getStringArrayListExtra(EVENT_IMG);
 
-        //ViewPager viewPager = findViewById(R.id.view_pager);
         ImageAdapter adapter = new ImageAdapter(this, images);
         mHolder.viewPager.setAdapter(adapter);
         if (pos != -1)
