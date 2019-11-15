@@ -69,12 +69,17 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
     LottieAnimationView animationView;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.map)
+    MapView mMap;
+
     private int mIndex = 0;
     private Handler mHandler;
     private String mToken;
     private String mCurlat;
     private String mCurlon;
-    private MapView mMap;
+    //private MapView mMap;
     private IMapController mController;
     private static final int REQUEST_LOCATION = 199;
     GPSTracker tracker;
@@ -84,14 +89,11 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_realtime);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+
         mHandler = new Handler(Looper.getMainLooper());
-        mMap = findViewById(R.id.map);
         scrollView.setVisibility(View.GONE);
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);

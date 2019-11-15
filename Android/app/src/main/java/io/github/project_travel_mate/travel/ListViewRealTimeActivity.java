@@ -30,6 +30,8 @@ public class ListViewRealTimeActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.action_map_view)
+    MapView mMap;
 
     private static final int REQUEST_LOCATION = 199;
     private GPSTracker mTracker;
@@ -46,7 +48,6 @@ public class ListViewRealTimeActivity extends AppCompatActivity {
 
         // Get user's current location
         mTracker = new GPSTracker(this);
-        MapView mMap = findViewById(R.id.action_map_view);
         if (!mTracker.canGetLocation()) {
             mTracker.displayLocationRequest(this, mMap);
         } else {
