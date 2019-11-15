@@ -8,24 +8,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
 public class ChecklistActivity extends AppCompatActivity {
+
+    private ViewHolder mHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);
+        mHolder = new ViewHolder(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ButterKnife.bind(this);
+        setSupportActionBar(mHolder.toolbar);
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -50,5 +53,14 @@ public class ChecklistActivity extends AppCompatActivity {
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, ChecklistActivity.class);
         return intent;
+    }
+
+    class ViewHolder {
+        @BindView(R.id.toolbar)
+        Toolbar toolbar;
+
+        ViewHolder(ChecklistActivity view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
