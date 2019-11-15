@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.eftimoff.androipathview.PathView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
 
 import static utils.Constants.USER_TOKEN;
@@ -17,12 +20,16 @@ import static utils.Constants.USER_TOKEN;
 public class SplashActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
 
+    private ViewHolder mHolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        final PathView pathView = findViewById(R.id.pathView);
+        mHolder = new ViewHolder(this);
+
+        final PathView pathView = mHolder.pathView;
         pathView.getPathAnimator()
                 .delay(1000)
                 .duration(1000)
@@ -45,5 +52,17 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }, 2000);
+    }
+
+    /**
+     * Viewholder for the SplashActivity item
+     */
+    class ViewHolder {
+        @BindView(R.id.pathView)
+        PathView pathView;
+
+        ViewHolder(SplashActivity view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
