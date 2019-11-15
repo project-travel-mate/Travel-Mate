@@ -24,7 +24,7 @@ import objects.ZoneName;
 public class TimezoneListViewActivity extends Activity implements TextWatcher {
 
     @BindView(R.id.listView)
-    RecyclerView mListview;
+    RecyclerView mListView;
     @BindView(R.id.timezoneSearch)
     EditText mTimezoneSearch;
     CurrencyConverterAdapter mAdaptorListView;
@@ -39,8 +39,6 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
         setContentView(R.layout.activity_timezone_listview);
 
         timezone_names = new ArrayList<>();
-        mListview = findViewById(R.id.listView);
-        mTimezoneSearch = findViewById(R.id.timezoneSearch);
 
         mContext = this;
         addTimezones();
@@ -81,8 +79,8 @@ public class TimezoneListViewActivity extends Activity implements TextWatcher {
 
         mAdaptorListView = new CurrencyConverterAdapter(TimezoneListViewActivity.this, timezone_names);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext());
-        mListview.setLayoutManager(mLayoutManager);
-        mListview.setAdapter(mAdaptorListView);
+        mListView.setLayoutManager(mLayoutManager);
+        mListView.setAdapter(mAdaptorListView);
     }
 
     /**
