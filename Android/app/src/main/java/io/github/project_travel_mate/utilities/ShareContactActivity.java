@@ -52,7 +52,6 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_contact);
-
         ButterKnife.bind(this);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -119,7 +118,6 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
 
     public void createCode() {
 
-        ImageView qrCodeView = findViewById(R.id.im);
         //getting details to be encoded in qr code
         String myEmail = mSharedPreferences.getString(USER_EMAIL, null);
         String myName = mSharedPreferences.getString(USER_NAME, null);
