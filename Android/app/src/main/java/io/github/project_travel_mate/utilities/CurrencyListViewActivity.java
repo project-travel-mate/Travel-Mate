@@ -16,13 +16,14 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 import objects.ZoneName;
 
 public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
     @BindView(R.id.listView)
-    RecyclerView mListview;
+    RecyclerView mListView;
     @BindView(R.id.currencySearch)
     EditText mCurrencySearch;
     CurrencyConverterAdapter mAdaptorListView;
@@ -38,10 +39,9 @@ public class CurrencyListViewActivity extends Activity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversion_listview);
+        ButterKnife.bind(this);
 
         currences_names = new ArrayList<>();
-        mListview = findViewById(R.id.listView);
-        mCurrencySearch = findViewById(R.id.currencySearch);
 
         mContext = this;
         addCurrencies();
@@ -87,8 +87,8 @@ public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
         mAdaptorListView = new CurrencyConverterAdapter(CurrencyListViewActivity.this, currences_names);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext());
-        mListview.setLayoutManager(mLayoutManager);
-        mListview.setAdapter(mAdaptorListView);
+        mListView.setLayoutManager(mLayoutManager);
+        mListView.setAdapter(mAdaptorListView);
     }
 
     @Override
