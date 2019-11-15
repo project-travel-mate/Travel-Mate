@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -68,6 +69,8 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     TextView textView;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private Handler mHandler;
     private String mToken;
@@ -80,11 +83,9 @@ public class HotelsActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotels);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
