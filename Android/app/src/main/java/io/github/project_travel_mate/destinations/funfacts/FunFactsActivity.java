@@ -27,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
+import io.reactivex.annotations.Nullable;
 import objects.City;
 import objects.FunFact;
 
@@ -38,32 +39,31 @@ import static utils.Constants.USER_TOKEN;
  */
 public class FunFactsActivity extends AppCompatActivity implements FunFactsView {
 
-    @BindView(R.id.vp)
-    ViewPager viewPager;
-    @BindView(R.id.animation_view)
-    LottieAnimationView animationView;
-
     private City mCity;
     private String mToken;
     private Handler mHandler;
     Boolean isFirstVisitEnd = true;
     public int scrollState;
 
-
+    @BindView(R.id.vp)
+    ViewPager viewPager;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
+    @Nullable
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_facts);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);

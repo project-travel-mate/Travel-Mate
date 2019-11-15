@@ -121,6 +121,8 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
     LinearLayout addMeToTrip;
     @BindView(R.id.public_trip_layout)
     RelativeLayout publicPrivateInfo;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private String mFriendId = null;
     private String mFriendDeleteId = null;
@@ -170,7 +172,6 @@ public class MyTripInfoActivity extends AppCompatActivity implements TravelmateS
 
         getSingleTrip();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         editTrip.setOnClickListener(v -> {
