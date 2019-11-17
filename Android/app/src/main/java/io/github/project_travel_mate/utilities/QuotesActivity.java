@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import java.util.Objects;
-
 import io.github.project_travel_mate.R;
 
 public class QuotesActivity extends AppCompatActivity {

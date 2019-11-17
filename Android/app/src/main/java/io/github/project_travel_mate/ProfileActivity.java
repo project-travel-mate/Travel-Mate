@@ -58,7 +58,6 @@ import butterknife.ButterKnife;
 import io.github.project_travel_mate.login.LoginActivity;
 import io.github.project_travel_mate.utilities.ShareContactActivity;
 import objects.City;
-import objects.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;

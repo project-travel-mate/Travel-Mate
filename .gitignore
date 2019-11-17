@@ -34,7 +34,7 @@ app/*.iml
 .gradle
 build/
 */build/
-app/release/
+Android/app/release/
 
 #NDK
 obj/

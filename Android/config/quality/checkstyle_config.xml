@@ -21,9 +21,8 @@
             <property name="severity" value="error" />
         </module>
 
-        <module name="AvoidStarImport">
-            <property name="severity" value="error" />
-        </module>
+        <module name="UnusedImports"/>
+        <module name="AvoidStarImport"/>
 
         <!-- General Code Style -->
 
