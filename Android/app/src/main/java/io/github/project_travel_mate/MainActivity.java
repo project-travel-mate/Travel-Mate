@@ -60,6 +60,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import utils.DailyQuotesManager;
+import utils.Utils;
 
 import static utils.Constants.API_LINK_V2;
 import static utils.Constants.AUTHORIZATION;
@@ -108,8 +109,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        DailyQuotesManager.checkDailyQuote(this);
-
+        boolean isNetworkConnected = Utils.isNetworkConnected(this);
+        if (isNetworkConnected) {
+            DailyQuotesManager.checkDailyQuote(this);
+        }
         // To show what's new in our application
         WhatsNew whatsNew = WhatsNew.newInstance(
                 new WhatsNewItem(WHATS_NEW1_TITLE, WHATS_NEW1_TEXT));
@@ -412,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.v("trip id", tripID + " ");
                 Trip trip = new Trip();
                 trip.setId(tripID);
-                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this,  trip, false);
+                Intent intent = MyTripInfoActivity.getStartIntent(MainActivity.this, trip, false);
                 startActivity(intent);
             }
         }
