@@ -733,6 +733,7 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
         editDisplayName.setVisibility(View.INVISIBLE);
         editDisplayStatus.setVisibility(View.INVISIBLE);
         changeImage.setVisibility(View.INVISIBLE);
+        citiesTravelledHeading.setVisibility(View.INVISIBLE);
 
         displayName.setText(name);
         emailId.setText(email);
