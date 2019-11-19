@@ -109,8 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
         mHandler = new Handler(Looper.getMainLooper());
 
-        boolean isNetworkConnected = Utils.isNetworkConnected(this);
-        if (isNetworkConnected) {
+        if (Utils.isNetworkConnected(this)) {
             DailyQuotesManager.checkDailyQuote(this);
         }
         // To show what's new in our application
