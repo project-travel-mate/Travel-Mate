@@ -90,9 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SharedPreferences mSharedPreferences;
     private String mToken;
-    //private DrawerLayout mDrawer;
     private Handler mHandler;
-    //private NavigationView mNavigationView;
     private int mPreviousMenuItemId;
     private static final String travelShortcut = "io.github.project_travel_mate.TravelShortcut";
     private static final String myTripsShortcut = "io.github.project_travel_mate.MyTripsShortcut";
@@ -101,9 +99,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawer;
+    DrawerLayout drawerLayout;
     @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,11 +150,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getRuntimePermissions();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                mDrawer,
+                drawerLayout,
                 toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         String emailId = mSharedPreferences.getString(USER_EMAIL, getString(R.string.app_name));
@@ -183,15 +181,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     void defaultSelectedNavMenu(int resId) {
-        Menu menu = mNavigationView.getMenu();
+        Menu menu = navigationView.getMenu();
         MenuItem menuItem = menu.findItem(resId);
         menuItem.setChecked(true);
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawer != null && mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -202,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == mPreviousMenuItemId) {
-            mDrawer.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
 
@@ -218,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
 
-        mDrawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -320,10 +318,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fillNavigationView(String emailId, String imageURL) {
 
-        mNavigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // Get reference to the navigation view header and email textview
-        View navigationHeader = mNavigationView.getHeaderView(0);
+        View navigationHeader = navigationView.getHeaderView(0);
         TextView emailTextView = navigationHeader.findViewById(R.id.email);
         emailTextView.setText(emailId);
 
@@ -489,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public NavigationView getNavigationView() {
-        return mNavigationView;
+        return navigationView;
     }
 
 }
