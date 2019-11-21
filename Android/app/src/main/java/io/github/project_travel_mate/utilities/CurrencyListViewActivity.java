@@ -23,7 +23,7 @@ import objects.ZoneName;
 public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
     @BindView(R.id.listView)
-    RecyclerView mListView;
+    RecyclerView listView;
     @BindView(R.id.currencySearch)
     EditText mCurrencySearch;
     CurrencyConverterAdapter mAdaptorListView;
@@ -87,8 +87,8 @@ public class CurrencyListViewActivity extends Activity implements TextWatcher {
 
         mAdaptorListView = new CurrencyConverterAdapter(CurrencyListViewActivity.this, currences_names);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext());
-        mListView.setLayoutManager(mLayoutManager);
-        mListView.setAdapter(mAdaptorListView);
+        listView.setLayoutManager(mLayoutManager);
+        listView.setAdapter(mAdaptorListView);
     }
 
     @Override
