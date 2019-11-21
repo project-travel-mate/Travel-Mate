@@ -78,7 +78,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
     @BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
     @BindView(R.id.map)
-    MapView mMap;
+    MapView mapView;
 
     PlacesOnMapAdapter PlacesMapAdapter;
     BottomSheetBehavior sheetBehavior;
@@ -141,10 +141,10 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      * On open street map initialize
      */
     private void initMap() {
-        mMap.setBuiltInZoomControls(false);
-        mMap.setMultiTouchControls(true);
-        mMap.setTilesScaledToDpi(true);
-        mController = mMap.getController();
+        mapView.setBuiltInZoomControls(false);
+        mapView.setMultiTouchControls(true);
+        mapView.setTilesScaledToDpi(true);
+        mController = mapView.getController();
         GeoPoint cityLocation = new GeoPoint(Double.parseDouble(mCity.getLatitude()),
                 Double.parseDouble(mCity.getLongitude()));
         mController.setZoom(14.0);
@@ -167,7 +167,7 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
      */
     private void showMarker(Double locationLat, Double locationLong, String locationName) {
         GeoPoint coord = new GeoPoint(locationLat, locationLong);
-        Marker marker = new Marker(mMap);
+        Marker marker = new Marker(mapView);
         if (ContextCompat.checkSelfPermission(PlacesOnMapActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -175,8 +175,8 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             marker.setIcon(mMarker);
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
-            mMap.getOverlays().add(marker);
-            mMap.invalidate();
+            mapView.getOverlays().add(marker);
+            mapView.invalidate();
             mMarkerList.add(marker);
         }
     }
@@ -193,9 +193,9 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
-        mMap.setBottom(height);
-        mMap.setRight(width);
-        mMap.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setBottom(height);
+        mapView.setRight(width);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
         mController.setZoom(15.0);
         GeoPoint center = new GeoPoint(latitude, longitude);
         mController.animateTo(center);
@@ -309,11 +309,11 @@ public class PlacesOnMapActivity extends AppCompatActivity implements
             //hide info about previous marker
             mPreviousMarker.closeInfoWindow();
         }
-        mMap.getOverlays().remove(currentMarker);
-        mMap.invalidate();
+        mapView.getOverlays().remove(currentMarker);
+        mapView.invalidate();
         currentMarker.setIcon(mDefaultMarker);
-        mMap.getOverlays().add(currentMarker);
-        mMap.invalidate();
+        mapView.getOverlays().add(currentMarker);
+        mapView.invalidate();
         //show info about current marker
         currentMarker.showInfoWindow();
         mPreviousMarker = currentMarker;
