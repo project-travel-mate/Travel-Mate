@@ -72,7 +72,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.map)
-    MapView mMap;
+    MapView mapView;
 
     private int mIndex = 0;
     private Handler mHandler;
@@ -105,7 +105,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
         // Get user's current location
         tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
-            tracker.displayLocationRequest(this, mMap);
+            tracker.displayLocationRequest(this, mapView);
         } else {
             mCurlat = Double.toString(tracker.getLatitude());
             mCurlon = Double.toString(tracker.getLongitude());
@@ -119,15 +119,15 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
      * On open street map initialize
      */
     private void initMap() {
-        mMap.setBuiltInZoomControls(false);
-        mMap.setMultiTouchControls(true);
-        mMap.setTilesScaledToDpi(true);
-        mController = mMap.getController();
+        mapView.setBuiltInZoomControls(false);
+        mapView.setMultiTouchControls(true);
+        mapView.setTilesScaledToDpi(true);
+        mController = mapView.getController();
 
-        MyLocationNewOverlay mLocationoverlay = new MyLocationNewOverlay(mMap);
+        MyLocationNewOverlay mLocationoverlay = new MyLocationNewOverlay(mapView);
         mLocationoverlay.enableFollowLocation();
         mLocationoverlay.enableMyLocation();
-        mMap.getOverlays().add(mLocationoverlay);
+        mapView.getOverlays().add(mLocationoverlay);
         mController.setZoom(14.0);
     }
 
@@ -282,7 +282,7 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
      */
     private void showMarker(Double locationLat, Double locationLong, String locationName, Integer locationIcon) {
         GeoPoint coord = new GeoPoint(locationLat, locationLong);
-        Marker marker = new Marker(mMap);
+        Marker marker = new Marker(mapView);
 
         if (ContextCompat.checkSelfPermission(MapViewRealTimeActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -292,8 +292,8 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
             marker.setTitle(locationName);
             marker.setOnMarkerClickListener(this);
 
-            mMap.getOverlays().add(marker);
-            mMap.invalidate();
+            mapView.getOverlays().add(marker);
+            mapView.invalidate();
         }
     }
 
