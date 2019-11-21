@@ -79,7 +79,6 @@ public class MapViewRealTimeActivity extends AppCompatActivity implements
     private String mToken;
     private String mCurlat;
     private String mCurlon;
-    //private MapView mMap;
     private IMapController mController;
     private static final int REQUEST_LOCATION = 199;
     GPSTracker tracker;
