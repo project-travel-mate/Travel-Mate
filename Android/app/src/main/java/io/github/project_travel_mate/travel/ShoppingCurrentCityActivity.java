@@ -65,7 +65,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.search_view)
-    MaterialSearchView mSearchView;
+    MaterialSearchView searchView;
 
     private String mToken;
     private Handler mHandler;
@@ -88,7 +88,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
 
         setTitle(getResources().getString(R.string.text_shopping));
 
-        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
@@ -109,7 +109,7 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
         });
 
 
-        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
                 //Do some magic
@@ -162,14 +162,14 @@ public class ShoppingCurrentCityActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView.setMenuItem(item);
+        searchView.setMenuItem(item);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        if (mSearchView.isSearchOpen()) {
-            mSearchView.closeSearch();
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
             super.onBackPressed();
         }
