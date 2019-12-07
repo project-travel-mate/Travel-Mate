@@ -218,7 +218,6 @@ public abstract class TravelMateAnalogClock extends RelativeLayout {
 
     /**
      * @param opacity: ranges from 0 (transparent) to 1.0 (opaque)
-     *                 <p>
      *                 Default: 1.0f
      */
     public TravelMateAnalogClock setOpacity(float opacity) {
