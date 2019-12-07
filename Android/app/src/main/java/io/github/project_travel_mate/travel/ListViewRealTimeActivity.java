@@ -31,7 +31,7 @@ public class ListViewRealTimeActivity extends AppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.action_map_view)
-    MapView mMap;
+    MapView mapView;
 
     private static final int REQUEST_LOCATION = 199;
     private GPSTracker mTracker;
@@ -49,7 +49,7 @@ public class ListViewRealTimeActivity extends AppCompatActivity {
         // Get user's current location
         mTracker = new GPSTracker(this);
         if (!mTracker.canGetLocation()) {
-            mTracker.displayLocationRequest(this, mMap);
+            mTracker.displayLocationRequest(this, mapView);
         } else {
             mCurlat = Double.toString(mTracker.getLatitude());
             mCurlon = Double.toString(mTracker.getLongitude());
