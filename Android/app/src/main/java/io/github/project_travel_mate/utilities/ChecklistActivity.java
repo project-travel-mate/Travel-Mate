@@ -19,16 +19,16 @@ import io.github.project_travel_mate.R;
 
 public class ChecklistActivity extends AppCompatActivity {
 
-    private ViewHolder mHolder;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);
-        mHolder = new ViewHolder(this);
 
-        setSupportActionBar(mHolder.toolbar);
+        setSupportActionBar(toolbar);
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -55,12 +55,4 @@ public class ChecklistActivity extends AppCompatActivity {
         return intent;
     }
 
-    class ViewHolder {
-        @BindView(R.id.toolbar)
-        Toolbar toolbar;
-
-        ViewHolder(ChecklistActivity view) {
-            ButterKnife.bind(this, view);
-        }
-    }
 }
