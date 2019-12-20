@@ -393,5 +393,6 @@
     <!-- Date / time formatting related strings -->
     <string name="date_format_hours_12">hh:mm:ss a</string>
     <string name="date_format_hours_24">k:mm:ss</string>
+    <string name="toast_upload_picture_issue">Can\'t upload profile picture</string>
 
 </resources>
