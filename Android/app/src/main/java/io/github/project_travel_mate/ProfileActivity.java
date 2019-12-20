@@ -781,7 +781,8 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
             @Override
             public void onError(String requestId, ErrorInfo error) {
-                Toast.makeText(ProfileActivity.this, getString(R.string.toast_upload_picture_issue), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, getString(R.string.toast_upload_picture_issue),
+                        Toast.LENGTH_SHORT).show();
                 Log.e(LOG_TAG, "error uploading to Cloudinary");
             }
 
