@@ -344,10 +344,6 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri croppedImage = result.getUri();
-                Picasso.with(this).load(croppedImage).into(displayImage);
-                mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
-                TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
-                        Snackbar.LENGTH_SHORT).show();
                 getUrlFromCloudinary(croppedImage);
             }
         }
@@ -769,13 +765,24 @@ public class ProfileActivity extends AppCompatActivity implements TravelmateSnac
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
+                Picasso.with(ProfileActivity.this)
+                        .load(croppedImage)
+                        .error(R.drawable.default_user_icon)
+                        .into(displayImage);
+
+                mSharedPreferences.edit().putString(USER_IMAGE, croppedImage.toString()).apply();
+
+                TravelmateSnackbars.createSnackBar(findViewById(R.id.layout), R.string.profile_picture_updated,
+                        Snackbar.LENGTH_SHORT).show();
+
                 mProfileImageUrl = resultData.get("url").toString();
                 sendURLtoServer(mProfileImageUrl);
             }
 
             @Override
             public void onError(String requestId, ErrorInfo error) {
-                networkError();
+                Toast.makeText(ProfileActivity.this, getString(R.string.toast_upload_picture_issue),
+                        Toast.LENGTH_SHORT).show();
                 Log.e(LOG_TAG, "error uploading to Cloudinary");
             }
 
