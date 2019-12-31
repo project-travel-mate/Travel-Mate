@@ -34,7 +34,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:fullBackupContent">
+        tools:replace="android:fullBackupContent"
+        >
         <activity
             android:name=".mytrips.TripImageActivity"
             android:configChanges="orientation|screenSize"
@@ -43,6 +44,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNoBar"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
