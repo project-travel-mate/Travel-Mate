@@ -29,6 +29,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     private final Activity mContext;
     private final int[] mIdsInterest = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
+    private final int mPagesPerRow = 3;
     private List<City> mCityList;
 
     CityAdapter(Context context, List<City> items, FlipSettings settings) {
@@ -83,9 +84,7 @@ class CityAdapter extends BaseFlipAdapter<City> {
 
     @Override
     public int getPagesCount() {
-        if (mCityList != null)
-            return mCityList.size();
-        return 5;
+        return mPagesPerRow;
     }
 
     private void fillHolder(CitiesHolder holder, CitiesInfoHolder infoHolder, final City city) {
