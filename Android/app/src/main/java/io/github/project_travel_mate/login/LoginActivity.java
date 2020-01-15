@@ -212,6 +212,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 snackbar.show();
                             }
                         }
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(findViewById(android.R.id.content),
+                                        R.string.email_valid_check, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 }
                 break;

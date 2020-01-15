@@ -131,6 +131,7 @@
     <!-- Errors and messages -->
     <string name="no_items_available">No items available!</string>
     <string name="passwords_check">Passwords do not match!</string>
+    <string name="email_valid_check">Email address invalid!</string>
     <string name="location_enabled">Location enabled</string>
     <string name="location_not_enabled">Location not enabled</string>
 
