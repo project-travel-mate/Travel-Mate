@@ -140,7 +140,10 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
     // Checks if last item is ADD_NEW_ENTRY, else adds it to end
     void checkLastItem() {
-        if (!mItems.isEmpty() && !mItems.get(mItems.size() - 1).equals(ADD_NEW_ENTRY)) {
+        // add ADD_NEW_ENTRY to items if empty
+        if (mItems.isEmpty()) {
+            mItems.add(ADD_NEW_ENTRY);
+        } else if (!mItems.get(mItems.size() - 1).equals(ADD_NEW_ENTRY)) {
             // add last item again if missing
             mItems.add(ADD_NEW_ENTRY);
             // need to manually call, since this item is not in Db and hence ignored by DiffUtil
