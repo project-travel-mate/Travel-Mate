@@ -25,7 +25,6 @@ We are not running any ads in the app and the source code is available for free 
   + [Travel](#travel)
   + [Utility](#utility)
 + **[Contributing](#contributing)**
-+ **[Join us on slack](https://join.slack.com/t/project-travel-mate/shared_invite/enQtNDE2MjgyOTA5ODg5LTgwZGQ3NmY3Y2JjZTIxMWYwMTdkYzZiZmFjMjQ1ZDc1ZmM5NTNkYzQ3M2EwNjVmMzIyYTE4YzRiNjA4ZWRhZDc)**
 + **[Join Travel Mate Beta Testing](https://play.google.com/apps/testing/io.github.project_travel_mate)**
 
 ## Features
