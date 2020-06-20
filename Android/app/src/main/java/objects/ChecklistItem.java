@@ -28,22 +28,23 @@ public class ChecklistItem {
     @ColumnInfo(name = "position")
     private final int mPosition;
 
+    @ColumnInfo(name = "user_id")
+    private final int mUserId;
+
+
     /**
      * Initiates checklist item
-     *
      * @param name   checklist task name
      * @param isDone specify if the item is checked
      * @param position specify the position of the item in checklist, if all unticked
+     * @param userId userId of current logged in user
      */
 
-    public ChecklistItem(String name, boolean isDone, int position) {
+    public ChecklistItem(String name, boolean isDone, int position, int userId) {
         this.mName = name;
         this.mIsDone = isDone;
         this.mPosition = position;
-    }
-
-    public int getId() {
-        return mId;
+        this.mUserId = userId;
     }
 
     public String getName() {
@@ -56,6 +57,10 @@ public class ChecklistItem {
 
     public int getPosition() {
         return mPosition;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public void setId(int id) {
@@ -78,5 +83,9 @@ public class ChecklistItem {
         } else {
             return false;
         }
+    }
+
+    public int getUserId() {
+        return mUserId;
     }
 }

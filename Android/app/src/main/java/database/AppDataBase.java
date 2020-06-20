@@ -7,6 +7,11 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 import dao.CityDao;
 import dao.WidgetCheckListDao;
@@ -23,21 +28,64 @@ public abstract class AppDataBase extends RoomDatabase {
 
     private static AppDataBase instance;
 
+    private static final String OLD_DATABASE_NAME = "city-travel-mate-db";
+    private static final String DATABASE_BASE_NAME = "city-travel-mate-db";
+    private static final String DATABASE_DELIMITER = "-";
+    private static final String DATABASE_EXT = ".db";
 
     public abstract CityDao cityDao();
     public abstract WidgetCheckListDao widgetCheckListDao();
 
-    public static AppDataBase getAppDatabase(Context context) {
+    public static AppDataBase getAppDatabase(Context context, String userId) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDataBase.class,
-                    "city-travel-mate-db")
+                    AppDataBase.class, AppDataBase.getDatabaseName(userId))
                     .allowMainThreadQueries()
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build();
+
+//            new MoveChecklistTask().execute(context, instance);
+            AppDataBase.migrateChecklistToNewDB(context, instance);
         }
         return instance;
     }
+
+    private static String getDatabaseName(String userId) {
+        return AppDataBase.DATABASE_BASE_NAME + AppDataBase.DATABASE_DELIMITER + userId
+                + AppDataBase.DATABASE_EXT;
+    }
+
+    private static void migrateChecklistToNewDB(Context context, AppDataBase instance) {
+        AppDataBase oldDatabase = Room.databaseBuilder(context.getApplicationContext(),
+                AppDataBase.class, AppDataBase.OLD_DATABASE_NAME)
+                .addMigrations(AppDataBase.MIGRATION_1_2, AppDataBase.MIGRATION_2_3, AppDataBase.MIGRATION_3_4)
+                .build();
+
+        WidgetCheckListDao oldWidgetCheckListDao = oldDatabase.widgetCheckListDao();
+        ChecklistItem[] oldChecklistItems = oldWidgetCheckListDao.loadAll();
+
+        WidgetCheckListDao newWidgetCheckListDao = instance.widgetCheckListDao();
+        List<ChecklistItem> oldChecklistItemsList = Arrays.asList(oldChecklistItems);
+        newWidgetCheckListDao.insertAll(oldChecklistItemsList);
+    }
+
+    // migration from database version 2 to 3
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Create the new table to be used
+            database.execSQL(
+                    "CREATE TABLE checklist_items (id INTEGER PRIMARY KEY NOT NULL, name TEXT," +
+                            " isDone TEXT NOT NULL, position INTEGER DEFAULT 0 NOT NULL," +
+                            " user_id INTEGER DEFAULT 0 NOT NULL)");
+
+            // Remove the old table
+            database.execSQL("DROP TABLE events_new");
+
+            // Change the table name to the correct one
+            database.execSQL("ALTER TABLE checklist_items RENAME TO events_new");
+        }
+    };
 
     //migration from database version 2 to 3
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
@@ -82,5 +130,27 @@ public abstract class AppDataBase extends RoomDatabase {
             database.execSQL("ALTER TABLE checklist_items RENAME TO events_new");
         }
     };
+
+    private static class MoveChecklistTask extends AsyncTask {
+        protected Object doInBackground(Object... objects) {
+            Context context = (Context) objects[0];
+            AppDataBase sInstance = (AppDataBase) objects[1];
+            AppDataBase oldDatabase = Room.databaseBuilder(context.getApplicationContext(),
+                    AppDataBase.class, AppDataBase.OLD_DATABASE_NAME)
+                    .addMigrations(AppDataBase.MIGRATION_1_2, AppDataBase.MIGRATION_2_3, AppDataBase.MIGRATION_3_4)
+                    .build();
+
+            WidgetCheckListDao oldWidgetCheckListDao = oldDatabase.widgetCheckListDao();
+            ChecklistItem[] oldChecklistItems = oldWidgetCheckListDao.loadAll();
+
+            WidgetCheckListDao newWidgetCheckListDao = sInstance.widgetCheckListDao();
+            List<ChecklistItem> oldChecklistItemsList = Arrays.asList(oldChecklistItems);
+            newWidgetCheckListDao.insertAll(oldChecklistItemsList);
+            return null;
+        }
+    };
 }
+
+
+
 

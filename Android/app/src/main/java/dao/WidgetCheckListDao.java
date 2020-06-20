@@ -34,8 +34,14 @@ public interface WidgetCheckListDao {
     @Delete
     void delete(ChecklistItem... checkItem);
 
+    @Query("Select * FROM events_new WHERE user_id = :userId")
+    ChecklistItem[] loadAll(int userId);
+
     @Query("Select * FROM events_new")
     ChecklistItem[] loadAll();
+
+    @Query("DELETE FROM events_new WHERE user_id = :userId")
+    void deleteAll(int userId);
 
     @Query("DELETE FROM events_new")
     void deleteAll();
