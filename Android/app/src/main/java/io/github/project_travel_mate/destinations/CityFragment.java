@@ -62,6 +62,7 @@ import static utils.Constants.API_LINK_V2;
 import static utils.Constants.AUTHORIZATION;
 import static utils.Constants.LAST_CACHE_TIME;
 import static utils.Constants.SPOTLIGHT_SHOW_COUNT;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_TOKEN;
 
 public class CityFragment extends Fragment implements TravelmateSnackbars {
@@ -81,6 +82,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
     private Activity mActivity;
     private Handler mHandler;
     private String mToken;
+    private String mUserId;
 
     private int mSpotlightShownCount;
     private SharedPreferences mSharedPreferences;
@@ -115,6 +117,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mToken = mSharedPreferences.getString(USER_TOKEN, null);
+        mUserId = mSharedPreferences.getString(USER_ID, "0");
         mSpotlightShownCount = mSharedPreferences.getInt(SPOTLIGHT_SHOW_COUNT, 0);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -145,7 +148,7 @@ public class CityFragment extends Fragment implements TravelmateSnackbars {
             }
         });
 
-        mDatabase = AppDataBase.getAppDatabase(mActivity);
+        mDatabase = AppDataBase.getAppDatabase(mActivity, mUserId);
 
         mCityAdapter = new CityAdapter(mActivity, mCities, mSettings);
 

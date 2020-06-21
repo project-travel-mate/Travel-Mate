@@ -1,7 +1,9 @@
 package io.github.project_travel_mate.utilities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -32,15 +34,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import objects.ChecklistItem;
 
+import static utils.Constants.USER_ID;
+
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ViewHolder> {
 
+    private Activity mContext;
     private List<ChecklistItem> mItems;
     private ChecklistViewModel mViewModel;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private AppDataBase mDatabase;
     private ChecklistEventListener mListener;
     // dummy item to display the "Add another item" entry
-    private static final ChecklistItem ADD_NEW_ENTRY = new ChecklistItem("", false, -1);
+    private static final ChecklistItem ADD_NEW_ENTRY = new ChecklistItem("", false, -1, 0);
     // if true, this is an adapter for pending / unticked items.
     // Else, it is for finished / ticked items
     private final boolean mCanAddItems;
@@ -49,7 +54,10 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         mItems = new ArrayList<>(); // initialize with empty list
         this.mCanAddItems = canAddItems;
         this.mViewModel = mViewModel;
-        mDatabase = AppDataBase.getAppDatabase(context);
+        mContext = context;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = sharedPreferences.getString(USER_ID, "0");
+        mDatabase = AppDataBase.getAppDatabase(context, userId);
     }
 
     public void setEventListener(ChecklistEventListener mListener) {
@@ -245,9 +253,13 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
                             // new data added, insert entry into database
 
                             int maxPos = 0; // decide better default value
+                            SharedPreferences sharedPreferences = PreferenceManager
+                                    .getDefaultSharedPreferences(mContext);
+                            int userId = Integer.parseInt(sharedPreferences.getString(USER_ID
+                                    , "0"));
 
                             try {
-                                maxPos = mViewModel.getMaxPosition();
+                                maxPos = mViewModel.getMaxPosition(userId);
                             } catch (InterruptedException | ExecutionException e) {
                                 Log.i("Adapter", "onFocusChange: Exception in getting maxPos\n" + e.getMessage());
                             }
@@ -255,7 +267,8 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
                             ChecklistItem newItem = new ChecklistItem(
                                     mText.getText().toString(),
                                     false,
-                                    maxPos + 1);
+                                    maxPos + 1,
+                                    userId);
 
                             mDisposable.add(mViewModel.insertItem(newItem)
                                     .subscribeOn(Schedulers.io())

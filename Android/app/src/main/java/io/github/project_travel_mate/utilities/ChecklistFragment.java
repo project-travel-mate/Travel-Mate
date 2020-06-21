@@ -44,6 +44,7 @@ import utils.TravelmateSnackbars;
 
 import static utils.Constants.BASE_TASKS;
 import static utils.Constants.IS_ADDED_INDB;
+import static utils.Constants.USER_ID;
 
 public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
         ChecklistAdapter.ChecklistEventListener {
@@ -72,6 +73,8 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     private MenuItem mActionDeleteMenuItem;
     private boolean mFinishedHidden = false;
     private ItemTouchHelper mTouchHelper;
+    private String mUserId;
+    private int mUserIdInt;
 
     public ChecklistFragment() {
     }
@@ -88,9 +91,9 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
         ButterKnife.bind(this, mChecklistView);
 
-        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(mActivity);
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(mActivity, mUserIdInt);
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ChecklistViewModel.class);
-        mDatabase = AppDataBase.getAppDatabase(mActivity);
+        mDatabase = AppDataBase.getAppDatabase(mActivity, mUserId);
 
         attachAdapter();
 
@@ -111,8 +114,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     }
 
     private void checkForCompletedItem() {
-
-        mDisposable.add(mViewModel.getCompletedItems()
+        mDisposable.add(mViewModel.getCompletedItems(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
@@ -160,7 +162,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
         String isAlreadyAdded = sharedPreferences.getString(IS_ADDED_INDB, "null");
         if (isAlreadyAdded.equals("null")) {
             for (int i = 0; i < BASE_TASKS.size(); i++) {
-                ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), false, i);
+                ChecklistItem checklistItem = new ChecklistItem(BASE_TASKS.get(i), false, i, mUserIdInt);
                 mDisposable.add(mViewModel.insertItem(checklistItem)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -171,13 +173,13 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
             editor.apply();
         }
 
-        mDisposable.add(mViewModel.getPendingItems()
+        mDisposable.add(mViewModel.getPendingItems(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pendingAdapter::updateChecklist)
         );
 
-        mDisposable.add(mViewModel.getFinishedItems()
+        mDisposable.add(mViewModel.getFinishedItems(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
@@ -191,7 +193,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
         );
 
         // Subscribe to complete list for the widget
-        mDisposable.add(mViewModel.getSortedItems()
+        mDisposable.add(mViewModel.getSortedItems(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> mDatabase.widgetCheckListDao().insertAll(items)));
@@ -201,6 +203,9 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity) context;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        mUserId = sharedPreferences.getString(USER_ID, "0");
+        mUserIdInt = Integer.parseInt(mUserId);
     }
 
     @OnClick(R.id.layout_divider)
@@ -226,7 +231,7 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
 
         //First add all completed tasks in mItems
         //so that on clicking undo,tasks can added again
-        mDisposable.add(mViewModel.getCompletedItems()
+        mDisposable.add(mViewModel.getCompletedItems(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
@@ -254,14 +259,13 @@ public class ChecklistFragment extends Fragment implements TravelmateSnackbars,
      * the option to undo this task.
      */
     private void deleteCompletedTasks() {
-
         //deletes all completed task from database
-        mDisposable.add(mViewModel.deleteCompletedTasks()
+        mDisposable.add(mViewModel.deleteCompletedTasks(mUserIdInt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
         // TODO make this deleteCompleted tasks
-        mDatabase.widgetCheckListDao().deleteAll();
+        mDatabase.widgetCheckListDao().deleteAll(mUserIdInt);
         //creates a snackbar with undo option
         TravelmateSnackbars.createSnackBar(mActivity.findViewById(R.id.checklist_root_layout),
                 R.string.deleted_task_message,

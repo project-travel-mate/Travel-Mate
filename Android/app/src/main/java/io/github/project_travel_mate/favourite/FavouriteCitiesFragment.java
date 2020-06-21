@@ -1,7 +1,10 @@
 package io.github.project_travel_mate.favourite;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,8 @@ import io.github.project_travel_mate.R;
 import io.github.project_travel_mate.destinations.description.FinalCityInfoActivity;
 import objects.City;
 
+import static utils.Constants.USER_ID;
+
 public class FavouriteCitiesFragment extends Fragment {
 
     @BindView(R.id.animation_view)
@@ -36,6 +41,7 @@ public class FavouriteCitiesFragment extends Fragment {
     private FlipSettings mSettings = new FlipSettings.Builder().defaultPage().build();
     private AppDataBase mDatabase;
     private List<City> mFavCities;
+    private String mUserId;
 
 
     public FavouriteCitiesFragment() {
@@ -54,7 +60,7 @@ public class FavouriteCitiesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fav_cities, container, false);
         ButterKnife.bind(this, view);
 
-        mDatabase = AppDataBase.getAppDatabase(getActivity());
+        mDatabase = AppDataBase.getAppDatabase(getActivity(), mUserId);
 
         return view;
     }
@@ -88,5 +94,11 @@ public class FavouriteCitiesFragment extends Fragment {
         Toast.makeText(getContext(), R.string.no_favourite_cities, Toast.LENGTH_LONG).show();
         animationView.setAnimation(R.raw.empty_list);
         animationView.playAnimation();
+    }
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mUserId = sharedPreferences.getString(USER_ID, "0");
     }
 }

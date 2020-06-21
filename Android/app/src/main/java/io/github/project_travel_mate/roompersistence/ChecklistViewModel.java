@@ -25,20 +25,20 @@ public class ChecklistViewModel extends ViewModel {
         mDataSource = dataSource;
     }
 
-    public Flowable<List<ChecklistItem>> getSortedItems() {
-        return mDataSource.getSortedItems();
+    public Flowable<List<ChecklistItem>> getSortedItems(int userId) {
+        return mDataSource.getSortedItems(userId);
     }
 
-    public Flowable<List<ChecklistItem>> getPendingItems() {
-        return mDataSource.getPendingItems();
+    public Flowable<List<ChecklistItem>> getPendingItems(int userId) {
+        return mDataSource.getPendingItems(userId);
     }
 
-    public Flowable<List<ChecklistItem>> getFinishedItems() {
-        return mDataSource.getFinishedItems();
+    public Flowable<List<ChecklistItem>> getFinishedItems(int userId) {
+        return mDataSource.getFinishedItems(userId);
     }
 
-    public int getMaxPosition() throws InterruptedException, ExecutionException {
-        Callable<Integer> callable = mDataSource::getMaxPosition;
+    public int getMaxPosition(int userId) throws InterruptedException, ExecutionException {
+        Callable<Integer> callable = () -> mDataSource.getMaxPosition(userId);
 
         Future<Integer> future = Executors.newSingleThreadExecutor().submit(callable);
 
@@ -69,12 +69,12 @@ public class ChecklistViewModel extends ViewModel {
         return Completable.fromAction(() -> mDataSource.deleteItem(item));
     }
 
-    public Completable deleteCompletedTasks() {
-        return Completable.fromAction(mDataSource::deleteCompletedTasks);
+    public Completable deleteCompletedTasks(int userId) {
+        return Completable.fromAction(() -> mDataSource.deleteCompletedTasks(userId));
     }
 
-    public Single<List<ChecklistItem>> getCompletedItems() {
-        return mDataSource.getCompletedItems();
+    public Single<List<ChecklistItem>> getCompletedItems(int userId) {
+        return mDataSource.getCompletedItems(userId);
 
     }
 }

@@ -2,10 +2,14 @@ package widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViewsService;
 
 import database.AppDataBase;
 import objects.ChecklistItem;
+
+import static utils.Constants.USER_ID;
 
 /**
  * Created by Santosh on 11/09/2018.
@@ -24,10 +28,12 @@ public class CheckListWidgetService extends RemoteViewsService {
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
-        mDatabase = AppDataBase.getAppDatabase(getApplicationContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String userId = sharedPreferences.getString(USER_ID, "0");
 
-        ChecklistItem[] mChecklistItems = mDatabase.widgetCheckListDao().loadAll();
+        mDatabase = AppDataBase.getAppDatabase(getApplicationContext(), userId);
 
+        ChecklistItem[] mChecklistItems = mDatabase.widgetCheckListDao().loadAll(Integer.parseInt(userId));
 
         return (new CheckListProvider(this.getApplicationContext(), mChecklistItems, intent));
     }

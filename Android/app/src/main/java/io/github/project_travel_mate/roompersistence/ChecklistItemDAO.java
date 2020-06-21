@@ -22,17 +22,17 @@ public interface ChecklistItemDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItem(ChecklistItem item);
 
-    @Query("SELECT * FROM events_new ORDER BY isDone")
-    Flowable<List<ChecklistItem>> getSortedItems();
+    @Query("SELECT * FROM events_new WHERE user_id = :userId ORDER BY isDone")
+    Flowable<List<ChecklistItem>> getSortedItems(int userId);
 
-    @Query("SELECT * FROM events_new WHERE isDone = 0 ORDER BY position")
-    Flowable<List<ChecklistItem>> getPendingItems();
+    @Query("SELECT * FROM events_new WHERE isDone = 0 AND user_id = :userId ORDER BY position")
+    Flowable<List<ChecklistItem>> getPendingItems(int userId);
 
-    @Query("SELECT * FROM events_new WHERE isDone = 1 ORDER BY position")
-    Flowable<List<ChecklistItem>> getFinishedItems();
+    @Query("SELECT * FROM events_new WHERE isDone = 1 AND user_id = :userId ORDER BY position")
+    Flowable<List<ChecklistItem>> getFinishedItems(int userId);
 
-    @Query("SELECT max(position) FROM events_new")
-    int getMaxPosition();
+    @Query("SELECT max(position) FROM events_new WHERE user_id = :userId")
+    int getMaxPosition(int userId);
 
     @Query("UPDATE events_new SET name = :name WHERE id IS :id")
     void updateName(String name, int id);
@@ -58,10 +58,12 @@ public interface ChecklistItemDAO {
     @Delete
     void deleteItem(ChecklistItem item);
 
-    @Query("DELETE FROM events_new WHERE isDone = 1")
-    void deleteCompletedTasks();
+    @Query("DELETE FROM events_new WHERE isDone = 1 AND user_id = :userId")
+    void deleteCompletedTasks(int userId);
 
-    @Query("SELECT * FROM events_new WHERE isDone = 1")
-    Single<List<ChecklistItem>> getCompletedItems();
+    @Query("SELECT * FROM events_new WHERE isDone = 1 AND user_id = :userId")
+    Single<List<ChecklistItem>> getCompletedItems(int userId);
 
+    @Query("SELECT * FROM events_new")
+    List<ChecklistItem> getAll();
 }

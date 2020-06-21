@@ -2,11 +2,14 @@ package io.github.project_travel_mate.utilities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.Objects;
@@ -14,10 +17,16 @@ import java.util.Objects;
 import butterknife.ButterKnife;
 import io.github.project_travel_mate.R;
 
+import static utils.Constants.USER_ID;
+
 public class ChecklistActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = sharedPreferences.getString(USER_ID, null);
+
+        Log.d(String.valueOf(Log.INFO), userId);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);

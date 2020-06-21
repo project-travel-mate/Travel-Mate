@@ -35,6 +35,7 @@ import objects.City;
 
 import static utils.Constants.EXTRA_MESSAGE_CITY_OBJECT;
 import static utils.Constants.EXTRA_MESSAGE_TYPE;
+import static utils.Constants.USER_ID;
 import static utils.Constants.USER_TOKEN;
 import static utils.WeatherUtils.fetchDrawableFileResource;
 
@@ -93,6 +94,7 @@ public class FinalCityInfoActivity extends AppCompatActivity
     private FinalCityInfoPresenter mFinalCityInfoPresenter;
     private String mCurrentTemp;
     private AppDataBase mDatabase;
+    private String mUserId;
     int currentPage = 0;
     Timer timer;
 
@@ -106,13 +108,15 @@ public class FinalCityInfoActivity extends AppCompatActivity
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        mDatabase = AppDataBase.getAppDatabase(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mDatabase = AppDataBase.getAppDatabase(this, mUserId);
 
         Intent intent = getIntent();
         mCity = (City) intent.getSerializableExtra(EXTRA_MESSAGE_CITY_OBJECT);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = sharedPreferences.getString(USER_TOKEN, null);
+        mUserId = sharedPreferences.getString(USER_ID, "0");
 
         initUi();
         initPresenter();

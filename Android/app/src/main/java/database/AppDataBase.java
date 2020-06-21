@@ -22,7 +22,7 @@ import objects.City;
  * Created by Santosh on 05/09/18.
  */
 
-@Database(entities = {City.class, ChecklistItem.class}, version = 3, exportSchema = false)
+@Database(entities = {City.class, ChecklistItem.class}, version = 4, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
 
@@ -44,8 +44,7 @@ public abstract class AppDataBase extends RoomDatabase {
                     .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build();
 
-//            new MoveChecklistTask().execute(context, instance);
-            AppDataBase.migrateChecklistToNewDB(context, instance);
+            new MoveChecklistTask().execute(context, instance);
         }
         return instance;
     }
@@ -53,20 +52,6 @@ public abstract class AppDataBase extends RoomDatabase {
     private static String getDatabaseName(String userId) {
         return AppDataBase.DATABASE_BASE_NAME + AppDataBase.DATABASE_DELIMITER + userId
                 + AppDataBase.DATABASE_EXT;
-    }
-
-    private static void migrateChecklistToNewDB(Context context, AppDataBase instance) {
-        AppDataBase oldDatabase = Room.databaseBuilder(context.getApplicationContext(),
-                AppDataBase.class, AppDataBase.OLD_DATABASE_NAME)
-                .addMigrations(AppDataBase.MIGRATION_1_2, AppDataBase.MIGRATION_2_3, AppDataBase.MIGRATION_3_4)
-                .build();
-
-        WidgetCheckListDao oldWidgetCheckListDao = oldDatabase.widgetCheckListDao();
-        ChecklistItem[] oldChecklistItems = oldWidgetCheckListDao.loadAll();
-
-        WidgetCheckListDao newWidgetCheckListDao = instance.widgetCheckListDao();
-        List<ChecklistItem> oldChecklistItemsList = Arrays.asList(oldChecklistItems);
-        newWidgetCheckListDao.insertAll(oldChecklistItemsList);
     }
 
     // migration from database version 2 to 3
@@ -134,7 +119,7 @@ public abstract class AppDataBase extends RoomDatabase {
     private static class MoveChecklistTask extends AsyncTask {
         protected Object doInBackground(Object... objects) {
             Context context = (Context) objects[0];
-            AppDataBase sInstance = (AppDataBase) objects[1];
+            AppDataBase instance = (AppDataBase) objects[1];
             AppDataBase oldDatabase = Room.databaseBuilder(context.getApplicationContext(),
                     AppDataBase.class, AppDataBase.OLD_DATABASE_NAME)
                     .addMigrations(AppDataBase.MIGRATION_1_2, AppDataBase.MIGRATION_2_3, AppDataBase.MIGRATION_3_4)
@@ -143,9 +128,11 @@ public abstract class AppDataBase extends RoomDatabase {
             WidgetCheckListDao oldWidgetCheckListDao = oldDatabase.widgetCheckListDao();
             ChecklistItem[] oldChecklistItems = oldWidgetCheckListDao.loadAll();
 
-            WidgetCheckListDao newWidgetCheckListDao = sInstance.widgetCheckListDao();
-            List<ChecklistItem> oldChecklistItemsList = Arrays.asList(oldChecklistItems);
-            newWidgetCheckListDao.insertAll(oldChecklistItemsList);
+            if (oldChecklistItems.length > 0) {
+                WidgetCheckListDao newWidgetCheckListDao = instance.widgetCheckListDao();
+                List<ChecklistItem> oldChecklistItemsList = Arrays.asList(oldChecklistItems);
+                newWidgetCheckListDao.insertAll(oldChecklistItemsList);
+            }
             return null;
         }
     };

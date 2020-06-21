@@ -6,13 +6,13 @@ import android.content.Context;
  */
 public class Injection {
 
-    public static ChecklistDataSource provideUserDataSource(Context context) {
-        DbChecklist database = DbChecklist.getsInstance(context);
+    public static ChecklistDataSource provideUserDataSource(Context context, int userId) {
+        DbChecklist database = DbChecklist.getsInstance(context, userId);
         return new ChecklistDataSource(database.checklistItemDAO());
     }
 
-    public static ViewModelFactory provideViewModelFactory(Context context) {
-        ChecklistDataSource dataSource = provideUserDataSource(context);
+    public static ViewModelFactory provideViewModelFactory(Context context, int userId) {
+        ChecklistDataSource dataSource = provideUserDataSource(context, userId);
         return new ViewModelFactory(dataSource);
     }
 }
