@@ -9,10 +9,12 @@ public class CityHistoryListItem {
 
     private String mHeading;
     private String mText;
+    private Boolean mTrimText;
 
-    public CityHistoryListItem(String heading, String text) {
-        mHeading = heading;
-        mText = text;
+    public CityHistoryListItem(String mHeading, String mText, Boolean mTrimText) {
+        this.mHeading = mHeading;
+        this.mText = mText;
+        this.mTrimText = mTrimText;
     }
 
     public String getHeading() {
@@ -39,5 +41,13 @@ public class CityHistoryListItem {
             currText = new StringBuilder(mText + "\n");
         }
         return currText.toString();
+    }
+
+    public Boolean getExpanded() {
+        return mTrimText;
+    }
+
+    public void setExpanded(Boolean expanded) {
+        mTrimText = expanded;
     }
 }
