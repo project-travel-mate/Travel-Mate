@@ -9,10 +9,10 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -45,9 +45,9 @@ public class CityHistoryActivity extends AppCompatActivity {
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @BindView(R.id.list)
-    ListView listView;
+    RecyclerView listView;
 
-    private static  City mCity;
+    private static City mCity;
     private String mToken;
     private List<CityHistoryListItem> mCityHistory = new ArrayList<>();
 
@@ -105,12 +105,11 @@ public class CityHistoryActivity extends AppCompatActivity {
                             String heading = keys.getString(i);
                             String text = object.getString(heading);
                             if (!text.equals("")) {
-                                CityHistoryListItem city = new CityHistoryListItem(heading, text);
+                                CityHistoryListItem city = new CityHistoryListItem(heading, text, true);
                                 mCityHistory.add(city);
                             }
                         }
-                        listView.setAdapter(new CityHistoryAdapter(CityHistoryActivity.this,
-                                mCityHistory));
+                        listView.setAdapter(new CityHistoryAdapter(mCityHistory));
                         animationView.setVisibility(GONE);
                     } catch (JSONException e) {
                         e.printStackTrace();

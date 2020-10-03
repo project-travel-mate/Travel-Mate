@@ -19,13 +19,14 @@
         app:lottie_imageAssetsFolder="images"
         app:lottie_loop="true" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="2dp" />
+        android:orientation="vertical"
+        android:layout_margin="2dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/city_history_listitem"/>
 
 </FrameLayout>
 
