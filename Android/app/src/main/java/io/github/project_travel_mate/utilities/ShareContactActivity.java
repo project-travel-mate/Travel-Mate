@@ -55,6 +55,8 @@ public class ShareContactActivity extends AppCompatActivity implements View.OnCl
 
         ButterKnife.bind(this);
 
+
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         createCode();
         scan.setOnClickListener(this);
