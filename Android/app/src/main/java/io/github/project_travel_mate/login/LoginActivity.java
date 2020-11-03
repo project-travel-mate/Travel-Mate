@@ -184,8 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String emailString = email_login.getText().toString();
                 String passString = pass_login.getText().toString();
                 if (Utils.isNetworkConnected(this)) {
-                    //mLoginPresenter.ok_login(emailString, passString, mHandler);
-                    startMainActivity();
+                    mLoginPresenter.ok_login(emailString, passString, mHandler);
                 } else {
                     showNoNetwork();
                 }
