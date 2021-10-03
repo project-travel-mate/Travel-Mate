@@ -60,4 +60,4 @@ Feel free to fork the project and send us a pull request or even open a [new iss
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starcharts.herokuapp.com/Swati4star/Travel-Mate.svg)](https://starcharts.herokuapp.com/Swati4star/Travel-Mate)
+[![Stargazers over time](https://starchart.cc/project-travel-mate/Travel-Mate.svg)](https://starchart.cc/project-travel-mate/Travel-Mate)
